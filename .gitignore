@@ -1,0 +1,7 @@
+# dependencies
+**/node_modules
+**/package-lock.json
+**/build
+**/*.log*
+**/dist
+**/pytest_cache
