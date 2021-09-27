@@ -2,6 +2,7 @@
 Functions generating aggregates and other numerical outputs from microsimulation results.
 """
 
+
 def pct_change(x, y):
     return (y - x) / x
 
