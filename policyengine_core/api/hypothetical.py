@@ -1,8 +1,6 @@
 """
 IndividualSim and any other interfaces to intialising and running simulations on hypothetical situations.
 """
-
-from typing import Tuple
 from openfisca_core.entities.entity import Entity
 from policyengine_core.api.general import ReformType
 import numpy as np

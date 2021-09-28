@@ -6,19 +6,12 @@ from openfisca_core.entities.entity import Entity
 from policyengine_core.api.general import ReformType
 from microdf.generic import MicroDataFrame
 import numpy as np
-from openfisca_core import periods
 from openfisca_core.entities import GroupEntity
 from openfisca_core.model_api import *
-from openfisca_us_data import CPS
-import openfisca_us
-import pandas as pd
 from openfisca_core.simulation_builder import SimulationBuilder
-from pathlib import Path
 from microdf import MicroSeries
 import tables
 from openfisca_core.taxbenefitsystems import TaxBenefitSystem
-
-from openfisca_us import CountryTaxBenefitSystem
 
 
 class Microsimulation:
