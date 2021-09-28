@@ -1,0 +1,6 @@
+plotly
+flask
+flask_cors
+kaleido
+google-cloud-storage>=1.42.0
+gunicorn

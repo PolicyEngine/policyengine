@@ -1,13 +1,18 @@
 """
 Functions generating aggregates and other numerical outputs from microsimulation results.
 """
+from policyengine_core.api.microsimulation import Microsimulation
 
 
-def pct_change(x, y):
+def gbp(x: float) -> str:
+    return f"£{round(x / 1e+9, 1)}bn"
+
+
+def pct_change(x: float, y: float) -> float:
     return (y - x) / x
 
 
-def poverty_rate(sim, population_var):
+def poverty_rate(sim: Microsimulation, population_var: str) -> float:
     return sim.calc("in_poverty_bhc", map_to="person", period=2021)[
         sim.calc(population_var) > 0
     ].mean()

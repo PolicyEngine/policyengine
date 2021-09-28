@@ -196,7 +196,6 @@ class Microsimulation:
                 weights=self.calc(
                     f"{entity}_weight", period=period, weighted=False
                 ),
-                index=self.calc(f"{entity}_id", period=period, weighted=False),
             )
             return series
         else:
