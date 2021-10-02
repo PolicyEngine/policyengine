@@ -1,7 +1,7 @@
 {
   "name": "policyengine-client",
   "version": "1.0.0",
-  "description": "Components for PolicyEngine sites",
+  "description": "Client modules for PolicyEngine",
   "author": "nikhilwoodruff",
   "license": "MIT",
   "repository": "policyengine/policyengine-core",
@@ -30,7 +30,7 @@
     "microbundle-crl": "^0.13.10",
     "babel-eslint": "^10.0.3",
     "cross-env": "^7.0.2",
-    "eslint": "^6.8.0",
+    "eslint": "^7.11.0",
     "eslint-config-prettier": "^6.7.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-config-standard-react": "^9.2.0",
@@ -49,5 +49,30 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "@material-ui/core": "^4.11.4",
+    "@testing-library/jest-dom": "^5.12.0",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "antd": "^4.15.6",
+    "bootstrap": "^4.6.0",
+    "framer-motion": "^4.1.17",
+    "ga-4-react": "^0.1.281",
+    "grommet": "^2.17.2",
+    "js-yaml-loader": "^1.2.2",
+    "plotly.js": "^1.58.4",
+    "polished": "^4.1.2",
+    "react": "^17.0.2",
+    "react-bootstrap": "^1.6.0",
+    "react-dom": "^17.0.2",
+    "react-markdown": "^7.0.1",
+    "react-plotly.js": "^2.5.1",
+    "react-router-dom": "^5.2.0",
+    "react-router-ga": "^1.2.3",
+    "react-scripts": "4.0.3",
+    "react-share": "^4.4.0",
+    "styled-components": "^5.3.0",
+    "web-vitals": "^1.1.2"
+  }
 }

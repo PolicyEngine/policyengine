@@ -1,0 +1,20 @@
+.ant-tabs-top > .ant-tabs-nav::before {
+    border-bottom: none;
+}
+
+.ant-tabs-ink-bar {
+    background: #FFF;
+}
+
+.ant-tabs-tab {
+    padding: 10px;
+    padding-bottom: 2px;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active div a {
+    color: #eee;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active div a {
+    color: #fff;
+}
