@@ -86,8 +86,8 @@ function MainNavigation(props) {
 				</Col>
 				<Col md={4}>
 					<Tabs defaultActiveKey={props.selected} className="main-tab">
-						<TabPane tab={<Link style={lowerTabStyle} to="/population-results">UK impact</Link>} key="population-results" />
-						<TabPane tab={<Link style={lowerTabStyle} to="/household-results">Household impact</Link>} key="household-results" />
+						<TabPane tab={<Link style={lowerTabStyle} className="lower" to="/population-results">UK impact</Link>} key="population-results" />
+						<TabPane tab={<Link style={lowerTabStyle} className="lower" to="/household-results">Household impact</Link>} key="household-results" />
 					</Tabs>
 				</Col>
 				<Col md={4}>
@@ -114,7 +114,7 @@ function MainNavigation(props) {
 				<Col md={4}>
 				</Col>
 			</Row>
-			<motion.div animate={{height: showTwoLevels ? 50 : 0}}>
+			<motion.div animate={{height: showTwoLevels ? 50 : 0}} style={{backgroundColor: "#b4bdcc"}}>
 				{secondLevel}
 			</motion.div>
 		</>

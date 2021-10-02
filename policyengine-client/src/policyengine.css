@@ -11,10 +11,18 @@
     padding-bottom: 2px;
 }
 
-.ant-tabs-tab.ant-tabs-tab-active div a {
-    color: #eee;
+.ant-tabs-tab div a {
+    color: #bbb;
 }
 
 .ant-tabs-tab.ant-tabs-tab-active div a {
     color: #fff;
+}
+
+.ant-tabs-tab div a.lower {
+    color: #eee;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active div a.lower {
+    color: #00499c;
 }
