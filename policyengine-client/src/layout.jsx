@@ -1,8 +1,7 @@
 import { Fragment, default as React } from 'react'
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 import { PageHeader, Tag, Divider, BackTop, Tabs } from "antd";
 import { Switch, Route, Link, BrowserRouter as Router } from "react-router-dom";
-import { motion } from "framer-motion";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "antd/dist/antd.css";
@@ -22,19 +21,28 @@ export function generateURLParams(page, policy) {
 	return url;
 }
 
+export function getPolicyFromURL(defaultPolicy) {
+	let plan = defaultPolicy;
+	const { searchParams } = new URL(document.location);
+	for (const key of searchParams.keys()) {
+		plan[key].value = +searchParams.get(key);
+	}
+	return plan;
+}
+
 export function Title(props) {
 	const tags = props.beta ? [<Tag key="beta" color="processing">BETA</Tag>] : null;
 	const title = <><a href="/" style={{color: "white"}}>PolicyEngine<sub style={{fontSize: "50%"}}>{props.country}</sub></a></>;
 	return (
-		<>
-			<div className="d-none d-md-block">
+		<div style={{minWidth: 200}}>
+			<div className="d-none d-lg-block">
 				<PageHeader
 					title={title}
 					style={{minHeight: 40}}
 					tags={tags}
 				/>
 			</div>
-			<div className="d-md-none">
+			<div className="d-lg-none">
 				<div className="d-flex justify-content-center">
 					<PageHeader
 						title={title}
@@ -43,7 +51,7 @@ export function Title(props) {
 					/>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 }
 
@@ -68,74 +76,51 @@ export function Footer() {
 export function PolicyEngine(props) {
 	return (
 		<Router>
-			{props.children}
+			<Container style={{padding: 0}} fluid>
+				{props.children}
+			</Container>
 		</Router>
 	);
 }
 
 function MainNavigation(props) {
-	let secondLevel = null;
-	let topLevelSelected = props.selected;
-	const upperTabStyle = {fontSize: 20};
-	const lowerTabStyle = {fontSize: 15};
-	const showTwoLevels = props.selected === "population-results" || props.selected === "household-results";
-	if(showTwoLevels) {
-		secondLevel = (
-			<Row style={{height: 50}}>
-				<Col md={6}>
-				</Col>
-				<Col md={4}>
-					<Tabs defaultActiveKey={props.selected} className="main-tab">
-						<TabPane tab={<Link style={lowerTabStyle} className="lower" to="/population-results">UK impact</Link>} key="population-results" />
-						<TabPane tab={<Link style={lowerTabStyle} className="lower" to="/household-results">Household impact</Link>} key="household-results" />
-					</Tabs>
-				</Col>
-				<Col md={4}>
-				</Col>
-			</Row>
-		);
-		topLevelSelected = "results";
-	} else {
-		secondLevel = null;
-	}
+	const tabStyle = {fontSize: 15};
 	return (
 		<>
-			<Row style={{marginBottom: 0, height: 65}}>
-				<Col md={4}>
+			<Row style={{margin: 0}}>
+				<Col lg={2}>
 					<Title country={props.country}/>
 				</Col>
-				<Col md={4} style={{paddingTop: 10}}>
-					<Tabs defaultActiveKey={topLevelSelected} centered>
-						<TabPane tab={<Link style={upperTabStyle} to="/">Policy</Link>} key="policy"/>
-						<TabPane tab={<Link style={upperTabStyle} to="/household">Your household</Link>} key="household" />
-						<TabPane tab={<Link style={upperTabStyle} to="/population-results">Results</Link>} key="results" />
+				<Col lg={8} style={{paddingLeft: 25, paddingRight: 25, paddingTop: 10}}>
+					<Tabs defaultActiveKey={props.selected} centered>
+						<TabPane tab={<Link style={tabStyle} to="/">Policy</Link>} key="policy"/>
+						<TabPane tab={<Link style={tabStyle} to="/population-impact">UK impact</Link>} key="population-impact" />
+						<TabPane tab={<Link style={tabStyle} to="/household">Your household</Link>} key="household" />
+						<TabPane tab={<Link style={tabStyle} to="/household-impact">Household impact</Link>} key="household-impact" />
 					</Tabs>
 				</Col>
-				<Col md={4}>
+				<Col lg={2}>
 				</Col>
 			</Row>
-			<motion.div animate={{height: showTwoLevels ? 50 : 0}} style={{backgroundColor: "#b4bdcc"}}>
-				{secondLevel}
-			</motion.div>
 		</>
 	);
 }
 
 export function Header(props) {
 	return (
-		<div style={{backgroundColor: "#00499c"}}>
+		<div style={{backgroundColor: "#002766"}}>
 			<Switch>
 				<Route path="/" exact>
 					<MainNavigation country={props.country} selected="policy" />
 				</Route>
-				<Route path="/population-results">
-					<MainNavigation country={props.country} selected="population-results" />
+				<Route path="/population-impact">
+					<MainNavigation country={props.country} selected="population-impact" />
 				</Route>
 				<Route path="/household">
 					<MainNavigation country={props.country} selected="household" />
 				</Route>
-				<Route path="/household-results">
-					<MainNavigation country={props.country} selected="household-results" />
+				<Route path="/household-impact">
+					<MainNavigation country={props.country} selected="household-impact" />
 				</Route>
 				<Route path="/faq">
 					<MainNavigation country={props.country} />

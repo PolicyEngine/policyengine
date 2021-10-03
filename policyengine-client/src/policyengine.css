@@ -7,12 +7,11 @@
 }
 
 .ant-tabs-tab {
-    padding: 10px;
-    padding-bottom: 2px;
+    padding-bottom: 5px;
 }
 
 .ant-tabs-tab div a {
-    color: #bbb;
+    color: #d9d9d9;
 }
 
 .ant-tabs-tab.ant-tabs-tab-active div a {
@@ -20,9 +19,41 @@
 }
 
 .ant-tabs-tab div a.lower {
-    color: #eee;
+    color: #d9d9d9;
 }
 
 .ant-tabs-tab.ant-tabs-tab-active div a.lower {
-    color: #00499c;
+    color: #fff;
+}
+
+svg { margin-bottom: 5px;}
+
+.ant-switch-checked.switch-red {
+    background-color: #ee0000 !important;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.ant-page-header-heading-title {
+    font-size: 25px !important;
+}
+
+.ant-page-header-heading-sub-title {
+    font-size: 20px !important;
+}
+
+.svg-container .user-select-none {
+    margin: 0px !important;
+}
+
+.ant-steps-horizontal:not(.ant-steps-label-vertical) .ant-steps-item-description {
+    max-width: 200px !important;
 }
