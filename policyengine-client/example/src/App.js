@@ -1,11 +1,11 @@
 import React from 'react'
 
-import { PolicyEngine, Header, Footer, Policy, PopulationResults, Switch, Route, getPolicyFromURL, Household } from 'policyengine-client'
+import { PolicyEngine, Header, Footer, Policy, PopulationResults, Switch, Route, getPolicyFromURL, Household, HouseholdImpact } from 'policyengine-client'
 import "policyengine-client/src/policyengine.css";
 
 import PARAMETER_MENU from './controls';
 import POLICY from "./parameters";
-import { ADULT, CHILD, HOUSEHOLD, FAMILY, SITUATION } from "./household";
+import { ADULT, CHILD, SITUATION } from "./household";
 
 
 const App = () => {
@@ -53,6 +53,10 @@ class Body extends React.Component {
           />
         </Route>
         <Route path="/household-impact">
+          <HouseholdImpact
+            policy={this.state.policy}
+            household={this.state.household}
+          />
         </Route>
         <Route path="/faq">
         </Route>

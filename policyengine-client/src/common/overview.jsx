@@ -1,6 +1,6 @@
 import { Steps, Divider, Empty, Button, message } from "antd";
 import { Link } from "react-router-dom";
-import { LinkOutlined, TwitterOutlined } from "@ant-design/icons";
+import { LinkOutlined, TwitterOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import { TwitterShareButton } from "react-share";
 import { Fragment, default as React } from "react";
 import { generateURLParams } from "./layout";
@@ -35,10 +35,50 @@ export function Overview(props) {
 				<Empty description="No plan provided" />
 			}
 			<Empty description="" image={null}>
-				<SimulateButton hidden={props.page in ["policy"]} text="Change the policy reform" target="/" policy={props.policy} onClick={props.setPolicy}/>
-				<SimulateButton primary={props.page === "policy"} disabled={props.invalid} text="Simulate on the population" target="/population-impact" policy={props.policy} onClick={props.setPolicy}/>
-				<SimulateButton primary={props.page === "population-impact"} disabled={props.invalid} text="Edit your household" target="/household" policy={props.policy} onClick={props.setPolicy} />
-				<SimulateButton primary={props.page === "household"} disabled={props.invalid || !props.household} text="See your results" target="/household-impact" policy={props.policy} onClick={props.setPolicy} />
+				<SimulateButton 
+					hidden={props.page === "policy"}
+					text={<><ArrowLeftOutlined /> Change the policy reform</>}
+					target="/" 
+					policy={props.policy} 
+					onClick={props.setPolicy}
+				/>
+				<SimulateButton 
+					primary={props.page === "policy"}
+					hidden={props.page === "population-impact"}
+					disabled={props.invalid} 
+					text={
+						props.page === "policy" ?
+							"Simulate on the population" :
+							<><ArrowLeftOutlined /> Return to the population results</>
+					}
+					target="/population-impact" 
+					policy={props.policy} 
+					onClick={props.setPolicy}
+				/>
+				<SimulateButton 
+					primary={props.page === "population-impact"} 
+					hidden={props.page === "household"}
+					disabled={props.invalid} 
+					text={
+						props.page === "household-impact" ?
+							<><ArrowLeftOutlined /> Change your household</> :
+							props.page === "policy" ?
+								"Skip to your household" :
+								"Describe your household"
+					}
+					target="/household" 
+					policy={props.policy} 
+					onClick={props.setPolicy} 
+				/>
+				<SimulateButton 
+					primary={props.page === "household"} 
+					hidden={props.page === "household-impact"}
+					disabled={props.invalid || !props.household} 
+					text="See your results" 
+					target="/household-impact" 
+					policy={props.policy} 
+					onClick={props.setPolicy} 
+				/>
 			</Empty>
 			<SharePolicyLinks policy={props.policy}/>
 		</>

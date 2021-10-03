@@ -5,8 +5,8 @@ import { Row, Col } from "react-bootstrap";
 import {
 	InputNumber, Divider, Switch, Slider, Select, Alert, Spin
 } from "antd";
-import { Overview } from "./overview";
-import { Parameter } from "./parameter";
+import { Overview } from "../common/overview";
+import { Parameter } from "../common/parameter";
 
 const { SubMenu } = Menu;
 

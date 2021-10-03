@@ -1,5 +1,6 @@
-export { PolicyEngine, Header, Footer, getPolicyFromURL } from "./layout";
-export { Policy } from "./policy";
-export { PopulationResults } from "./populationImpact";
+export { PolicyEngine, Header, Footer, getPolicyFromURL } from "./common/layout";
+export { Policy } from "./pages/policy";
+export { PopulationResults } from "./pages/populationImpact";
 export { Switch, Route, Link } from "react-router-dom";
-export { Household } from "./household";
+export { Household } from "./pages/household";
+export { HouseholdImpact } from "./pages/householdImpact";

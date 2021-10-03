@@ -1,25 +1,11 @@
-import { Divider, Empty, Spin, Collapse } from "antd";
-import Plot from "react-plotly.js";
-import { LoadingOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { Divider, Collapse } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Row, Col } from "react-bootstrap";
 import { Fragment, default as React } from "react";
-import { Overview } from "./overview";
+import { Overview } from "../common/overview";
+import { LoadingResultsPane, TakeAway, Chart } from "../common/results";
 
 const { Panel } = Collapse;
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
-
-function Chart(props) {
-	return (
-		<Col md={props.md ? props.md : 6}>
-			<Plot
-				data={props.plot.data}
-				layout={props.plot.layout}
-				config={{ displayModeBar: false }}
-				style={{ width: "100%" }} 
-			/>
-		</Col>
-	);
-}
 
 function PopulationResultsCaveats() {
 	return (
@@ -31,13 +17,6 @@ function PopulationResultsCaveats() {
 	);
 }
 
-function TakeAway(props) {
-	return <Col>
-		<div style={{padding: 10}} className="d-flex justify-content-center align-items-center">
-			<div style={{fontSize: 20, color: "gray"}}>{props.children}</div>
-		</div>
-	</Col>;
-}
 
 export function PopulationResultsPane(props) {
 	const isSurplus = props.results.net_cost[0] == "-";
@@ -77,13 +56,6 @@ export function PopulationResultsPane(props) {
 	);
 }
 
-export function LoadingResultsPane(props) {
-	return (
-		<Empty description={props.message}>
-			{!props.noSpin ? <Spin indicator={antIcon} /> : <></>}
-		</Empty>
-	);
-}
 
 export class PopulationResults extends React.Component {
 	constructor(props) {
@@ -128,7 +100,7 @@ export class PopulationResults extends React.Component {
 					{
 						(this.state.waiting || (!this.state.results && !this.state.error)) ?
 							<div className="d-flex justify-content-center align-items-center" style={{minHeight: 400}}>
-								<LoadingResultsPane message="Simulating your results on the UK population (this usually takes about 20 seconds)"/>
+								<LoadingResultsPane message="Simulating your results on the UK population (this usually takes about 10 seconds)"/>
 							</div> :
 							this.state.error ?
 								<div className="d-flex justify-content-center align-items-center" style={{minHeight: 400}}>
