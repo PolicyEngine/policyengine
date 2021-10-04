@@ -8,8 +8,7 @@ import { generateURLParams } from "./layout";
 const { Step } = Steps;
 
 export function SimulateButton(props) {
-	const { policy } = props;
-	const url = generateURLParams(props.target || "/", policy);
+	const url = generateURLParams(props.target || "/", props.policy);
 	if(props.hidden) {return <></>;}
 	return (
 		<div style={{marginBottom: 20}}>
@@ -40,7 +39,7 @@ export function Overview(props) {
 					text={<><ArrowLeftOutlined /> Change the policy reform</>}
 					target="/" 
 					policy={props.policy} 
-					onClick={props.setPolicy}
+					onClick={() => {props.setPage("")}}
 				/>
 				<SimulateButton 
 					primary={props.page === "policy"}
@@ -53,7 +52,7 @@ export function Overview(props) {
 					}
 					target="/population-impact" 
 					policy={props.policy} 
-					onClick={props.setPolicy}
+					onClick={() => {props.setPage("population-impact")}}
 				/>
 				<SimulateButton 
 					primary={props.page === "population-impact"} 
@@ -68,7 +67,7 @@ export function Overview(props) {
 					}
 					target="/household" 
 					policy={props.policy} 
-					onClick={props.setPolicy} 
+					onClick={() => {props.setPage("household")}}
 				/>
 				<SimulateButton 
 					primary={props.page === "household"} 
@@ -77,7 +76,7 @@ export function Overview(props) {
 					text="See your results" 
 					target="/household-impact" 
 					policy={props.policy} 
-					onClick={props.setPolicy} 
+					onClick={() => {props.setPage("household-impact")}}
 				/>
 			</Empty>
 			<SharePolicyLinks policy={props.policy}/>

@@ -1,7 +1,7 @@
 import { Fragment, default as React } from 'react'
 import { Row, Col, Container } from "react-bootstrap";
-import { PageHeader, Tag, Divider, BackTop, Tabs } from "antd";
-import { Switch, Route, Link, BrowserRouter as Router } from "react-router-dom";
+import { PageHeader, Tag, Divider, BackTop, Tabs, Affix } from "antd";
+import { Switch, Route, Link, BrowserRouter as Router, useHistory } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "antd/dist/antd.css";
@@ -84,7 +84,8 @@ export function PolicyEngine(props) {
 }
 
 function MainNavigation(props) {
-	const tabStyle = {fontSize: 15};
+	console.log("re-rendering tabs", props.selected)
+	const history = useHistory();
 	return (
 		<>
 			<Row style={{margin: 0}}>
@@ -92,11 +93,11 @@ function MainNavigation(props) {
 					<Title country={props.country}/>
 				</Col>
 				<Col lg={8} style={{paddingLeft: 25, paddingRight: 25, paddingTop: 10}}>
-					<Tabs defaultActiveKey={props.selected} centered>
-						<TabPane tab={<Link style={tabStyle} to="/">Policy</Link>} key="policy"/>
-						<TabPane tab={<Link style={tabStyle} to="/population-impact">UK impact</Link>} key="population-impact" />
-						<TabPane tab={<Link style={tabStyle} to="/household">Your household</Link>} key="household" />
-						<TabPane tab={<Link style={tabStyle} to="/household-impact">Household impact</Link>} key="household-impact" />
+					<Tabs activeKey={props.selected} centered onChange={key => {history.push(generateURLParams("/" + key, props.policy))}}>
+						<TabPane tab="Policy" key=""/>
+						<TabPane tab={(props.country || "UK") + " impact"} key="population-impact" />
+						<TabPane tab="Your household" key="household" />
+						<TabPane disabled={!props.household} tab="Household impact" key="household-impact" />
 					</Tabs>
 				</Col>
 				<Col lg={2}>
@@ -108,24 +109,39 @@ function MainNavigation(props) {
 
 export function Header(props) {
 	return (
-		<div style={{backgroundColor: "#002766"}}>
-			<Switch>
-				<Route path="/" exact>
-					<MainNavigation country={props.country} selected="policy" />
-				</Route>
-				<Route path="/population-impact">
-					<MainNavigation country={props.country} selected="population-impact" />
-				</Route>
-				<Route path="/household">
-					<MainNavigation country={props.country} selected="household" />
-				</Route>
-				<Route path="/household-impact">
-					<MainNavigation country={props.country} selected="household-impact" />
-				</Route>
-				<Route path="/faq">
-					<MainNavigation country={props.country} />
-				</Route>
-			</Switch>
-		</div>
+		<Affix offsetTop={0}>
+			<div style={{backgroundColor: "#002766"}}>
+				<Switch>
+					<Route path="/" exact>
+						<MainNavigation country={props.country} policy={props.policy} household={props.household} selected="" />
+					</Route>
+					<Route path="/population-impact">
+						<MainNavigation country={props.country} policy={props.policy} household={props.household} selected="population-impact" />
+					</Route>
+					<Route path="/household">
+						<MainNavigation country={props.country} policy={props.policy} household={props.household} selected="household" />
+					</Route>
+					<Route path="/household-impact">
+						<MainNavigation country={props.country} policy={props.policy} household={props.household} selected="household-impact" />
+					</Route>
+					<Route path="/faq">
+						<MainNavigation country={props.country} policy={props.policy} household={props.household} />
+					</Route>
+				</Switch>
+			</div>
+		</Affix>
+	);
+}
+
+export function Responsive(props) {
+	return (
+		<>
+			<div className="d-none d-lg-block">
+				<Container fluid>{props.children}</Container>
+			</div>
+			<div className="d-block d-lg-none">
+				<Container style={{marginTop: 20}}>{props.children}</Container>
+			</div>
+		</>
 	);
 }

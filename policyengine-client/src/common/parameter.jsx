@@ -36,7 +36,7 @@ export function Parameter(props) {
 		component = (
 			<Switch
 				onChange={(value) => {
-					props.onChange(props.name, value);
+					props.setPolicy(props.name, value);
 				}}
 				checked={props.param.value}
 				disabled={props.disabled}
@@ -46,7 +46,7 @@ export function Parameter(props) {
 		component = (
 			<Switch
 				onChange={(value) => {
-					props.onChange(props.name, value);
+					props.setPolicy(props.name, value);
 				}}
 				checked={props.param.value}
 				className="switch-red"
@@ -67,7 +67,7 @@ export function Parameter(props) {
 					min={props.param.min || 0}
 					max={props.param.max || 100}
 					onChange={(value) => {
-						props.onChange(props.name, value);
+						props.setPolicy(props.name, value);
 					}}
 					tooltipVisible={false}
 					disabled={props.disabled}
@@ -79,7 +79,7 @@ export function Parameter(props) {
 					formatter={formatter}
 					parser={parser}
 					onChange={(value) => {
-						props.onChange(props.name, value);
+						props.setPolicy(props.name, value);
 					}}
 					style={{ width: 175 }}
 					disabled={props.disabled}
@@ -110,7 +110,7 @@ export function NothingControls(props) {
 export function ParameterGroup(props) {
 	return (
 		<>
-			{Object.keys(props.policy).map((name) => <Parameter key={name} name={name} param={props.policy[name]} onChange={props.onChange} rate />)}
+			{Object.keys(props.policy).map((name) => <Parameter key={name} name={name} param={props.policy[name]} setPolicy={props.setPolicy} rate />)}
 		</>
 	);
 }

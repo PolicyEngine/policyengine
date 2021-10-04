@@ -41,21 +41,21 @@ function HouseholdControls(props) {
 	const returnFunction = (key, value) => {props.setVariable(key, value, props.selected);};
 	if(props.selected.includes("child")) {
 		if(props.selected in props.household.people) {
-			return <ParameterGroup onChange={returnFunction} policy={props.household.people[props.selected]} />;
+			return <ParameterGroup setPolicy={returnFunction} policy={props.household.people[props.selected]} />;
 		} else {
 			return <></>;
 		}
 	} else if(props.selected == "head" || props.selected == "partner") {
 		if(props.selected in props.household.people) {
-			return <ParameterGroup onChange={returnFunction} policy={props.household.people[props.selected]}/>;
+			return <ParameterGroup setPolicy={returnFunction} policy={props.household.people[props.selected]}/>;
 		} else {
 			return <></>;
 		}
 		
 	} else if(props.selected.includes("family")) {
-		return <ParameterGroup onChange={returnFunction} policy={props.household.families[props.selected]} />;
+		return <ParameterGroup setPolicy={returnFunction} policy={props.household.families[props.selected]} />;
 	} else {
-		return <ParameterGroup onChange={returnFunction} policy={props.household.household} />;
+		return <ParameterGroup setPolicy={returnFunction} policy={props.household.household} />;
 	}
 }
 
@@ -114,7 +114,7 @@ export class Household extends React.Component {
 					<HouseholdControls defaultEntity="head" selected={this.state.selected} household={this.props.household} setVariable={this.setVariable}/>
 				</Col>
 				<Col xl={3}>
-					<Overview page="household" policy={this.props.policy} household={!this.state.invalid ? this.props.household : null}/>
+					<Overview page="household" policy={this.props.policy} setPage={this.props.setPage} household={!this.state.invalid ? this.props.household : null}/>
 				</Col>
 			</Row>
 		);

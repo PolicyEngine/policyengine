@@ -104,7 +104,6 @@ export class HouseholdImpact extends React.Component {
 					this.setState({ results: json, waiting: false, error: false });
 				}).catch(e => {
 					this.setState({ waiting: false, error: true});
-                    console.log(e)
 				});
 		});
 		return;
@@ -128,7 +127,7 @@ export class HouseholdImpact extends React.Component {
 					}
 				</Col>
 				<Col xl={3} style={{paddingLeft: 50}}>
-					<Overview page="household-impact" policy={this.props.policy} household={this.props.household}/>
+					<Overview page="household-impact" policy={this.props.policy} setPage={this.props.setPage} household={this.props.household}/>
 				</Col>
 			</Row>
 		);

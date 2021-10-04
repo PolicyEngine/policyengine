@@ -100,7 +100,7 @@ export class PopulationResults extends React.Component {
 					{
 						(this.state.waiting || (!this.state.results && !this.state.error)) ?
 							<div className="d-flex justify-content-center align-items-center" style={{minHeight: 400}}>
-								<LoadingResultsPane message="Simulating your results on the UK population (this usually takes about 10 seconds)"/>
+								<LoadingResultsPane message={`Simulating your results on the ${this.props.country || "UK"} population (this usually takes about 10 seconds)`}/>
 							</div> :
 							this.state.error ?
 								<div className="d-flex justify-content-center align-items-center" style={{minHeight: 400}}>
@@ -110,7 +110,7 @@ export class PopulationResults extends React.Component {
 					}
 				</Col>
 				<Col xl={3} style={{paddingLeft: 50}}>
-					<Overview policy={this.props.policy} page="population-impact"/>
+					<Overview policy={this.props.policy} setPage={this.props.setPage} page="population-impact"/>
 				</Col>
 			</Row>
 		);

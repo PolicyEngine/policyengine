@@ -65,6 +65,7 @@ export class Policy extends React.Component {
 		oldPolicy[name].value = value;
 		const { policy, invalid } = (this.props.validator || (policy => {return {policy: policy, invalid: false}}))(oldPolicy);
 		this.setState({policy: policy, invalid: invalid});
+		this.props.setPolicy(policy);
 	}
     
 	render() {
@@ -72,9 +73,9 @@ export class Policy extends React.Component {
 		let parameterControls = [];
 		for(let parameter of availableParameters) {
 			if(parameter in (this.props.overrides || {})) {
-				parameterControls.push(React.cloneElement(this.props.overrides[parameter], {key: parameter, param: this.state.policy[parameter], name: parameter, onChange: this.updatePolicy}));
+				parameterControls.push(React.cloneElement(this.props.overrides[parameter], {key: parameter, param: this.state.policy[parameter], name: parameter, policy: this.state.policy, setPolicy: this.updatePolicy}));
 			} else {
-				parameterControls.push(<Parameter key={parameter} param={this.state.policy[parameter]} name={parameter} onChange={this.updatePolicy}/>)
+				parameterControls.push(<Parameter key={parameter} param={this.state.policy[parameter]} name={parameter} setPolicy={this.updatePolicy}/>)
 			}
 		}
 		return (
@@ -86,7 +87,7 @@ export class Policy extends React.Component {
 					{parameterControls}
 				</Col>
 				<Col xl={3}>
-					<Overview page="policy" policy={this.state.policy} setPolicy={() => {this.props.setPolicy(this.state.policy)}}/>
+					<Overview page="policy" policy={this.state.policy} setPage={this.props.setPage} />
 				</Col>
 			</Row>
 		);

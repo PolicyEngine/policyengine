@@ -65,6 +65,7 @@ const PARAMETER_MENU = {
             "child_UBI",
             "adult_UBI",
             "senior_UBI",
+            "autoUBI",
         ],
     }
 }

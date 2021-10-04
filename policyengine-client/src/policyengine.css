@@ -10,20 +10,16 @@
     padding-bottom: 5px;
 }
 
-.ant-tabs-tab div a {
-    color: #d9d9d9;
+.ant-tabs-tab div {
+    color: #d9d9d9 !important;
 }
 
-.ant-tabs-tab.ant-tabs-tab-active div a {
-    color: #fff;
+.ant-tabs-tab.ant-tabs-tab-disabled div {
+    color: #8c8c8c !important;
 }
 
-.ant-tabs-tab div a.lower {
-    color: #d9d9d9;
-}
-
-.ant-tabs-tab.ant-tabs-tab-active div a.lower {
-    color: #fff;
+.ant-tabs-tab.ant-tabs-tab-active div {
+    color: #fff !important;
 }
 
 svg { margin-bottom: 5px;}

@@ -1,4 +1,4 @@
-export { PolicyEngine, Header, Footer, getPolicyFromURL } from "./common/layout";
+export { PolicyEngine, Header, Footer, getPolicyFromURL, Responsive } from "./common/layout";
 export { Policy } from "./pages/policy";
 export { PopulationResults } from "./pages/populationImpact";
 export { Switch, Route, Link } from "react-router-dom";
