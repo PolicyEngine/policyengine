@@ -6,7 +6,8 @@ import "policyengine-client/src/policyengine.css";
 import PARAMETER_MENU from './controls';
 import POLICY from "./parameters";
 import { ADULT, CHILD, SITUATION } from "./household";
-import { Divider, Button, message } from "antd";
+import { Divider, Button, message, Alert, Spin } from "antd";
+import { LoadingOutlined } from '@ant-design/icons';
 
 
 class App extends React.Component {
@@ -68,37 +69,60 @@ class App extends React.Component {
   }
 }
 
-function AutoUBI(props) {
-  function applyAutoUBI() {
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
+class AutoUBI extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {waiting: false, amount: 0};
+    this.applyAutoUBI = this.applyAutoUBI.bind(this);
+  }
+
+  applyAutoUBI() {
 		const submission = {};
-		for (const key in props.policy) {
-			if(props.policy[key].value !== props.policy[key].default) {
-				submission["policy_" + key] = props.policy[key].value;
+		for (const key in this.props.policy) {
+			if(this.props.policy[key].value !== this.props.policy[key].default) {
+				submission["policy_" + key] = this.props.policy[key].value;
 			}
 		}
 		let url = new URL("https://uk.policyengine.org/api/ubi");
 		url.search = new URLSearchParams(submission).toString();
-		fetch(url)
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          throw res;
-        }
-      }).then((json) => {
-        props.setPolicy("child_UBI", props.policy["child_UBI"].value + Math.round(json.UBI / 52, 2));
-        props.setPolicy("adult_UBI", props.policy["adult_UBI"].value + Math.round(json.UBI / 52, 2));
-        props.setPolicy("senior_UBI", props.policy["senior_UBI"].value + Math.round(json.UBI / 52, 2));
-      }).catch(e => {
-        message.error("Couldn't apply AutoUBI - something went wrong.")
-      });
+		this.setState({waiting: true}, () => {
+      fetch(url)
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            throw res;
+          }
+        }).then((json) => {
+          const amount = Math.round(json.UBI / 52, 2);
+          this.setState({waiting: false, amount: amount});
+          this.props.setPolicy("child_UBI", this.props.policy["child_UBI"].value + amount);
+          this.props.setPolicy("adult_UBI", this.props.policy["adult_UBI"].value + amount);
+          this.props.setPolicy("senior_UBI", this.props.policy["senior_UBI"].value + amount);
+        }).catch(e => {
+          message.error("Couldn't apply AutoUBI - something went wrong.")
+          this.setState({waiting: false});
+        });
+    });
 	}
-  return (
-    <>
-      <Divider>AutoUBI</Divider>
-      <Button onClick={applyAutoUBI}>Direct surplus revenue into UBI</Button>
-    </>
-  );
+  
+  render() {
+    let result;
+    if(this.state.waiting) {
+      result = <Alert style={{marginTop: 10}} message={<>This reform would fund a UBI of £<Spin indicator={<LoadingOutlined />}/>/week</>} />;
+    } else if(this.state.amount) {
+      result = <Alert style={{marginTop: 10}} message={<>This reform would fund a UBI of £{this.state.amount}/week</>} /> ;
+    }
+    return (
+      <>
+        <Divider>AutoUBI</Divider>
+        <Button onClick={this.applyAutoUBI}>Direct surplus revenue into UBI</Button>
+        {result}
+      </>
+    );
+    }
 }
 
 
