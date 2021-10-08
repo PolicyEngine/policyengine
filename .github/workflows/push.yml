@@ -43,6 +43,7 @@ jobs:
         with:
           user: __token__
           password: ${{ secrets.PYPI }}
+          skip_existing: true
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
