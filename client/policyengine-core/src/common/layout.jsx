@@ -31,7 +31,7 @@ export function getPolicyFromURL(defaultPolicy) {
 }
 
 export function Title(props) {
-	const tags = props.beta ? [<Tag key="beta" color="processing">BETA</Tag>] : null;
+	const tags = props.beta ? [<Tag key="beta" color="#002766">BETA</Tag>] : null;
 	const title = <><a href="/" style={{color: "white"}}>PolicyEngine<sub style={{fontSize: "50%"}}>{props.country}</sub></a></>;
 	return (
 		<div style={{minWidth: 300}}>
@@ -84,13 +84,12 @@ export function PolicyEngine(props) {
 }
 
 function MainNavigation(props) {
-	console.log("re-rendering tabs", props.selected)
 	const history = useHistory();
 	return (
 		<>
 			<Row style={{margin: 0}}>
 				<Col lg={2}>
-					<Title country={props.country}/>
+					<Title country={props.country} beta={props.beta} />
 				</Col>
 				<Col lg={8} style={{paddingLeft: 25, paddingRight: 25, paddingTop: 10}}>
 					<Tabs activeKey={props.selected} centered onChange={key => {history.push(generateURLParams("/" + key, props.policy))}}>
@@ -113,7 +112,7 @@ export function Header(props) {
 			<div style={{backgroundColor: "#002766"}}>
 				<Switch>
 					<Route path="/" exact>
-						<MainNavigation country={props.country} policy={props.policy} household={props.household} selected="" />
+						<MainNavigation beta={props.beta} country={props.country} policy={props.policy} household={props.household} selected="" />
 					</Route>
 					<Route path="/population-impact">
 						<MainNavigation country={props.country} policy={props.policy} household={props.household} selected="population-impact" />
