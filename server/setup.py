@@ -15,6 +15,9 @@ setup(
         "google-cloud-storage>=1.42.0",
         "gunicorn",
         "OpenFisca-Core",
+        "microdf_python",
+        "numpy",
+        "pandas",
     ],
     packages=find_packages(),
 )
