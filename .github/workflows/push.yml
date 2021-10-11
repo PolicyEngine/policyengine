@@ -46,6 +46,7 @@ jobs:
           user: __token__
           password: ${{ secrets.PYPI }}
           skip_existing: true
+          packages_dir: server/dist/
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
@@ -55,3 +56,4 @@ jobs:
       - uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
+          package: client/package.json
