@@ -14,6 +14,7 @@ setup(
         "kaleido",
         "google-cloud-storage>=1.42.0",
         "gunicorn",
+        "OpenFisca-Core",
     ],
     packages=find_packages(),
 )
