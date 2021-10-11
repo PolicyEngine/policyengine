@@ -34,7 +34,7 @@ export function Title(props) {
 	const tags = props.beta ? [<Tag key="beta" color="processing">BETA</Tag>] : null;
 	const title = <><a href="/" style={{color: "white"}}>PolicyEngine<sub style={{fontSize: "50%"}}>{props.country}</sub></a></>;
 	return (
-		<div style={{minWidth: 200}}>
+		<div style={{minWidth: 300}}>
 			<div className="d-none d-lg-block">
 				<PageHeader
 					title={title}
