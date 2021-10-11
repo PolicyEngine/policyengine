@@ -128,6 +128,9 @@ export function Header(props) {
 					<Route path="/household">
 						<MainNavigation country={props.country} policy={props.policy} household={props.household} selected="household" />
 					</Route>
+					<Route path="/situation">
+						<MainNavigation country={props.country} policy={props.policy} household={props.household} selected="household" />
+					</Route>
 					<Route path="/household-impact">
 						<MainNavigation country={props.country} policy={props.policy} household={props.household} selected="household-impact" />
 					</Route>
