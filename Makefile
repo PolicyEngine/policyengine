@@ -1,5 +1,6 @@
 all: install-client install-server build-client build-server format test
 install: install-client install-server
+	pip install pytest
 build-client:
 	cd client/policyengine-core; npm run build
 build-server:
