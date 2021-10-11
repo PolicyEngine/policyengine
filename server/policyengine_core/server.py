@@ -36,7 +36,7 @@ class PolicyEngine:
         self.app = Flask(
             type(self).__name__,
             static_url_path="",
-            static_folder=self.static_folder,
+            static_folder=str(self.static_folder),
         )
         self.app.logger.info("Initialising server.")
         CORS(self.app)
@@ -50,7 +50,8 @@ class PolicyEngine:
         # Forward client endpoints to React and API endpoints to Flask
 
         def static_site():
-            return send_from_directory(self.static_folder, "index.html")
+            print(str(self.static_folder))
+            return send_from_directory(str(self.static_folder), "index.html")
 
         for route in self.client_endpoints:
             static_site = self.app.route(route)(static_site)
