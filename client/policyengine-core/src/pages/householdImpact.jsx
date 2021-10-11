@@ -91,6 +91,7 @@ export class HouseholdImpact extends React.Component {
 			}
 		}
 		let url = new URL(`https://${this.props.country || "uk"}.policyengine.org/api/situation-reform`);
+		url = `${this.props.api_url}/api/situation-reform` || url;
 		url.search = new URLSearchParams(submission).toString();
 		this.setState({ waiting: true }, () => {
 			fetch(url)

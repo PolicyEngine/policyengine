@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { PolicyEngine, Header, Footer, Policy, Responsive, PopulationResults, Switch, Route, getPolicyFromURL, Household, HouseholdImpact } from 'policyengine-client'
-import "policyengine-client/src/policyengine.css";
+import { PolicyEngine, Header, Footer, Policy, Responsive, PopulationResults, Switch, Route, getPolicyFromURL, Household, HouseholdImpact } from 'policyengine-core'
+import "policyengine-core/src/policyengine.css";
 
 import PARAMETER_MENU from './controls';
 import POLICY from "./parameters";
