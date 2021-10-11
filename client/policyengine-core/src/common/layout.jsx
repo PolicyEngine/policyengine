@@ -85,6 +85,19 @@ export function PolicyEngine(props) {
 
 function MainNavigation(props) {
 	const history = useHistory();
+	let middleColumn;
+	if(props.hideTabs) {
+		middleColumn = <></>;
+	} else {
+		middleColumn = (
+			<Tabs activeKey={props.selected} centered onChange={key => {history.push(generateURLParams("/" + key, props.policy))}}>
+				<TabPane tab="Policy" key=""/>
+				<TabPane tab={(props.country || "UK") + " impact"} key="population-impact" />
+				<TabPane tab="Your household" key="household" />
+				<TabPane disabled={!props.household} tab="Household impact" key="household-impact" />
+			</Tabs>
+		);
+	}
 	return (
 		<>
 			<Row style={{margin: 0}}>
@@ -92,12 +105,7 @@ function MainNavigation(props) {
 					<Title country={props.country} beta={props.beta} />
 				</Col>
 				<Col lg={8} style={{paddingLeft: 25, paddingRight: 25, paddingTop: 10}}>
-					<Tabs activeKey={props.selected} centered onChange={key => {history.push(generateURLParams("/" + key, props.policy))}}>
-						<TabPane tab="Policy" key=""/>
-						<TabPane tab={(props.country || "UK") + " impact"} key="population-impact" />
-						<TabPane tab="Your household" key="household" />
-						<TabPane disabled={!props.household} tab="Household impact" key="household-impact" />
-					</Tabs>
+					{middleColumn}
 				</Col>
 				<Col lg={2}>
 				</Col>
@@ -124,7 +132,7 @@ export function Header(props) {
 						<MainNavigation country={props.country} policy={props.policy} household={props.household} selected="household-impact" />
 					</Route>
 					<Route path="/faq">
-						<MainNavigation country={props.country} policy={props.policy} household={props.household} />
+						<MainNavigation country={props.country} policy={props.policy} household={props.household} hideTabs/>
 					</Route>
 				</Switch>
 			</div>
