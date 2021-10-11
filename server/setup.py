@@ -18,6 +18,7 @@ setup(
         "microdf_python",
         "numpy",
         "pandas",
+        "tables",
     ],
     packages=find_packages(),
 )
