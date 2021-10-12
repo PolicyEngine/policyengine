@@ -76,7 +76,7 @@ export class PopulationResults extends React.Component {
 			}
 		}
 		let url = new URL(`https://${this.props.country || "uk"}.policyengine.org/api/population-reform`);
-		url = `${this.props.api_url}/api/population-reform` || url;
+		url = this.props.api_url ? `${this.props.api_url}/api/population-reform` : url;
 		url.search = new URLSearchParams(submission).toString();
 		this.setState({ waiting: true }, () => {
 			fetch(url)
