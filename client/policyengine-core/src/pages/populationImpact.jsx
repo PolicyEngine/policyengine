@@ -57,7 +57,7 @@ export function PopulationResultsPane(props) {
 }
 
 
-export class PopulationResults extends React.Component {
+class PopulationResultsPage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {plan: this.props.policy, results: null, waiting: false, error: false};
@@ -75,8 +75,12 @@ export class PopulationResults extends React.Component {
 				submission["policy_" + key] = this.state.plan[key].value;
 			}
 		}
-		let url = new URL(`https://${this.props.country || "uk"}.policyengine.org/api/population-reform`);
-		url = this.props.api_url ? `${this.props.api_url}/api/population-reform` : url;
+		let url;
+		if(this.props.api_url) {
+			url = new URL(`${this.props.api_url}/api/population-reform`);
+		} else {
+			url = new URL(`https://${this.props.country || "uk"}.policyengine.org/api/population-reform`);
+		}
 		url.search = new URLSearchParams(submission).toString();
 		this.setState({ waiting: true }, () => {
 			fetch(url)
@@ -95,6 +99,9 @@ export class PopulationResults extends React.Component {
 	}
 
 	render() {
+		if(!this.props.policy) {
+			return <></>;
+		}
 		return (
 			<Row style={{paddingLeft: 50}}>
 				<Col xl={9}>
@@ -115,5 +122,18 @@ export class PopulationResults extends React.Component {
 				</Col>
 			</Row>
 		);
+	}
+}
+
+export function PopulationResults(props) {
+	if(Object.keys(props.policy).length > 0) {
+		return <PopulationResultsPage 
+			country={props.country}
+			policy={props.policy}
+			setPage={props.setPage}
+			api_url={props.api_url}
+		/>;
+	} else {
+		return <></>;
 	}
 }

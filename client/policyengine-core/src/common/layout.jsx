@@ -12,7 +12,7 @@ export function generateURLParams(page, policy) {
 	let searchParams = new URLSearchParams(window.location.search);
 	for (const key in policy) {
 		if (policy[key].value !== policy[key].default) {
-			searchParams.set(key, +policy[key].value);
+			searchParams.set(key, (policy[key].type == "rate" ? 100 : 1) * +policy[key].value);
 		} else {
 			searchParams.delete(key);
 		}
@@ -25,7 +25,7 @@ export function getPolicyFromURL(defaultPolicy) {
 	let plan = defaultPolicy;
 	const { searchParams } = new URL(document.location);
 	for (const key of searchParams.keys()) {
-		plan[key].value = +searchParams.get(key);
+		plan[key].value = +searchParams.get(key) / (defaultPolicy[key].type == "rate" ? 100 : 1);
 	}
 	return plan;
 }
