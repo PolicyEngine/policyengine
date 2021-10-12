@@ -86,8 +86,12 @@ export function PolicyEngine(props) {
 function MainNavigation(props) {
 	const history = useHistory();
 	let middleColumn;
-	if(props.hideTabs) {
-		middleColumn = <></>;
+	if(props.faq) {
+		middleColumn = (
+			<Tabs activeKey={props.selected} centered onChange={key => {history.push(generateURLParams("/" + key, props.policy))}}>
+				<TabPane tab="FAQ" key="faq"/>
+			</Tabs>
+		);
 	} else {
 		middleColumn = (
 			<Tabs activeKey={props.selected} centered onChange={key => {history.push(generateURLParams("/" + key, props.policy))}}>
@@ -123,25 +127,25 @@ export function Header(props) {
 						<MainNavigation beta={props.beta} country={props.country} policy={props.policy} household={props.household} selected="" />
 					</Route>
 					<Route path="/population-impact">
-						<MainNavigation country={props.country} policy={props.policy} household={props.household} selected="population-impact" />
+						<MainNavigation beta={props.beta} country={props.country} policy={props.policy} household={props.household} selected="population-impact" />
 					</Route>
 					<Route path="/population-results">
-						<MainNavigation country={props.country} policy={props.policy} household={props.household} selected="population-impact" />
+						<MainNavigation beta={props.beta} country={props.country} policy={props.policy} household={props.household} selected="population-impact" />
 					</Route>
 					<Route path="/household">
-						<MainNavigation country={props.country} policy={props.policy} household={props.household} selected="household" />
+						<MainNavigation beta={props.beta} country={props.country} policy={props.policy} household={props.household} selected="household" />
 					</Route>
 					<Route path="/situation">
-						<MainNavigation country={props.country} policy={props.policy} household={props.household} selected="household" />
+						<MainNavigation beta={props.beta} country={props.country} policy={props.policy} household={props.household} selected="household" />
 					</Route>
 					<Route path="/household-impact">
-						<MainNavigation country={props.country} policy={props.policy} household={props.household} selected="household-impact" />
+						<MainNavigation beta={props.beta} country={props.country} policy={props.policy} household={props.household} selected="household-impact" />
 					</Route>
 					<Route path="/situation-results">
-						<MainNavigation country={props.country} policy={props.policy} household={props.household} selected="household-impact" />
+						<MainNavigation beta={props.beta} country={props.country} policy={props.policy} household={props.household} selected="household-impact" />
 					</Route>
 					<Route path="/faq">
-						<MainNavigation country={props.country} policy={props.policy} household={props.household} hideTabs/>
+						<MainNavigation beta={props.beta} country={props.country} policy={props.policy} household={props.household} faq/>
 					</Route>
 				</Switch>
 			</div>
