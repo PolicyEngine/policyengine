@@ -71,10 +71,12 @@ class PolicyEngine:
         def pass_params_and_cache(fn):
             def new_fn(*args, **kwargs):
                 params = {**request.args, **(request.json or {})}
+                cached_result = None
                 if self.cache is not None:
                     cached_result = get_cached_result(
                         params, fn.__name__, self.version, self.cache
                     )
+                if cached_result is not None:
                     return cached_result
                 else:
                     return fn(*args, params=params, **kwargs)
