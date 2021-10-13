@@ -50,7 +50,7 @@ export function HouseholdResultsPane(props) {
 	);
 }
 
-export class HouseholdImpact extends React.Component {
+class HouseholdImpactPage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {results: null, waiting: false};
@@ -90,8 +90,12 @@ export class HouseholdImpact extends React.Component {
 				submission[variableName + "_" + 1] = variable.value;
 			}
 		}
-		let url = new URL(`https://${this.props.country || "uk"}.policyengine.org/api/situation-reform`);
-		url = `${this.props.api_url}/api/situation-reform` || url;
+		let url;
+		if(this.props.api_url) {
+			url = new URL(`${this.props.api_url}/api/household-reform`);
+		} else {
+			url = new URL(`https://${this.props.country || "uk"}.policyengine.org/api/household-reform`);
+		}
 		url.search = new URLSearchParams(submission).toString();
 		this.setState({ waiting: true }, () => {
 			fetch(url)
@@ -112,9 +116,9 @@ export class HouseholdImpact extends React.Component {
 
 	render() {
 		return (
-			<Row style={{paddingLeft: 50}}>
-
-				<Col xl={9}>
+			<Row>
+				<Col xl={1} />
+				<Col xl={8}>
 					{
 						(this.state.waiting || (!this.state.results && !this.state.error)) ?
 							<div className="d-flex justify-content-center align-items-center" style={{minHeight: 400}}>
@@ -127,10 +131,23 @@ export class HouseholdImpact extends React.Component {
 								<HouseholdResultsPane results={this.state.results} />
 					}
 				</Col>
-				<Col xl={3} style={{paddingLeft: 50}}>
+				<Col xl={3}>
 					<Overview page="household-impact" policy={this.props.policy} setPage={this.props.setPage} household={this.props.household}/>
 				</Col>
 			</Row>
 		);
+	}
+}
+
+export function HouseholdImpact(props) {
+	if(Object.keys(props.policy).length > 0) {
+		return <HouseholdImpactPage 
+			policy={props.policy}
+			household={props.household}
+			setPage={props.setPage}
+			api_url={props.api_url}
+		/>;
+	} else {
+		return <></>;
 	}
 }

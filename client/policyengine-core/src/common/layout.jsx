@@ -12,7 +12,11 @@ export function generateURLParams(page, policy) {
 	let searchParams = new URLSearchParams(window.location.search);
 	for (const key in policy) {
 		if (policy[key].value !== policy[key].default) {
-			searchParams.set(key, +policy[key].value);
+			if(policy[key].type === "rate") {
+				searchParams.set(key, Math.round(+policy[key].value * 100));
+			} else {
+				searchParams.set(key, +policy[key].value);
+			}
 		} else {
 			searchParams.delete(key);
 		}
@@ -25,7 +29,7 @@ export function getPolicyFromURL(defaultPolicy) {
 	let plan = defaultPolicy;
 	const { searchParams } = new URL(document.location);
 	for (const key of searchParams.keys()) {
-		plan[key].value = +searchParams.get(key);
+		plan[key].value = +searchParams.get(key) / (defaultPolicy[key].type == "rate" ? 100 : 1);
 	}
 	return plan;
 }
@@ -57,7 +61,7 @@ export function Title(props) {
 
 export function Footer() {
 	return (
-		<>
+		<div style={{paddingBottom: 25}}>
 			<BackTop />
 			<Divider style={{marginTop: 50}} />
 			<div className="d-none d-lg-block">
@@ -69,7 +73,7 @@ export function Footer() {
 				<p style={{textAlign: "center"}}><a href="https://policyengine.org">PolicyEngine © 2021</a> | <a href="/faq">FAQ</a></p>
 				<p style={{textAlign: "center"}}><a href="https://zej8fnylwn9.typeform.com/to/XFFu15Xq">Share your feedback</a> | <a href="https://opencollective.com/psl">Donate</a></p>
 			</div>
-		</>
+		</div>
 	)
 }
 
@@ -86,8 +90,12 @@ export function PolicyEngine(props) {
 function MainNavigation(props) {
 	const history = useHistory();
 	let middleColumn;
-	if(props.hideTabs) {
-		middleColumn = <></>;
+	if(props.faq) {
+		middleColumn = (
+			<Tabs activeKey={props.selected} centered onChange={key => {history.push(generateURLParams("/" + key, props.policy))}}>
+				<TabPane tab="FAQ" key="faq"/>
+			</Tabs>
+		);
 	} else {
 		middleColumn = (
 			<Tabs activeKey={props.selected} centered onChange={key => {history.push(generateURLParams("/" + key, props.policy))}}>
@@ -123,19 +131,25 @@ export function Header(props) {
 						<MainNavigation beta={props.beta} country={props.country} policy={props.policy} household={props.household} selected="" />
 					</Route>
 					<Route path="/population-impact">
-						<MainNavigation country={props.country} policy={props.policy} household={props.household} selected="population-impact" />
+						<MainNavigation beta={props.beta} country={props.country} policy={props.policy} household={props.household} selected="population-impact" />
+					</Route>
+					<Route path="/population-results">
+						<MainNavigation beta={props.beta} country={props.country} policy={props.policy} household={props.household} selected="population-impact" />
 					</Route>
 					<Route path="/household">
-						<MainNavigation country={props.country} policy={props.policy} household={props.household} selected="household" />
+						<MainNavigation beta={props.beta} country={props.country} policy={props.policy} household={props.household} selected="household" />
 					</Route>
 					<Route path="/situation">
-						<MainNavigation country={props.country} policy={props.policy} household={props.household} selected="household" />
+						<MainNavigation beta={props.beta} country={props.country} policy={props.policy} household={props.household} selected="household" />
 					</Route>
 					<Route path="/household-impact">
-						<MainNavigation country={props.country} policy={props.policy} household={props.household} selected="household-impact" />
+						<MainNavigation beta={props.beta} country={props.country} policy={props.policy} household={props.household} selected="household-impact" />
+					</Route>
+					<Route path="/situation-results">
+						<MainNavigation beta={props.beta} country={props.country} policy={props.policy} household={props.household} selected="household-impact" />
 					</Route>
 					<Route path="/faq">
-						<MainNavigation country={props.country} policy={props.policy} household={props.household} hideTabs/>
+						<MainNavigation beta={props.beta} country={props.country} policy={props.policy} household={props.household} faq/>
 					</Route>
 				</Switch>
 			</div>
