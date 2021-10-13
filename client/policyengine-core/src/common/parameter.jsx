@@ -14,7 +14,7 @@ const { Option } = Select;
 
 export function getParser(parameter) {
 	if (parameter.type === "rate") {
-		return (value) => +value.replace("%", "") / 100;
+		return (value) => Math.round(+value.replace("%", "") / 100, 2);
 	} else if (parameter.type === "weekly") {
 		return (value) => +value.replace("£", "").replace("/week", "");
 	} else if (parameter.type === "yearly") {

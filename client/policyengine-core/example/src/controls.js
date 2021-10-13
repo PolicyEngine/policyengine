@@ -65,7 +65,7 @@ const PARAMETER_MENU = {
 		]
 	},
 	"UBI Center": {
-		"UBI": [
+		"Universal Basic Income": [
 			"child_UBI",
 			"adult_UBI",
 			"senior_UBI",

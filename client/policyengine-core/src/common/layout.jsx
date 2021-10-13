@@ -57,7 +57,7 @@ export function Title(props) {
 
 export function Footer() {
 	return (
-		<>
+		<div style={{paddingBottom: 25}}>
 			<BackTop />
 			<Divider style={{marginTop: 50}} />
 			<div className="d-none d-lg-block">
@@ -69,7 +69,7 @@ export function Footer() {
 				<p style={{textAlign: "center"}}><a href="https://policyengine.org">PolicyEngine © 2021</a> | <a href="/faq">FAQ</a></p>
 				<p style={{textAlign: "center"}}><a href="https://zej8fnylwn9.typeform.com/to/XFFu15Xq">Share your feedback</a> | <a href="https://opencollective.com/psl">Donate</a></p>
 			</div>
-		</>
+		</div>
 	)
 }
 

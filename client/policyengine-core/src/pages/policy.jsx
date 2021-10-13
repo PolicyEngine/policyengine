@@ -87,7 +87,7 @@ export class Policy extends React.Component {
 					{parameterControls}
 				</Col>
 				<Col xl={3}>
-					<Overview page="policy" policy={this.props.policy} setPage={this.props.setPage} />
+					<Overview page="policy" policy={this.props.policy} setPage={this.props.setPage} invalid={this.props.invalid}/>
 				</Col>
 			</Row>
 		);

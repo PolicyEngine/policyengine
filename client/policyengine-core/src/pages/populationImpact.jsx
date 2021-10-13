@@ -103,8 +103,9 @@ class PopulationResultsPage extends React.Component {
 			return <></>;
 		}
 		return (
-			<Row style={{paddingLeft: 50}}>
-				<Col xl={9}>
+			<Row>
+				<Col xl={1} />
+				<Col xl={8}>
 					{
 						(this.state.waiting || (!this.state.results && !this.state.error)) ?
 							<div className="d-flex justify-content-center align-items-center" style={{minHeight: 400}}>
@@ -117,7 +118,7 @@ class PopulationResultsPage extends React.Component {
 								<PopulationResultsPane results={this.state.results} />
 					}
 				</Col>
-				<Col xl={3} style={{paddingLeft: 50}}>
+				<Col xl={3}>
 					<Overview policy={this.props.policy} setPage={this.props.setPage} page="population-impact"/>
 				</Col>
 			</Row>
