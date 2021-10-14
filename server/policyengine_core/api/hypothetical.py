@@ -9,6 +9,7 @@ from openfisca_core.taxbenefitsystems.tax_benefit_system import (
     TaxBenefitSystem,
 )
 from openfisca_core.periods import period
+from functools import partial
 
 
 class IndividualSim:
@@ -27,7 +28,9 @@ class IndividualSim:
         self.sim_builder = SimulationBuilder()
         self.entity_names = {var.key: var for var in self.system.entities}
         self.apply_reform(self.reform)
-        self.situation_data = {entity.plural: {} for entity in self.system.entities}
+        self.situation_data = {
+            entity.plural: {} for entity in self.system.entities
+        }
         self.varying = False
         self.num_points = None
 
@@ -35,11 +38,7 @@ class IndividualSim:
 
         for entity in self.entity_names:
             setattr(
-                self,
-                f"add_{entity}",
-                lambda *args, **kwargs: self.add_data(
-                    *args, entity=entity, **kwargs, 
-                ),
+                self, f"add_{entity}", partial(self.add_data, entity=entity)
             )
 
     def build(self):
@@ -61,7 +60,7 @@ class IndividualSim:
 
     def add_data(
         self,
-        entity: str = "person",
+        entity: str = None,
         name: str = None,
         input_period: str = None,
         auto_period: str = True,
