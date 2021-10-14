@@ -108,7 +108,7 @@ export function Parameter(props) {
 		}
 		return (
 			<>
-				<Divider>{props.param.title}</Divider>
+				<Divider orientation="left">{props.param.title}</Divider>
 				{props.param.error ? <Alert type="error" message={props.param.error} style={{marginBottom: 10}} showIcon icon={<CloseCircleFilled style={{marginTop: 5}} color="red" />}/> : null}
 				<p>{props.param.description}</p>
 				{component}
