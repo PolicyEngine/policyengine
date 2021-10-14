@@ -108,10 +108,11 @@ export function Parameter(props) {
 		}
 		return (
 			<>
-				<Divider orientation="left">{props.param.title}</Divider>
+				<h6 style={{marginTop: 20}}>{props.param.title}</h6>
 				{props.param.error ? <Alert type="error" message={props.param.error} style={{marginBottom: 10}} showIcon icon={<CloseCircleFilled style={{marginTop: 5}} color="red" />}/> : null}
 				<p>{props.param.description}</p>
 				{component}
+				<div style={{paddingBottom: 20}} />
 			</>
 		);
 		} catch {
