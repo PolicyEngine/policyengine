@@ -22,12 +22,12 @@ class IndividualSim:
             year (int, optional): The default year input. Defaults to 2020.
         """
         self.year = year
-        self.reforms = reform
+        self.reform = reform
         self.system = self.tax_benefit_system()
         self.sim_builder = SimulationBuilder()
         self.entity_names = {var.key: var for var in self.system.entities}
-        self.apply_reform(self.reforms)
-        self.situation_data = {entity: {} for entity in self.entity_names}
+        self.apply_reform(self.reform)
+        self.situation_data = {entity.plural: {} for entity in self.system.entities}
         self.varying = False
         self.num_points = None
 
@@ -38,7 +38,7 @@ class IndividualSim:
                 self,
                 f"add_{entity}",
                 lambda *args, **kwargs: self.add_data(
-                    *args, **kwargs, entity=entity
+                    *args, entity=entity, **kwargs, 
                 ),
             )
 
