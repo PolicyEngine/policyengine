@@ -1,6 +1,6 @@
 {
   "name": "policyengine-core",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "React component library for PolicyEngine",
   "author": "nikhilwoodruff",
   "license": "MIT",
@@ -66,6 +66,7 @@
     "react-router-dom": "^5.3.0",
     "react-router-ga": "^1.2.3",
     "react-share": "^4.4.0",
+    "rehype-raw": "^6.1.0",
     "styled-components": "^5.3.1"
   }
 }
