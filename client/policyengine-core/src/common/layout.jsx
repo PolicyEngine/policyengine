@@ -121,7 +121,7 @@ function MainNavigation(props) {
 					<div className="d-flex justify-content-center">
 						<a href="https://twitter.com/thepolicyengine"><TwitterOutlined style={iconStyle}/></a>
 						<a href="https://www.facebook.com/ThePolicyEngine"><FacebookOutlined style={iconStyle}/></a>
-						<a href="/"><LinkedinOutlined style={iconStyle} href="https://twitter.com"/></a>
+						<a href="https://www.linkedin.com/company/thepolicyengine/about/"><LinkedinOutlined style={iconStyle} href="https://twitter.com"/></a>
 						<a href="https://www.reddit.com/user/PolicyEngine"><RedditOutlined style={iconStyle} /></a>
 						<a href="https://www.instagram.com/policyengine/"><InstagramOutlined style={iconStyle}/></a>
 					</div>
