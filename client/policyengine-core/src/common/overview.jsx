@@ -37,7 +37,7 @@ export function Overview(props) {
 			<Empty description="" image={null}>
 				<SimulateButton 
 					hidden={props.page === "policy"}
-					text={<><ArrowLeftOutlined /> Change the policy reform</>}
+					text={<><ArrowLeftOutlined /> Adjust the policy</>}
 					target="/" 
 					policy={props.policy} 
 					onClick={() => {props.setPage("")}}
@@ -48,7 +48,7 @@ export function Overview(props) {
 					disabled={props.invalid} 
 					text={
 						props.page === "policy" ?
-							"Simulate on the population" :
+							"See the UK impact" :
 							<><ArrowLeftOutlined /> Return to the population results</>
 					}
 					target="/population-impact" 
@@ -62,9 +62,7 @@ export function Overview(props) {
 					text={
 						props.page === "household-impact" ?
 							<><ArrowLeftOutlined /> Change your household</> :
-							props.page === "policy" ?
-								"Skip to your household" :
-								"Describe your household"
+							"Describe your household"
 					}
 					target="/household" 
 					policy={props.policy} 
@@ -74,7 +72,7 @@ export function Overview(props) {
 					primary={props.page === "household"} 
 					hidden={props.page === "household-impact"}
 					disabled={props.invalid || !props.household} 
-					text="See your results" 
+					text="See your household impact" 
 					target="/household-impact" 
 					policy={props.policy} 
 					onClick={() => {props.setPage("household-impact")}}
@@ -89,7 +87,7 @@ export function SharePolicyLinks(props) {
 	const url = generateURLParams("https://uk.policyengine.org/population-results", props.policy);
 	return (
 		<>
-			<Divider>Share this reform<Button style={{marginRight: 20, border: 0}} onClick={() => {navigator.clipboard.writeText("https://uk.policyengine.org" + url); message.info("Link copied!");}}><LinkOutlined /></Button><TwitterShareButton style={{marginRight: 20, border: 0}} title="I just simulated a reform to the UK tax and benefit system with @ThePolicyEngine. Check it out or make your own!" url={url}><TwitterOutlined /></TwitterShareButton></Divider>
+			<Divider>Share this policy<Button style={{marginRight: 20, border: 0}} onClick={() => {navigator.clipboard.writeText("https://uk.policyengine.org" + url); message.info("Link copied!");}}><LinkOutlined /></Button><TwitterShareButton style={{marginRight: 20, border: 0}} title="I just simulated a reform to the UK tax and benefit system with @ThePolicyEngine. Check it out or make your own!" url={url}><TwitterOutlined /></TwitterShareButton></Divider>
 		</>
 	);
 }

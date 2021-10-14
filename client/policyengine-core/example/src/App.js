@@ -9,13 +9,14 @@ import { ADULT, CHILD, SITUATION } from "./household";
 import { FAQ } from "./faq";
 import { Divider, Button, message, Alert, Spin, Image } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
+import ubicenter from "./static/logos/ubicenter.png";
 
 
 const ORGANISATIONS = {
 	"UBI Center": {
-		"logo": <Image src="/logos/ubicenter.png" preview={false} height={30} width={30}/>,
+		"logo": <Image src={ubicenter} preview={false} height={30} width={30}/>,
 	}
-}
+};
 
 class App extends React.Component {
 	constructor(props) {
@@ -35,13 +36,13 @@ class App extends React.Component {
 	}
 
 	componentDidMount() {
-		fetch("http://192.168.1.12:5000/api/parameters").then(res => res.json()).then(data => {this.setState({policy: getPolicyFromURL(data)});});
+		fetch("https://uk.policyengine.org/api/parameters").then(res => res.json()).then(data => {this.setState({policy: getPolicyFromURL(data)});});
 	}
 
 	setPolicy(name, value) {
 		let oldPolicy = this.state.policy;
-		oldPolicy[name].value = Math.round(value * 100, 2) / 100;
-		const { policy, invalid } = (this.state.validator || (policy => {return {policy: policy, invalid: false}}))(oldPolicy);
+		oldPolicy[name].value = value;
+		const { policy, invalid } = (this.state.validator || (policy => {return {policy: policy, invalid: false};}))(oldPolicy);
 		this.setState({policy: policy, invalid: invalid});
 	}
 	
@@ -80,7 +81,7 @@ class App extends React.Component {
 								country={"UK"}
 								policy={this.state.policy}
 								setPage={page => {this.setState({page: page});}}
-								api_url="http://192.168.1.12:5000"
+								api_url="https://uk.policyengine.org"
 							/>
 						</Route>
 						<Route path="/household-impact">
@@ -88,7 +89,7 @@ class App extends React.Component {
 								policy={this.state.policy}
 								household={this.state.household}
 								setPage={page => {this.setState({page: page});}}
-								api_url="http://192.168.1.12:5000"
+								api_url="https://uk.policyengine.org"
 							/>
 						</Route>
 						<Route path="/faq">
@@ -113,7 +114,7 @@ class App extends React.Component {
 								policy={this.state.policy}
 								household={this.state.household}
 								setPage={page => {this.setState({page: page});}}
-								api_url="http://localhost:5000"
+								api_url="https://uk.policyengine.org"
 							/>
 						</Route>
 						<Route path="/population-results">
@@ -121,7 +122,7 @@ class App extends React.Component {
 								country={"UK"}
 								policy={this.state.policy}
 								setPage={page => {this.setState({page: page});}}
-								api_url="http://localhost:5000"
+								api_url="https://uk.policyengine.org"
 							/>
 						</Route>
 					</Switch>
@@ -148,7 +149,7 @@ class AutoUBI extends React.Component {
 				submission["policy_" + key] = this.props.policy[key].value;
 			}
 		}
-		let url = new URL("http://192.168.1.12:5000/api/ubi");
+		let url = new URL("https://uk.policyengine.org/api/ubi");
 		url.search = new URLSearchParams(submission).toString();
 		this.setState({waiting: true}, () => {
 			fetch(url)
