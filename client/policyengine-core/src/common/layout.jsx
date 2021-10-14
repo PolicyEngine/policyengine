@@ -102,7 +102,7 @@ function MainNavigation(props) {
 				<TabPane tab="Policy" key=""/>
 				<TabPane tab={(props.country || "UK") + " impact"} key="population-impact" />
 				<TabPane tab="Your household" key="household" />
-				<TabPane disabled={!props.household} tab="Household impact" key="household-impact" />
+				{props.household ? <TabPane tab="Household impact" key="household-impact" /> : null}
 			</Tabs>
 		);
 	}
