@@ -5,6 +5,7 @@ import { Switch, Route, Link, BrowserRouter as Router, useHistory } from "react-
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "antd/dist/antd.css";
+import { FacebookOutlined, InstagramOutlined, LinkedinOutlined, RedditOutlined, TwitterOutlined } from '@ant-design/icons';
 
 const { TabPane } = Tabs;
 
@@ -106,6 +107,7 @@ function MainNavigation(props) {
 			</Tabs>
 		);
 	}
+	const iconStyle = { marginTop: 25, marginBottom: 25, marginLeft: 15, fontSize: 15, color: "white" };
 	return (
 		<>
 			<Row style={{margin: 0}}>
@@ -116,6 +118,13 @@ function MainNavigation(props) {
 					{middleColumn}
 				</Col>
 				<Col lg={2}>
+					<div className="d-flex justify-content-center">
+						<a href="https://twitter.com/thepolicyengine"><TwitterOutlined style={iconStyle}/></a>
+						<a href="https://www.facebook.com/ThePolicyEngine"><FacebookOutlined style={iconStyle}/></a>
+						<a href="/"><LinkedinOutlined style={iconStyle} href="https://twitter.com"/></a>
+						<a href="https://www.reddit.com/user/PolicyEngine"><RedditOutlined style={iconStyle} /></a>
+						<a href="https://www.instagram.com/policyengine/"><InstagramOutlined style={iconStyle}/></a>
+					</div>
 				</Col>
 			</Row>
 		</>
