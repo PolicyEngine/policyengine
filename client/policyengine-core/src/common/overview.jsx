@@ -78,16 +78,16 @@ export function Overview(props) {
 					onClick={() => {props.setPage("household-impact")}}
 				/>
 			</Empty>
-			<SharePolicyLinks policy={props.policy}/>
+			<SharePolicyLinks policy={props.policy} target={props.page === "policy" ? "" : props.page}/>
 		</>
 	);
 }
 
 export function SharePolicyLinks(props) {
-	const url = generateURLParams("https://uk.policyengine.org/population-results", props.policy);
+	const url = generateURLParams(`https://uk.policyengine.org/${props.page || "population-impact"}`, props.policy);
 	return (
 		<>
-			<Divider>Share this policy<Button style={{marginRight: 20, border: 0}} onClick={() => {navigator.clipboard.writeText("https://uk.policyengine.org" + url); message.info("Link copied!");}}><LinkOutlined /></Button><TwitterShareButton style={{marginRight: 20, border: 0}} title="I just simulated a reform to the UK tax and benefit system with @ThePolicyEngine. Check it out or make your own!" url={url}><TwitterOutlined /></TwitterShareButton></Divider>
+			<Divider>Share this policy<Button style={{marginRight: 20, border: 0}} onClick={() => {navigator.clipboard.writeText(url); message.info("Link copied!");}}><LinkOutlined /></Button><TwitterShareButton style={{marginRight: 20, border: 0}} title="I just simulated a reform to the UK tax and benefit system with @ThePolicyEngine. Check it out or make your own!" url={url}><TwitterOutlined /></TwitterShareButton></Divider>
 		</>
 	);
 }
