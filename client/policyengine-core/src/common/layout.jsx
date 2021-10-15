@@ -70,6 +70,9 @@ export function Footer() {
 					<p style={{textAlign: "center"}}><a href="https://policyengine.org">PolicyEngine © 2021</a> | <a href="/faq">FAQ</a> | <a href="https://zej8fnylwn9.typeform.com/to/XFFu15Xq">Share your feedback</a> | <a href="https://opencollective.com/psl">Donate</a></p>
 				</div>
 			</div>
+			<div className="d-flex d-lg-none justify-content-center">
+				<SocialLinks color="black"/>
+			</div>
 			<div className="d-block d-lg-none">
 				<p style={{textAlign: "center"}}><a href="https://policyengine.org">PolicyEngine © 2021</a> | <a href="/faq">FAQ</a></p>
 				<p style={{textAlign: "center"}}><a href="https://zej8fnylwn9.typeform.com/to/XFFu15Xq">Share your feedback</a> | <a href="https://opencollective.com/psl">Donate</a></p>
@@ -85,6 +88,19 @@ export function PolicyEngine(props) {
 				{props.children}
 			</Container>
 		</Router>
+	);
+}
+
+function SocialLinks(props) {
+	const iconStyle = { marginTop: 25, marginBottom: 25, marginLeft: 15, fontSize: 15, color: props.color || "white" };
+	return (
+		<div className="d-flex justify-content-center">
+			<a href="https://twitter.com/thepolicyengine"><TwitterOutlined style={iconStyle}/></a>
+			<a href="https://www.facebook.com/ThePolicyEngine"><FacebookOutlined style={iconStyle}/></a>
+			<a href="https://www.linkedin.com/company/thepolicyengine/about/"><LinkedinOutlined style={iconStyle} href="https://twitter.com"/></a>
+			<a href="https://www.reddit.com/user/PolicyEngine"><RedditOutlined style={iconStyle} /></a>
+			<a href="https://www.instagram.com/policyengine/"><InstagramOutlined style={iconStyle}/></a>
+		</div>
 	);
 }
 
@@ -107,24 +123,17 @@ function MainNavigation(props) {
 			</Tabs>
 		);
 	}
-	const iconStyle = { marginTop: 25, marginBottom: 25, marginLeft: 15, fontSize: 15, color: "white" };
 	return (
 		<>
 			<Row style={{margin: 0}}>
 				<Col lg={2}>
-					<Title country={props.country} beta={props.beta} />
+					<Title image={props.titleImage} country={props.country} beta={props.beta} />
 				</Col>
 				<Col lg={8} style={{paddingLeft: 25, paddingRight: 25, paddingTop: 10}}>
 					{middleColumn}
 				</Col>
-				<Col lg={2}>
-					<div className="d-flex justify-content-center">
-						<a href="https://twitter.com/thepolicyengine"><TwitterOutlined style={iconStyle}/></a>
-						<a href="https://www.facebook.com/ThePolicyEngine"><FacebookOutlined style={iconStyle}/></a>
-						<a href="https://www.linkedin.com/company/thepolicyengine/about/"><LinkedinOutlined style={iconStyle} href="https://twitter.com"/></a>
-						<a href="https://www.reddit.com/user/PolicyEngine"><RedditOutlined style={iconStyle} /></a>
-						<a href="https://www.instagram.com/policyengine/"><InstagramOutlined style={iconStyle}/></a>
-					</div>
+				<Col lg={2} className="d-none d-lg-block">
+					<SocialLinks />
 				</Col>
 			</Row>
 		</>
