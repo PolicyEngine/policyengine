@@ -78,7 +78,7 @@ export function Overview(props) {
 					onClick={() => {props.setPage("household-impact")}}
 				/>
 			</Empty>
-			<SharePolicyLinks policy={props.policy} target={props.page === "policy" ? "" : props.page}/>
+			<SharePolicyLinks policy={props.policy} page={props.page === "policy" ? "" : props.page}/>
 		</>
 	);
 }
