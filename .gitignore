@@ -7,4 +7,5 @@
 **/pytest_cache
 **/__pycache__
 **/*.egg-info
+**/.vscode
 client/policyengine-core/example/

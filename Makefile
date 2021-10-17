@@ -4,7 +4,7 @@ install: install-client install-server
 build-client:
 	cd client/policyengine-core; npm run build
 build-server:
-	cd server; rm -rf build/ dist/ PolicyEngine_Core.egg-info; python setup.py sdist bdist_wheel
+	cd server; rm -rf build/ dist/ policyengine.egg-info; python setup.py sdist bdist_wheel
 install-client:
 	cd client/policyengine-core; npm install
 install-server:
@@ -13,8 +13,11 @@ publish-server: server
 	twine upload server/dist/* --skip-existing
 publish-client:
 	cd client/policyengine-core; npm publish
+
+debug-server:
+	FLASK_APP=policyengine/server.py FLASK_DEBUG=1 flask run
 format:
-	autopep8 . -r -i
-	black . -l 79
+	autopep8 policyengine -r -i
+	black policyengine -l 79
 test:
-	pytest server/policyengine_core/tests -vv
+	pytest server/policyengine/tests -vv
