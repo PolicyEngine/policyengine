@@ -12,8 +12,7 @@ from openfisca_core.tracers.tracing_parameter_node_at_instant import (
 )
 from openfisca_core.variables import Variable
 from datetime import datetime
-
-from openfisca_us.system import CountryTaxBenefitSystem
+from openfisca_core.taxbenefitsystems import TaxBenefitSystem
 
 DATE = datetime.now()
 YEAR, MONTH, DAY = DATE.year, DATE.month, DATE.day
@@ -110,11 +109,11 @@ def add_parameter_file(path: str) -> Reform:
     return reform
 
 
-def get_PE_parameters(system: CountryTaxBenefitSystem) -> Dict[str, dict]:
+def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
     """Extracts PolicyEngine parameters from OpenFisca parameter metadata.
 
     Args:
-        system (CountryTaxBenefitSystem): The tax-benefit system to extract from.
+        system (TaxBenefitSystem): The tax-benefit system to extract from.
 
     Returns:
         Dict[str, dict]: The parameter metadata.

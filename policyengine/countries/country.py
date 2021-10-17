@@ -11,7 +11,7 @@ from policyengine.impact.population.charts import (
     population_waterfall_chart,
     intra_decile_chart,
 )
-from policyengine.reforms.utils import (
+from policyengine.utils.reforms import (
     add_parameter_file,
     create_reform,
     get_PE_parameters,
@@ -79,10 +79,37 @@ class PolicyEngineCountry:
         )
 
     def household_reform(self, params=None):
-        return "placeholder"
+        situation = create_situation(params)
+        reform = create_reform(params)
+        baseline_config = self.default_reform
+        reform_config = self.default_reform, reform
+        baseline = situation(IndividualSim(baseline_config, year=2021))
+        reformed = situation(IndividualSim(reform_config, year=2021))
+        headlines = headline_figures(baseline, reformed)
+        waterfall = household_waterfall_chart(baseline, reformed)
+        baseline.vary("employment_income", step=100)
+        reformed.vary("employment_income", step=100)
+        budget = budget_chart(baseline, reformed)
+        mtr = mtr_chart(baseline, reformed)
+        return dict(
+            **headlines,
+            waterfall_chart=waterfall,
+            budget_chart=budget,
+            mtr_chart=mtr,
+        )
+
 
     def ubi(self, params=None):
-        return "placeholder"
+        reform = create_reform(params, self.policyengine_parameters)
+        reformed = self.Microsimulation(
+            (self.default_reform, reform), dataset=self.default_dataset
+        )
+        revenue = (
+            self.baseline.calc(self.results_config.net_income_variable).sum()
+            - reformed.calc(self.results_config.net_income_variable).sum()
+        )
+        UBI_amount = max(0, revenue / self.baseline.calc(self.results_config.person_variable).sum())
+        return {"UBI": float(UBI_amount)}
 
     def parameters(self, params=None):
         return self.policyengine_parameters
