@@ -6,11 +6,9 @@ import { Button, Menu } from "antd";
 const { SubMenu } = Menu;
 
 function entityContainsEntity(household, entities, entityType, parent, child) {
-	// Parent and child are both groups
 	let parentEntity = entities.entities[entityType[parent]]
 	let childEntity = entities.entities[entityType[child]]
 	if(parentEntity.is_group && childEntity.is_group) {
-		// If shared members, nest
 		let parentMembers = [];
 		for(let role of Object.values(parentEntity.roles)) {
 			parentMembers = parentMembers.concat(household[parentEntity.plural][parent][role.plural] || []);
@@ -53,10 +51,11 @@ function EntityMenu(props) {
 		})) :
 		null;
 	if(nextLevelEntity === null) {
-		return <Menu.Item key={props.root + "_"}>{props.root}</Menu.Item>;
+		return <Menu.Item key={props.root}>{props.root}</Menu.Item>;
 	} else {
 		return (
-			<SubMenu title={props.root} key={props.root} >
+			<SubMenu title={props.root} key={props.root + " (container)"} >
+				<Menu.Item key={props.root}>{props.entities.entities[props.entityType[props.root]].label}</Menu.Item>
 				{immediateChildren}
 			</SubMenu>
 		);
@@ -74,11 +73,11 @@ function HouseholdMenu(props) {
 			entityType[entityName] = entity.key;
 		}
 	}
-	const groupEntities = Object.keys(entityType).filter(name => props.entities.entities[entityType[name]].is_group);
+	const groupEntities = Object.keys(entityType).filter(name => props.entities.entities[entityType[name]].is_group).map(name => name + " (container)");
 	return (
 		<Menu
 			mode="inline"
-			onClick={e => props.selectEntity(e.key.slice(0, e.key.length - 1))}
+			onClick={e => props.selectEntity(e.key)}
 			defaultOpenKeys={groupEntities}
 			defaultSelectedKeys={[props.selected]}
 		>

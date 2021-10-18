@@ -15,6 +15,7 @@ def build_entity(entity: Entity) -> dict:
 
     formatted_entity = {
         "key": entity.key,
+        "label": entity.label,
         "is_group": not entity.is_person,
         "plural": entity.plural,
         "description": entity.label,
