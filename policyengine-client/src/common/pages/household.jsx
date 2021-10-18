@@ -61,7 +61,7 @@ function EntityMenu(props) {
 		})) :
 		null;
 	if(nextLevelEntity === null) {
-		return <Menu.Item key={props.root}>{props.root} <Button style={{float: "right", marginTop: 5}} onClick={props.removePerson}>Remove</Button></Menu.Item>;
+		return <Menu.Item key={props.root}>{props.root} <Button style={{float: "right", marginTop: 5}} onClick={() => props.removePerson(props.root)}>Remove</Button></Menu.Item>;
 	} else {
 		return (
 			<SubMenu title={props.root} key={props.root + "_"} >
@@ -155,9 +155,7 @@ export default class Household extends React.Component {
 			i++;
 			numeric = true;
 		}
-		if(numeric) {
-			name = name + " " + i.toString();
-		}
+		name = name + " " + i.toString();
 		let otherMembersOfGroup = {};
 		for(let role of Object.values(parent.roles)) {
 			otherMembersOfGroup[role.key] = household[parent.plural][parentEntity][role.plural] || [];
@@ -193,11 +191,10 @@ export default class Household extends React.Component {
 			}
 		}
 		this.props.setHousehold(household);
-		console.log(household);
 	}
 
 	addGroup(type, parentEntity) {
-		console.log("add group");
+		
 	}
 
 	assignPerson(name, groupName, role) {
@@ -205,7 +202,21 @@ export default class Household extends React.Component {
 	}
 
 	removePerson(name) {
-		console.log("remove person")
+		let household = this.props.household;
+		delete household.people[name];
+		for(let entity of Object.values(this.props.entities.entities)) {
+			if(entity.is_group) {
+				for(let instance in household[entity.plural]) {
+					for(let role of Object.values(entity.roles)) {
+						if((household[entity.plural][instance][role.plural] || []).includes(name)) {
+							household[entity.plural][instance][role.plural] = household[entity.plural][instance][role.plural].filter(i => i !== name);
+						}
+					}
+				}
+			}
+		}
+		console.log(household, name);
+		this.props.setHousehold(household);
 	}
 
 	validateHousehold() {
