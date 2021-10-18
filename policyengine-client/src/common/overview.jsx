@@ -21,7 +21,7 @@ export function SimulateButton(props) {
 export function Overview(props) {
 	let plan = Object.keys(props.policy).map((key, i) => (
 		props.policy[key].value !== props.policy[key].default
-			? <Step key={key} status="finish" title={props.policy[key].title} description={props.policy[key].summary.replace("@", getFormatter(props.policy[key])(props.policy[key].value))} />
+			? <Step key={key} status="finish" title={props.policy[key].title} description={props.policy[key].summary.replace("@", getFormatter(props.policy[key], props.currency)(props.policy[key].value))} />
 			: null
 	));
 	let isEmpty = plan.every(element => element === null);

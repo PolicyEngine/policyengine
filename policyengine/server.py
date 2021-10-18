@@ -9,12 +9,6 @@ from time import time
 from openfisca_core.taxbenefitsystems.tax_benefit_system import (
     TaxBenefitSystem,
 )
-from policy_engine_uk.populations.charts import (
-    decile_chart,
-    intra_decile_chart,
-    population_waterfall_chart,
-    poverty_chart,
-)
 from policyengine.metrics.population import headline_metrics
 from policyengine.utils.reforms import (
     add_parameter_file,
@@ -115,7 +109,6 @@ class PolicyEngine:
         self._init_cache()
         self._init_forwarding()
         self.app.logger.info("Initialisation complete.")
-
 
 app = PolicyEngine().app
 app.run()

@@ -176,12 +176,11 @@ def create_reform(
     params = {}
     for key, value in parameters.items():
         components = key.split("_")
-        if components[0] == "policy":
-            name = "_".join(components[1:])
-            try:
-                params[name] = float(value)
-            except:
-                params[name] = value
+        name = "_".join(components)
+        try:
+            params[name] = float(value)
+        except:
+            params[name] = value
     reforms = []
     names = []
     for param, value in params.items():

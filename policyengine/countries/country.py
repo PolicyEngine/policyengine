@@ -4,6 +4,7 @@ from openfisca_core.taxbenefitsystems.tax_benefit_system import (
     TaxBenefitSystem,
 )
 from policyengine.api.general import PolicyEngineResultsConfig
+from policyengine.countries.entities import build_entities
 from policyengine.impact.population.metrics import headline_metrics
 from policyengine.impact.population.charts import (
     decile_chart,
@@ -19,6 +20,7 @@ from policyengine.utils.reforms import (
 )
 from policyengine.api.microsimulation import Microsimulation
 from policyengine.api.hypothetical import IndividualSim
+from policyengine.utils.situations import get_PE_variables
 
 
 class PolicyEngineCountry:
@@ -39,7 +41,7 @@ class PolicyEngineCountry:
             add_parameter_file(self.parameter_file)
             if self.parameter_file is not None
             else (),
-            tuple(self.default_reform),
+            self.default_reform,
         )
 
         self.baseline = self.Microsimulation(
@@ -50,12 +52,20 @@ class PolicyEngineCountry:
             self.baseline.simulation.tax_benefit_system
         )
 
+        self.policyengine_variables = get_PE_variables(
+            self.baseline.simulation.tax_benefit_system
+        )
+
         self.api_endpoints = dict(
             household_reform=self.household_reform,
             population_reform=self.population_reform,
             ubi=self.ubi,
             parameters=self.parameters,
+            entities=self.entities,
+            variables=self.variables,
         )
+
+        self.entities = build_entities(self.baseline.simulation.tax_benefit_system)
 
     def population_reform(self, params: dict = None):
         reform = create_reform(params, self.policyengine_parameters)
@@ -113,3 +123,9 @@ class PolicyEngineCountry:
 
     def parameters(self, params=None):
         return self.policyengine_parameters
+
+    def entities(self, params=None):
+        return self.entities
+
+    def variables(self, params=None):
+        return self.policyengine_variables

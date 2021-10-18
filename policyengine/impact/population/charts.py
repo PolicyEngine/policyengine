@@ -4,7 +4,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
-from openfisca_uk import Microsimulation
+from policyengine.api import Microsimulation
 import pandas as pd
 from policyengine.utils import charts
 from policyengine.api.general import PolicyEngineResultsConfig

@@ -1,8 +1,8 @@
 import { Fragment, default as React } from "react";
-import { ParameterGroup } from "../common/parameter";
+import { ParameterGroup } from "../parameter";
 import { Button, Menu } from "antd";
 import { Row, Col } from "react-bootstrap";
-import { Overview } from "../common/overview";
+import { Overview } from "../overview";
 
 const { SubMenu } = Menu;
 

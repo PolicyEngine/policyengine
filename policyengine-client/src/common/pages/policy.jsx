@@ -81,7 +81,7 @@ export default class Policy extends React.Component {
 					{parameterControls}
 				</Col>
 				<Col xl={3}>
-					<Overview page="policy" policy={this.props.policy} setPage={this.props.setPage} invalid={this.props.invalid} baseURL="/uk"/>
+					<Overview page="policy" policy={this.props.policy} setPage={this.props.setPage} invalid={this.props.invalid} baseURL={this.props.baseURL} currency={this.props.currency}/>
 				</Col>
 			</Row>
 		);

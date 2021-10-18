@@ -115,7 +115,7 @@ class PopulationImpactPage extends React.Component {
 					}
 				</Col>
 				<Col xl={3}>
-					<Overview policy={this.props.policy} setPage={this.props.setPage} page="population-impact"/>
+					<Overview policy={this.props.policy} setPage={this.props.setPage} page="population-impact" baseURL={this.props.baseURL} currency={this.props.currency}/>
 				</Col>
 			</Row>
 		);
@@ -129,6 +129,8 @@ export default function PopulationImpact(props) {
 			policy={props.policy}
 			setPage={props.setPage}
 			api_url={props.api_url}
+			currency={props.currency}
+			baseURL={props.baseURL}
 		/>;
 	} else {
 		return <></>;

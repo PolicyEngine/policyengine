@@ -11,6 +11,7 @@ import FAQ from "./components/faq";
 import Policy from "../../common/pages/policy";
 import PopulationImpact from "../../common/pages/populationImpact";
 import AutoUBI from "./components/autoUBI";
+import Household from "../../common/pages/household";
 
 export class PolicyEngineUK extends React.Component {
     constructor(props) {
@@ -22,6 +23,7 @@ export class PolicyEngineUK extends React.Component {
             household: {},
             householdVisited: false,
             currentPage: "policy",
+            invalid: false,
         }
     }
 
@@ -75,14 +77,29 @@ export class PolicyEngineUK extends React.Component {
                                 overrides={{autoUBI: <AutoUBI />}}
                                 setPage={setPage}
                                 invalid={this.state.invalid}
+                                baseURL="/uk"
                             />
                         </Route>
                         <Route path="/uk/population-impact">
                             <PopulationImpact 
                                 api_url={this.props.api_url}
                                 policy={this.state.policy}
+                                currency="£"
                                 country="uk"
                                 setPage={setPage}
+                                baseURL="/uk"
+                            />
+                        </Route>
+                        <Route path="/uk/household">
+                            <Household
+                                api_url={this.props.api_url}
+                                policy={this.state.policy}
+                                currency="£"
+								household={this.state.household}
+								selected="head"
+								setHousehold={household => {this.setState({household: household, householdEntered: true});}}
+								setPage={setPage}
+                                baseURL="/uk"
                             />
                         </Route>
                     </Switch>
