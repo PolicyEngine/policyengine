@@ -21,6 +21,7 @@ export class PolicyEngineUK extends React.Component {
         this.state = {
             policy: {},
             household: {},
+            entities: {},
             householdVisited: false,
             currentPage: "policy",
             invalid: false,
@@ -29,10 +30,20 @@ export class PolicyEngineUK extends React.Component {
 
     componentDidMount() {
         this.fetchPolicy();
+        this.fetchHousehold();
+        this.fetchEntities();
     }
 
     fetchPolicy() {
         fetch(this.props.api_url + "/parameters").then(res => res.json()).then(data => {this.setState({policy: urlToPolicy(data)});});
+    }
+
+    fetchHousehold() {
+        fetch(this.props.api_url + "/default-household").then(res => res.json()).then(data => {this.setState({household: data});});
+    }
+
+    fetchEntities() {
+        fetch(this.props.api_url + "/entities").then(res => res.json()).then(data => {this.setState({entities: data});});
     }
 
     setPolicy(name, value) {
@@ -96,7 +107,8 @@ export class PolicyEngineUK extends React.Component {
                                 policy={this.state.policy}
                                 currency="£"
 								household={this.state.household}
-								selected="head"
+                                entities={this.state.entities}
+								selected="You"
 								setHousehold={household => {this.setState({household: household, householdEntered: true});}}
 								setPage={setPage}
                                 baseURL="/uk"

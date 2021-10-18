@@ -31,6 +31,8 @@ class PolicyEngineCountry:
     default_reform: type = ()
     parameter_file: Path = None
     default_dataset: type
+    default_situation: dict
+    entity_hierarchy: Tuple[str]
     version: str
 
     results_config: Type[PolicyEngineResultsConfig]
@@ -63,6 +65,7 @@ class PolicyEngineCountry:
             parameters=self.parameters,
             entities=self.entities,
             variables=self.variables,
+            default_household=self.default_household,
         )
 
         self.entities = build_entities(self.baseline.simulation.tax_benefit_system)
@@ -125,7 +128,10 @@ class PolicyEngineCountry:
         return self.policyengine_parameters
 
     def entities(self, params=None):
-        return self.entities
+        return {"entities": self.entities, "hierarchy": self.entity_hierarchy}
 
     def variables(self, params=None):
         return self.policyengine_variables
+
+    def default_household(self, params=None):
+        return self.default_situation
