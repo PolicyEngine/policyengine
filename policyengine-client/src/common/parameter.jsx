@@ -126,11 +126,3 @@ export function NothingControls() {
 		</>
 	);
 }
-
-export function ParameterGroup(props) {
-	return (
-		<>
-			{Object.keys(props.policy).map((name) => <Parameter key={name} name={name} param={props.policy[name]} setPolicy={props.setPolicy} rate />)}
-		</>
-	);
-}

@@ -21,6 +21,7 @@ export class PolicyEngineUK extends React.Component {
         this.state = {
             policy: {},
             household: {},
+            variables: {},
             entities: {},
             householdVisited: false,
             currentPage: "policy",
@@ -32,6 +33,7 @@ export class PolicyEngineUK extends React.Component {
         this.fetchPolicy();
         this.fetchHousehold();
         this.fetchEntities();
+        this.fetchVariables();
     }
 
     fetchPolicy() {
@@ -44,6 +46,10 @@ export class PolicyEngineUK extends React.Component {
 
     fetchEntities() {
         fetch(this.props.api_url + "/entities").then(res => res.json()).then(data => {this.setState({entities: data});});
+    }
+
+    fetchVariables() {
+        fetch(this.props.api_url + "/variables").then(res => res.json()).then(data => {this.setState({variables: data});});
     }
 
     setPolicy(name, value) {
@@ -105,6 +111,7 @@ export class PolicyEngineUK extends React.Component {
                             <Household
                                 api_url={this.props.api_url}
                                 policy={this.state.policy}
+                                variables={this.state.variables}
                                 currency="£"
 								household={this.state.household}
                                 entities={this.state.entities}

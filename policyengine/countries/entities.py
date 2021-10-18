@@ -32,6 +32,7 @@ def build_entity(entity: Entity) -> dict:
 def build_role(role: Role) -> dict:
     formatted_role = {
         "key": role.key,
+        "label": role.label,
         "plural": role.plural,
         "description": role.doc
         }
