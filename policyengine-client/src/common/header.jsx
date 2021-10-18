@@ -41,7 +41,6 @@ export function Header(props) {
 function MainNavigation(props) {
 	const history = useHistory();
 	let middleColumn;
-	console.log(props.selected, props.baseUrl);
 	if(props.faq) {
 		middleColumn = (
 			<Tabs activeKey={props.selected} centered onChange={key => {history.push(policyToURL(props.baseUrl + "/" + key, props.policy))}}>

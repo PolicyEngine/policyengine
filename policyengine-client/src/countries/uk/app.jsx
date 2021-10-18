@@ -1,11 +1,16 @@
 import React from "react";
 import { urlToPolicy } from "../../common/url";
-import { PolicyEngineWrapper } from "../../common/layout";
+import { PolicyEngineWrapper, BodyWrapper } from "../../common/layout";
 import { Header } from "../../common/header";
 import { Footer } from "../../common/footer";
 import { Switch, Route, Redirect } from "react-router-dom";
 
+import { ORGANISATIONS, PARAMETER_MENU } from "./data/policy_controls";
+
 import FAQ from "./components/faq";
+import Policy from "../../common/pages/policy";
+import PopulationImpact from "../../common/pages/populationImpact";
+import AutoUBI from "./components/autoUBI";
 
 export class PolicyEngineUK extends React.Component {
     constructor(props) {
@@ -45,17 +50,43 @@ export class PolicyEngineUK extends React.Component {
     }
 
     render() {
+        const setPage = page => {this.setState({page: page});};
         return (
             <PolicyEngineWrapper>
                 <Route path="/uk" exact>
                     <Redirect to="/uk/policy" />
                 </Route>
                 <Header country="uk" policy={this.state.policy} household={this.state.householdVisited}/>
-                <Switch>
-                    <Route path="/uk/faq">
-                        <FAQ />
-                    </Route>
-                </Switch>
+                <BodyWrapper>
+                    <Switch>
+                        <Route path="/uk/faq">
+                            <FAQ analytics={this.props.analytics} />
+                        </Route>
+                        <Route path="/uk/policy">
+                            <Policy 
+                                api_url={this.props.api_url}
+                                policy={this.state.policy}
+                                menuStructure={PARAMETER_MENU}
+                                organisations={ORGANISATIONS}
+                                selected={"/Tax/Income Tax/Labour income"}
+                                open={["/Tax", "/Tax/Income Tax", "/Benefit", "/UBI Center"]}
+                                currency="£"
+                                setPolicy={this.setPolicy}
+                                overrides={{autoUBI: <AutoUBI />}}
+                                setPage={setPage}
+                                invalid={this.state.invalid}
+                            />
+                        </Route>
+                        <Route path="/uk/population-impact">
+                            <PopulationImpact 
+                                api_url={this.props.api_url}
+                                policy={this.state.policy}
+                                country="uk"
+                                setPage={setPage}
+                            />
+                        </Route>
+                    </Switch>
+                </BodyWrapper>
                 <Footer country="uk" />
             </PolicyEngineWrapper>
         );

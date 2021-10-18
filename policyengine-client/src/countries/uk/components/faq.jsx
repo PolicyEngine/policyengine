@@ -26,6 +26,7 @@ export class FAQ extends React.Component {
 
     componentDidMount() {
         fetch(FAQText).then(res => res.text()).then(text => this.setState({text: text}));
+        this.props.analytics.pageview("/uk/faq");
     }
 
 	render() {

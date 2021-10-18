@@ -11,15 +11,11 @@ export default class App extends React.Component {
 		this.state = {};
 	}
 
-	componentDidMount() {
-		this.props.analytics.gtag("event", "page_view", {page_location: "/"});
-	}
-
 	render() {
 		return (
 			<Router>
 				<Route path="/uk">
-					<PolicyEngineUK api_url="http://localhost:5000/uk/api" />
+					<PolicyEngineUK analytics={this.props.analytics} api_url="http://localhost:5000/uk/api" />
 				</Route>
 				<Route path="/us">
 					Coming soon!
