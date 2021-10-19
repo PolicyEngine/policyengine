@@ -18,6 +18,11 @@ export class PolicyEngineUK extends React.Component {
         super(props);
         this.setPolicy = this.setPolicy.bind(this);
         this.validatePolicy = this.validatePolicy.bind(this);
+        this.validateHousehold = this.validateHousehold.bind(this);
+        this.fetchPolicy = this.fetchPolicy.bind(this);
+        this.fetchHousehold = this.fetchHousehold.bind(this);
+        this.fetchEntities = this.fetchEntities.bind(this);
+        this.fetchVariables = this.fetchVariables.bind(this);
         this.state = {
             policy: {},
             household: {},
@@ -68,6 +73,52 @@ export class PolicyEngineUK extends React.Component {
 		return {policy: policy, invalid: false};
     }
 
+    validateHousehold() {
+        console.log(this.state.household);
+        let householdData = this.state.household;
+        // First, check for any empty families - remove them
+        let household = householdData.household["Your household"];
+        for(let benunit in household.benunit) {
+            if(Object.keys(household.benunit[benunit].adult || {}).length + Object.keys(household.benunit[benunit].child || {}).length === 0) {
+                delete householdData.household["Your household"].benunit[benunit];
+            }
+        }
+        // Next, apply default names
+        const benunitDefaultNames = ["Your immediate family", "Another family in your household"];
+        const firstBenunitAdultNames = ["You", "Your partner"];
+        const firstBenunitChildNames = ["Your first child", "Your second child", "Your third child", "Your fourth child", "Your fifth child"];
+        const secondBenunitAdultNames = ["Another adult", "Their partner"];
+        const secondBenunitChildNames = ["Their first child", "Their second child", "Their third child", "Their fourth child", "Their fifth child"];
+        const benunitNames = Object.keys(household.benunit);
+        let adultNames;
+        let childNames;
+        for(let i = 0; i < benunitNames.length; i++) {
+            household.benunit[benunitNames[i]].label = benunitDefaultNames[i];
+        }
+        console.log(household);
+        if(benunitNames.length > 0) {
+            adultNames = Object.keys(household.benunit[benunitNames[0]].adult);
+            for(let i = 0; i < adultNames.length; i++) {
+                household.benunit[benunitNames[0]].adult[adultNames[i]].label = firstBenunitAdultNames[i];
+            }
+            childNames = Object.keys(household.benunit[benunitNames[0]].child);
+            for(let i = 0; i < childNames.length; i++) {
+                household.benunit[benunitNames[0]].child[childNames[i]].label = firstBenunitChildNames[i];
+            }
+        }
+        if(benunitNames.length > 1) {
+            adultNames = Object.keys(household.benunit[benunitNames[1]].adult);
+            for(let i = 0; i < adultNames.length; i++) {
+                household.benunit[benunitNames[1]].adult[adultNames[i]].label = secondBenunitAdultNames[i];
+            }
+            childNames = Object.keys(household.benunit[benunitNames[1]].child);
+            for(let i = 0; i < childNames.length; i++) {
+                household.benunit[benunitNames[1]].child[childNames[i]].label = secondBenunitChildNames[i];
+            }
+        }
+        this.setState({household: householdData});
+    }
+
     render() {
         const setPage = page => {this.setState({page: page});};
         return (
@@ -111,12 +162,13 @@ export class PolicyEngineUK extends React.Component {
                             <Household
                                 api_url={this.props.api_url}
                                 policy={this.state.policy}
+                                defaultOpenKeys={["Your household_", "Your immediate family_"]}
                                 variables={this.state.variables}
                                 currency="£"
 								household={this.state.household}
                                 entities={this.state.entities}
 								selected="You"
-								setHousehold={household => {this.setState({household: household, householdEntered: true});}}
+								setHousehold={household => {this.setState({household: household, householdEntered: true}, () => this.validateHousehold())}}
 								setPage={setPage}
                                 baseURL="/uk"
                             />

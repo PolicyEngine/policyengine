@@ -13,7 +13,7 @@ function EntityMenu(props) {
 	if(props.entities.hierarchy[props.entityType].is_group) {
 		let children = [];
 		let buttons = [];
-		for(let childType in props.entity) {
+		for(let childType of props.entities.hierarchy[props.entityType].children) {
 			const newParents = props.parents.concat([props.entityType, props.name])
 			const childMeta = props.entities.hierarchy[childType];
 			for(let childName in props.entity[childType]) {
@@ -34,14 +34,14 @@ function EntityMenu(props) {
 			}
 		}
 		return (
-			<SubMenu key={props.name + "_"} title={props.name}>
+			<SubMenu key={props.name + "_"} title={props.entity.label || props.name}>
 				<Menu.Item key={props.name}>{capitalizeFirstLetter(props.entities.hierarchy[props.entityType].label)}</Menu.Item>
 				{children}
 				{buttons}
 			</SubMenu>
 		);
 	} else {
-		return <Menu.Item key={props.name}>{props.name}<Button onClick={() => props.removeEntity(props.name, props.parents.concat([props.entityType]))} style={{float: "right", marginTop: 5}}>Remove</Button></Menu.Item>;
+		return <Menu.Item key={props.name}>{props.entity.label ||props.name}<Button onClick={() => props.removeEntity(props.name, props.parents.concat([props.entityType]))} style={{float: "right", marginTop: 5}}>Remove</Button></Menu.Item>;
 	}
 }
 
@@ -56,7 +56,7 @@ function HouseholdMenu(props) {
 		<Menu
 			mode="inline"
 			onClick={e => props.selectEntity(e.key)}
-			defaultOpenKeys={[]}
+			defaultOpenKeys={props.defaultOpenKeys}
 			defaultSelectedKeys={[props.selected]}
 		>
 			{
@@ -82,35 +82,28 @@ export default class Household extends React.Component {
 		this.removeEntity = this.removeEntity.bind(this);
 	}
 
-	addEntity(type, parents, inputHousehold) {
-		let household = inputHousehold || this.props.household;
+	addEntity(type, parents) {
+		let household = this.props.household;
 		let node = household;
 		for(let parent of parents) {
 			node = node[parent];
 		}
-		let i = 0;
-		const meta = this.props.entities.hierarchy[type]
-		let names = meta.names;
-		while(household.takenNames.includes(names[i])) {
-			i++;
-			if(i >= names.length) {
-				names.push(capitalizeFirstLetter(meta.label) + " " + (i+1).toString());
-			}
-		}
-		household.takenNames = household.takenNames.concat([names[i]]);
-		node[type][names[i]] = {};
+		const meta = this.props.entities.hierarchy[type];
+		const name = this.props.household.num_entities;
+		node[type][name] = {};
 		if(meta.is_group) {
 			for(let childType of meta.children) {
-				node[type][names[i]][childType] = {};
+				if(childType === meta.initialiser) {
+					node[type][name][childType] = {};
+					node[type][name][childType][name + 1] = {};
+					household.num_entities++;
+				} else {
+					node[type][name][childType] = {};
+				}
 			}
 		}
-		if(meta.initialiser) {
-			household = this.addEntity(meta.initialiser, parents.concat([type, names[i]]), household)
-		}
-		if(!inputHousehold) {
-			this.props.setHousehold(household);
-		}
-		return household
+		household.num_entities++;
+		this.props.setHousehold(household);
 	}
 
 	removeEntity(name, parents) {
@@ -120,9 +113,6 @@ export default class Household extends React.Component {
 			node = node[parent];
 		}
 		delete node[name];
-		if(household.takenNames.includes(name)) {
-			household.takenNames.pop(name);
-		}
 		this.props.setHousehold(household);
 	}
 
@@ -130,7 +120,7 @@ export default class Household extends React.Component {
 		return (
 			<Row>
 				<Col xl={3}>
-					<HouseholdMenu addEntity={this.addEntity} removeEntity={this.removeEntity} selectEntity={entity => this.setState({selected: entity})} selected={this.state.selected} household={this.props.household} entities={this.props.entities} />
+					<HouseholdMenu defaultOpenKeys={this.props.defaultOpenKeys} addEntity={this.addEntity} removeEntity={this.removeEntity} selectEntity={entity => this.setState({selected: entity})} selected={this.state.selected} household={this.props.household} entities={this.props.entities} />
 				</Col>
 				<Col xl={6}>
 					{this.state.selected}

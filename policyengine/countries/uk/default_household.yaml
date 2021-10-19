@@ -5,7 +5,4 @@ household:
         adult:
           You: {}
         child: {}
-takenNames:
-  - Your household
-  - Your immediate family
-  - You
+num_entities: 3

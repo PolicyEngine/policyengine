@@ -33,6 +33,7 @@ def get_PE_variables(system: TaxBenefitSystem) -> Dict[str, dict]:
             default=0,
             min=0,
             max=1,
+            entity=v.entity.key,
         )
         var.update(meta)
         var["value"] = var["default"]
