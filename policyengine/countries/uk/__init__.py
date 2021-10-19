@@ -5,8 +5,8 @@ from openfisca_uk_data import FRS_WAS_Imputation
 from policyengine.api.general import PolicyEngineResultsConfig
 from policyengine.countries.country import PolicyEngineCountry
 from policyengine.countries.uk.default_reform import create_default_reform
-from policyengine.countries.uk.default_household import DEFAULT_HOUSEHOLD
 
+UK_FOLDER = Path(__file__).parent
 
 class UKResultsConfig(PolicyEngineResultsConfig):
     net_income_variable: str = "net_income"
@@ -25,9 +25,9 @@ class UK(PolicyEngineCountry):
     Microsimulation = Microsimulation
     default_dataset = FRS_WAS_Imputation
     default_reform = create_default_reform()
-    parameter_file = Path(__file__).parent / "reform_parameters.yaml"
-    default_situation = DEFAULT_HOUSEHOLD
-    entity_hierarchy = ("household", "benunit", "person")
+    parameter_file = UK_FOLDER / "reform_parameters.yaml"
+    default_household_file = UK_FOLDER / "default_household.yaml"
+    entity_hierarchy_file = UK_FOLDER / "entities.yaml"
     version = "0.2.0"
     results_config = UKResultsConfig
 

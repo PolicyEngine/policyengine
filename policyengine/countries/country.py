@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import Dict, Tuple, Type
+import yaml
 from openfisca_core.taxbenefitsystems.tax_benefit_system import (
     TaxBenefitSystem,
 )
@@ -31,8 +32,8 @@ class PolicyEngineCountry:
     default_reform: type = ()
     parameter_file: Path = None
     default_dataset: type
-    default_situation: dict
-    entity_hierarchy: Tuple[str]
+    default_household_file: Path
+    entity_hierarchy_file: Path
     version: str
 
     results_config: Type[PolicyEngineResultsConfig]
@@ -40,7 +41,7 @@ class PolicyEngineCountry:
     def __init__(self):
         self.default_reform = (
             use_current_parameters(),
-            add_parameter_file(self.parameter_file)
+            add_parameter_file(self.parameter_file.absolute())
             if self.parameter_file is not None
             else (),
             self.default_reform,
@@ -67,8 +68,14 @@ class PolicyEngineCountry:
             variables=self.variables,
             default_household=self.default_household,
         )
+        with open(self.entity_hierarchy_file) as f:
+            self.entities = dict(
+                entities=build_entities(self.baseline.simulation.tax_benefit_system),
+                hierarchy=yaml.safe_load(f)
+            )
 
-        self.entities = build_entities(self.baseline.simulation.tax_benefit_system)
+        with open(self.default_household_file) as f:
+            self.default_household_data = yaml.safe_load(f)
 
     def population_reform(self, params: dict = None):
         reform = create_reform(params, self.policyengine_parameters)
@@ -128,10 +135,10 @@ class PolicyEngineCountry:
         return self.policyengine_parameters
 
     def entities(self, params=None):
-        return {"entities": self.entities, "hierarchy": self.entity_hierarchy}
+        return self.entities
 
     def variables(self, params=None):
         return self.policyengine_variables
 
     def default_household(self, params=None):
-        return self.default_situation
+        return self.default_household_data

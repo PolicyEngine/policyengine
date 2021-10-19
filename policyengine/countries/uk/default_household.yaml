@@ -1,0 +1,11 @@
+household:
+  Your household:
+    benunit:
+      Your immediate family:
+        adult:
+          You: {}
+        child: {}
+takenNames:
+  - Your household
+  - Your immediate family
+  - You
