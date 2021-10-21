@@ -128,7 +128,7 @@ export class HouseholdPage extends React.Component {
 			}
 		}
 		household.num_entities++;
-		this.props.setHousehold(household);
+		this.props.setHouseholdStructure(household);
 	}
 
 	removeEntity(name, parents) {
@@ -138,7 +138,7 @@ export class HouseholdPage extends React.Component {
 			node = node[parent];
 		}
 		delete node[name];
-		this.setState({selected: "household,0,benunit,1,adult,2"}, () => this.props.setHousehold(household));
+		this.setState({selected: "household,0,benunit,1,adult,2"}, () => this.props.setHouseholdStructure(household));
 	}
 
 	setValue(variable, value) {
@@ -148,7 +148,7 @@ export class HouseholdPage extends React.Component {
 			node = node[parent];
 		}
 		node.variables[variable].value = value;
-		this.props.setHousehold(household);
+		this.props.setHouseholdValues(household);
 	}
 
 	selectEntity(path) {
@@ -195,7 +195,8 @@ export default function Household(props) {
 			household={props.household}
 			entities={props.entities}
 			selected={props.selected}
-			setHousehold={props.setHousehold}
+			setHouseholdValues={props.setHouseholdValues}
+			setHouseholdStructure={props.setHouseholdStructure}
 			setPage={props.setPage}
 			baseURL={props.baseURL}
 		/>;

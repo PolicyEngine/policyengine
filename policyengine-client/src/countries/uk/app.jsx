@@ -19,8 +19,10 @@ export class PolicyEngineUK extends React.Component {
         super(props);
         this.setPolicy = this.setPolicy.bind(this);
         this.validatePolicy = this.validatePolicy.bind(this);
-        this.setHousehold = this.setHousehold.bind(this);
-        this.validateHousehold = this.validateHousehold.bind(this);
+        this.setHouseholdValues = this.setHouseholdValues.bind(this);
+        this.setHouseholdStructure = this.setHouseholdStructure.bind(this);
+        this.validateHousehold = this.validateHouseholdValues.bind(this);
+        this.validateHousehold = this.validateHouseholdStructure.bind(this);
         this.fetchData = this.fetchData.bind(this);
         this.state = {
             policy: {},
@@ -49,7 +51,7 @@ export class PolicyEngineUK extends React.Component {
                             variables: variables,
                         }, () => {
                             let {policy, policyValid} = this.validatePolicy(policyData);
-                            let {household, householdValid} = this.validateHousehold(householdData);
+                            let {household, householdValid} = this.validateHouseholdStructure(householdData);
                             this.setState({
                                 policy: policy,
                                 entities: entities,
@@ -83,12 +85,21 @@ export class PolicyEngineUK extends React.Component {
 		return {policy: policy, policyValid: true};
     }
 
-    setHousehold(householdData) {
-        const { household, householdValid } = this.validateHousehold(householdData);
+    setHouseholdStructure(householdData) {
+        const { household, householdValid } = this.validateHouseholdStructure(householdData);
 		this.setState({household: household, householdValid: householdValid, householdVisited: true});
     }
 
-    validateHousehold(householdData) {
+    setHouseholdValues(householdData) {
+        const { household, householdValid } = this.validateHouseholdValues(householdData);
+		this.setState({household: household, householdValid: householdValid, householdVisited: true});
+    }
+
+    validateHouseholdValues(householdData) {
+        return {household: householdData, householdValid: true}
+    }
+
+    validateHouseholdStructure(householdData) {
         // First, check for any empty families - remove them
         let household = householdData.household[0];
         for(let benunit in household.benunit) {
@@ -219,7 +230,8 @@ export class PolicyEngineUK extends React.Component {
 								household={this.state.household}
                                 entities={this.state.entities}
 								selected={"household,0,benunit,1,adult,2"}
-								setHousehold={this.setHousehold}
+								setHouseholdValues={this.setHouseholdValues}
+                                setHouseholdStructure={this.setHouseholdStructure}
 								setPage={setPage}
                                 baseURL="/uk"
                                 fetchDone={this.state.fetchDone}
