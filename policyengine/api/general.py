@@ -13,3 +13,4 @@ class PolicyEngineResultsConfig:
     working_age_variable: str
     senior_variable: str
     person_variable: str
+    earnings_variable: str

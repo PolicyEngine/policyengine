@@ -43,6 +43,9 @@ export function getFormatter(parameter, currency) {
 
 export function Parameter(props) {
 	try {
+		if(props.param.hidden) {
+			return <></>;
+		}
 		let formatter = getFormatter(props.param, props.currency);
 		let parser = getParser(props.param, props.currency);
 		let component;
@@ -52,7 +55,7 @@ export function Parameter(props) {
 					onChange={(value) => {
 						props.setPolicy(props.name, value);
 					}}
-					checked={props.param.value}
+					checked={props.param.value || props.param.default}
 					disabled={props.disabled}
 				/>
 			);
@@ -62,14 +65,16 @@ export function Parameter(props) {
 					onChange={(value) => {
 						props.setPolicy(props.name, value);
 					}}
-					checked={props.param.value}
+					checked={props.param.value || props.param.default}
 					className="switch-red"
 					disabled={props.disabled}
 				/>
 			);
 		} else if(props.param.type === "category") {
 			component = (
-				<Select placeholder={props.param.default} disabled={props.disabled}>
+				<Select placeholder={props.param.default} disabled={props.disabled} onSelect={(value) => {
+					props.setPolicy(props.name, value);
+				}}>
 					{props.param.options.map(value => <Option key={value} value={value}>{value}</Option>)}
 				</Select>
 			);
@@ -77,7 +82,7 @@ export function Parameter(props) {
 			component = (
 				<>
 					<Slider
-						value={props.param.value}
+						value={props.param.value || props.param.default}
 						min={props.param.min ? props.param.min : 0}
 						max={props.param.max ? props.param.max : 1}
 						onChange={(value) => {
@@ -88,7 +93,7 @@ export function Parameter(props) {
 						disabled={props.disabled}
 					/>
 					<InputNumber
-						value={props.param.value}
+						value={props.param.value || props.param.default}
 						min={props.param.min ? props.param.min : 0}
 						max={props.param.max ? props.param.max : 1}
 						formatter={formatter}

@@ -6,7 +6,11 @@ import plotly.express as px
 import pandas as pd
 import json
 from rdbl import gbp
-from policyengine.api import Microsimulation, IndividualSim, PolicyEngineResultsConfig
+from policyengine.api import (
+    Microsimulation,
+    IndividualSim,
+    PolicyEngineResultsConfig,
+)
 from typing import Type, Union
 
 
@@ -118,7 +122,7 @@ HH_LABELS = dict(
 def tax_benefit_waterfall_data(
     baseline: Union[Microsimulation, IndividualSim],
     reformed: Union[Microsimulation, IndividualSim],
-    config: Type[PolicyEngineResultsConfig]
+    config: Type[PolicyEngineResultsConfig],
 ) -> pd.DataFrame:
     """Generates data for tax benefit waterfall charts.
 
@@ -133,7 +137,9 @@ def tax_benefit_waterfall_data(
     is_pop = isinstance(baseline, Microsimulation)
     multipliers = [1, -1] if is_pop else [-1, 1]
     effects = [
-        (reformed.calc(var).sum() - baseline.calc(var).sum()) * multiplier
+        float(
+            (reformed.calc(var).sum() - baseline.calc(var).sum()) * multiplier
+        )
         for var, multiplier in zip(GROUPS, multipliers)
     ]
     res = waterfall_data(effects, GROUPS)
@@ -186,7 +192,7 @@ def hover_label(component: str, amount: float, is_pop: bool) -> str:
 def waterfall_chart(
     baseline: Union[Microsimulation, IndividualSim],
     reformed: Union[Microsimulation, IndividualSim],
-    config: Type[PolicyEngineResultsConfig]
+    config: Type[PolicyEngineResultsConfig],
 ) -> dict:
     """Create a waterfall chart for tax and benefit changes.
 

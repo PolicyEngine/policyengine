@@ -12,17 +12,16 @@ import Policy from "../../common/pages/policy";
 import PopulationImpact from "../../common/pages/populationImpact";
 import AutoUBI from "./components/autoUBI";
 import Household from "../../common/pages/household";
+import HouseholdImpact from "../../common/pages/householdImpact";
 
 export class PolicyEngineUK extends React.Component {
     constructor(props) {
         super(props);
         this.setPolicy = this.setPolicy.bind(this);
         this.validatePolicy = this.validatePolicy.bind(this);
+        this.setHousehold = this.setHousehold.bind(this);
         this.validateHousehold = this.validateHousehold.bind(this);
-        this.fetchPolicy = this.fetchPolicy.bind(this);
-        this.fetchHousehold = this.fetchHousehold.bind(this);
-        this.fetchEntities = this.fetchEntities.bind(this);
-        this.fetchVariables = this.fetchVariables.bind(this);
+        this.fetchData = this.fetchData.bind(this);
         this.state = {
             policy: {},
             household: {},
@@ -30,31 +29,42 @@ export class PolicyEngineUK extends React.Component {
             entities: {},
             householdVisited: false,
             currentPage: "policy",
-            invalid: false,
+            householdValid: false,
+            policyValid: false,
+            fetchDone: false,
         }
     }
 
     componentDidMount() {
-        this.fetchPolicy();
-        this.fetchHousehold();
-        this.fetchEntities();
-        this.fetchVariables();
+        this.fetchData();
     }
 
-    fetchPolicy() {
-        fetch(this.props.api_url + "/parameters").then(res => res.json()).then(data => {this.setState({policy: urlToPolicy(data)});});
-    }
-
-    fetchHousehold() {
-        fetch(this.props.api_url + "/default-household").then(res => res.json()).then(data => {this.setState({household: data});});
-    }
-
-    fetchEntities() {
-        fetch(this.props.api_url + "/entities").then(res => res.json()).then(data => {this.setState({entities: data});});
-    }
-
-    fetchVariables() {
-        fetch(this.props.api_url + "/variables").then(res => res.json()).then(data => {this.setState({variables: data});});
+    fetchData() {
+        fetch(this.props.api_url + "/parameters").then(res => res.json()).then(policyData => {
+            fetch(this.props.api_url + "/entities").then(res => res.json()).then(entities => {
+                fetch(this.props.api_url + "/variables").then(res => res.json()).then(variables => {
+                    fetch(this.props.api_url + "/default-household").then(res => res.json()).then(householdData => {
+                        this.setState({
+                            entities: entities,
+                            variables: variables,
+                        }, () => {
+                            let {policy, policyValid} = this.validatePolicy(policyData);
+                            let {household, householdValid} = this.validateHousehold(householdData);
+                            this.setState({
+                                policy: policy,
+                                entities: entities,
+                                variables: variables,
+                                household: household,
+                                policyValid: policyValid,
+                                householdValid: householdValid,
+                                fetchDone: true,
+                            });
+                        })
+                        
+                    });
+                });
+            });
+        });
     }
 
     setPolicy(name, value) {
@@ -68,19 +78,22 @@ export class PolicyEngineUK extends React.Component {
         if(policy.higher_threshold.value === policy.add_threshold.value) {
 			policy.higher_threshold.error = "The higher rate threshold must be different than the additional rate threshold.";
 			policy.add_threshold.error = "The additional rate threshold must be different than the higher rate threshold.";
-			return {policy: policy, invalid: true};
+			return {policy: policy, policyValid: false};
 		}
-		return {policy: policy, invalid: false};
+		return {policy: policy, policyValid: true};
     }
 
-    validateHousehold() {
-        console.log(this.state.household);
-        let householdData = this.state.household;
+    setHousehold(householdData) {
+        const { household, householdValid } = this.validateHousehold(householdData);
+		this.setState({household: household, householdValid: householdValid, householdVisited: true});
+    }
+
+    validateHousehold(householdData) {
         // First, check for any empty families - remove them
-        let household = householdData.household["Your household"];
+        let household = householdData.household[0];
         for(let benunit in household.benunit) {
             if(Object.keys(household.benunit[benunit].adult || {}).length + Object.keys(household.benunit[benunit].child || {}).length === 0) {
-                delete householdData.household["Your household"].benunit[benunit];
+                delete householdData.household[0].benunit[benunit];
             }
         }
         // Next, apply default names
@@ -92,10 +105,10 @@ export class PolicyEngineUK extends React.Component {
         const benunitNames = Object.keys(household.benunit);
         let adultNames;
         let childNames;
+        household.label = "Your household";
         for(let i = 0; i < benunitNames.length; i++) {
             household.benunit[benunitNames[i]].label = benunitDefaultNames[i];
         }
-        console.log(household);
         if(benunitNames.length > 0) {
             adultNames = Object.keys(household.benunit[benunitNames[0]].adult);
             for(let i = 0; i < adultNames.length; i++) {
@@ -116,7 +129,45 @@ export class PolicyEngineUK extends React.Component {
                 household.benunit[benunitNames[1]].child[childNames[i]].label = secondBenunitChildNames[i];
             }
         }
-        this.setState({household: householdData});
+        // Finally, ensure all default values are set
+        let varHolder;
+        if(Object.keys(this.state.variables).length > 0) {
+            varHolder = household;
+            if(!varHolder.variables) {
+                varHolder.variables = {}
+            }
+            for(let variable of Object.values(JSON.parse(JSON.stringify(this.state.variables)) || {}).filter(v => v.entity === "household")) {
+                varHolder.variables[variable.short_name] = Object.assign(variable, (varHolder.variables[variable.short_name] || {}));
+            }
+            for(let benunit in household.benunit) {
+                varHolder = household.benunit[benunit];
+                if(!varHolder.variables) {
+                    varHolder.variables = {}
+                }
+                for(let variable of Object.values(JSON.parse(JSON.stringify(this.state.variables)) || {}).filter(v => v.entity === "benunit")) {
+                    varHolder.variables[variable.short_name] = Object.assign(variable, (varHolder.variables[variable.short_name] || {}));
+                }
+                for(let adult in household.benunit[benunit].adult) {
+                    varHolder = household.benunit[benunit].adult[adult];
+                    if(!varHolder.variables) {
+                        varHolder.variables = {}
+                    }
+                    for(let variable of Object.values(JSON.parse(JSON.stringify(this.state.variables)) || {}).filter(v => v.entity === "person").map(v => Object.assign(v, (v.roles.adult || {})))) {
+                        varHolder.variables[variable.short_name] = Object.assign(variable, (varHolder.variables[variable.short_name] || {}));
+                    }
+                }
+                for(let child in household.benunit[benunit].child) {
+                    varHolder = household.benunit[benunit].child[child];
+                    if(!varHolder.variables) {
+                        varHolder.variables = {}
+                    }
+                    for(let variable of Object.values(JSON.parse(JSON.stringify(this.state.variables)) || {}).filter(v => v.entity === "person").map(v => Object.assign(v, (v.roles.child || {})))) {
+                        varHolder.variables[variable.short_name] = Object.assign(variable, (varHolder.variables[variable.short_name] || {}));
+                    }                
+                }
+            }
+        }
+        return {household: householdData, householdValid: true};
     }
 
     render() {
@@ -144,7 +195,7 @@ export class PolicyEngineUK extends React.Component {
                                 setPolicy={this.setPolicy}
                                 overrides={{autoUBI: <AutoUBI />}}
                                 setPage={setPage}
-                                invalid={this.state.invalid}
+                                invalid={!this.state.policyValid}
                                 baseURL="/uk"
                             />
                         </Route>
@@ -162,15 +213,26 @@ export class PolicyEngineUK extends React.Component {
                             <Household
                                 api_url={this.props.api_url}
                                 policy={this.state.policy}
-                                defaultOpenKeys={["Your household_", "Your immediate family_"]}
+                                defaultOpenKeys={["0_", "1_"]}
                                 variables={this.state.variables}
                                 currency="£"
 								household={this.state.household}
                                 entities={this.state.entities}
-								selected="You"
-								setHousehold={household => {this.setState({household: household, householdEntered: true}, () => this.validateHousehold())}}
+								selected={"household,0,benunit,1,adult,2"}
+								setHousehold={this.setHousehold}
 								setPage={setPage}
                                 baseURL="/uk"
+                                fetchDone={this.state.fetchDone}
+                            />
+                        </Route>
+                        <Route path="/uk/household-impact">
+                            <HouseholdImpact
+                                api_url={this.props.api_url}
+                                policy={this.state.policy}
+                                household={this.state.household}
+                                baseURL="/uk"
+                                setHouseholdVisited={() => this.setState({householdVisited: true})}
+                                householdValid={this.state.householdValid}
                             />
                         </Route>
                     </Switch>

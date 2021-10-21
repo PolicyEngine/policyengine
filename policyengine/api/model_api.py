@@ -1,21 +1,27 @@
 from openfisca_core.model_api import (
-    DAY, MONTH, YEAR, ETERNITY,
+    DAY,
+    MONTH,
+    YEAR,
+    ETERNITY,
     Variable as CoreVariable,
     Reform,
-    max_, min_
+    max_,
+    min_,
 )
 from typing import Callable
 import numpy as np
 
+
 class Variable(CoreVariable):
-    def __init__(self, baseline_variable = None):
+    def __init__(self, baseline_variable=None):
         try:
-            CoreVariable.__init__(self, baseline_variable = baseline_variable)
+            CoreVariable.__init__(self, baseline_variable=baseline_variable)
         except ValueError as e:
             if "metadata" not in str(e):
                 raise e
-        
+
         self.is_neutralized = False
+
 
 np.random.seed(0)
 

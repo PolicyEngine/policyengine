@@ -2,22 +2,10 @@
 The PolicyEngine server logic (Flask-based).
 """
 from pathlib import Path
-from typing import Callable, Dict, Tuple, Type
+from typing import Tuple, Type
 from flask import Flask, request, send_from_directory
 from flask_cors import CORS
 from time import time
-from openfisca_core.taxbenefitsystems.tax_benefit_system import (
-    TaxBenefitSystem,
-)
-from policyengine.metrics.population import headline_metrics
-from policyengine.utils.reforms import (
-    add_parameter_file,
-    create_reform,
-    get_PE_parameters,
-    use_current_parameters,
-)
-from policyengine.api.microsimulation import Microsimulation
-from policyengine.api.hypothetical import IndividualSim
 from policyengine.utils.general import (
     get_cached_result,
     after_request_func,
@@ -80,7 +68,8 @@ class PolicyEngine:
                 for decorator in (
                     *self.api_decorators,
                     self.app.route(
-                        f"/{country.name}/api/{route.replace('_', '-')}"
+                        f"/{country.name}/api/{route.replace('_', '-')}",
+                        methods=["GET", "POST"],
                     ),
                 ):
                     fn = decorator(fn)
@@ -109,6 +98,7 @@ class PolicyEngine:
         self._init_cache()
         self._init_forwarding()
         self.app.logger.info("Initialisation complete.")
+
 
 app = PolicyEngine().app
 app.run()

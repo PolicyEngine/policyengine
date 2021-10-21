@@ -1,8 +1,11 @@
 household:
-  Your household:
+  0:
+    variables: {}
     benunit:
-      Your immediate family:
+      1:
+        variables: {}
         adult:
-          You: {}
+          2:
+            variables: {}
         child: {}
 num_entities: 3

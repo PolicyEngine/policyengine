@@ -3,22 +3,14 @@ from openfisca_uk.entities import Person, Household
 from policyengine.api.general import ReformType
 from openfisca_core.model_api import Variable, YEAR, Reform
 
-DEFAULT_SITUATION = {
-    "people": {
-        "You": {},
-    },
-    "benunits": {
-        "Your immediate family": {},
-    },
-    "households": {
-        "Your household": {},
-    }
-}
-
 
 def create_default_reform() -> ReformType:
     baseline_system = CountryTaxBenefitSystem()
-    baseline_variables = {name: type(variable) for name, variable in baseline_system.variables.items()}
+    baseline_variables = {
+        name: type(variable)
+        for name, variable in baseline_system.variables.items()
+    }
+
     class land_value(Variable):
         entity = Household
         label = "Land value"

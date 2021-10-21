@@ -37,7 +37,7 @@ def structural(variable: Type[Variable]) -> Reform:
 
 def abolish(variable: str) -> Reform:
     return type(
-        f"abolish_{variable.__name__}",
+        f"abolish_{variable}",
         (Reform,),
         dict(apply=lambda self: self.neutralize_variable(variable)),
     )
@@ -184,12 +184,13 @@ def create_reform(
     reforms = []
     names = []
     for param, value in params.items():
-        metadata = policyengine_parameters[param]
-        names += [metadata["title"]]
-        if "abolish" in param:
-            reforms += [abolish(metadata["variable"])]
-        else:
-            reforms += [parametric(metadata["parameter"], value)]
+        if param != "household":
+            metadata = policyengine_parameters[param]
+            names += [metadata["title"]]
+            if "abolish" in param:
+                reforms += [abolish(metadata["variable"])]
+            else:
+                reforms += [parametric(metadata["parameter"], value)]
     return tuple(reforms)
 
 

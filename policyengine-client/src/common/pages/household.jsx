@@ -1,7 +1,8 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { Overview } from "../overview";
-import { Button, Menu, message } from "antd";
+import { Button, Menu } from "antd";
+import { Parameter } from "../parameter";
 
 const { SubMenu } = Menu;
 
@@ -9,7 +10,12 @@ function capitalizeFirstLetter(string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+function hasItems(object) {
+	return Object.keys(object).length > 0;
+}
+
 function EntityMenu(props) {
+	const key = props.parents.concat([props.entityType, props.name]).join(",");
 	if(props.entities.hierarchy[props.entityType].is_group) {
 		let children = [];
 		let buttons = [];
@@ -25,23 +31,24 @@ function EntityMenu(props) {
 					entityType: childType,
 					name: childName,
 					parents: newParents,
+					selectEntity: props.selectEntity,
 				}));
 			}
 			if(Object.keys(props.entity[childType]).length < childMeta.max) {
 				buttons.push(
-					<Menu.Item key={props.name + childType}><Button onClick={() => props.addEntity(childType, newParents)}>Add {childMeta.label}</Button></Menu.Item>
+					<Menu.Item disabled={true} key={props.name + childType}><Button onClick={() => props.addEntity(childType, newParents)}>Add {childMeta.label}</Button></Menu.Item>
 				);
 			}
 		}
 		return (
 			<SubMenu key={props.name + "_"} title={props.entity.label || props.name}>
-				<Menu.Item key={props.name}>{capitalizeFirstLetter(props.entities.hierarchy[props.entityType].label)}</Menu.Item>
+				<Menu.Item onClick={() => props.selectEntity(key)} key={key}>{capitalizeFirstLetter(props.entities.hierarchy[props.entityType].label)}</Menu.Item>
 				{children}
 				{buttons}
 			</SubMenu>
 		);
 	} else {
-		return <Menu.Item key={props.name}>{props.entity.label ||props.name}<Button onClick={() => props.removeEntity(props.name, props.parents.concat([props.entityType]))} style={{float: "right", marginTop: 5}}>Remove</Button></Menu.Item>;
+		return <Menu.Item onClick={() => props.selectEntity(key)} key={key}>{props.entity.label || props.name}<Button hidden={props.entity.label === "You"} onClick={() => props.removeEntity(props.name, props.parents.concat([props.entityType]))} style={{float: "right", marginTop: 5}}>Remove</Button></Menu.Item>;
 	}
 }
 
@@ -55,9 +62,8 @@ function HouseholdMenu(props) {
 	return (
 		<Menu
 			mode="inline"
-			onClick={e => props.selectEntity(e.key)}
 			defaultOpenKeys={props.defaultOpenKeys}
-			defaultSelectedKeys={[props.selected]}
+			selectedKeys={[props.selected]}
 		>
 			{
 				EntityMenu({
@@ -68,18 +74,37 @@ function HouseholdMenu(props) {
 					entityType: entityType,
 					name: name,
 					parents: [],
+					selectEntity: props.selectEntity,
 				})
 			}
 		</Menu>
 	);
 }
 
-export default class Household extends React.Component {
+function HouseholdVariables(props) {
+	let household = props.household;
+	let node = household;
+	try {
+		for(let parent of props.selected.split(",")) {
+			node = node[parent];
+		}
+	} catch {
+		return <></>;
+	}
+	if(!node || !node.variables) {
+		return <></>;
+	}
+	return Object.values(node.variables).map(variable => <Parameter name={variable.short_name} key={variable.short_name} setPolicy={props.setValue} currency={props.currency} param={variable}/>)
+}
+
+export class HouseholdPage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {selected: this.props.selected, household: props.household, invalid: false};
 		this.addEntity = this.addEntity.bind(this);
 		this.removeEntity = this.removeEntity.bind(this);
+		this.setValue = this.setValue.bind(this);
+		this.selectEntity = this.selectEntity.bind(this);
 	}
 
 	addEntity(type, parents) {
@@ -113,22 +138,68 @@ export default class Household extends React.Component {
 			node = node[parent];
 		}
 		delete node[name];
+		this.setState({selected: "household,0,benunit,1,adult,2"}, () => this.props.setHousehold(household));
+	}
+
+	setValue(variable, value) {
+		let household = this.props.household;
+		let node = household;
+		for(let parent of this.state.selected.split(",")) {
+			node = node[parent];
+		}
+		node.variables[variable].value = value;
 		this.props.setHousehold(household);
 	}
 
+	selectEntity(path) {
+		let household = this.props.household;
+		let node = household;
+		try {
+			for(let parent of path.split(",")) {
+				node = node[parent];
+			}
+		} catch {
+			return;
+		}
+		this.setState({selected: path});
+	}
+
 	render() {
+		if(!hasItems(this.props.entities) || !hasItems(this.props.household) || !hasItems(this.props.variables)) {
+			return <Row></Row>;
+		}
 		return (
 			<Row>
 				<Col xl={3}>
-					<HouseholdMenu defaultOpenKeys={this.props.defaultOpenKeys} addEntity={this.addEntity} removeEntity={this.removeEntity} selectEntity={entity => this.setState({selected: entity})} selected={this.state.selected} household={this.props.household} entities={this.props.entities} />
+					<HouseholdMenu defaultOpenKeys={this.props.defaultOpenKeys} addEntity={this.addEntity} removeEntity={this.removeEntity} selectEntity={this.selectEntity} selected={this.state.selected} household={this.props.household} entities={this.props.entities} />
 				</Col>
 				<Col xl={6}>
-					{this.state.selected}
+					<HouseholdVariables setValue={this.setValue} currency={this.props.currency} household={this.props.household} selected={this.state.selected} />
 				</Col>
 				<Col xl={3}>
-					<Overview page="household" policy={this.props.policy} setPage={this.props.setPage} household={!this.state.invalid ? this.props.household : null}/>
+					<Overview page="household" policy={this.props.policy} setPage={this.props.setPage} baseURL={this.props.baseURL} household={!this.state.invalid ? this.props.household : null}/>
 				</Col>
 			</Row>
 		);
+	}
+}
+
+export default function Household(props) {
+	if(props.fetchDone) {
+		return <HouseholdPage 
+			api_url={props.api_url}
+			policy={props.policy}
+			defaultOpenKeys={props.defaultOpenKeys}
+			variables={props.variables}
+			currency={props.currency}
+			household={props.household}
+			entities={props.entities}
+			selected={props.selected}
+			setHousehold={props.setHousehold}
+			setPage={props.setPage}
+			baseURL={props.baseURL}
+		/>;
+	} else {
+		return <></>;
 	}
 }

@@ -159,7 +159,9 @@ def spending(
 
 
 def population_waterfall_chart(
-    baseline: Microsimulation, reformed: Microsimulation, config: Type[PolicyEngineResultsConfig]
+    baseline: Microsimulation,
+    reformed: Microsimulation,
+    config: Type[PolicyEngineResultsConfig],
 ) -> dict:
     """Waterfall chart showing a reform's budgetary impact.
 

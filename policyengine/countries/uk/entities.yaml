@@ -4,7 +4,7 @@ household:
   children:
     - benunit
 benunit:
-  label: benefit unit
+  label: family
   is_group: true
   max: 2
   initialiser: adult
