@@ -94,8 +94,6 @@ export function Parameter(props) {
 					/>
 					<InputNumber
 						value={props.param.value || props.param.default}
-						min={props.param.min ? props.param.min : 0}
-						max={props.param.max ? props.param.max : 1}
 						formatter={formatter}
 						parser={parser}
 						onChange={(value) => {
