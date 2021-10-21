@@ -177,7 +177,7 @@ export class HouseholdPage extends React.Component {
 					<HouseholdVariables setValue={this.setValue} currency={this.props.currency} household={this.props.household} selected={this.state.selected} />
 				</Col>
 				<Col xl={3}>
-					<Overview page="household" policy={this.props.policy} setPage={this.props.setPage} baseURL={this.props.baseURL} household={!this.state.invalid ? this.props.household : null}/>
+					<Overview page="household" currency={this.props.currency} policy={this.props.policy} setPage={this.props.setPage} baseURL={this.props.baseURL} household={!this.state.invalid ? this.props.household : null}/>
 				</Col>
 			</Row>
 		);

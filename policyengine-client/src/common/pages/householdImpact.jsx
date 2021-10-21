@@ -4,6 +4,7 @@ import { Row, Col } from "react-bootstrap";
 import React from "react";
 import { Overview } from "../overview";
 import { LoadingResultsPane, Chart } from "../results";
+import { Redirect } from "react-router";
 
 const { Panel } = Collapse;
 
@@ -112,7 +113,7 @@ class HouseholdImpactPage extends React.Component {
 					}
 				</Col>
 				<Col xl={3}>
-					<Overview page="household-impact" baseURL={this.props.baseURL} policy={this.props.policy} setPage={this.props.setPage} household={this.props.household}/>
+					<Overview page="household-impact" currency={this.props.currency} baseURL={this.props.baseURL} policy={this.props.policy} setPage={this.props.setPage} household={this.props.household}/>
 				</Col>
 			</Row>
 		);
@@ -127,8 +128,9 @@ export default function HouseholdImpact(props) {
 			setPage={props.setPage}
 			api_url={props.api_url}
 			setHouseholdVisited={props.setHouseholdVisited}
+			currency={props.currency}
 		/>;
 	} else {
-		return <></>;
+		return <Redirect to={props.baseURL + "/household"} />
 	}
 }

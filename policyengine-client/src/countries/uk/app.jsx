@@ -1,5 +1,5 @@
 import React from "react";
-import { urlToPolicy } from "../../common/url";
+import { policyToURL, urlToPolicy } from "../../common/url";
 import { PolicyEngineWrapper, BodyWrapper } from "../../common/layout";
 import { Header } from "../../common/header";
 import { Footer } from "../../common/footer";
@@ -50,7 +50,7 @@ export class PolicyEngineUK extends React.Component {
                             entities: entities,
                             variables: variables,
                         }, () => {
-                            let {policy, policyValid} = this.validatePolicy(policyData);
+                            let {policy, policyValid} = this.validatePolicy(urlToPolicy(policyData));
                             let {household, householdValid} = this.validateHouseholdStructure(householdData);
                             this.setState({
                                 policy: policy,
@@ -204,7 +204,7 @@ export class PolicyEngineUK extends React.Component {
                                 open={["/Tax", "/Tax/Income Tax", "/Benefit", "/UBI Center"]}
                                 currency="£"
                                 setPolicy={this.setPolicy}
-                                overrides={{autoUBI: <AutoUBI />}}
+                                overrides={{autoUBI: <AutoUBI api_url="http://localhost:5000/uk/api"/>}}
                                 setPage={setPage}
                                 invalid={!this.state.policyValid}
                                 baseURL="/uk"
@@ -245,11 +245,27 @@ export class PolicyEngineUK extends React.Component {
                                 baseURL="/uk"
                                 setHouseholdVisited={() => this.setState({householdVisited: true})}
                                 householdValid={this.state.householdValid}
+                                currency="£"
                             />
                         </Route>
                     </Switch>
                 </BodyWrapper>
                 <Footer country="uk" />
+                {
+                    this.state.fetchDone ?
+                        <>
+                            <Route path="/uk/population-results">
+                                <Redirect to={policyToURL("/uk/population-impact", urlToPolicy(this.state.policy))} />
+                            </Route>
+                            <Route path="/uk/situation">
+                                <Redirect to={policyToURL("/uk/household", urlToPolicy(this.state.policy))} />
+                            </Route>
+                            <Route path="/uk/situation-results">
+                                <Redirect to={policyToURL("/uk/household", urlToPolicy(this.state.policy))} />
+                            </Route>
+                        </> :
+                        null
+                }
             </PolicyEngineWrapper>
         );
     }

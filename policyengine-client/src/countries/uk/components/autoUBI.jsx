@@ -13,10 +13,10 @@ export default class AutoUBI extends React.Component {
 		const submission = {};
 		for (const key in this.props.policy) {
 			if(this.props.policy[key].value !== this.props.policy[key].default) {
-				submission["policy_" + key] = this.props.policy[key].value;
+				submission[key] = this.props.policy[key].value;
 			}
 		}
-		let url = new URL("https://uk.policyengine.org/api/ubi");
+		let url = new URL(this.props.api_url + "/ubi");
 		url.search = new URLSearchParams(submission).toString();
 		this.setState({waiting: true}, () => {
 			fetch(url)

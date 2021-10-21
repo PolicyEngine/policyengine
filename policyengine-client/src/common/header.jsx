@@ -11,27 +11,57 @@ export function Header(props) {
 		<Affix offsetTop={0}>
 			<div style={{backgroundColor: "#002766"}}>
 				<Switch>
-                    {
-                        [
-                            "policy", 
-                            "population-impact", 
-                            "household",
-                            "household-impact",
-							"faq",
-                        ].map(page => (
-                            <Route path={`/${props.country}/${page}`} key={page}>
-                                <MainNavigation
-                                    beta={props.beta}
-                                    country={props.country}
-                                    policy={props.policy}
-                                    household={props.household}
-                                    selected={page}
-                                    baseUrl={`/${props.country}`}
-									faq={page === "faq"}
-                                />
-                            </Route>
-                        ))
-                    }
+					<Route path={`/${props.country}/policy`}>
+						<MainNavigation
+							beta={props.beta}
+							country={props.country}
+							policy={props.policy}
+							household={props.household}
+							selected="policy"
+							baseUrl={`/${props.country}`}
+						/>
+					</Route>
+					<Route path={`/${props.country}/population-impact`}>
+						<MainNavigation
+							beta={props.beta}
+							country={props.country}
+							policy={props.policy}
+							household={props.household}
+							selected="population-impact"
+							baseUrl={`/${props.country}`}
+						/>
+					</Route>
+					<Route path={`/${props.country}/household`}>
+						<MainNavigation
+							beta={props.beta}
+							country={props.country}
+							policy={props.policy}
+							household={props.household}
+							selected={"household"}
+							baseUrl={`/${props.country}`}
+						/>
+					</Route>
+					<Route path={`/${props.country}/household-impact`}>
+						<MainNavigation
+							beta={props.beta}
+							country={props.country}
+							policy={props.policy}
+							household={props.household}
+							selected={"household-impact"}
+							baseUrl={`/${props.country}`}
+						/>
+					</Route>
+					<Route path={`/${props.country}/faq`}>
+						<MainNavigation
+							beta={props.beta}
+							country={props.country}
+							policy={props.policy}
+							household={props.household}
+							selected={"faq"}
+							baseUrl={`/${props.country}`}
+							faq
+						/>
+					</Route>
 				</Switch>
 			</div>
 		</Affix>
