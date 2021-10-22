@@ -204,7 +204,7 @@ export class PolicyEngineUK extends React.Component {
                                 open={["/Tax", "/Tax/Income Tax", "/Benefit", "/UBI Center"]}
                                 currency="£"
                                 setPolicy={this.setPolicy}
-                                overrides={{autoUBI: <AutoUBI api_url="http://localhost:5000/uk/api"/>}}
+                                overrides={{autoUBI: <AutoUBI api_url={this.props.api_url}/>}}
                                 setPage={setPage}
                                 invalid={!this.state.policyValid}
                                 baseURL="/uk"

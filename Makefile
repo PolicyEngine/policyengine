@@ -22,3 +22,15 @@ format:
 	black policyengine -l 79
 test:
 	pytest policyengine/tests -vv
+datasets:
+	openfisca-uk-setup --set-default frs_was_imp
+	openfisca-uk-data frs_was_imp download 2019
+deploy: install-server test datasets
+	rm -rf policy_engine_uk/static
+	cd client; npm run build
+	cp -r client/build policy_engine_uk/static
+	y | gcloud app deploy
+test-deploy: install-server test datasets
+	rm -rf policy_engine_uk/static
+	cd client; npm run build
+	cp -r client/build policy_engine_uk/static

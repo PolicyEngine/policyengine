@@ -4,7 +4,7 @@ import yaml
 from openfisca_core.taxbenefitsystems.tax_benefit_system import (
     TaxBenefitSystem,
 )
-from policyengine.api.general import PolicyEngineResultsConfig
+from policyengine.api.general import PolicyEngineResultsConfig, ReformType
 from policyengine.countries.entities import build_entities
 from policyengine.impact.household.charts import (
     budget_chart,
@@ -85,11 +85,12 @@ class PolicyEngineCountry:
         with open(self.default_household_file) as f:
             self.default_household_data = yaml.safe_load(f)
 
+    def _create_reform_sim(self, reform: ReformType) -> Microsimulation:
+        return self.Microsimulation((self.default_reform, reform), dataset=self.default_dataset)
+
     def population_reform(self, params: dict = None):
         reform = create_reform(params, self.policyengine_parameters)
-        reformed = self.Microsimulation(
-            (self.default_reform, reform), dataset=self.default_dataset
-        )
+        reformed = self._create_reform_sim(reform)
         return dict(
             **headline_metrics(self.baseline, reformed, self.results_config),
             decile_chart=decile_chart(

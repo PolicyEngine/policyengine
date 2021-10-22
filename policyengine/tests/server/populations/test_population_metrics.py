@@ -1,19 +1,18 @@
-from openfisca_core.reforms import reform
-from policy_engine_uk.populations.metrics import headline_metrics
-from openfisca_uk import Microsimulation, reforms
-from openfisca_uk_data import FRS_WAS_Imputation, FRS
+from policyengine.impact.population.metrics import headline_metrics
+from policyengine.countries.uk import UK, UKResultsConfig
+from policyengine.utils.reforms import parametric, abolish
 import pytest
 
-baseline = Microsimulation()
+PolicyEngineUK = UK()
 
 reform_examples = (
     (),
-    reforms.structural.abolish("personal_allowance"),
-    reforms.parametric.set_parameter("tax.income_tax.rates.uk[0].rate", 0.21),
-    reforms.parametric.set_parameter(
+    abolish("personal_allowance"),
+    parametric("tax.income_tax.rates.uk[0].rate", 0.21),
+    parametric(
         "benefit.universal_credit.standard_allowance.amount.SINGLE_OLD", 1000
     ),
-    reforms.parametric.set_parameter(
+    parametric(
         "benefit.child_benefit.amount.eldest", 1000
     ),
 )
@@ -36,7 +35,6 @@ EXPECTED_RESULTS = (
     "reform,expected", zip(reform_examples, EXPECTED_RESULTS)
 )
 def test_headline_metrics(reform, expected):
-    reformed = Microsimulation(reform)
-    results = headline_metrics(baseline, reformed)
+    results = headline_metrics(PolicyEngineUK.baseline, PolicyEngineUK._create_reform_sim(reform), UKResultsConfig)
     for result in expected:
         assert expected[result][0] <= results[result] <= expected[result][1]

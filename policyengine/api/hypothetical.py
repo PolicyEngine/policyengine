@@ -28,7 +28,7 @@ class IndividualSim:
         self.reform = reform
         self.system = self.tax_benefit_system()
         self.sim_builder = SimulationBuilder()
-        self.entity_names = {var.key: var for var in self.system.entities}
+        self.entities = {var.key: var for var in self.system.entities}
         self.apply_reform((self.pre_reform, self.reform, self.post_reform))
         self.situation_data = {
             entity.plural: {} for entity in self.system.entities
@@ -38,7 +38,7 @@ class IndividualSim:
 
         # Add add_entity functions
 
-        for entity in self.entity_names:
+        for entity in self.entities:
             setattr(
                 self, f"add_{entity}", partial(self.add_data, entity=entity)
             )
@@ -54,11 +54,11 @@ class IndividualSim:
         Args:
             reform (ReformType): The reform to apply to the tax-benefit system.
         """
-        for reform in self.reform:
-            if isinstance(reform, tuple):
-                self.apply_reform(reform)
-            else:
-                self.system = reform(self.system)
+        if isinstance(reform, tuple):
+            for subreform in reform:
+                self.apply_reform(subreform)
+        else:
+            self.system = reform(self.system)
 
     def add_data(
         self,
@@ -251,7 +251,7 @@ class IndividualSim:
         period = period or self.year
         if "axes" not in self.situation_data:
             self.situation_data["axes"] = [[]]
-        count = int((max - min) / step)
+        count = int((max - min) / step) + 1
         self.situation_data["axes"][0] += [
             {
                 "count": count,

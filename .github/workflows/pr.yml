@@ -30,3 +30,5 @@ jobs:
         run: make install
       - name: Run the main tests
         run: make test
+      - name: Test deployment
+        run: make test-deploy
