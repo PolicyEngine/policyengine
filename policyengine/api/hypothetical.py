@@ -14,6 +14,8 @@ from functools import partial
 
 class IndividualSim:
     tax_benefit_system: TaxBenefitSystem
+    pre_reform: ReformType = ()
+    post_reform: ReformType = ()
 
     def __init__(self, reform: ReformType = (), year: int = 2021) -> None:
         """Initialises a hypothetical simulation.
@@ -27,7 +29,7 @@ class IndividualSim:
         self.system = self.tax_benefit_system()
         self.sim_builder = SimulationBuilder()
         self.entity_names = {var.key: var for var in self.system.entities}
-        self.apply_reform(self.reform)
+        self.apply_reform((self.pre_reform, self.reform, self.post_reform))
         self.situation_data = {
             entity.plural: {} for entity in self.system.entities
         }

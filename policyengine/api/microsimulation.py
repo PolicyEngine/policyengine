@@ -2,6 +2,7 @@
 Microsimulation interfaces and utility functions.
 """
 from typing import List, Tuple
+import warnings
 from openfisca_core.entities.entity import Entity
 from policyengine.api.general import ReformType
 from microdf.generic import MicroDataFrame
@@ -12,6 +13,10 @@ from openfisca_core.simulation_builder import SimulationBuilder
 from microdf import MicroSeries
 import tables
 from openfisca_core.taxbenefitsystems import TaxBenefitSystem
+import h5py
+import gc
+
+from policyengine.api.model_api import carried_over
 
 
 class Microsimulation:
@@ -19,9 +24,12 @@ class Microsimulation:
     default_dataset: type
     entities: Tuple[Entity]
     default_role: str = "member"
+    pre_reform: ReformType = ()
+    post_reform: ReformType = ()
+    default_year: int = None
 
     def __init__(
-        self, reform: ReformType = (), dataset: type = None, year: int = 2020
+        self, reform: ReformType = (), dataset: type = None, year: int = None
     ):
         """Initialises a microsimulation.
 
@@ -30,14 +38,13 @@ class Microsimulation:
             dataset (type, optional): The dataset to use.
             year (int, optional): The year of the dataset to load. Defaults to 2020.
         """
-        tables.file._open_files.close_all()
         self.reform = reform
         if dataset is None:
             self.dataset = self.default_dataset
         else:
             self.dataset = dataset
         if year is None:
-            self.year = max(dataset.years)
+            self.year = self.default_year or max(self.dataset.years)
         else:
             self.year = year
         self.default_year = year
@@ -68,11 +75,11 @@ class Microsimulation:
         Args:
             reform (ReformType): The reform to apply to the tax-benefit system.
         """
-        for reform in self.reform:
-            if isinstance(reform, tuple):
-                self.apply_reform(reform)
-            else:
-                self.system = reform(self.system)
+        if isinstance(reform, tuple):
+            for subreform in reform:
+                self.apply_reform(subreform)
+        else:
+            self.system = reform(self.system)
 
     def load_dataset(self, dataset: type, year: int) -> None:
         """Loads the dataset with the specified year.
@@ -82,11 +89,25 @@ class Microsimulation:
             year (int): The year of the data to load.
         """
         self.system = self.tax_benefit_system()
-        self.apply_reform(self.reform)
+        data = dataset.load(year)
+
+        class carry_over_by_default(Reform):
+            def apply(s):
+                for var in data.keys():
+                    if var in self.system.variables:
+                        var_cls = type(self.system.variables[var])
+                        s.update_variable(carried_over(var_cls))
+
+        self.apply_reform(
+            (
+                self.pre_reform,
+                self.reform,
+                self.post_reform,
+                carry_over_by_default,
+            )
+        )
         builder = SimulationBuilder()
         builder.create_entities(self.system)
-
-        data = dataset.load(year)
 
         for person_entity in self.person_entity_names:
             builder.declare_person_entity(
@@ -98,21 +119,33 @@ class Microsimulation:
             group = builder.declare_entity(group_entity, primary_keys)
             foreign_keys = np.array(data[f"person_{group_entity}_id"])
             if f"person_{group_entity}_role" in data.keys():
-                roles = np.array(data[f"person_{group_entity}_role"])
+                roles = np.array(data[f"person_{group_entity}_role"]).astype(
+                    str
+                )
+            elif "role" in data.keys():
+                roles = np.array(data["role"]).astype(str)
             else:
-                roles = np.array([self.default_role] * len(foreign_keys))
+                roles = np.array(
+                    [self.default_role] * len(foreign_keys)
+                ).astype(str)
             builder.join_with_persons(group, foreign_keys, roles)
 
         self.simulation = builder.build(self.system)
+        self.simulation.max_spiral_loops = 10
         self.set_input = self.simulation.set_input
-
+        skipped = []
         for variable in data.keys():
             if variable in self.system.variables:
-                self.set_input(
-                    variable,
-                    year,
-                    np.array(data[variable]),
-                )
+                values = np.array(data[variable])
+                target_dtype = self.system.variables[variable].value_type
+                if target_dtype in (Enum, str):
+                    values = values.astype(str)
+                else:
+                    values = values.astype(target_dtype)
+                try:
+                    self.simulation.set_input(variable, year, values)
+                except:
+                    skipped += [variable]
         data.close()
 
     def map_to(
@@ -163,9 +196,9 @@ class Microsimulation:
     def calc(
         self,
         variable: str,
+        period: int = None,
         map_to: str = None,
         how: str = None,
-        period: int = None,
         weighted: bool = True,
     ):
         """Calculates the values of a variable, executing any formulas required.
@@ -181,7 +214,7 @@ class Microsimulation:
             Union[np.array, MicroSeries]: A weighted or unweighted array.
         """
         if period is None:
-            period = self.default_year
+            period = self.year
         var_metadata = self.simulation.tax_benefit_system.variables[variable]
         entity = var_metadata.entity.key
         arr = self.simulation.calculate(variable, period)
@@ -204,9 +237,9 @@ class Microsimulation:
     def df(
         self,
         variables: List[str],
+        period: int = None,
         map_to: str = None,
         how: str = None,
-        period: int = None,
     ) -> MicroDataFrame:
         """Constructs a DataFrame of multiple variables.
 

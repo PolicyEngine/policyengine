@@ -21,4 +21,4 @@ format:
 	autopep8 policyengine -r -i
 	black policyengine -l 79
 test:
-	pytest server/policyengine/tests -vv
+	pytest policyengine/tests -vv
