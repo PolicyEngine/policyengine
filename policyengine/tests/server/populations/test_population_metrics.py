@@ -12,9 +12,7 @@ reform_examples = (
     parametric(
         "benefit.universal_credit.standard_allowance.amount.SINGLE_OLD", 1000
     ),
-    parametric(
-        "benefit.child_benefit.amount.eldest", 1000
-    ),
+    parametric("benefit.child_benefit.amount.eldest", 1000),
 )
 
 # Wide ranges - these tests are verifying that the model is being used
@@ -35,6 +33,10 @@ EXPECTED_RESULTS = (
     "reform,expected", zip(reform_examples, EXPECTED_RESULTS)
 )
 def test_headline_metrics(reform, expected):
-    results = headline_metrics(PolicyEngineUK.baseline, PolicyEngineUK._create_reform_sim(reform), UKResultsConfig)
+    results = headline_metrics(
+        PolicyEngineUK.baseline,
+        PolicyEngineUK._create_reform_sim(reform),
+        UKResultsConfig,
+    )
     for result in expected:
         assert expected[result][0] <= results[result] <= expected[result][1]

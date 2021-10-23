@@ -86,7 +86,9 @@ class PolicyEngineCountry:
             self.default_household_data = yaml.safe_load(f)
 
     def _create_reform_sim(self, reform: ReformType) -> Microsimulation:
-        return self.Microsimulation((self.default_reform, reform), dataset=self.default_dataset)
+        return self.Microsimulation(
+            (self.default_reform, reform), dataset=self.default_dataset
+        )
 
     def population_reform(self, params: dict = None):
         reform = create_reform(params, self.policyengine_parameters)

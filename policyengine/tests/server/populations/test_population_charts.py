@@ -20,14 +20,26 @@ reform_examples = (
 
 @pytest.mark.parametrize("reform", reform_examples)
 def test_UK_decile_chart(reform):
-    decile_chart(PolicyEngineUK.baseline, PolicyEngineUK._create_reform_sim(reform), UKResultsConfig)
+    decile_chart(
+        PolicyEngineUK.baseline,
+        PolicyEngineUK._create_reform_sim(reform),
+        UKResultsConfig,
+    )
 
 
 @pytest.mark.parametrize("reform", reform_examples)
 def test_UK_poverty_chart(reform):
-    poverty_chart(PolicyEngineUK.baseline, PolicyEngineUK._create_reform_sim(reform), UKResultsConfig)
+    poverty_chart(
+        PolicyEngineUK.baseline,
+        PolicyEngineUK._create_reform_sim(reform),
+        UKResultsConfig,
+    )
 
 
 @pytest.mark.parametrize("reform", reform_examples)
 def test_UK_population_waterfall_chart(reform):
-    population_waterfall_chart(PolicyEngineUK.baseline, PolicyEngineUK._create_reform_sim(reform), UKResultsConfig)
+    population_waterfall_chart(
+        PolicyEngineUK.baseline,
+        PolicyEngineUK._create_reform_sim(reform),
+        UKResultsConfig,
+    )
