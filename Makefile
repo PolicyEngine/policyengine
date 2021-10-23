@@ -4,13 +4,13 @@ install: install-client install-server
 build-client:
 	cd policyengine-client; npm run build
 build-server:
-	cd server; rm -rf build/ dist/ policyengine.egg-info; python setup.py sdist bdist_wheel
+	cd policyengine; rm -rf build/ dist/ policyengine.egg-info; python setup.py sdist bdist_wheel
 install-client:
 	cd policyengine-client; npm install
 install-server:
-	pip install -e server
-publish-server: server
-	twine upload server/dist/* --skip-existing
+	pip install -e policyengine
+publish-server: policyengine
+	twine upload policyengine/dist/* --skip-existing
 publish-client:
 	cd policyengine-client; npm publish
 debug-server:
