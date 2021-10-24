@@ -8,7 +8,6 @@ build-server:
 install-client:
 	cd policyengine-client; npm install
 install-server:
-	pip install git+https://github.com/PolicyEngine/OpenFisca-UK@policyengine-consolidation
 	pip install -e .
 publish-server: policyengine
 	twine upload policyengine/dist/* --skip-existing
