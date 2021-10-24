@@ -1,0 +1,28 @@
+household:
+  label: household
+  is_group: true
+  children:
+    - benunit
+benunit:
+  label: family
+  is_group: true
+  max: 2
+  initialiser: adult
+  names:
+    - Your immediate family
+    - Another family
+  children:
+    - adult
+    - child
+adult:
+  max: 2
+  names:
+    - You
+  is_group: false
+  label: adult
+child:
+  max: 5
+  names:
+    - Child 1
+  is_group: false
+  label: child

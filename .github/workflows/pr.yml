@@ -20,6 +20,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Setup Python
         uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@master
         with:
@@ -28,5 +30,9 @@ jobs:
           export_default_credentials: true
       - name: Install dependencies
         run: make install
+      - name: Install datasets
+        run: make datasets
       - name: Run the main tests
         run: make test
+      - name: Test deployment
+        run: make test-deploy

@@ -1,0 +1,11 @@
+household:
+  0:
+    variables: {}
+    benunit:
+      1:
+        variables: {}
+        adult:
+          2:
+            variables: {}
+        child: {}
+num_entities: 3
