@@ -31,7 +31,7 @@ jobs:
         run: make test
   publish:
     name: Deploy
-    if: github.repository == 'PolicyEngine/policyengine-core'
+    if: github.repository == 'PolicyEngine/policyengine'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
