@@ -27,12 +27,24 @@ test:
 datasets:
 	openfisca-uk-setup --set-default frs_was_imp
 	openfisca-uk-data frs_was_imp download 2019
-deploy: install-server test datasets
+openfisca_uk:
+	git clone https://github.com/PolicyEngine/openfisca-uk --depth 1
+	cd openfisca-uk; make install
+	openfisca-uk-setup --set-default frs_was_imp
+	cp -r openfisca-uk/openfisca_uk openfisca_uk
+	rm -rf openfisca-uk
+openfisca_uk_data:
+	git clone https://github.com/ubicenter/openfisca-uk-data --depth 1
+	cd openfisca-uk-data; pip install -e .
+	openfisca-uk-data frs_was_imp download 2019
+	cp -r openfisca-uk-data/openfisca_uk_data/ openfisca_uk_data
+	rm -rf openfisca-uk-data
+deploy: openfisca_uk openfisca_uk_data test datasets
 	rm -rf policyengine/static
 	cd policyengine-client; npm run build
 	cp -r policyengine-client/build policyengine/static
 	y | gcloud app deploy
-test-deploy: install-server datasets test
+test-deploy: openfisca_uk openfisca_uk_data datasets test
 	rm -rf policyengine/static
 	cd policyengine-client; npm run build
 	cp -r policyengine-client/build policyengine/static
