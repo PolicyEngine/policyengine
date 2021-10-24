@@ -44,7 +44,7 @@ deploy: openfisca_uk openfisca_uk_data test datasets
 	cd policyengine-client; npm run build
 	cp -r policyengine-client/build policyengine/static
 	y | gcloud app deploy
-test-deploy: openfisca_uk openfisca_uk_data test
+test-deploy: openfisca_uk_data openfisca_uk test
 	rm -rf policyengine/static
 	cd policyengine-client; npm run build
 	cp -r policyengine-client/build policyengine/static
