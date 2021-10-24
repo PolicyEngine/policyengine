@@ -32,7 +32,7 @@ deploy: install-server test datasets
 	cd client; npm run build
 	cp -r client/build policyengine/static
 	y | gcloud app deploy
-test-deploy: install-server test datasets
+test-deploy: install-server datasets test
 	rm -rf policyengine/static
 	cd policyengine-client; npm run build
 	cp -r policyengine-client/build policyengine/static
