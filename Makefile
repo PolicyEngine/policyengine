@@ -4,7 +4,7 @@ install: install-client install-server
 build-client:
 	cd policyengine-client; npm run build
 build-server:
-	cd policyengine; rm -rf build/ dist/ policyengine.egg-info; python setup.py sdist bdist_wheel
+	rm -rf build/ dist/ policyengine.egg-info; python setup.py sdist bdist_wheel
 install-client:
 	cd policyengine-client; npm install
 install-server:
@@ -44,7 +44,7 @@ deploy: openfisca_uk openfisca_uk_data test datasets
 	cd policyengine-client; npm run build
 	cp -r policyengine-client/build policyengine/static
 	y | gcloud app deploy
-test-deploy: openfisca_uk openfisca_uk_data datasets test
+test-deploy: openfisca_uk openfisca_uk_data test
 	rm -rf policyengine/static
 	cd policyengine-client; npm run build
 	cp -r policyengine-client/build policyengine/static
