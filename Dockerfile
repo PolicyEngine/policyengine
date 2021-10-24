@@ -12,7 +12,7 @@ ENV PATH /env/bin:$PATH
 
 # Copy the application's requirements.txt and run pip to install all
 # dependencies into the virtualenv.
-RUN make deploy
+RUN make install-server
 
 # Add the application source code.
 ADD . /app
