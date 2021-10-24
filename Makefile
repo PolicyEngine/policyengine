@@ -1,4 +1,4 @@
-all: install-client install-server build-client build-server format test
+all: install build-client build-server format test
 install: install-client install-server
 	pip install pytest
 build-client:
@@ -33,6 +33,6 @@ deploy: install-server test datasets
 	cp -r client/build policy_engine_uk/static
 	y | gcloud app deploy
 test-deploy: install-server test datasets
-	rm -rf policy_engine_uk/static
-	cd client; npm run build
-	cp -r client/build policy_engine_uk/static
+	rm -rf policyengine/static
+	cd policyengine-client; npm run build
+	cp -r policyengine-client/build policyengine/static
