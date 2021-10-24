@@ -79,7 +79,9 @@ class PolicyEngine:
 
     def _init_flask(self):
         self.app = Flask(
-            type(self).__name__, static_url_path="", static_folder="static"
+            type(self).__name__,
+            static_url_path="",
+            static_folder=str((Path(__file__).parent / "static").absolute()),
         )
         CORS(self.app)
 
