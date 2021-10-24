@@ -9,3 +9,5 @@
 **/*.egg-info
 **/.vscode
 **/static/*
+openfisca_uk/
+openfisca_uk_data/

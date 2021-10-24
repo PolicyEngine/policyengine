@@ -103,4 +103,3 @@ class PolicyEngine:
 
 
 app = PolicyEngine().app
-app.run()
