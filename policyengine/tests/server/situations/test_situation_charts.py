@@ -1,5 +1,6 @@
 from openfisca_uk import IndividualSim, reforms
-from policy_engine_uk.situations.charts import (
+from policyengine.countries.uk import UKResultsConfig
+from policyengine.impact.household.charts import (
     household_waterfall_chart,
     budget_chart,
     mtr_chart,
@@ -40,7 +41,7 @@ def test_household_waterfall_chart(situation, reform):
     reformed = situation(IndividualSim(reform))
     baseline.vary("employment_income")
     reformed.vary("employment_income")
-    household_waterfall_chart(baseline, reformed)
+    household_waterfall_chart(baseline, reformed, UKResultsConfig)
 
 
 @pytest.mark.parametrize(
@@ -51,7 +52,7 @@ def test_budget_chart(situation, reform):
     reformed = situation(IndividualSim(reform))
     baseline.vary("employment_income")
     reformed.vary("employment_income")
-    budget_chart(baseline, reformed)
+    budget_chart(baseline, reformed, UKResultsConfig)
 
 
 @pytest.mark.parametrize(
@@ -62,4 +63,4 @@ def test_mtr_chart(situation, reform):
     reformed = situation(IndividualSim(reform))
     baseline.vary("employment_income")
     reformed.vary("employment_income")
-    mtr_chart(baseline, reformed)
+    mtr_chart(baseline, reformed, UKResultsConfig)

@@ -8,4 +8,4 @@
 **/__pycache__
 **/*.egg-info
 **/.vscode
-client/policyengine-core/example/
+**/static/*

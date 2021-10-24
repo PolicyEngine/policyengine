@@ -28,9 +28,9 @@ datasets:
 	openfisca-uk-setup --set-default frs_was_imp
 	openfisca-uk-data frs_was_imp download 2019
 deploy: install-server test datasets
-	rm -rf policy_engine_uk/static
+	rm -rf policyengine/static
 	cd client; npm run build
-	cp -r client/build policy_engine_uk/static
+	cp -r client/build policyengine/static
 	y | gcloud app deploy
 test-deploy: install-server test datasets
 	rm -rf policyengine/static
