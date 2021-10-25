@@ -1,0 +1,27 @@
+household:
+  label: household
+  is_group: true
+  children:
+    - spm_unit
+spm_unit:
+  label: SPM unit
+  is_group: true
+  max: 1
+  children:
+    - family
+family:
+  label: family
+  is_group: true
+  max: 1
+  children:
+    - tax_unit
+tax_unit:
+  label: tax unit
+  is_group: true
+  max: 1
+  children:
+    - member
+member:
+  max: 5
+  label: member
+  is_group: false

@@ -1,0 +1,16 @@
+household:
+  0:
+    variables: {}
+    spm_unit:
+      1:
+        variables: {}
+        family:
+          2:
+            variables: {}
+            tax_unit:
+              3:
+                variables: {}
+                member:
+                  4:
+                    variables: {}
+num_entities: 5
