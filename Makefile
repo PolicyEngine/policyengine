@@ -39,7 +39,7 @@ openfisca_uk_data:
 	openfisca-uk-data frs_was_imp download 2019
 	cp -r openfisca-uk-data/openfisca_uk_data/ openfisca_uk_data
 	rm -rf openfisca-uk-data
-deploy: openfisca_uk_data openfisca_uk test datasets
+deploy: openfisca_uk_data openfisca_uk test
 	rm -rf policyengine/static
 	cd policyengine-client; npm run build
 	cp -r policyengine-client/build policyengine/static
