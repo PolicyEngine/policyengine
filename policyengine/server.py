@@ -47,7 +47,12 @@ class PolicyEngine:
             def new_fn(*args, **kwargs):
                 params = {**request.args, **(request.json or {})}
                 cached_result = None
-                if self.cache is not None:
+                cache = (
+                    self.cache
+                    if not hasattr(fn, "_exclude_from_cache")
+                    else None
+                )
+                if cache is not None:
                     cached_result = get_cached_result(
                         params, fn.__name__, self.version, self.cache
                     )
@@ -55,7 +60,7 @@ class PolicyEngine:
                     return cached_result
                 else:
                     result = fn(*args, params=params, **kwargs)
-                    if self.cache is not None:
+                    if cache is not None:
                         set_cached_result(
                             params,
                             fn.__name__,
