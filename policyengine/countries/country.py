@@ -5,7 +5,10 @@ import yaml
 from openfisca_core.taxbenefitsystems.tax_benefit_system import (
     TaxBenefitSystem,
 )
-from policyengine.utils.general import PolicyEngineResultsConfig
+from policyengine.utils.general import (
+    PolicyEngineResultsConfig,
+    exclude_from_cache,
+)
 from openfisca_tools import Microsimulation, IndividualSim
 from policyengine.countries.entities import build_entities
 from policyengine.impact.household.charts import (
@@ -109,6 +112,7 @@ class PolicyEngineCountry:
             ),
         )
 
+    @exclude_from_cache
     def household_reform(self, params=None):
         situation = create_situation(
             params["household"],
@@ -119,8 +123,12 @@ class PolicyEngineCountry:
         reform = create_reform(params, self.policyengine_parameters)
         baseline_config = self.default_reform
         reform_config = self.default_reform, reform
-        baseline = situation(self.IndividualSim(baseline_config, year=2021))
-        reformed = situation(self.IndividualSim(reform_config, year=2021))
+        baseline: IndividualSim = situation(
+            self.IndividualSim(baseline_config, year=2021)
+        )
+        reformed: IndividualSim = situation(
+            self.IndividualSim(reform_config, year=2021)
+        )
         headlines = headline_figures(baseline, reformed, self.results_config)
         waterfall = household_waterfall_chart(
             baseline, reformed, self.results_config

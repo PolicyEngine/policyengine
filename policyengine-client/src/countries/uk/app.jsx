@@ -245,6 +245,7 @@ export class PolicyEngineUK extends React.Component {
                                 baseURL="/uk"
                                 setHouseholdVisited={() => this.setState({householdVisited: true})}
                                 householdValid={this.state.householdValid}
+                                fetchDone={this.state.fetchDone}
                                 currency="£"
                             />
                         </Route>
