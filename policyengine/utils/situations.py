@@ -48,8 +48,8 @@ def get_PE_variables(system: TaxBenefitSystem) -> Dict[str, dict]:
             var["default"] = v.default_value._name_
         elif v.value_type == bool:
             var["type"] = "bool"
-        var["value"] = var["default"]
         var.update(meta)
+        var["value"] = var["default"]
         variable_metadata[var["short_name"]] = var
     return variable_metadata
 
@@ -62,16 +62,12 @@ def create_situation(
 ) -> Callable:
     node = household
 
-    def situation(sim_: IndividualSim):
+    def situation(sim_: IndividualSim) -> IndividualSim:
         def extract(sim, node, child_entities, parents):
             for entity in child_entities:
                 for instance in node[entity]:
                     variables = {}
                     for v in node[entity][instance]["variables"].values():
-                        try:
-                            v["value"] = float(v["value"])
-                        except:
-                            pass
                         variables[v["short_name"]] = v["value"]
                     sim.add_data(
                         entity

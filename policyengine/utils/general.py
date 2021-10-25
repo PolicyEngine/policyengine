@@ -1,5 +1,6 @@
 import json
 from time import time
+from typing import Callable
 from flask import request, make_response
 from openfisca_core.model_api import *
 
@@ -18,6 +19,11 @@ class PolicyEngineResultsConfig:
 
 def dict_to_string(d: dict) -> str:
     return "_".join(["_".join((x, y)) for x, y in d.items()])
+
+
+def exclude_from_cache(f: Callable) -> Callable:
+    setattr(f, "_exclude_from_cache", True)
+    return f
 
 
 def get_cached_result(

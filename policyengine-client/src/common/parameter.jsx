@@ -55,7 +55,7 @@ export function Parameter(props) {
 					onChange={(value) => {
 						props.setPolicy(props.name, value);
 					}}
-					checked={props.param.value || props.param.default}
+					checked={props.param.value}
 					disabled={props.disabled}
 				/>
 			);

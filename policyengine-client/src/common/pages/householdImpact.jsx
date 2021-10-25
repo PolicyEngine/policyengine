@@ -54,7 +54,7 @@ export function HouseholdResultsPane(props) {
 class HouseholdImpactPage extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {results: null, waiting: false, error: false};
+		this.state = {results: null, waiting: true, error: false};
 	}
 
 	componentDidMount() {
@@ -63,7 +63,6 @@ class HouseholdImpactPage extends React.Component {
 	}
 
 	simulate() {
-		console.log("simulating")
         const submission = {};
 		for (const key in this.props.policy) {
 			if(this.props.policy[key].value !== this.props.policy[key].default) {
@@ -72,26 +71,24 @@ class HouseholdImpactPage extends React.Component {
 		}
 		let url = new URL(`${this.props.api_url}/household-reform`);
 		url.search = new URLSearchParams(submission).toString();
-		this.setState({ waiting: true }, () => {
-			fetch(url, {
-                method: 'POST',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({"household": this.props.household})
-                }).then((res) => {
-					if (res.ok) {
-						return res.json();
-					} else {
-						throw res;
-					}
-				}).then((json) => {
-					this.setState({ results: json, waiting: false, error: false });
-				}).catch(e => {
-					this.setState({ waiting: false, error: true});
-				});
-		});
+		fetch(url, {
+			method: 'POST',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({"household": this.props.household})
+			}).then((res) => {
+				if (res.ok) {
+					return res.json();
+				} else {
+					throw res;
+				}
+			}).then((json) => {
+				this.setState({ results: json, waiting: false, error: false });
+			}).catch(e => {
+				this.setState({ waiting: false, error: true});
+			});
 		return;
 	}
 
@@ -121,7 +118,7 @@ class HouseholdImpactPage extends React.Component {
 }
 
 export default function HouseholdImpact(props) {
-	if(props.householdValid && (Object.keys(props.household).length > 0) && (Object.keys(props.policy).length > 0)) {
+	if(props.fetchDone) {
 		return <HouseholdImpactPage 
 			policy={props.policy}
 			household={props.household}
