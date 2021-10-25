@@ -4,10 +4,10 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
-from policyengine.api import Microsimulation
+from openfisca_tools import Microsimulation
 import pandas as pd
 from policyengine.utils import charts
-from policyengine.api.general import PolicyEngineResultsConfig
+from policyengine.utils.general import PolicyEngineResultsConfig
 
 
 def decile_chart(
@@ -45,7 +45,7 @@ def decile_chart(
             title="Change to net income by decile",
             xaxis_title="Equivalised disposable income decile",
             yaxis_title="Percentage change",
-            yaxis_tickformat="%",
+            yaxis_tickformat=",.1%",
             showlegend=False,
             xaxis_tickvals=list(range(1, 11)),
         )
@@ -130,7 +130,7 @@ def poverty_chart(
     fig.update_layout(
         title="Poverty impact by age",
         xaxis_title=None,
-        yaxis=dict(title="Percent change", tickformat="%"),
+        yaxis=dict(title="Percent change", tickformat=",.1%"),
     )
     fig.update_traces(marker_color=charts.BLUE)
     charts.add_custom_hovercard(fig)
@@ -328,7 +328,7 @@ def intra_decile_chart(
         x_title="Population share",
         y_title="Income decile",
     )
-    fig.update_xaxes(showgrid=False, tickformat="%")
+    fig.update_xaxes(showgrid=False, tickformat=",.0%")
     fig.add_traces(total_fig.data, 1, 1)
     fig.add_traces(decile_fig.data, 2, 1)
     fig.update_layout(

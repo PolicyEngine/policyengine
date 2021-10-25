@@ -6,12 +6,13 @@ import plotly.express as px
 import pandas as pd
 import json
 from rdbl import gbp
-from policyengine.api import (
+from openfisca_tools import (
     Microsimulation,
     IndividualSim,
-    PolicyEngineResultsConfig,
 )
 from typing import Type, Union
+
+from policyengine.utils.general import PolicyEngineResultsConfig
 
 
 WHITE = "#FFF"

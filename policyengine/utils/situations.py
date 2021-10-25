@@ -6,7 +6,7 @@ from typing import Callable, Dict, Tuple
 from openfisca_core.taxbenefitsystems import TaxBenefitSystem
 from openfisca_core.model_api import Enum
 
-from policyengine.api.hypothetical import IndividualSim
+from openfisca_tools import IndividualSim
 
 
 def get_PE_variables(system: TaxBenefitSystem) -> Dict[str, dict]:

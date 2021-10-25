@@ -1,6 +1,6 @@
 from typing import Callable, Type
 from openfisca_uk import IndividualSim
-from policyengine.api.general import PolicyEngineResultsConfig
+from policyengine.utils.general import PolicyEngineResultsConfig
 from policyengine.utils import charts
 import plotly.express as px
 import pandas as pd
@@ -237,7 +237,7 @@ def mtr_chart(
         title="Effective marginal tax rate by employment income",
         xaxis_title="Employment income",
         xaxis_tickprefix="£",
-        yaxis_tickformat="%",
+        yaxis_tickformat=",.0%",
         yaxis_title="Effective MTR",
         legend_title=None,
     )

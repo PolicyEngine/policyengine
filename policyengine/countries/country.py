@@ -1,10 +1,12 @@
 from pathlib import Path
 from typing import Dict, Tuple, Type
+from openfisca_tools.model_api import ReformType
 import yaml
 from openfisca_core.taxbenefitsystems.tax_benefit_system import (
     TaxBenefitSystem,
 )
-from policyengine.api.general import PolicyEngineResultsConfig, ReformType
+from policyengine.utils.general import PolicyEngineResultsConfig
+from openfisca_tools import Microsimulation, IndividualSim
 from policyengine.countries.entities import build_entities
 from policyengine.impact.household.charts import (
     budget_chart,
@@ -25,8 +27,6 @@ from policyengine.utils.reforms import (
     get_PE_parameters,
     use_current_parameters,
 )
-from policyengine.api.microsimulation import Microsimulation
-from policyengine.api.hypothetical import IndividualSim
 from policyengine.utils.situations import create_situation, get_PE_variables
 
 

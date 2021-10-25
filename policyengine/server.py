@@ -9,12 +9,14 @@ from time import time
 from policyengine.utils.general import (
     get_cached_result,
     after_request_func,
+    set_cached_result,
 )
 from policyengine.countries import UK, PolicyEngineCountry
 
 
 class PolicyEngine:
-    cache_bucket_name: str = None
+    version: str = "0.2.0"
+    cache_bucket_name: str = "uk-policy-engine.appspot.com"
     countries: Tuple[Type[PolicyEngineCountry]] = (UK,)
 
     def _init_countries(self):
@@ -52,7 +54,16 @@ class PolicyEngine:
                 if cached_result is not None:
                     return cached_result
                 else:
-                    return fn(*args, params=params, **kwargs)
+                    result = fn(*args, params=params, **kwargs)
+                    if self.cache is not None:
+                        set_cached_result(
+                            params,
+                            fn.__name__,
+                            self.version,
+                            self.cache,
+                            result,
+                        )
+                    return result
 
             new_fn.__name__ = "cached_" + fn.__name__
             return new_fn
