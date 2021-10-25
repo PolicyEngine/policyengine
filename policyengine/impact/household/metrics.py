@@ -2,7 +2,7 @@ from typing import Type
 from openfisca_uk.tools.simulation import IndividualSim
 import numpy as np
 
-from policyengine.api.general import PolicyEngineResultsConfig
+from policyengine.utils.general import PolicyEngineResultsConfig
 
 
 def headline_figures(

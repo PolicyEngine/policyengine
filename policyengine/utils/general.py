@@ -1,6 +1,19 @@
 import json
 from time import time
 from flask import request, make_response
+from openfisca_core.model_api import *
+
+
+class PolicyEngineResultsConfig:
+    net_income_variable: str
+    in_poverty_variable: str
+    household_net_income_variable: str
+    equiv_household_net_income_variable: str
+    child_variable: str
+    working_age_variable: str
+    senior_variable: str
+    person_variable: str
+    earnings_variable: str
 
 
 def dict_to_string(d: dict) -> str:
@@ -14,6 +27,14 @@ def get_cached_result(
     blob = bucket.blob(request_id + ".json")
     if blob.exists():
         return json.loads(blob.download_as_string())
+
+
+def set_cached_result(
+    params: dict, endpoint: str, version: str, bucket, result: dict
+) -> None:
+    request_id = f"{endpoint}-{dict_to_string(params)}-{version}"
+    blob = bucket.blob(request_id + ".json")
+    blob.upload_from_string(json.dumps(result))
 
 
 def after_request_func(response):

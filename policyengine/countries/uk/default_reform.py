@@ -1,6 +1,6 @@
+from openfisca_tools.model_api import ReformType
 from openfisca_uk import CountryTaxBenefitSystem
 from openfisca_uk.entities import Person, Household
-from policyengine.api.general import ReformType
 from openfisca_core.model_api import Variable, YEAR, Reform
 
 

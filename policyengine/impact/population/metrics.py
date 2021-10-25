@@ -2,8 +2,8 @@
 Functions generating aggregates and other numerical outputs from microsimulation results.
 """
 from typing import Type
-from policyengine.api.general import PolicyEngineResultsConfig
-from policyengine.api.microsimulation import Microsimulation
+from policyengine.utils.general import PolicyEngineResultsConfig
+from openfisca_tools import Microsimulation
 from rdbl import gbp
 
 
