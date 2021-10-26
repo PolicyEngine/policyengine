@@ -37,7 +37,7 @@ export function Overview(props) {
 			<Empty description="" image={null}>
 				<SimulateButton 
 					hidden={props.page === "policy"}
-					text={<><ArrowLeftOutlined /> Adjust the policy</>}
+					text={<><ArrowLeftOutlined /> Edit your policy</>}
 					target={props.baseURL + "/policy"}
 					policy={props.policy} 
 					onClick={() => {props.setPage("")}}
@@ -49,7 +49,7 @@ export function Overview(props) {
 					text={
 						props.page === "policy" ?
 							"See the UK impact" :
-							<><ArrowLeftOutlined /> Return to the population results</>
+							<><ArrowLeftOutlined /> Return to UK impact</>
 					}
 					target={props.baseURL + "/population-impact"}
 					policy={props.policy} 
@@ -61,7 +61,7 @@ export function Overview(props) {
 					disabled={props.invalid} 
 					text={
 						props.page === "household-impact" ?
-							<><ArrowLeftOutlined /> Change your household</> :
+							<><ArrowLeftOutlined /> Edit your household</> :
 							"Describe your household"
 					}
 					target={props.baseURL + "/household"}
