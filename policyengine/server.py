@@ -11,13 +11,13 @@ from policyengine.utils.general import (
     after_request_func,
     set_cached_result,
 )
-from policyengine.countries import UK, PolicyEngineCountry
+from policyengine.countries import UK, US, PolicyEngineCountry
 
 
 class PolicyEngine:
     version: str = "0.2.1"
-    cache_bucket_name: str = "uk-policy-engine.appspot.com"
-    countries: Tuple[Type[PolicyEngineCountry]] = (UK,)
+    cache_bucket_name: str = None
+    countries: Tuple[Type[PolicyEngineCountry]] = (UK, US)
 
     def _init_countries(self):
         self.countries = list(map(lambda country: country(), self.countries))
@@ -89,6 +89,7 @@ class PolicyEngine:
                     ),
                 ):
                     fn = decorator(fn)
+                    fn.__name__ = country.name + "_" + fn.__name__
                     setattr(self, fn.__name__, fn)
 
         self.after_request_func = self.app.after_request(after_request_func)

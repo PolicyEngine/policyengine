@@ -2,7 +2,7 @@ reforms:
   UBI:
     adult:
       values: 
-        2021-01-01: 0.00
+        2020-01-01: 0.00
       metadata:
         policyengine:
           title: Working-age adult UBI
@@ -15,7 +15,7 @@ reforms:
           - increases_net_income: true
     child:
       values: 
-        2021-01-01: 0.00
+        2020-01-01: 0.00
       metadata:
         policyengine:
           title: Child UBI
@@ -28,7 +28,7 @@ reforms:
           - increases_net_income: true
     senior:
       values: 
-        2021-01-01: 0.00
+        2020-01-01: 0.00
       metadata:
         policyengine:
           title: Senior UBI
@@ -41,7 +41,7 @@ reforms:
           - increases_net_income: true
     WA_adult_UBI_age:
       values: 
-        2021-01-01: 18
+        2020-01-01: 18
       metadata:
         policyengine:
           title: Adult UBI age threshold

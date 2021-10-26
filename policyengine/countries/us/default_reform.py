@@ -21,18 +21,18 @@ def create_default_reform() -> ReformType:
             UBI_params = parameters(period).reforms.UBI
             age = person("age", period)
             is_child = age < UBI_params.WA_adult_UBI_age
-            is_SP_age = person("is_SP_age", period)
-            is_WA_adult = ~is_child & ~is_SP_age
+            is_senior = person("is_senior", period)
+            is_WA_adult = ~is_child & ~is_senior
             basic_income = (
                 is_child * UBI_params.child
                 + is_WA_adult * UBI_params.adult
-                + is_SP_age * UBI_params.senior
+                + is_senior * UBI_params.senior
             ) * 52
             return basic_income
 
-    class benefits(baseline_variables["benefits"]):
+    class net_income(baseline_variables["net_income"]):
         def formula(person, period, parameters):
-            original_benefits = baseline_variables["benefits"].formula(
+            original_benefits = baseline_variables["net_income"].formula(
                 person, period, parameters
             )
             return original_benefits + person("UBI", period)
@@ -40,6 +40,6 @@ def create_default_reform() -> ReformType:
     class default_reform(Reform):
         def apply(self):
             self.add_variable(UBI)
-            self.update_variable(benefits)
+            self.update_variable(net_income)
 
     return (default_reform,)
