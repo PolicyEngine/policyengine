@@ -15,7 +15,7 @@ from policyengine.countries import UK, PolicyEngineCountry
 
 
 class PolicyEngine:
-    version: str = "0.2.1"
+    version: str = "0.2.2"
     cache_bucket_name: str = None
     countries: Tuple[Type[PolicyEngineCountry]] = (UK,)
 

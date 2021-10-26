@@ -5,7 +5,6 @@ import yaml
 from openfisca_core.taxbenefitsystems.tax_benefit_system import (
     TaxBenefitSystem,
 )
-from policyengine.utils.trace import get_budget_trace
 from policyengine.utils.general import (
     PolicyEngineResultsConfig,
     exclude_from_cache,
@@ -106,7 +105,6 @@ class PolicyEngineCountry:
         trace = get_budget_trace(self.baseline, reformed)
         return dict(
             **headline_metrics(self.baseline, reformed, self.results_config),
-            trace=trace,
             decile_chart=decile_chart(
                 self.baseline, reformed, self.results_config
             ),
@@ -140,7 +138,6 @@ class PolicyEngineCountry:
         )
         baseline.calc("net_income")
         reformed.calc("net_income")
-        trace = get_budget_trace(baseline, reformed)
         headlines = headline_figures(baseline, reformed, self.results_config)
         waterfall = household_waterfall_chart(
             baseline, reformed, self.results_config
