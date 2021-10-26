@@ -50,6 +50,10 @@ def get_PE_variables(system: TaxBenefitSystem) -> Dict[str, dict]:
             var["type"] = "bool"
         var.update(meta)
         var["value"] = var["default"]
+        if "roles" in var:
+            for role in var["roles"]:
+                if "default" in var["roles"][role]:
+                    var["roles"][role]["value"] = var["roles"][role]["default"]
         variable_metadata[var["short_name"]] = var
     return variable_metadata
 
