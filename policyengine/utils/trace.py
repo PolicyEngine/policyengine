@@ -29,8 +29,13 @@ def get_budget_trace(
     metadata = baseline.simulation.tax_benefit_system.variables
     for variable in structure:
         structure[variable].update(variable_changes[variable])
-        structure[variable]["label"] = metadata[variable].label if hasattr(metadata[variable], "label") else variable
+        structure[variable]["label"] = (
+            metadata[variable].label
+            if hasattr(metadata[variable], "label")
+            else variable
+        )
     return structure
+
 
 def safe_number(result, formatter: Callable = gbp) -> Union[float, None]:
     if isinstance(result, float):
@@ -41,8 +46,11 @@ def safe_number(result, formatter: Callable = gbp) -> Union[float, None]:
         return result
     return None
 
+
 def get_changes(
-    variable: str, baseline: Union[Microsimulation, IndividualSim], reformed: Union[Microsimulation, IndividualSim]
+    variable: str,
+    baseline: Union[Microsimulation, IndividualSim],
+    reformed: Union[Microsimulation, IndividualSim],
 ) -> float:
     if isinstance(baseline, IndividualSim):
         baseline_values = baseline.calc(variable)
@@ -75,12 +83,16 @@ def get_changes(
         )
 
 
-def get_dependent_variables(node: TraceNode, data: dict = None) -> Union[str, list]:
+def get_dependent_variables(
+    node: TraceNode, data: dict = None
+) -> Union[str, list]:
     if data is None:
         data = {}
     immediate_children = [child.name for child in node.children]
     if node.name in data:
-        data[node.name]["children"] = list(set(data[node.name]["children"] + immediate_children))
+        data[node.name]["children"] = list(
+            set(data[node.name]["children"] + immediate_children)
+        )
     else:
         data[node.name] = dict(children=immediate_children)
     for child in node.children:
