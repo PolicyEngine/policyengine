@@ -5,6 +5,7 @@ import React from "react";
 import { Overview } from "../overview";
 import { LoadingResultsPane, Chart } from "../results";
 import { Redirect } from "react-router";
+import Trace from "../trace";
 
 const { Panel } = Collapse;
 
@@ -46,6 +47,9 @@ export function HouseholdResultsPane(props) {
 			</Row>
 			<Row>
 				<Chart plot={props.results.mtr_chart} />
+			</Row>
+			<Row>
+				<Trace trace={props.results.trace} variables={["net_income"]} depth={0} />
 			</Row>
 		</>
 	);

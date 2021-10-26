@@ -4,6 +4,7 @@ import { Row, Col } from "react-bootstrap";
 import { Fragment, default as React } from "react";
 import { Overview } from "../overview";
 import { LoadingResultsPane, TakeAway, Chart } from "../results";
+import Trace from "../trace";
 
 const { Panel } = Collapse;
 
@@ -51,6 +52,9 @@ export function PopulationResultsPane(props) {
 			</Row>
 			<Row>
 				<Chart plot={props.results.intra_decile_chart} md={12}/>
+			</Row>
+			<Row>
+				<Trace trace={props.results.trace} variables={["net_income"]} depth={0} />
 			</Row>
 		</>
 	);

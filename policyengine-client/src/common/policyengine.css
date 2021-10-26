@@ -53,3 +53,11 @@ body {
 .ant-steps-horizontal:not(.ant-steps-label-vertical) .ant-steps-item-description {
     max-width: 200px !important;
 }
+
+.ant-table-tbody > tr > td > .ant-table-wrapper:only-child .ant-table, .ant-table-tbody > tr > td > .ant-table-expanded-row-fixed > .ant-table-wrapper:only-child .ant-table {
+    margin-left: 0px !important;
+}
+
+.ant-table-expanded-row > .ant-table-cell {
+    padding-left: 0px !important;
+}
