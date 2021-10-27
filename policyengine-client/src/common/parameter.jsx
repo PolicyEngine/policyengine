@@ -65,7 +65,7 @@ export function Parameter(props) {
 					onChange={(value) => {
 						props.setPolicy(props.name, value);
 					}}
-					checked={props.param.value || props.param.default}
+					checked={props.param.value}
 					className="switch-red"
 					disabled={props.disabled}
 				/>
@@ -82,7 +82,7 @@ export function Parameter(props) {
 			component = (
 				<>
 					<Slider
-						value={props.param.value || props.param.default}
+						value={props.param.value}
 						min={props.param.min ? props.param.min : 0}
 						max={props.param.max ? props.param.max : 1}
 						onChange={(value) => {
@@ -93,7 +93,7 @@ export function Parameter(props) {
 						disabled={props.disabled}
 					/>
 					<InputNumber
-						value={props.param.value || props.param.default}
+						value={props.param.value}
 						formatter={formatter}
 						parser={parser}
 						onChange={(value) => {
