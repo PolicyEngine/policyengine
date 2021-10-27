@@ -127,7 +127,6 @@ export default function HouseholdImpact(props) {
 			setHouseholdVisited={props.setHouseholdVisited}
 			currency={props.currency}
 			baseURL={props.baseURL}
-			setPage={props.setPage}
 		/>;
 	} else {
 		return <Redirect to={props.baseURL + "/household"} />
