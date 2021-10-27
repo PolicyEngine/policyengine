@@ -251,6 +251,7 @@ export class PolicyEngineUK extends React.Component {
                                 householdValid={this.state.householdValid}
                                 fetchDone={this.state.fetchDone}
                                 currency="£"
+                                setPage={setPage}
                             />
                         </Route>
                     </Switch>
