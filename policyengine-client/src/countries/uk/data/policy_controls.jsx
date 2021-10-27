@@ -54,6 +54,7 @@ export const PARAMETER_MENU = {
 			"abolish_HB",
 			"abolish_IS",
 			"abolish_JSA_income",
+			"abolish_ESA_income",
 		],
 		"State Pension": [
 			"abolish_SP",
@@ -70,8 +71,9 @@ export const PARAMETER_MENU = {
 			"abolish_UC_disability",
 			"abolish_UC_carer",
 			"abolish_UC_housing_costs",
+			"abolish_UC_childcare",
 			"UC_reduction_rate",
-		]
+		],
 	},
 	"UBI Center": {
 		"Universal Basic Income": [

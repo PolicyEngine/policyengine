@@ -285,3 +285,29 @@ reforms:
           summary: Abolish the UC carer element
         tests:
           - decreases_net_income: true
+    abolish_UC_childcare_element:
+      values:
+        2021-01-01: false
+      metadata:
+        policyengine:
+          title: UC childcare element
+          short_name: abolish_UC_childcare
+          variable: UC_childcare_element
+          description: Abolish the childcare element of Universal Credit
+          type: abolish
+          summary: Abolish the UC childcare element
+        tests:
+          - decreases_net_income: true
+    abolish_ESA_income:
+      values:
+        2021-01-01: false
+      metadata:
+        policyengine:
+          title: Income-based ESA
+          short_name: abolish_ESA_income
+          variable: ESA_income
+          description: Abolish income-based Employment Support Allowance
+          type: abolish
+          summary: Abolish income-based ESA
+        tests:
+          - decreases_net_income: true
