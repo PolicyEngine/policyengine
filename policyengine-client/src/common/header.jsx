@@ -2,7 +2,7 @@ import { Affix, Tabs, Tag, PageHeader } from "antd";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import { policyToURL } from "./url";
-import { FacebookOutlined, InstagramOutlined, LinkedinOutlined, RedditOutlined, TwitterOutlined } from '@ant-design/icons';
+import { FacebookOutlined, InstagramOutlined, LinkedinOutlined, TwitterOutlined } from '@ant-design/icons';
 
 const { TabPane } = Tabs;
 
@@ -136,7 +136,6 @@ export function SocialLinks(props) {
 			<a href="https://twitter.com/thepolicyengine"><TwitterOutlined style={iconStyle}/></a>
 			<a href="https://www.facebook.com/ThePolicyEngine"><FacebookOutlined style={iconStyle}/></a>
 			<a href="https://www.linkedin.com/company/thepolicyengine/about/"><LinkedinOutlined style={iconStyle} href="https://twitter.com"/></a>
-			<a href="https://www.reddit.com/user/PolicyEngine"><RedditOutlined style={iconStyle} /></a>
 			<a href="https://www.instagram.com/policyengine/"><InstagramOutlined style={iconStyle}/></a>
 		</div>
 	);
