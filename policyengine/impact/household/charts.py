@@ -156,7 +156,7 @@ def mtr_hover_label(
         tax_baseline, tax_reform, pct_formatter, pp_formatter
     )
     benefits_change = describe_change(
-        benefits_baseline, benefits_reform, pct_formatter, pp_formatter, True
+        benefits_baseline, benefits_reform, pct_formatter, pp_formatter
     )
     return f"<b>At {earnings_str} employment income:<br>Your MTR {mtr_change}</b><br><br>Tax MTR {tax_change}<br>Benefits MTR {benefits_change}"
 
