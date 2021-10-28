@@ -168,14 +168,18 @@ class PolicyEngineCountry:
         )
         return {"UBI": float(UBI_amount)}
 
+    @exclude_from_cache
     def parameters(self, params=None):
         return self.policyengine_parameters
 
+    @exclude_from_cache
     def entities(self, params=None):
         return self.entities
 
+    @exclude_from_cache
     def variables(self, params=None):
         return self.policyengine_variables
 
+    @exclude_from_cache
     def default_household(self, params=None):
         return self.default_household_data
