@@ -227,18 +227,18 @@ def mtr_chart(
         df,
         x="employment_income",
         y=["Baseline", "Reform"],
-        labels=dict(LABELS, value="Effective MTR"),
+        labels=dict(LABELS, value="Marginal tax rate"),
         color_discrete_map=COLOR_MAP,
         line_shape="hv",
         custom_data=["hover"],
     )
     charts.add_custom_hovercard(fig)
     fig.update_layout(
-        title="Effective marginal tax rate by employment income",
+        title="Marginal tax rate by employment income",
         xaxis_title="Employment income",
         xaxis_tickprefix="£",
         yaxis_tickformat=",.0%",
-        yaxis_title="Effective MTR",
+        yaxis_title="Marginal tax rate",
         legend_title=None,
     )
     return charts.formatted_fig_json(fig)
