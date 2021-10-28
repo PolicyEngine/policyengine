@@ -84,7 +84,7 @@ export const PARAMETER_MENU = {
 			"abolish_UC_carer",
 			"abolish_UC_housing_costs",
 			"abolish_UC_childcare",
-			"UC_work_allowance",
+			"UC_work_allowance_without_housing",
 			"UC_work_allowance_with_housing",
 			"UC_reduction_rate",
 		],
