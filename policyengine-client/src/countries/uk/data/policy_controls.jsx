@@ -17,6 +17,18 @@ export const PARAMETER_MENU = {
 				"add_rate",
 				"add_threshold",
 			],
+			"Scottish rates": [
+				"scottish_starter_rate",
+				"scottish_starter_threshold",
+				"scottish_basic_rate",
+				"scottish_basic_threshold",
+				"scottish_intermediate_rate",
+				"scottish_intermediate_threshold",
+				"scottish_higher_rate",
+				"scottish_higher_threshold",
+				"scottish_add_rate",
+				"scottish_add_threshold",
+			],
 			"Allowances": [
 				"personal_allowance"
 			],
