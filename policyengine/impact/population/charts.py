@@ -211,11 +211,9 @@ def intra_decile_graph_data(
         config.household_net_income_variable, map_to="person"
     )
     gain = reformed_hh_net_income - baseline_hh_net_income
-    rel_gain = gain / baseline_hh_net_income
-    rel_gain = np.where(rel_gain.isna(), 0.06 * (gain > 0) - 0.06 * (gain < 0), rel_gain)
-    rel_gain = MicroSeries(rel_gain, weights=baseline_hh_net_income.weights)
-    bands = (None, 0.05, 1e-3, -1e-3, -0.05, None)
-    for upper, lower, name in zip(bands[:-1], bands[1:], NAMES):
+    rel_gain = gain / np.maximum(baseline_hh_net_income, 1)
+    BANDS = (None, 0.05, 1e-3, -1e-3, -0.05, None)
+    for upper, lower, name in zip(BANDS[:-1], BANDS[1:], NAMES):
         fractions = []
         for j in range(1, 11):
             subset = rel_gain[decile == j]
