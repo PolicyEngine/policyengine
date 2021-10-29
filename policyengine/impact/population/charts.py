@@ -1,4 +1,5 @@
 from typing import Type
+from microdf import MicroSeries
 from policyengine.impact.population.metrics import poverty_rate, pct_change
 import plotly.express as px
 import plotly.graph_objects as go
@@ -210,9 +211,9 @@ def intra_decile_graph_data(
         config.household_net_income_variable, map_to="person"
     )
     gain = reformed_hh_net_income - baseline_hh_net_income
-    rel_gain = (gain / baseline_hh_net_income).dropna()
-    bands = (None, 0.05, 1e-3, -1e-3, -0.05, None)
-    for upper, lower, name in zip(bands[:-1], bands[1:], NAMES):
+    rel_gain = gain / np.maximum(baseline_hh_net_income, 1)
+    BANDS = (None, 0.05, 1e-3, -1e-3, -0.05, None)
+    for upper, lower, name in zip(BANDS[:-1], BANDS[1:], NAMES):
         fractions = []
         for j in range(1, 11):
             subset = rel_gain[decile == j]
