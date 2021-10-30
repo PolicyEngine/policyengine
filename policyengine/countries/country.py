@@ -5,6 +5,9 @@ import yaml
 from openfisca_core.taxbenefitsystems.tax_benefit_system import (
     TaxBenefitSystem,
 )
+from policyengine.impact.population.revenue_breakdown import (
+    get_breakdown_per_provision,
+)
 from policyengine.utils.general import (
     PolicyEngineResultsConfig,
     exclude_from_cache,
@@ -79,6 +82,7 @@ class PolicyEngineCountry:
             entities=self.entities,
             variables=self.variables,
             default_household=self.default_household,
+            population_breakdown=self.population_breakdown,
         )
         with open(self.entity_hierarchy_file) as f:
             self.entities = dict(
@@ -183,3 +187,12 @@ class PolicyEngineCountry:
     @exclude_from_cache
     def default_household(self, params=None):
         return self.default_household_data
+
+    def population_breakdown(self, params=None):
+        reform, provisions = create_reform(
+            params, self.policyengine_parameters, return_descriptions=True
+        )
+        breakdown = get_breakdown_per_provision(
+            reform, provisions, self.baseline, self._create_reform_sim
+        )
+        return breakdown
