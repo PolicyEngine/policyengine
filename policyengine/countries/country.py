@@ -192,7 +192,6 @@ class PolicyEngineCountry:
         reform, provisions = create_reform(
             params, self.policyengine_parameters, return_descriptions=True
         )
-        breakdown = get_breakdown_per_provision(
+        return get_breakdown_per_provision(
             reform, provisions, self.baseline, self._create_reform_sim
         )
-        return breakdown
