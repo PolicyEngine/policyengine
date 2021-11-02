@@ -71,6 +71,7 @@ export class PolicyEngineUK extends React.Component {
     }
 
     setPolicy(name, value) {
+        console.log(name, value)
         let oldPolicy = this.state.policy;
 		oldPolicy[name].value = value;
 		let { policy, invalid } = this.state.validator(oldPolicy);

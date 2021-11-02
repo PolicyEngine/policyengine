@@ -1,8 +1,9 @@
-import { Affix, Tabs, Tag, PageHeader } from "antd";
+import { Affix, Tabs, Tag, PageHeader, Image } from "antd";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import { policyToURL } from "./url";
 import { FacebookOutlined, InstagramOutlined, LinkedinOutlined, TwitterOutlined } from '@ant-design/icons';
+import MainLogo from "../common/images/title_logo.png";
 
 const { TabPane } = Tabs;
 
@@ -106,13 +107,14 @@ function MainNavigation(props) {
 
 export function Title(props) {
 	const tags = props.beta ? [<Tag key="beta" color="#002766">BETA</Tag>] : null;
-	const title = <><a href="/" style={{color: "white"}}>PolicyEngine<sub style={{fontSize: "50%"}}>{props.country.toUpperCase()}</sub></a></>;
+	let title = <><a href="/" style={{color: "white"}}>PolicyEngine<sub style={{fontSize: "50%"}}>{props.country.toUpperCase()}</sub></a></>;
+	title = <Image src={MainLogo} preview={false} height={50} style={{padding: 0, margin: 0}} />
 	return (
 		<div style={{minWidth: 300}}>
 			<div className="d-none d-lg-block">
 				<PageHeader
 					title={title}
-					style={{minHeight: 40}}
+					style={{minHeight: 40, paddingBottom: 5}}
 					tags={tags}
 				/>
 			</div>
