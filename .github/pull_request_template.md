@@ -1,4 +1,4 @@
-# New feature/Adjustment/Bug fix: Title
+# New feature/Improvement/Bug fix: Title
 
 Short description of the changes made.
 
