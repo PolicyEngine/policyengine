@@ -15,6 +15,9 @@ jobs:
       - uses: psf/black@stable
         with:
           options: ". -l 79 --check"
+      - name: Linelint
+        uses: actions/linelint@master
+        id: linelint
   test:
     name: Test and Deploy
     runs-on: ubuntu-latest
