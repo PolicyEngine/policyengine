@@ -11,3 +11,6 @@ Short description of the changes made.
   - [ ] Major
   - [ ] Minor
   - [ ] Patch
+
+### Issues fixed
+
