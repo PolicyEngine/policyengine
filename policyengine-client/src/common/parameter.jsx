@@ -4,8 +4,7 @@ import {
 	InputNumber, Divider, Switch, Slider, Select, Alert, Input
 } from "antd";
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import "antd/dist/antd.css";
+import "../style/policyengine.less";
 
 const { Option } = Select;
 
