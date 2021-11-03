@@ -1,7 +1,7 @@
 import { Fragment, default as React } from "react";
 import { CloseCircleFilled } from "@ant-design/icons";
 import {
-	InputNumber, Divider, Switch, Slider, Select, Alert
+	InputNumber, Divider, Switch, Slider, Select, Alert, Input
 } from "antd";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -77,6 +77,16 @@ export function Parameter(props) {
 				}}>
 					{props.param.options.map(value => <Option key={value} value={value}>{value}</Option>)}
 				</Select>
+			);
+		} else if(props.param.type === "str") {
+			component = (
+				<Input
+					onPressEnter={(e) => {
+						props.setPolicy(props.name, e.target.value);
+					}}
+					defaultValue={props.param.value}
+					disabled={props.disabled}
+				/>
 			);
 		} else {
 			component = (
