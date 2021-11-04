@@ -3,8 +3,7 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { Overview } from "../overview";
 import { Parameter } from "../parameter";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "antd/dist/antd.css";
+import "../../style/policyengine.less";
 
 const { SubMenu } = Menu;
 
