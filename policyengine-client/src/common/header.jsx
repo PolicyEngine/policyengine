@@ -80,7 +80,7 @@ function MainNavigation(props) {
 		);
 	} else {
 		middleColumn = (
-			<Tabs style={{paddingTop: 0, paddingBottom: 0}} activeKey={props.selected} centered onChange={key => {history.push(policyToURL(props.baseUrl + "/" + key, props.policy))}}>
+			<Tabs moreIcon={null} style={{paddingTop: 0, paddingBottom: 0}} activeKey={props.selected} centered onChange={key => {history.push(policyToURL(props.baseUrl + "/" + key, props.policy))}}>
 				<TabPane tab="Policy" key="policy"/>
 				<TabPane tab={props.country.toUpperCase() + " impact"} key="population-impact" />
 				<TabPane tab="Your household" key="household" />
