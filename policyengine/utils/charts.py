@@ -16,8 +16,7 @@ from policyengine.utils.general import PolicyEngineResultsConfig
 
 
 WHITE = "#FFF"
-BLUE = "#1976D2"  # Blue 700.
-DARK_BLUE = "#0F4AA1"  # Blue 900.
+BLUE = "#5091cc"
 GRAY = "#BDBDBD"
 DARK_GRAY = "#616161"
 LIGHT_GRAY = "#F5F5F5"
