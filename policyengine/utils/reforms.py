@@ -146,6 +146,7 @@ def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
             default=p(CURRENT_INSTANT),
             value=p(CURRENT_INSTANT),
             summary=meta["summary"],
+            inputtable=True,
         )
         default_values = dict(
             min=0,

@@ -41,6 +41,10 @@ def get_PE_variables(system: TaxBenefitSystem) -> Dict[str, dict]:
             entity=v.entity.key,
             hidden=False,
             inputtable=True,
+            accounting=dict(
+                components=[],
+                is_addition=True,
+            ),
         )
         if v.definition_period != "eternity":
             var["type"] = v.definition_period + "ly"

@@ -137,10 +137,11 @@ class PolicyEngineCountry:
             self.IndividualSim(baseline_config, year=2021)
         )
     
-    def _create_reform_household_sim(self, params: dict, situation = None) -> IndividualSim:
+    def _create_reform_household_sim(self, params: dict, situation = None, reform = None) -> IndividualSim:
         if situation is None:
             situation = self._create_situation(params)
-        reform = create_reform(params, self.policyengine_parameters)
+        if reform is None:
+            reform = create_reform(params, self.policyengine_parameters)
         reform_config = self.default_reform, reform
         return situation(
             self.IndividualSim(reform_config, year=2021)
@@ -152,15 +153,22 @@ class PolicyEngineCountry:
         with open("household_params.yaml", "w+") as f:
             yaml.dump(params, f)
         situation = self._create_situation(params)
+        reform = create_reform(params, self.policyengine_parameters)
         baseline = self._create_baseline_household_sim(params, situation)
-        reformed = self._create_reform_household_sim(params, situation)
+        reformed = self._create_reform_household_sim(params, situation, reform)
         baseline.calc("net_income")
         reformed.calc("net_income")
+        baseline_extra_earnings = self._create_baseline_household_sim(params, situation)
+        baseline_extra_earnings.calc("employment_income")
+        baseline_extra_earnings.simulation.set_input("employment_income", 2021, baseline.calc("employment_income") + 1)
+        reformed_extra_earnings = self._create_reform_household_sim(params, situation, reform)
+        reformed_extra_earnings.calc("employment_income")
+        reformed_extra_earnings.simulation.set_input("employment_income", 2021, reformed.calc("employment_income") + 1)
         headlines = headline_figures(baseline, reformed, self.results_config)
         waterfall = household_waterfall_chart(
             baseline, reformed, self.results_config
         )
-        variables = variable_changes(baseline, reformed)
+        variables = variable_changes(baseline, reformed, baseline_extra_earnings, reformed_extra_earnings)
         baseline.vary("employment_income", step=100)
         reformed.vary("employment_income", step=100)
         budget = budget_chart(baseline, reformed, self.results_config)

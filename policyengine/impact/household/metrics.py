@@ -1,4 +1,5 @@
-from typing import Type
+from typing import Callable, Type
+from openfisca_tools.model_api import ReformType
 from openfisca_uk.tools.simulation import IndividualSim
 import numpy as np
 
@@ -36,7 +37,9 @@ def headline_figures(
 
 def variable_changes(
     baseline: IndividualSim,
-    reformed: IndividualSim
+    reformed: IndividualSim,
+    baseline_extra_earnings: IndividualSim,
+    reformed_extra_earnings: IndividualSim,
     ) -> dict:
     """Create dictionary of baseline and reform changes for a set of variables.
 
@@ -54,4 +57,15 @@ def variable_changes(
     return {name: {
         "old": float(baseline.calc(name).sum()),
         "new": float(reformed.calc(name).sum()),
+        "difference": float(reformed.calc(name).sum() - baseline.calc(name).sum()),
+        "old_deriv": float(baseline_extra_earnings.calc(name).sum() - baseline.calc(name).sum()),
+        "new_deriv": float(reformed_extra_earnings.calc(name).sum() - reformed.calc(name).sum()),
+        "difference_deriv": float(
+            (
+                reformed_extra_earnings.calc(name).sum() 
+                - reformed.calc(name).sum()
+            ) - (
+                baseline_extra_earnings.calc(name).sum() 
+                - baseline.calc(name).sum()
+            )),
     } for name in variables}

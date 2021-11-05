@@ -1,3 +1,4 @@
+basic_rate: '0.41'
 household:
   household:
     '0':
@@ -8,6 +9,9 @@ household:
               label: You
               variables:
                 age:
+                  accounting:
+                    components: []
+                    is_addition: true
                   default: 18
                   description: The age of the person in years
                   entity: person
@@ -47,6 +51,9 @@ household:
                   type: yearly
                   value: 0
                 dividend_income:
+                  accounting:
+                    components: []
+                    is_addition: true
                   default: 0
                   description: Total income from dividends, gross of tax
                   entity: person
@@ -64,6 +71,9 @@ household:
                   type: yearly
                   value: 0
                 employment_income:
+                  accounting:
+                    components: []
+                    is_addition: true
                   default: 0
                   description: Total income from employment
                   entity: person
@@ -79,8 +89,43 @@ household:
                   short_name: employment_income
                   title: Employment income
                   type: yearly
-                  value: 19576
+                  value: 19014
+                family_benefits:
+                  accounting:
+                    components: []
+                    is_addition: true
+                  default: 0
+                  description: ''
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: family_benefits
+                  title: Family benefits
+                  type: yearly
+                  value: 0
+                income_tax:
+                  accounting:
+                    components: []
+                    is_addition: true
+                  default: 0
+                  description: ''
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: income_tax
+                  title: Income Tax
+                  type: yearly
+                  value: 0
                 is_disabled_for_benefits:
+                  accounting:
+                    components: []
+                    is_addition: true
                   default: 0
                   description: Whether this person is disabled for benefits purposes
                   entity: person
@@ -98,6 +143,9 @@ household:
                   type: bool
                   value: 0
                 is_in_startup_period:
+                  accounting:
+                    components: []
+                    is_addition: true
                   default: false
                   description: Whether this person is in a 'start-up' period for Universal
                     Credit
@@ -112,6 +160,9 @@ household:
                   type: bool
                   value: false
                 is_severely_disabled_for_benefits:
+                  accounting:
+                    components: []
+                    is_addition: true
                   default: 0
                   description: Whether this person is severely disabled for benefits
                     purposes
@@ -130,6 +181,9 @@ household:
                   type: bool
                   value: 0
                 limited_capability_for_WRA:
+                  accounting:
+                    components: []
+                    is_addition: true
                   default: false
                   description: Whether this person has been assessed by the DWP as
                     having limited capability for work or work-related activity
@@ -163,6 +217,22 @@ household:
                   title: Market income
                   type: yearly
                   value: 0
+                national_insurance:
+                  accounting:
+                    components: []
+                    is_addition: true
+                  default: 0
+                  description: ''
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: national_insurance
+                  title: National Insurance
+                  type: yearly
+                  value: 0
                 net_income:
                   accounting:
                     components:
@@ -183,6 +253,9 @@ household:
                   type: yearly
                   value: 0
                 pension_income:
+                  accounting:
+                    components: []
+                    is_addition: true
                   default: 0
                   description: Income from private or occupational pensions (not including
                     State Pension)
@@ -200,7 +273,26 @@ household:
                   title: Pension income
                   type: yearly
                   value: 0
+                personal_benefits:
+                  accounting:
+                    components: []
+                    is_addition: true
+                  default: 0
+                  description: ''
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: personal_benefits
+                  title: Personal benefits
+                  type: yearly
+                  value: 0
                 property_income:
+                  accounting:
+                    components: []
+                    is_addition: true
                   default: 0
                   description: Income from rental of property
                   entity: person
@@ -218,6 +310,9 @@ household:
                   type: yearly
                   value: 0
                 savings_interest_income:
+                  accounting:
+                    components: []
+                    is_addition: true
                   default: 0
                   description: Income from interest on savings, gross of tax
                   entity: person
@@ -235,6 +330,9 @@ household:
                   type: yearly
                   value: 0
                 self_employment_income:
+                  accounting:
+                    components: []
+                    is_addition: true
                   default: 0
                   description: Income from self-employment profits
                   entity: person
@@ -270,6 +368,9 @@ household:
                   type: yearly
                   value: 0
                 weekly_hours:
+                  accounting:
+                    components: []
+                    is_addition: true
                   default: 0
                   description: Average weekly hours worked
                   entity: person
@@ -286,6 +387,9 @@ household:
           label: Your immediate family
           variables:
             benunit_rent:
+              accounting:
+                components: []
+                is_addition: true
               default: 0
               description: Gross rent that members of this family are liable for
               entity: benunit
@@ -299,6 +403,9 @@ household:
               type: yearly
               value: 0
             claims_UC:
+              accounting:
+                components: []
+                is_addition: true
               default: true
               description: Whether this family would claim Universal Credit if eligible
               entity: benunit
@@ -312,6 +419,9 @@ household:
               type: bool
               value: true
             claims_child_benefit:
+              accounting:
+                components: []
+                is_addition: true
               default: true
               description: Whether this benefit unit would claim Child Benefit
               entity: benunit
@@ -325,6 +435,9 @@ household:
               type: bool
               value: true
             claims_legacy_benefits:
+              accounting:
+                components: []
+                is_addition: true
               default: false
               description: Whether this family is currently receiving legacy benefits
                 (overrides UC claimant status)
@@ -339,6 +452,9 @@ household:
               type: bool
               value: false
             is_married:
+              accounting:
+                components: []
+                is_addition: true
               default: false
               description: Whether the benefit unit adults are married to each other
               entity: benunit
@@ -352,6 +468,9 @@ household:
               type: bool
               value: false
             would_claim_CTC:
+              accounting:
+                components: []
+                is_addition: true
               default: true
               description: Whether this family would claim Child Tax Credit if eligible
               entity: benunit
@@ -365,6 +484,9 @@ household:
               type: bool
               value: true
             would_claim_HB:
+              accounting:
+                components: []
+                is_addition: true
               default: true
               description: Whether this family would claim Housing Benefit if eligible
               entity: benunit
@@ -378,6 +500,9 @@ household:
               type: bool
               value: true
             would_claim_IS:
+              accounting:
+                components: []
+                is_addition: true
               default: true
               description: Whether this family would claim Income Support if eligible
               entity: benunit
@@ -391,6 +516,9 @@ household:
               type: bool
               value: true
             would_claim_JSA:
+              accounting:
+                components: []
+                is_addition: true
               default: true
               description: Whether this family would claim income-based JSA if eligible
               entity: benunit
@@ -404,6 +532,9 @@ household:
               type: bool
               value: true
             would_claim_PC:
+              accounting:
+                components: []
+                is_addition: true
               default: true
               description: Whether this family would claim Pension Credit if eligible
               entity: benunit
@@ -417,6 +548,9 @@ household:
               type: bool
               value: true
             would_claim_WTC:
+              accounting:
+                components: []
+                is_addition: true
               default: true
               description: Whether this family would claim Working Tax Credit if eligible
               entity: benunit
@@ -432,6 +566,9 @@ household:
       label: Your household
       variables:
         BRMA:
+          accounting:
+            components: []
+            is_addition: true
           default: MAIDSTONE
           description: ''
           entity: household
@@ -598,6 +735,9 @@ household:
           type: category
           value: MAIDSTONE
         region:
+          accounting:
+            components: []
+            is_addition: true
           default: UNKNOWN
           description: Area of the UK
           entity: household
