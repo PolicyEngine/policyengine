@@ -253,6 +253,7 @@ export class PolicyEngineUK extends React.Component {
                                 fetchDone={this.state.fetchDone}
                                 currency="£"
                                 setPage={setPage}
+                                variables={this.state.variables}
                             />
                         </Route>
                     </Switch>

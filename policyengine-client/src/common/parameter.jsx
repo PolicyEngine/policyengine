@@ -42,7 +42,7 @@ export function getFormatter(parameter, currency) {
 
 export function Parameter(props) {
 	try {
-		if(props.param.hidden) {
+		if(!props.param.inputtable) {
 			return <></>;
 		}
 		let formatter = getFormatter(props.param, props.currency);

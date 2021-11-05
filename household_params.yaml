@@ -1,0 +1,627 @@
+household:
+  household:
+    '0':
+      benunit:
+        '1':
+          adult:
+            '2':
+              label: You
+              variables:
+                age:
+                  default: 18
+                  description: The age of the person in years
+                  entity: person
+                  hidden: false
+                  inputtable: true
+                  max: 100
+                  min: 0
+                  roles:
+                    adult:
+                      default: 18
+                      max: 100
+                      value: 18
+                    child:
+                      default: 10
+                      max: 18
+                      value: 10
+                  short_name: age
+                  title: Age
+                  type: amount
+                  value: 18
+                benefits:
+                  accounting:
+                    components:
+                    - personal_benefits
+                    - family_benefits
+                    is_addition: true
+                  default: 0
+                  description: ''
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: benefits
+                  title: Total benefits
+                  type: yearly
+                  value: 0
+                dividend_income:
+                  default: 0
+                  description: Total income from dividends, gross of tax
+                  entity: person
+                  hidden: false
+                  inputtable: true
+                  max: 80000
+                  min: 0
+                  roles:
+                    adult:
+                      max: 80000
+                    child:
+                      inputtable: false
+                  short_name: dividend_income
+                  title: Income from dividends
+                  type: yearly
+                  value: 0
+                employment_income:
+                  default: 0
+                  description: Total income from employment
+                  entity: person
+                  hidden: false
+                  inputtable: true
+                  max: 80000
+                  min: 0
+                  roles:
+                    adult:
+                      max: 80000
+                    child:
+                      max: 20000
+                  short_name: employment_income
+                  title: Employment income
+                  type: yearly
+                  value: 19576
+                is_disabled_for_benefits:
+                  default: 0
+                  description: Whether this person is disabled for benefits purposes
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles:
+                    child:
+                      default: false
+                      hidden: false
+                      value: false
+                  short_name: is_disabled_for_benefits
+                  title: Has a disability
+                  type: bool
+                  value: 0
+                is_in_startup_period:
+                  default: false
+                  description: Whether this person is in a 'start-up' period for Universal
+                    Credit
+                  entity: person
+                  hidden: false
+                  inputtable: true
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: is_in_startup_period
+                  title: In a start-up period
+                  type: bool
+                  value: false
+                is_severely_disabled_for_benefits:
+                  default: 0
+                  description: Whether this person is severely disabled for benefits
+                    purposes
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles:
+                    child:
+                      default: false
+                      hidden: false
+                      value: false
+                  short_name: is_severely_disabled_for_benefits
+                  title: Has a severe disability
+                  type: bool
+                  value: 0
+                limited_capability_for_WRA:
+                  default: false
+                  description: Whether this person has been assessed by the DWP as
+                    having limited capability for work or work-related activity
+                  entity: person
+                  hidden: false
+                  inputtable: true
+                  max: 1
+                  min: 0
+                  roles:
+                    child:
+                      inputtable: false
+                  short_name: limited_capability_for_WRA
+                  title: Assessed to have limited capability for work-related activity
+                  type: bool
+                  value: false
+                market_income:
+                  accounting:
+                    components:
+                    - employment_income
+                    - self_employment_income
+                    is_addition: true
+                  default: 0
+                  description: ''
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: market_income
+                  title: Market income
+                  type: yearly
+                  value: 0
+                net_income:
+                  accounting:
+                    components:
+                    - market_income
+                    - benefits
+                    - tax
+                    is_addition: true
+                  default: 0
+                  description: ''
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: net_income
+                  title: Net income
+                  type: yearly
+                  value: 0
+                pension_income:
+                  default: 0
+                  description: Income from private or occupational pensions (not including
+                    State Pension)
+                  entity: person
+                  hidden: false
+                  inputtable: true
+                  max: 80000
+                  min: 0
+                  roles:
+                    adult:
+                      max: 80000
+                    child:
+                      inputtable: false
+                  short_name: pension_income
+                  title: Pension income
+                  type: yearly
+                  value: 0
+                property_income:
+                  default: 0
+                  description: Income from rental of property
+                  entity: person
+                  hidden: false
+                  inputtable: true
+                  max: 80000
+                  min: 0
+                  roles:
+                    adult:
+                      max: 80000
+                    child:
+                      inputtable: false
+                  short_name: property_income
+                  title: Rental income
+                  type: yearly
+                  value: 0
+                savings_interest_income:
+                  default: 0
+                  description: Income from interest on savings, gross of tax
+                  entity: person
+                  hidden: false
+                  inputtable: true
+                  max: 80000
+                  min: 0
+                  roles:
+                    adult:
+                      max: 80000
+                    child:
+                      inputtable: false
+                  short_name: savings_interest_income
+                  title: Savings interest income
+                  type: yearly
+                  value: 0
+                self_employment_income:
+                  default: 0
+                  description: Income from self-employment profits
+                  entity: person
+                  hidden: false
+                  inputtable: true
+                  max: 80000
+                  min: 0
+                  roles:
+                    adult:
+                      max: 80000
+                    child:
+                      inputtable: false
+                  short_name: self_employment_income
+                  title: Self-employment income
+                  type: yearly
+                  value: 0
+                tax:
+                  accounting:
+                    components:
+                    - income_tax
+                    - national_insurance
+                    is_addition: false
+                  default: 0
+                  description: ''
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: tax
+                  title: Total tax
+                  type: yearly
+                  value: 0
+                weekly_hours:
+                  default: 0
+                  description: Average weekly hours worked
+                  entity: person
+                  hidden: false
+                  inputtable: true
+                  max: 60
+                  min: 0
+                  roles: []
+                  short_name: weekly_hours
+                  title: Weekly hours
+                  type: amount
+                  value: 0
+          child: {}
+          label: Your immediate family
+          variables:
+            benunit_rent:
+              default: 0
+              description: Gross rent that members of this family are liable for
+              entity: benunit
+              hidden: false
+              inputtable: true
+              max: 20000
+              min: 0
+              roles: []
+              short_name: benunit_rent
+              title: Rent
+              type: yearly
+              value: 0
+            claims_UC:
+              default: true
+              description: Whether this family would claim Universal Credit if eligible
+              entity: benunit
+              hidden: false
+              inputtable: true
+              max: 1
+              min: 0
+              roles: []
+              short_name: claims_UC
+              title: Claims UC
+              type: bool
+              value: true
+            claims_child_benefit:
+              default: true
+              description: Whether this benefit unit would claim Child Benefit
+              entity: benunit
+              hidden: false
+              inputtable: true
+              max: 1
+              min: 0
+              roles: []
+              short_name: claims_child_benefit
+              title: Claims Child Benefit
+              type: bool
+              value: true
+            claims_legacy_benefits:
+              default: false
+              description: Whether this family is currently receiving legacy benefits
+                (overrides UC claimant status)
+              entity: benunit
+              hidden: false
+              inputtable: true
+              max: 1
+              min: 0
+              roles: []
+              short_name: claims_legacy_benefits
+              title: Claims legacy benefits
+              type: bool
+              value: false
+            is_married:
+              default: false
+              description: Whether the benefit unit adults are married to each other
+              entity: benunit
+              hidden: false
+              inputtable: true
+              max: 1
+              min: 0
+              roles: []
+              short_name: is_married
+              title: Married
+              type: bool
+              value: false
+            would_claim_CTC:
+              default: true
+              description: Whether this family would claim Child Tax Credit if eligible
+              entity: benunit
+              hidden: false
+              inputtable: true
+              max: 1
+              min: 0
+              roles: []
+              short_name: would_claim_CTC
+              title: Claims Child Tax Credit
+              type: bool
+              value: true
+            would_claim_HB:
+              default: true
+              description: Whether this family would claim Housing Benefit if eligible
+              entity: benunit
+              hidden: false
+              inputtable: true
+              max: 1
+              min: 0
+              roles: []
+              short_name: would_claim_HB
+              title: Claims Housing Benefit
+              type: bool
+              value: true
+            would_claim_IS:
+              default: true
+              description: Whether this family would claim Income Support if eligible
+              entity: benunit
+              hidden: false
+              inputtable: true
+              max: 1
+              min: 0
+              roles: []
+              short_name: would_claim_IS
+              title: Claims Income Support
+              type: bool
+              value: true
+            would_claim_JSA:
+              default: true
+              description: Whether this family would claim income-based JSA if eligible
+              entity: benunit
+              hidden: false
+              inputtable: true
+              max: 1
+              min: 0
+              roles: []
+              short_name: would_claim_JSA
+              title: Claims income-based Jobseeker's Allowance
+              type: bool
+              value: true
+            would_claim_PC:
+              default: true
+              description: Whether this family would claim Pension Credit if eligible
+              entity: benunit
+              hidden: false
+              inputtable: true
+              max: 1
+              min: 0
+              roles: []
+              short_name: would_claim_PC
+              title: Claims Pension Credit
+              type: bool
+              value: true
+            would_claim_WTC:
+              default: true
+              description: Whether this family would claim Working Tax Credit if eligible
+              entity: benunit
+              hidden: false
+              inputtable: true
+              max: 1
+              min: 0
+              roles: []
+              short_name: would_claim_WTC
+              title: Claims Working Tax Credit
+              type: bool
+              value: true
+      label: Your household
+      variables:
+        BRMA:
+          default: MAIDSTONE
+          description: ''
+          entity: household
+          hidden: false
+          inputtable: true
+          max: 1
+          min: 0
+          options:
+          - ASHFORD
+          - AYLESBURY
+          - BARNSLEY
+          - BARROW_IN_FURNESS
+          - BASINGSTOKE
+          - BATH
+          - BEDFORD
+          - BIRMINGHAM
+          - BLACK_COUNTRY
+          - BLACKWATER_VALLEY
+          - BOLTON_AND_BURY
+          - BOURNEMOUTH
+          - BRADFORD_SOUTH_DALES
+          - BRIGHTON_AND_HOVE
+          - BRISTOL
+          - BURY_ST_EDMUNDS
+          - CAMBRIDGE
+          - CANTERBURY
+          - CENTRAL_GREATER_MANCHESTER
+          - CENTRAL_LANCS
+          - CENTRAL_LONDON
+          - CENTRAL_NORFOLK_NORWICH
+          - CHELMSFORD
+          - CHELTENHAM
+          - CHERWELL_VALLEY
+          - CHESTERFIELD
+          - CHICHESTER
+          - CHILTERNS
+          - COLCHESTER
+          - COVENTRY
+          - CRAWLEY_REIGATE
+          - DARLINGTON
+          - DERBY
+          - DONCASTER
+          - DOVER_SHEPWAY
+          - DURHAM
+          - EAST_CHESHIRE
+          - EAST_LANCS
+          - EAST_THAMES_VALLEY
+          - EASTBOURNE
+          - EASTERN_STAFFORDSHIRE
+          - EXETER
+          - FYLDE_COAST
+          - GLOUCESTER
+          - GRANTHAM_NEWARK
+          - GREATER_LIVERPOOL
+          - GRIMSBY
+          - GUILDFORD
+          - HALIFAX
+          - HARLOW_STORTFORD
+          - HARROGATE
+          - HEREFORDSHIRE
+          - HIGH_WEALD
+          - HULL_EAST_RIDING
+          - HUNTINGDON
+          - INNER_EAST_LONDON
+          - INNER_NORTH_LONDON
+          - INNER_SOUTH_EAST_LONDON
+          - INNER_SOUTH_WEST_LONDON
+          - INNER_WEST_LONDON
+          - IPSWICH
+          - ISLE_OF_WIGHT
+          - KENDAL
+          - KERNOW_WEST
+          - KINGS_LYNN
+          - KIRKLEES
+          - LANCASTER
+          - LEEDS
+          - LEICESTER
+          - LINCOLN
+          - LINCOLNSHIRE_FENS
+          - LOWESTOFT_GREAT_YARMOUTH
+          - LUTON
+          - MAIDSTONE
+          - MEDWAY_SWALE
+          - MENDIP
+          - MID_EAST_DEVON
+          - MID_WEST_DORSET
+          - MID_STAFFS
+          - MILTON_KEYNES
+          - NEWBURY
+          - NORTH_CHESHIRE
+          - NORTH_CORNWALL_DEVON_BORDERS
+          - NORTH_CUMBRIA
+          - NORTH_DEVON
+          - NORTH_NOTTINGHAM
+          - NORTH_WEST_KENT
+          - NORTH_WEST_LONDON
+          - NORTHAMPTON
+          - NORTHANTS_CENTRAL
+          - NORTHUMBERLAND
+          - NOTTINGHAM
+          - OLDHAM_ROCHDALE
+          - OUTER_EAST_LONDON
+          - OUTER_NORTH_EAST_LONDON
+          - OUTER_NORTH_LONDON
+          - OUTER_SOUTH_EAST_LONDON
+          - OUTER_SOUTH_LONDON
+          - OUTER_SOUTH_WEST_LONDON
+          - OUTER_WEST_LONDON
+          - OXFORD
+          - PEAKS_DALES
+          - PETERBOROUGH
+          - PLYMOUTH
+          - PORTSMOUTH
+          - READING
+          - RICHMOND_HAMBLETON
+          - ROTHERHAM
+          - RUGBY_EAST
+          - SALISBURY
+          - SCARBOROUGH
+          - SCUNTHORPE
+          - SHEFFIELD
+          - SHROPSHIRE
+          - SOLIHULL
+          - SOUTH_CHESHIRE
+          - SOUTH_DEVON
+          - SOUTH_EAST_HERTS
+          - SOUTH_WEST_ESSEX
+          - SOUTH_WEST_HERTS
+          - SOUTHAMPTON
+          - SOUTHEND
+          - SOUTHERN_GREATER_MANCHESTER
+          - SOUTHPORT
+          - ST_HELENS
+          - STAFFORDSHIRE_NORTH
+          - STEVENAGE_NORTH_HERTS
+          - SUNDERLAND
+          - SUSSEX_EAST
+          - SWINDON
+          - TAMESIDE_GLOSSOP
+          - TAUNTON_WEST_SOMERSET
+          - TEESSIDE
+          - THANET
+          - TYNESIDE
+          - WAKEFIELD
+          - WALTON
+          - WARWICKSHIRE_SOUTH
+          - WEST_CHESHIRE
+          - WEST_CUMBRIA
+          - WEST_PENNINE
+          - WEST_WILTSHIRE
+          - WESTON_S_MARE
+          - WIGAN
+          - WINCHESTER
+          - WIRRAL
+          - WOLDS_AND_COAST
+          - WORCESTER_NORTH
+          - WORCESTER_SOUTH
+          - WORTHING
+          - YEOVIL
+          - YORK
+          roles: []
+          short_name: BRMA
+          title: Broad Rental Market Area
+          type: category
+          value: MAIDSTONE
+        region:
+          default: UNKNOWN
+          description: Area of the UK
+          entity: household
+          hidden: false
+          inputtable: true
+          max: 1
+          min: 0
+          options:
+          - UNKNOWN
+          - NORTH_EAST
+          - NORTH_WEST
+          - YORKSHIRE
+          - EAST_MIDLANDS
+          - WEST_MIDLANDS
+          - EAST_OF_ENGLAND
+          - LONDON
+          - SOUTH_EAST
+          - SOUTH_WEST
+          - WALES
+          - SCOTLAND
+          - NORTHERN_IRELAND
+          roles: []
+          short_name: region
+          title: Region
+          type: category
+          value: UNKNOWN
+  num_entities: 3

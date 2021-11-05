@@ -40,6 +40,7 @@ def get_PE_variables(system: TaxBenefitSystem) -> Dict[str, dict]:
             roles=[],
             entity=v.entity.key,
             hidden=False,
+            inputtable=True,
         )
         if v.definition_period != "eternity":
             var["type"] = v.definition_period + "ly"
@@ -72,7 +73,8 @@ def create_situation(
                 for instance in node[entity]:
                     variables = {}
                     for v in node[entity][instance]["variables"].values():
-                        variables[v["short_name"]] = v["value"]
+                        if v["inputtable"]:
+                            variables[v["short_name"]] = v["value"]
                     sim.add_data(
                         entity
                         if entity_hierarchy[entity]["is_group"]

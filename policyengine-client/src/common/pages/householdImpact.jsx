@@ -5,6 +5,7 @@ import React from "react";
 import { Overview } from "../overview";
 import { LoadingResultsPane, Chart } from "../results";
 import { Redirect } from "react-router";
+import AccountingTable from "../accounting";
 
 const { Panel } = Collapse;
 
@@ -46,6 +47,9 @@ export function HouseholdResultsPane(props) {
 			</Row>
 			<Row>
 				<Chart plot={props.results.mtr_chart} />
+			</Row>
+			<Row>
+				<AccountingTable variableNames={["net_income"]} variables={props.variables} values={props.results.variables} depth={0} />
 			</Row>
 		</>
 	);
@@ -106,7 +110,7 @@ class HouseholdImpactPage extends React.Component {
 								<div className="d-flex justify-content-center align-items-center" style={{minHeight: 400}}>
 									<LoadingResultsPane noSpin message="Something went wrong (try navigating back and returning to this page)"/>
 								</div> :
-								<HouseholdResultsPane results={this.state.results} />
+								<HouseholdResultsPane variables={this.props.variables} results={this.state.results} />
 					}
 				</Col>
 				<Col xl={3}>
@@ -127,6 +131,7 @@ export default function HouseholdImpact(props) {
 			setHouseholdVisited={props.setHouseholdVisited}
 			currency={props.currency}
 			baseURL={props.baseURL}
+			variables={props.variables}
 		/>;
 	} else {
 		return <Redirect to={props.baseURL + "/household"} />

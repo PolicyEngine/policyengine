@@ -32,3 +32,26 @@ def headline_figures(
         config.net_income_variable,
     ]
     return {name: get_values(name) for name in VARIABLES}
+
+
+def variable_changes(
+    baseline: IndividualSim,
+    reformed: IndividualSim
+    ) -> dict:
+    """Create dictionary of baseline and reform changes for a set of variables.
+
+    :param baseline: Baseline simulation
+    :type baseline: IndividualSim
+    :param reformed: Reform simulation
+    :type reformed: IndividualSim
+    :return: Dictionary of baseline and reformed sums for a set of variables
+    """
+    variables = filter(
+        lambda var: hasattr(var, "metadata") and "policyengine" in var.metadata,
+        baseline.simulation.tax_benefit_system.variables.values(),
+    )
+    variables = map(lambda var: type(var).__name__, variables)
+    return {name: {
+        "old": float(baseline.calc(name).sum()),
+        "new": float(reformed.calc(name).sum()),
+    } for name in variables}

@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Dict, Tuple, Type
+from typing import Callable, Dict, Tuple, Type
 from openfisca_tools.model_api import ReformType
 import yaml
 from openfisca_core.taxbenefitsystems.tax_benefit_system import (
@@ -19,7 +19,7 @@ from policyengine.impact.household.charts import (
     household_waterfall_chart,
     mtr_chart,
 )
-from policyengine.impact.household.metrics import headline_figures
+from policyengine.impact.household.metrics import headline_figures, variable_changes
 from policyengine.impact.population.metrics import headline_metrics
 from policyengine.impact.population.charts import (
     decile_chart,
@@ -95,17 +95,16 @@ class PolicyEngineCountry:
         with open(self.default_household_file) as f:
             self.default_household_data = yaml.safe_load(f)
 
-    def _create_reform_sim(self, reform: ReformType) -> Microsimulation:
+    def _create_reform_sim(self, params: dict) -> Microsimulation:
         sim = self.Microsimulation(
-            (self.default_reform, reform), dataset=self.default_dataset
+            (self.default_reform, create_reform(params, self.policyengine_parameters)), dataset=self.default_dataset
         )
         sim.simulation.trace = True
         sim.calc("net_income")
         return sim
 
     def population_reform(self, params: dict = None):
-        reform = create_reform(params, self.policyengine_parameters)
-        reformed = self._create_reform_sim(reform)
+        reformed = self._create_reform_sim(params)
         return dict(
             **headline_metrics(self.baseline, reformed, self.results_config),
             decile_chart=decile_chart(
@@ -122,29 +121,46 @@ class PolicyEngineCountry:
             ),
         )
 
-    @exclude_from_cache
-    def household_reform(self, params=None):
-        situation = create_situation(
+    def _create_situation(self, params: dict) -> Callable:
+        return create_situation(
             params["household"],
             ["household"],
             self.entities["hierarchy"],
             self.entities["entities"],
         )
-        reform = create_reform(params, self.policyengine_parameters)
+    
+    def _create_baseline_household_sim(self, params: dict, situation = None) -> IndividualSim:
+        if situation is None:
+            situation = self._create_situation(params)
         baseline_config = self.default_reform
-        reform_config = self.default_reform, reform
-        baseline: IndividualSim = situation(
+        return situation(
             self.IndividualSim(baseline_config, year=2021)
         )
-        reformed: IndividualSim = situation(
+    
+    def _create_reform_household_sim(self, params: dict, situation = None) -> IndividualSim:
+        if situation is None:
+            situation = self._create_situation(params)
+        reform = create_reform(params, self.policyengine_parameters)
+        reform_config = self.default_reform, reform
+        return situation(
             self.IndividualSim(reform_config, year=2021)
         )
+
+
+    @exclude_from_cache
+    def household_reform(self, params=None):
+        with open("household_params.yaml", "w+") as f:
+            yaml.dump(params, f)
+        situation = self._create_situation(params)
+        baseline = self._create_baseline_household_sim(params, situation)
+        reformed = self._create_reform_household_sim(params, situation)
         baseline.calc("net_income")
         reformed.calc("net_income")
         headlines = headline_figures(baseline, reformed, self.results_config)
         waterfall = household_waterfall_chart(
             baseline, reformed, self.results_config
         )
+        variables = variable_changes(baseline, reformed)
         baseline.vary("employment_income", step=100)
         reformed.vary("employment_income", step=100)
         budget = budget_chart(baseline, reformed, self.results_config)
@@ -154,6 +170,7 @@ class PolicyEngineCountry:
             waterfall_chart=waterfall,
             budget_chart=budget,
             mtr_chart=mtr,
+            variables=variables,
         )
 
     def ubi(self, params=None):
