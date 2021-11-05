@@ -19,7 +19,10 @@ from policyengine.impact.household.charts import (
     household_waterfall_chart,
     mtr_chart,
 )
-from policyengine.impact.household.metrics import headline_figures, variable_changes
+from policyengine.impact.household.metrics import (
+    headline_figures,
+    variable_changes,
+)
 from policyengine.impact.population.metrics import headline_metrics
 from policyengine.impact.population.charts import (
     decile_chart,
@@ -97,7 +100,11 @@ class PolicyEngineCountry:
 
     def _create_reform_sim(self, params: dict) -> Microsimulation:
         sim = self.Microsimulation(
-            (self.default_reform, create_reform(params, self.policyengine_parameters)), dataset=self.default_dataset
+            (
+                self.default_reform,
+                create_reform(params, self.policyengine_parameters),
+            ),
+            dataset=self.default_dataset,
         )
         sim.simulation.trace = True
         sim.calc("net_income")
@@ -128,25 +135,24 @@ class PolicyEngineCountry:
             self.entities["hierarchy"],
             self.entities["entities"],
         )
-    
-    def _create_baseline_household_sim(self, params: dict, situation = None) -> IndividualSim:
+
+    def _create_baseline_household_sim(
+        self, params: dict, situation=None
+    ) -> IndividualSim:
         if situation is None:
             situation = self._create_situation(params)
         baseline_config = self.default_reform
-        return situation(
-            self.IndividualSim(baseline_config, year=2021)
-        )
-    
-    def _create_reform_household_sim(self, params: dict, situation = None, reform = None) -> IndividualSim:
+        return situation(self.IndividualSim(baseline_config, year=2021))
+
+    def _create_reform_household_sim(
+        self, params: dict, situation=None, reform=None
+    ) -> IndividualSim:
         if situation is None:
             situation = self._create_situation(params)
         if reform is None:
             reform = create_reform(params, self.policyengine_parameters)
         reform_config = self.default_reform, reform
-        return situation(
-            self.IndividualSim(reform_config, year=2021)
-        )
-
+        return situation(self.IndividualSim(reform_config, year=2021))
 
     @exclude_from_cache
     def household_reform(self, params=None):
@@ -158,17 +164,30 @@ class PolicyEngineCountry:
         reformed = self._create_reform_household_sim(params, situation, reform)
         baseline.calc("net_income")
         reformed.calc("net_income")
-        baseline_extra_earnings = self._create_baseline_household_sim(params, situation)
+        baseline_extra_earnings = self._create_baseline_household_sim(
+            params, situation
+        )
         baseline_extra_earnings.calc("employment_income")
-        baseline_extra_earnings.simulation.set_input("employment_income", 2021, baseline.calc("employment_income") + 1)
-        reformed_extra_earnings = self._create_reform_household_sim(params, situation, reform)
+        baseline_extra_earnings.simulation.set_input(
+            "employment_income", 2021, baseline.calc("employment_income") + 1
+        )
+        reformed_extra_earnings = self._create_reform_household_sim(
+            params, situation, reform
+        )
         reformed_extra_earnings.calc("employment_income")
-        reformed_extra_earnings.simulation.set_input("employment_income", 2021, reformed.calc("employment_income") + 1)
+        reformed_extra_earnings.simulation.set_input(
+            "employment_income", 2021, reformed.calc("employment_income") + 1
+        )
         headlines = headline_figures(baseline, reformed, self.results_config)
         waterfall = household_waterfall_chart(
             baseline, reformed, self.results_config
         )
-        variables = variable_changes(baseline, reformed, baseline_extra_earnings, reformed_extra_earnings)
+        variables = variable_changes(
+            baseline,
+            reformed,
+            baseline_extra_earnings,
+            reformed_extra_earnings,
+        )
         baseline.vary("employment_income", step=100)
         reformed.vary("employment_income", step=100)
         budget = budget_chart(baseline, reformed, self.results_config)
