@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import Callable, Dict, Tuple, Type
+import numpy as np
 from openfisca_tools.model_api import ReformType
 import yaml
 from openfisca_core.taxbenefitsystems.tax_benefit_system import (
@@ -163,20 +164,23 @@ class PolicyEngineCountry:
         baseline = self._create_baseline_household_sim(params, situation)
         reformed = self._create_reform_household_sim(params, situation, reform)
         baseline.calc("net_income")
+        earnings = list(baseline.calc("employment_income"))
+        earnings[0] += 1
+        print(baseline.calc("employment_income"), earnings)
         reformed.calc("net_income")
         baseline_extra_earnings = self._create_baseline_household_sim(
             params, situation
         )
         baseline_extra_earnings.calc("employment_income")
         baseline_extra_earnings.simulation.set_input(
-            "employment_income", 2021, baseline.calc("employment_income") + 1
+            "employment_income", 2021, earnings
         )
         reformed_extra_earnings = self._create_reform_household_sim(
             params, situation, reform
         )
         reformed_extra_earnings.calc("employment_income")
         reformed_extra_earnings.simulation.set_input(
-            "employment_income", 2021, reformed.calc("employment_income") + 1
+            "employment_income", 2021, earnings
         )
         headlines = headline_figures(baseline, reformed, self.results_config)
         waterfall = household_waterfall_chart(

@@ -1,4 +1,6 @@
-basic_rate: '0.41'
+UC_reduction_rate: '0.55'
+UC_work_allowance_with_housing: '335'
+UC_work_allowance_without_housing: '557'
 household:
   household:
     '0':
@@ -11,6 +13,7 @@ household:
                 age:
                   accounting:
                     components: []
+                    includes_earnings: false
                     is_addition: true
                   default: 18
                   description: The age of the person in years
@@ -37,6 +40,7 @@ household:
                     components:
                     - personal_benefits
                     - family_benefits
+                    includes_earnings: false
                     is_addition: true
                   default: 0
                   description: ''
@@ -53,6 +57,7 @@ household:
                 dividend_income:
                   accounting:
                     components: []
+                    includes_earnings: false
                     is_addition: true
                   default: 0
                   description: Total income from dividends, gross of tax
@@ -72,7 +77,7 @@ household:
                   value: 0
                 employment_income:
                   accounting:
-                    components: []
+                    includes_earnings: true
                     is_addition: true
                   default: 0
                   description: Total income from employment
@@ -89,10 +94,11 @@ household:
                   short_name: employment_income
                   title: Employment income
                   type: yearly
-                  value: 19014
+                  value: 14085
                 family_benefits:
                   accounting:
                     components: []
+                    includes_earnings: false
                     is_addition: true
                   default: 0
                   description: ''
@@ -109,7 +115,7 @@ household:
                 income_tax:
                   accounting:
                     components: []
-                    is_addition: true
+                    is_addition: false
                   default: 0
                   description: ''
                   entity: person
@@ -125,6 +131,7 @@ household:
                 is_disabled_for_benefits:
                   accounting:
                     components: []
+                    includes_earnings: false
                     is_addition: true
                   default: 0
                   description: Whether this person is disabled for benefits purposes
@@ -145,6 +152,7 @@ household:
                 is_in_startup_period:
                   accounting:
                     components: []
+                    includes_earnings: false
                     is_addition: true
                   default: false
                   description: Whether this person is in a 'start-up' period for Universal
@@ -162,6 +170,7 @@ household:
                 is_severely_disabled_for_benefits:
                   accounting:
                     components: []
+                    includes_earnings: false
                     is_addition: true
                   default: 0
                   description: Whether this person is severely disabled for benefits
@@ -183,6 +192,7 @@ household:
                 limited_capability_for_WRA:
                   accounting:
                     components: []
+                    includes_earnings: false
                     is_addition: true
                   default: false
                   description: Whether this person has been assessed by the DWP as
@@ -204,6 +214,7 @@ household:
                     components:
                     - employment_income
                     - self_employment_income
+                    includes_earnings: true
                     is_addition: true
                   default: 0
                   description: ''
@@ -220,7 +231,7 @@ household:
                 national_insurance:
                   accounting:
                     components: []
-                    is_addition: true
+                    is_addition: false
                   default: 0
                   description: ''
                   entity: person
@@ -239,6 +250,7 @@ household:
                     - market_income
                     - benefits
                     - tax
+                    includes_earnings: true
                     is_addition: true
                   default: 0
                   description: ''
@@ -255,6 +267,7 @@ household:
                 pension_income:
                   accounting:
                     components: []
+                    includes_earnings: false
                     is_addition: true
                   default: 0
                   description: Income from private or occupational pensions (not including
@@ -276,6 +289,7 @@ household:
                 personal_benefits:
                   accounting:
                     components: []
+                    includes_earnings: false
                     is_addition: true
                   default: 0
                   description: ''
@@ -292,6 +306,7 @@ household:
                 property_income:
                   accounting:
                     components: []
+                    includes_earnings: false
                     is_addition: true
                   default: 0
                   description: Income from rental of property
@@ -312,6 +327,7 @@ household:
                 savings_interest_income:
                   accounting:
                     components: []
+                    includes_earnings: false
                     is_addition: true
                   default: 0
                   description: Income from interest on savings, gross of tax
@@ -331,8 +347,7 @@ household:
                   value: 0
                 self_employment_income:
                   accounting:
-                    components: []
-                    is_addition: true
+                    includes_earnings: false
                   default: 0
                   description: Income from self-employment profits
                   entity: person
@@ -370,6 +385,7 @@ household:
                 weekly_hours:
                   accounting:
                     components: []
+                    includes_earnings: false
                     is_addition: true
                   default: 0
                   description: Average weekly hours worked
@@ -383,12 +399,797 @@ household:
                   title: Weekly hours
                   type: amount
                   value: 0
-          child: {}
+          child:
+            '3':
+              label: Your first child
+              variables:
+                age:
+                  accounting:
+                    components: []
+                    includes_earnings: false
+                    is_addition: true
+                  default: 10
+                  description: The age of the person in years
+                  entity: person
+                  hidden: false
+                  inputtable: true
+                  max: 18
+                  min: 0
+                  roles:
+                    adult:
+                      default: 18
+                      max: 100
+                      value: 18
+                    child:
+                      default: 10
+                      max: 18
+                      value: 10
+                  short_name: age
+                  title: Age
+                  type: amount
+                  value: 10
+                benefits:
+                  accounting:
+                    components:
+                    - personal_benefits
+                    - family_benefits
+                    includes_earnings: false
+                    is_addition: true
+                  default: 0
+                  description: ''
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: benefits
+                  title: Total benefits
+                  type: yearly
+                  value: 0
+                dividend_income:
+                  accounting:
+                    components: []
+                    includes_earnings: false
+                    is_addition: true
+                  default: 0
+                  description: Total income from dividends, gross of tax
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles:
+                    adult:
+                      max: 80000
+                    child:
+                      inputtable: false
+                  short_name: dividend_income
+                  title: Income from dividends
+                  type: yearly
+                  value: 0
+                employment_income:
+                  accounting:
+                    includes_earnings: true
+                    is_addition: true
+                  default: 0
+                  description: Total income from employment
+                  entity: person
+                  hidden: false
+                  inputtable: true
+                  max: 20000
+                  min: 0
+                  roles:
+                    adult:
+                      max: 80000
+                    child:
+                      max: 20000
+                  short_name: employment_income
+                  title: Employment income
+                  type: yearly
+                  value: 0
+                family_benefits:
+                  accounting:
+                    components: []
+                    includes_earnings: false
+                    is_addition: true
+                  default: 0
+                  description: ''
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: family_benefits
+                  title: Family benefits
+                  type: yearly
+                  value: 0
+                income_tax:
+                  accounting:
+                    components: []
+                    is_addition: false
+                  default: 0
+                  description: ''
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: income_tax
+                  title: Income Tax
+                  type: yearly
+                  value: 0
+                is_disabled_for_benefits:
+                  accounting:
+                    components: []
+                    includes_earnings: false
+                    is_addition: true
+                  default: false
+                  description: Whether this person is disabled for benefits purposes
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles:
+                    child:
+                      default: false
+                      hidden: false
+                      value: false
+                  short_name: is_disabled_for_benefits
+                  title: Has a disability
+                  type: bool
+                  value: false
+                is_in_startup_period:
+                  accounting:
+                    components: []
+                    includes_earnings: false
+                    is_addition: true
+                  default: false
+                  description: Whether this person is in a 'start-up' period for Universal
+                    Credit
+                  entity: person
+                  hidden: false
+                  inputtable: true
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: is_in_startup_period
+                  title: In a start-up period
+                  type: bool
+                  value: false
+                is_severely_disabled_for_benefits:
+                  accounting:
+                    components: []
+                    includes_earnings: false
+                    is_addition: true
+                  default: false
+                  description: Whether this person is severely disabled for benefits
+                    purposes
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles:
+                    child:
+                      default: false
+                      hidden: false
+                      value: false
+                  short_name: is_severely_disabled_for_benefits
+                  title: Has a severe disability
+                  type: bool
+                  value: false
+                limited_capability_for_WRA:
+                  accounting:
+                    components: []
+                    includes_earnings: false
+                    is_addition: true
+                  default: false
+                  description: Whether this person has been assessed by the DWP as
+                    having limited capability for work or work-related activity
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles:
+                    child:
+                      inputtable: false
+                  short_name: limited_capability_for_WRA
+                  title: Assessed to have limited capability for work-related activity
+                  type: bool
+                  value: false
+                market_income:
+                  accounting:
+                    components:
+                    - employment_income
+                    - self_employment_income
+                    includes_earnings: true
+                    is_addition: true
+                  default: 0
+                  description: ''
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: market_income
+                  title: Market income
+                  type: yearly
+                  value: 0
+                national_insurance:
+                  accounting:
+                    components: []
+                    is_addition: false
+                  default: 0
+                  description: ''
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: national_insurance
+                  title: National Insurance
+                  type: yearly
+                  value: 0
+                net_income:
+                  accounting:
+                    components:
+                    - market_income
+                    - benefits
+                    - tax
+                    includes_earnings: true
+                    is_addition: true
+                  default: 0
+                  description: ''
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: net_income
+                  title: Net income
+                  type: yearly
+                  value: 0
+                pension_income:
+                  accounting:
+                    components: []
+                    includes_earnings: false
+                    is_addition: true
+                  default: 0
+                  description: Income from private or occupational pensions (not including
+                    State Pension)
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles:
+                    adult:
+                      max: 80000
+                    child:
+                      inputtable: false
+                  short_name: pension_income
+                  title: Pension income
+                  type: yearly
+                  value: 0
+                personal_benefits:
+                  accounting:
+                    components: []
+                    includes_earnings: false
+                    is_addition: true
+                  default: 0
+                  description: ''
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: personal_benefits
+                  title: Personal benefits
+                  type: yearly
+                  value: 0
+                property_income:
+                  accounting:
+                    components: []
+                    includes_earnings: false
+                    is_addition: true
+                  default: 0
+                  description: Income from rental of property
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles:
+                    adult:
+                      max: 80000
+                    child:
+                      inputtable: false
+                  short_name: property_income
+                  title: Rental income
+                  type: yearly
+                  value: 0
+                savings_interest_income:
+                  accounting:
+                    components: []
+                    includes_earnings: false
+                    is_addition: true
+                  default: 0
+                  description: Income from interest on savings, gross of tax
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles:
+                    adult:
+                      max: 80000
+                    child:
+                      inputtable: false
+                  short_name: savings_interest_income
+                  title: Savings interest income
+                  type: yearly
+                  value: 0
+                self_employment_income:
+                  accounting:
+                    includes_earnings: false
+                  default: 0
+                  description: Income from self-employment profits
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles:
+                    adult:
+                      max: 80000
+                    child:
+                      inputtable: false
+                  short_name: self_employment_income
+                  title: Self-employment income
+                  type: yearly
+                  value: 0
+                tax:
+                  accounting:
+                    components:
+                    - income_tax
+                    - national_insurance
+                    is_addition: false
+                  default: 0
+                  description: ''
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: tax
+                  title: Total tax
+                  type: yearly
+                  value: 0
+                weekly_hours:
+                  accounting:
+                    components: []
+                    includes_earnings: false
+                    is_addition: true
+                  default: 0
+                  description: Average weekly hours worked
+                  entity: person
+                  hidden: false
+                  inputtable: true
+                  max: 60
+                  min: 0
+                  roles: []
+                  short_name: weekly_hours
+                  title: Weekly hours
+                  type: amount
+                  value: 0
+            '4':
+              label: Your second child
+              variables:
+                age:
+                  accounting:
+                    components: []
+                    includes_earnings: false
+                    is_addition: true
+                  default: 10
+                  description: The age of the person in years
+                  entity: person
+                  hidden: false
+                  inputtable: true
+                  max: 18
+                  min: 0
+                  roles:
+                    adult:
+                      default: 18
+                      max: 100
+                      value: 18
+                    child:
+                      default: 10
+                      max: 18
+                      value: 10
+                  short_name: age
+                  title: Age
+                  type: amount
+                  value: 10
+                benefits:
+                  accounting:
+                    components:
+                    - personal_benefits
+                    - family_benefits
+                    includes_earnings: false
+                    is_addition: true
+                  default: 0
+                  description: ''
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: benefits
+                  title: Total benefits
+                  type: yearly
+                  value: 0
+                dividend_income:
+                  accounting:
+                    components: []
+                    includes_earnings: false
+                    is_addition: true
+                  default: 0
+                  description: Total income from dividends, gross of tax
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles:
+                    adult:
+                      max: 80000
+                    child:
+                      inputtable: false
+                  short_name: dividend_income
+                  title: Income from dividends
+                  type: yearly
+                  value: 0
+                employment_income:
+                  accounting:
+                    includes_earnings: true
+                    is_addition: true
+                  default: 0
+                  description: Total income from employment
+                  entity: person
+                  hidden: false
+                  inputtable: true
+                  max: 20000
+                  min: 0
+                  roles:
+                    adult:
+                      max: 80000
+                    child:
+                      max: 20000
+                  short_name: employment_income
+                  title: Employment income
+                  type: yearly
+                  value: 0
+                family_benefits:
+                  accounting:
+                    components: []
+                    includes_earnings: false
+                    is_addition: true
+                  default: 0
+                  description: ''
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: family_benefits
+                  title: Family benefits
+                  type: yearly
+                  value: 0
+                income_tax:
+                  accounting:
+                    components: []
+                    is_addition: false
+                  default: 0
+                  description: ''
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: income_tax
+                  title: Income Tax
+                  type: yearly
+                  value: 0
+                is_disabled_for_benefits:
+                  accounting:
+                    components: []
+                    includes_earnings: false
+                    is_addition: true
+                  default: false
+                  description: Whether this person is disabled for benefits purposes
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles:
+                    child:
+                      default: false
+                      hidden: false
+                      value: false
+                  short_name: is_disabled_for_benefits
+                  title: Has a disability
+                  type: bool
+                  value: false
+                is_in_startup_period:
+                  accounting:
+                    components: []
+                    includes_earnings: false
+                    is_addition: true
+                  default: false
+                  description: Whether this person is in a 'start-up' period for Universal
+                    Credit
+                  entity: person
+                  hidden: false
+                  inputtable: true
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: is_in_startup_period
+                  title: In a start-up period
+                  type: bool
+                  value: false
+                is_severely_disabled_for_benefits:
+                  accounting:
+                    components: []
+                    includes_earnings: false
+                    is_addition: true
+                  default: false
+                  description: Whether this person is severely disabled for benefits
+                    purposes
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles:
+                    child:
+                      default: false
+                      hidden: false
+                      value: false
+                  short_name: is_severely_disabled_for_benefits
+                  title: Has a severe disability
+                  type: bool
+                  value: false
+                limited_capability_for_WRA:
+                  accounting:
+                    components: []
+                    includes_earnings: false
+                    is_addition: true
+                  default: false
+                  description: Whether this person has been assessed by the DWP as
+                    having limited capability for work or work-related activity
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles:
+                    child:
+                      inputtable: false
+                  short_name: limited_capability_for_WRA
+                  title: Assessed to have limited capability for work-related activity
+                  type: bool
+                  value: false
+                market_income:
+                  accounting:
+                    components:
+                    - employment_income
+                    - self_employment_income
+                    includes_earnings: true
+                    is_addition: true
+                  default: 0
+                  description: ''
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: market_income
+                  title: Market income
+                  type: yearly
+                  value: 0
+                national_insurance:
+                  accounting:
+                    components: []
+                    is_addition: false
+                  default: 0
+                  description: ''
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: national_insurance
+                  title: National Insurance
+                  type: yearly
+                  value: 0
+                net_income:
+                  accounting:
+                    components:
+                    - market_income
+                    - benefits
+                    - tax
+                    includes_earnings: true
+                    is_addition: true
+                  default: 0
+                  description: ''
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: net_income
+                  title: Net income
+                  type: yearly
+                  value: 0
+                pension_income:
+                  accounting:
+                    components: []
+                    includes_earnings: false
+                    is_addition: true
+                  default: 0
+                  description: Income from private or occupational pensions (not including
+                    State Pension)
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles:
+                    adult:
+                      max: 80000
+                    child:
+                      inputtable: false
+                  short_name: pension_income
+                  title: Pension income
+                  type: yearly
+                  value: 0
+                personal_benefits:
+                  accounting:
+                    components: []
+                    includes_earnings: false
+                    is_addition: true
+                  default: 0
+                  description: ''
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: personal_benefits
+                  title: Personal benefits
+                  type: yearly
+                  value: 0
+                property_income:
+                  accounting:
+                    components: []
+                    includes_earnings: false
+                    is_addition: true
+                  default: 0
+                  description: Income from rental of property
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles:
+                    adult:
+                      max: 80000
+                    child:
+                      inputtable: false
+                  short_name: property_income
+                  title: Rental income
+                  type: yearly
+                  value: 0
+                savings_interest_income:
+                  accounting:
+                    components: []
+                    includes_earnings: false
+                    is_addition: true
+                  default: 0
+                  description: Income from interest on savings, gross of tax
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles:
+                    adult:
+                      max: 80000
+                    child:
+                      inputtable: false
+                  short_name: savings_interest_income
+                  title: Savings interest income
+                  type: yearly
+                  value: 0
+                self_employment_income:
+                  accounting:
+                    includes_earnings: false
+                  default: 0
+                  description: Income from self-employment profits
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles:
+                    adult:
+                      max: 80000
+                    child:
+                      inputtable: false
+                  short_name: self_employment_income
+                  title: Self-employment income
+                  type: yearly
+                  value: 0
+                tax:
+                  accounting:
+                    components:
+                    - income_tax
+                    - national_insurance
+                    is_addition: false
+                  default: 0
+                  description: ''
+                  entity: person
+                  hidden: false
+                  inputtable: false
+                  max: 1
+                  min: 0
+                  roles: []
+                  short_name: tax
+                  title: Total tax
+                  type: yearly
+                  value: 0
+                weekly_hours:
+                  accounting:
+                    components: []
+                    includes_earnings: false
+                    is_addition: true
+                  default: 0
+                  description: Average weekly hours worked
+                  entity: person
+                  hidden: false
+                  inputtable: true
+                  max: 60
+                  min: 0
+                  roles: []
+                  short_name: weekly_hours
+                  title: Weekly hours
+                  type: amount
+                  value: 0
           label: Your immediate family
           variables:
             benunit_rent:
               accounting:
                 components: []
+                includes_earnings: false
                 is_addition: true
               default: 0
               description: Gross rent that members of this family are liable for
@@ -401,10 +1202,11 @@ household:
               short_name: benunit_rent
               title: Rent
               type: yearly
-              value: 0
+              value: 4225
             claims_UC:
               accounting:
                 components: []
+                includes_earnings: false
                 is_addition: true
               default: true
               description: Whether this family would claim Universal Credit if eligible
@@ -421,6 +1223,7 @@ household:
             claims_child_benefit:
               accounting:
                 components: []
+                includes_earnings: false
                 is_addition: true
               default: true
               description: Whether this benefit unit would claim Child Benefit
@@ -437,6 +1240,7 @@ household:
             claims_legacy_benefits:
               accounting:
                 components: []
+                includes_earnings: false
                 is_addition: true
               default: false
               description: Whether this family is currently receiving legacy benefits
@@ -454,6 +1258,7 @@ household:
             is_married:
               accounting:
                 components: []
+                includes_earnings: false
                 is_addition: true
               default: false
               description: Whether the benefit unit adults are married to each other
@@ -470,6 +1275,7 @@ household:
             would_claim_CTC:
               accounting:
                 components: []
+                includes_earnings: false
                 is_addition: true
               default: true
               description: Whether this family would claim Child Tax Credit if eligible
@@ -486,6 +1292,7 @@ household:
             would_claim_HB:
               accounting:
                 components: []
+                includes_earnings: false
                 is_addition: true
               default: true
               description: Whether this family would claim Housing Benefit if eligible
@@ -502,6 +1309,7 @@ household:
             would_claim_IS:
               accounting:
                 components: []
+                includes_earnings: false
                 is_addition: true
               default: true
               description: Whether this family would claim Income Support if eligible
@@ -518,6 +1326,7 @@ household:
             would_claim_JSA:
               accounting:
                 components: []
+                includes_earnings: false
                 is_addition: true
               default: true
               description: Whether this family would claim income-based JSA if eligible
@@ -534,6 +1343,7 @@ household:
             would_claim_PC:
               accounting:
                 components: []
+                includes_earnings: false
                 is_addition: true
               default: true
               description: Whether this family would claim Pension Credit if eligible
@@ -550,6 +1360,7 @@ household:
             would_claim_WTC:
               accounting:
                 components: []
+                includes_earnings: false
                 is_addition: true
               default: true
               description: Whether this family would claim Working Tax Credit if eligible
@@ -568,6 +1379,7 @@ household:
         BRMA:
           accounting:
             components: []
+            includes_earnings: false
             is_addition: true
           default: MAIDSTONE
           description: ''
@@ -737,6 +1549,7 @@ household:
         region:
           accounting:
             components: []
+            includes_earnings: false
             is_addition: true
           default: UNKNOWN
           description: Area of the UK
@@ -764,4 +1577,4 @@ household:
           title: Region
           type: category
           value: UNKNOWN
-  num_entities: 3
+  num_entities: 5
