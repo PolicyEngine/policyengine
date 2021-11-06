@@ -1,5 +1,5 @@
 reforms:
-  UBI:
+  ubi:
     adult:
       values: 
         2020-01-01: 0.00
@@ -39,7 +39,7 @@ reforms:
           summary: Give a basic income of @ to seniors
         tests:
           - increases_net_income: true
-    WA_adult_UBI_age:
+    wa_adult_ubi_age:
       values: 
         2020-01-01: 18
       metadata:

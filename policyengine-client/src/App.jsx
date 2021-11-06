@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style/policyengine.less";
 import { PolicyEngineUK } from "./countries/uk";
+import { PolicyEngineUS } from "./countries/us";
 
 export default class App extends React.Component {
 	constructor(props) {
@@ -17,7 +18,7 @@ export default class App extends React.Component {
 					<PolicyEngineUK analytics={this.props.analytics} api_url="https://policyengine.org/uk/api" />
 				</Route>
 				<Route path="/us">
-					Coming soon!
+					<PolicyEngineUS analytics={this.props.analytics} api_url="http://localhost:5000/us/api" />
 				</Route>
 				<Route exact path="/">
 					<Redirect to="/uk" />

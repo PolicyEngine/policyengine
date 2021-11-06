@@ -2,6 +2,7 @@ from pathlib import Path
 from openfisca_uk import Microsimulation, IndividualSim
 from openfisca_uk.entities import *
 from openfisca_uk_data import FRS_WAS_Imputation
+from rdbl.main import gbp
 from policyengine.utils.general import PolicyEngineResultsConfig
 from policyengine.countries.country import PolicyEngineCountry
 from policyengine.countries.uk.default_reform import create_default_reform
@@ -21,6 +22,7 @@ class UKResultsConfig(PolicyEngineResultsConfig):
     tax_variable: str = "tax"
     benefit_variable: str = "benefits"
     earnings_variable: str = "employment_income"
+    formatter = gbp
 
 
 class UK(PolicyEngineCountry):

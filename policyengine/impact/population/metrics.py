@@ -44,9 +44,14 @@ def headline_metrics(
     )
     gain = new_income - old_income
     net_cost = (
-        reformed.calc("net_income").sum() - baseline.calc("net_income").sum()
+        reformed.calc(config.net_income_variable).sum()
+        - baseline.calc(config.net_income_variable).sum()
     )
     poverty_change = pct_change(
+        baseline.calc(config.in_poverty_variable, map_to="person").mean(),
+        reformed.calc(config.in_poverty_variable, map_to="person").mean(),
+    )
+    print(
         baseline.calc(config.in_poverty_variable, map_to="person").mean(),
         reformed.calc(config.in_poverty_variable, map_to="person").mean(),
     )
@@ -54,7 +59,7 @@ def headline_metrics(
     loser_share = (gain < -1).mean()
     gini_change = pct_change(old_income.gini(), new_income.gini())
     return dict(
-        net_cost=gbp(net_cost),
+        net_cost=config.formatter(net_cost),
         net_cost_numeric=float(net_cost),
         poverty_change=float(poverty_change),
         winner_share=float(winner_share),

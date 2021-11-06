@@ -15,6 +15,7 @@ class PolicyEngineResultsConfig:
     senior_variable: str
     person_variable: str
     earnings_variable: str
+    formatter: Callable
 
 
 def dict_to_string(d: dict) -> str:
