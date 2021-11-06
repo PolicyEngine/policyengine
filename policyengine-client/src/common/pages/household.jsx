@@ -200,6 +200,7 @@ export default function Household(props) {
 			setHouseholdStructure={props.setHouseholdStructure}
 			setPage={props.setPage}
 			baseURL={props.baseURL}
+			country={props.country}
 		/>;
 	} else {
 		return <></>;

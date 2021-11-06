@@ -119,7 +119,7 @@ class PopulationImpactPage extends React.Component {
 					}
 				</Col>
 				<Col xl={3}>
-					<Overview policy={this.props.policy} setPage={this.props.setPage} page="population-impact" baseURL={this.props.baseURL} currency={this.props.currency}/>
+					<Overview policy={this.props.policy} setPage={this.props.setPage} page="population-impact" baseURL={this.props.baseURL} currency={this.props.currency} country={this.props.country}/>
 				</Col>
 			</Row>
 		);
@@ -135,6 +135,7 @@ export default function PopulationImpact(props) {
 			api_url={props.api_url}
 			currency={props.currency}
 			baseURL={props.baseURL}
+			country={props.country}
 		/>;
 	} else {
 		return <></>;

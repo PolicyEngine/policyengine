@@ -110,7 +110,7 @@ class HouseholdImpactPage extends React.Component {
 					}
 				</Col>
 				<Col xl={3}>
-					<Overview page="household-impact" currency={this.props.currency} baseURL={this.props.baseURL} policy={this.props.policy} setPage={this.props.setPage} household={this.props.household}/>
+					<Overview page="household-impact" currency={this.props.currency} baseURL={this.props.baseURL} policy={this.props.policy} setPage={this.props.setPage} household={this.props.household} country={this.props.country}/>
 				</Col>
 			</Row>
 		);
@@ -127,6 +127,7 @@ export default function HouseholdImpact(props) {
 			setHouseholdVisited={props.setHouseholdVisited}
 			currency={props.currency}
 			baseURL={props.baseURL}
+			country={props.country}
 		/>;
 	} else {
 		return <Redirect to={props.baseURL + "/household"} />
