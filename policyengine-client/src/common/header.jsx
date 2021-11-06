@@ -1,15 +1,16 @@
-import { Affix, Tabs, Tag, PageHeader } from "antd";
+import { Affix, Tabs, Tag, PageHeader, Image } from "antd";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import { policyToURL } from "./url";
-import { FacebookOutlined, InstagramOutlined, LinkedinOutlined, RedditOutlined, TwitterOutlined } from '@ant-design/icons';
+import { FacebookOutlined, InstagramOutlined, LinkedinOutlined, TwitterOutlined } from '@ant-design/icons';
+import MainLogo from "../common/images/title_logo.png";
 
 const { TabPane } = Tabs;
 
 export function Header(props) {
 	return (
 		<Affix offsetTop={0}>
-			<div style={{backgroundColor: "#002766"}}>
+			<div style={{backgroundColor: "#2c6496"}}>
 				<Switch>
 					<Route path={`/${props.country}/policy`}>
 						<MainNavigation
@@ -79,7 +80,7 @@ function MainNavigation(props) {
 		);
 	} else {
 		middleColumn = (
-			<Tabs activeKey={props.selected} centered onChange={key => {history.push(policyToURL(props.baseUrl + "/" + key, props.policy))}}>
+			<Tabs moreIcon={null} style={{paddingTop: 0, paddingBottom: 0}} activeKey={props.selected} centered onChange={key => {history.push(policyToURL(props.baseUrl + "/" + key, props.policy))}}>
 				<TabPane tab="Policy" key="policy"/>
 				<TabPane tab={props.country.toUpperCase() + " impact"} key="population-impact" />
 				<TabPane tab="Your household" key="household" />
@@ -93,10 +94,10 @@ function MainNavigation(props) {
 				<Col lg={2}>
 					<Title image={props.titleImage} country={props.country} beta={props.beta} />
 				</Col>
-				<Col lg={8} style={{paddingLeft: 25, paddingRight: 25, paddingTop: 10}}>
+				<Col lg={8} className="d-flex align-items-center justify-content-center" style={{paddingLeft: 25, paddingRight: 25}}>
 					{middleColumn}
 				</Col>
-				<Col lg={2} className="d-none d-lg-block">
+				<Col lg={2} className="d-none d-lg-flex align-items-center">
 					<SocialLinks />
 				</Col>
 			</Row>
@@ -106,18 +107,18 @@ function MainNavigation(props) {
 
 export function Title(props) {
 	const tags = props.beta ? [<Tag key="beta" color="#002766">BETA</Tag>] : null;
-	const title = <><a href="/" style={{color: "white"}}>PolicyEngine<sub style={{fontSize: "50%"}}>{props.country.toUpperCase()}</sub></a></>;
+	const title = <Image src={MainLogo} preview={false} height={50} width={80} style={{padding: 0, margin: 0}} />
 	return (
 		<div style={{minWidth: 300}}>
-			<div className="d-none d-lg-block">
+			<div className="d-none d-lg-flex align-items-center ">
 				<PageHeader
 					title={title}
-					style={{minHeight: 40}}
+					style={{minHeight: 30, padding: 0, margin: 0}}
 					tags={tags}
 				/>
 			</div>
 			<div className="d-lg-none">
-				<div className="d-flex justify-content-center">
+				<div className="d-flex align-items-center justify-content-center">
 					<PageHeader
 						title={title}
 						style={{paddingBottom: 8}}
@@ -130,13 +131,12 @@ export function Title(props) {
 }
 
 export function SocialLinks(props) {
-	const iconStyle = { marginTop: 25, marginBottom: 25, marginLeft: 15, fontSize: 15, color: props.color || "white" };
+	const iconStyle = { marginLeft: 15, fontSize: 15, color: props.color || "white" };
 	return (
 		<div className="d-flex justify-content-center">
 			<a href="https://twitter.com/thepolicyengine"><TwitterOutlined style={iconStyle}/></a>
 			<a href="https://www.facebook.com/ThePolicyEngine"><FacebookOutlined style={iconStyle}/></a>
 			<a href="https://www.linkedin.com/company/thepolicyengine/about/"><LinkedinOutlined style={iconStyle} href="https://twitter.com"/></a>
-			<a href="https://www.reddit.com/user/PolicyEngine"><RedditOutlined style={iconStyle} /></a>
 			<a href="https://www.instagram.com/policyengine/"><InstagramOutlined style={iconStyle}/></a>
 		</div>
 	);

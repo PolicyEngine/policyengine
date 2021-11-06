@@ -34,6 +34,7 @@ export class PolicyEngineUK extends React.Component {
             householdValid: false,
             policyValid: false,
             fetchDone: false,
+            validator: this.validatePolicy,
         }
     }
 
@@ -70,9 +71,10 @@ export class PolicyEngineUK extends React.Component {
     }
 
     setPolicy(name, value) {
+        console.log(name, value)
         let oldPolicy = this.state.policy;
 		oldPolicy[name].value = value;
-		const { policy, invalid } = (this.state.validator || (policy => {return {policy: policy, invalid: false};}))(oldPolicy);
+		let { policy, invalid } = this.state.validator(oldPolicy);
 		this.setState({policy: policy, invalid: invalid});
     }
 
@@ -81,7 +83,10 @@ export class PolicyEngineUK extends React.Component {
 			policy.higher_threshold.error = "The higher rate threshold must be different than the additional rate threshold.";
 			policy.add_threshold.error = "The additional rate threshold must be different than the higher rate threshold.";
 			return {policy: policy, policyValid: false};
-		}
+		} else {
+            policy.higher_threshold.error = null;
+            policy.add_threshold.error = null;
+        }
 		return {policy: policy, policyValid: true};
     }
 
@@ -247,6 +252,7 @@ export class PolicyEngineUK extends React.Component {
                                 householdValid={this.state.householdValid}
                                 fetchDone={this.state.fetchDone}
                                 currency="£"
+                                setPage={setPage}
                             />
                         </Route>
                     </Switch>

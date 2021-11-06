@@ -17,6 +17,18 @@ export const PARAMETER_MENU = {
 				"add_rate",
 				"add_threshold",
 			],
+			"Scottish rates": [
+				"scottish_starter_rate",
+				"scottish_starter_threshold",
+				"scottish_basic_rate",
+				"scottish_basic_threshold",
+				"scottish_intermediate_rate",
+				"scottish_intermediate_threshold",
+				"scottish_higher_rate",
+				"scottish_higher_threshold",
+				"scottish_add_rate",
+				"scottish_add_threshold",
+			],
 			"Allowances": [
 				"personal_allowance"
 			],
@@ -54,6 +66,7 @@ export const PARAMETER_MENU = {
 			"abolish_HB",
 			"abolish_IS",
 			"abolish_JSA_income",
+			"abolish_ESA_income",
 		],
 		"State Pension": [
 			"abolish_SP",
@@ -70,8 +83,11 @@ export const PARAMETER_MENU = {
 			"abolish_UC_disability",
 			"abolish_UC_carer",
 			"abolish_UC_housing_costs",
+			"abolish_UC_childcare",
+			"UC_work_allowance_without_housing",
+			"UC_work_allowance_with_housing",
 			"UC_reduction_rate",
-		]
+		],
 	},
 	"UBI Center": {
 		"Universal Basic Income": [

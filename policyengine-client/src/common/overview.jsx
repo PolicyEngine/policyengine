@@ -37,7 +37,7 @@ export function Overview(props) {
 			<Empty description="" image={null}>
 				<SimulateButton 
 					hidden={props.page === "policy"}
-					text={<><ArrowLeftOutlined /> Adjust the policy</>}
+					text={<><ArrowLeftOutlined /> Edit your policy</>}
 					target={props.baseURL + "/policy"}
 					policy={props.policy} 
 					onClick={() => {props.setPage("")}}
@@ -49,7 +49,7 @@ export function Overview(props) {
 					text={
 						props.page === "policy" ?
 							"See the UK impact" :
-							<><ArrowLeftOutlined /> Return to the population results</>
+							<><ArrowLeftOutlined /> Return to UK impact</>
 					}
 					target={props.baseURL + "/population-impact"}
 					policy={props.policy} 
@@ -61,7 +61,7 @@ export function Overview(props) {
 					disabled={props.invalid} 
 					text={
 						props.page === "household-impact" ?
-							<><ArrowLeftOutlined /> Change your household</> :
+							<><ArrowLeftOutlined /> Edit your household</> :
 							"Describe your household"
 					}
 					target={props.baseURL + "/household"}
@@ -84,7 +84,7 @@ export function Overview(props) {
 }
 
 export function SharePolicyLinks(props) {
-	const url = policyToURL(`https://uk.policyengine.org${props.baseURL}/${props.page}`, props.policy);
+	const url = policyToURL(`https://policyengine.org${props.baseURL}/${props.page}`, props.policy);
 	return (
 		<>
 			<Divider>Share this policy<Button style={{marginRight: 20, border: 0}} onClick={() => {navigator.clipboard.writeText(url); message.info("Link copied!");}}><LinkOutlined /></Button><TwitterShareButton style={{marginRight: 20, border: 0}} title="I just simulated a reform to the UK tax and benefit system with @ThePolicyEngine. Check it out or make your own!" url={url}><TwitterOutlined /></TwitterShareButton></Divider>

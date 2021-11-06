@@ -2,7 +2,7 @@
 Utility functions for writing reforms.
 """
 from pathlib import Path
-from typing import Dict, Type
+from typing import Callable, Dict, Type
 from openfisca_core.parameters.helpers import load_parameter_file
 from openfisca_core.parameters.parameter import Parameter
 from openfisca_core.parameters.parameter_scale import ParameterScale
@@ -13,6 +13,7 @@ from openfisca_core.tracers.tracing_parameter_node_at_instant import (
 from openfisca_core.variables import Variable
 from datetime import datetime
 from openfisca_core.taxbenefitsystems import TaxBenefitSystem
+from rdbl import gbp
 
 DATE = datetime.now()
 YEAR, MONTH, DAY = DATE.year, DATE.month, DATE.day
@@ -161,14 +162,34 @@ def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
     return parameter_metadata
 
 
+def get_formatter(parameter: dict) -> Callable:
+    if parameter["type"] == "rate":
+        return lambda value: f"{round(value * 100, 2)}%"
+    elif parameter["type"] == "weekly":
+        return lambda value: f"{gbp(value)}/week"
+    elif parameter["type"] == "yearly":
+        return lambda value: f"{gbp(value)}/year"
+    elif parameter["type"] == "monthly":
+        return lambda value: f"{gbp(value)}/month"
+    elif parameter["type"] == "currency":
+        return lambda value: f"{gbp(value)}"
+    else:
+        return lambda value: str(value)
+
+
 def create_reform(
-    parameters: dict, policyengine_parameters: dict = {}
+    parameters: dict,
+    policyengine_parameters: dict = {},
+    return_names: bool = False,
+    return_descriptions: bool = False,
 ) -> Reform:
     """Translates URL parameters into an OpenFisca reform.
 
     Args:
         parameters (dict): The URL parameters.
         policyengine_parameters (dict, optional): The exposed OpenFisca parameters. Defaults to {}.
+        return_names (bool, optional): Whether to return the names of the parameters. Defaults to False.
+        return_descriptions (bool, optional): Whether to return the descriptions of the parameters. Defaults to False.
 
     Returns:
         Reform: The OpenFisca reform.
@@ -183,15 +204,25 @@ def create_reform(
             params[name] = value
     reforms = []
     names = []
+    descriptions = []
     for param, value in params.items():
         if param != "household":
             metadata = policyengine_parameters[param]
             names += [metadata["title"]]
+            formatter = get_formatter(metadata)
+            descriptions += [
+                metadata["summary"].replace("@", formatter(value))
+            ]
             if "abolish" in param:
                 reforms += [abolish(metadata["variable"])]
             else:
                 reforms += [parametric(metadata["parameter"], value)]
-    return tuple(reforms)
+    result = [tuple(reforms)]
+    if return_names:
+        result += [names]
+    if return_descriptions:
+        result += [descriptions]
+    return result if len(result) > 1 else result[0]
 
 
 def use_current_parameters(date: str = CURRENT_INSTANT) -> Reform:

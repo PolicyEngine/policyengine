@@ -1,11 +1,10 @@
 import { Fragment, default as React } from "react";
 import { CloseCircleFilled } from "@ant-design/icons";
 import {
-	InputNumber, Divider, Switch, Slider, Select, Alert
+	InputNumber, Divider, Switch, Slider, Select, Alert, Input
 } from "antd";
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import "antd/dist/antd.css";
+import "../style/policyengine.less";
 
 const { Option } = Select;
 
@@ -65,7 +64,7 @@ export function Parameter(props) {
 					onChange={(value) => {
 						props.setPolicy(props.name, value);
 					}}
-					checked={props.param.value || props.param.default}
+					checked={props.param.value}
 					className="switch-red"
 					disabled={props.disabled}
 				/>
@@ -78,11 +77,21 @@ export function Parameter(props) {
 					{props.param.options.map(value => <Option key={value} value={value}>{value}</Option>)}
 				</Select>
 			);
+		} else if(props.param.type === "str") {
+			component = (
+				<Input
+					onPressEnter={(e) => {
+						props.setPolicy(props.name, e.target.value);
+					}}
+					defaultValue={props.param.value}
+					disabled={props.disabled}
+				/>
+			);
 		} else {
 			component = (
 				<>
 					<Slider
-						value={props.param.value || props.param.default}
+						value={props.param.value}
 						min={props.param.min ? props.param.min : 0}
 						max={props.param.max ? props.param.max : 1}
 						onChange={(value) => {
@@ -93,7 +102,7 @@ export function Parameter(props) {
 						disabled={props.disabled}
 					/>
 					<InputNumber
-						value={props.param.value || props.param.default}
+						value={props.param.value}
 						formatter={formatter}
 						parser={parser}
 						onChange={(value) => {

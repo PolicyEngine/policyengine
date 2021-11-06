@@ -4,6 +4,7 @@ import { Row, Col } from "react-bootstrap";
 import { Fragment, default as React } from "react";
 import { Overview } from "../overview";
 import { LoadingResultsPane, TakeAway, Chart } from "../results";
+import { BreakdownTable } from "../advanced";
 
 const { Panel } = Collapse;
 
@@ -52,6 +53,9 @@ export function PopulationResultsPane(props) {
 			<Row>
 				<Chart plot={props.results.intra_decile_chart} md={12}/>
 			</Row>
+			<Row>
+				<BreakdownTable policy={props.policy} api_url={props.api_url} />
+			</Row>
 		</>
 	);
 }
@@ -78,7 +82,7 @@ class PopulationImpactPage extends React.Component {
 		let url;
 		url = new URL(`${this.props.api_url}/population-reform`);
 		url.search = new URLSearchParams(submission).toString();
-		this.setState({ waiting: true }, () => {
+		this.setState({ waiting: true, submission: submission }, () => {
 			fetch(url)
 				.then((res) => {
 					if (res.ok) {
@@ -111,7 +115,7 @@ class PopulationImpactPage extends React.Component {
 								<div className="d-flex justify-content-center align-items-center" style={{minHeight: 400}}>
 									<LoadingResultsPane noSpin message="Something went wrong (try navigating back and returning to this page)"/>
 								</div> :
-								<PopulationResultsPane results={this.state.results} />
+								<PopulationResultsPane results={this.state.results} policy={this.state.submission} api_url={this.props.api_url} />
 					}
 				</Col>
 				<Col xl={3}>

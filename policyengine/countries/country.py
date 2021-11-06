@@ -5,6 +5,9 @@ import yaml
 from openfisca_core.taxbenefitsystems.tax_benefit_system import (
     TaxBenefitSystem,
 )
+from policyengine.impact.population.revenue_breakdown import (
+    get_breakdown_per_provision,
+)
 from policyengine.utils.general import (
     PolicyEngineResultsConfig,
     exclude_from_cache,
@@ -60,6 +63,9 @@ class PolicyEngineCountry:
             self.default_reform, dataset=self.default_dataset
         )
 
+        self.baseline.simulation.trace = True
+        self.baseline.calc("net_income")
+
         self.policyengine_parameters = get_PE_parameters(
             self.baseline.simulation.tax_benefit_system
         )
@@ -76,6 +82,7 @@ class PolicyEngineCountry:
             entities=self.entities,
             variables=self.variables,
             default_household=self.default_household,
+            population_breakdown=self.population_breakdown,
         )
         with open(self.entity_hierarchy_file) as f:
             self.entities = dict(
@@ -89,9 +96,12 @@ class PolicyEngineCountry:
             self.default_household_data = yaml.safe_load(f)
 
     def _create_reform_sim(self, reform: ReformType) -> Microsimulation:
-        return self.Microsimulation(
+        sim = self.Microsimulation(
             (self.default_reform, reform), dataset=self.default_dataset
         )
+        sim.simulation.trace = True
+        sim.calc("net_income")
+        return sim
 
     def population_reform(self, params: dict = None):
         reform = create_reform(params, self.policyengine_parameters)
@@ -129,6 +139,8 @@ class PolicyEngineCountry:
         reformed: IndividualSim = situation(
             self.IndividualSim(reform_config, year=2021)
         )
+        baseline.calc("net_income")
+        reformed.calc("net_income")
         headlines = headline_figures(baseline, reformed, self.results_config)
         waterfall = household_waterfall_chart(
             baseline, reformed, self.results_config
@@ -160,14 +172,26 @@ class PolicyEngineCountry:
         )
         return {"UBI": float(UBI_amount)}
 
+    @exclude_from_cache
     def parameters(self, params=None):
         return self.policyengine_parameters
 
+    @exclude_from_cache
     def entities(self, params=None):
         return self.entities
 
+    @exclude_from_cache
     def variables(self, params=None):
         return self.policyengine_variables
 
+    @exclude_from_cache
     def default_household(self, params=None):
         return self.default_household_data
+
+    def population_breakdown(self, params=None):
+        reform, provisions = create_reform(
+            params, self.policyengine_parameters, return_descriptions=True
+        )
+        return get_breakdown_per_provision(
+            reform, provisions, self.baseline, self._create_reform_sim
+        )

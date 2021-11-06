@@ -64,6 +64,7 @@ function HouseholdMenu(props) {
 			mode="inline"
 			defaultOpenKeys={props.defaultOpenKeys}
 			selectedKeys={[props.selected]}
+			inlineIndent={16}
 		>
 			{
 				EntityMenu({

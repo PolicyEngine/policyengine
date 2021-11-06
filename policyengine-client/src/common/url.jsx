@@ -16,7 +16,7 @@ export function policyToURL(targetPage, policy) {
 }
 
 export function urlToPolicy(defaultPolicy) {
-	let plan = defaultPolicy;
+	let plan = JSON.parse(JSON.stringify(defaultPolicy));
 	const { searchParams } = new URL(document.location);
 	for (const key of searchParams.keys()) {
 		plan[key].value = +searchParams.get(key) / (defaultPolicy[key].type === "rate" ? 100 : 1);
