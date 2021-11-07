@@ -1,4 +1,6 @@
-from openfisca_core.parameters.parameter_scale_bracket import ParameterScaleBracket
+from openfisca_core.parameters.parameter_scale_bracket import (
+    ParameterScaleBracket,
+)
 from openfisca_tools.model_api import (
     ReformType,
     Variable,
@@ -9,80 +11,85 @@ from openfisca_uk.entities import Person, Household
 from openfisca_core.model_api import YEAR, Reform
 from openfisca_core.parameters import ParameterNode, ParameterScale
 
+
 def add_extra_band(parameters: ParameterNode) -> ParameterNode:
     rates = parameters.tax.income_tax.rates
     uk_rates: ParameterScale = rates.uk
-    extra_uk_bracket = ParameterScaleBracket(data={
-        "threshold": {
-            "values": {
-                "2021-01-01": 1e7
+    extra_uk_bracket = ParameterScaleBracket(
+        data={
+            "threshold": {
+                "values": {"2021-01-01": 1e7},
+                "metadata": {
+                    "policyengine": {
+                        "short_name": "extra_UK_threshold",
+                        "title": "Extra band threshold",
+                        "description": "An extra income tax band for the UK.",
+                        "max": 1e6,
+                        "type": "yearly",
+                        "summary": "Add an extra income tax band at @ for the UK",
+                    }
+                },
             },
-            "metadata": {
-                "policyengine": {
-                    "short_name": "extra_UK_threshold",
-                    "title": "Extra band threshold",
-                    "description": "An extra income tax band for the UK.",
-                    "max": 1e6,
-                    "type": "yearly",
-                    "summary": "Add an extra income tax band at @ for the UK",
-                }
-            }
-        },
-        "rate": {
-            "values": {
-                "2021-01-01": 0.45
+            "rate": {
+                "values": {"2021-01-01": 0.45},
+                "metadata": {
+                    "policyengine": {
+                        "short_name": "extra_UK_rate",
+                        "title": "Extra band rate",
+                        "description": "Rate of the extra income tax band for the UK.",
+                        "max": 1,
+                        "type": "rate",
+                        "summary": "Set the extra income tax band to @ for the UK",
+                    }
+                },
             },
-            "metadata": {
-                "policyengine": {
-                    "short_name": "extra_UK_rate",
-                    "title": "Extra band rate",
-                    "description": "Rate of the extra income tax band for the UK.",
-                    "max": 1,
-                    "type": "rate",
-                    "summary": "Set the extra income tax band to @ for the UK",
-                }
-            }
         }
-    })
+    )
     uk_rates.brackets += [extra_uk_bracket]
     scot_rates: ParameterScale = rates.scotland.post_starter_rate
-    extra_scot_bracket = ParameterScaleBracket(data={
-        "threshold": {
-            "values": {
-                "2021-01-01": 1e7
+    extra_scot_bracket = ParameterScaleBracket(
+        data={
+            "threshold": {
+                "values": {"2021-01-01": 1e7},
+                "metadata": {
+                    "policyengine": {
+                        "short_name": "extra_UK_threshold",
+                        "title": "Extra band threshold",
+                        "description": "An extra income tax band for Scotland.",
+                        "max": 1e6,
+                        "type": "yearly",
+                        "summary": "Add an extra income tax band at @ for Scotland",
+                    }
+                },
             },
-            "metadata": {
-                "policyengine": {
-                    "short_name": "extra_UK_threshold",
-                    "title": "Extra band threshold",
-                    "description": "An extra income tax band for Scotland.",
-                    "max": 1e6,
-                    "type": "yearly",
-                    "summary": "Add an extra income tax band at @ for Scotland",
-                }
-            }
-        },
-        "rate": {
-            "values": {
-                "2021-01-01": 0.46
+            "rate": {
+                "values": {"2021-01-01": 0.46},
+                "metadata": {
+                    "policyengine": {
+                        "short_name": "extra_UK_rate",
+                        "title": "Extra band rate",
+                        "description": "Rate of the extra income tax band for Scotland.",
+                        "max": 1,
+                        "type": "rate",
+                        "summary": "Set the extra income tax band to @ for the UK",
+                    }
+                },
             },
-            "metadata": {
-                "policyengine": {
-                    "short_name": "extra_UK_rate",
-                    "title": "Extra band rate",
-                    "description": "Rate of the extra income tax band for Scotland.",
-                    "max": 1,
-                    "type": "rate",
-                    "summary": "Set the extra income tax band to @ for the UK",
-                }
-            }
         }
-    })
+    )
     scot_rates.brackets += [extra_scot_bracket]
     rates.uk.brackets[3].rate.name = "tax.income_tax.rates.uk[3].rate"
-    rates.uk.brackets[3].threshold.name = "tax.income_tax.rates.uk[3].threshold"
-    rates.scotland.post_starter_rate.brackets[5].rate.name = "tax.income_tax.rates.scotland.post_starter_rate[5].rate"
-    rates.scotland.post_starter_rate.brackets[5].threshold.name = "tax.income_tax.rates.scotland.post_starter_rate[5].threshold"
+    rates.uk.brackets[
+        3
+    ].threshold.name = "tax.income_tax.rates.uk[3].threshold"
+    rates.scotland.post_starter_rate.brackets[
+        5
+    ].rate.name = "tax.income_tax.rates.scotland.post_starter_rate[5].rate"
+    rates.scotland.post_starter_rate.brackets[
+        5
+    ].threshold.name = (
+        "tax.income_tax.rates.scotland.post_starter_rate[5].threshold"
+    )
     return parameters
 
 
