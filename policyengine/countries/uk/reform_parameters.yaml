@@ -16,7 +16,7 @@ reforms:
         2021-01-01: 0.00
       metadata:
         policyengine:
-          title: Extra marginal rate threshold
+          title: Extra marginal rate
           max: 1.
           short_name: extra_rate
           description: Rate for an extra Income Tax band (applying to all UK residents).
