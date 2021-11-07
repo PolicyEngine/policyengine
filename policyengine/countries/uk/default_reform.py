@@ -1,7 +1,11 @@
-from openfisca_tools.model_api import ReformType
+from openfisca_tools.model_api import (
+    ReformType,
+    Variable,
+    amount_over,
+)
 from openfisca_uk import CountryTaxBenefitSystem
 from openfisca_uk.entities import Person, Household
-from openfisca_core.model_api import Variable, YEAR, Reform
+from openfisca_core.model_api import YEAR, Reform
 
 
 def create_default_reform() -> ReformType:
@@ -63,6 +67,28 @@ def create_default_reform() -> ReformType:
             )
             return original_benefits + person("UBI", period)
 
+    class extra_income_tax_band_charge(Variable):
+        value_type = float
+        entity = Person
+        label = "Extra tax bands"
+        definition_period = YEAR
+
+        def formula(person, period, parameters):
+            extra_band = parameters(period).reforms.extra_band
+            income = person("adjusted_net_income", period)
+            income_in_band = amount_over(income, extra_band.threshold)
+            charge = income_in_band * extra_band.rate
+            return charge
+
+    class income_tax(baseline_variables["income_tax"]):
+        def formula(person, period, parameters):
+            original_income_tax = baseline_variables["income_tax"].formula(
+                person, period, parameters
+            )
+            return original_income_tax + person(
+                "extra_income_tax_band_charge", period
+            )
+
     class default_reform(Reform):
         def apply(self):
             self.update_variable(land_value)
@@ -70,5 +96,7 @@ def create_default_reform() -> ReformType:
             self.update_variable(tax)
             self.add_variable(UBI)
             self.update_variable(benefits)
+            self.update_variable(income_tax)
+            self.add_variable(extra_income_tax_band_charge)
 
     return (default_reform,)

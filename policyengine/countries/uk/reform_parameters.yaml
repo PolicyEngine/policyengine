@@ -1,4 +1,29 @@
 reforms:
+  extra_band:
+    threshold:
+      values: 
+        2021-01-01: 0.00
+      metadata:
+        policyengine:
+          title: Extra marginal rate threshold
+          max: 1.e+6
+          short_name: extra_threshold
+          description: Starting threshold for an extra Income Tax band.
+          type: yearly
+          summary: Start the extra tax band from @
+    rate:
+      values: 
+        2021-01-01: 0.00
+      metadata:
+        policyengine:
+          title: Extra marginal rate threshold
+          max: 1.
+          short_name: extra_rate
+          description: Rate for an extra Income Tax band (applying to all UK residents).
+          type: rate
+          summary: Add an extra @ Income Tax rate         
+        tests:
+          - decreases_net_income: true
   LVT:
     rate:
       values:
