@@ -16,8 +16,8 @@ export const PARAMETER_MENU = {
 				"higher_threshold",
 				"add_rate",
 				"add_threshold",
-				"extra_threshold",
-				"extra_rate",
+				"extra_UK_threshold",
+				"extra_UK_rate",
 			],
 			"Scottish rates": [
 				"scottish_starter_rate",
