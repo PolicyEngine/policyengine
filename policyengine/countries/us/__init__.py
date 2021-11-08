@@ -20,7 +20,7 @@ class USResultsConfig(PolicyEngineResultsConfig):
     senior_variable: str = "is_senior"
     person_variable: str = "people"
     tax_variable: str = "people"
-    benefit_variable: str = "people"
+    benefit_variable: str = "ubi"
     earnings_variable: str = "e00200"
     formatter = usd
 

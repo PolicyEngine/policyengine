@@ -41,7 +41,7 @@ export class BreakdownTable extends React.Component {
                             <Spin indicator={antIcon} /> :
                             this.state.error ?
                                 <Alert type="error" message="Something went wrong." /> :
-                                <BreakdownTableContent results={this.state.results} />
+                                <BreakdownTableContent results={this.state.results} currency={this.props.currency} />
                     }
                 </Panel>
             </Collapse>
@@ -57,12 +57,12 @@ function BreakdownTableContent(props) {
             key: "provision",
         },
         {
-            title: "Additional spending (£bn)",
+            title: `Additional spending (${props.currency}bn)`,
             dataIndex: "additional_spending",
             key: "additional_spending",
         },
         {
-            title: "Cumulative spending (£bn)",
+            title: `Cumulative spending (${props.currency}bn)`,
             dataIndex: "cumulative_spending",
             key: "cumulative_spending",
         },

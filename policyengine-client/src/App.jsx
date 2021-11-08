@@ -18,7 +18,7 @@ export default class App extends React.Component {
 					<PolicyEngineUK analytics={this.props.analytics} api_url="https://policyengine.org/uk/api" />
 				</Route>
 				<Route path="/us">
-					<PolicyEngineUS analytics={this.props.analytics} api_url="http://localhost:5000/us/api" />
+					<PolicyEngineUS analytics={this.props.analytics} api_url="https://policyengine.org/us/api" />
 				</Route>
 				<Route exact path="/">
 					<Redirect to="/uk" />
