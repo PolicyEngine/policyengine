@@ -16,7 +16,7 @@ def poverty_rate(
     population: str,
     config: Type[PolicyEngineResultsConfig],
 ) -> float:
-    return sim.calc(config.in_poverty_variable, map_to="person", period=2021)[
+    return sim.calc(config.in_poverty_variable, map_to="person")[
         sim.calc(population) > 0
     ].mean()
 
