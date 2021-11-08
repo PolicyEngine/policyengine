@@ -53,7 +53,7 @@ def add_extra_band(parameters: ParameterNode) -> ParameterNode:
                 "values": {"2021-01-01": 1e7},
                 "metadata": {
                     "policyengine": {
-                        "short_name": "extra_UK_threshold",
+                        "short_name": "extra_scot_threshold",
                         "title": "Extra band threshold",
                         "description": "An extra income tax band for Scotland.",
                         "max": 1e6,
@@ -66,12 +66,12 @@ def add_extra_band(parameters: ParameterNode) -> ParameterNode:
                 "values": {"2021-01-01": 0.46},
                 "metadata": {
                     "policyengine": {
-                        "short_name": "extra_UK_rate",
+                        "short_name": "extra_scot_rate",
                         "title": "Extra band rate",
                         "description": "Rate of the extra income tax band for Scotland.",
                         "max": 1,
                         "type": "rate",
-                        "summary": "Set the extra income tax band to @ for the UK",
+                        "summary": "Set the extra income tax band to @ for Scotland",
                     }
                 },
             },
