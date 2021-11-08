@@ -8,7 +8,7 @@ export default class ExtraBand extends React.Component {
 		const rate_param = this.props.policy[this.props.rate_parameter];
 		const threshold_param = this.props.policy[this.props.threshold_parameter];
 		this.state = { 
-			shown: (rate_param.value != rate_param.default) || (threshold_param.value != threshold_param.default) 
+			shown: (rate_param.value !== rate_param.default) || (threshold_param.value !== threshold_param.default) 
 		};
 	}
 
