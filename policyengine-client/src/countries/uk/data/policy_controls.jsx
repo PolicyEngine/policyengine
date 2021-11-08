@@ -73,6 +73,7 @@ export const PARAMETER_MENU = {
 		"State Pension": [
 			"abolish_SP",
 			"abolish_PC",
+			"PC_takeup",
 		],
 		"Universal Credit": [
 			"abolish_UC",
