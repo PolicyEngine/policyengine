@@ -16,6 +16,7 @@ export const PARAMETER_MENU = {
 				"higher_threshold",
 				"add_rate",
 				"add_threshold",
+				"extra_UK_band",
 			],
 			"Scottish rates": [
 				"scottish_starter_rate",
@@ -28,6 +29,7 @@ export const PARAMETER_MENU = {
 				"scottish_higher_threshold",
 				"scottish_add_rate",
 				"scottish_add_threshold",
+				"extra_scot_band",
 			],
 			"Allowances": [
 				"personal_allowance"
@@ -71,6 +73,7 @@ export const PARAMETER_MENU = {
 		"State Pension": [
 			"abolish_SP",
 			"abolish_PC",
+			"PC_takeup",
 		],
 		"Universal Credit": [
 			"abolish_UC",

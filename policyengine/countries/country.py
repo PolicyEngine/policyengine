@@ -147,8 +147,17 @@ class PolicyEngineCountry:
         waterfall = household_waterfall_chart(
             baseline, reformed, self.results_config
         )
-        baseline.vary("employment_income", step=100)
-        reformed.vary("employment_income", step=100)
+        vary_max = max(200000, baseline.calc("employment_income").sum() * 1.5)
+        baseline.vary(
+            "employment_income",
+            step=100,
+            max=vary_max,
+        )
+        reformed.vary(
+            "employment_income",
+            step=100,
+            max=vary_max,
+        )
         budget = budget_chart(baseline, reformed, self.results_config)
         mtr = mtr_chart(baseline, reformed, self.results_config)
         return dict(

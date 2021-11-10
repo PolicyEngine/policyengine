@@ -13,6 +13,7 @@ import PopulationImpact from "../../common/pages/populationImpact";
 import AutoUBI from "./components/autoUBI";
 import Household from "../../common/pages/household";
 import HouseholdImpact from "../../common/pages/householdImpact";
+import ExtraBand from "./components/extra_band";
 
 export class PolicyEngineUK extends React.Component {
     constructor(props) {
@@ -71,7 +72,6 @@ export class PolicyEngineUK extends React.Component {
     }
 
     setPolicy(name, value) {
-        console.log(name, value)
         let oldPolicy = this.state.policy;
 		oldPolicy[name].value = value;
 		let { policy, invalid } = this.state.validator(oldPolicy);
@@ -187,6 +187,9 @@ export class PolicyEngineUK extends React.Component {
     }
 
     render() {
+        if(!this.state.fetchDone) {
+            return null;
+        }
         const setPage = page => {this.setState({page: page});};
         return (
             <PolicyEngineWrapper>
@@ -209,7 +212,23 @@ export class PolicyEngineUK extends React.Component {
                                 open={["/Tax", "/Tax/Income Tax", "/Benefit", "/UBI Center"]}
                                 currency="£"
                                 setPolicy={this.setPolicy}
-                                overrides={{autoUBI: <AutoUBI api_url={this.props.api_url}/>}}
+                                overrides={{
+                                    autoUBI: <AutoUBI api_url={this.props.api_url}/>,
+                                    extra_UK_band: <ExtraBand 
+                                        rate_parameter="extra_UK_rate" 
+                                        threshold_parameter="extra_UK_threshold" 
+                                        policy={this.state.policy} 
+                                        setPolicy={this.setPolicy} 
+                                        currency="£"
+                                    />,
+                                    extra_scot_band: <ExtraBand 
+                                        rate_parameter="extra_scot_rate" 
+                                        threshold_parameter="extra_scot_threshold" 
+                                        policy={this.state.policy} 
+                                        setPolicy={this.setPolicy} 
+                                        currency="£"
+                                    />,
+                                }}
                                 setPage={setPage}
                                 invalid={!this.state.policyValid}
                                 baseURL="/uk"

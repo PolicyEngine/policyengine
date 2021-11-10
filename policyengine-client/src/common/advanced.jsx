@@ -35,7 +35,7 @@ export class BreakdownTable extends React.Component {
     render() {
         return (
             <Collapse ghost onChange={open => {if(open && !this.state.results) { this.fetchResults(); }}}>
-                <Panel header={<Tooltip title={`Esimated to take around ${prettyMilliseconds(2400 + Object.keys(this.props.policy).length * 1600)}`}>See a breakdown of the changes (may take longer)</Tooltip>} key="1">
+                <Panel header={<Tooltip title={`Estimated to take around ${prettyMilliseconds(2400 + Object.keys(this.props.policy).length * 1600)}`}>See a breakdown of the changes (may take longer)</Tooltip>} key="1">
                     {
                         this.state.waiting ?
                             <Spin indicator={antIcon} /> :
