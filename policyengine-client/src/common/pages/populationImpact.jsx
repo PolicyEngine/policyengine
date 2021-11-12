@@ -1,4 +1,4 @@
-import { Divider, Collapse } from "antd";
+import { Divider, Collapse, Switch } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Row, Col } from "react-bootstrap";
 import { Fragment, default as React } from "react";
@@ -31,6 +31,7 @@ export function PopulationResultsPane(props) {
 	const winnerColor = winners > 0 ? "green" : (winners === 0 ? "grey" : "darkred");
 	const losers = Math.round(+props.results.loser_share * 100);
 	const loserColor = losers > 0 ? "darkred" : (losers === 0 ? "grey" : "green");
+	const [showAbsDecile, setShowAbsDecile] = React.useState(false);
 	return (
 		<>
 			<Divider>Population results</Divider>
@@ -48,7 +49,16 @@ export function PopulationResultsPane(props) {
 				<Chart plot={props.results.poverty_chart} md={12} />
 			</Row>
 			<Row>
-				<Chart plot={props.results.decile_chart} md={12}/>
+				{
+					showAbsDecile ?
+						<Chart plot={props.results.avg_decile_chart} md={12}/> :
+						<Chart plot={props.results.rel_decile_chart} md={12}/>
+				}
+			</Row>
+			<Row>
+				<div className="justify-content-center d-flex">
+					<Switch onChange={() => setShowAbsDecile(!showAbsDecile)} checkedChildren="Absolute change" unCheckedChildren="Relative change" />
+				</div>
 			</Row>
 			<Row>
 				<Chart plot={props.results.intra_decile_chart} md={12}/>

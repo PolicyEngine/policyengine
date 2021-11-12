@@ -1,7 +1,9 @@
 import { LoadingOutlined } from '@ant-design/icons';
-import { Collapse, Spin, Alert, Table, Tooltip } from 'antd';
+import { Collapse, Spin, Alert, Table, Tooltip, Switch } from 'antd';
+import { Chart } from "./results";
 import React from 'react';
 import prettyMilliseconds from "pretty-ms";
+import { Row } from "react-bootstrap";
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 const { Panel } = Collapse;
@@ -9,7 +11,7 @@ const { Panel } = Collapse;
 export class BreakdownTable extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {results: null, waiting: false, error: false};
+        this.state = {results: null, waiting: false, error: false, showAbsDecile: false};
         this.fetchResults = this.fetchResults.bind(this);
     }
 
@@ -37,11 +39,25 @@ export class BreakdownTable extends React.Component {
             <Collapse ghost onChange={open => {if(open && !this.state.results) { this.fetchResults(); }}}>
                 <Panel header={<Tooltip title={`Estimated to take around ${prettyMilliseconds(2400 + Object.keys(this.props.policy).length * 1600)}`}>See a breakdown of the changes (may take longer)</Tooltip>} key="1">
                     {
-                        this.state.waiting ?
+                        (this.state.waiting || !this.state.results) ?
                             <Spin indicator={antIcon} /> :
                             this.state.error ?
                                 <Alert type="error" message="Something went wrong." /> :
-                                <BreakdownTableContent results={this.state.results} />
+                                <>
+                                    <BreakdownTableContent results={this.state.results} />
+                                    <Row>
+                                        {
+                                            this.state.showAbsDecile ?
+                                                <Chart plot={this.state.results.avg_decile_chart} md={12}/> :
+                                                <Chart plot={this.state.results.rel_decile_chart} md={12}/>
+                                        }
+                                    </Row>
+                                    <Row>
+                                        <div className="justify-content-center d-flex">
+                                            <Switch onChange={() => this.setState({showAbsDecile: !this.state.showAbsDecile})} checkedChildren="Absolute change" unCheckedChildren="Relative change" />
+                                        </div>
+                                    </Row>
+                                </>
                     }
                 </Panel>
             </Collapse>

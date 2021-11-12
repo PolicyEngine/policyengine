@@ -1,4 +1,4 @@
-from typing import Type
+from typing import Tuple, Type
 from microdf import MicroSeries
 from policyengine.impact.population.metrics import poverty_rate, pct_change
 import plotly.express as px
@@ -15,15 +15,15 @@ def decile_chart(
     baseline: Microsimulation,
     reformed: Microsimulation,
     config: Type[PolicyEngineResultsConfig],
-) -> dict:
+) -> Tuple[dict, dict]:
     """Chart of average net effect of a reform by income decile.
 
     :param baseline: Baseline microsimulation.
     :type baseline: Microsimulation
     :param reformed: Reform microsimulation.
     :type reformed: Microsimulation
-    :return: Decile chart as a JSON representation of a Plotly chart.
-    :rtype: dict
+    :return: Decile charts (relative and absolute) as JSON representations of Plotly charts.
+    :rtype: Tuple[dict, dict]
     """
     income = baseline.calc(
         config.household_net_income_variable, map_to="person"
@@ -35,13 +35,27 @@ def decile_chart(
         reformed.calc(config.household_net_income_variable, map_to="person")
         - income
     )
-    changes = (
-        gain.groupby(equiv_income.decile_rank()).sum()
-        / income.groupby(equiv_income.decile_rank()).sum()
+    rel_agg_changes = (
+        (
+            gain.groupby(equiv_income.decile_rank()).sum()
+            / income.groupby(equiv_income.decile_rank()).sum()
+        )
+        .round(3)
+        .astype(float)
     )
-    df = pd.DataFrame({"Decile": changes.index, "Change": changes.values})
-    fig = (
-        px.bar(df, x="Decile", y="Change")
+    mean_abs_changes = (
+        gain.groupby(equiv_income.decile_rank()).sum()
+        / income.groupby(equiv_income.decile_rank()).count()
+    ).round()
+    df = pd.DataFrame(
+        {
+            "Decile": rel_agg_changes.index,
+            "Relative change": rel_agg_changes.values,
+            "Average change": mean_abs_changes.values,
+        }
+    )
+    rel_fig = (
+        px.bar(df, x="Decile", y="Relative change")
         .update_layout(
             title="Change to net income by decile",
             xaxis_title="Equivalised disposable income decile",
@@ -52,8 +66,23 @@ def decile_chart(
         )
         .update_traces(marker_color=charts.BLUE)
     )
-    charts.add_zero_line(fig)
-    return charts.formatted_fig_json(fig)
+    abs_fig = (
+        px.bar(df, x="Decile", y="Average change")
+        .update_layout(
+            title="Change to net income by decile",
+            xaxis_title="Equivalised disposable income decile",
+            yaxis_title="Average change",
+            yaxis_tickprefix="£",
+            showlegend=False,
+            xaxis_tickvals=list(range(1, 11)),
+        )
+        .update_traces(marker_color=charts.BLUE)
+    )
+    charts.add_zero_line(rel_fig)
+    charts.add_zero_line(abs_fig)
+    return charts.formatted_fig_json(rel_fig), charts.formatted_fig_json(
+        abs_fig
+    )
 
 
 def pov_chg(
