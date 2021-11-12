@@ -65,19 +65,14 @@ def get_breakdown_and_chart_per_provision(
         gain_by_decile = gain.groupby(equiv_income.decile_rank()).sum()
         gain_by_decile -= previous_gains
         previous_gains += gain_by_decile
+        income_by_decile = income.groupby(equiv_income.decile_rank())
         gain_df = pd.DataFrame(
             {
                 "Decile": gain_by_decile.index,
-                "Relative change": (
-                    gain_by_decile
-                    / income.groupby(equiv_income.decile_rank()).sum()
-                )
+                "Relative change": (gain_by_decile / income_by_decile.sum())
                 .round(3)
                 .values,
-                "Average change": (
-                    gain_by_decile
-                    / income.groupby(equiv_income.decile_rank()).count()
-                )
+                "Average change": (gain_by_decile / income_by_decile.count())
                 .round()
                 .values,
                 "Provision": provisions[i - 1],
@@ -92,12 +87,32 @@ def get_breakdown_and_chart_per_provision(
             colour_positions += [min(colour_positions) - 1]
 
     colours = []
-    
+
     for i in colour_positions[1:]:
         if i > 0:
-            colours += ["rgb" + str(tuple(map(lambda x: int(255 * x), greens(i / max(colour_positions) * 0.9))))]
+            colours += [
+                "rgb"
+                + str(
+                    tuple(
+                        map(
+                            lambda x: int(255 * x),
+                            greens(i / max(colour_positions) * 0.9),
+                        )
+                    )
+                )
+            ]
         else:
-            colours += ["rgb" + str(tuple(map(lambda x: int(255 * x), greys(i / min(colour_positions) * 0.9))))]
+            colours += [
+                "rgb"
+                + str(
+                    tuple(
+                        map(
+                            lambda x: int(255 * x),
+                            greys(i / min(colour_positions) * 0.9),
+                        )
+                    )
+                )
+            ]
 
     rel_decile_chart = charts.formatted_fig_json(
         px.bar(
