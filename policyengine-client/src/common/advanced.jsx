@@ -1,5 +1,5 @@
 import { LoadingOutlined } from '@ant-design/icons';
-import { Collapse, Spin, Alert, Table, Tooltip, Switch } from 'antd';
+import { Collapse, Spin, Alert, Table, Tooltip, Radio } from 'antd';
 import { Chart } from "./results";
 import React from 'react';
 import prettyMilliseconds from "pretty-ms";
@@ -39,7 +39,7 @@ export class BreakdownTable extends React.Component {
             <Collapse ghost onChange={open => {if(open && !this.state.results) { this.fetchResults(); }}}>
                 <Panel header={<Tooltip title={`Estimated to take around ${prettyMilliseconds(2400 + Object.keys(this.props.policy).length * 1600)}`}>See a breakdown of the changes (may take longer)</Tooltip>} key="1">
                     {
-                        (this.state.waiting || !this.state.results) ?
+                        (this.state.waiting || (!this.state.error && !this.state.results)) ?
                             <Spin indicator={antIcon} /> :
                             this.state.error ?
                                 <Alert type="error" message="Something went wrong." /> :
@@ -54,7 +54,10 @@ export class BreakdownTable extends React.Component {
                                     </Row>
                                     <Row>
                                         <div className="justify-content-center d-flex">
-                                            <Switch onChange={() => this.setState({showAbsDecile: !this.state.showAbsDecile})} checkedChildren="Absolute change" unCheckedChildren="Relative change" />
+                                            <Radio.Group defaultValue={true} buttonStyle="solid"  onChange={() => this.setState({showAbsDecile: !this.state.showAbsDecile})} >
+                                                <Radio.Button value={true}>Relative change</Radio.Button>
+                                                <Radio.Button value={false}>Absolute change</Radio.Button>
+                                            </Radio.Group>                                        
                                         </div>
                                     </Row>
                                 </>

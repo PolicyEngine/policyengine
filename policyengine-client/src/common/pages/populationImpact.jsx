@@ -1,4 +1,4 @@
-import { Divider, Collapse, Switch } from "antd";
+import { Divider, Collapse, Radio } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Row, Col } from "react-bootstrap";
 import { Fragment, default as React } from "react";
@@ -57,7 +57,10 @@ export function PopulationResultsPane(props) {
 			</Row>
 			<Row>
 				<div className="justify-content-center d-flex">
-					<Switch onChange={() => setShowAbsDecile(!showAbsDecile)} checkedChildren="Absolute change" unCheckedChildren="Relative change" />
+				<Radio.Group defaultValue={true} buttonStyle="solid"  onChange={() => setShowAbsDecile(!showAbsDecile)} >
+					<Radio.Button value={true}>Relative change</Radio.Button>
+					<Radio.Button value={false}>Absolute change</Radio.Button>
+				</Radio.Group>
 				</div>
 			</Row>
 			<Row>

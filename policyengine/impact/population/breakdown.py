@@ -5,6 +5,7 @@ from openfisca_tools.model_api import ReformType
 import pandas as pd
 import plotly.express as px
 from policyengine.utils import charts
+from matplotlib import cm
 
 
 def get_spending(sim: Microsimulation, baseline: Microsimulation) -> float:
@@ -52,6 +53,9 @@ def get_breakdown_and_chart_per_provision(
     equiv_income = baseline.calc("equiv_household_net_income", map_to="person")
 
     previous_gains = pd.Series([0] * 10, index=list(range(1, 11)))
+    greys = cm.get_cmap("Greys")
+    greens = cm.get_cmap("Greens")
+    colour_positions = [0]
 
     for i in range(1, len(reform) + 1):
         reform_sim = create_reform_sim(reform[:i])
@@ -80,6 +84,20 @@ def get_breakdown_and_chart_per_provision(
             }
         )
         decile_impacts = pd.concat([decile_impacts, gain_df])
+        if gain_by_decile.sum() > 0:
+            # Reform has a positive (assumed in all deciles) impact
+            colour_positions += [max(colour_positions) + 1]
+        else:
+            # Reform has a negative (assumed in all deciles) impact
+            colour_positions += [min(colour_positions) - 1]
+
+    colours = []
+    
+    for i in colour_positions[1:]:
+        if i > 0:
+            colours += ["rgb" + str(tuple(map(lambda x: int(255 * x), greens(i / max(colour_positions) * 0.9))))]
+        else:
+            colours += ["rgb" + str(tuple(map(lambda x: int(255 * x), greys(i / min(colour_positions) * 0.9))))]
 
     rel_decile_chart = charts.formatted_fig_json(
         px.bar(
@@ -88,8 +106,11 @@ def get_breakdown_and_chart_per_provision(
             y="Relative change",
             color="Provision",
             title="Change in net income by decile",
+            color_discrete_sequence=colours,
         ).update_layout(
-            yaxis_tickformat="%",
+            yaxis_tickformat=",.1%",
+            xaxis_tickvals=list(range(1, 11)),
+            showlegend=False,
         )
     )
 
@@ -100,8 +121,12 @@ def get_breakdown_and_chart_per_provision(
             y="Average change",
             color="Provision",
             title="Change in net income by decile",
+            color_discrete_sequence=colours,
         ).update_layout(
             yaxis_tickprefix="£",
+            yaxis_tickformat=",",
+            xaxis_tickvals=list(range(1, 11)),
+            showlegend=False,
         )
     )
 

@@ -73,6 +73,7 @@ def decile_chart(
             xaxis_title="Equivalised disposable income decile",
             yaxis_title="Average change",
             yaxis_tickprefix="£",
+            yaxis_tickformat=",",
             showlegend=False,
             xaxis_tickvals=list(range(1, 11)),
         )
