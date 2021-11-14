@@ -5,8 +5,8 @@ import yaml
 from openfisca_core.taxbenefitsystems.tax_benefit_system import (
     TaxBenefitSystem,
 )
-from policyengine.impact.population.revenue_breakdown import (
-    get_breakdown_per_provision,
+from policyengine.impact.population.breakdown import (
+    get_breakdown_and_chart_per_provision,
 )
 from policyengine.utils.general import (
     PolicyEngineResultsConfig,
@@ -108,11 +108,13 @@ class PolicyEngineCountry:
     def population_reform(self, params: dict = None):
         reform = create_reform(params, self.policyengine_parameters)
         reformed = self._create_reform_sim(reform)
+        rel_decile_chart, avg_decile_chart = decile_chart(
+            self.baseline, reformed, self.results_config
+        )
         return dict(
             **headline_metrics(self.baseline, reformed, self.results_config),
-            decile_chart=decile_chart(
-                self.baseline, reformed, self.results_config
-            ),
+            rel_decile_chart=rel_decile_chart,
+            avg_decile_chart=avg_decile_chart,
             poverty_chart=poverty_chart(
                 self.baseline, reformed, self.results_config
             ),
@@ -203,6 +205,6 @@ class PolicyEngineCountry:
         reform, provisions = create_reform(
             params, self.policyengine_parameters, return_descriptions=True
         )
-        return get_breakdown_per_provision(
+        return get_breakdown_and_chart_per_provision(
             reform, provisions, self.baseline, self._create_reform_sim
         )
