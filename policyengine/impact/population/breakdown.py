@@ -125,7 +125,6 @@ def get_breakdown_and_chart_per_provision(
         ).update_layout(
             yaxis_tickformat=",.1%",
             xaxis_tickvals=list(range(1, 11)),
-            showlegend=False,
         )
     )
 
@@ -141,7 +140,6 @@ def get_breakdown_and_chart_per_provision(
             yaxis_tickprefix="£",
             yaxis_tickformat=",",
             xaxis_tickvals=list(range(1, 11)),
-            showlegend=False,
         )
     )
 
