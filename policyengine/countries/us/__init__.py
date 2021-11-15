@@ -23,6 +23,7 @@ class USResultsConfig(PolicyEngineResultsConfig):
     benefit_variable: str = "ubi"
     earnings_variable: str = "e00200"
     formatter = usd
+    currency: str = "$"
 
 
 class US(PolicyEngineCountry):

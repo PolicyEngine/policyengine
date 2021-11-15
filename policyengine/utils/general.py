@@ -16,6 +16,7 @@ class PolicyEngineResultsConfig:
     person_variable: str
     earnings_variable: str
     formatter: Callable
+    currency: str
 
 
 def dict_to_string(d: dict) -> str:

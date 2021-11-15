@@ -23,6 +23,7 @@ class UKResultsConfig(PolicyEngineResultsConfig):
     benefit_variable: str = "benefits"
     earnings_variable: str = "employment_income"
     formatter = gbp
+    currency: str = "£"
 
 
 class UK(PolicyEngineCountry):
