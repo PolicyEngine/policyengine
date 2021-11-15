@@ -1,4 +1,4 @@
-from typing import Callable, Tuple
+from typing import Callable, List, Tuple
 import numpy as np
 from openfisca_tools.microsimulation import Microsimulation
 from openfisca_tools.model_api import ReformType
@@ -6,10 +6,32 @@ import pandas as pd
 import plotly.express as px
 from policyengine.utils import charts
 from matplotlib import cm
+import yaml
 
 
 def get_spending(sim: Microsimulation, baseline: Microsimulation) -> float:
     return sim.calc("net_income").sum() - baseline.calc("net_income").sum()
+
+
+greys = cm.get_cmap("Greys")
+greens = cm.get_cmap("Greens")
+
+
+def colour_position_to_rgb(position: int, colour_positions: List[int]) -> str:
+    if position > 0:
+        scale = greens
+        furthest = max
+    else:
+        scale = greys
+        furthest = min
+    return "rgb" + str(
+        tuple(
+            map(
+                lambda x: int(255 * x),
+                scale(position / furthest(colour_positions) * 0.9),
+            )
+        )
+    )
 
 
 def get_breakdown_and_chart_per_provision(
@@ -53,9 +75,8 @@ def get_breakdown_and_chart_per_provision(
     equiv_income = baseline.calc("equiv_household_net_income", map_to="person")
 
     previous_gains = pd.Series([0] * 10, index=list(range(1, 11)))
-    greys = cm.get_cmap("Greys")
-    greens = cm.get_cmap("Greens")
     colour_positions = [0]
+    provision_data = {}
 
     for i in range(1, len(reform) + 1):
         reform_sim = create_reform_sim(reform[:i])
@@ -81,38 +102,25 @@ def get_breakdown_and_chart_per_provision(
         decile_impacts = pd.concat([decile_impacts, gain_df])
         if gain_by_decile.sum() > 0:
             # Reform has a positive (assumed in all deciles) impact
-            colour_positions += [max(colour_positions) + 1]
+            pos = max(colour_positions) + 1
         else:
             # Reform has a negative (assumed in all deciles) impact
-            colour_positions += [min(colour_positions) - 1]
+            pos = min(colour_positions) - 1
+        colour_positions += [pos]
+        provision_data[provisions[i - 1]] = dict(
+            position=pos,
+            decile_impact=list(map(float, list(gain_by_decile.values))),
+        )
 
-    colours = []
+    for provision in provision_data:
+        provision_data[provision]["colour"] = colour_position_to_rgb(
+            provision_data[provision]["position"], colour_positions
+        )
 
-    for i in colour_positions[1:]:
-        if i > 0:
-            colours += [
-                "rgb"
-                + str(
-                    tuple(
-                        map(
-                            lambda x: int(255 * x),
-                            greens(i / max(colour_positions) * 0.9),
-                        )
-                    )
-                )
-            ]
-        else:
-            colours += [
-                "rgb"
-                + str(
-                    tuple(
-                        map(
-                            lambda x: int(255 * x),
-                            greys(i / min(colour_positions) * 0.9),
-                        )
-                    )
-                )
-            ]
+    colour_map = {
+        provision: provision_data[provision]["colour"]
+        for provision in provision_data
+    }
 
     rel_decile_chart = charts.formatted_fig_json(
         px.bar(
@@ -121,7 +129,7 @@ def get_breakdown_and_chart_per_provision(
             y="Relative change",
             color="Provision",
             title="Change in net income by decile",
-            color_discrete_sequence=colours,
+            color_discrete_map=colour_map,
         ).update_layout(
             yaxis_tickformat=",.1%",
             xaxis_tickvals=list(range(1, 11)),
@@ -135,13 +143,15 @@ def get_breakdown_and_chart_per_provision(
             y="Average change",
             color="Provision",
             title="Change in net income by decile",
-            color_discrete_sequence=colours,
+            color_discrete_map=colour_map,
         ).update_layout(
             yaxis_tickprefix="£",
             yaxis_tickformat=",",
             xaxis_tickvals=list(range(1, 11)),
         )
     )
+
+    print(colour_map)
 
     return dict(
         provisions=provisions,
