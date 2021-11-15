@@ -10,7 +10,7 @@ const { Option } = Select;
 
 export function getParser(parameter, currency) {
 	if (parameter.type === "rate") {
-		return (value) => Math.round(+value.replace("%", "") / 100, 2);
+		return (value) => Math.round(+value.replace("%", "") / 10) / 10;
 	} else if (parameter.type === "weekly") {
 		return (value) => +value.replace(currency, "").replace("/week", "");
 	} else if (parameter.type === "yearly") {
@@ -26,7 +26,7 @@ export function getParser(parameter, currency) {
 
 export function getFormatter(parameter, currency) {
 	if (parameter.type === "rate") {
-		return (value) => `${Math.round(value * 100, 2)}%`;
+		return (value) => `${Math.round(value * 1000) / 10}%`;
 	} else if (parameter.type === "weekly") {
 		return (value) => `${currency}${value}/week`;
 	} else if (parameter.type === "yearly") {
@@ -93,7 +93,7 @@ export function Parameter(props) {
 					<Slider
 						value={props.param.value}
 						min={props.param.min ? props.param.min : 0}
-						max={props.param.max ? props.param.max : 1}
+						max={props.param.max ? props.param.max : 100}
 						onChange={(value) => {
 							props.setPolicy(props.name, value);
 						}}
@@ -110,7 +110,7 @@ export function Parameter(props) {
 						}}
 						style={{ width: 175 }}
 						disabled={props.disabled}
-						step={props.param.type === "rate" ? 0.01 : 1}
+						step={props.param.type === "rate" ? 0.001 : 1}
 					/>
 				</>
 			);
