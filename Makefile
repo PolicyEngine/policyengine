@@ -48,3 +48,5 @@ test-deploy: openfisca_uk_data openfisca_uk test
 	rm -rf policyengine/static
 	cd policyengine-client; npm run build
 	cp -r policyengine-client/build policyengine/static
+monitor:
+	python policyengine/monitoring/api_monitoring.py
