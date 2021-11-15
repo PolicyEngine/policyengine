@@ -110,6 +110,21 @@ def add_parameter_file(path: str) -> Reform:
     return reform
 
 
+def summary_from_metadata(metadata: dict) -> str:
+    """Generates a summary from parameter metadata.
+
+    Args:
+        metadata (dict): The parameter metadata.
+
+    Returns:
+        str: The summary.
+    """
+    if metadata["type"] == "abolish":
+        return f"Abolish {metadata['title']}"
+    else:
+        return f"Change the {metadata['title']} to @"
+
+
 def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
     """Extracts PolicyEngine parameters from OpenFisca parameter metadata.
 
@@ -145,7 +160,6 @@ def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
             description=meta["description"],
             default=p(CURRENT_INSTANT),
             value=p(CURRENT_INSTANT),
-            summary=meta["summary"],
         )
         default_values = dict(
             min=0,
@@ -158,6 +172,7 @@ def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
                 param[key] = meta[key]
             else:
                 param[key] = value
+        param["summary"] = summary_from_metadata(param)
         parameter_metadata[param["short_name"]] = param
     return parameter_metadata
 
