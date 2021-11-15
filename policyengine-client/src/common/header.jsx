@@ -107,7 +107,7 @@ function MainNavigation(props) {
 
 export function Title(props) {
 	const tags = props.beta ? [<Tag key="beta" color="#002766">BETA</Tag>] : null;
-	const title = <Image src={MainLogo} preview={false} height={50} width={80} style={{padding: 0, margin: 0}} />
+	const title = <a href="/"><Image src={MainLogo} preview={false} height={50} width={80} style={{padding: 0, margin: 0}} /></a>
 	return (
 		<div style={{minWidth: 300}}>
 			<div className="d-none d-lg-flex align-items-center ">
