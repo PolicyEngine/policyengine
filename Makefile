@@ -24,7 +24,6 @@ format:
 	black . -l 79
 test:
 	pytest policyengine/tests -vv
-	python policyengine/monitoring/api_monitoring.py
 datasets:
 	openfisca-uk-setup --set-default frs_was_imp
 	openfisca-uk-data frs_was_imp download 2019
