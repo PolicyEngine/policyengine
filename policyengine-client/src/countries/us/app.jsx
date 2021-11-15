@@ -1,5 +1,5 @@
 import React from "react";
-import { policyToURL, urlToPolicy } from "../../common/url";
+import { urlToPolicy } from "../../common/url";
 import { PolicyEngineWrapper, BodyWrapper } from "../../common/layout";
 import { Header } from "../../common/header";
 import { Footer } from "../../common/footer";
@@ -9,8 +9,6 @@ import { ORGANISATIONS, PARAMETER_MENU } from "./data/policy_controls";
 
 import Policy from "../../common/pages/policy";
 import PopulationImpact from "../../common/pages/populationImpact";
-import Household from "../../common/pages/household";
-import HouseholdImpact from "../../common/pages/householdImpact";
 
 export class PolicyEngineUS extends React.Component {
     constructor(props) {

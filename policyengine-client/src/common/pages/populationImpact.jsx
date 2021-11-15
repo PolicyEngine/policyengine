@@ -148,7 +148,6 @@ export default function PopulationImpact(props) {
 			api_url={props.api_url}
 			currency={props.currency}
 			baseURL={props.baseURL}
-			country={props.country}
 			hideHousehold={props.hideHousehold}
 		/>;
 	} else {
