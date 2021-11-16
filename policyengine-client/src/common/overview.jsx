@@ -48,8 +48,8 @@ export function Overview(props) {
 					disabled={props.invalid} 
 					text={
 						props.page === "policy" ?
-							`See the US impact` :
-							<><ArrowLeftOutlined /> Return to US impact</>
+							`See the ${props.country.toUpperCase()} impact` :
+							<><ArrowLeftOutlined /> Return to {props.country.toUpperCase()} impact</>
 					}
 					target={props.baseURL + "/population-impact"}
 					policy={props.policy} 

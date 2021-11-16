@@ -114,6 +114,7 @@ export function Title(props) {
 	const title = <a href="/"><Image src={MainLogo} preview={false} height={50} width={80} style={{padding: 0, margin: 0}} /></a>
 	return (
 		<div style={{minWidth: 300}}>
+			<title>PolicyEngine {props.country.toUpperCase()}</title>
 			<div className="d-none d-lg-flex align-items-center ">
 				<PageHeader
 					title={title}

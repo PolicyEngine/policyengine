@@ -232,6 +232,7 @@ export class PolicyEngineUK extends React.Component {
                                 setPage={setPage}
                                 invalid={!this.state.policyValid}
                                 baseURL="/uk"
+                                country="uk"
                             />
                         </Route>
                         <Route path="/uk/population-impact">
@@ -259,6 +260,7 @@ export class PolicyEngineUK extends React.Component {
 								setPage={setPage}
                                 baseURL="/uk"
                                 fetchDone={this.state.fetchDone}
+                                country="uk"
                             />
                         </Route>
                         <Route path="/uk/household-impact">
@@ -272,6 +274,7 @@ export class PolicyEngineUK extends React.Component {
                                 fetchDone={this.state.fetchDone}
                                 currency="£"
                                 setPage={setPage}
+                                country="uk"
                             />
                         </Route>
                     </Switch>

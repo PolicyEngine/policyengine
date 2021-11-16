@@ -44,7 +44,7 @@ export class BreakdownTable extends React.Component {
                             this.state.error ?
                                 <Alert type="error" message="Something went wrong." /> :
                                 <>
-                                    <BreakdownTableContent results={this.state.results} />
+                                    <BreakdownTableContent results={this.state.results} currency={this.props.currency}/>
                                     <Row>
                                         {
                                             this.state.showAbsDecile ?
