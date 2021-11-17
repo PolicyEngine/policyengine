@@ -1,0 +1,51 @@
+reforms:
+  ubi:
+    adult:
+      values: 
+        2020-01-01: 0.00
+      metadata:
+        policyengine:
+          title: Working-age adult UBI
+          short_name: adult_UBI
+          description: Flat payment given to each person older than 17 and younger than State Pension age.
+          max: 250
+          type: weekly
+          summary: Give a basic income of @ to working-age adults
+        tests:
+          - increases_net_income: true
+    child:
+      values: 
+        2020-01-01: 0.00
+      metadata:
+        policyengine:
+          title: Child UBI
+          short_name: child_UBI
+          description: Flat payment given to each person 17 years of age or younger.
+          max: 250
+          type: weekly
+          summary: Give a basic income of @ to children
+        tests:
+          - increases_net_income: true
+    senior:
+      values: 
+        2020-01-01: 0.00
+      metadata:
+        policyengine:
+          title: Senior UBI
+          short_name: senior_UBI
+          description: Flat payment given to each person at or above State Pension age.
+          max: 250
+          type: weekly
+          summary: Give a basic income of @ to seniors
+        tests:
+          - increases_net_income: true
+    wa_adult_ubi_age:
+      values: 
+        2020-01-01: 18
+      metadata:
+        policyengine:
+          title: Adult UBI age threshold
+          short_name: WA_adult_UBI_age
+          description: Age at which a person receives the working-age adult UBI payment.
+          max: 65
+          summary: Set the working-age UBI age threshold to @

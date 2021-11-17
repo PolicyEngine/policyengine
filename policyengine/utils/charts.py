@@ -166,7 +166,7 @@ def hover_label(component: str, amount: float, is_pop: bool) -> str:
     if component == "Your net income":
         component = "Your annual net income"
     # Net impact bars should match the title.
-    res = component
+    res = str(component)
     # Flip the amount for labeling population benefits and household taxes.
     if component in ["Benefit outlays", "Your taxes"]:
         amount *= -1

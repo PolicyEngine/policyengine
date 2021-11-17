@@ -67,7 +67,7 @@ export function PopulationResultsPane(props) {
 				<Chart plot={props.results.intra_decile_chart} md={12}/>
 			</Row>
 			<Row>
-				<BreakdownTable policy={props.policy} api_url={props.api_url} />
+				<BreakdownTable policy={props.policy} api_url={props.api_url} currency={props.currency} />
 			</Row>
 		</>
 	);
@@ -128,11 +128,11 @@ class PopulationImpactPage extends React.Component {
 								<div className="d-flex justify-content-center align-items-center" style={{minHeight: 400}}>
 									<LoadingResultsPane noSpin message="Something went wrong (try navigating back and returning to this page)"/>
 								</div> :
-								<PopulationResultsPane results={this.state.results} policy={this.state.submission} api_url={this.props.api_url} />
+								<PopulationResultsPane currency={this.props.currency} results={this.state.results} policy={this.state.submission} api_url={this.props.api_url} />
 					}
 				</Col>
 				<Col xl={3}>
-					<Overview policy={this.props.policy} setPage={this.props.setPage} page="population-impact" baseURL={this.props.baseURL} currency={this.props.currency}/>
+					<Overview policy={this.props.policy} setPage={this.props.setPage} page="population-impact" baseURL={this.props.baseURL} currency={this.props.currency} country={this.props.country} hideHousehold={this.props.hideHousehold} />
 				</Col>
 			</Row>
 		);
@@ -148,6 +148,7 @@ export default function PopulationImpact(props) {
 			api_url={props.api_url}
 			currency={props.currency}
 			baseURL={props.baseURL}
+			hideHousehold={props.hideHousehold}
 		/>;
 	} else {
 		return <></>;

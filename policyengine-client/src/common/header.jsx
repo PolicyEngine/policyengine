@@ -20,6 +20,7 @@ export function Header(props) {
 							household={props.household}
 							selected="policy"
 							baseUrl={`/${props.country}`}
+							hideHouseholdPage={props.hideHouseholdPage}
 						/>
 					</Route>
 					<Route path={`/${props.country}/population-impact`}>
@@ -30,6 +31,7 @@ export function Header(props) {
 							household={props.household}
 							selected="population-impact"
 							baseUrl={`/${props.country}`}
+							hideHouseholdPage={props.hideHouseholdPage}
 						/>
 					</Route>
 					<Route path={`/${props.country}/household`}>
@@ -40,6 +42,7 @@ export function Header(props) {
 							household={props.household}
 							selected={"household"}
 							baseUrl={`/${props.country}`}
+							hideHouseholdPage={props.hideHouseholdPage}
 						/>
 					</Route>
 					<Route path={`/${props.country}/household-impact`}>
@@ -60,6 +63,7 @@ export function Header(props) {
 							household={props.household}
 							selected={"faq"}
 							baseUrl={`/${props.country}`}
+							hideHouseholdPage={props.hideHouseholdPage}
 							faq
 						/>
 					</Route>
@@ -83,7 +87,7 @@ function MainNavigation(props) {
 			<Tabs moreIcon={null} style={{paddingTop: 0, paddingBottom: 0}} activeKey={props.selected} centered onChange={key => {history.push(policyToURL(props.baseUrl + "/" + key, props.policy))}}>
 				<TabPane tab="Policy" key="policy"/>
 				<TabPane tab={props.country.toUpperCase() + " impact"} key="population-impact" />
-				<TabPane tab="Your household" key="household" />
+				{!props.hideHouseholdPage && <TabPane tab="Your household" key="household" />}
 				{props.household ? <TabPane tab="Household impact" key="household-impact" /> : null}
 			</Tabs>
 		);
@@ -110,6 +114,7 @@ export function Title(props) {
 	const title = <a href="/"><Image src={MainLogo} preview={false} height={50} width={80} style={{padding: 0, margin: 0}} /></a>
 	return (
 		<div style={{minWidth: 300}}>
+			<title>PolicyEngine {props.country.toUpperCase()}</title>
 			<div className="d-none d-lg-flex align-items-center ">
 				<PageHeader
 					title={title}

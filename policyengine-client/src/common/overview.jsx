@@ -48,35 +48,41 @@ export function Overview(props) {
 					disabled={props.invalid} 
 					text={
 						props.page === "policy" ?
-							"See the UK impact" :
-							<><ArrowLeftOutlined /> Return to UK impact</>
+							`See the ${props.country.toUpperCase()} impact` :
+							<><ArrowLeftOutlined /> Return to {props.country.toUpperCase()} impact</>
 					}
 					target={props.baseURL + "/population-impact"}
 					policy={props.policy} 
 					onClick={() => {props.setPage("population-impact")}}
 				/>
-				<SimulateButton 
-					primary={props.page === "population-impact"} 
-					hidden={props.page === "household"}
-					disabled={props.invalid} 
-					text={
-						props.page === "household-impact" ?
-							<><ArrowLeftOutlined /> Edit your household</> :
-							"Describe your household"
-					}
-					target={props.baseURL + "/household"}
-					policy={props.policy} 
-					onClick={() => {props.setPage("household")}}
-				/>
-				<SimulateButton 
-					primary={props.page === "household"} 
-					hidden={props.page === "household-impact"}
-					disabled={props.invalid || !props.household} 
-					text="See your household impact" 
-					target={props.baseURL + "/household-impact"}
-					policy={props.policy} 
-					onClick={() => {props.setPage("household-impact")}}
-				/>
+				{
+					!props.hideHousehold &&
+						<>
+							<SimulateButton 
+								primary={props.page === "population-impact"} 
+								hidden={props.page === "household"}
+								disabled={props.invalid} 
+								text={
+									props.page === "household-impact" ?
+										<><ArrowLeftOutlined /> Edit your household</> :
+										"Describe your household"
+								}
+								target={props.baseURL + "/household"}
+								policy={props.policy} 
+								onClick={() => {props.setPage("household")}}
+							/>
+							<SimulateButton 
+								primary={props.page === "household"} 
+								hidden={props.page === "household-impact"}
+								disabled={props.invalid || !props.household} 
+								text="See your household impact" 
+								target={props.baseURL + "/household-impact"}
+								policy={props.policy} 
+								onClick={() => {props.setPage("household-impact")}}
+							/>	
+						</>
+				}
+				
 			</Empty>
 			<SharePolicyLinks baseURL={props.baseURL} policy={props.policy} page={props.page}/>
 		</>
