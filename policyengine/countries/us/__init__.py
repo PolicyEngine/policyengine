@@ -31,6 +31,7 @@ class US(PolicyEngineCountry):
     Microsimulation = Microsimulation
     IndividualSim = IndividualSim
     default_dataset = CPS
+    dataset_year = 2020
     default_reform = create_default_reform()
     parameter_file = US_FOLDER / "reform_parameters.yaml"
     default_household_file = US_FOLDER / "default_household.yaml"
