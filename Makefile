@@ -39,7 +39,13 @@ openfisca_uk_data:
 	openfisca-uk-data frs_was_imp download 2019
 	cp -r openfisca-uk-data/openfisca_uk_data/ openfisca_uk_data
 	rm -rf openfisca-uk-data
-deploy: openfisca_uk_data openfisca_uk test
+openfisca_us_data:
+	git clone https://github.com/ubicenter/openfisca-us-data --depth 1
+	cd openfisca-us-data; pip install -e .
+	openfisca-us-data cps generate 2020
+	cp -r openfisca-us-data/openfisca_us_data/ openfisca_us_data
+	rm -rf openfisca-us-data
+deploy: openfisca_uk_data openfisca_us_data openfisca_uk test
 	rm -rf policyengine/static
 	cd policyengine-client; npm run build
 	cp -r policyengine-client/build policyengine/static
