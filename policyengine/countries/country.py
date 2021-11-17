@@ -61,7 +61,9 @@ class PolicyEngineCountry:
         )
 
         self.baseline = self.Microsimulation(
-            self.default_reform, dataset=self.default_dataset, year=self.dataset_year
+            self.default_reform,
+            dataset=self.default_dataset,
+            year=self.dataset_year,
         )
 
         self.baseline.simulation.trace = True
