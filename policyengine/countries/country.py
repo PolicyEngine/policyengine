@@ -44,6 +44,7 @@ class PolicyEngineCountry:
     default_reform: type = ()
     parameter_file: Path = None
     default_dataset: type
+    dataset_year: int = None
     default_household_file: Path
     entity_hierarchy_file: Path
     version: str
@@ -60,7 +61,9 @@ class PolicyEngineCountry:
         )
 
         self.baseline = self.Microsimulation(
-            self.default_reform, dataset=self.default_dataset
+            self.default_reform,
+            dataset=self.default_dataset,
+            year=self.dataset_year,
         )
 
         self.baseline.simulation.trace = True
