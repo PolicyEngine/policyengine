@@ -1,5 +1,9 @@
 from pathlib import Path
-from openfisca_uk import Microsimulation, IndividualSim
+from openfisca_uk import (
+    Microsimulation,
+    IndividualSim,
+    CountryTaxBenefitSystem,
+)
 from openfisca_uk.entities import *
 from openfisca_uk_data import FRS_WAS_Imputation
 from policyengine.utils.general import PolicyEngineResultsConfig
@@ -25,6 +29,7 @@ class UKResultsConfig(PolicyEngineResultsConfig):
 
 class UK(PolicyEngineCountry):
     name = "uk"
+    system = CountryTaxBenefitSystem
     Microsimulation = Microsimulation
     IndividualSim = IndividualSim
     default_dataset = FRS_WAS_Imputation

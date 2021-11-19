@@ -1,10 +1,13 @@
 from pathlib import Path
 from typing import Dict, Tuple, Type
+from openfisca_core.indexed_enums.enum import Enum
 from openfisca_tools.model_api import ReformType
 import yaml
+import dpath
 from openfisca_core.taxbenefitsystems.tax_benefit_system import (
     TaxBenefitSystem,
 )
+from openfisca_core.simulation_builder import SimulationBuilder
 from policyengine.impact.population.breakdown import (
     get_breakdown_and_chart_per_provision,
 )
@@ -84,6 +87,7 @@ class PolicyEngineCountry:
             variables=self.variables,
             default_household=self.default_household,
             population_breakdown=self.population_breakdown,
+            calculate=self.calculate,
         )
         with open(self.entity_hierarchy_file) as f:
             self.entities = dict(
@@ -208,3 +212,37 @@ class PolicyEngineCountry:
         return get_breakdown_and_chart_per_provision(
             reform, provisions, self.baseline, self._create_reform_sim
         )
+
+    @exclude_from_cache
+    def calculate(self, params=None):
+        print(params)
+        system = self.system()
+        simulation = SimulationBuilder().build_from_entities(system, params)
+
+        requested_computations = dpath.util.search(
+            params, "*/*/*/*", afilter=lambda t: t is None, yielded=True
+        )
+        computation_results = {}
+
+        for computation in requested_computations:
+            path = computation[0]
+            entity_plural, entity_id, variable_name, period = path.split("/")
+            variable = system.get_variable(variable_name)
+            result = simulation.calculate(variable_name, period)
+            population = simulation.get_population(entity_plural)
+            entity_index = population.get_index(entity_id)
+
+            if variable.value_type == Enum:
+                entity_result = result.decode()[entity_index].name
+            elif variable.value_type == float:
+                entity_result = float(str(result[entity_index]))
+            elif variable.value_type == str:
+                entity_result = str(result[entity_index])
+            else:
+                entity_result = result.tolist()[entity_index]
+
+            dpath.util.new(computation_results, path, entity_result)
+
+        dpath.merge(params, computation_results)
+
+        return params
