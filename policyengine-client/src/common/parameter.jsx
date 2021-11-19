@@ -10,7 +10,7 @@ const { Option } = Select;
 
 export function getParser(parameter, currency) {
 	if (parameter.type === "rate") {
-		return (value) => Math.round(+value.replace("%", "") / 10) / 10;
+		return (value) => Math.round(+value.replace("%", "") * 10) / 1000;
 	} else if (parameter.type === "weekly") {
 		return (value) => +value.replace(currency, "").replace("/week", "");
 	} else if (parameter.type === "yearly") {
@@ -96,6 +96,7 @@ export function Parameter(props) {
 						max={props.param.max ? props.param.max : 100}
 						onChange={(value) => {
 							props.setPolicy(props.name, value);
+							console.log("set via slider")
 						}}
 						step={props.param.type === "rate" ? 0.01 : 1}
 						tooltipVisible={false}
@@ -105,8 +106,10 @@ export function Parameter(props) {
 						value={props.param.value}
 						formatter={formatter}
 						parser={parser}
+						precision={3}
 						onChange={(value) => {
 							props.setPolicy(props.name, value);
+							console.log("set via input")
 						}}
 						style={{ width: 175 }}
 						disabled={props.disabled}
