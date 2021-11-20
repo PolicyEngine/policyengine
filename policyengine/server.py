@@ -11,13 +11,13 @@ from policyengine.utils.general import (
     after_request_func,
     set_cached_result,
 )
-from policyengine.countries import UK, PolicyEngineCountry
+from policyengine.countries import UK, US, PolicyEngineCountry
 
 
 class PolicyEngine:
     version: str = "1.1.4"
     cache_bucket_name: str = "uk-policy-engine.appspot.com"
-    countries: Tuple[Type[PolicyEngineCountry]] = (UK,)
+    countries: Tuple[Type[PolicyEngineCountry]] = (UK, US)
 
     def _init_countries(self):
         self.countries = list(map(lambda country: country(), self.countries))
@@ -86,8 +86,10 @@ class PolicyEngine:
                     self.app.route(
                         f"/{country.name}/api/{route.replace('_', '-')}",
                         methods=["GET", "POST"],
+                        endpoint=f"{country.name}_{route}",
                     ),
                 ):
+                    print(f"/{country.name}/api/{route.replace('_', '-')}")
                     fn = decorator(fn)
                     setattr(self, fn.__name__, fn)
 

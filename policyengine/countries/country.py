@@ -49,56 +49,61 @@ class PolicyEngineCountry:
     default_dataset: type
     default_household_file: Path
     entity_hierarchy_file: Path
+    calculate_only: bool = False
     version: str
-
     results_config: Type[PolicyEngineResultsConfig]
 
     def __init__(self):
-        self.default_reform = (
-            use_current_parameters(),
-            add_parameter_file(self.parameter_file.absolute())
-            if self.parameter_file is not None
-            else (),
-            self.default_reform,
-        )
-
-        self.baseline = self.Microsimulation(
-            self.default_reform, dataset=self.default_dataset
-        )
-
-        self.baseline.simulation.trace = True
-        self.default_year = 2021
-        self.baseline.calc("net_income")
-
-        self.policyengine_parameters = get_PE_parameters(
-            self.baseline.simulation.tax_benefit_system
-        )
-
-        self.policyengine_variables = get_PE_variables(
-            self.baseline.simulation.tax_benefit_system
-        )
-
-        self.api_endpoints = dict(
-            household_reform=self.household_reform,
-            population_reform=self.population_reform,
-            ubi=self.ubi,
-            parameters=self.parameters,
-            entities=self.entities,
-            variables=self.variables,
-            default_household=self.default_household,
-            population_breakdown=self.population_breakdown,
-            calculate=self.calculate,
-        )
-        with open(self.entity_hierarchy_file) as f:
-            self.entities = dict(
-                entities=build_entities(
-                    self.baseline.simulation.tax_benefit_system
-                ),
-                hierarchy=yaml.safe_load(f),
+        if self.calculate_only:
+            self.api_endpoints = dict(
+                calculate=self.calculate,
+            )
+        else:
+            self.default_reform = (
+                use_current_parameters(),
+                add_parameter_file(self.parameter_file.absolute())
+                if self.parameter_file is not None
+                else (),
+                self.default_reform,
             )
 
-        with open(self.default_household_file) as f:
-            self.default_household_data = yaml.safe_load(f)
+            self.baseline = self.Microsimulation(
+                self.default_reform, dataset=self.default_dataset
+            )
+
+            self.baseline.simulation.trace = True
+            self.default_year = 2021
+            self.baseline.calc("net_income")
+
+            self.policyengine_parameters = get_PE_parameters(
+                self.baseline.simulation.tax_benefit_system
+            )
+
+            self.policyengine_variables = get_PE_variables(
+                self.baseline.simulation.tax_benefit_system
+            )
+
+            self.api_endpoints = dict(
+                household_reform=self.household_reform,
+                population_reform=self.population_reform,
+                ubi=self.ubi,
+                parameters=self.parameters,
+                entities=self.entities,
+                variables=self.variables,
+                default_household=self.default_household,
+                population_breakdown=self.population_breakdown,
+                calculate=self.calculate,
+            )
+            with open(self.entity_hierarchy_file) as f:
+                self.entities = dict(
+                    entities=build_entities(
+                        self.baseline.simulation.tax_benefit_system
+                    ),
+                    hierarchy=yaml.safe_load(f),
+                )
+
+            with open(self.default_household_file) as f:
+                self.default_household_data = yaml.safe_load(f)
 
     def _create_reform_sim(self, reform: ReformType) -> Microsimulation:
         sim = self.Microsimulation(
@@ -215,7 +220,6 @@ class PolicyEngineCountry:
 
     @exclude_from_cache
     def calculate(self, params=None):
-        print(params)
         system = self.system()
         simulation = SimulationBuilder().build_from_entities(system, params)
 
