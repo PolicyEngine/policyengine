@@ -1,5 +1,6 @@
 import React from "react";
 import { Container } from "react-bootstrap";
+import { Redirect } from "react-router";
 
 export function BodyWrapper(props) {
 	return (
@@ -20,4 +21,10 @@ export function PolicyEngineWrapper(props) {
             {props.children}
         </Container>
 	);
+}
+
+export function NamedPolicyRedirects(props) {
+	return Object.keys(props.namedPolicies).map(name => (
+		<Redirect from={`/${props.country}${name}`} to={`/${props.country}${props.page}?${props.namedPolicies[name]}`} />
+	));
 }
