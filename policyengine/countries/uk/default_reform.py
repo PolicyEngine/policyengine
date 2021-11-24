@@ -116,15 +116,34 @@ def create_default_reform() -> ReformType:
             rate = parameters(period).reforms.LVT.rate
             return rate * household("land_value", period)
 
+    class carbon_consumption(Variable):
+        entity = Household
+        label = "Carbon consumption"
+        definition_period = YEAR
+        value_type = float
+
+    class carbon_tax(Variable):
+        entity = Household
+        label = "Carbon tax"
+        definition_period = YEAR
+        value_type = float
+
+        def formula(household, period, parameters):
+            rate = parameters(period).reforms.carbon.rate
+            return rate * household("carbon_consumption", period)
+
     class tax(baseline_variables["tax"]):
         def formula(person, period, parameters):
             LVT_charge = person.household("LVT", period) * person(
                 "is_household_head", period
             )
+            carbon_charge = person.household("carbon_tax", period) * person(
+                "is_household_head", period
+            )
             original_tax = baseline_variables["tax"].formula(
                 person, period, parameters
             )
-            return original_tax + LVT_charge
+            return original_tax + LVT_charge + carbon_charge
 
     class UBI(Variable):
         entity = Person
@@ -156,6 +175,8 @@ def create_default_reform() -> ReformType:
         def apply(self):
             self.update_variable(land_value)
             self.update_variable(LVT)
+            self.update_variable(carbon_consumption)
+            self.update_variable(carbon_tax)
             self.update_variable(tax)
             self.add_variable(UBI)
             self.update_variable(benefits)

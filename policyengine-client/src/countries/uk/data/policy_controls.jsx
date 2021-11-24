@@ -55,6 +55,9 @@ export const PARAMETER_MENU = {
 				"abolish_NI"
 			]
 		},
+		"Property taxes": [
+			"abolish_CT"
+		]
 	},
 	"Benefit": {
 		"Child Benefit": [
@@ -107,7 +110,8 @@ export const PARAMETER_MENU = {
 			"autoUBI",
 		],
 		"Land Value Tax": [
-			"LVT"
+			"LVT",
+			"carbon_tax",
 		],
 	}
 };

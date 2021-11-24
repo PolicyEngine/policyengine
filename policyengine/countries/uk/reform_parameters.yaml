@@ -13,6 +13,19 @@ reforms:
           summary: Impose an LVT of @
         tests:
           - decreases_net_income: true
+  carbon:
+    rate:
+      values:
+        2021-01-01: 0.00
+      metadata:
+        policyengine:
+          title: Carbon Tax
+          short_name: carbon_tax
+          description: The price of a tonne of carbon emissions.
+          max: 250
+          type: currency
+        tests:
+          - decreases_net_income: true
   UBI:
     adult:
       values: 
@@ -311,3 +324,16 @@ reforms:
           summary: Abolish income-based ESA
         tests:
           - decreases_net_income: true
+    abolish_CT:
+      values:
+        2021-01-01: false
+      metadata:
+        policyengine:
+          title: Council Tax
+          short_name: abolish_CT
+          variable: council_tax
+          description: Abolish Council Tax.
+          type: abolish
+          summary: Abolish Council Tax
+        tests:
+          - increases_net_income: true
