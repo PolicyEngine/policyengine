@@ -151,8 +151,6 @@ def get_breakdown_and_chart_per_provision(
         )
     )
 
-    print(colour_map)
-
     return dict(
         provisions=provisions,
         spending=list(map(formatter, additional_spending)),
