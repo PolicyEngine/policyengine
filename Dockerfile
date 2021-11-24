@@ -12,11 +12,11 @@ ENV PATH /env/bin:$PATH
 
 # Copy the application's requirements.txt and run pip to install all
 # dependencies into the virtualenv.
-ADD requirements.txt /app/requirements.txt
-RUN pip install -r /app/requirements.txt
 
 # Add the application source code.
 ADD . /app
+
+RUN cd /app && make server && make test-server
 
 # Run a WSGI server to serve the application. gunicorn must be declared as
 # a dependency in requirements.txt.
