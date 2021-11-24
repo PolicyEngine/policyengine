@@ -33,6 +33,7 @@ class UK(PolicyEngineCountry):
     Microsimulation = Microsimulation
     IndividualSim = IndividualSim
     default_dataset = FRS_WAS_Imputation
+    default_dataset_year = 2019
     default_reform = create_default_reform()
     parameter_file = UK_FOLDER / "reform_parameters.yaml"
     default_household_file = UK_FOLDER / "default_household.yaml"
