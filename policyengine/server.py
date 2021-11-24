@@ -89,7 +89,6 @@ class PolicyEngine:
                         endpoint=f"{country.name}_{route}",
                     ),
                 ):
-                    print(f"/{country.name}/api/{route.replace('_', '-')}")
                     fn = decorator(fn)
                     setattr(self, fn.__name__, fn)
 
