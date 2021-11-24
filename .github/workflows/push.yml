@@ -33,8 +33,6 @@ jobs:
           export_default_credentials: true
       - name: Install dependencies
         run: make install
-      - name: Install datasets
-        run: make datasets
       - name: Deploy
         run: make deploy
   publish:
@@ -56,8 +54,6 @@ jobs:
           export_default_credentials: true
       - name: Install dependencies
         run: make install
-      - name: Install datasets
-        run: make datasets
       - name: Build server package
         run: make build-server
       - name: Publish a Python distribution to PyPI
