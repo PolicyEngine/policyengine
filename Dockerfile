@@ -9,6 +9,7 @@ RUN virtualenv /env -p python3.7
 # source /env/bin/activate.
 ENV VIRTUAL_ENV /env
 ENV PATH /env/bin:$PATH
+ENV GOOGLE_APPLICATION_CREDENTIALS .gac.json
 
 # Copy the application's requirements.txt and run pip to install all
 # dependencies into the virtualenv.
