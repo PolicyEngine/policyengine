@@ -212,7 +212,10 @@ def create_default_reform() -> ReformType:
                 benunit.members("UC_MIF_capped_earned_income", period)
             )
             UBI_params = parameters(period).reforms.UBI
-            means_test_UBI = benunit.sum(benunit.members("UBI", period)) * UBI_params.in_means_tests
+            means_test_UBI = (
+                benunit.sum(benunit.members("UBI", period))
+                * UBI_params.in_means_tests
+            )
             return max_(
                 0,
                 personal_gross_earned_income
@@ -246,7 +249,10 @@ def create_default_reform() -> ReformType:
                 "miscellaneous_income",
             ]
             UBI_params = parameters(period).reforms.UBI
-            means_test_UBI = benunit.sum(benunit.members("UBI", period)) * UBI_params.in_means_tests
+            means_test_UBI = (
+                benunit.sum(benunit.members("UBI", period))
+                * UBI_params.in_means_tests
+            )
             income += aggr(benunit, period, STEP_2_COMPONENTS)
             income += means_test_UBI
             EXEMPT_BENEFITS = ["income_support", "ESA_income", "JSA_income"]
@@ -272,7 +278,10 @@ def create_default_reform() -> ReformType:
             ]
             income = aggr(benunit, period, INCOME_COMPONENTS)
             UBI_params = parameters(period).reforms.UBI
-            means_test_UBI = benunit.sum(benunit.members("UBI", period)) * UBI_params.in_means_tests
+            means_test_UBI = (
+                benunit.sum(benunit.members("UBI", period))
+                * UBI_params.in_means_tests
+            )
             income += means_test_UBI
             tax = aggr(
                 benunit,
@@ -290,7 +299,7 @@ def create_default_reform() -> ReformType:
                 ],
             )
             return amount_over(income + benefits - tax, 0)
-    
+
     class JSA_income_applicable_income(Variable):
         value_type = float
         entity = BenUnit
@@ -306,7 +315,10 @@ def create_default_reform() -> ReformType:
                 "pension_income",
             ]
             UBI_params = parameters(period).reforms.UBI
-            means_test_UBI = benunit.sum(benunit.members("UBI", period)) * UBI_params.in_means_tests
+            means_test_UBI = (
+                benunit.sum(benunit.members("UBI", period))
+                * UBI_params.in_means_tests
+            )
             income = aggr(benunit, period, INCOME_COMPONENTS)
             income += means_test_UBI
             tax = aggr(
@@ -333,7 +345,7 @@ def create_default_reform() -> ReformType:
                 * WEEKS_IN_YEAR,
             )
             return income
-    
+
     class income_support_applicable_income(Variable):
         value_type = float
         entity = BenUnit
@@ -350,7 +362,10 @@ def create_default_reform() -> ReformType:
             ]
             income = aggr(benunit, period, INCOME_COMPONENTS)
             UBI_params = parameters(period).reforms.UBI
-            means_test_UBI = benunit.sum(benunit.members("UBI", period)) * UBI_params.in_means_tests
+            means_test_UBI = (
+                benunit.sum(benunit.members("UBI", period))
+                * UBI_params.in_means_tests
+            )
             income += means_test_UBI
             tax = aggr(
                 benunit,
@@ -400,7 +415,10 @@ def create_default_reform() -> ReformType:
             ]
             benefits = add(benunit, period, BENUNIT_MEANS_TESTED_BENEFITS)
             UBI_params = parameters(period).reforms.UBI
-            means_test_UBI = benunit.sum(benunit.members("UBI", period)) * UBI_params.in_means_tests
+            means_test_UBI = (
+                benunit.sum(benunit.members("UBI", period))
+                * UBI_params.in_means_tests
+            )
             income = aggr(benunit, period, INCOME_COMPONENTS)
             income += means_test_UBI
             tax = aggr(
