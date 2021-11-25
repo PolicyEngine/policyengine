@@ -31,6 +31,7 @@ test:
 deploy: test
 	cat $(GOOGLE_APPLICATION_CREDENTIALS) > .gac.json
 	y | gcloud app deploy
+	rm .gac.json
 test-server:
 	pytest policyengine/tests/server/
 monitor:
