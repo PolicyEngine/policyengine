@@ -31,8 +31,6 @@ jobs:
       - name: Install dependencies
         run: make install
       - name: Prepare test environment
-        run: make build-client
+        run: make build
       - name: Run the main tests
         run: make test
-      - name: Test deployment
-        run: make test-deploy
