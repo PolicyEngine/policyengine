@@ -59,6 +59,8 @@ class PolicyEngineCountry:
                 calculate=self.calculate,
             )
         else:
+            if self.default_dataset_year not in self.default_dataset.years:
+                self.default_dataset.download(self.default_dataset_year)
             self.default_reform = (
                 use_current_parameters(),
                 add_parameter_file(self.parameter_file.absolute())
@@ -111,7 +113,7 @@ class PolicyEngineCountry:
         )
         sim.simulation.trace = True
         self.default_year = 2021
-        sim.calc("net_income")
+        sim.calc("household_net_income")
         return sim
 
     def population_reform(self, params: dict = None):

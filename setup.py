@@ -23,6 +23,7 @@ setup(
         "tables",
         "wheel",
         "rdbl",
+        "pytest",
     ],
     packages=find_packages(),
 )

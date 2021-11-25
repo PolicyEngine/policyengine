@@ -1,7 +1,7 @@
 ## Autumn Budget UC reform
-* gini_change: -0.004395061661465764
-* loser_share: 0.0
-* net_cost: £2.82bn
-* net_cost_numeric: 2822803143.6693115
-* poverty_change: -0.018696715809341735
-* winner_share: 0.11899752178044937
+
+* Net cost: £2.81bn
+* Poverty change: -2.0%
+* Winner share: 11.9%
+* Loser share: 0.0%
+

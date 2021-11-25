@@ -54,7 +54,7 @@ export const PARAMETER_MENU = {
 			"Structural": [
 				"abolish_NI"
 			]
-		},
+		}
 	},
 	"Benefit": {
 		"Child Benefit": [
@@ -107,7 +107,7 @@ export const PARAMETER_MENU = {
 			"autoUBI",
 		],
 		"Land Value Tax": [
-			"LVT"
+			"LVT",
 		],
 	}
 };
