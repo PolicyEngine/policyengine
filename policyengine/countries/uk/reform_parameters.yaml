@@ -81,7 +81,7 @@ reforms:
         2021-01-01: false
       metadata:
         policyengine:
-          title: Taxable UBI
+          title: UBI taxability
           short_name: taxable_UBI
           type: bool
           description: Whether the UBI is included in taxable income for Income Tax.
@@ -90,7 +90,7 @@ reforms:
         2021-01-01: false
       metadata:
         policyengine:
-          title: Included in means tests
+          title: UBI included in means tests
           short_name: means_test_UBI
           type: bool
           description: Whether the UBI is included in means tests for benefits.
