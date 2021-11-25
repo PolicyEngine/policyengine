@@ -16,7 +16,6 @@ export default class App extends React.Component {
 		return (
 			<Router>
 				<Route path="/uk">
-					<NamedPolicyRedirects country="uk" namedPolicies={REDIRECTS.uk} page="/population-impact"/>
 					<PolicyEngineUK analytics={this.props.analytics} api_url="https://policyengine.org/uk/api" />
 				</Route>
 				<Route path="/us">
