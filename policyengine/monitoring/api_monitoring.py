@@ -9,9 +9,11 @@ def write_api_results(url: str) -> str:
         response = client.get(url)
         data = json.loads(response.data.decode("utf-8"))
     data = {key: value for key, value in data.items() if "chart" not in key}
-    text = ""
-    for key, value in data.items():
-        text += f"* {key}: {value}\n"
+    text = f"""
+* Net cost: {data["net_cost"]}
+* Poverty change: {round(100 * data["poverty_change"], 1)}%
+* Winner share: {round(100 * data["winner_share"], 1)}%
+* Loser share: {round(100 * data["loser_share"], 1)}%\n\n"""
     return text
 
 

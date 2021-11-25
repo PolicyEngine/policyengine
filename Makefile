@@ -7,6 +7,8 @@ install-server:
 build: build-client build-server
 build-client:
 	cd policyengine-client; npm run build
+	rm -rf policyengine/static
+	cp -r policyengine-client/build policyengine/static
 build-server:
 	rm -rf build/ dist/ policyengine.egg-info; python setup.py sdist bdist_wheel
 publish: publish-client publish-server
