@@ -52,7 +52,7 @@ export function Parameter(props) {
 			component = (
 				<Switch
 					onChange={(value) => {
-						props.setPolicy(props.name, +value);
+						props.setPolicy(props.name, value);
 					}}
 					checked={props.param.value}
 					disabled={props.disabled}
@@ -62,7 +62,7 @@ export function Parameter(props) {
 			component = (
 				<Switch
 					onChange={(value) => {
-						props.setPolicy(props.name, +value);
+						props.setPolicy(props.name, value);
 					}}
 					checked={props.param.value}
 					className="switch-red"
