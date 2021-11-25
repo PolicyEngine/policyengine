@@ -355,3 +355,5 @@ reforms:
           summary: Abolish Council Tax
         tests:
           - increases_net_income: true
+          - value: true
+            revenue: -38.9e9
