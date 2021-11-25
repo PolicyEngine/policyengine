@@ -54,7 +54,10 @@ export const PARAMETER_MENU = {
 			"Structural": [
 				"abolish_NI"
 			]
-		}
+		},
+		"Property taxes": [
+			"abolish_CT"
+		]
 	},
 	"Benefit": {
 		"Child Benefit": [
@@ -104,10 +107,15 @@ export const PARAMETER_MENU = {
 			"adult_UBI",
 			"senior_UBI",
 			"WA_adult_UBI_age",
+			"taxable_UBI",
+			"means_test_UBI",
 			"autoUBI",
 		],
 		"Land Value Tax": [
 			"LVT",
 		],
+		"Carbon Tax": [
+			"carbon_tax",
+		]
 	}
 };

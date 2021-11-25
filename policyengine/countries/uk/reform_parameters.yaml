@@ -76,6 +76,24 @@ reforms:
           description: Age at which a person receives the working-age adult UBI payment.
           max: 65
           summary: Set the working-age UBI age threshold to @
+    taxable:
+      values: 
+        2021-01-01: false
+      metadata:
+        policyengine:
+          title: UBI taxability
+          short_name: taxable_UBI
+          type: bool
+          description: Whether the UBI is included in taxable income for Income Tax.
+    in_means_tests:
+      values: 
+        2021-01-01: false
+      metadata:
+        policyengine:
+          title: UBI included in means tests
+          short_name: means_test_UBI
+          type: bool
+          description: Whether the UBI is included in means tests for benefits.
   abolition:
     abolish_savings_allowance:
       values:
