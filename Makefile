@@ -29,9 +29,7 @@ test:
 	pytest policyengine/tests -vv
 	python policyengine/monitoring/api_monitoring.py
 deploy: test
-	rm -rf policyengine/static
-	cd policyengine-client; npm run build
-	cp -r policyengine-client/build policyengine/static
+	cat $(GOOGLE_APPLICATION_CREDENTIALS) > .gac.json
 	y | gcloud app deploy
 test-server:
 	pytest policyengine/tests/server/
