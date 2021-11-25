@@ -54,7 +54,10 @@ export const PARAMETER_MENU = {
 			"Structural": [
 				"abolish_NI"
 			]
-		}
+		},
+		"Property taxes": [
+			"abolish_CT"
+		]
 	},
 	"Benefit": {
 		"Child Benefit": [
@@ -109,5 +112,8 @@ export const PARAMETER_MENU = {
 		"Land Value Tax": [
 			"LVT",
 		],
+		"Carbon Tax": [
+			"carbon_tax",
+		]
 	}
 };
