@@ -122,11 +122,6 @@ class PolicyEngineCountry:
         rel_decile_chart, avg_decile_chart = decile_chart(
             self.baseline, reformed, self.results_config
         )
-        print(reform)
-        print(
-            self.baseline.calc("council_tax").sum(),
-            reformed.calc("council_tax").sum(),
-        )
         return dict(
             **headline_metrics(self.baseline, reformed, self.results_config),
             rel_decile_chart=rel_decile_chart,
