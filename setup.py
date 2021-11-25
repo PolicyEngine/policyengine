@@ -1,9 +1,9 @@
 from setuptools import setup, find_packages
-from pathlib import Path
+from policyengine import VERSION
 
 setup(
     name="PolicyEngine",
-    version="1.2.0",
+    version=VERSION,
     author="PolicyEngine",
     license="http://www.fsf.org/licensing/licenses/agpl-3.0.html",
     url="https://github.com/policyengine/policyengine",
