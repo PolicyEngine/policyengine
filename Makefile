@@ -30,7 +30,9 @@ test:
 	python policyengine/monitoring/api_monitoring.py
 deploy: test
 	cat $(GOOGLE_APPLICATION_CREDENTIALS) > .gac.json
+	gcloud config set app/cloud_build_timeout 1800
 	y | gcloud app deploy
+	rm .gac.json
 test-server:
 	pytest policyengine/tests/server/
 monitor:
