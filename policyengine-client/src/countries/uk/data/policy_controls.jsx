@@ -107,6 +107,8 @@ export const PARAMETER_MENU = {
 			"adult_UBI",
 			"senior_UBI",
 			"WA_adult_UBI_age",
+			"taxable_UBI",
+			"means_test_UBI",
 			"autoUBI",
 		],
 		"Land Value Tax": [
