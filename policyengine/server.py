@@ -12,10 +12,11 @@ from policyengine.utils.general import (
     set_cached_result,
 )
 from policyengine.countries import UK, US, PolicyEngineCountry
+from policyengine import VERSION
 
 
 class PolicyEngine:
-    version: str = "1.2.1"
+    version: str = VERSION
     cache_bucket_name: str = "uk-policy-engine.appspot.com"
     countries: Tuple[Type[PolicyEngineCountry]] = (UK, US)
 
