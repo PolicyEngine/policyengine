@@ -3,8 +3,6 @@ import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style/policyengine.less";
 import { PolicyEngineUK } from "./countries/uk";
-import { NamedPolicyRedirects } from "./common/layout";
-import { REDIRECTS } from "./data/namedPolicies";
 
 export default class App extends React.Component {
 	constructor(props) {
