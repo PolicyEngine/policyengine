@@ -54,10 +54,7 @@ export const PARAMETER_MENU = {
 			"Structural": [
 				"abolish_NI"
 			]
-		},
-		"Property taxes": [
-			"abolish_CT"
-		]
+		}
 	},
 	"Benefit": {
 		"Child Benefit": [
