@@ -19,7 +19,11 @@ export function urlToPolicy(defaultPolicy) {
 	let plan = JSON.parse(JSON.stringify(defaultPolicy));
 	const { searchParams } = new URL(document.location);
 	for (const key of searchParams.keys()) {
-		plan[key].value = +searchParams.get(key) / (defaultPolicy[key].type === "rate" ? 100 : 1);
+		try {
+			plan[key].value = +searchParams.get(key) / (defaultPolicy[key].type === "rate" ? 100 : 1);
+		} catch {
+			// Bad parameter, do nothing
+		}
 	}
 	return plan;
 }
