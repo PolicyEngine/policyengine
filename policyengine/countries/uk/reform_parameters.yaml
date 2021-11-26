@@ -342,18 +342,3 @@ reforms:
           summary: Abolish income-based ESA
         tests:
           - decreases_net_income: true
-    abolish_CT:
-      values:
-        2021-01-01: false
-      metadata:
-        policyengine:
-          title: Council Tax
-          short_name: abolish_CT
-          variable: council_tax
-          description: Abolish Council Tax.
-          type: abolish
-          summary: Abolish Council Tax
-        tests:
-          - increases_net_income: true
-          - value: true
-            revenue: -38.9e9
