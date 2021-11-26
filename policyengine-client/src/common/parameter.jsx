@@ -36,7 +36,10 @@ export function getTranslators(parameter) {
 			}
 		}
 	}
-	return value => value;
+	return {
+		formatter: value => value,
+		parser: value => value,
+	}
 }
 
 export function Parameter(props) {

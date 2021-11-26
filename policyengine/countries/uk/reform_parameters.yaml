@@ -330,9 +330,12 @@ reforms:
         tests:
           - decreases_net_income: true
     abolish_ESA_income:
+      description: Stop all payments to claimants
       values:
         2021-01-01: false
       metadata:
+        label: Abolish income-based ESA
+        unit: abolition
         policyengine:
           title: Income-based ESA
           short_name: abolish_ESA_income

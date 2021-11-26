@@ -21,7 +21,7 @@ export function SimulateButton(props) {
 function generateStepFromParameter(parameter) {
 	if(parameter.value !== parameter.defaultValue) {
 		const formatter = getTranslators(parameter).formatter;
-		const changeLabel = !isNaN(parameter.value) ? 
+		const changeLabel = (!isNaN(parameter.value) && (typeof parameter.value !== "boolean")) ? 
 			(parameter.value > parameter.defaultValue ? "Increase" : "Decrease") : 
 			"Change";
 		const description = `${changeLabel} from ${formatter(parameter.defaultValue)} to ${formatter(parameter.value)}`

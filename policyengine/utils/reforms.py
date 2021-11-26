@@ -146,8 +146,12 @@ def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
     parameter_metadata = {}
     for parameter in parameters:
         try:
-            parameter_metadata[parameter.metadata["name"]] = dict(
-                name=parameter.metadata["name"],
+            if "name" in parameter.metadata:
+                name = parameter.metadata["name"]
+            else:
+                name = parameter.name.split(".")[-1]
+            parameter_metadata[name] = dict(
+                name=name,
                 parameter=parameter.name,
                 description=parameter.description,
                 label=parameter.metadata["label"],
@@ -160,10 +164,15 @@ def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
             OPTIONAL_ATTRIBUTES = ("period", "value_type", "variable")
             for attribute in OPTIONAL_ATTRIBUTES:
                 if attribute in parameter.metadata:
-                    parameter_metadata[parameter.metadata["name"]][
+                    parameter_metadata[name][attribute] = parameter.metadata[
                         attribute
-                    ] = parameter.metadata[attribute]
-        except:
+                    ]
+        except Exception as e:
+            if (
+                "label" in parameter.metadata
+                and parameter.metadata["label"] == "Abolish income-based ESA"
+            ):
+                print(e)
             pass
     return parameter_metadata
 
