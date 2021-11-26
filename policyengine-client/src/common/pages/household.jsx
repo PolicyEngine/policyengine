@@ -1,7 +1,7 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { Overview } from "../overview";
-import { Button, Menu } from "antd";
+import { Button, Divider, Menu } from "antd";
 import { Parameter } from "../parameter";
 
 const { SubMenu } = Menu;
@@ -51,33 +51,15 @@ function EntityMenu(props) {
 		return <Menu.Item onClick={() => props.selectEntity(key)} key={key}>{props.entity.label || props.name}<Button hidden={props.entity.label === "You"} onClick={() => props.removeEntity(props.name, props.parents.concat([props.entityType]))} style={{float: "right", marginTop: 5}}>Remove</Button></Menu.Item>;
 	}
 }
-
 function HouseholdMenu(props) {
-	if((Object.keys(props.household).length === 0) || (Object.keys(props.entities).length === 0)) {
-		return <Menu />
-	}
-	const entityType = Object.keys(props.household)[0];
-	const name = Object.keys(props.household[entityType])[0]
-	const entity = props.household[entityType][name];
 	return (
-		<Menu
-			mode="inline"
-			defaultOpenKeys={props.defaultOpenKeys}
-			selectedKeys={[props.selected]}
-			inlineIndent={16}
-		>
+		<Menu>
+			<h6 style={{marginTop: 20}}>People</h6>
 			{
-				EntityMenu({
-					addEntity: props.addEntity,
-					removeEntity: props.removeEntity,
-					entities: props.entities, 
-					entity: entity,
-					entityType: entityType,
-					name: name,
-					parents: [],
-					selectEntity: props.selectEntity,
-				})
+				props.household.people.map()
 			}
+			<h6 style={{marginTop: 20}}>Groups</h6>
+			<Menu.Item key="household">Your household</Menu.Item>
 		</Menu>
 	);
 }
@@ -172,13 +154,7 @@ export class HouseholdPage extends React.Component {
 		return (
 			<Row>
 				<Col xl={3}>
-					<HouseholdMenu defaultOpenKeys={this.props.defaultOpenKeys} addEntity={this.addEntity} removeEntity={this.removeEntity} selectEntity={this.selectEntity} selected={this.state.selected} household={this.props.household} entities={this.props.entities} />
-				</Col>
-				<Col xl={6}>
-					<HouseholdVariables setValue={this.setValue} currency={this.props.currency} household={this.props.household} selected={this.state.selected} />
-				</Col>
-				<Col xl={3}>
-					<Overview page="household" currency={this.props.currency} policy={this.props.policy} setPage={this.props.setPage} baseURL={this.props.baseURL} household={!this.state.invalid ? this.props.household : null}/>
+					<HouseholdMenu selected={this.state.selected} household={this.props.household} entities={this.props.entities} />
 				</Col>
 			</Row>
 		);

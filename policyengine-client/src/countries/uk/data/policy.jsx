@@ -7,7 +7,11 @@ export const ORGANISATIONS = {
 	}
 };
 
-export const PARAMETER_MENU = {
+export const PARAMETERS = [
+    "basic_rate",
+];
+
+export const PARAMETER_HIERARCHY = {
 	"Tax": {
 		"Income Tax": {
 			"Labour income": [
