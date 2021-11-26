@@ -18,7 +18,7 @@ def get_PE_variables(system: TaxBenefitSystem) -> Dict[str, dict]:
     Returns:
         Dict[str, dict]: The parameter metadata.
     """
-    variables = list(map(type, system.variables.values()))
+    variables = list(system.variables.values())
     variables = list(
         filter(
             lambda variable: hasattr(variable, "metadata")
@@ -27,34 +27,27 @@ def get_PE_variables(system: TaxBenefitSystem) -> Dict[str, dict]:
         )
     )
     variable_metadata = {}
-    for v in variables:
-        meta = v.metadata["policyengine"]
-        var = dict(
-            title=v.label,
-            short_name=v.__name__,
-            description=v.documentation if hasattr(v, "documentation") else "",
-            type="amount",
-            default=0,
-            min=0,
-            max=1,
-            roles=[],
-            entity=v.entity.key,
-            hidden=False,
-        )
-        if v.definition_period != "eternity":
-            var["type"] = v.definition_period + "ly"
-        if v.value_type == Enum:
-            var["options"] = v.possible_values._member_names_
-            var["default"] = v.default_value._name_
-        elif v.value_type == bool:
-            var["type"] = "bool"
-        var.update(meta)
-        var["value"] = var["default"]
-        if "roles" in var:
-            for role in var["roles"]:
-                if "default" in var["roles"][role]:
-                    var["roles"][role]["value"] = var["roles"][role]["default"]
-        variable_metadata[var["short_name"]] = var
+    for variable in variables:
+        try:
+            variable_metadata[variable.name] = dict(
+                name=variable.name,
+                unit=variable.unit,
+                label=variable.label,
+                documentation=variable.documentation,
+                value_type=variable.value_type.__name__,
+                default_value=variable.default_value,
+                definition_period=variable.definition_period,
+                entity=variable.entity.key,
+            )
+            if variable_metadata[variable.name]["value_type"] == "Enum":
+                variable_metadata[variable.name]["possible_values"] = list(
+                    map(lambda enum: enum.value, variable.possible_values)
+                )
+                variable_metadata[variable.name][
+                    "default_value"
+                ] = variable.default_value.value
+        except:
+            pass
     return variable_metadata
 
 

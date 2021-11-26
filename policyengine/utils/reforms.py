@@ -143,37 +143,23 @@ def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
                 for attribute in ("rate", "amount", "threshold"):
                     if hasattr(bracket, attribute):
                         parameters += [getattr(bracket, attribute)]
-    parameters = list(
-        filter(
-            lambda param: hasattr(param, "metadata")
-            and "policyengine" in param.metadata,
-            parameters,
-        )
-    )
     parameter_metadata = {}
-    for p in parameters:
-        meta = p.metadata["policyengine"]
-        param = dict(
-            parameter=p.name,
-            title=meta["title"],
-            short_name=meta["short_name"],
-            description=meta["description"],
-            default=p(CURRENT_INSTANT),
-            value=p(CURRENT_INSTANT),
-        )
-        default_values = dict(
-            min=0,
-            max=0,
-            variable=None,
-            type=None,
-        )
-        for key, value in default_values.items():
-            if key in meta:
-                param[key] = meta[key]
+    for parameter in parameters:
+        try:
+            parameter_metadata[parameter.metadata["name"]] = dict(
+                name=parameter.metadata["name"],
+                description=parameter.description,
+                label=parameter.metadata["label"],
+                value=parameter(CURRENT_INSTANT),
+            )
+            if "period" in parameter.metadata:
+                parameter_metadata[parameter.name][
+                    "period"
+                ] = parameter.metadata["period"]
             else:
-                param[key] = value
-        param["summary"] = summary_from_metadata(param)
-        parameter_metadata[param["short_name"]] = param
+                parameter_metadata[parameter.name]["period"] = None
+        except Exception as e:
+            pass
     return parameter_metadata
 
 

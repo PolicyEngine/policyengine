@@ -97,15 +97,9 @@ class PolicyEngineCountry:
                 calculate=self.calculate,
             )
             with open(self.entity_hierarchy_file) as f:
-                self.entities = dict(
-                    entities=build_entities(
-                        self.baseline.simulation.tax_benefit_system
-                    ),
-                    hierarchy=yaml.safe_load(f),
+                self.entities = build_entities(
+                    self.baseline.simulation.tax_benefit_system
                 )
-
-            with open(self.default_household_file) as f:
-                self.default_household_data = yaml.safe_load(f)
 
     def _create_reform_sim(self, reform: ReformType) -> Microsimulation:
         sim = self.Microsimulation(
