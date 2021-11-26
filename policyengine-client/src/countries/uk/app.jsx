@@ -58,8 +58,7 @@ export class PolicyEngineUK extends React.Component {
                         variables: variables,
                     }, () => {
                         // The policy and situation might need adjusting with PolicyEngine-specific modifications
-                        let urlPolicy = urlToPolicy(policyData)
-                        let {policy, policyValid} = validatePolicy(urlPolicy, urlPolicy);
+                        let {policy, policyValid} = validatePolicy(urlToPolicy(policyData), policyData);
                         let {situation, situationValid} = validateSituation(JSON.parse(JSON.stringify(DEFAULT_SITUATION)));
                         this.setState({
                             policy: JSON.parse(JSON.stringify(policy)),

@@ -78,15 +78,18 @@ export function Parameter(props) {
 		} else {
 			const min = props.param.min || defaultMin;
 			const max = props.param.max || defaultMax;
-			const markStyle = {}
+			let marks = {[max]: formatter(max)};
+			if(min) {
+				marks[min] = formatter(min);
+			}
 			component = (
 				<>
 					<Slider
 						value={props.param.value}
-						style={{marginLeft: 30, marginRight: 30}}
+						style={{marginLeft: min ? 30 : 0, marginRight: 30}}
 						min={min}
 						max={max}
-						marks={{[min]: {label: formatter(min), style: markStyle}, [max]: {label: formatter(max), style: markStyle}}}
+						marks={marks}
 						onChange={onChange}
 						step={defaultSliderStep}
 						tooltipVisible={false}

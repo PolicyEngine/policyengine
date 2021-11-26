@@ -2,7 +2,7 @@
 Utility functions for writing reforms.
 """
 from pathlib import Path
-from typing import Callable, Dict, Type
+from typing import Any, Callable, Dict, Type
 from openfisca_core.parameters.helpers import load_parameter_file
 from openfisca_core.parameters.parameter import Parameter
 from openfisca_core.parameters.parameter_scale import ParameterScale
@@ -148,14 +148,16 @@ def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
         try:
             parameter_metadata[parameter.metadata["name"]] = dict(
                 name=parameter.metadata["name"],
+                parameter=parameter.name,
                 description=parameter.description,
                 label=parameter.metadata["label"],
                 value=parameter(CURRENT_INSTANT),
                 value_type=parameter(CURRENT_INSTANT).__class__.__name__,
                 unit=parameter.metadata["unit"],
                 period=None,
+                variable=None,
             )
-            OPTIONAL_ATTRIBUTES = ("period", "value_type")
+            OPTIONAL_ATTRIBUTES = ("period", "value_type", "variable")
             for attribute in OPTIONAL_ATTRIBUTES:
                 if attribute in parameter.metadata:
                     parameter_metadata[parameter.metadata["name"]][
@@ -166,19 +168,32 @@ def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
     return parameter_metadata
 
 
+CURRENCY_SYMBOLS = {
+    "currency-GBP": "£",
+    "USD": "$",
+}
+
+
 def get_formatter(parameter: dict) -> Callable:
-    if parameter["type"] == "rate":
-        return lambda value: f"{round(value * 100, 2)}%"
-    elif parameter["type"] == "weekly":
-        return lambda value: f"{gbp(value)}/week"
-    elif parameter["type"] == "yearly":
-        return lambda value: f"{gbp(value)}/year"
-    elif parameter["type"] == "monthly":
-        return lambda value: f"{gbp(value)}/month"
-    elif parameter["type"] == "currency":
-        return lambda value: f"{gbp(value)}"
-    else:
-        return lambda value: str(value)
+    if parameter["unit"] == "/1":
+        return lambda value: f"{round(value * 100, 2):,}%"
+    for currency_type in CURRENCY_SYMBOLS:
+        if parameter["unit"] == currency_type:
+            return (
+                lambda value: f"{CURRENCY_SYMBOLS[currency_type]}{value}/{parameter['period']}"
+            )
+    return lambda value: str(value)
+
+
+def get_summary(parameter: dict, value: Any) -> str:
+    formatter = get_formatter(parameter)
+    if parameter["value_type"] in ("float", "int"):
+        change_label = "Increase" if value > parameter["value"] else "Decrease"
+        return f"{change_label} {parameter['label']} from {formatter(value)} to {formatter(parameter['value'])}"
+    if parameter["value_type"] == "bool":
+        if parameter["unit"] == "abolition":
+            return f"Abolish {parameter['variable']}"
+    return parameter["label"]
 
 
 def create_reform(
@@ -212,11 +227,8 @@ def create_reform(
     for param, value in params.items():
         if param != "household":
             metadata = policyengine_parameters[param]
-            names += [metadata["title"]]
-            formatter = get_formatter(metadata)
-            descriptions += [
-                metadata["summary"].replace("@", formatter(value))
-            ]
+            names += [metadata["label"]]
+            descriptions += [get_summary(metadata, value)]
             if "abolish" in param:
                 reforms += [abolish(metadata["variable"])]
             else:
