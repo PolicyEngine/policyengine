@@ -151,14 +151,17 @@ def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
                 description=parameter.description,
                 label=parameter.metadata["label"],
                 value=parameter(CURRENT_INSTANT),
+                value_type=parameter(CURRENT_INSTANT).__class__.__name__,
+                unit=parameter.metadata["unit"],
+                period=None,
             )
-            if "period" in parameter.metadata:
-                parameter_metadata[parameter.name][
-                    "period"
-                ] = parameter.metadata["period"]
-            else:
-                parameter_metadata[parameter.name]["period"] = None
-        except Exception as e:
+            OPTIONAL_ATTRIBUTES = ("period", "value_type")
+            for attribute in OPTIONAL_ATTRIBUTES:
+                if attribute in parameter.metadata:
+                    parameter_metadata[parameter.metadata["name"]][
+                        attribute
+                    ] = parameter.metadata[attribute]
+        except:
             pass
     return parameter_metadata
 

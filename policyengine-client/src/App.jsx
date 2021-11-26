@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./style/policyengine.less";
+import "./common/policyengine.less";
 import { PolicyEngineUK } from "./countries/uk";
 
 export default class App extends React.Component {
@@ -14,7 +14,7 @@ export default class App extends React.Component {
 		return (
 			<Router>
 				<Route path="/uk">
-					<PolicyEngineUK analytics={this.props.analytics} api_url="https://policyengine.org/uk/api" />
+					<PolicyEngineUK analytics={this.props.analytics} api_url="http://localhost:5000/uk/api" />
 				</Route>
 				<Route path="/us">
 					Coming soon!

@@ -17,13 +17,17 @@ import { validateSituation } from "./logic/situation";
 import { validatePolicy } from "./logic/policy";
 import { ORGANISATIONS, PARAMETER_HIERARCHY, PARAMETERS } from "./data/policy";
 import { DEFAULT_SITUATION } from "./data/situation";
+import { Empty } from "antd";
 
 export class PolicyEngineUK extends React.Component {
     constructor(props) {
         super(props);
+        // Attach methods
         this.updatePolicy = this.updatePolicy.bind(this);
         this.updateSituation = this.updateSituation.bind(this);
         this.fetchData = this.fetchData.bind(this);
+
+        // Initialise state (before updating from API)
         this.state = {
             policy: {},
             policyValid: false,
@@ -39,6 +43,7 @@ export class PolicyEngineUK extends React.Component {
     }
 
     componentDidMount() {
+        // As soon as the page loads, fetch from the API
         this.fetchData();
     }
 
@@ -46,19 +51,23 @@ export class PolicyEngineUK extends React.Component {
         fetch(this.props.api_url + "/parameters").then(res => res.json()).then(policyData => {
             fetch(this.props.api_url + "/entities").then(res => res.json()).then(entities => {
                 fetch(this.props.api_url + "/variables").then(res => res.json()).then(variables => {
+                    // Once we've got all the data, check it and update the state
                     this.setState({
+                        // Entities and variables don't need validation
                         entities: entities,
                         variables: variables,
                     }, () => {
-                        let {policy, policyValid} = this.validatePolicy(urlToPolicy(policyData));
-                        let {household, householdValid} = this.validateHouseholdStructure(JSON.parse(JSON.stringify(DEFAULT_SITUATION)));
+                        // The policy and situation might need adjusting with PolicyEngine-specific modifications
+                        let urlPolicy = urlToPolicy(policyData)
+                        let {policy, policyValid} = validatePolicy(urlPolicy, urlPolicy);
+                        let {situation, situationValid} = validateSituation(JSON.parse(JSON.stringify(DEFAULT_SITUATION)));
                         this.setState({
-                            policy: policy,
+                            policy: JSON.parse(JSON.stringify(policy)),
                             entities: entities,
                             variables: variables,
-                            household: household,
+                            situation: situation,
                             policyValid: policyValid,
-                            householdValid: householdValid,
+                            situation: situationValid,
                             fetchDone: true,
                         });
                     });
@@ -68,6 +77,7 @@ export class PolicyEngineUK extends React.Component {
     }
 
     updatePolicy(name, value) {
+        // Update a parameter - validate, then update the state
         let oldPolicy = this.state.policy;
 		oldPolicy[name].value = value;
 		let { policy, valid } = validatePolicy(oldPolicy);
@@ -75,13 +85,14 @@ export class PolicyEngineUK extends React.Component {
     }
 
     updateSituation(situation) {
+        // Update the situation - validate, then update the state
         let { household, valid } = validateSituation(situation);
         this.setState({household: household, householdValid: valid});
     }
 
     render() {
         if(!this.state.fetchDone) {
-            return null;
+            return <></>;
         }
         const setPage = page => {this.setState({page: page});};
         return (
@@ -99,29 +110,26 @@ export class PolicyEngineUK extends React.Component {
                             <Policy 
                                 api_url={this.props.api_url}
                                 policy={this.state.policy}
-                                menuStructure={PARAMETER_MENU}
+                                hierarchy={PARAMETER_HIERARCHY}
                                 organisations={ORGANISATIONS}
                                 selected={"/Tax/Income Tax/Labour income"}
                                 open={["/Tax", "/Tax/Income Tax", "/Benefit", "/UBI Center"]}
-                                currency="£"
-                                setPolicy={this.setPolicy}
-                                overrides={{
+                                updatePolicy={this.updatePolicy}
+                                overrides={null/*{
                                     autoUBI: <AutoUBI api_url={this.props.api_url}/>,
                                     extra_UK_band: <ExtraBand 
                                         rate_parameter="extra_UK_rate" 
                                         threshold_parameter="extra_UK_threshold" 
                                         policy={this.state.policy} 
                                         setPolicy={this.setPolicy} 
-                                        currency="£"
                                     />,
                                     extra_scot_band: <ExtraBand 
                                         rate_parameter="extra_scot_rate" 
                                         threshold_parameter="extra_scot_threshold" 
                                         policy={this.state.policy} 
-                                        setPolicy={this.setPolicy} 
-                                        currency="£"
+                                        setPolicy={this.setPolicy}
                                     />,
-                                }}
+                                }*/}
                                 setPage={setPage}
                                 invalid={!this.state.policyValid}
                                 baseURL="/uk"

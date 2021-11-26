@@ -4,7 +4,7 @@ import { LinkOutlined, TwitterOutlined, ArrowLeftOutlined } from "@ant-design/ic
 import { TwitterShareButton } from "react-share";
 import { Fragment, default as React } from "react";
 import { policyToURL } from "./url";
-import { getFormatter } from "./parameter";
+import { getTranslators } from "./parameter";
 
 const { Step } = Steps;
 
@@ -18,12 +18,22 @@ export function SimulateButton(props) {
 	);
 }
 
+function generateStepFromParameter(parameter) {
+	if(parameter.value !== parameter.defaultValue) {
+		const formatter = getTranslators(parameter).formatter;
+		const description = `Change from ${formatter(parameter.defaultValue)} to ${formatter(parameter.value)}`
+		return <Step
+			key={parameter.name}
+			status="finish"
+			title={parameter.label}
+			description={description}
+		/>
+	}
+	return <></>;
+}
+
 export function Overview(props) {
-	let plan = Object.keys(props.policy).map((key, i) => (
-		props.policy[key].value !== props.policy[key].default
-			? <Step key={key} status="finish" title={props.policy[key].title} description={props.policy[key].summary.replace("@", getFormatter(props.policy[key], props.currency)(props.policy[key].value))} />
-			: null
-	));
+	let plan = Object.values(props.policy).map(generateStepFromParameter);
 	let isEmpty = plan.every(element => element === null);
 	return (
 		<>
