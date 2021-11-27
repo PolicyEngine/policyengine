@@ -17,7 +17,7 @@ from policyengine import VERSION
 
 class PolicyEngine:
     version: str = VERSION
-    cache_bucket_name: str = None  # "uk-policy-engine.appspot.com"
+    cache_bucket_name: str = "uk-policy-engine.appspot.com"
     countries: Tuple[Type[PolicyEngineCountry]] = (UK, US)
 
     def _init_countries(self):
