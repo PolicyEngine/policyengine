@@ -33,6 +33,11 @@ export function getTranslators(parameter) {
 			formatter: value => value + " year" + (value !== 1 ? "s" : ""),
 			parser: text => +text.replace(" year", "").replace(" years", ""),
 		}
+	} else if (parameter.value_type === "bool") {
+		return {
+			formatter: value => value ? "true" : "false",
+			parser: text => text === "true" ? 1 : 0,
+		}
 	}
 	for(let currency in CURRENCY_SYMBOLS) {
 		if(parameter.unit === currency) {
@@ -40,7 +45,7 @@ export function getTranslators(parameter) {
 				formatter: value => `${CURRENCY_SYMBOLS[currency]}${Number(value).toLocaleString()}/${period}`,
 				parser: text => +text.replace(CURRENCY_SYMBOLS[currency], "").replace(`/${period}`, ""),
 				defaultMin: 0,
-				defaultMax: Math.max(Math.pow(10, Math.ceil(Math.log10(parameter.defaultValue))), 100000),
+				defaultMax: Math.max(Math.pow(10, Math.ceil(Math.log10(Math.max(parameter.defaultValue, parameter.value)))), parameter.period == "year" ? 100_000 : 1_000),
 				defaultInputStep: 1,
 				defaultSliderStep: 1,
 			}
@@ -117,7 +122,7 @@ export function Parameter(props) {
 					{
 						focused ?
 							<Input.Search enterButton="Enter" style={{maxWidth: 300}} placeholder={props.param.value} onSearch={value => {setFocused(false); onChange(value);}} /> :
-							<div>{(!props.param.value && props.loading) ? <Spin indicator={antIcon} /> : formatter(props.param.value)} <EditOutlined style={{marginLeft: 5}} onClick={() => setFocused(true)} /></div>
+							<div>{(props.isComputed && props.loading) ? <Spin indicator={antIcon} /> : formatter(props.param.value)} <EditOutlined style={{marginLeft: 5}} onClick={() => setFocused(true)} /></div>
 					}
 				</>
 			);

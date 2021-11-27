@@ -97,10 +97,10 @@ class PolicyEngineCountry:
                 population_breakdown=self.population_breakdown,
                 calculate=self.calculate,
             )
-            with open(self.entity_hierarchy_file) as f:
-                self.entities = build_entities(
-                    self.baseline.simulation.tax_benefit_system
-                )
+            
+            self.entities = build_entities(
+                self.baseline.simulation.tax_benefit_system
+            )
 
     def _create_reform_sim(self, reform: ReformType) -> Microsimulation:
         sim = self.Microsimulation(

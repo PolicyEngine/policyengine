@@ -13,7 +13,7 @@ import Household from "../../common/pages/household";
 import HouseholdImpact from "../../common/pages/householdImpact";
 import ExtraBand from "./components/extra_band";
 
-import { validateSituation } from "./logic/situation";
+import { situationButtons, validateSituation } from "./logic/situation";
 import { validatePolicy } from "./logic/policy";
 import { ORGANISATIONS, PARAMETER_HIERARCHY, EXTRA_PARAMETER_DATA } from "./data/policy";
 import { DEFAULT_SITUATION, EXTRA_VARIABLE_METADATA } from "./data/situation";
@@ -101,9 +101,9 @@ export class PolicyEngineUK extends React.Component {
         const setPage = page => {this.setState({page: page});};
         return (
             <PolicyEngineWrapper>
-                <Route path="/uk">
+                {/*<Route path="/uk">
                     <Redirect to="/uk/policy" />
-                </Route>
+        </Route>*/}
                 <Header country="uk" policy={this.state.policy} household={this.state.householdVisited}/>
                 <BodyWrapper>
                     <Switch>
@@ -161,6 +161,7 @@ export class PolicyEngineUK extends React.Component {
                                 fetchDone={this.state.fetchDone}
                                 defaultSelectedName="You"
                                 defaultSelectedType="person"
+                                situationStructureButtons={situationButtons}
                             />
                         </Route>
                         <Route path="/uk/household-impact">

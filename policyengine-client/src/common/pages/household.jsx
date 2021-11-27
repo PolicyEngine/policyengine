@@ -1,7 +1,7 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { Overview } from "../overview";
-import { Menu, Collapse } from "antd";
+import { Menu, Collapse, Button } from "antd";
 import { Parameter } from "../parameter";
 import { VARIABLE_CATEGORIES } from "../../countries/uk/data/situation";
 
@@ -11,24 +11,46 @@ function hasItems(object) {
 	return object && (Object.keys(object).length > 0);
 }
 
+function SubTitle(props) {
+	return <h6 style={{marginTop: 20}}>{props.children}</h6>
+}
+
 function HouseholdMenu(props) {
+	const personEntities = Object.values(props.entities).filter(entity => !entity.is_group);
+	const groupEntities = Object.values(props.entities).filter(entity => entity.is_group);
 	return (
 		<Menu>
-			<h6 style={{marginTop: 20}}>People</h6>
+			<SubTitle>People</SubTitle>
 			{
-				Object.keys(props.situation.people).map(name => (
-					<Menu.Item key={name} onClick={() => props.select(name, "person")}>{name}</Menu.Item>
+				personEntities.map(entity => (
+					<>
+					{
+						
+						Object.keys(props.situation[entity.plural]).map(name => (
+							<Menu.Item key={name} onClick={() => props.select(name, entity.key)}>
+								{name}
+								{name !== "You" && <Button onClick={() => props.situationStructureButtons.removePerson.apply(props.situation, name)} style={{float: "right", marginTop: 5}}>Remove</Button>}
+							</Menu.Item>
+						))
+					}
+					</>
 				))
 			}
-			<h6 style={{marginTop: 20}}>Groups</h6>
 			{
-				Object.keys(props.situation.benunits).map(name => (
-					<Menu.Item key={name} onClick={() => props.select(name, "benunit")}>{name}</Menu.Item>
+				Object.values(props.situationStructureButtons).filter(metadata => metadata.available(props.situation)).map(metadata => (
+					<><Button style={{marginBottom: 10}} key={metadata.text} onClick={() => props.updateSituation(metadata.apply(props.situation))}>{metadata.text}</Button><br /></>
 				))
 			}
+			<SubTitle>Groups</SubTitle>
 			{
-				Object.keys(props.situation.households).map(name => (
-					<Menu.Item key={name} onClick={() => props.select(name, "household")}>{name}</Menu.Item>
+				groupEntities.map(entity => (
+					<>
+					{
+						Object.keys(props.situation[entity.plural]).map(name => (
+							<Menu.Item key={name} onClick={() => props.select(name, entity.key)}>{name}</Menu.Item>
+						))
+					}
+					</>
 				))
 			}
 		</Menu>
@@ -38,18 +60,28 @@ function HouseholdMenu(props) {
 function HouseholdVariables(props) {
 	const variables = props.situation[props.entities[props.selected.type].plural][props.selected.name];
 	let panels = [];
+	let computed;
 	for(let category of Object.keys(props.categories)) {
-		const panelVariables = Object.keys(variables).filter(variable => props.categories[category].includes(variable)).map(variable => (
-			<Parameter 
+		const panelVariables = Object.keys(variables).filter(variable => props.categories[category].includes(variable)).map(variable => {
+			computed = props.computedSituation[props.entities[props.selected.type].plural][props.selected.name];
+			let value;
+			if(computed === undefined) {
+				value = props.variables[variable].defaultValue;
+			} else if(variables[variable]["2021"] !== null) {
+				value = variables[variable]["2021"];
+			} else {
+				value = computed[variable]["2021"];
+			}
+			return <Parameter 
 				key={variable} 
 				updatePolicy={props.updateValue}
 				param={{
 					name: props.variables[variable].name,
 					label: props.variables[variable].label,
-					defaultValue: props.variables[variable].defaultValue || props.computedSituation[props.entities[props.selected.type].plural][props.selected.name][variable]["2021"],
 					unit: props.variables[variable].unit,
 					period: props.variables[variable].definitionPeriod,
-					value: variables[variable]["2021"] || props.computedSituation[props.entities[props.selected.type].plural][props.selected.name][variable]["2021"],
+					defaultValue: value,
+					value: value,
 					min: props.variables[variable].min,
 					max: props.variables[variable].max,
 					value_type: props.variables[variable].value_type,
@@ -59,7 +91,7 @@ function HouseholdVariables(props) {
 				loading={props.loading}
 				error={props.error}
 			/>
-		));
+		});
 		if(panelVariables.length > 0) {
 			panels.push(
 				<Panel style={{marginBottom: 10, padding: 10}} header={category} key={category}>
@@ -80,7 +112,7 @@ export class HouseholdPage extends React.Component {
 	}
 	
 	componentDidMount() {
-		this.setState({autoComputeIntervalID: setInterval(this.autoComputeSituation, 1000)});
+		this.setState({autoComputeIntervalID: setInterval(this.autoComputeSituation, 2000)});
 	}
 	 
 	componentWillUnmount() {
@@ -116,10 +148,18 @@ export class HouseholdPage extends React.Component {
 		return (
 			<Row>
 				<Col xl={3}>
-					<HouseholdMenu selected={this.state.selected} situation={this.props.situation} entities={this.props.entities} select={(name, type) => {this.setState({selected: {name: name, type: type}});}}/>
+					<HouseholdMenu 
+						situationStructureButtons={this.props.situationStructureButtons} 
+						selected={this.state.selected} 
+						entities={this.props.entities} 
+						situation={this.props.situation} 
+						entities={this.props.entities} 
+						select={(name, type) => {this.setState({selected: {name: name, type: type}});}}
+						updateSituation={situation => {this.setState({situation: situation, situationHasChanged: true})}}
+					/>
 				</Col>
 				<Col xl={6}>
-					<HouseholdVariables 
+					<HouseholdVariables
 						selected={this.state.selected} 
 						situation={this.props.situation} 
 						computedSituation={this.state.computedSituation}
@@ -140,6 +180,7 @@ export class HouseholdPage extends React.Component {
 						baseURL={this.props.baseURL}
 						situation={this.state.computedSituation}
 						variables={this.props.variables}
+						loading={this.state.situationHasChanged}
 					/>
 				</Col>
 			</Row>
@@ -162,6 +203,7 @@ export default function Household(props) {
 			baseURL={props.baseURL}
 			defaultSelectedName={props.defaultSelectedName}
 			defaultSelectedType={props.defaultSelectedType}
+			situationStructureButtons={props.situationStructureButtons}
 		/>;
 	} else {
 		return <></>;

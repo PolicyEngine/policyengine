@@ -61,9 +61,9 @@ export function Overview(props) {
 					<>
 						<Divider>Your household</Divider>
 						<Steps progressDot direction="vertical">
-							<Step status="finish" title={<>{(numPeople || <Spinner />)}{(numPeople === 1 ? " person" : " people")}</>} />
-							<Step status="finish" title={<>{household_market_income === null ? <Spinner /> : household_market_income}{" market income"}</>} />
-							<Step status="finish" title={<>{household_net_income === null ? <Spinner /> : household_net_income}{" net income"}</>} />
+							<Step status="finish" title={<>{(props.loading ? <Spinner /> : numPeople)}{(numPeople === 1 ? " person" : " people")}</>} />
+							<Step status="finish" title={<>{(props.loading ? <Spinner /> : household_market_income)}{" market income"}</>} />
+							<Step status="finish" title={<>{(props.loading ? <Spinner /> : household_net_income)}{" net income"}</>} />
 						</Steps>
 					</>
 				)

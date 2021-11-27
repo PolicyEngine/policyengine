@@ -19,7 +19,7 @@ export default class App extends React.Component {
 				<Route path="/us">
 					Coming soon!
 				</Route>
-				<Route path="/">
+				<Route exact path="/">
 					<Redirect to="/uk" />
 				</Route>
 			</Router>
