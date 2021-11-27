@@ -1,4 +1,4 @@
-import { Steps, Divider, Empty, Button, message } from "antd";
+import { Affix, Steps, Divider, Empty, Button, message } from "antd";
 import { Link } from "react-router-dom";
 import { LinkOutlined, TwitterOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import { TwitterShareButton } from "react-share";
@@ -26,7 +26,7 @@ export function Overview(props) {
 	));
 	let isEmpty = plan.every(element => element === null);
 	return (
-		<>
+		<Affix style={{ position: 'fixed' }}>
 			<Divider>Your plan</Divider>
 			{!isEmpty ?
 				<Steps progressDot direction="vertical">
@@ -79,7 +79,7 @@ export function Overview(props) {
 				/>
 			</Empty>
 			<SharePolicyLinks baseURL={props.baseURL} policy={props.policy} page={props.page}/>
-		</>
+		</Affix>
 	);
 }
 
