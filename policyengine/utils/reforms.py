@@ -168,11 +168,6 @@ def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
                         attribute
                     ]
         except Exception as e:
-            if (
-                "label" in parameter.metadata
-                and parameter.metadata["label"] == "Abolish income-based ESA"
-            ):
-                print(e)
             pass
     return parameter_metadata
 
@@ -181,6 +176,15 @@ CURRENCY_SYMBOLS = {
     "currency-GBP": "£",
     "USD": "$",
 }
+
+
+def apply_reform(reform: tuple, system: TaxBenefitSystem) -> TaxBenefitSystem:
+    if isinstance(reform, tuple):
+        for subreform in reform:
+            system = apply_reform(subreform, system)
+    else:
+        system = reform(system)
+    return system
 
 
 def get_formatter(parameter: dict) -> Callable:

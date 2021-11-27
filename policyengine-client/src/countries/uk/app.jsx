@@ -15,8 +15,8 @@ import ExtraBand from "./components/extra_band";
 
 import { validateSituation } from "./logic/situation";
 import { validatePolicy } from "./logic/policy";
-import { ORGANISATIONS, PARAMETER_HIERARCHY, PARAMETERS } from "./data/policy";
-import { DEFAULT_SITUATION } from "./data/situation";
+import { ORGANISATIONS, PARAMETER_HIERARCHY, EXTRA_PARAMETER_DATA } from "./data/policy";
+import { DEFAULT_SITUATION, EXTRA_VARIABLE_METADATA } from "./data/situation";
 import { Empty } from "antd";
 
 export class PolicyEngineUK extends React.Component {
@@ -31,7 +31,8 @@ export class PolicyEngineUK extends React.Component {
         this.state = {
             policy: {},
             policyValid: false,
-            situation: {},
+            situation: null,
+            computedSituation: null,
             situationValid: false,
             variables: {},
             entities: {},
@@ -52,23 +53,27 @@ export class PolicyEngineUK extends React.Component {
             fetch(this.props.api_url + "/entities").then(res => res.json()).then(entities => {
                 fetch(this.props.api_url + "/variables").then(res => res.json()).then(variables => {
                     // Once we've got all the data, check it and update the state
+                    let {policy, policyValid} = validatePolicy(urlToPolicy(policyData), policyData);
+                    for(let parameter of Object.keys(policy)) {
+                        if(Object.keys(EXTRA_PARAMETER_DATA).includes(parameter)) {
+                            policy[parameter] = Object.assign(policy[parameter], EXTRA_PARAMETER_DATA[parameter]);
+                        }
+                    }
+                    let {situation, situationValid} = validateSituation(JSON.parse(JSON.stringify(DEFAULT_SITUATION)));
+                    for(let variable of Object.keys(variables)) {
+                        if(Object.keys(EXTRA_VARIABLE_METADATA).includes(variable)) {
+                            variables[variable] = Object.assign(variables[variable], EXTRA_VARIABLE_METADATA[variable]);
+                        }
+                    }
                     this.setState({
-                        // Entities and variables don't need validation
-                        entities: entities,
-                        variables: variables,
-                    }, () => {
                         // The policy and situation might need adjusting with PolicyEngine-specific modifications
-                        let {policy, policyValid} = validatePolicy(urlToPolicy(policyData), policyData);
-                        let {situation, situationValid} = validateSituation(JSON.parse(JSON.stringify(DEFAULT_SITUATION)));
-                        this.setState({
-                            policy: JSON.parse(JSON.stringify(policy)),
-                            entities: entities,
-                            variables: variables,
-                            situation: situation,
-                            policyValid: policyValid,
-                            situation: situationValid,
-                            fetchDone: true,
-                        });
+                        policy: JSON.parse(JSON.stringify(policy)),
+                        entities: entities,
+                        variables: JSON.parse(JSON.stringify(variables)),
+                        situation: JSON.parse(JSON.stringify(situation)),
+                        policyValid: policyValid,
+                        situationValid: situationValid,
+                        fetchDone: true,
                     });
                 });
             });
@@ -79,14 +84,14 @@ export class PolicyEngineUK extends React.Component {
         // Update a parameter - validate, then update the state
         let oldPolicy = this.state.policy;
 		oldPolicy[name].value = value;
-		let { policy, valid } = validatePolicy(oldPolicy);
-		this.setState({policy: policy, policyValid: valid});
+		let { policy, policyValid } = validatePolicy(oldPolicy);
+		this.setState({policy: policy, policyValid: policyValid});
     }
 
-    updateSituation(situation) {
+    updateSituation(newSituation, newComputedSituation) {
         // Update the situation - validate, then update the state
-        let { household, valid } = validateSituation(situation);
-        this.setState({household: household, householdValid: valid});
+        let { situation, situationValid } = validateSituation(newSituation);
+        this.setState({situation: situation, situationValid: situationValid, computedSituation: newComputedSituation});
     }
 
     render() {
@@ -96,7 +101,7 @@ export class PolicyEngineUK extends React.Component {
         const setPage = page => {this.setState({page: page});};
         return (
             <PolicyEngineWrapper>
-                <Route path="/uk" exact>
+                <Route path="/uk">
                     <Redirect to="/uk/policy" />
                 </Route>
                 <Header country="uk" policy={this.state.policy} household={this.state.householdVisited}/>
@@ -109,6 +114,7 @@ export class PolicyEngineUK extends React.Component {
                             <Policy 
                                 api_url={this.props.api_url}
                                 policy={this.state.policy}
+                                policyValid={this.state.policyValid}
                                 hierarchy={PARAMETER_HIERARCHY}
                                 organisations={ORGANISATIONS}
                                 selected={"/Tax/Income Tax/Labour income"}
@@ -149,24 +155,29 @@ export class PolicyEngineUK extends React.Component {
                                 api_url={this.props.api_url}
                                 policy={this.state.policy}
                                 variables={this.state.variables}
-								household={this.state.household}
+                                policyValid={this.state.policyValid}
+                                situationValid={this.state.situationValid}
+								situation={this.state.situation}
                                 entities={this.state.entities}
                                 updateSituation={this.updateSituation}
 								setPage={setPage}
                                 baseURL="/uk"
                                 fetchDone={this.state.fetchDone}
+                                defaultSelectedName="You"
+                                defaultSelectedType="person"
                             />
                         </Route>
                         <Route path="/uk/household-impact">
                             <HouseholdImpact
                                 api_url={this.props.api_url}
                                 policy={this.state.policy}
-                                household={this.state.household}
+                                variables={this.state.variables}
+                                situation={this.state.situation}
+                                computedSituation={this.state.computedSituation}
                                 baseURL="/uk"
                                 setHouseholdVisited={() => this.setState({householdVisited: true})}
-                                householdValid={this.state.householdValid}
+                                situationValid={this.state.situationValid}
                                 fetchDone={this.state.fetchDone}
-                                currency="£"
                                 setPage={setPage}
                             />
                         </Route>

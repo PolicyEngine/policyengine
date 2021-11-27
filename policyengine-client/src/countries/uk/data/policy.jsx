@@ -11,6 +11,12 @@ export const PARAMETERS = [
     "basic_rate",
 ];
 
+export const EXTRA_PARAMETER_DATA = {
+	"adult_UBI": {
+		"max": 1000,
+	}
+}
+
 export const PARAMETER_HIERARCHY = {
 	"Tax": {
 		"Income Tax": {

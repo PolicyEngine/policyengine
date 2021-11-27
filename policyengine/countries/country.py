@@ -32,6 +32,7 @@ from policyengine.impact.population.charts import (
 )
 from policyengine.utils.reforms import (
     add_parameter_file,
+    apply_reform,
     create_reform,
     get_PE_parameters,
     use_current_parameters,
@@ -133,12 +134,7 @@ class PolicyEngineCountry:
 
     @exclude_from_cache
     def household_reform(self, params=None):
-        situation = create_situation(
-            params["household"],
-            ["household"],
-            self.entities["hierarchy"],
-            self.entities["entities"],
-        )
+        situation = create_situation(params["household"])
         reform = create_reform(params, self.policyengine_parameters)
         baseline_config = self.default_reform
         reform_config = self.default_reform, reform
@@ -216,7 +212,7 @@ class PolicyEngineCountry:
 
     @exclude_from_cache
     def calculate(self, params=None):
-        system = self.system()
+        system = apply_reform(self.default_reform, self.system())
         simulation = SimulationBuilder().build_from_entities(system, params)
 
         requested_computations = dpath.util.search(

@@ -1,160 +1,146 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { Overview } from "../overview";
-import { Button, Divider, Menu } from "antd";
+import { Menu, Collapse } from "antd";
 import { Parameter } from "../parameter";
+import { VARIABLE_CATEGORIES } from "../../countries/uk/data/situation";
 
-const { SubMenu } = Menu;
-
-function capitalizeFirstLetter(string) {
-	return string.charAt(0).toUpperCase() + string.slice(1);
-}
+const { Panel } = Collapse;
 
 function hasItems(object) {
-	return Object.keys(object).length > 0;
+	return object && (Object.keys(object).length > 0);
 }
 
-function EntityMenu(props) {
-	const key = props.parents.concat([props.entityType, props.name]).join(",");
-	if(props.entities.hierarchy[props.entityType].is_group) {
-		let children = [];
-		let buttons = [];
-		for(let childType of props.entities.hierarchy[props.entityType].children) {
-			const newParents = props.parents.concat([props.entityType, props.name])
-			const childMeta = props.entities.hierarchy[childType];
-			for(let childName in props.entity[childType]) {
-				children.push(EntityMenu({
-					addEntity: props.addEntity,
-					removeEntity: props.removeEntity,
-					entities: props.entities, 
-					entity: props.entity[childType][childName],
-					entityType: childType,
-					name: childName,
-					parents: newParents,
-					selectEntity: props.selectEntity,
-				}));
-			}
-			if(Object.keys(props.entity[childType]).length < childMeta.max) {
-				buttons.push(
-					<Menu.Item disabled={true} key={props.name + childType}><Button onClick={() => props.addEntity(childType, newParents)}>Add {childMeta.label}</Button></Menu.Item>
-				);
-			}
-		}
-		return (
-			<SubMenu key={props.name + "_"} title={props.entity.label || props.name}>
-				<Menu.Item onClick={() => props.selectEntity(key)} key={key}>{capitalizeFirstLetter(props.entities.hierarchy[props.entityType].label)}</Menu.Item>
-				{children}
-				{buttons}
-			</SubMenu>
-		);
-	} else {
-		return <Menu.Item onClick={() => props.selectEntity(key)} key={key}>{props.entity.label || props.name}<Button hidden={props.entity.label === "You"} onClick={() => props.removeEntity(props.name, props.parents.concat([props.entityType]))} style={{float: "right", marginTop: 5}}>Remove</Button></Menu.Item>;
-	}
-}
 function HouseholdMenu(props) {
 	return (
 		<Menu>
 			<h6 style={{marginTop: 20}}>People</h6>
 			{
-				props.household.people.map()
+				Object.keys(props.situation.people).map(name => (
+					<Menu.Item key={name} onClick={() => props.select(name, "person")}>{name}</Menu.Item>
+				))
 			}
 			<h6 style={{marginTop: 20}}>Groups</h6>
-			<Menu.Item key="household">Your household</Menu.Item>
+			{
+				Object.keys(props.situation.benunits).map(name => (
+					<Menu.Item key={name} onClick={() => props.select(name, "benunit")}>{name}</Menu.Item>
+				))
+			}
+			{
+				Object.keys(props.situation.households).map(name => (
+					<Menu.Item key={name} onClick={() => props.select(name, "household")}>{name}</Menu.Item>
+				))
+			}
 		</Menu>
 	);
 }
 
 function HouseholdVariables(props) {
-	let household = props.household;
-	let node = household;
-	try {
-		for(let parent of props.selected.split(",")) {
-			node = node[parent];
+	const variables = props.situation[props.entities[props.selected.type].plural][props.selected.name];
+	let panels = [];
+	for(let category of Object.keys(props.categories)) {
+		const panelVariables = Object.keys(variables).filter(variable => props.categories[category].includes(variable)).map(variable => (
+			<Parameter 
+				key={variable} 
+				updatePolicy={props.updateValue}
+				param={{
+					name: props.variables[variable].name,
+					label: props.variables[variable].label,
+					defaultValue: props.variables[variable].defaultValue || props.computedSituation[props.entities[props.selected.type].plural][props.selected.name][variable]["2021"],
+					unit: props.variables[variable].unit,
+					period: props.variables[variable].definitionPeriod,
+					value: variables[variable]["2021"] || props.computedSituation[props.entities[props.selected.type].plural][props.selected.name][variable]["2021"],
+					min: props.variables[variable].min,
+					max: props.variables[variable].max,
+					value_type: props.variables[variable].value_type,
+					description: props.variables[variable].documentation,
+				}}
+				isComputed={!variables[variable]["2021"]}
+				loading={props.loading}
+				error={props.error}
+			/>
+		));
+		if(panelVariables.length > 0) {
+			panels.push(
+				<Panel style={{marginBottom: 10, padding: 10}} header={category} key={category}>
+				{panelVariables}
+				</Panel>
+			);
 		}
-	} catch {
-		return <></>;
 	}
-	if(!node || !node.variables) {
-		return <></>;
-	}
-	return Object.values(node.variables).map(variable => <Parameter name={variable.short_name} key={variable.short_name} setPolicy={props.setValue} currency={props.currency} param={variable}/>)
+	return <Collapse style={{margin: 10}} bordered={false} defaultActiveKey={Object.keys(props.categories)}>{panels}</Collapse>
 }
 
 export class HouseholdPage extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {selected: this.props.selected, household: props.household, invalid: false};
-		this.addEntity = this.addEntity.bind(this);
-		this.removeEntity = this.removeEntity.bind(this);
-		this.setValue = this.setValue.bind(this);
-		this.selectEntity = this.selectEntity.bind(this);
+		this.state = {selected: {name: props.defaultSelectedName, type: props.defaultSelectedType}, error: false, situation: props.situation, computedSituation: props.situation, situationValid: true, autoComputeIntervalID: null, situationHasChanged: true};
+		this.updateSituation = this.updateSituation.bind(this);
+		this.autoComputeSituation = this.autoComputeSituation.bind(this);
+	}
+	
+	componentDidMount() {
+		this.setState({autoComputeIntervalID: setInterval(this.autoComputeSituation, 1000)});
+	}
+	 
+	componentWillUnmount() {
+		clearInterval(this.state.autoComputeIntervalID);
 	}
 
-	addEntity(type, parents) {
-		let household = this.props.household;
-		let node = household;
-		for(let parent of parents) {
-			node = node[parent];
-		}
-		const meta = this.props.entities.hierarchy[type];
-		const name = this.props.household.num_entities;
-		node[type][name] = {};
-		if(meta.is_group) {
-			for(let childType of meta.children) {
-				if(childType === meta.initialiser) {
-					node[type][name][childType] = {};
-					node[type][name][childType][name + 1] = {};
-					household.num_entities++;
-				} else {
-					node[type][name][childType] = {};
-				}
-			}
-		}
-		household.num_entities++;
-		this.props.setHouseholdStructure(household);
+	updateSituation(name, type, variable, value) {
+		let situation = this.state.situation;
+		situation[this.props.entities[type].plural][name][variable]["2021"] = value;
+		this.setState({situation: situation, situationValid: true, situationHasChanged: true});
 	}
 
-	removeEntity(name, parents) {
-		let household = this.props.household;
-		let node = household;
-		for(let parent of parents) {
-			node = node[parent];
+	autoComputeSituation() {
+		if(this.state.situationHasChanged) {
+			fetch(this.props.api_url + "/calculate", {
+				method: "POST",
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(this.state.situation),
+			}).then(response => response.json()).then(situation => {
+				this.setState({computedSituation: situation, situationValid: true, situationHasChanged: false});
+				this.props.updateSituation(this.state.situation, this.state.computedSituation);
+			}).catch((e) => this.setState({situationHasChanged: false, error: true}));
 		}
-		delete node[name];
-		this.setState({selected: "household,0,benunit,1,adult,2"}, () => this.props.setHouseholdStructure(household));
-	}
-
-	setValue(variable, value) {
-		let household = this.props.household;
-		let node = household;
-		for(let parent of this.state.selected.split(",")) {
-			node = node[parent];
-		}
-		node.variables[variable].value = value;
-		this.props.setHouseholdValues(household);
-	}
-
-	selectEntity(path) {
-		let household = this.props.household;
-		let node = household;
-		try {
-			for(let parent of path.split(",")) {
-				node = node[parent];
-			}
-		} catch {
-			return;
-		}
-		this.setState({selected: path});
 	}
 
 	render() {
-		if(!hasItems(this.props.entities) || !hasItems(this.props.household) || !hasItems(this.props.variables)) {
+		if(!hasItems(this.props.entities) || !hasItems(this.props.situation) || !hasItems(this.props.variables)) {
 			return <Row></Row>;
 		}
 		return (
 			<Row>
 				<Col xl={3}>
-					<HouseholdMenu selected={this.state.selected} household={this.props.household} entities={this.props.entities} />
+					<HouseholdMenu selected={this.state.selected} situation={this.props.situation} entities={this.props.entities} select={(name, type) => {this.setState({selected: {name: name, type: type}});}}/>
+				</Col>
+				<Col xl={6}>
+					<HouseholdVariables 
+						selected={this.state.selected} 
+						situation={this.props.situation} 
+						computedSituation={this.state.computedSituation}
+						updateValue={(variable, value) => this.updateSituation(this.state.selected.name, this.state.selected.type, variable, value)}
+						entities={this.props.entities}
+						variables={this.props.variables}
+						loading={this.state.situationHasChanged}
+						error={this.state.error}
+						categories={VARIABLE_CATEGORIES}
+					/>
+				</Col>
+				<Col xl={3}>
+					<Overview 
+						page="household" 
+						policy={this.props.policy}
+						setPage={this.props.setPage} 
+						invalid={!this.props.policyValid} 
+						baseURL={this.props.baseURL}
+						situation={this.state.computedSituation}
+						variables={this.props.variables}
+					/>
 				</Col>
 			</Row>
 		);
@@ -166,16 +152,16 @@ export default function Household(props) {
 		return <HouseholdPage 
 			api_url={props.api_url}
 			policy={props.policy}
-			defaultOpenKeys={props.defaultOpenKeys}
 			variables={props.variables}
-			currency={props.currency}
-			household={props.household}
+			situation={props.situation}
+			situationValid={props.situationValid}
+			policyValid={props.policyValid}
 			entities={props.entities}
-			selected={props.selected}
-			setHouseholdValues={props.setHouseholdValues}
-			setHouseholdStructure={props.setHouseholdStructure}
+			updateSituation={props.updateSituation}
 			setPage={props.setPage}
 			baseURL={props.baseURL}
+			defaultSelectedName={props.defaultSelectedName}
+			defaultSelectedType={props.defaultSelectedType}
 		/>;
 	} else {
 		return <></>;

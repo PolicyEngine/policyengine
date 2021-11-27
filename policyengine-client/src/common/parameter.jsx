@@ -1,15 +1,20 @@
-import { Fragment, default as React } from "react";
-import { CloseCircleFilled } from "@ant-design/icons";
+import { Fragment, default as React, useState } from "react";
+import { CloseCircleFilled, LoadingOutlined, EditOutlined } from "@ant-design/icons";
 import {
-	InputNumber, Divider, Switch, Slider, Select, Alert, Input
+	Divider, Switch, Slider, Select, Alert, Input, Tag, Spin
 } from "antd";
 
 import "../common/policyengine.less";
 
 const { Option } = Select;
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin/>;
 
+export function Spinner() {
+	return <Spin indicator={antIcon}/>;
+}
 
 export function getTranslators(parameter) {
+	const period = parameter.period || parameter.definitionPeriod;
 	const CURRENCY_SYMBOLS = {
 		"currency-GBP": "£",
 		"currency-USD": "$",
@@ -23,14 +28,19 @@ export function getTranslators(parameter) {
 			defaultInputStep: 0.001,
 			defaultSliderStep: 0.01,
 		}
+	} else if (parameter.unit === "year") {
+		return {
+			formatter: value => value + " year" + (value !== 1 ? "s" : ""),
+			parser: text => +text.replace(" year", "").replace(" years", ""),
+		}
 	}
 	for(let currency in CURRENCY_SYMBOLS) {
 		if(parameter.unit === currency) {
 			return {
-				formatter: value => `${CURRENCY_SYMBOLS[currency]}${Number(value).toLocaleString()}/${parameter.period}`,
-				parser: text => +text.replace(CURRENCY_SYMBOLS[currency], "").replace(`/${parameter.period}`, ""),
+				formatter: value => `${CURRENCY_SYMBOLS[currency]}${Number(value).toLocaleString()}/${period}`,
+				parser: text => +text.replace(CURRENCY_SYMBOLS[currency], "").replace(`/${period}`, ""),
 				defaultMin: 0,
-				defaultMax: Math.pow(10, Math.ceil(Math.log10(parameter.defaultValue))),
+				defaultMax: Math.max(Math.pow(10, Math.ceil(Math.log10(parameter.defaultValue))), 100000),
 				defaultInputStep: 1,
 				defaultSliderStep: 1,
 			}
@@ -44,29 +54,35 @@ export function getTranslators(parameter) {
 
 export function Parameter(props) {
 	try {
-		const { formatter, parser, defaultMin, defaultMax, defaultInputStep, defaultSliderStep } = getTranslators(props.param);
+		let [focused, setFocused] = useState();
+		let { formatter, defaultMin, defaultMax, defaultSliderStep } = getTranslators(props.param);
+		if(focused) {
+			formatter = x => x;
+		}
 		const onChange = value => props.updatePolicy(props.param.name, value);
 		let component;
 		if(props.param.value_type === "bool") {
-			component = (
-				<Switch
-					onChange={onChange}
-					checked={props.param.value}
-					disabled={props.disabled}
-				/>
-			);
-		} else if(props.param.value_type === "abolish") {
-			component = (
-				<Switch
-					onChange={onChange}
-					checked={props.param.value}
-					className="switch-red"
-					disabled={props.disabled}
-				/>
-			);
+			if(props.param.unit === "abolition") {
+				component = (
+					<Switch
+						onChange={onChange}
+						checked={props.param.value}
+						className="switch-red"
+						disabled={props.disabled}
+					/>
+				)
+				} else {
+				component = (
+					<Switch
+						onChange={onChange}
+						checked={props.param.value}
+						disabled={props.disabled}
+					/>
+				);
+			}
 		} else if(props.param.value_type === "Enum") {
 			component = (
-				<Select placeholder={props.param.default} disabled={props.disabled} onSelect={onChange}>
+				<Select placeholder={props.param.defaultValue} disabled={props.disabled} onSelect={onChange}>
 					{props.param.options.map(value => <Option key={value} value={value}>{value}</Option>)}
 				</Select>
 			);
@@ -98,21 +114,24 @@ export function Parameter(props) {
 						tooltipVisible={false}
 						disabled={props.disabled}
 					/>
-					<InputNumber
-						value={props.param.value}
-						formatter={formatter}
-						parser={parser}
-						onChange={onChange}
-						style={{ width: 175 }}
-						disabled={props.disabled}
-						step={defaultInputStep}
-					/>
+					{
+						focused ?
+							<Input.Search enterButton="Enter" style={{maxWidth: 300}} placeholder={props.param.value} onSearch={value => {setFocused(false); onChange(value);}} /> :
+							<div>{(!props.param.value && props.loading) ? <Spin indicator={antIcon} /> : formatter(props.param.value)} <EditOutlined style={{marginLeft: 5}} onClick={() => setFocused(true)} /></div>
+					}
 				</>
 			);
 		}
+		const tag = props.isComputed ?
+			props.loading ?
+				<Tag style={{marginLeft: 10}} color="blue">COMPUTING</Tag> :
+				props.error ?
+					<Tag style={{marginLeft: 10}} color="red">ERROR</Tag> :
+					<Tag style={{marginLeft: 10}} color="green">COMPUTED</Tag> :
+			""
 		return (
 			<>
-				<h6 style={{marginTop: 20}}>{props.param.label}</h6>
+				<h6 style={{marginTop: 20}}>{props.param.label}{tag}</h6>
 				{props.param.error ? <Alert type="error" message={props.param.error} style={{marginBottom: 10}} showIcon icon={<CloseCircleFilled style={{marginTop: 5}} color="red" />}/> : null}
 				<p>{props.param.description}</p>
 				{component}

@@ -4,7 +4,7 @@ import { LinkOutlined, TwitterOutlined, ArrowLeftOutlined } from "@ant-design/ic
 import { TwitterShareButton } from "react-share";
 import { Fragment, default as React } from "react";
 import { policyToURL } from "./url";
-import { getTranslators } from "./parameter";
+import { getTranslators, Spinner } from "./parameter";
 
 const { Step } = Steps;
 
@@ -32,20 +32,41 @@ function generateStepFromParameter(parameter) {
 			description={description}
 		/>
 	}
-	return <></>;
 }
 
 export function Overview(props) {
 	let plan = Object.values(props.policy).map(generateStepFromParameter);
 	let isEmpty = plan.every(element => element === null);
+	const householdDetails = (props.page === "household" || props.page === "household-impact");
+	let numPeople = 0;
+	let household_net_income = 0;
+	let household_market_income = 0;
+	if(householdDetails) {
+		let household = props.situation.households["Your household"];
+		numPeople = household["household_num_people"]["2021"];
+		household_market_income = getTranslators(props.variables["household_market_income"]).formatter(household["household_market_income"]["2021"]);
+		household_net_income = getTranslators(props.variables["household_net_income"]).formatter(household["household_net_income"]["2021"]);
+	}
 	return (
 		<>
-			<Divider>Your plan</Divider>
+			<Divider>Your policy</Divider>
 			{!isEmpty ?
 				<Steps progressDot direction="vertical">
 					{plan}
 				</Steps> :
 				<Empty description="No plan provided" />
+			}
+			{
+				householdDetails && (
+					<>
+						<Divider>Your household</Divider>
+						<Steps progressDot direction="vertical">
+							<Step status="finish" title={<>{(numPeople || <Spinner />)}{(numPeople === 1 ? " person" : " people")}</>} />
+							<Step status="finish" title={<>{household_market_income === null ? <Spinner /> : household_market_income}{" market income"}</>} />
+							<Step status="finish" title={<>{household_net_income === null ? <Spinner /> : household_net_income}{" net income"}</>} />
+						</Steps>
+					</>
+				)
 			}
 			<Empty description="" image={null}>
 				<SimulateButton 
@@ -84,7 +105,7 @@ export function Overview(props) {
 				<SimulateButton 
 					primary={props.page === "household"} 
 					hidden={props.page === "household-impact"}
-					disabled={props.invalid || !props.household} 
+					disabled={props.invalid || !props.situation} 
 					text="See your household impact" 
 					target={props.baseURL + "/household-impact"}
 					policy={props.policy} 
