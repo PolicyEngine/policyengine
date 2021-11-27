@@ -12,9 +12,6 @@ export const PARAMETERS = [
 ];
 
 export const EXTRA_PARAMETER_DATA = {
-	"adult_UBI": {
-		"max": 1000,
-	}
 }
 
 export const PARAMETER_HIERARCHY = {
@@ -46,9 +43,6 @@ export const PARAMETER_HIERARCHY = {
 			],
 			"Structural": [
 				"abolish_income_tax"
-			],
-			"Property taxes": [
-				"abolish_CT"
 			]
 		},
 		"National Insurance": {
@@ -67,7 +61,10 @@ export const PARAMETER_HIERARCHY = {
 			"Structural": [
 				"abolish_NI"
 			]
-		}
+		},
+		"Property taxes": [
+			"abolish_CT"
+		]
 	},
 	"Benefit": {
 		"Child Benefit": [

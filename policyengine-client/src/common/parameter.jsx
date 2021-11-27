@@ -47,8 +47,8 @@ export function getTranslators(parameter) {
 		}
 	}
 	return {
-		formatter: value => value,
-		parser: value => value,
+		formatter: value => +value,
+		parser: value => +value,
 	}
 }
 

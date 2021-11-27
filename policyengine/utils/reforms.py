@@ -160,8 +160,10 @@ def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
                 unit=parameter.metadata["unit"],
                 period=None,
                 variable=None,
+                max=None,
+                min=None,
             )
-            OPTIONAL_ATTRIBUTES = ("period", "value_type", "variable")
+            OPTIONAL_ATTRIBUTES = ("period", "value_type", "variable", "max", "min")
             for attribute in OPTIONAL_ATTRIBUTES:
                 if attribute in parameter.metadata:
                     parameter_metadata[name][attribute] = parameter.metadata[

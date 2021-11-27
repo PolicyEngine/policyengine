@@ -120,21 +120,17 @@ export class PolicyEngineUK extends React.Component {
                                 selected={"/Tax/Income Tax/Labour income"}
                                 open={["/Tax", "/Tax/Income Tax", "/Benefit", "/UBI Center"]}
                                 updatePolicy={this.updatePolicy}
-                                overrides={null/*{
+                                overrides={{
                                     autoUBI: <AutoUBI api_url={this.props.api_url}/>,
                                     extra_UK_band: <ExtraBand 
                                         rate_parameter="extra_UK_rate" 
-                                        threshold_parameter="extra_UK_threshold" 
-                                        policy={this.state.policy} 
-                                        setPolicy={this.setPolicy} 
+                                        threshold_parameter="extra_UK_threshold"
                                     />,
                                     extra_scot_band: <ExtraBand 
                                         rate_parameter="extra_scot_rate" 
-                                        threshold_parameter="extra_scot_threshold" 
-                                        policy={this.state.policy} 
-                                        setPolicy={this.setPolicy}
+                                        threshold_parameter="extra_scot_threshold"
                                     />,
-                                }*/}
+                                }}
                                 setPage={setPage}
                                 invalid={!this.state.policyValid}
                                 baseURL="/uk"
