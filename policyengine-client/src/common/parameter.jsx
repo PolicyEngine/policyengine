@@ -19,79 +19,88 @@ export function getTranslators(parameter) {
 		"currency-GBP": "£",
 		"currency-USD": "$",
 	}
+	let result;
+	let minMax = 1;
 	if (parameter.unit === "/1") {
-		return {
+		result = {
 			formatter: value => `${Math.round(value * 1000) / 10}%`,
-			parser: text => Math.round(+text.replace("%", "") * 10) / 1000,
-			defaultMin: 0,
-			defaultMax: 1,
-			defaultInputStep: 0.001,
-			defaultSliderStep: 0.01,
 		}
 	} else if (parameter.unit === "year") {
-		return {
+		result = {
 			formatter: value => value + " year" + (value !== 1 ? "s" : ""),
-			parser: text => +text.replace(" year", "").replace(" years", ""),
 		}
-	} else if (parameter.value_type === "bool") {
-		return {
+		minMax = 100;
+	} else if (parameter.unit === "tonne C02") {
+		result = {
+			formatter: value => `${value} tonnes C02`,
+		}
+		minMax = 100;
+	} else if (parameter.valueType === "bool") {
+		result = {
 			formatter: value => value ? "true" : "false",
-			parser: text => text === "true" ? 1 : 0,
 		}
-	}
-	for(let currency in CURRENCY_SYMBOLS) {
-		if(parameter.unit === currency) {
-			return {
-				formatter: value => `${CURRENCY_SYMBOLS[currency]}${Number(value).toLocaleString()}/${period}`,
-				parser: text => +text.replace(CURRENCY_SYMBOLS[currency], "").replace(`/${period}`, ""),
-				defaultMin: 0,
-				defaultMax: Math.max(Math.pow(10, Math.ceil(Math.log10(Math.max(parameter.defaultValue, parameter.value)))), parameter.period == "year" ? 100_000 : 1_000),
-				defaultInputStep: 1,
-				defaultSliderStep: 1,
+	}  else if (parameter.unit === "hour") {
+		result = {
+			formatter: value => `${value} hour${value !== 1 ? "s" : ""}`,
+		}
+		minMax = 80;
+	} else if (Object.keys(CURRENCY_SYMBOLS).includes(parameter.unit)) {
+		for(let currency in CURRENCY_SYMBOLS) {
+			if(parameter.unit === currency) {
+				result = {
+					formatter: value => `${CURRENCY_SYMBOLS[currency]}${Math.round(Number(value)).toLocaleString()}${period ? ("/" + period) : ""}`,
+				}
+				minMax = {year: 100_000, month: 1000, week: 100, null: 100}[period];
 			}
+		}
+	} else {
+		result = {
+			formatter: value => +value,
+			parser: value => +value,
 		}
 	}
 	return {
-		formatter: value => +value,
-		parser: value => +value,
+		formatter: result.formatter,
+		min: 0,
+		max: Math.max(parameter.max || minMax, Math.pow(10, Math.ceil(Math.log10(Math.max(parameter.defaultValue, parameter.value))))),
 	}
 }
 
 export function Parameter(props) {
 	try {
 		let [focused, setFocused] = useState();
-		let { formatter, defaultMin, defaultMax, defaultSliderStep } = getTranslators(props.param);
+		let { formatter, min, max } = getTranslators(props.param);
 		if(focused) {
 			formatter = x => x;
 		}
 		const onChange = value => props.updatePolicy(props.param.name, value);
 		let component;
-		if(props.param.value_type === "bool") {
+		if(props.param.valueType === "bool") {
 			if(props.param.unit === "abolition") {
 				component = (
 					<Switch
-						onChange={onChange}
+						onChange={value => onChange(+value)}
 						checked={props.param.value}
 						className="switch-red"
 						disabled={props.disabled}
 					/>
 				)
-				} else {
+			} else {
 				component = (
 					<Switch
-						onChange={onChange}
+						onChange={value => onChange(+value)}
 						checked={props.param.value}
 						disabled={props.disabled}
 					/>
 				);
 			}
-		} else if(props.param.value_type === "Enum") {
+		} else if(props.param.valueType === "Enum") {
 			component = (
-				<Select placeholder={props.param.defaultValue} disabled={props.disabled} onSelect={onChange}>
-					{props.param.options.map(value => <Option key={value} value={value}>{value}</Option>)}
+				<Select style={{minWidth: 200}} showSearch placeholder={props.param.defaultValue.value} disabled={props.disabled} onSelect={onChange}>
+					{props.param.possibleValues.map(value => <Option key={value.key} value={value.key}>{value.value}</Option>)}
 				</Select>
 			);
-		} else if(props.param.value_type === "str") {
+		} else if(props.param.valueType === "str") {
 			component = (
 				<Input
 					onPressEnter={(e) => {onChange(e.target.value)}}
@@ -100,8 +109,6 @@ export function Parameter(props) {
 				/>
 			);
 		} else {
-			const min = props.param.min || defaultMin;
-			const max = props.param.max || defaultMax;
 			let marks = {[max]: formatter(max)};
 			if(min) {
 				marks[min] = formatter(min);
@@ -115,7 +122,7 @@ export function Parameter(props) {
 						max={max}
 						marks={marks}
 						onChange={onChange}
-						step={defaultSliderStep}
+						step={props.param.unit === "/1" ? 0.01 : 1}
 						tooltipVisible={false}
 						disabled={props.disabled}
 					/>
@@ -143,8 +150,8 @@ export function Parameter(props) {
 				<div style={{paddingBottom: 20}} />
 			</>
 		);
-		} catch {
-			return <></>;
+		} catch(e) {
+			return <>{e.toString() + JSON.stringify(props.param)}</>;
 		}
 }
 

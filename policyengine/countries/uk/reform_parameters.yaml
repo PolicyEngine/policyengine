@@ -19,7 +19,7 @@ reforms:
       metadata:
         label: Carbon Tax
         name: carbon_tax
-        max: 250
+        max: 200
         unit: currency-GBP
         tests:
           - decreases_net_income: true

@@ -17,7 +17,6 @@ import { situationButtons, validateSituation } from "./logic/situation";
 import { validatePolicy } from "./logic/policy";
 import { ORGANISATIONS, PARAMETER_HIERARCHY, EXTRA_PARAMETER_DATA } from "./data/policy";
 import { DEFAULT_SITUATION, EXTRA_VARIABLE_METADATA } from "./data/situation";
-import { Empty } from "antd";
 
 export class PolicyEngineUK extends React.Component {
     constructor(props) {
@@ -101,9 +100,9 @@ export class PolicyEngineUK extends React.Component {
         const setPage = page => {this.setState({page: page});};
         return (
             <PolicyEngineWrapper>
-                {/*<Route path="/uk">
+                <Route path="/uk">
                     <Redirect to="/uk/policy" />
-        </Route>*/}
+                </Route>
                 <Header country="uk" policy={this.state.policy} household={this.state.householdVisited}/>
                 <BodyWrapper>
                     <Switch>

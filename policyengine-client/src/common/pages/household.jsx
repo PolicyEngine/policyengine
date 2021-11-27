@@ -23,7 +23,7 @@ function HouseholdMenu(props) {
 			<SubTitle>People</SubTitle>
 			{
 				personEntities.map(entity => (
-					<>
+					<div key={entity.label}>
 					{
 						
 						Object.keys(props.situation[entity.plural]).map(name => (
@@ -33,24 +33,24 @@ function HouseholdMenu(props) {
 							</Menu.Item>
 						))
 					}
-					</>
+					</div>
 				))
 			}
 			{
 				Object.values(props.situationStructureButtons).filter(metadata => metadata.available(props.situation)).map(metadata => (
-					<><Button style={{marginBottom: 10}} key={metadata.text} onClick={() => props.updateSituation(metadata.apply(props.situation))}>{metadata.text}</Button><br /></>
+					<div key={metadata.text}><Button style={{marginBottom: 10}} key={metadata.text} onClick={() => props.updateSituation(metadata.apply(props.situation))}>{metadata.text}</Button><br /></div>
 				))
 			}
 			<SubTitle>Groups</SubTitle>
 			{
 				groupEntities.map(entity => (
-					<>
+					<div key={entity.label}>
 					{
 						Object.keys(props.situation[entity.plural]).map(name => (
 							<Menu.Item key={name} onClick={() => props.select(name, entity.key)}>{name}</Menu.Item>
 						))
 					}
-					</>
+					</div>
 				))
 			}
 		</Menu>
@@ -58,49 +58,66 @@ function HouseholdMenu(props) {
 }
 
 function HouseholdVariables(props) {
-	const variables = props.situation[props.entities[props.selected.type].plural][props.selected.name];
-	let panels = [];
-	let computed;
-	for(let category of Object.keys(props.categories)) {
-		const panelVariables = Object.keys(variables).filter(variable => props.categories[category].includes(variable)).map(variable => {
-			computed = props.computedSituation[props.entities[props.selected.type].plural][props.selected.name];
-			let value;
-			if(computed === undefined) {
-				value = props.variables[variable].defaultValue;
-			} else if(variables[variable]["2021"] !== null) {
-				value = variables[variable]["2021"];
-			} else {
-				value = computed[variable]["2021"];
+	try {
+		const variables = props.situation[props.entities[props.selected.type].plural][props.selected.name];
+		let panels = [];
+		let computed;
+		for(let category of Object.keys(props.categories)) {
+			const panelVariables = Object.keys(variables).filter(variable => props.categories[category].includes(variable)).map(variable => {
+				computed = props.computedSituation[props.entities[props.selected.type].plural][props.selected.name];
+				let value;
+				if(computed === undefined) {
+					value = props.variables[variable].defaultValue;
+				} else if(variables[variable]["2021"] !== null) {
+					value = variables[variable]["2021"];
+				} else {
+					value = computed[variable]["2021"];
+				}
+				if(props.variables[variable].valueType == "Enum") {
+					const match = props.variables[variable].possibleValues.filter(possibleValue => possibleValue.key == value)[0];
+					value = {
+						key: value,
+						value: match && match.value,
+					}
+				}
+				try {
+					return <Parameter 
+						key={variable} 
+						updatePolicy={props.updateValue}
+						param={{
+							name: props.variables[variable].name,
+							label: props.variables[variable].label,
+							unit: props.variables[variable].unit,
+							period: props.variables[variable].definitionPeriod,
+							defaultValue: value,
+							value: value,
+							min: props.variables[variable].min,
+							max: props.variables[variable].max,
+							valueType: props.variables[variable].valueType,
+							description: props.variables[variable].documentation,
+							possibleValues: props.variables[variable].possibleValues,
+						}}
+						isComputed={!variables[variable]["2021"]}
+						loading={props.loading}
+						error={props.error}
+					/>
+				} catch {
+					return <p>Couldn't load {variable}</p>
+				}
+			});
+			if(panelVariables.length > 0) {
+				panels.push(
+					<Panel style={{marginBottom: 10, padding: 10}} header={category} key={category}>
+					{panelVariables}
+					</Panel>
+				);
 			}
-			return <Parameter 
-				key={variable} 
-				updatePolicy={props.updateValue}
-				param={{
-					name: props.variables[variable].name,
-					label: props.variables[variable].label,
-					unit: props.variables[variable].unit,
-					period: props.variables[variable].definitionPeriod,
-					defaultValue: value,
-					value: value,
-					min: props.variables[variable].min,
-					max: props.variables[variable].max,
-					value_type: props.variables[variable].value_type,
-					description: props.variables[variable].documentation,
-				}}
-				isComputed={!variables[variable]["2021"]}
-				loading={props.loading}
-				error={props.error}
-			/>
-		});
-		if(panelVariables.length > 0) {
-			panels.push(
-				<Panel style={{marginBottom: 10, padding: 10}} header={category} key={category}>
-				{panelVariables}
-				</Panel>
-			);
 		}
+		return <Collapse style={{margin: 10}} bordered={false} defaultActiveKey={Object.keys(props.categories)}>{panels}</Collapse>
+	} catch {
+		props.select("You", "person");
+		return <></>;
 	}
-	return <Collapse style={{margin: 10}} bordered={false} defaultActiveKey={Object.keys(props.categories)}>{panels}</Collapse>
 }
 
 export class HouseholdPage extends React.Component {
@@ -161,6 +178,7 @@ export class HouseholdPage extends React.Component {
 				<Col xl={6}>
 					<HouseholdVariables
 						selected={this.state.selected} 
+						select={(name, type) => {this.setState({selected: {name: name, type: type}});}}
 						situation={this.props.situation} 
 						computedSituation={this.state.computedSituation}
 						updateValue={(variable, value) => this.updateSituation(this.state.selected.name, this.state.selected.type, variable, value)}

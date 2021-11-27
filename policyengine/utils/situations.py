@@ -27,18 +27,22 @@ def get_PE_variables(system: TaxBenefitSystem) -> Dict[str, dict]:
                 unit=variable.unit,
                 label=variable.label,
                 documentation=variable.documentation,
-                value_type=variable.value_type.__name__,
+                valueType=variable.value_type.__name__,
                 defaultValue=variable.default_value,
                 definitionPeriod=variable.definition_period,
                 entity=variable.entity.key,
+                possibleValues=None,
+                possibleKeys=None,
             )
-            if variable_metadata[variable.name]["value_type"] == "Enum":
-                variable_metadata[variable.name]["possible_values"] = list(
-                    map(lambda enum: enum.value, variable.possible_values)
+            if variable_metadata[variable.name]["valueType"] == "Enum":
+                variable_metadata[variable.name]["possibleValues"] = [
+                    dict(key=enum.name, value=enum.value)
+                    for enum in variable.possible_values
+                ]
+                variable_metadata[variable.name]["defaultValue"] = dict(
+                    key=variable.default_value.name,
+                    value=variable.default_value.value,
                 )
-                variable_metadata[variable.name][
-                    "defaultValue"
-                ] = variable.default_value.value
         except:
             pass
     return variable_metadata

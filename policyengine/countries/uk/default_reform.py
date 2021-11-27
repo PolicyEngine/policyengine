@@ -90,6 +90,8 @@ def create_default_reform() -> ReformType:
     class land_value(Variable):
         entity = Household
         label = "Land value"
+        documentation = "Total land value exposure (your property's land value, and any share of corporate land value)"
+        unit = "currency-GBP"
         definition_period = YEAR
         value_type = float
 
@@ -106,6 +108,8 @@ def create_default_reform() -> ReformType:
     class carbon_consumption(Variable):
         entity = Household
         label = "Carbon consumption"
+        documentation = "Total carbon footprint of the household"
+        unit = "tonne C02"
         definition_period = YEAR
         value_type = float
 

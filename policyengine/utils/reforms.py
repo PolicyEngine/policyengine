@@ -156,14 +156,14 @@ def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
                 description=parameter.description,
                 label=parameter.metadata["label"],
                 value=parameter(CURRENT_INSTANT),
-                value_type=parameter(CURRENT_INSTANT).__class__.__name__,
-                unit=parameter.metadata["unit"],
+                valueType=parameter(CURRENT_INSTANT).__class__.__name__,
+                unit=None,
                 period=None,
                 variable=None,
                 max=None,
                 min=None,
             )
-            OPTIONAL_ATTRIBUTES = ("period", "value_type", "variable", "max", "min")
+            OPTIONAL_ATTRIBUTES = ("period", "variable", "max", "min", "unit")
             for attribute in OPTIONAL_ATTRIBUTES:
                 if attribute in parameter.metadata:
                     parameter_metadata[name][attribute] = parameter.metadata[
@@ -202,10 +202,10 @@ def get_formatter(parameter: dict) -> Callable:
 
 def get_summary(parameter: dict, value: Any) -> str:
     formatter = get_formatter(parameter)
-    if parameter["value_type"] in ("float", "int"):
+    if parameter["valueType"] in ("float", "int"):
         change_label = "Increase" if value > parameter["value"] else "Decrease"
-        return f"{change_label} {parameter['label']} from {formatter(value)} to {formatter(parameter['value'])}"
-    if parameter["value_type"] == "bool":
+        return f"{change_label} {parameter['label']} from {formatter(parameter['value'])} to {formatter(value)}"
+    if parameter["valueType"] == "bool":
         if parameter["unit"] == "abolition":
             return f"Abolish {parameter['variable']}"
     return parameter["label"]

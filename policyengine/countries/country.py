@@ -48,8 +48,6 @@ class PolicyEngineCountry:
     default_reform: type = ()
     parameter_file: Path = None
     default_dataset: type
-    default_household_file: Path
-    entity_hierarchy_file: Path
     calculate_only: bool = False
     version: str
     results_config: Type[PolicyEngineResultsConfig]
@@ -93,11 +91,10 @@ class PolicyEngineCountry:
                 parameters=self.parameters,
                 entities=self.entities,
                 variables=self.variables,
-                default_household=self.default_household,
                 population_breakdown=self.population_breakdown,
                 calculate=self.calculate,
             )
-            
+
             self.entities = build_entities(
                 self.baseline.simulation.tax_benefit_system
             )
@@ -197,10 +194,6 @@ class PolicyEngineCountry:
     @exclude_from_cache
     def variables(self, params=None):
         return self.policyengine_variables
-
-    @exclude_from_cache
-    def default_household(self, params=None):
-        return self.default_household_data
 
     def population_breakdown(self, params=None):
         reform, provisions = create_reform(

@@ -9,6 +9,8 @@ export function validateSituation(situation) {
             "Your immediate family": {
                 "adults": ["You"],
                 "children": [],
+                "claims_all_entitled_benefits": {"2021": true},
+                "claims_legacy_benefits": {"2021": false},
             }
         };
     }
