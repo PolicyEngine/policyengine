@@ -10,6 +10,7 @@ setup(
     install_requires=[
         "OpenFisca-UK==0.7.5",
         "OpenFisca-US==0.1.0",
+        "OpenFisca-Tools>=0.1.7",
         "plotly",
         "flask",
         "flask_cors",
