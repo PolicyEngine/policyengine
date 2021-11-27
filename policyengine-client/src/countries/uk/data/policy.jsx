@@ -46,6 +46,9 @@ export const PARAMETER_HIERARCHY = {
 			],
 			"Structural": [
 				"abolish_income_tax"
+			],
+			"Property taxes": [
+				"abolish_CT"
 			]
 		},
 		"National Insurance": {
