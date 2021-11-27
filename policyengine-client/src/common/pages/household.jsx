@@ -61,10 +61,9 @@ function HouseholdVariables(props) {
 	try {
 		const variables = props.situation[props.entities[props.selected.type].plural][props.selected.name];
 		let panels = [];
-		let computed;
 		for(let category of Object.keys(props.categories)) {
 			const panelVariables = Object.keys(variables).filter(variable => props.categories[category].includes(variable)).map(variable => {
-				computed = props.computedSituation[props.entities[props.selected.type].plural][props.selected.name];
+				let computed = props.computedSituation[props.entities[props.selected.type].plural][props.selected.name];
 				let value;
 				if(computed === undefined) {
 					value = props.variables[variable].defaultValue;
@@ -73,8 +72,8 @@ function HouseholdVariables(props) {
 				} else {
 					value = computed[variable]["2021"];
 				}
-				if(props.variables[variable].valueType == "Enum") {
-					const match = props.variables[variable].possibleValues.filter(possibleValue => possibleValue.key == value)[0];
+				if(props.variables[variable].valueType === "Enum") {
+					const match = props.variables[variable].possibleValues.filter(possibleValue => possibleValue.key === value)[0];
 					value = {
 						key: value,
 						value: match && match.value,
@@ -169,8 +168,7 @@ export class HouseholdPage extends React.Component {
 						situationStructureButtons={this.props.situationStructureButtons} 
 						selected={this.state.selected} 
 						entities={this.props.entities} 
-						situation={this.props.situation} 
-						entities={this.props.entities} 
+						situation={this.props.situation}
 						select={(name, type) => {this.setState({selected: {name: name, type: type}});}}
 						updateSituation={situation => {this.setState({situation: situation, situationHasChanged: true})}}
 					/>
