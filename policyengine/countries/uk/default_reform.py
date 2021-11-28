@@ -19,29 +19,22 @@ def add_extra_band(parameters: ParameterNode) -> ParameterNode:
     extra_uk_bracket = ParameterScaleBracket(
         data={
             "threshold": {
+                "description": "An extra income tax band for the UK",
                 "values": {"2021-01-01": 1e7},
                 "metadata": {
-                    "policyengine": {
-                        "short_name": "extra_UK_threshold",
-                        "title": "Extra band threshold",
-                        "description": "An extra income tax band for the UK.",
-                        "max": 1e6,
-                        "type": "yearly",
-                        "summary": "Add an extra income tax band at @ for the UK",
-                    }
+                    "label": "Extra band threshold",
+                    "unit": "currency-GBP",
+                    "period": "year",
+                    "name": "extra_UK_threshold",
                 },
             },
             "rate": {
                 "values": {"2021-01-01": 0.45},
+                "description": "Rate of the extra income tax band for the UK",
                 "metadata": {
-                    "policyengine": {
-                        "short_name": "extra_UK_rate",
-                        "title": "Extra band rate",
-                        "description": "Rate of the extra income tax band for the UK.",
-                        "max": 1,
-                        "type": "rate",
-                        "summary": "Set the extra income tax band to @ for the UK",
-                    }
+                    "label": "Extra band rate",
+                    "unit": "/1",
+                    "name": "extra_UK_rate",
                 },
             },
         }
@@ -51,29 +44,22 @@ def add_extra_band(parameters: ParameterNode) -> ParameterNode:
     extra_scot_bracket = ParameterScaleBracket(
         data={
             "threshold": {
+                "description": "An extra income tax band for Scotland",
                 "values": {"2021-01-01": 1e7},
                 "metadata": {
-                    "policyengine": {
-                        "short_name": "extra_scot_threshold",
-                        "title": "Extra band threshold",
-                        "description": "An extra income tax band for Scotland.",
-                        "max": 1e6,
-                        "type": "yearly",
-                        "summary": "Add an extra income tax band at @ for Scotland",
-                    }
+                    "label": "Extra band threshold",
+                    "unit": "currency-GBP",
+                    "period": "year",
+                    "name": "extra_scot_threshold",
                 },
             },
             "rate": {
                 "values": {"2021-01-01": 0.46},
+                "description": "Rate of the extra income tax band for Scotland",
                 "metadata": {
-                    "policyengine": {
-                        "short_name": "extra_scot_rate",
-                        "title": "Extra band rate",
-                        "description": "Rate of the extra income tax band for Scotland.",
-                        "max": 1,
-                        "type": "rate",
-                        "summary": "Set the extra income tax band to @ for Scotland",
-                    }
+                    "label": "Extra band rate",
+                    "unit": "/1",
+                    "name": "extra_scot_rate",
                 },
             },
         }
@@ -104,6 +90,8 @@ def create_default_reform() -> ReformType:
     class land_value(Variable):
         entity = Household
         label = "Land value"
+        documentation = "Total land value exposure (your property's land value, and any share of corporate land value)"
+        unit = "currency-GBP"
         definition_period = YEAR
         value_type = float
 
@@ -120,6 +108,8 @@ def create_default_reform() -> ReformType:
     class carbon_consumption(Variable):
         entity = Household
         label = "Carbon consumption"
+        documentation = "Total carbon footprint of the household"
+        unit = "tonne C02"
         definition_period = YEAR
         value_type = float
 

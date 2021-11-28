@@ -5,8 +5,6 @@ import { Header } from "../../common/header";
 import { Footer } from "../../common/footer";
 import { Switch, Route, Redirect } from "react-router-dom";
 
-import { ORGANISATIONS, PARAMETER_MENU } from "./data/policy_controls";
-
 import FAQ from "./components/faq";
 import Policy from "../../common/pages/policy";
 import PopulationImpact from "../../common/pages/populationImpact";
@@ -15,31 +13,37 @@ import Household from "../../common/pages/household";
 import HouseholdImpact from "../../common/pages/householdImpact";
 import ExtraBand from "./components/extra_band";
 
+import { situationButtons, validateSituation } from "./logic/situation";
+import { validatePolicy } from "./logic/policy";
+import { ORGANISATIONS, PARAMETER_HIERARCHY, EXTRA_PARAMETER_DATA } from "./data/policy";
+import { DEFAULT_SITUATION, EXTRA_VARIABLE_METADATA } from "./data/situation";
+
 export class PolicyEngineUK extends React.Component {
     constructor(props) {
         super(props);
-        this.setPolicy = this.setPolicy.bind(this);
-        this.validatePolicy = this.validatePolicy.bind(this);
-        this.setHouseholdValues = this.setHouseholdValues.bind(this);
-        this.setHouseholdStructure = this.setHouseholdStructure.bind(this);
-        this.validateHousehold = this.validateHouseholdValues.bind(this);
-        this.validateHousehold = this.validateHouseholdStructure.bind(this);
+        // Attach methods
+        this.updatePolicy = this.updatePolicy.bind(this);
+        this.updateSituation = this.updateSituation.bind(this);
         this.fetchData = this.fetchData.bind(this);
+
+        // Initialise state (before updating from API)
         this.state = {
             policy: {},
-            household: {},
+            policyValid: false,
+            situation: null,
+            computedSituation: null,
+            situationValid: false,
             variables: {},
             entities: {},
             householdVisited: false,
             currentPage: "policy",
-            householdValid: false,
-            policyValid: false,
             fetchDone: false,
             validator: this.validatePolicy,
         }
     }
 
     componentDidMount() {
+        // As soon as the page loads, fetch from the API
         this.fetchData();
     }
 
@@ -47,153 +51,56 @@ export class PolicyEngineUK extends React.Component {
         fetch(this.props.api_url + "/parameters").then(res => res.json()).then(policyData => {
             fetch(this.props.api_url + "/entities").then(res => res.json()).then(entities => {
                 fetch(this.props.api_url + "/variables").then(res => res.json()).then(variables => {
-                    fetch(this.props.api_url + "/default-household").then(res => res.json()).then(householdData => {
-                        this.setState({
-                            entities: entities,
-                            variables: variables,
-                        }, () => {
-                            let {policy, policyValid} = this.validatePolicy(urlToPolicy(policyData));
-                            let {household, householdValid} = this.validateHouseholdStructure(householdData);
-                            this.setState({
-                                policy: policy,
-                                entities: entities,
-                                variables: variables,
-                                household: household,
-                                policyValid: policyValid,
-                                householdValid: householdValid,
-                                fetchDone: true,
-                            });
-                        })
-                        
+                    // Once we've got all the data, check it and update the state
+                    let {policy, policyValid} = validatePolicy(urlToPolicy(policyData), policyData);
+                    for(let parameter of Object.keys(policy)) {
+                        if(Object.keys(EXTRA_PARAMETER_DATA).includes(parameter)) {
+                            policy[parameter] = Object.assign(policy[parameter], EXTRA_PARAMETER_DATA[parameter]);
+                        }
+                    }
+                    let {situation, situationValid} = validateSituation(JSON.parse(JSON.stringify(DEFAULT_SITUATION)));
+                    for(let variable of Object.keys(variables)) {
+                        if(Object.keys(EXTRA_VARIABLE_METADATA).includes(variable)) {
+                            variables[variable] = Object.assign(variables[variable], EXTRA_VARIABLE_METADATA[variable]);
+                        }
+                    }
+                    this.setState({
+                        // The policy and situation might need adjusting with PolicyEngine-specific modifications
+                        policy: JSON.parse(JSON.stringify(policy)),
+                        entities: entities,
+                        variables: JSON.parse(JSON.stringify(variables)),
+                        situation: JSON.parse(JSON.stringify(situation)),
+                        policyValid: policyValid,
+                        situationValid: situationValid,
+                        fetchDone: true,
                     });
                 });
             });
         });
     }
 
-    setPolicy(name, value) {
+    updatePolicy(name, value) {
+        // Update a parameter - validate, then update the state
         let oldPolicy = this.state.policy;
 		oldPolicy[name].value = value;
-		let { policy, invalid } = this.state.validator(oldPolicy);
-		this.setState({policy: policy, invalid: invalid});
+		let { policy, policyValid } = validatePolicy(oldPolicy);
+		this.setState({policy: policy, policyValid: policyValid});
     }
 
-    validatePolicy(policy) {
-        if(policy.higher_threshold.value === policy.add_threshold.value) {
-			policy.higher_threshold.error = "The higher rate threshold must be different than the additional rate threshold.";
-			policy.add_threshold.error = "The additional rate threshold must be different than the higher rate threshold.";
-			return {policy: policy, policyValid: false};
-		} else {
-            policy.higher_threshold.error = null;
-            policy.add_threshold.error = null;
-        }
-		return {policy: policy, policyValid: true};
-    }
-
-    setHouseholdStructure(householdData) {
-        const { household, householdValid } = this.validateHouseholdStructure(householdData);
-		this.setState({household: household, householdValid: householdValid, householdVisited: true});
-    }
-
-    setHouseholdValues(householdData) {
-        const { household, householdValid } = this.validateHouseholdValues(householdData);
-		this.setState({household: household, householdValid: householdValid, householdVisited: true});
-    }
-
-    validateHouseholdValues(householdData) {
-        return {household: householdData, householdValid: true}
-    }
-
-    validateHouseholdStructure(householdData) {
-        // First, check for any empty families - remove them
-        let household = householdData.household[0];
-        for(let benunit in household.benunit) {
-            if(Object.keys(household.benunit[benunit].adult || {}).length + Object.keys(household.benunit[benunit].child || {}).length === 0) {
-                delete householdData.household[0].benunit[benunit];
-            }
-        }
-        // Next, apply default names
-        const benunitDefaultNames = ["Your immediate family", "Another family in your household"];
-        const firstBenunitAdultNames = ["You", "Your partner"];
-        const firstBenunitChildNames = ["Your first child", "Your second child", "Your third child", "Your fourth child", "Your fifth child"];
-        const secondBenunitAdultNames = ["Another adult", "Their partner"];
-        const secondBenunitChildNames = ["Their first child", "Their second child", "Their third child", "Their fourth child", "Their fifth child"];
-        const benunitNames = Object.keys(household.benunit);
-        let adultNames;
-        let childNames;
-        household.label = "Your household";
-        for(let i = 0; i < benunitNames.length; i++) {
-            household.benunit[benunitNames[i]].label = benunitDefaultNames[i];
-        }
-        if(benunitNames.length > 0) {
-            adultNames = Object.keys(household.benunit[benunitNames[0]].adult);
-            for(let i = 0; i < adultNames.length; i++) {
-                household.benunit[benunitNames[0]].adult[adultNames[i]].label = firstBenunitAdultNames[i];
-            }
-            childNames = Object.keys(household.benunit[benunitNames[0]].child);
-            for(let i = 0; i < childNames.length; i++) {
-                household.benunit[benunitNames[0]].child[childNames[i]].label = firstBenunitChildNames[i];
-            }
-        }
-        if(benunitNames.length > 1) {
-            adultNames = Object.keys(household.benunit[benunitNames[1]].adult);
-            for(let i = 0; i < adultNames.length; i++) {
-                household.benunit[benunitNames[1]].adult[adultNames[i]].label = secondBenunitAdultNames[i];
-            }
-            childNames = Object.keys(household.benunit[benunitNames[1]].child);
-            for(let i = 0; i < childNames.length; i++) {
-                household.benunit[benunitNames[1]].child[childNames[i]].label = secondBenunitChildNames[i];
-            }
-        }
-        // Finally, ensure all default values are set
-        let varHolder;
-        if(Object.keys(this.state.variables).length > 0) {
-            varHolder = household;
-            if(!varHolder.variables) {
-                varHolder.variables = {}
-            }
-            for(let variable of Object.values(JSON.parse(JSON.stringify(this.state.variables)) || {}).filter(v => v.entity === "household")) {
-                varHolder.variables[variable.short_name] = Object.assign(variable, (varHolder.variables[variable.short_name] || {}));
-            }
-            for(let benunit in household.benunit) {
-                varHolder = household.benunit[benunit];
-                if(!varHolder.variables) {
-                    varHolder.variables = {}
-                }
-                for(let variable of Object.values(JSON.parse(JSON.stringify(this.state.variables)) || {}).filter(v => v.entity === "benunit")) {
-                    varHolder.variables[variable.short_name] = Object.assign(variable, (varHolder.variables[variable.short_name] || {}));
-                }
-                for(let adult in household.benunit[benunit].adult) {
-                    varHolder = household.benunit[benunit].adult[adult];
-                    if(!varHolder.variables) {
-                        varHolder.variables = {}
-                    }
-                    for(let variable of Object.values(JSON.parse(JSON.stringify(this.state.variables)) || {}).filter(v => v.entity === "person").map(v => Object.assign(v, (v.roles.adult || {})))) {
-                        varHolder.variables[variable.short_name] = Object.assign(variable, (varHolder.variables[variable.short_name] || {}));
-                    }
-                }
-                for(let child in household.benunit[benunit].child) {
-                    varHolder = household.benunit[benunit].child[child];
-                    if(!varHolder.variables) {
-                        varHolder.variables = {}
-                    }
-                    for(let variable of Object.values(JSON.parse(JSON.stringify(this.state.variables)) || {}).filter(v => v.entity === "person").map(v => Object.assign(v, (v.roles.child || {})))) {
-                        varHolder.variables[variable.short_name] = Object.assign(variable, (varHolder.variables[variable.short_name] || {}));
-                    }                
-                }
-            }
-        }
-        return {household: householdData, householdValid: true};
+    updateSituation(newSituation, newComputedSituation) {
+        // Update the situation - validate, then update the state
+        let { situation, situationValid } = validateSituation(newSituation);
+        this.setState({situation: situation, situationValid: situationValid, computedSituation: newComputedSituation});
     }
 
     render() {
         if(!this.state.fetchDone) {
-            return null;
+            return <></>;
         }
         const setPage = page => {this.setState({page: page});};
         return (
             <PolicyEngineWrapper>
-                <Route path="/uk" exact>
+                <Route path="/uk">
                     <Redirect to="/uk/policy" />
                 </Route>
                 <Header country="uk" policy={this.state.policy} household={this.state.householdVisited}/>
@@ -206,27 +113,21 @@ export class PolicyEngineUK extends React.Component {
                             <Policy 
                                 api_url={this.props.api_url}
                                 policy={this.state.policy}
-                                menuStructure={PARAMETER_MENU}
+                                policyValid={this.state.policyValid}
+                                hierarchy={PARAMETER_HIERARCHY}
                                 organisations={ORGANISATIONS}
                                 selected={"/Tax/Income Tax/Labour income"}
                                 open={["/Tax", "/Tax/Income Tax", "/Benefit", "/UBI Center"]}
-                                currency="£"
-                                setPolicy={this.setPolicy}
+                                updatePolicy={this.updatePolicy}
                                 overrides={{
                                     autoUBI: <AutoUBI api_url={this.props.api_url}/>,
                                     extra_UK_band: <ExtraBand 
                                         rate_parameter="extra_UK_rate" 
-                                        threshold_parameter="extra_UK_threshold" 
-                                        policy={this.state.policy} 
-                                        setPolicy={this.setPolicy} 
-                                        currency="£"
+                                        threshold_parameter="extra_UK_threshold"
                                     />,
                                     extra_scot_band: <ExtraBand 
                                         rate_parameter="extra_scot_rate" 
-                                        threshold_parameter="extra_scot_threshold" 
-                                        policy={this.state.policy} 
-                                        setPolicy={this.setPolicy} 
-                                        currency="£"
+                                        threshold_parameter="extra_scot_threshold"
                                     />,
                                 }}
                                 setPage={setPage}
@@ -248,29 +149,31 @@ export class PolicyEngineUK extends React.Component {
                             <Household
                                 api_url={this.props.api_url}
                                 policy={this.state.policy}
-                                defaultOpenKeys={["0_", "1_"]}
                                 variables={this.state.variables}
-                                currency="£"
-								household={this.state.household}
+                                policyValid={this.state.policyValid}
+                                situationValid={this.state.situationValid}
+								situation={this.state.situation}
                                 entities={this.state.entities}
-								selected={"household,0,benunit,1,adult,2"}
-								setHouseholdValues={this.setHouseholdValues}
-                                setHouseholdStructure={this.setHouseholdStructure}
+                                updateSituation={this.updateSituation}
 								setPage={setPage}
                                 baseURL="/uk"
                                 fetchDone={this.state.fetchDone}
+                                defaultSelectedName="You"
+                                defaultSelectedType="person"
+                                situationStructureButtons={situationButtons}
                             />
                         </Route>
                         <Route path="/uk/household-impact">
                             <HouseholdImpact
                                 api_url={this.props.api_url}
                                 policy={this.state.policy}
-                                household={this.state.household}
+                                variables={this.state.variables}
+                                situation={this.state.situation}
+                                computedSituation={this.state.computedSituation}
                                 baseURL="/uk"
                                 setHouseholdVisited={() => this.setState({householdVisited: true})}
-                                householdValid={this.state.householdValid}
+                                situationValid={this.state.situationValid}
                                 fetchDone={this.state.fetchDone}
-                                currency="£"
                                 setPage={setPage}
                             />
                         </Route>

@@ -2,7 +2,7 @@
 Utility functions for writing reforms.
 """
 from pathlib import Path
-from typing import Callable, Dict, Type
+from typing import Any, Callable, Dict, Type
 from openfisca_core.parameters.helpers import load_parameter_file
 from openfisca_core.parameters.parameter import Parameter
 from openfisca_core.parameters.parameter_scale import ParameterScale
@@ -143,53 +143,72 @@ def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
                 for attribute in ("rate", "amount", "threshold"):
                     if hasattr(bracket, attribute):
                         parameters += [getattr(bracket, attribute)]
-    parameters = list(
-        filter(
-            lambda param: hasattr(param, "metadata")
-            and "policyengine" in param.metadata,
-            parameters,
-        )
-    )
     parameter_metadata = {}
-    for p in parameters:
-        meta = p.metadata["policyengine"]
-        param = dict(
-            parameter=p.name,
-            title=meta["title"],
-            short_name=meta["short_name"],
-            description=meta["description"],
-            default=p(CURRENT_INSTANT),
-            value=p(CURRENT_INSTANT),
-        )
-        default_values = dict(
-            min=0,
-            max=0,
-            variable=None,
-            type=None,
-        )
-        for key, value in default_values.items():
-            if key in meta:
-                param[key] = meta[key]
+    for parameter in parameters:
+        try:
+            if "name" in parameter.metadata:
+                name = parameter.metadata["name"]
             else:
-                param[key] = value
-        param["summary"] = summary_from_metadata(param)
-        parameter_metadata[param["short_name"]] = param
+                name = parameter.name.split(".")[-1]
+            parameter_metadata[name] = dict(
+                name=name,
+                parameter=parameter.name,
+                description=parameter.description,
+                label=parameter.metadata["label"],
+                value=parameter(CURRENT_INSTANT),
+                valueType=parameter(CURRENT_INSTANT).__class__.__name__,
+                unit=None,
+                period=None,
+                variable=None,
+                max=None,
+                min=None,
+            )
+            OPTIONAL_ATTRIBUTES = ("period", "variable", "max", "min", "unit")
+            for attribute in OPTIONAL_ATTRIBUTES:
+                if attribute in parameter.metadata:
+                    parameter_metadata[name][attribute] = parameter.metadata[
+                        attribute
+                    ]
+        except Exception as e:
+            pass
     return parameter_metadata
 
 
-def get_formatter(parameter: dict) -> Callable:
-    if parameter["type"] == "rate":
-        return lambda value: f"{round(value * 100, 2)}%"
-    elif parameter["type"] == "weekly":
-        return lambda value: f"{gbp(value)}/week"
-    elif parameter["type"] == "yearly":
-        return lambda value: f"{gbp(value)}/year"
-    elif parameter["type"] == "monthly":
-        return lambda value: f"{gbp(value)}/month"
-    elif parameter["type"] == "currency":
-        return lambda value: f"{gbp(value)}"
+CURRENCY_SYMBOLS = {
+    "currency-GBP": "£",
+    "USD": "$",
+}
+
+
+def apply_reform(reform: tuple, system: TaxBenefitSystem) -> TaxBenefitSystem:
+    if isinstance(reform, tuple):
+        for subreform in reform:
+            system = apply_reform(subreform, system)
     else:
-        return lambda value: str(value)
+        system = reform(system)
+    return system
+
+
+def get_formatter(parameter: dict) -> Callable:
+    if parameter["unit"] == "/1":
+        return lambda value: f"{round(value * 100, 2):,}%"
+    for currency_type in CURRENCY_SYMBOLS:
+        if parameter["unit"] == currency_type:
+            return (
+                lambda value: f"{CURRENCY_SYMBOLS[currency_type]}{value}/{parameter['period']}"
+            )
+    return lambda value: str(value)
+
+
+def get_summary(parameter: dict, value: Any) -> str:
+    formatter = get_formatter(parameter)
+    if parameter["valueType"] in ("float", "int"):
+        change_label = "Increase" if value > parameter["value"] else "Decrease"
+        return f"{change_label} {parameter['label']} from {formatter(parameter['value'])} to {formatter(value)}"
+    if parameter["valueType"] == "bool":
+        if parameter["unit"] == "abolition":
+            return f"Abolish {parameter['variable']}"
+    return parameter["label"]
 
 
 def create_reform(
@@ -223,11 +242,8 @@ def create_reform(
     for param, value in params.items():
         if param != "household":
             metadata = policyengine_parameters[param]
-            names += [metadata["title"]]
-            formatter = get_formatter(metadata)
-            descriptions += [
-                metadata["summary"].replace("@", formatter(value))
-            ]
+            names += [metadata["label"]]
+            descriptions += [get_summary(metadata, value)]
             if "abolish" in param:
                 reforms += [abolish(metadata["variable"])]
             else:

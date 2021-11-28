@@ -65,7 +65,7 @@ class HouseholdImpactPage extends React.Component {
 	simulate() {
         const submission = {};
 		for (const key in this.props.policy) {
-			if(this.props.policy[key].value !== this.props.policy[key].default) {
+			if(this.props.policy[key].value !== this.props.policy[key].defaultValue) {
 				submission[key] = this.props.policy[key].value;
 			}
 		}
@@ -77,7 +77,7 @@ class HouseholdImpactPage extends React.Component {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({"household": this.props.household})
+			body: JSON.stringify({"household": this.props.situation})
 			}).then((res) => {
 				if (res.ok) {
 					return res.json();
@@ -110,7 +110,15 @@ class HouseholdImpactPage extends React.Component {
 					}
 				</Col>
 				<Col xl={3}>
-					<Overview page="household-impact" currency={this.props.currency} baseURL={this.props.baseURL} policy={this.props.policy} setPage={this.props.setPage} household={this.props.household}/>
+					<Overview 
+						page="household-impact" 
+						policy={this.props.policy}
+						setPage={this.props.setPage} 
+						invalid={!this.props.policyValid} 
+						baseURL={this.props.baseURL}
+						situation={this.props.computedSituation}
+						variables={this.props.variables}
+					/>
 				</Col>
 			</Row>
 		);
@@ -118,10 +126,12 @@ class HouseholdImpactPage extends React.Component {
 }
 
 export default function HouseholdImpact(props) {
-	if(props.fetchDone) {
+	if(props.fetchDone && props.situation && props.computedSituation) {
 		return <HouseholdImpactPage 
 			policy={props.policy}
-			household={props.household}
+			situation={props.situation}
+			computedSituation={props.computedSituation}
+			variables={props.variables}
 			setPage={props.setPage}
 			api_url={props.api_url}
 			setHouseholdVisited={props.setHouseholdVisited}

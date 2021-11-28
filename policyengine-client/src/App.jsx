@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./style/policyengine.less";
+import "./common/policyengine.less";
 import { PolicyEngineUK } from "./countries/uk";
 
 export default class App extends React.Component {
