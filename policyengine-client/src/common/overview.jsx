@@ -4,7 +4,7 @@ import { LinkOutlined, TwitterOutlined, ArrowLeftOutlined } from "@ant-design/ic
 import { TwitterShareButton } from "react-share";
 import { Fragment, default as React } from "react";
 import { policyToURL } from "./url";
-import { getFormatter } from "./parameter";
+import { getTranslators, Spinner } from "./parameter";
 
 const { Step } = Steps;
 
@@ -18,21 +18,55 @@ export function SimulateButton(props) {
 	);
 }
 
+function generateStepFromParameter(parameter) {
+	if(parameter.value !== parameter.defaultValue) {
+		const formatter = getTranslators(parameter).formatter;
+		const changeLabel = (!isNaN(parameter.value) && (typeof parameter.value !== "boolean")) ? 
+			(parameter.value > parameter.defaultValue ? "Increase" : "Decrease") : 
+			"Change";
+		const description = `${changeLabel} from ${formatter(parameter.defaultValue)} to ${formatter(parameter.value)}`
+		return <Step
+			key={parameter.name}
+			status="finish"
+			title={parameter.label}
+			description={description}
+		/>
+	}
+}
+
 export function Overview(props) {
-	let plan = Object.keys(props.policy).map((key, i) => (
-		props.policy[key].value !== props.policy[key].default
-			? <Step key={key} status="finish" title={props.policy[key].title} description={props.policy[key].summary.replace("@", getFormatter(props.policy[key], props.currency)(props.policy[key].value))} />
-			: null
-	));
+	let plan = Object.values(props.policy).map(generateStepFromParameter);
 	let isEmpty = plan.every(element => element === null);
+	const householdDetails = (props.page === "household" || props.page === "household-impact");
+	let numPeople = 0;
+	let household_net_income = 0;
+	let household_market_income = 0;
+	if(householdDetails) {
+		let household = props.situation.households["Your household"];
+		numPeople = household["household_num_people"]["2021"];
+		household_market_income = getTranslators(props.variables["household_market_income"]).formatter(household["household_market_income"]["2021"]);
+		household_net_income = getTranslators(props.variables["household_net_income"]).formatter(household["household_net_income"]["2021"]);
+	}
 	return (
 		<>
-			<Divider>Your plan</Divider>
+			<Divider>Your policy</Divider>
 			{!isEmpty ?
 				<Steps progressDot direction="vertical">
 					{plan}
 				</Steps> :
 				<Empty description="No plan provided" />
+			}
+			{
+				householdDetails && (
+					<>
+						<Divider>Your household</Divider>
+						<Steps progressDot direction="vertical">
+							<Step status="finish" title={<>{(props.loading ? <Spinner /> : numPeople)}{(numPeople === 1 ? " person" : " people")}</>} />
+							<Step status="finish" title={<>{(props.loading ? <Spinner /> : household_market_income)}{" market income"}</>} />
+							<Step status="finish" title={<>{(props.loading ? <Spinner /> : household_net_income)}{" net income"}</>} />
+						</Steps>
+					</>
+				)
 			}
 			<Empty description="" image={null}>
 				<SimulateButton 
@@ -71,7 +105,7 @@ export function Overview(props) {
 				<SimulateButton 
 					primary={props.page === "household"} 
 					hidden={props.page === "household-impact"}
-					disabled={props.invalid || !props.household} 
+					disabled={props.invalid || !props.situation} 
 					text="See your household impact" 
 					target={props.baseURL + "/household-impact"}
 					policy={props.policy} 

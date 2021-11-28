@@ -7,7 +7,14 @@ export const ORGANISATIONS = {
 	}
 };
 
-export const PARAMETER_MENU = {
+export const PARAMETERS = [
+    "basic_rate",
+];
+
+export const EXTRA_PARAMETER_DATA = {
+}
+
+export const PARAMETER_HIERARCHY = {
 	"Tax": {
 		"Income Tax": {
 			"Labour income": [
@@ -54,7 +61,10 @@ export const PARAMETER_MENU = {
 			"Structural": [
 				"abolish_NI"
 			]
-		}
+		},
+		"Property taxes": [
+			"abolish_CT"
+		]
 	},
 	"Benefit": {
 		"Child Benefit": [

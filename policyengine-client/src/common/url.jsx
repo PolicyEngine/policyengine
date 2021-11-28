@@ -1,8 +1,8 @@
 export function policyToURL(targetPage, policy) {
 	let searchParams = new URLSearchParams(window.location.search);
 	for (const key in policy) {
-		if (policy[key].value !== policy[key].default) {
-			if(policy[key].type === "rate") {
+		if (policy[key].value !== policy[key].defaultValue) {
+			if(policy[key].unit === "/1") {
 				searchParams.set(key, Math.round(+policy[key].value * 100));
 			} else {
 				searchParams.set(key, +policy[key].value);
@@ -20,7 +20,7 @@ export function urlToPolicy(defaultPolicy) {
 	const { searchParams } = new URL(document.location);
 	for (const key of searchParams.keys()) {
 		try {
-			plan[key].value = +searchParams.get(key) / (defaultPolicy[key].type === "rate" ? 100 : 1);
+			plan[key].value = +searchParams.get(key) / (defaultPolicy[key].unit === "/1" ? 100 : 1);
 		} catch {
 			// Bad parameter, do nothing
 		}

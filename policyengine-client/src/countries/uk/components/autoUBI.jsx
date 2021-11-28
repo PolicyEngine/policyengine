@@ -12,7 +12,7 @@ export default class AutoUBI extends React.Component {
 	applyAutoUBI() {
 		const submission = {};
 		for (const key in this.props.policy) {
-			if(this.props.policy[key].value !== this.props.policy[key].default) {
+			if(this.props.policy[key].value !== this.props.policy[key].defaultValue) {
 				submission[key] = this.props.policy[key].value;
 			}
 		}
@@ -29,11 +29,11 @@ export default class AutoUBI extends React.Component {
 				}).then((json) => {
 					const amount = Math.round(json.UBI / 52, 2);
 					this.setState({waiting: false, amount: amount});
-					this.props.setPolicy("child_UBI", this.props.policy["child_UBI"].value + amount);
-					this.props.setPolicy("adult_UBI", this.props.policy["adult_UBI"].value + amount);
-					this.props.setPolicy("senior_UBI", this.props.policy["senior_UBI"].value + amount);
+					this.props.updatePolicy("child_UBI", this.props.policy["child_UBI"].value + amount);
+					this.props.updatePolicy("adult_UBI", this.props.policy["adult_UBI"].value + amount);
+					this.props.updatePolicy("senior_UBI", this.props.policy["senior_UBI"].value + amount);
 				}).catch(e => {
-					message.error("Couldn't apply AutoUBI - something went wrong.");
+					message.error("Couldn't apply AutoUBI - something went wrong." + e.toString());
 					this.setState({waiting: false});
 				});
 		});

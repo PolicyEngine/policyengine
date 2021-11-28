@@ -88,7 +88,7 @@ class PopulationImpactPage extends React.Component {
 	simulate() {
 		const submission = {};
 		for (const key in this.state.plan) {
-			if(this.state.plan[key].value !== this.state.plan[key].default) {
+			if(this.state.plan[key].value !== this.state.plan[key].defaultValue) {
 				submission[key] = this.state.plan[key].value;
 			}
 		}

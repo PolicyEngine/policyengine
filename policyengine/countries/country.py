@@ -32,6 +32,7 @@ from policyengine.impact.population.charts import (
 )
 from policyengine.utils.reforms import (
     add_parameter_file,
+    apply_reform,
     create_reform,
     get_PE_parameters,
     use_current_parameters,
@@ -47,8 +48,6 @@ class PolicyEngineCountry:
     default_reform: type = ()
     parameter_file: Path = None
     default_dataset: type
-    default_household_file: Path
-    entity_hierarchy_file: Path
     calculate_only: bool = False
     version: str
     results_config: Type[PolicyEngineResultsConfig]
@@ -92,20 +91,13 @@ class PolicyEngineCountry:
                 parameters=self.parameters,
                 entities=self.entities,
                 variables=self.variables,
-                default_household=self.default_household,
                 population_breakdown=self.population_breakdown,
                 calculate=self.calculate,
             )
-            with open(self.entity_hierarchy_file) as f:
-                self.entities = dict(
-                    entities=build_entities(
-                        self.baseline.simulation.tax_benefit_system
-                    ),
-                    hierarchy=yaml.safe_load(f),
-                )
 
-            with open(self.default_household_file) as f:
-                self.default_household_data = yaml.safe_load(f)
+            self.entities = build_entities(
+                self.baseline.simulation.tax_benefit_system
+            )
 
     def _create_reform_sim(self, reform: ReformType) -> Microsimulation:
         sim = self.Microsimulation(
@@ -139,12 +131,7 @@ class PolicyEngineCountry:
 
     @exclude_from_cache
     def household_reform(self, params=None):
-        situation = create_situation(
-            params["household"],
-            ["household"],
-            self.entities["hierarchy"],
-            self.entities["entities"],
-        )
+        situation = create_situation(params["household"])
         reform = create_reform(params, self.policyengine_parameters)
         baseline_config = self.default_reform
         reform_config = self.default_reform, reform
@@ -208,10 +195,6 @@ class PolicyEngineCountry:
     def variables(self, params=None):
         return self.policyengine_variables
 
-    @exclude_from_cache
-    def default_household(self, params=None):
-        return self.default_household_data
-
     def population_breakdown(self, params=None):
         reform, provisions = create_reform(
             params, self.policyengine_parameters, return_descriptions=True
@@ -222,7 +205,7 @@ class PolicyEngineCountry:
 
     @exclude_from_cache
     def calculate(self, params=None):
-        system = self.system()
+        system = apply_reform(self.default_reform, self.system())
         simulation = SimulationBuilder().build_from_entities(system, params)
 
         requested_computations = dpath.util.search(

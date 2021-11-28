@@ -1,344 +1,286 @@
 reforms:
   LVT:
     rate:
+      description: A yearly flat tax on the unimproved value of land
       values:
         2021-01-01: 0.00
       metadata:
-        policyengine:
-          title: Land Value Tax
-          short_name: LVT
-          description: A yearly flat tax on land values.
-          max: 1
-          type: rate
-          summary: Impose an LVT of @
+        label: Land Value Tax
+        name: LVT
+        unit: /1
+        max: 0.1
         tests:
           - decreases_net_income: true
   carbon:
     rate:
+      description: The price of a tonne of carbon emisssions
       values:
         2021-01-01: 0.00
       metadata:
-        policyengine:
-          title: Carbon Tax
-          short_name: carbon_tax
-          description: The price of a tonne of carbon emissions.
-          max: 250
-          type: currency
+        label: Carbon Tax
+        name: carbon_tax
+        max: 200
+        unit: currency-GBP
         tests:
           - decreases_net_income: true
   UBI:
     adult:
+      description: Flat payment given to each person over the adult UBI age threshold, but under State Pension age
       values: 
         2021-01-01: 0.00
       metadata:
-        policyengine:
-          title: Working-age adult UBI
-          short_name: adult_UBI
-          description: Flat payment given to each person older than 17 and younger than State Pension age.
-          max: 250
-          type: weekly
-          summary: Give a basic income of @ to working-age adults
+        label: Working-age adult UBI
+        name: adult_UBI
+        unit: currency-GBP
+        period: week
+        max: 250
         tests:
           - increases_net_income: true
     child:
+      description: Flat payment given to each person below the adult UBI age threshold
       values: 
         2021-01-01: 0.00
       metadata:
-        policyengine:
-          title: Child UBI
-          short_name: child_UBI
-          description: Flat payment given to each person 17 years of age or younger.
-          max: 250
-          type: weekly
-          summary: Give a basic income of @ to children
+        label: Child UBI
+        name: child_UBI
+        unit: currency-GBP
+        period: week
+        max: 250
         tests:
           - increases_net_income: true
     senior:
+      description: Flat payment given to each person at or above State Pension age
       values: 
         2021-01-01: 0.00
       metadata:
-        policyengine:
-          title: Senior UBI
-          short_name: senior_UBI
-          description: Flat payment given to each person at or above State Pension age.
-          max: 250
-          type: weekly
-          summary: Give a basic income of @ to seniors
+        label: Senior UBI
+        name: senior_UBI
+        max: 250
+        unit: currency-GBP
+        period: week
         tests:
           - increases_net_income: true
     WA_adult_UBI_age:
+      description: Age at which a person receives the working-age adult UBI payment
       values: 
         2021-01-01: 18
       metadata:
-        policyengine:
-          title: Adult UBI age threshold
-          short_name: WA_adult_UBI_age
-          description: Age at which a person receives the working-age adult UBI payment.
-          max: 65
-          summary: Set the working-age UBI age threshold to @
+        label: Adult UBI age threshold
+        name: WA_adult_UBI_age
+        unit: year
+        max: 65
     taxable:
-      values: 
+      description: Whether the UBI is included in taxable income for Income Tax
+      values:
         2021-01-01: false
       metadata:
-        policyengine:
-          title: UBI taxability
-          short_name: taxable_UBI
-          type: bool
-          description: Whether the UBI is included in taxable income for Income Tax.
+        label: UBI taxability
+        name: taxable_UBI
     in_means_tests:
+      description: Whether the UBI is included in the means tests for benefits
       values: 
         2021-01-01: false
       metadata:
-        policyengine:
-          title: UBI included in means tests
-          short_name: means_test_UBI
-          type: bool
-          description: Whether the UBI is included in means tests for benefits.
+        label: UBI included in means tests
+        name: means_test_UBI
   abolition:
-    abolish_savings_allowance:
-      values:
-        2021-01-01: false
-      metadata:
-        policyengine:
-          title: Savings Allowance
-          short_name: abolish_savings_allowance
-          variable: savings_allowance
-          description: Abolish the Savings Allowance.
-          type: abolish
-          summary: Abolish the Savings Allowance
-        tests:
-          - decreases_net_income: true
-    abolish_dividend_allowance:
-      values:
-        2021-01-01: false
-      metadata:
-        policyengine:
-          title: Dividend Allowance
-          short_name: abolish_dividend_allowance
-          variable: dividend_allowance
-          description: Abolish the Dividend Allowance.
-          type: abolish
-          summary: Abolish the Dividend Allowance
-        tests:
-          - decreases_net_income: true
     abolish_income_tax:
+      description: Abolish Income Tax entirely
       values:
         2021-01-01: false
       metadata:
-        policyengine:
-          title: Income Tax
-          short_name: abolish_income_tax
-          variable: income_tax
-          description: Abolish Income Tax entirely.
-          type: abolish
-          summary: Abolish Income Tax
+        label: Abolish Income Tax
+        name: abolish_income_tax
+        unit: abolition
+        variable: income_tax
         tests:
           - increases_net_income: true
     abolish_NI:
+      description: Abolish National Insurance entirely
       values:
         2021-01-01: false
       metadata:
-        policyengine:
-          title: National Insurance
-          short_name: abolish_NI
-          variable: national_insurance
-          description: Abolish National Insurance entirely.
-          type: abolish
-          summary: Abolish National Insurance
+        label: Abolish National Insurance
+        name: abolish_NI
+        unit: abolition
+        variable: national_insurance
         tests:
           - increases_net_income: true
     abolish_UC:
+      description: Abolish Universal Credit. This does not trigger migration back to legacy benefits.
       values:
         2021-01-01: false
       metadata:
-        policyengine:
-          title: Universal Credit
-          short_name: abolish_UC
-          variable: universal_credit
-          description: Abolish Universal Credit.
-          type: abolish
-          summary: Abolish Universal Credit
+        label: Abolish UC
+        name: abolish_UC
+        unit: abolition
+        variable: universal_credit
         tests:
           - decreases_net_income: true
     abolish_CB:
+      description: End all Child Benefit payments
       values:
         2021-01-01: false
       metadata:
-        policyengine:
-          title: Child Benefit
-          short_name: abolish_CB
-          variable: child_benefit
-          description: Abolish the Child Benefit.
-          type: abolish
-          summary: Abolish the Child Benefit
+        label: Abolish the Child Benefit
+        name: abolish_CB
+        unit: abolition
+        variable: child_benefit
         tests:
           - decreases_net_income: true
     abolish_HB:
+      description: Abolish Housing Benefit. This does not trigger migration to Universal Credit.
       values:
         2021-01-01: false
       metadata:
-        policyengine:
-          title: Housing Benefit
-          short_name: abolish_HB
-          variable: housing_benefit
-          description: Abolish Housing Benefit.
-          type: abolish
-          summary: Abolish Housing Benefit
+        label: Abolish Housing Benefit
+        name: abolish_HB
+        unit: abolition
+        variable: housing_benefit
         tests:
           - decreases_net_income: true
     abolish_CTC:
+      description: Abolish the Child Tax Credit. This does not trigger migration to Universal Credit.
       values:
         2021-01-01: false
       metadata:
-        policyengine:
-          title: Child Tax Credit
-          short_name: abolish_CTC
-          variable: child_tax_credit
-          description: Abolish the Child Tax Credit. This does not trigger migration to Universal Credit.
-          type: abolish
-          summary: Abolish the Child Tax Credit
+        label: Abolish the CTC
+        name: abolish_CTC
+        unit: abolition
+        variable: child_tax_credit
         tests:
           - decreases_net_income: true
     abolish_WTC:
+      description: Abolish the Working Tax Credit. This does not trigger migration to Universal Credit.
       values:
         2021-01-01: false
       metadata:
-        policyengine:
-          title: Working Tax Credit
-          short_name: abolish_WTC
-          variable: working_tax_credit
-          description: Abolish Working Tax Credit.This does not trigger migration to Universal Credit.
-          type: abolish
-          summary: Abolish Working Tax Credit
+        label: Abolish WTC
+        name: abolish_WTC
+        unit: abolition
+        variable: working_tax_credit
         tests:
           - decreases_net_income: true
     abolish_SP:
+      description: End all State Pension payments
       values:
         2021-01-01: false
       metadata:
-        policyengine:
-          title: State Pension
-          short_name: abolish_SP
-          variable: state_pension
-          description: Abolish the State Pension.
-          type: abolish
-          summary: Abolish the State Pension
+        label: Abolish the State Pension
+        name: abolish_SP
+        variable: state_pension
+        unit: abolition
         tests:
           - decreases_net_income: true
     abolish_PC:
+      description: End all Pension Credit payments
       values:
         2021-01-01: false
       metadata:
-        policyengine:
-          title: Pension Credit
-          short_name: abolish_PC
-          variable: pension_credit
-          description: Abolish Pension Credit.
-          type: abolish
-          summary: Abolish Pension Credit
+        label: Abolish Pension Credit
+        name: abolish_PC
+        unit: abolition
+        variable: pension_credit
         tests:
           - decreases_net_income: true
     abolish_IS:
+      description: Abolish Income Support entirely. This does not trigger migration to Universal Credit.
       values:
         2021-01-01: false
       metadata:
-        policyengine:
-          title: Income Support
-          short_name: abolish_IS
-          variable: income_support
-          description: Abolish Income Support.
-          type: abolish
-          summary: Abolish Income Support
+        label: Abolish Income Support
+        name: abolish_IS
+        unit: abolition
+        variable: income_support
         tests:
           - decreases_net_income: true
     abolish_JSA_income:
+      description: Abolish income-based Jobseeker's Allowance. This does not trigger migration to Universal Credit.
       values:
         2021-01-01: false
       metadata:
-        policyengine:
-          title: JSA (income-based)
-          short_name: abolish_JSA_income
-          variable: JSA_income
-          description: Abolish income-based JSA.
-          type: abolish
-          summary: Abolish income-based JSA
+        label: Abolish income-based JSA
+        name: abolish_JSA_income
+        unit: abolition
+        variable: JSA_income
         tests:
           - decreases_net_income: true
     abolish_UC_standard_allowance:
+      description: Abolish the Standard Allowance component of Universal Credit
       values:
         2021-01-01: false
       metadata:
-        policyengine:
-          title: UC Standard Allowance
-          short_name: abolish_UC_standard
-          variable: UC_standard_allowance
-          description: Abolish the Standard Allowance component of Universal Credit
-          type: abolish
-          summary: Abolish the UC Standard Allowance
+        label: Abolish the UC Standard Allowance
+        name: abolish_UC_standard
+        variable: UC_standard_allowance
+        unit: abolition
         tests:
           - decreases_net_income: true
     abolish_UC_child_element:
+      description: Abolish the child element of Universal Credit
       values:
         2021-01-01: false
       metadata:
-        policyengine:
-          title: UC child element
-          short_name: abolish_UC_child
-          variable: UC_child_element
-          description: Abolish the child element of Universal Credit
-          type: abolish
-          summary: Abolish the UC child element
+        label: Abolish the UC child element
+        name: abolish_UC_child
+        variable: UC_child_element
+        unit: abolition
         tests:
           - decreases_net_income: true
     abolish_UC_disability_element:
+      description: Abolish the disability element of Universal Credit
       values:
         2021-01-01: false
       metadata:
-        policyengine:
-          title: UC disability element
-          short_name: abolish_UC_disability
-          variable: UC_disability_element
-          description: Abolish the disability element of Universal Credit
-          type: abolish
-          summary: Abolish the UC disability element
+        label: Abolish the UC disability element
+        name: abolish_UC_disability
+        variable: UC_disability_elements
+        unit: abolition
         tests:
           - decreases_net_income: true
     abolish_UC_carer_element:
+      description: Abolish the carer element of Universal Credit
       values:
         2021-01-01: false
       metadata:
-        policyengine:
-          title: UC carer element
-          short_name: abolish_UC_carer
-          variable: UC_carer_element
-          description: Abolish the carer element of Universal Credit
-          type: abolish
-          summary: Abolish the UC carer element
+        label: Abolish the UC carer element
+        unit: abolition
+        variable: UC_carer_element
+        name: abolish_UC_carer
         tests:
           - decreases_net_income: true
     abolish_UC_childcare_element:
+      description: Abolish the childcare element of Universal Credit
       values:
         2021-01-01: false
       metadata:
-        policyengine:
-          title: UC childcare element
-          short_name: abolish_UC_childcare
-          variable: UC_childcare_element
-          description: Abolish the childcare element of Universal Credit
-          type: abolish
-          summary: Abolish the UC childcare element
+        label: Abolish the UC childcare element
+        name: abolish_UC_childcare
+        variable: UC_childcare_element
+        unit: abolition
         tests:
           - decreases_net_income: true
     abolish_ESA_income:
+      description: Abolish income-based Employment Support Allowance
       values:
         2021-01-01: false
       metadata:
-        policyengine:
-          title: Income-based ESA
-          short_name: abolish_ESA_income
-          variable: ESA_income
-          description: Abolish income-based Employment Support Allowance
-          type: abolish
-          summary: Abolish income-based ESA
+        label: Abolish income-based ESA
+        variable: ESA_income
+        name: abolish_ESA_income
+        unit: abolition
         tests:
           - decreases_net_income: true
+    abolish_CT:
+      description: End all Council Tax payments
+      values:
+        2021-01-01: false
+      metadata:
+        label: Abolish Council Tax
+        name: abolish_CT
+        unit: abolition
+        variable: council_tax
+        tests:
+          - increases_net_income: true
+          - value: true
+            revenue: -38.9e9
