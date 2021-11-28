@@ -22,8 +22,8 @@ class UKResultsConfig(PolicyEngineResultsConfig):
     working_age_variable: str = "is_WA_adult"
     senior_variable: str = "is_SP_age"
     person_variable: str = "people"
-    tax_variable: str = "tax"
-    benefit_variable: str = "benefits"
+    tax_variable: str = "household_tax"
+    benefit_variable: str = "household_benefits"
     earnings_variable: str = "employment_income"
 
 
