@@ -112,10 +112,14 @@ def waterfall_data(amounts: list, labels: list) -> pd.DataFrame:
 
 
 POP_LABELS = dict(
-    tax="Tax revenues", benefits="Benefit outlays", total="Net impact"
+    tax_variable="Tax revenues",
+    benefit_variable="Benefit outlays",
+    total="Net impact",
 )
 HH_LABELS = dict(
-    tax="Your taxes", benefits="Your benefits", total="Your net income"
+    tax_variable="Your taxes",
+    benefit_variable="Your benefits",
+    total="Your net income",
 )
 
 
@@ -142,7 +146,7 @@ def tax_benefit_waterfall_data(
         )
         for var, multiplier in zip(GROUPS, multipliers)
     ]
-    res = waterfall_data(effects, GROUPS)
+    res = waterfall_data(effects, ["tax_variable", "benefit_variable"])
     if is_pop:
         res.label = res.label.map(POP_LABELS)
     else:
