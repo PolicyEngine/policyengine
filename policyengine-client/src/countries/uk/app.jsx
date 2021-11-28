@@ -100,7 +100,7 @@ export class PolicyEngineUK extends React.Component {
         const setPage = page => {this.setState({page: page});};
         return (
             <PolicyEngineWrapper>
-                <Route path="/uk">
+                <Route exact path="/uk">
                     <Redirect to="/uk/policy" />
                 </Route>
                 <Header country="uk" policy={this.state.policy} household={this.state.householdVisited}/>
