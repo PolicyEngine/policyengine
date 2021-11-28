@@ -129,6 +129,7 @@ export class HouseholdPage extends React.Component {
 	
 	componentDidMount() {
 		this.setState({autoComputeIntervalID: setInterval(this.autoComputeSituation, 2000)});
+		this.props.setHouseholdVisited();
 	}
 	 
 	componentWillUnmount() {
@@ -220,6 +221,7 @@ export default function Household(props) {
 			defaultSelectedName={props.defaultSelectedName}
 			defaultSelectedType={props.defaultSelectedType}
 			situationStructureButtons={props.situationStructureButtons}
+			setHouseholdVisited={props.setHouseholdVisited}
 		/>;
 	} else {
 		return <></>;

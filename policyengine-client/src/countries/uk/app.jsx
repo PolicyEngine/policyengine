@@ -161,6 +161,7 @@ export class PolicyEngineUK extends React.Component {
                                 defaultSelectedName="You"
                                 defaultSelectedType="person"
                                 situationStructureButtons={situationButtons}
+                                setHouseholdVisited={() => this.setState({householdVisited: true})}
                             />
                         </Route>
                         <Route path="/uk/household-impact">
