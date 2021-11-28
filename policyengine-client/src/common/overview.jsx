@@ -1,8 +1,8 @@
-import { Affix, Steps, Divider, Empty, Button, message } from "antd";
+import { Affix, Pagination, Steps, Divider, Empty, Button, message } from "antd";
 import { Link } from "react-router-dom";
 import { LinkOutlined, TwitterOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import { TwitterShareButton } from "react-share";
-import { Fragment, default as React } from "react";
+import { Fragment, default as React, useState } from "react";
 import { policyToURL } from "./url";
 import { getFormatter } from "./parameter";
 
@@ -19,19 +19,30 @@ export function SimulateButton(props) {
 }
 
 export function Overview(props) {
+	let [page, setPage] = useState(1);
 	let plan = Object.keys(props.policy).map((key, i) => (
 		props.policy[key].value !== props.policy[key].default
 			? <Step key={key} status="finish" title={props.policy[key].title} description={props.policy[key].summary.replace("@", getFormatter(props.policy[key], props.currency)(props.policy[key].value))} />
 			: null
 	));
-	let isEmpty = plan.every(element => element === null);
+	plan = plan.filter(x => x !== null);
+	let isEmpty = plan.length === 0;
 	return (
 		<Affix style={{ position: 'fixed' }}>
 			<Divider>Your plan</Divider>
 			{!isEmpty ?
-				<Steps progressDot direction="vertical">
-					{plan}
-				</Steps> :
+				<>
+					<Steps style={{minHeight: 350, width: "100%"}} progressDot direction="vertical">
+						{plan.slice((page - 1) * 5, page * 5)}
+					</Steps>
+					<Pagination 
+						pageSize={5} 
+						defaultCurrent={page} 
+						simple 
+						onChange={setPage} 
+						total={plan.length} 
+					/>
+				 </> :
 				<Empty description="No plan provided" />
 			}
 			<Empty description="" image={null}>
