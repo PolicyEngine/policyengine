@@ -73,7 +73,7 @@ export function Parameter(props) {
 		if(focused) {
 			formatter = x => x;
 		}
-		const onChange = value => props.updatePolicy(props.param.name, value);
+		const onChange = value => {if(value !== "") {props.updatePolicy(props.param.name, value)}};
 		let component;
 		if(props.param.valueType === "bool") {
 			if(props.param.unit === "abolition") {
@@ -113,6 +113,7 @@ export function Parameter(props) {
 			if(min) {
 				marks[min] = formatter(min);
 			}
+			const multiplier = props.param.unit === "/1" ? 100 : 1;
 			component = (
 				<>
 					<Slider
@@ -128,7 +129,7 @@ export function Parameter(props) {
 					/>
 					{
 						focused ?
-							<Input.Search enterButton="Enter" style={{maxWidth: 300}} placeholder={props.param.value} onSearch={value => {setFocused(false); onChange(value);}} /> :
+							<Input.Search enterButton="Enter" style={{maxWidth: 300}} placeholder={multiplier * props.param.value} onSearch={value => {setFocused(false); onChange(value / multiplier);}} /> :
 							<div>{(props.isComputed && props.loading) ? <Spin indicator={antIcon} /> : formatter(props.param.value)} <EditOutlined style={{marginLeft: 5}} onClick={() => setFocused(true)} /></div>
 					}
 				</>
