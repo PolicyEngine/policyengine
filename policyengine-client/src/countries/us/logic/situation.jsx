@@ -102,7 +102,10 @@ export const situationButtons = {
         text: "Add partner",
         available: situation => numAdultsAndChildren(situation).numAdults < 2,
         apply: situation => {
-            situation.people["Your partner"] = {"age": {"2021": 18}};
+            situation.people["Your partner"] = {
+                "age": {"2021": 18}, 
+                "is_tax_unit_spouse": {"2021": true}
+            };
             situation.tax_units["Your tax unit"].members.push("Your partner");
             situation.families["Your family"].members.push("Your partner");
             situation.spm_units["Your SPM unit"].members.push("Your partner");
