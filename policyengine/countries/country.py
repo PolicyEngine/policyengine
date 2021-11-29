@@ -200,7 +200,11 @@ class PolicyEngineCountry:
             params, self.policyengine_parameters, return_descriptions=True
         )
         return get_breakdown_and_chart_per_provision(
-            reform, provisions, self.baseline, self._create_reform_sim
+            reform,
+            provisions,
+            self.baseline,
+            self._create_reform_sim,
+            self.results_config,
         )
 
     @exclude_from_cache
