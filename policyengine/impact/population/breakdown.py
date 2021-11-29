@@ -8,9 +8,18 @@ from policyengine.utils import charts
 from matplotlib import cm
 import yaml
 
+from policyengine.utils.general import PolicyEngineResultsConfig
 
-def get_spending(sim: Microsimulation, baseline: Microsimulation) -> float:
-    return sim.calc("net_income").sum() - baseline.calc("net_income").sum()
+
+def get_spending(
+    sim: Microsimulation,
+    baseline: Microsimulation,
+    config: PolicyEngineResultsConfig,
+) -> float:
+    return (
+        sim.calc(config.household_net_income_variable).sum()
+        - baseline.calc(config.household_net_income_variable).sum()
+    )
 
 
 greys = cm.get_cmap("Greys")
@@ -39,6 +48,7 @@ def get_breakdown_and_chart_per_provision(
     provisions: Tuple[str],
     baseline: Microsimulation,
     create_reform_sim: Callable,
+    config: PolicyEngineResultsConfig,
 ) -> dict:
     """Generates a breakdown data structure with spending per provision.
 
@@ -47,6 +57,7 @@ def get_breakdown_and_chart_per_provision(
         provisions (Tuple[str]): Provision names (same length as reform).
         baseline (Microsimulation): The baseline microsimulation.
         create_reform_sim (Callable): Function that creates a microsimulation from a reform.
+        config (PolicyEngineResultsConfig): Country configuration.
 
     Returns:
         dict: The breakdown details.
@@ -56,7 +67,7 @@ def get_breakdown_and_chart_per_provision(
 
     for step in range(1, len(reform) + 1):
         reform_sim = create_reform_sim(reform[:step])
-        cumulative_spending += [get_spending(reform_sim, baseline)]
+        cumulative_spending += [get_spending(reform_sim, baseline, config)]
 
     additional_spending = np.array(
         cumulative_spending[:1]
@@ -71,8 +82,12 @@ def get_breakdown_and_chart_per_provision(
 
     decile_impacts = pd.DataFrame()
 
-    income = baseline.calc("household_net_income", map_to="person")
-    equiv_income = baseline.calc("equiv_household_net_income", map_to="person")
+    income = baseline.calc(
+        config.household_net_income_variable, map_to="person"
+    )
+    equiv_income = baseline.calc(
+        config.equiv_household_net_income_variable, map_to="person"
+    )
 
     previous_gains = pd.Series([0] * 10, index=list(range(1, 11)))
     colour_positions = [0]
@@ -81,7 +96,10 @@ def get_breakdown_and_chart_per_provision(
     for i in range(1, len(reform) + 1):
         reform_sim = create_reform_sim(reform[:i])
         gain = (
-            reform_sim.calc("household_net_income", map_to="person") - income
+            reform_sim.calc(
+                config.household_net_income_variable, map_to="person"
+            )
+            - income
         )
         gain_by_decile = gain.groupby(equiv_income.decile_rank()).sum()
         gain_by_decile -= previous_gains

@@ -207,7 +207,7 @@ def get_summary(parameter: dict, value: Any) -> str:
         return f"{change_label} {parameter['label']} from {formatter(parameter['value'])} to {formatter(value)}"
     if parameter["valueType"] == "bool":
         if parameter["unit"] == "abolition":
-            return f"Abolish {parameter['variable']}"
+            return parameter["label"]
     return parameter["label"]
 
 
