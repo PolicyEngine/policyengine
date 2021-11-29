@@ -44,7 +44,8 @@ def headline_metrics(
     )
     gain = new_income - old_income
     net_cost = (
-        reformed.calc("net_income").sum() - baseline.calc("net_income").sum()
+        reformed.calc(config.household_net_income_variable).sum()
+        - baseline.calc(config.household_net_income_variable).sum()
     )
     poverty_change = pct_change(
         baseline.calc(config.in_poverty_variable, map_to="person").mean(),
