@@ -15,10 +15,10 @@ export default class App extends React.Component {
 		return (
 			<Router>
 				<Route path="/uk">
-					<PolicyEngineUK analytics={this.props.analytics} api_url="http://localhost:5000/uk/api" />
+					<PolicyEngineUK analytics={this.props.analytics} api_url="https://policyengine.org/uk/api" />
 				</Route>
 				<Route path="/us">
-					<PolicyEngineUS analytics={this.props.analytics} api_url="http://localhost:5000/us/api" />
+					<PolicyEngineUS analytics={this.props.analytics} api_url="https://policyengine.org/us/api" />
 				</Route>
 				<Route exact path="/">
 					<Redirect to="/uk" />

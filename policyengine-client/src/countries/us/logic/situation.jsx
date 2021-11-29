@@ -3,7 +3,8 @@ import { PERSON_VARIABLES, TAX_UNIT_VARIABLES, FAMILY_VARIABLES, SPM_UNIT_VARIAB
 export function validateSituation(situation) {
     if(Object.keys(situation.people).length === 0) {
         situation.people["You"] = {
-            "age": {"2021": 18}
+            "age": {"2021": 18},
+            "is_tax_unit_spouse": {"2021": false},
         }
     }
     if(Object.keys(situation.tax_units).length === 0) {
@@ -104,7 +105,7 @@ export const situationButtons = {
         apply: situation => {
             situation.people["Your partner"] = {
                 "age": {"2021": 18}, 
-                "is_tax_unit_spouse": {"2021": true}
+                "is_tax_unit_spouse": {"2021": true},
             };
             situation.tax_units["Your tax unit"].members.push("Your partner");
             situation.families["Your family"].members.push("Your partner");
@@ -118,7 +119,10 @@ export const situationButtons = {
         available: situation => numAdultsAndChildren(situation).numAdults < 5,
         apply: situation => {
             const childName = childNamer[numAdultsAndChildren(situation).numChildren + 1];
-            situation.people[childName] = {"age": {"2021": 10}};
+            situation.people[childName] = {
+                "age": {"2021": 10},
+                "is_tax_unit_spouse": {"2021": false},
+            };
             situation.tax_units["Your tax unit"].members.push(childName);
             situation.families["Your family"].members.push(childName);
             situation.spm_units["Your SPM unit"].members.push(childName);
