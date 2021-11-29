@@ -73,7 +73,7 @@ export function Parameter(props) {
 		if(focused) {
 			formatter = x => x;
 		}
-		const onChange = value => {if(value != "") {props.updatePolicy(props.param.name, value)}};
+		const onChange = value => {if(value !== "") {props.updatePolicy(props.param.name, value)}};
 		let component;
 		if(props.param.valueType === "bool") {
 			if(props.param.unit === "abolition") {
