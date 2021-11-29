@@ -89,7 +89,7 @@ class PopulationImpactPage extends React.Component {
 		const submission = {};
 		for (const key in this.state.plan) {
 			if(this.state.plan[key].value !== this.state.plan[key].defaultValue) {
-				submission[key] = this.state.plan[key].value;
+				submission[key] = +this.state.plan[key].value;
 			}
 		}
 		let url;
