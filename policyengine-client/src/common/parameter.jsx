@@ -79,7 +79,7 @@ export function Parameter(props) {
 			if(props.param.unit === "abolition") {
 				component = (
 					<Switch
-						onChange={value => onChange(+value)}
+						onChange={value => onChange(value)}
 						checked={props.param.value}
 						className="switch-red"
 						disabled={props.disabled}
@@ -88,7 +88,7 @@ export function Parameter(props) {
 			} else {
 				component = (
 					<Switch
-						onChange={value => onChange(+value)}
+						onChange={value => onChange(value)}
 						checked={props.param.value}
 						disabled={props.disabled}
 					/>
