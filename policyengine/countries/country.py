@@ -54,9 +54,30 @@ class PolicyEngineCountry:
 
     def __init__(self):
         if self.calculate_only:
+            self.default_reform = (
+                use_current_parameters(),
+                add_parameter_file(self.parameter_file.absolute())
+                if self.parameter_file is not None
+                else (),
+                self.default_reform,
+            )
+            self.baseline_system = self.system()
+            self.policyengine_parameters = get_PE_parameters(
+                self.baseline_system
+            )
+
+            self.policyengine_variables = get_PE_variables(
+                self.baseline_system
+            )
+
             self.api_endpoints = dict(
+                parameters=self.parameters,
+                entities=self.entities,
+                variables=self.variables,
                 calculate=self.calculate,
             )
+
+            self.entities = build_entities(self.baseline_system)
         else:
             if self.default_dataset_year not in self.default_dataset.years:
                 self.default_dataset.download(self.default_dataset_year)

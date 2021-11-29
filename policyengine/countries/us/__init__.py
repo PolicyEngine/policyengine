@@ -9,3 +9,4 @@ class US(PolicyEngineCountry):
     name = "us"
     system = CountryTaxBenefitSystem
     calculate_only = True
+    household_page_only = True
