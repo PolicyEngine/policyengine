@@ -40,6 +40,10 @@ export function Header(props) {
 							household={props.household}
 							selected={"household"}
 							baseUrl={`/${props.country}`}
+							hidePolicy={props.hidePolicy}
+							hidePopulationImpact={props.hidePopulationImpact}
+							hideHousehold={props.hideHousehold}
+							hideHouseholdImpact={props.hideHouseholdImpact}
 						/>
 					</Route>
 					<Route path={`/${props.country}/household-impact`}>
@@ -81,10 +85,10 @@ function MainNavigation(props) {
 	} else {
 		middleColumn = (
 			<Tabs moreIcon={null} style={{paddingTop: 0, paddingBottom: 0}} activeKey={props.selected} centered onChange={key => {history.push(policyToURL(props.baseUrl + "/" + key, props.policy))}}>
-				<TabPane tab="Policy" key="policy"/>
-				<TabPane tab={props.country.toUpperCase() + " impact"} key="population-impact" />
-				<TabPane tab="Your household" key="household" />
-				{props.household ? <TabPane tab="Household impact" key="household-impact" /> : null}
+				{!props.hidePolicy && <TabPane tab="Policy" key="policy"/>}
+				{!props.hidePopulationImpact && <TabPane tab={props.country.toUpperCase() + " impact"} key="population-impact" />}
+				{!props.hideHousehold && <TabPane tab="Your household" key="household" />}
+				{(props.household && !props.hideHouseholdImpact) ? <TabPane tab="Household impact" key="household-impact" /> : null}
 			</Tabs>
 		);
 	}

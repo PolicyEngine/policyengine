@@ -37,15 +37,19 @@ function generateStepFromParameter(parameter) {
 export function Overview(props) {
 	let plan = Object.values(props.policy).map(generateStepFromParameter);
 	let isEmpty = plan.every(element => element === null);
-	const householdDetails = (props.page === "household" || props.page === "household-impact");
+	let householdDetails = (props.page === "household" || props.page === "household-impact");
 	let numPeople = 0;
 	let household_net_income = 0;
 	let household_market_income = 0;
-	if(householdDetails) {
-		let household = props.situation.households["Your household"];
-		numPeople = household["household_num_people"]["2021"];
-		household_market_income = getTranslators(props.variables["household_market_income"]).formatter(household["household_market_income"]["2021"]);
-		household_net_income = getTranslators(props.variables["household_net_income"]).formatter(household["household_net_income"]["2021"]);
+	try {
+		if(householdDetails) {
+			let household = props.situation.households["Your household"];
+			numPeople = household["household_num_people"]["2021"];
+			household_market_income = getTranslators(props.variables["household_market_income"]).formatter(household["household_market_income"]["2021"]);
+			household_net_income = getTranslators(props.variables["household_net_income"]).formatter(household["household_net_income"]["2021"]);
+		}
+	} catch {
+		householdDetails = false;
 	}
 	return (
 		<>
@@ -68,50 +72,54 @@ export function Overview(props) {
 					</>
 				)
 			}
-			<Empty description="" image={null}>
-				<SimulateButton 
-					hidden={props.page === "policy"}
-					text={<><ArrowLeftOutlined /> Edit your policy</>}
-					target={props.baseURL + "/policy"}
-					policy={props.policy} 
-					onClick={() => {props.setPage("")}}
-				/>
-				<SimulateButton 
-					primary={props.page === "policy"}
-					hidden={props.page === "population-impact"}
-					disabled={props.invalid} 
-					text={
-						props.page === "policy" ?
-							"See the UK impact" :
-							<><ArrowLeftOutlined /> Return to UK impact</>
-					}
-					target={props.baseURL + "/population-impact"}
-					policy={props.policy} 
-					onClick={() => {props.setPage("population-impact")}}
-				/>
-				<SimulateButton 
-					primary={props.page === "population-impact"} 
-					hidden={props.page === "household"}
-					disabled={props.invalid} 
-					text={
-						props.page === "household-impact" ?
-							<><ArrowLeftOutlined /> Edit your household</> :
-							"Describe your household"
-					}
-					target={props.baseURL + "/household"}
-					policy={props.policy} 
-					onClick={() => {props.setPage("household")}}
-				/>
-				<SimulateButton 
-					primary={props.page === "household"} 
-					hidden={props.page === "household-impact"}
-					disabled={props.invalid || !props.situation} 
-					text="See your household impact" 
-					target={props.baseURL + "/household-impact"}
-					policy={props.policy} 
-					onClick={() => {props.setPage("household-impact")}}
-				/>
-			</Empty>
+			{
+				!props.disableNavigation && (
+					<Empty description="" image={null}>
+					<SimulateButton 
+						hidden={props.page === "policy"}
+						text={<><ArrowLeftOutlined /> Edit your policy</>}
+						target={props.baseURL + "/policy"}
+						policy={props.policy} 
+						onClick={() => {props.setPage("")}}
+					/>
+					<SimulateButton 
+						primary={props.page === "policy"}
+						hidden={props.page === "population-impact"}
+						disabled={props.invalid} 
+						text={
+							props.page === "policy" ?
+								"See the UK impact" :
+								<><ArrowLeftOutlined /> Return to UK impact</>
+						}
+						target={props.baseURL + "/population-impact"}
+						policy={props.policy} 
+						onClick={() => {props.setPage("population-impact")}}
+					/>
+					<SimulateButton 
+						primary={props.page === "population-impact"} 
+						hidden={props.page === "household"}
+						disabled={props.invalid} 
+						text={
+							props.page === "household-impact" ?
+								<><ArrowLeftOutlined /> Edit your household</> :
+								"Describe your household"
+						}
+						target={props.baseURL + "/household"}
+						policy={props.policy} 
+						onClick={() => {props.setPage("household")}}
+					/>
+					<SimulateButton 
+						primary={props.page === "household"} 
+						hidden={props.page === "household-impact"}
+						disabled={props.invalid || !props.situation} 
+						text="See your household impact" 
+						target={props.baseURL + "/household-impact"}
+						policy={props.policy} 
+						onClick={() => {props.setPage("household-impact")}}
+					/>
+				</Empty>
+				)
+			}
 			<SharePolicyLinks baseURL={props.baseURL} policy={props.policy} page={props.page}/>
 		</>
 	);

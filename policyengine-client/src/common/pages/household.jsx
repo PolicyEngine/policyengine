@@ -3,7 +3,6 @@ import { Row, Col } from "react-bootstrap";
 import { Overview } from "../overview";
 import { Menu, Collapse, Button } from "antd";
 import { Parameter } from "../parameter";
-import { VARIABLE_CATEGORIES } from "../../countries/uk/data/situation";
 
 const { Panel } = Collapse;
 
@@ -60,8 +59,10 @@ function HouseholdMenu(props) {
 function HouseholdVariables(props) {
 	try {
 		const variables = props.situation[props.entities[props.selected.type].plural][props.selected.name];
+		console.log(variables);
 		let panels = [];
 		for(let category of Object.keys(props.categories)) {
+			console.log(category, props.categories[category], Object.keys(variables))
 			const panelVariables = Object.keys(variables).filter(variable => props.categories[category].includes(variable)).map(variable => {
 				let computed = props.computedSituation[props.entities[props.selected.type].plural][props.selected.name];
 				let value;
@@ -113,7 +114,7 @@ function HouseholdVariables(props) {
 			}
 		}
 		return <Collapse style={{margin: 10}} bordered={false} defaultActiveKey={Object.keys(props.categories)}>{panels}</Collapse>
-	} catch {
+	} catch(e) {
 		props.select("You", "person");
 		return <></>;
 	}
@@ -185,7 +186,7 @@ export class HouseholdPage extends React.Component {
 						variables={this.props.variables}
 						loading={this.state.situationHasChanged}
 						error={this.state.error}
-						categories={VARIABLE_CATEGORIES}
+						categories={this.props.categories}
 					/>
 				</Col>
 				<Col xl={3}>
@@ -198,6 +199,7 @@ export class HouseholdPage extends React.Component {
 						situation={this.state.computedSituation}
 						variables={this.props.variables}
 						loading={this.state.situationHasChanged}
+						disableNavigation={this.props.disableOverviewNavigation}
 					/>
 				</Col>
 			</Row>
@@ -222,6 +224,8 @@ export default function Household(props) {
 			defaultSelectedType={props.defaultSelectedType}
 			situationStructureButtons={props.situationStructureButtons}
 			setHouseholdVisited={props.setHouseholdVisited}
+			categories={props.categories}
+			disableOverviewNavigation={props.disableOverviewNavigation}
 		/>;
 	} else {
 		return <></>;

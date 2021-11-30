@@ -1,24 +1,18 @@
 import React from "react";
-import { policyToURL, urlToPolicy } from "../../common/url";
+import { urlToPolicy } from "../../common/url";
 import { PolicyEngineWrapper, BodyWrapper } from "../../common/layout";
 import { Header } from "../../common/header";
 import { Footer } from "../../common/footer";
 import { Switch, Route, Redirect } from "react-router-dom";
 
-import FAQ from "./components/faq";
-import Policy from "../../common/pages/policy";
-import PopulationImpact from "../../common/pages/populationImpact";
-import AutoUBI from "./components/autoUBI";
 import Household from "../../common/pages/household";
-import HouseholdImpact from "../../common/pages/householdImpact";
-import ExtraBand from "./components/extra_band";
 
 import { situationButtons, validateSituation } from "./logic/situation";
 import { validatePolicy } from "./logic/policy";
-import { ORGANISATIONS, PARAMETER_HIERARCHY, EXTRA_PARAMETER_DATA } from "./data/policy";
 import { DEFAULT_SITUATION, EXTRA_VARIABLE_METADATA, VARIABLE_CATEGORIES } from "./data/situation";
+import { EXTRA_PARAMETER_DATA } from "./data/policy";
 
-export class PolicyEngineUK extends React.Component {
+export class PolicyEngineUS extends React.Component {
     constructor(props) {
         super(props);
         // Attach methods
@@ -100,52 +94,13 @@ export class PolicyEngineUK extends React.Component {
         const setPage = page => {this.setState({page: page});};
         return (
             <PolicyEngineWrapper>
-                <Route exact path="/uk">
-                    <Redirect to="/uk/policy" />
+                <Route exact path="/us">
+                    <Redirect to="/us/household" />
                 </Route>
-                <Header country="uk" policy={this.state.policy} household={this.state.householdVisited}/>
+                <Header country="us" policy={this.state.policy} household={this.state.householdVisited} hidePolicy hidePopulationImpact hideHouseholdImpact/>
                 <BodyWrapper>
                     <Switch>
-                        <Route path="/uk/faq">
-                            <FAQ analytics={this.props.analytics} />
-                        </Route>
-                        <Route path="/uk/policy">
-                            <Policy 
-                                api_url={this.props.api_url}
-                                policy={this.state.policy}
-                                policyValid={this.state.policyValid}
-                                hierarchy={PARAMETER_HIERARCHY}
-                                organisations={ORGANISATIONS}
-                                selected={"/Tax/Income Tax/Labour income"}
-                                open={["/Tax", "/Tax/Income Tax", "/Benefit", "/UBI Center"]}
-                                updatePolicy={this.updatePolicy}
-                                overrides={{
-                                    autoUBI: <AutoUBI api_url={this.props.api_url}/>,
-                                    extra_UK_band: <ExtraBand 
-                                        rate_parameter="extra_UK_rate" 
-                                        threshold_parameter="extra_UK_threshold"
-                                    />,
-                                    extra_scot_band: <ExtraBand 
-                                        rate_parameter="extra_scot_rate" 
-                                        threshold_parameter="extra_scot_threshold"
-                                    />,
-                                }}
-                                setPage={setPage}
-                                invalid={!this.state.policyValid}
-                                baseURL="/uk"
-                            />
-                        </Route>
-                        <Route path="/uk/population-impact">
-                            <PopulationImpact 
-                                api_url={this.props.api_url}
-                                policy={this.state.policy}
-                                currency="£"
-                                country="uk"
-                                setPage={setPage}
-                                baseURL="/uk"
-                            />
-                        </Route>
-                        <Route path="/uk/household">
+                        <Route path="/us/household">
                             <Household
                                 api_url={this.props.api_url}
                                 policy={this.state.policy}
@@ -163,40 +118,12 @@ export class PolicyEngineUK extends React.Component {
                                 situationStructureButtons={situationButtons}
                                 setHouseholdVisited={() => this.setState({householdVisited: true})}
                                 categories={VARIABLE_CATEGORIES}
-                            />
-                        </Route>
-                        <Route path="/uk/household-impact">
-                            <HouseholdImpact
-                                api_url={this.props.api_url}
-                                policy={this.state.policy}
-                                variables={this.state.variables}
-                                situation={this.state.situation}
-                                computedSituation={this.state.computedSituation}
-                                baseURL="/uk"
-                                setHouseholdVisited={() => this.setState({householdVisited: true})}
-                                situationValid={this.state.situationValid}
-                                fetchDone={this.state.fetchDone}
-                                setPage={setPage}
+                                disableOverviewNavigation
                             />
                         </Route>
                     </Switch>
                 </BodyWrapper>
-                <Footer country="uk" />
-                {
-                    this.state.fetchDone ?
-                        <>
-                            <Route path="/uk/population-results">
-                                <Redirect to={policyToURL("/uk/population-impact", urlToPolicy(this.state.policy))} />
-                            </Route>
-                            <Route path="/uk/situation">
-                                <Redirect to={policyToURL("/uk/household", urlToPolicy(this.state.policy))} />
-                            </Route>
-                            <Route path="/uk/situation-results">
-                                <Redirect to={policyToURL("/uk/household", urlToPolicy(this.state.policy))} />
-                            </Route>
-                        </> :
-                        null
-                }
+                <Footer country="us" />
             </PolicyEngineWrapper>
         );
     }
