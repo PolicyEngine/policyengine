@@ -23,7 +23,7 @@ export function getTranslators(parameter) {
 	let minMax = 1;
 	if (parameter.unit === "/1") {
 		result = {
-			formatter: value => `${Math.round(value * 1000) / 10}%`,
+			formatter: value => `${Math.round(value * 10000) / 100}%`,
 		}
 	} else if (parameter.unit === "year") {
 		result = {
@@ -32,7 +32,7 @@ export function getTranslators(parameter) {
 		minMax = 100;
 	} else if (parameter.unit === "tonne C02") {
 		result = {
-			formatter: value => `${value} tonnes C02`,
+			formatter: value => `${Math.round(value * 10) / 10} tonnes C02`,
 		}
 		minMax = 100;
 	} else if (parameter.valueType === "bool") {
