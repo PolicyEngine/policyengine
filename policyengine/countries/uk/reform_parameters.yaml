@@ -23,6 +23,30 @@ reforms:
         unit: currency-GBP
         tests:
           - decreases_net_income: true
+  wealth_tax:
+    rate:
+      description: A yearly flat tax on net financial wealth
+      values:
+        2021-01-01: 0.00
+      metadata:
+        label: Wealth Tax
+        name: wealth_tax
+        unit: /1
+        max: 0.1
+        tests:
+          - decreases_net_income: true
+  property_tax:
+    rate:
+      description: A yearly flat tax on property wealth
+      values:
+        2021-01-01: 0.00
+      metadata:
+        label: Property Tax
+        name: property_tax
+        unit: /1
+        max: 0.1
+        tests:
+          - decreases_net_income: true
   UBI:
     adult:
       description: Flat payment given to each person over the adult UBI age threshold, but under State Pension age
