@@ -1,7 +1,7 @@
 reforms:
   LVT:
     rate:
-      description: A yearly flat tax on the unimproved value of land
+      description: Tax rate on the unimproved value of land
       values:
         2021-01-01: 0.00
       metadata:
@@ -13,7 +13,7 @@ reforms:
           - decreases_net_income: true
   carbon:
     rate:
-      description: The price of a tonne of carbon emissions
+      description: Price per tonne of carbon emissions
       values:
         2021-01-01: 0.00
       metadata:
@@ -25,7 +25,7 @@ reforms:
           - decreases_net_income: true
   UBI:
     adult:
-      description: Flat payment given to each person over the adult universal basic income age threshold, but under State Pension age
+      description: Flat payment given to each person at or above the adult universal basic income age threshold, but under State Pension age
       values: 
         2021-01-01: 0.00
       metadata:
@@ -70,22 +70,22 @@ reforms:
         unit: year
         max: 65
     taxable:
-      description: Whether the universal basic income is included in taxable income for Income Tax
+      description: Include universal basic income as countable income for Income Tax
       values:
         2021-01-01: false
       metadata:
-        label: Universal basic income taxability
+        label: Make universal basic income taxable
         name: taxable_UBI
     in_means_tests:
-      description: Whether the universal basic income is included in the means tests for benefits
+      description: Include universal basic income as countable income for means tested benefits
       values: 
         2021-01-01: false
       metadata:
-        label: Universal basic income included in means tests
+        label: Count universal basic income in means tests
         name: means_test_UBI
   abolition:
     abolish_income_tax:
-      description: Abolish Income Tax entirely
+      description: Abolish Income Tax
       values:
         2021-01-01: false
       metadata:
@@ -96,7 +96,7 @@ reforms:
         tests:
           - increases_net_income: true
     abolish_NI:
-      description: Abolish National Insurance entirely
+      description: Abolish National Insurance
       values:
         2021-01-01: false
       metadata:
@@ -107,7 +107,7 @@ reforms:
         tests:
           - increases_net_income: true
     abolish_UC:
-      description: Abolish Universal Credit. This does not trigger migration back to legacy benefits.
+      description: Abolish Universal Credit; this does not trigger migration back to legacy benefits
       values:
         2021-01-01: false
       metadata:
@@ -184,7 +184,7 @@ reforms:
         tests:
           - decreases_net_income: true
     abolish_IS:
-      description: Abolish Income Support entirely. This does not trigger migration to Universal Credit.
+      description: Abolish Income Support entirely; this does not trigger migration to Universal Credit
       values:
         2021-01-01: false
       metadata:
@@ -195,7 +195,7 @@ reforms:
         tests:
           - decreases_net_income: true
     abolish_JSA_income:
-      description: Abolish income-based Jobseeker's Allowance. This does not trigger migration to Universal Credit.
+      description: Abolish income-based Jobseeker's Allowance; this does not trigger migration to Universal Credit
       values:
         2021-01-01: false
       metadata:
@@ -206,7 +206,7 @@ reforms:
         tests:
           - decreases_net_income: true
     abolish_UC_standard_allowance:
-      description: Abolish Universal Credit standard allowance
+      description: Abolish Universal Credit standard allowance, which varies with age and marital status
       values:
         2021-01-01: false
       metadata:
@@ -217,7 +217,7 @@ reforms:
         tests:
           - decreases_net_income: true
     abolish_UC_child_element:
-      description: Abolish the child element of Universal Credit
+      description: Abolish Universal Credit child element
       values:
         2021-01-01: false
       metadata:
@@ -228,7 +228,7 @@ reforms:
         tests:
           - decreases_net_income: true
     abolish_UC_disability_element:
-      description: Abolish the disability element of Universal Credit
+      description: Abolish Universal Credit disability element
       values:
         2021-01-01: false
       metadata:
@@ -239,7 +239,7 @@ reforms:
         tests:
           - decreases_net_income: true
     abolish_UC_carer_element:
-      description: Abolish the carer element of Universal Credit
+      description: Abolish Universal Credit carer element
       values:
         2021-01-01: false
       metadata:
@@ -250,7 +250,7 @@ reforms:
         tests:
           - decreases_net_income: true
     abolish_UC_childcare_element:
-      description: Abolish the childcare element of Universal Credit
+      description: Abolish Universal Credit childcare element
       values:
         2021-01-01: false
       metadata:
@@ -272,7 +272,7 @@ reforms:
         tests:
           - decreases_net_income: true
     abolish_CT:
-      description: End all Council Tax payments
+      description: Abolish Council Tax
       values:
         2021-01-01: false
       metadata:
