@@ -85,7 +85,6 @@ reforms:
         name: means_test_UBI
   abolition:
     abolish_income_tax:
-      description: Abolish Income Tax
       values:
         2021-01-01: false
       metadata:
@@ -96,7 +95,6 @@ reforms:
         tests:
           - increases_net_income: true
     abolish_NI:
-      description: Abolish National Insurance
       values:
         2021-01-01: false
       metadata:
@@ -107,7 +105,7 @@ reforms:
         tests:
           - increases_net_income: true
     abolish_UC:
-      description: Abolish Universal Credit; this does not trigger migration back to legacy benefits
+      description: This does not trigger migration back to legacy benefits
       values:
         2021-01-01: false
       metadata:
@@ -129,7 +127,7 @@ reforms:
         tests:
           - decreases_net_income: true
     abolish_HB:
-      description: Abolish Housing Benefit. This does not trigger migration to Universal Credit.
+      description: This does not trigger migration to Universal Credit
       values:
         2021-01-01: false
       metadata:
@@ -140,7 +138,7 @@ reforms:
         tests:
           - decreases_net_income: true
     abolish_CTC:
-      description: Abolish the Child Tax Credit. This does not trigger migration to Universal Credit.
+      description: This does not trigger migration to Universal Credit
       values:
         2021-01-01: false
       metadata:
@@ -151,7 +149,7 @@ reforms:
         tests:
           - decreases_net_income: true
     abolish_WTC:
-      description: Abolish the Working Tax Credit. This does not trigger migration to Universal Credit.
+      description: This does not trigger migration to Universal Credit
       values:
         2021-01-01: false
       metadata:
@@ -162,7 +160,7 @@ reforms:
         tests:
           - decreases_net_income: true
     abolish_SP:
-      description: End all State Pension payments
+      description:
       values:
         2021-01-01: false
       metadata:
@@ -173,7 +171,6 @@ reforms:
         tests:
           - decreases_net_income: true
     abolish_PC:
-      description: End all Pension Credit payments
       values:
         2021-01-01: false
       metadata:
@@ -184,7 +181,7 @@ reforms:
         tests:
           - decreases_net_income: true
     abolish_IS:
-      description: Abolish Income Support entirely; this does not trigger migration to Universal Credit
+      description: This does not trigger migration to Universal Credit
       values:
         2021-01-01: false
       metadata:
@@ -195,7 +192,7 @@ reforms:
         tests:
           - decreases_net_income: true
     abolish_JSA_income:
-      description: Abolish income-based Jobseeker's Allowance; this does not trigger migration to Universal Credit
+      description: This does not trigger migration to Universal Credit
       values:
         2021-01-01: false
       metadata:
@@ -206,7 +203,6 @@ reforms:
         tests:
           - decreases_net_income: true
     abolish_UC_standard_allowance:
-      description: Abolish Universal Credit standard allowance, which varies with age and marital status
       values:
         2021-01-01: false
       metadata:
@@ -217,7 +213,7 @@ reforms:
         tests:
           - decreases_net_income: true
     abolish_UC_child_element:
-      description: Abolish Universal Credit child element
+      description:
       values:
         2021-01-01: false
       metadata:
@@ -228,7 +224,6 @@ reforms:
         tests:
           - decreases_net_income: true
     abolish_UC_disability_element:
-      description: Abolish Universal Credit disability element
       values:
         2021-01-01: false
       metadata:
@@ -239,7 +234,6 @@ reforms:
         tests:
           - decreases_net_income: true
     abolish_UC_carer_element:
-      description: Abolish Universal Credit carer element
       values:
         2021-01-01: false
       metadata:
@@ -250,7 +244,7 @@ reforms:
         tests:
           - decreases_net_income: true
     abolish_UC_childcare_element:
-      description: Abolish Universal Credit childcare element
+      description:
       values:
         2021-01-01: false
       metadata:
@@ -261,18 +255,17 @@ reforms:
         tests:
           - decreases_net_income: true
     abolish_ESA_income:
-      description: Abolish income-based Employment Support Allowance
+      description:
       values:
         2021-01-01: false
       metadata:
-        label: Abolish income-based Employment Support Allowance
+        label: Abolish income-based Employment and Support Allowance
         variable: ESA_income
         name: abolish_ESA_income
         unit: abolition
         tests:
           - decreases_net_income: true
     abolish_CT:
-      description: Abolish Council Tax
       values:
         2021-01-01: false
       metadata:
