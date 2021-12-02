@@ -13,7 +13,7 @@ reforms:
           - decreases_net_income: true
   carbon:
     rate:
-      description: The price of a tonne of carbon emisssions
+      description: The price of a tonne of carbon emissions
       values:
         2021-01-01: 0.00
       metadata:
