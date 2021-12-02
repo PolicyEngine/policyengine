@@ -120,7 +120,7 @@ def create_default_reform() -> ReformType:
         value_type = float
 
         def formula(household, period, parameters):
-            rate = parameters(period).reforms.carbon.rate
+            rate = parameters(period).reforms.carbon_tax.rate
             return rate * household("carbon_consumption", period)
 
     class tax(baseline_variables["tax"]):

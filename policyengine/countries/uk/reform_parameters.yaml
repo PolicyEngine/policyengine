@@ -11,7 +11,7 @@ reforms:
         max: 0.1
         tests:
           - decreases_net_income: true
-  carbon:
+  carbon_tax:
     rate:
       description: Price per tonne of carbon emissions
       values:
