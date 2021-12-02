@@ -286,6 +286,17 @@ def create_default_reform() -> ReformType:
                 for variable, carbon_intensity in zip(carbon_intensity.index, carbon_intensity.carbon_per_pound)
             ])
 
+    class single_pensioner_supplement(Variable):
+        entity = Household
+        label = "Single pensioner supplement"
+        documentation = "A grant for single pensioners"
+        unit = "currency-GBP"
+        definition_period = YEAR
+        value_type = float
+
+        def formula(household, period, parameters):
+            return parameters(period).reforms.single_pensioner_supplement * (household.sum(household.members("is_SP_age", period)) == 1)
+    
     class carbon_tax(Variable):
         entity = Household
         label = "Carbon tax"
@@ -332,7 +343,7 @@ def create_default_reform() -> ReformType:
             original_benefits = baseline_variables["benefits"].formula(
                 person, period, parameters
             )
-            return original_benefits + person("UBI", period)
+            return original_benefits + person("UBI", period) + person("is_household_head", period) * person.household("single_pensioner_supplement", period)
 
     # Taxable UBI
 
@@ -672,6 +683,7 @@ def create_default_reform() -> ReformType:
                 net_financial_wealth_tax,
                 property_tax,
                 net_financial_wealth,
+                single_pensioner_supplement,
             )
 
     return (default_reform,)

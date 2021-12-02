@@ -128,5 +128,6 @@ export const PARAMETER_HIERARCHY = {
 	"Misc.": [
 		"wealth_tax",
 		"property_tax",
+		"single_pensioner_supplement",
 	]
 };
