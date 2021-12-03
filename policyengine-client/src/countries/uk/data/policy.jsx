@@ -15,6 +15,9 @@ export const EXTRA_PARAMETER_DATA = {
 }
 
 export const PARAMETER_HIERARCHY = {
+	"General": [
+		"timeTravel",
+	],
 	"Tax": {
 		"Income Tax": {
 			"Labour income": [

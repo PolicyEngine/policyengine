@@ -17,6 +17,7 @@ import { situationButtons, validateSituation } from "./logic/situation";
 import { validatePolicy } from "./logic/policy";
 import { ORGANISATIONS, PARAMETER_HIERARCHY, EXTRA_PARAMETER_DATA } from "./data/policy";
 import { DEFAULT_SITUATION, EXTRA_VARIABLE_METADATA, VARIABLE_CATEGORIES } from "./data/situation";
+import TimeTravel from "./components/timeTravel";
 
 export class PolicyEngineUK extends React.Component {
     constructor(props) {
@@ -119,6 +120,7 @@ export class PolicyEngineUK extends React.Component {
                                 selected={"/Tax/Income Tax/Labour income"}
                                 open={["/Tax", "/Tax/Income Tax", "/Benefit", "/UBI Center"]}
                                 updatePolicy={this.updatePolicy}
+                                updateEntirePolicy={(policy, defaultPolicy) => this.setState(validatePolicy(policy, defaultPolicy))}
                                 overrides={{
                                     autoUBI: <AutoUBI api_url={this.props.api_url}/>,
                                     extra_UK_band: <ExtraBand 
@@ -129,6 +131,9 @@ export class PolicyEngineUK extends React.Component {
                                         rate_parameter="extra_scot_rate" 
                                         threshold_parameter="extra_scot_threshold"
                                     />,
+                                    timeTravel: <TimeTravel 
+                                        api_url={this.props.api_url}
+                                    />
                                 }}
                                 setPage={setPage}
                                 invalid={!this.state.policyValid}
