@@ -1,8 +1,9 @@
 import { Fragment, default as React, useState } from "react";
 import { CloseCircleFilled, LoadingOutlined, EditOutlined } from "@ant-design/icons";
 import {
-	Divider, Switch, Slider, Select, Alert, Input, Tag, Spin
+	Divider, Switch, Slider, Select, Alert, Input, Tag, Spin, DatePicker
 } from "antd";
+import moment from "moment";
 
 import "../common/policyengine.less";
 
@@ -53,6 +54,12 @@ export function getTranslators(parameter) {
 				minMax = {year: 100_000, month: 1000, week: 100, null: 100}[period];
 			}
 		}
+	} else if(parameter.valueType === "date") {
+		const dateIntToMoment = value => moment(value.toString().slice(0, 4) + "-" + value.toString().slice(4, 6) + "-" + value.toString().slice(6, 8), "YYYY-MM-DD");
+		result = {
+			formatter: value => dateIntToMoment(value).format("LL"),
+			parser: dateIntToMoment,
+		}
 	} else {
 		result = {
 			formatter: value => +value,
@@ -61,6 +68,7 @@ export function getTranslators(parameter) {
 	}
 	return {
 		formatter: result.formatter,
+		parser: result.parser,
 		min: 0,
 		max: Math.max(parameter.max || minMax, Math.pow(10, Math.ceil(Math.log10(Math.max(parameter.defaultValue, parameter.value))))),
 	}
@@ -69,7 +77,7 @@ export function getTranslators(parameter) {
 export function Parameter(props) {
 	try {
 		let [focused, setFocused] = useState();
-		let { formatter, min, max } = getTranslators(props.param);
+		let { formatter, parser, min, max } = getTranslators(props.param);
 		if(focused) {
 			formatter = x => x;
 		}
@@ -107,6 +115,10 @@ export function Parameter(props) {
 					defaultValue={props.param.value}
 					disabled={props.disabled}
 				/>
+			);
+		} else if(props.param.valueType === "date") {
+			component = (
+				<DatePicker format="YYYY-MM-DD" value={parser(props.param.value)} onChange={(_, dateStr) => {onChange(+(dateStr.replace("-", "").replace("-", "")))}}/>
 			);
 		} else {
 			let marks = {[max]: formatter(max)};
@@ -152,7 +164,8 @@ export function Parameter(props) {
 			</>
 		);
 		} catch(e) {
-			return <>{e.toString() + JSON.stringify(props.param)}</>;
+			console.log("Failed to load parameter");
+			return <></>;
 		}
 }
 
