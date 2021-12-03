@@ -1,4 +1,20 @@
 reforms:
+  policy_date:
+    description: Use tax-benefit policy as of this date
+    values:
+      2021-01-01: 20210101
+    metadata:
+      label: Policy date (reform)
+      name: policy_date
+      type: date
+  baseline_policy_date:
+    description: Use tax-benefit policy as of this date in the baseline
+    values:
+      2021-01-01: 20210101
+    metadata:
+      label: Policy date (baseline)
+      name: baseline_policy_date
+      type: date
   LVT:
     rate:
       description: A yearly flat tax on the unimproved value of land
