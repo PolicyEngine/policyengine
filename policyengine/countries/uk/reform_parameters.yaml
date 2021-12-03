@@ -47,15 +47,6 @@ reforms:
         max: 0.1
         tests:
           - decreases_net_income: true
-  single_pensioner_supplement:
-    description: A supplement for single pensioners
-    values:
-      2021-01-01: 0.00
-    metadata:
-      label: Single Pensioner Supplement
-      name: single_pensioner_supplement
-      unit: currency-GBP
-      period: year
   UBI:
     adult:
       description: Flat payment given to each person over the adult UBI age threshold, but under State Pension age

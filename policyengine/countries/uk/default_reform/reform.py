@@ -81,12 +81,14 @@ def add_extra_band(parameters: ParameterNode) -> ParameterNode:
     )
     return parameters
 
+
 folder = Path(__file__).parent
 
 with open(folder / "land_formula.yaml") as f:
     land_formula = yaml.safe_load(f)
 
 carbon_intensity = pd.read_csv(folder / "carbon_intensity.csv", index_col=0)
+
 
 def create_default_reform() -> ReformType:
     baseline_system = CountryTaxBenefitSystem()
@@ -137,7 +139,7 @@ def create_default_reform() -> ReformType:
 
         def formula(household, period, parameters):
             rate = parameters(period).reforms.wealth_tax.rate
-            return household("net_financial_wealth", period) * rate
+            return max_(0, household("net_financial_wealth", period)) * rate
 
     class property_tax(Variable):
         entity = Household
@@ -154,7 +156,7 @@ def create_default_reform() -> ReformType:
     class land_value(Variable):
         entity = Household
         label = "Land value"
-        documentation = "Total land value exposure"
+        documentation = "Estimated total land value exposure"
         unit = "currency-GBP"
         definition_period = YEAR
         value_type = float
@@ -162,8 +164,10 @@ def create_default_reform() -> ReformType:
         def formula(household, period):
             return (
                 household("owned_land_value", period)
-                + household("property_wealth", period) * land_formula["land_prop_share"]
-                + household("corporate_wealth", period) * land_formula["land_corp_share"]
+                + household("property_wealth", period)
+                * land_formula["land_prop_share"]
+                + household("corporate_wealth", period)
+                * land_formula["land_corp_share"]
             )
 
     class LVT(Variable):
@@ -179,7 +183,9 @@ def create_default_reform() -> ReformType:
     class food_and_non_alcoholic_beverages_consumption(Variable):
         entity = Household
         label = "Food and alcoholic beverages"
-        documentation = "Total yearly expenditure on food and alcoholic beverages"
+        documentation = (
+            "Total yearly expenditure on food and alcoholic beverages"
+        )
         unit = "currency-GBP"
         definition_period = YEAR
         value_type = float
@@ -203,7 +209,9 @@ def create_default_reform() -> ReformType:
     class housing_water_and_electricity_consumption(Variable):
         entity = Household
         label = "Housing, water and electricity"
-        documentation = "Total yearly expenditure on housing, water and electricity"
+        documentation = (
+            "Total yearly expenditure on housing, water and electricity"
+        )
         unit = "currency-GBP"
         definition_period = YEAR
         value_type = float
@@ -275,28 +283,22 @@ def create_default_reform() -> ReformType:
     class carbon_consumption(Variable):
         entity = Household
         label = "Carbon consumption"
-        documentation = "Total carbon footprint of the household"
-        unit = "tonne C02"
+        documentation = "Estimated total carbon footprint of the household"
+        unit = "tonne CO2"
         definition_period = YEAR
         value_type = float
 
         def formula(household, period):
-            return sum([
-                household(variable, period) * carbon_intensity
-                for variable, carbon_intensity in zip(carbon_intensity.index, carbon_intensity.carbon_per_pound)
-            ])
+            return sum(
+                [
+                    household(variable, period) * carbon_intensity
+                    for variable, carbon_intensity in zip(
+                        carbon_intensity.index,
+                        carbon_intensity.carbon_per_pound,
+                    )
+                ]
+            )
 
-    class single_pensioner_supplement(Variable):
-        entity = Household
-        label = "Single pensioner supplement"
-        documentation = "A grant for single pensioners"
-        unit = "currency-GBP"
-        definition_period = YEAR
-        value_type = float
-
-        def formula(household, period, parameters):
-            return parameters(period).reforms.single_pensioner_supplement * (household.sum(household.members("is_SP_age", period)) == 1)
-    
     class carbon_tax(Variable):
         entity = Household
         label = "Carbon tax"
@@ -312,12 +314,22 @@ def create_default_reform() -> ReformType:
             is_head = person("is_household_head", period)
             LVT_charge = person.household("LVT", period) * is_head
             carbon_charge = person.household("carbon_tax", period) * is_head
-            wealth_charge = person.household("net_financial_wealth_tax", period) * is_head
-            property_charge = person.household("property_tax", period) * is_head
+            wealth_charge = (
+                person.household("net_financial_wealth_tax", period) * is_head
+            )
+            property_charge = (
+                person.household("property_tax", period) * is_head
+            )
             original_tax = baseline_variables["tax"].formula(
                 person, period, parameters
             )
-            return original_tax + LVT_charge + carbon_charge + wealth_charge + property_charge
+            return (
+                original_tax
+                + LVT_charge
+                + carbon_charge
+                + wealth_charge
+                + property_charge
+            )
 
     class UBI(Variable):
         entity = Person
@@ -343,7 +355,7 @@ def create_default_reform() -> ReformType:
             original_benefits = baseline_variables["benefits"].formula(
                 person, period, parameters
             )
-            return original_benefits + person("UBI", period) + person("is_household_head", period) * person.household("single_pensioner_supplement", period)
+            return original_benefits + person("UBI", period)
 
     # Taxable UBI
 
@@ -665,8 +677,8 @@ def create_default_reform() -> ReformType:
 
             # Wealth and consumption
             self.add_variables(
-                owned_land_value, 
-                property_wealth, 
+                owned_land_value,
+                property_wealth,
                 corporate_wealth,
                 food_and_non_alcoholic_beverages_consumption,
                 alcohol_and_tobacco_consumption,
@@ -683,7 +695,6 @@ def create_default_reform() -> ReformType:
                 net_financial_wealth_tax,
                 property_tax,
                 net_financial_wealth,
-                single_pensioner_supplement,
             )
 
     return (default_reform,)
