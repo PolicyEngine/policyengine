@@ -2,7 +2,7 @@
 Utility functions for writing reforms.
 """
 from pathlib import Path
-from typing import Any, Callable, Dict, Type
+from typing import Any, Callable, Dict, Tuple, Type
 from openfisca_core.parameters.helpers import load_parameter_file
 from openfisca_core.parameters.parameter import Parameter
 from openfisca_core.parameters.parameter_scale import ParameterScale
@@ -156,7 +156,9 @@ def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
                 description=parameter.description,
                 label=parameter.metadata["label"],
                 value=parameter(CURRENT_INSTANT),
-                valueType=parameter(CURRENT_INSTANT).__class__.__name__,
+                valueType=parameter.metadata["type"]
+                if "type" in parameter.metadata
+                else parameter(CURRENT_INSTANT).__class__.__name__,
                 unit=None,
                 period=None,
                 variable=None,
@@ -214,9 +216,7 @@ def get_summary(parameter: dict, value: Any) -> str:
 def create_reform(
     parameters: dict,
     policyengine_parameters: dict = {},
-    return_names: bool = False,
-    return_descriptions: bool = False,
-) -> Reform:
+) -> Tuple[Reform, Reform]:
     """Translates URL parameters into an OpenFisca reform.
 
     Args:
@@ -237,23 +237,46 @@ def create_reform(
         except:
             params[name] = value
     reforms = []
+    baseline_reforms = []
     names = []
+    baseline_names = []
     descriptions = []
+    baseline_descriptions = []
     for param, value in params.items():
         if param != "household":
             metadata = policyengine_parameters[param]
-            names += [metadata["label"]]
-            descriptions += [get_summary(metadata, value)]
+            name = metadata["label"]
+            description = get_summary(metadata, value)
             if "abolish" in param:
-                reforms += [abolish(metadata["variable"])]
+                reform = abolish(metadata["variable"])
             else:
-                reforms += [parametric(metadata["parameter"], value)]
-    result = [tuple(reforms)]
-    if return_names:
-        result += [names]
-    if return_descriptions:
-        result += [descriptions]
-    return result if len(result) > 1 else result[0]
+                reform = parametric(metadata["parameter"], value)
+            if "policy_date" in param:
+                str_value = str(value)
+                print(f"{param}={str_value}")
+                reform = use_current_parameters(
+                    f"{str_value[:4]}-{str_value[4:6]}-{str_value[6:8]}"
+                )
+            if "baseline" in param:
+                baseline_reforms.append(reform)
+                baseline_names.append(name)
+                baseline_descriptions.append(description)
+            else:
+                reforms.append(reform)
+                names.append(name)
+                descriptions.append(description)
+    return dict(
+        reform=dict(
+            reform=tuple(reforms),
+            names=names,
+            descriptions=descriptions,
+        ),
+        baseline=dict(
+            reform=tuple(baseline_reforms),
+            names=baseline_names,
+            descriptions=baseline_descriptions,
+        ),
+    )
 
 
 def use_current_parameters(date: str = CURRENT_INSTANT) -> Reform:
@@ -268,6 +291,9 @@ def use_current_parameters(date: str = CURRENT_INSTANT) -> Reform:
 
     def modify_parameters(parameters: ParameterNode):
         for child in parameters.get_descendants():
+            if "policy_date" in child.name:
+                today_int = int(date.replace("-", ""))
+                child.update(period=f"year:{YEAR-10}:20", value=today_int)
             if isinstance(child, Parameter):
                 current_value = child(date)
                 child.update(period=f"year:{YEAR-10}:20", value=current_value)
