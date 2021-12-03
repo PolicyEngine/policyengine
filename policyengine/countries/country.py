@@ -61,6 +61,7 @@ class PolicyEngineCountry:
                 if self.parameter_file is not None
                 else (),
                 self.default_reform,
+                use_current_parameters(),
             )
             self.baseline_system = self.system()
             self.policyengine_parameters = get_PE_parameters(
@@ -140,11 +141,13 @@ class PolicyEngineCountry:
     def population_reform(self, params: dict = None):
         reform_config = create_reform(params, self.policyengine_parameters)
         reformed = self._create_reform_sim(
-            reform_config["reform"]["reform"], skip_current_date=True
+            reform_config["reform"]["reform"],
+            skip_current_date="policy_date" in params,
         )
         if len(reform_config["baseline"]["reform"]) > 0:
             baseline = self._create_reform_sim(
-                reform_config["baseline"]["reform"]
+                reform_config["baseline"]["reform"],
+                skip_current_date="baseline_policy_date" in params,
             )
             print(
                 baseline.simulation.tax_benefit_system.parameters.benefit.universal_credit.means_test.reduction_rate
@@ -172,14 +175,30 @@ class PolicyEngineCountry:
     @exclude_from_cache
     def household_reform(self, params=None):
         situation = create_situation(params["household"])
-        reform = create_reform(params, self.policyengine_parameters)
-        baseline_config = self.default_reform
-        reform_config = self.default_reform, reform
-        baseline: IndividualSim = situation(
-            self.IndividualSim(baseline_config, year=2021)
-        )
+        reform_config = create_reform(params, self.policyengine_parameters)
         reformed: IndividualSim = situation(
-            self.IndividualSim(reform_config, year=2021)
+            self.IndividualSim(
+                (
+                    self.default_reform[:-1],
+                    reform_config["reform"]["reform"],
+                    use_current_parameters()
+                    if "policy_date" not in params
+                    else (),
+                ),
+                year=2021,
+            )
+        )
+        baseline: IndividualSim = situation(
+            self.IndividualSim(
+                (
+                    self.default_reform[:-1],
+                    reform_config["baseline"]["reform"],
+                    use_current_parameters()
+                    if "baseline_policy_date" not in params
+                    else (),
+                ),
+                year=2021,
+            )
         )
         baseline.calc("net_income")
         reformed.calc("net_income")

@@ -15,10 +15,6 @@ from datetime import datetime
 from openfisca_core.taxbenefitsystems import TaxBenefitSystem
 from rdbl import gbp
 
-DATE = datetime.now()
-YEAR, MONTH, DAY = DATE.year, DATE.month, DATE.day
-CURRENT_INSTANT = DATE.strftime("%Y-%m-%d")
-
 
 def structural(variable: Type[Variable]) -> Reform:
     """Generates a structural reform.
@@ -134,6 +130,8 @@ def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
     Returns:
         Dict[str, dict]: The parameter metadata.
     """
+
+    now = datetime.now().strftime("%Y-%m-%d")
     parameters = []
     for parameter in system.parameters.get_descendants():
         if isinstance(parameter, Parameter):
@@ -155,10 +153,10 @@ def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
                 parameter=parameter.name,
                 description=parameter.description,
                 label=parameter.metadata["label"],
-                value=parameter(CURRENT_INSTANT),
+                value=parameter(now),
                 valueType=parameter.metadata["type"]
                 if "type" in parameter.metadata
-                else parameter(CURRENT_INSTANT).__class__.__name__,
+                else parameter(now).__class__.__name__,
                 unit=None,
                 period=None,
                 variable=None,
@@ -279,35 +277,42 @@ def create_reform(
     )
 
 
-def use_current_parameters(date: str = CURRENT_INSTANT) -> Reform:
+def use_current_parameters(date: str = None) -> Reform:
     """Backdates parameters at a given instant to the start of the year.
 
     Args:
-        date (str, optional): The given instant. Defaults to CURRENT_INSTANT.
+        date (str, optional): The given instant. Defaults to now.
 
     Returns:
         Reform: The reform backdating parameters.
     """
+    if date is None:
+        date = datetime.now()
+    else:
+        date = datetime.strptime(date, "%Y-%m-%d")
+
+    year = date.year
+    date = datetime.strftime(date, "%Y-%m-%d")
 
     def modify_parameters(parameters: ParameterNode):
         for child in parameters.get_descendants():
             if "policy_date" in child.name:
                 today_int = int(date.replace("-", ""))
-                child.update(period=f"year:{YEAR-10}:20", value=today_int)
+                child.update(period=f"year:{year-10}:20", value=today_int)
             if isinstance(child, Parameter):
                 current_value = child(date)
-                child.update(period=f"year:{YEAR-10}:20", value=current_value)
+                child.update(period=f"year:{year-10}:20", value=current_value)
             elif isinstance(child, ParameterScale):
                 for bracket in child.brackets:
                     if "rate" in bracket.children:
                         current_rate = bracket.rate(date)
                         bracket.rate.update(
-                            period=f"year:{YEAR-10}:20", value=current_rate
+                            period=f"year:{year-10}:20", value=current_rate
                         )
                     if "threshold" in bracket.children:
                         current_threshold = bracket.threshold(date)
                         bracket.threshold.update(
-                            period=f"year:{YEAR-10}:20",
+                            period=f"year:{year-10}:20",
                             value=current_threshold,
                         )
         return parameters
