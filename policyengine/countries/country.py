@@ -1,6 +1,8 @@
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, Tuple, Type
 from openfisca_core.indexed_enums.enum import Enum
+from openfisca_core.parameters.parameter import Parameter
 from openfisca_tools.model_api import ReformType
 import yaml
 import dpath
@@ -55,7 +57,6 @@ class PolicyEngineCountry:
     def __init__(self):
         if self.calculate_only:
             self.default_reform = (
-                use_current_parameters(),
                 add_parameter_file(self.parameter_file.absolute())
                 if self.parameter_file is not None
                 else (),
@@ -81,12 +82,13 @@ class PolicyEngineCountry:
         else:
             if self.default_dataset_year not in self.default_dataset.years:
                 self.default_dataset.download(self.default_dataset_year)
+
             self.default_reform = (
-                use_current_parameters(),
                 add_parameter_file(self.parameter_file.absolute())
                 if self.parameter_file is not None
                 else (),
                 self.default_reform,
+                use_current_parameters(),
             )
 
             self.baseline = self.Microsimulation(
@@ -120,9 +122,15 @@ class PolicyEngineCountry:
                 self.baseline.simulation.tax_benefit_system
             )
 
-    def _create_reform_sim(self, reform: ReformType) -> Microsimulation:
+    def _create_reform_sim(
+        self, reform: ReformType, skip_current_date: bool = False
+    ) -> Microsimulation:
+        if skip_current_date:
+            default_reform = self.default_reform[:-1]
+        else:
+            default_reform = self.default_reform
         sim = self.Microsimulation(
-            (self.default_reform, reform), dataset=self.default_dataset
+            (default_reform, reform), dataset=self.default_dataset
         )
         sim.simulation.trace = True
         self.default_year = 2021
@@ -130,23 +138,34 @@ class PolicyEngineCountry:
         return sim
 
     def population_reform(self, params: dict = None):
-        reform = create_reform(params, self.policyengine_parameters)
-        reformed = self._create_reform_sim(reform)
+        reform_config = create_reform(params, self.policyengine_parameters)
+        reformed = self._create_reform_sim(
+            reform_config["reform"]["reform"], skip_current_date=True
+        )
+        if len(reform_config["baseline"]["reform"]) > 0:
+            baseline = self._create_reform_sim(
+                reform_config["baseline"]["reform"]
+            )
+            print(
+                baseline.simulation.tax_benefit_system.parameters.benefit.universal_credit.means_test.reduction_rate
+            )
+        else:
+            baseline = self.baseline
         rel_decile_chart, avg_decile_chart = decile_chart(
-            self.baseline, reformed, self.results_config
+            baseline, reformed, self.results_config
         )
         return dict(
-            **headline_metrics(self.baseline, reformed, self.results_config),
+            **headline_metrics(baseline, reformed, self.results_config),
             rel_decile_chart=rel_decile_chart,
             avg_decile_chart=avg_decile_chart,
             poverty_chart=poverty_chart(
-                self.baseline, reformed, self.results_config
+                baseline, reformed, self.results_config
             ),
             waterfall_chart=population_waterfall_chart(
-                self.baseline, reformed, self.results_config
+                baseline, reformed, self.results_config
             ),
             intra_decile_chart=intra_decile_chart(
-                self.baseline, reformed, self.results_config
+                baseline, reformed, self.results_config
             ),
         )
 
@@ -206,6 +225,17 @@ class PolicyEngineCountry:
 
     @exclude_from_cache
     def parameters(self, params=None):
+        if "policy_date" in params:
+            system = apply_reform(self.default_reform[:-1], self.system())
+            system = use_current_parameters(params["policy_date"])(system)
+            today_int = int(datetime.today().strftime("%Y%m%d"))
+            system.parameters.reforms.policy_date.update(
+                period="year:2010:10", value=today_int
+            )
+            system.parameters.reforms.baseline_policy_date.update(
+                period="year:2010:10", value=today_int
+            )
+            return get_PE_parameters(system)
         return self.policyengine_parameters
 
     @exclude_from_cache
