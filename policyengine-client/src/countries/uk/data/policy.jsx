@@ -124,10 +124,5 @@ export const PARAMETER_HIERARCHY = {
 		"Carbon Tax": [
 			"carbon_tax",
 		]
-	},
-	"Misc.": [
-		"wealth_tax",
-		"property_tax",
-		"single_pensioner_supplement",
-	]
+	}
 };
