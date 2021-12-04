@@ -49,7 +49,7 @@ export function getTranslators(parameter) {
 		for(let currency in CURRENCY_SYMBOLS) {
 			if(parameter.unit === currency) {
 				result = {
-					formatter: value => `${CURRENCY_SYMBOLS[currency]}${Math.round(Number(value)).toLocaleString()}${period ? ("/" + period) : ""}`,
+					formatter: value => `${CURRENCY_SYMBOLS[currency]}${(Math.round(Number(value) * 100) / 100).toLocaleString()}${period ? ("/" + period) : ""}`,
 				}
 				minMax = {year: 100_000, month: 1000, week: 100, null: 100}[period];
 			}
