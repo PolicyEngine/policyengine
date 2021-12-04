@@ -280,5 +280,5 @@ def add_zero_line(fig: go.Figure) -> None:
         y0=0,
         x1=1,
         y1=0,
-        line=dict(color="grey", width=1, dash="dash"),
+        line=dict(color="grey", width=1),
     )
