@@ -248,9 +248,6 @@ class PolicyEngineCountry:
             system = apply_reform(self.default_reform[:-1], self.system())
             system = use_current_parameters(params["policy_date"])(system)
             today_int = int(datetime.today().strftime("%Y%m%d"))
-            system.parameters.reforms.policy_date.update(
-                period="year:2010:10", value=today_int
-            )
             system.parameters.reforms.baseline_policy_date.update(
                 period="year:2010:10", value=today_int
             )
