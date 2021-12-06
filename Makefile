@@ -33,6 +33,11 @@ deploy: test
 	gcloud config set app/cloud_build_timeout 1800
 	y | gcloud app deploy
 	rm .gac.json
+deploy-beta: test
+	cat $(GOOGLE_APPLICATION_CREDENTIALS) > .gac.json
+	gcloud config set app/cloud_build_timeout 1800
+	y | gcloud app deploy --version beta --no-promote
+	rm .gac.json
 test-server:
 	pytest policyengine/tests/server/
 monitor:
