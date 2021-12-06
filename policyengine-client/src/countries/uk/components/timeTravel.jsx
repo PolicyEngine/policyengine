@@ -30,6 +30,8 @@ export default function TimeTravel(props) {
                         for(let key in previous_policy) {
                             previous_policy[key].defaultValue = policy[key].value;
                         }
+                        previous_policy.policy_date.value = dateInt;
+                        previous_policy.policy_date.defaultValue = +(moment().format("YYYYMMDD"));
                         props.updateEntirePolicy(previous_policy);
                     }).catch(e => {
                         message.error("Couldn't time travel - something went wrong." + e.toString());
