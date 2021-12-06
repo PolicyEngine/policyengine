@@ -19,4 +19,6 @@ def in_text_files(folder: Path, text: str):
 
 
 def test_localhost_included():
-    assert not in_text_files(REPO / "policyengine-client" / "src", "useLocalServer = true")
+    assert not in_text_files(
+        REPO / "policyengine-client" / "src", "useLocalServer = true"
+    )
