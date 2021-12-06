@@ -1,18 +1,10 @@
 reforms:
-  baseline_policy_date:
-    description: Simulate the baseline system on this date
-    values:
-      2021-01-01: 20210101
-    metadata:
-      label: Policy date (baseline)
-      name: baseline_policy_date
-      type: date
   policy_date:
-    description: Simulate the reformed system on this date
+    description: Simulate the baseline and reformed systems on this date
     values:
       2021-01-01: 20210101
     metadata:
-      label: Policy date (reform)
+      label: Policy snapshot
       name: policy_date
       type: date
   LVT:

@@ -13,6 +13,7 @@ from openfisca_core.tracers.tracing_parameter_node_at_instant import (
 from openfisca_core.variables import Variable
 from datetime import datetime
 from openfisca_core.taxbenefitsystems import TaxBenefitSystem
+from openfisca_tools.model_api import ReformType
 from rdbl import gbp
 
 
@@ -191,7 +192,9 @@ def apply_reform(reform: tuple, system: TaxBenefitSystem) -> TaxBenefitSystem:
 
 def get_formatter(parameter: dict) -> Callable:
     if parameter["unit"] == "/1":
-        return lambda value: f"{round(value * 100, 2):,}%"
+        return (
+            lambda value: f"{f'{round(value * 100, 2):,}'.rstrip('0').rstrip('.')}%"
+        )
     for currency_type in CURRENCY_SYMBOLS:
         if parameter["unit"] == currency_type:
             return (
@@ -214,14 +217,14 @@ def get_summary(parameter: dict, value: Any) -> str:
 def create_reform(
     parameters: dict,
     policyengine_parameters: dict = {},
+    default_reform: ReformType = (),
 ) -> Tuple[Reform, Reform]:
     """Translates URL parameters into an OpenFisca reform.
 
     Args:
         parameters (dict): The URL parameters.
         policyengine_parameters (dict, optional): The exposed OpenFisca parameters. Defaults to {}.
-        return_names (bool, optional): Whether to return the names of the parameters. Defaults to False.
-        return_descriptions (bool, optional): Whether to return the descriptions of the parameters. Defaults to False.
+        default_reform (ReformType, optional): The default reform to apply. Defaults to ().
 
     Returns:
         Reform: The OpenFisca reform.
@@ -234,14 +237,28 @@ def create_reform(
             params[name] = float(value)
         except:
             params[name] = value
-    reforms = []
-    baseline_reforms = []
-    names = []
-    baseline_names = []
-    descriptions = []
-    baseline_descriptions = []
+    result = dict(
+        baseline=dict(
+            reform=[],
+            names=[],
+            descriptions=[],
+        ),
+        reform=dict(
+            reform=[],
+            names=[],
+            descriptions=[],
+        ),
+    )
+    baseline_reform_passed = False
+    policy_date_reform = None
     for param, value in params.items():
-        if param != "household":
+        if param == "policy_date":
+            str_value = str(value)
+            baseline_reform_passed = True
+            policy_date_reform = use_current_parameters(
+                f"{str_value[:4]}-{str_value[4:6]}-{str_value[6:8]}"
+            )
+        elif param != "household":
             metadata = policyengine_parameters[param]
             name = metadata["label"]
             description = get_summary(metadata, value)
@@ -249,31 +266,27 @@ def create_reform(
                 reform = abolish(metadata["variable"])
             else:
                 reform = parametric(metadata["parameter"], value)
-            if "policy_date" in param:
-                str_value = str(value)
-                reform = use_current_parameters(
-                    f"{str_value[:4]}-{str_value[4:6]}-{str_value[6:8]}"
-                )
             if "baseline" in param:
-                baseline_reforms.append(reform)
-                baseline_names.append(name)
-                baseline_descriptions.append(description)
+                result["baseline"]["reform"] += [reform]
+                result["baseline"]["names"] += [name]
+                result["baseline"]["descriptions"] += [description]
+                baseline_reform_passed = True
             else:
-                reforms.append(reform)
-                names.append(name)
-                descriptions.append(description)
-    return dict(
-        reform=dict(
-            reform=tuple(reforms),
-            names=names,
-            descriptions=descriptions,
-        ),
-        baseline=dict(
-            reform=tuple(baseline_reforms),
-            names=baseline_names,
-            descriptions=baseline_descriptions,
-        ),
-    )
+                result["reform"]["reform"] += [reform]
+                result["reform"]["names"] += [name]
+                result["reform"]["descriptions"] += [description]
+    if policy_date_reform is None:
+        policy_date_reform = use_current_parameters()
+    default_reform = (*default_reform, policy_date_reform)
+    for sim in ("baseline", "reform"):
+        result[sim]["reform"] = [default_reform] + result[sim]["reform"]
+        result[sim]["names"] = ["Default reform"] + result[sim]["names"]
+        result[sim]["descriptions"] = ["Default reform"] + result[sim][
+            "descriptions"
+        ]
+        result[sim]["reform"] = tuple(result[sim]["reform"])
+    result["baseline"]["has_changed"] = baseline_reform_passed
+    return result
 
 
 def use_current_parameters(date: str = None) -> Reform:
@@ -295,9 +308,6 @@ def use_current_parameters(date: str = None) -> Reform:
 
     def modify_parameters(parameters: ParameterNode):
         for child in parameters.get_descendants():
-            if "policy_date" in child.name:
-                today_int = int(date.replace("-", ""))
-                child.update(period=f"year:{year-10}:20", value=today_int)
             if isinstance(child, Parameter):
                 current_value = child(date)
                 child.update(period=f"year:{year-10}:20", value=current_value)
@@ -314,6 +324,13 @@ def use_current_parameters(date: str = None) -> Reform:
                             period=f"year:{year-10}:20",
                             value=current_threshold,
                         )
+        try:
+            parameters.reforms.policy_date.update(
+                value=int(datetime.now().strftime("%Y%m%d")),
+                period=f"year:{year-10}:20",
+            )
+        except:
+            pass
         return parameters
 
     class reform(Reform):

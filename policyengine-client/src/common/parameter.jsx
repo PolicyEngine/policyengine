@@ -24,7 +24,7 @@ export function getTranslators(parameter) {
 	let minMax = 1;
 	if (parameter.unit === "/1") {
 		result = {
-			formatter: value => `${Math.round(value * 1000) / 10}%`,
+			formatter: value => `${parseFloat((value * 100).toFixed(2))}%`,
 		}
 	} else if (parameter.unit === "year") {
 		result = {
@@ -49,7 +49,7 @@ export function getTranslators(parameter) {
 		for(let currency in CURRENCY_SYMBOLS) {
 			if(parameter.unit === currency) {
 				result = {
-					formatter: value => `${CURRENCY_SYMBOLS[currency]}${(Math.round(Number(value) * 100) / 100).toLocaleString()}${period ? ("/" + period) : ""}`,
+					formatter: value => `${CURRENCY_SYMBOLS[currency]}${parseFloat(Number(value).toFixed(2)).toLocaleString()}${period ? ("/" + period) : ""}`,
 				}
 				minMax = {year: 100_000, month: 1000, week: 100, null: 100}[period];
 			}

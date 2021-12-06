@@ -11,7 +11,7 @@ export default function TimeTravel(props) {
             <h6 style={{marginTop: 20}}>Baseline snapshot</h6>
             <p>PolicyEngine will use tax-benefit policy as of the date set below for the baseline simulation</p>
             <DatePicker 
-                defaultValue={moment(props.policy.baseline_policy_date.value, "YYYY-MM-DD")} 
+                defaultValue={moment(props.policy.policy_date.value, "YYYYMMDD")} 
                 disabledDate={date => date < moment("2021-01-01") | date > moment("2021-12-31")}
                 onChange={(_, dateString) => {
                     const url = `${props.api_url}/parameters?policy_date=${dateString}`;
@@ -25,8 +25,6 @@ export default function TimeTravel(props) {
                     }).then((policy) => {
                         let previous_policy = props.policy;
                         const dateInt = +(dateString.replace("-", "").replace("-", ""));
-                        policy.baseline_policy_date.value = +(moment().format("YYYYMMDD"));
-                        previous_policy.baseline_policy_date.value = dateInt;
                         for(let key in previous_policy) {
                             previous_policy[key].defaultValue = policy[key].value;
                         }

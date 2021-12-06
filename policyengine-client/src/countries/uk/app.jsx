@@ -49,7 +49,12 @@ export class PolicyEngineUK extends React.Component {
     }
 
     fetchData() {
-        fetch(this.props.api_url + "/parameters").then(res => res.json()).then(policyData => {
+        const { searchParams } = new URL(document.location);
+        let date = searchParams.get("policy_date");
+        if(date) {
+            date = `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`;
+        }
+        fetch(this.props.api_url + "/parameters" + (date ? "?policy_date=" + date : "")).then(res => res.json()).then(policyData => {
             fetch(this.props.api_url + "/entities").then(res => res.json()).then(entities => {
                 fetch(this.props.api_url + "/variables").then(res => res.json()).then(variables => {
                     // Once we've got all the data, check it and update the state
