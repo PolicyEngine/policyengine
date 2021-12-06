@@ -251,7 +251,6 @@ def create_reform(
                 reform = parametric(metadata["parameter"], value)
             if "policy_date" in param:
                 str_value = str(value)
-                print(f"{param}={str_value}")
                 reform = use_current_parameters(
                     f"{str_value[:4]}-{str_value[4:6]}-{str_value[6:8]}"
                 )

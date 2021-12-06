@@ -149,9 +149,6 @@ class PolicyEngineCountry:
                 reform_config["baseline"]["reform"],
                 skip_current_date="baseline_policy_date" in params,
             )
-            print(
-                baseline.simulation.tax_benefit_system.parameters.benefit.universal_credit.means_test.reduction_rate
-            )
         else:
             baseline = self.baseline
         rel_decile_chart, avg_decile_chart = decile_chart(
