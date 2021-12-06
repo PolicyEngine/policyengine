@@ -18,7 +18,7 @@ def write_api_results(url: str) -> str:
 
 
 WATCHED_URLS = {
-    "Autumn Budget UC reform": "/uk/api/population-reform?UC_reduction_rate=0.55&UC_work_allowance_without_housing=557&UC_work_allowance_with_housing=335&baseline_policy_date=20211030",
+    "Autumn Budget UC reform": "/uk/api/population-reform?UC_reduction_rate=0.55&UC_work_allowance_without_housing=557&UC_work_allowance_with_housing=335&policy_date=20211030",
 }
 
 

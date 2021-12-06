@@ -10,9 +10,9 @@ import pytest
 PolicyEngineUK = UK()
 
 reform_examples = (
-    (),
-    abolish("personal_allowance"),
-    parametric("tax.income_tax.rates.uk[0].rate", 0.21),
+    {},
+    dict(personal_allowance=0),
+    dict(basic_rate=0.21),
 )
 
 # Test charts for each reform
@@ -21,8 +21,7 @@ reform_examples = (
 @pytest.mark.parametrize("reform", reform_examples)
 def test_UK_decile_chart(reform):
     decile_chart(
-        PolicyEngineUK.baseline,
-        PolicyEngineUK._create_reform_sim(reform),
+        *PolicyEngineUK._get_microsimulations(reform),
         UKResultsConfig,
     )
 
@@ -30,8 +29,7 @@ def test_UK_decile_chart(reform):
 @pytest.mark.parametrize("reform", reform_examples)
 def test_UK_poverty_chart(reform):
     poverty_chart(
-        PolicyEngineUK.baseline,
-        PolicyEngineUK._create_reform_sim(reform),
+        *PolicyEngineUK._get_microsimulations(reform),
         UKResultsConfig,
     )
 
@@ -39,7 +37,6 @@ def test_UK_poverty_chart(reform):
 @pytest.mark.parametrize("reform", reform_examples)
 def test_UK_population_waterfall_chart(reform):
     population_waterfall_chart(
-        PolicyEngineUK.baseline,
-        PolicyEngineUK._create_reform_sim(reform),
+        *PolicyEngineUK._get_microsimulations(reform),
         UKResultsConfig,
     )
