@@ -33,7 +33,7 @@ deploy: test build-client
 	gcloud config set app/cloud_build_timeout 1800
 	y | gcloud app deploy
 	rm .gac.json
-deploy-beta: test
+deploy-beta: test build-client
 	cat $(GOOGLE_APPLICATION_CREDENTIALS) > .gac.json
 	gcloud config set app/cloud_build_timeout 1800
 	y | gcloud app deploy --version beta --no-promote
