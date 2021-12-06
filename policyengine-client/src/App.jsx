@@ -13,7 +13,8 @@ export default class App extends React.Component {
 
 	render() {
 		const useLocalServer = false;
-		apiUrl = useLocalServer ? "http://localhost:5000" : "https://policyengine.org";
+		let apiUrl = `${window.location.protocol}//${window.location.hostname}`;
+		apiUrl = useLocalServer ? "http://localhost:5000" : apiUrl;
 		return (
 			<Router>
 				<Route path="/uk">
