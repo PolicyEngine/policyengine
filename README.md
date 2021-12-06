@@ -5,3 +5,5 @@ This repository contains the core infrastructure for PolicyEngine sites in order
 ## Development
 
 First, install using `make install`. Then, to debug the client, run `make debug-client`, or to debug the server, run `make debug-server`.
+
+If your changes involve the server, change `const useLocalServer = false;` to `const useLocalServer = true;` in `src/App.jsx`.
