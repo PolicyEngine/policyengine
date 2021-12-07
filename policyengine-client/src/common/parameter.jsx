@@ -31,9 +31,9 @@ export function getTranslators(parameter) {
 			formatter: value => value + " year" + (value !== 1 ? "s" : ""),
 		}
 		minMax = 100;
-	} else if (parameter.unit === "tonne C02") {
+	} else if (parameter.unit === "tonne CO2") {
 		result = {
-			formatter: value => `${value} tonnes C02`,
+			formatter: value => `${value} tonnes CO2`,
 		}
 		minMax = 100;
 	} else if (parameter.valueType === "bool") {
