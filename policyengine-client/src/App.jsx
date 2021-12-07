@@ -12,13 +12,16 @@ export default class App extends React.Component {
 	}
 
 	render() {
+		const useLocalServer = false;
+		let apiUrl = `${window.location.protocol}//${window.location.hostname}`;
+		apiUrl = useLocalServer ? "http://localhost:5000" : apiUrl;
 		return (
 			<Router>
 				<Route path="/uk">
-					<PolicyEngineUK analytics={this.props.analytics} api_url="https://policyengine.org/uk/api" />
+					<PolicyEngineUK analytics={this.props.analytics} api_url={`${apiUrl}/uk/api`} />
 				</Route>
 				<Route path="/us">
-					<PolicyEngineUS analytics={this.props.analytics} api_url="https://policyengine.org/us/api" />
+					<PolicyEngineUS analytics={this.props.analytics} api_url={`${apiUrl}/us/api`} />
 				</Route>
 				<Route exact path="/">
 					<Redirect to="/uk" />

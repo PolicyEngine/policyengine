@@ -66,7 +66,7 @@ export default class Policy extends React.Component {
 		let parameterControls = [];
 		for(let parameter of availableParameters) {
 			if(parameter in (this.props.overrides || {})) {
-				parameterControls.push(React.cloneElement(this.props.overrides[parameter], {key: parameter, param: this.props.policy[parameter], policy: this.props.policy, updatePolicy: this.props.updatePolicy}));
+				parameterControls.push(React.cloneElement(this.props.overrides[parameter], {key: parameter, param: this.props.policy[parameter], policy: this.props.policy, updatePolicy: this.props.updatePolicy, updateEntirePolicy: this.props.updateEntirePolicy}));
 			} else {
 				parameterControls.push(<Parameter key={parameter} param={this.props.policy[parameter]} updatePolicy={this.props.updatePolicy}/>)
 			}

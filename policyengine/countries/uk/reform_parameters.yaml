@@ -1,4 +1,12 @@
 reforms:
+  policy_date:
+    description: Simulate the baseline and reformed systems on this date
+    values:
+      2021-01-01: 20210101
+    metadata:
+      label: Policy snapshot
+      name: policy_date
+      type: date
   LVT:
     rate:
       description: A yearly flat tax on the unimproved value of land

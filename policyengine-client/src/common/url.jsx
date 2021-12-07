@@ -3,9 +3,9 @@ export function policyToURL(targetPage, policy) {
 	for (const key in policy) {
 		if (policy[key].value !== policy[key].defaultValue) {
 			if(policy[key].unit === "/1") {
-				searchParams.set(key, (+policy[key].value * 100).toString().replace(".", "_"));
+				searchParams.set(key, parseFloat((policy[key].value * 100).toFixed(2)).toString().replace(".", "_"));
 			} else {
-				searchParams.set(key, (+policy[key].value).toString().replace(".", "_"));
+				searchParams.set(key, +parseFloat(policy[key].value.toFixed(2)).toString().replace(".", "_"));
 			}
 		} else {
 			searchParams.delete(key);
