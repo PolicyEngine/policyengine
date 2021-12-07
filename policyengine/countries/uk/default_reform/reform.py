@@ -21,7 +21,7 @@ def add_extra_band(parameters: ParameterNode) -> ParameterNode:
     extra_uk_bracket = ParameterScaleBracket(
         data={
             "threshold": {
-                "description": "An extra income tax band for the UK",
+                "description": "An extra Income Tax band for the UK",
                 "values": {"2021-01-01": 1e7},
                 "metadata": {
                     "label": "Extra band threshold",
@@ -32,7 +32,7 @@ def add_extra_band(parameters: ParameterNode) -> ParameterNode:
             },
             "rate": {
                 "values": {"2021-01-01": 0.45},
-                "description": "Rate of the extra income tax band for the UK",
+                "description": "Rate of the extra Income Tax band for the UK",
                 "metadata": {
                     "label": "Extra band rate",
                     "unit": "/1",
@@ -46,7 +46,7 @@ def add_extra_band(parameters: ParameterNode) -> ParameterNode:
     extra_scot_bracket = ParameterScaleBracket(
         data={
             "threshold": {
-                "description": "An extra income tax band for Scotland",
+                "description": "An extra Income Tax band for Scotland",
                 "values": {"2021-01-01": 1e7},
                 "metadata": {
                     "label": "Extra band threshold",
@@ -57,7 +57,7 @@ def add_extra_band(parameters: ParameterNode) -> ParameterNode:
             },
             "rate": {
                 "values": {"2021-01-01": 0.46},
-                "description": "Rate of the extra income tax band for Scotland",
+                "description": "Rate of the extra Income Tax band for Scotland",
                 "metadata": {
                     "label": "Extra band rate",
                     "unit": "/1",
@@ -306,7 +306,7 @@ def create_default_reform() -> ReformType:
         value_type = float
 
         def formula(household, period, parameters):
-            rate = parameters(period).reforms.carbon.rate
+            rate = parameters(period).reforms.carbon_tax.rate
             return rate * household("carbon_consumption", period)
 
     class tax(baseline_variables["tax"]):
@@ -334,7 +334,7 @@ def create_default_reform() -> ReformType:
     class UBI(Variable):
         entity = Person
         definition_period = YEAR
-        label = "UBI"
+        label = "Universal basic income"
         value_type = float
 
         def formula(person, period, parameters):
@@ -389,7 +389,7 @@ def create_default_reform() -> ReformType:
     class UC_earned_income(Variable):
         value_type = float
         entity = BenUnit
-        label = u"UC earned income (after disregards and tax)"
+        label = u"Universal Credit earned income (after disregards and tax)"
         definition_period = YEAR
 
         def formula(benunit, period, parameters):
