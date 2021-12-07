@@ -245,7 +245,7 @@ class PolicyEngineCountry:
 
         baseline, reformed = self._get_microsimulations(params)
         return get_breakdown_and_chart_per_provision(
-            reform_config["reform"]["reforms"][1:],
+            reform_config["reform"]["reform"][1:],
             reform_config["reform"]["descriptions"][1:],
             baseline,
             reformed,

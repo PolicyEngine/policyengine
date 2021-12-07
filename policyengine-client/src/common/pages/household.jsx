@@ -59,10 +59,8 @@ function HouseholdMenu(props) {
 function HouseholdVariables(props) {
 	try {
 		const variables = props.situation[props.entities[props.selected.type].plural][props.selected.name];
-		console.log(variables);
 		let panels = [];
 		for(let category of Object.keys(props.categories)) {
-			console.log(category, props.categories[category], Object.keys(variables))
 			const panelVariables = Object.keys(variables).filter(variable => props.categories[category].includes(variable)).map(variable => {
 				let computed = props.computedSituation[props.entities[props.selected.type].plural][props.selected.name];
 				let value;

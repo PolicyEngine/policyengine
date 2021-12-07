@@ -164,7 +164,6 @@ export function Parameter(props) {
 			</>
 		);
 		} catch(e) {
-			console.log("Failed to load parameter");
 			return <></>;
 		}
 }
