@@ -1,6 +1,8 @@
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, Tuple, Type
 from openfisca_core.indexed_enums.enum import Enum
+from openfisca_core.parameters.parameter import Parameter
 from openfisca_tools.model_api import ReformType
 import yaml
 import dpath
@@ -55,11 +57,11 @@ class PolicyEngineCountry:
     def __init__(self):
         if self.calculate_only:
             self.default_reform = (
-                use_current_parameters(),
                 add_parameter_file(self.parameter_file.absolute())
                 if self.parameter_file is not None
                 else (),
                 self.default_reform,
+                use_current_parameters(),
             )
             self.baseline_system = self.system()
             self.policyengine_parameters = get_PE_parameters(
@@ -81,12 +83,13 @@ class PolicyEngineCountry:
         else:
             if self.default_dataset_year not in self.default_dataset.years:
                 self.default_dataset.download(self.default_dataset_year)
+
             self.default_reform = (
-                use_current_parameters(),
                 add_parameter_file(self.parameter_file.absolute())
                 if self.parameter_file is not None
                 else (),
                 self.default_reform,
+                use_current_parameters(),
             )
 
             self.baseline = self.Microsimulation(
@@ -120,50 +123,65 @@ class PolicyEngineCountry:
                 self.baseline.simulation.tax_benefit_system
             )
 
-    def _create_reform_sim(self, reform: ReformType) -> Microsimulation:
-        sim = self.Microsimulation(
-            (self.default_reform, reform), dataset=self.default_dataset
+    def _get_microsimulations(
+        self, params: dict
+    ) -> Tuple[Microsimulation, Microsimulation]:
+        reform_config = create_reform(
+            params, self.policyengine_parameters, self.default_reform[:-1]
         )
-        sim.simulation.trace = True
-        self.default_year = 2021
-        sim.calc("household_net_income")
-        return sim
+        baseline = (
+            self.baseline
+            if not reform_config["baseline"]["has_changed"]
+            else self.Microsimulation(
+                reform_config["baseline"]["reform"],
+                dataset=self.default_dataset,
+            )
+        )
+        reformed = self.Microsimulation(
+            reform_config["reform"]["reform"], dataset=self.default_dataset
+        )
+        baseline.default_year = 2021
+        reformed.default_year = 2021
+        return baseline, reformed
+
+    def _get_individualsims(
+        self, params: dict
+    ) -> Tuple[IndividualSim, IndividualSim]:
+        reform_config = create_reform(
+            params, self.policyengine_parameters, self.default_reform[:-1]
+        )
+        situation = create_situation(params["household"])
+        baseline = situation(
+            self.IndividualSim(reform_config["baseline"]["reform"], 2021)
+        )
+        reformed = situation(
+            self.IndividualSim(reform_config["reform"]["reform"], 2021)
+        )
+        return baseline, reformed
 
     def population_reform(self, params: dict = None):
-        reform = create_reform(params, self.policyengine_parameters)
-        reformed = self._create_reform_sim(reform)
+        baseline, reformed = self._get_microsimulations(params)
         rel_decile_chart, avg_decile_chart = decile_chart(
-            self.baseline, reformed, self.results_config
+            baseline, reformed, self.results_config
         )
         return dict(
-            **headline_metrics(self.baseline, reformed, self.results_config),
+            **headline_metrics(baseline, reformed, self.results_config),
             rel_decile_chart=rel_decile_chart,
             avg_decile_chart=avg_decile_chart,
             poverty_chart=poverty_chart(
-                self.baseline, reformed, self.results_config
+                baseline, reformed, self.results_config
             ),
             waterfall_chart=population_waterfall_chart(
-                self.baseline, reformed, self.results_config
+                baseline, reformed, self.results_config
             ),
             intra_decile_chart=intra_decile_chart(
-                self.baseline, reformed, self.results_config
+                baseline, reformed, self.results_config
             ),
         )
 
     @exclude_from_cache
     def household_reform(self, params=None):
-        situation = create_situation(params["household"])
-        reform = create_reform(params, self.policyengine_parameters)
-        baseline_config = self.default_reform
-        reform_config = self.default_reform, reform
-        baseline: IndividualSim = situation(
-            self.IndividualSim(baseline_config, year=2021)
-        )
-        reformed: IndividualSim = situation(
-            self.IndividualSim(reform_config, year=2021)
-        )
-        baseline.calc("net_income")
-        reformed.calc("net_income")
+        baseline, reformed = self._get_individualsims(params)
         headlines = headline_figures(baseline, reformed, self.results_config)
         waterfall = household_waterfall_chart(
             baseline, reformed, self.results_config
@@ -189,23 +207,23 @@ class PolicyEngineCountry:
         )
 
     def ubi(self, params=None):
-        reform = create_reform(params, self.policyengine_parameters)
-        reformed = self.Microsimulation(
-            (self.default_reform, reform), dataset=self.default_dataset
-        )
+        baseline, reformed = self._get_microsimulations(params)
         revenue = (
-            self.baseline.calc(self.results_config.net_income_variable).sum()
+            baseline.calc(self.results_config.net_income_variable).sum()
             - reformed.calc(self.results_config.net_income_variable).sum()
         )
         UBI_amount = max(
             0,
-            revenue
-            / self.baseline.calc(self.results_config.person_variable).sum(),
+            revenue / baseline.calc(self.results_config.person_variable).sum(),
         )
         return {"UBI": float(UBI_amount)}
 
     @exclude_from_cache
     def parameters(self, params=None):
+        if "policy_date" in params:
+            system = apply_reform(self.default_reform[:-1], self.system())
+            system = use_current_parameters(params["policy_date"])(system)
+            return get_PE_parameters(system)
         return self.policyengine_parameters
 
     @exclude_from_cache
@@ -217,14 +235,21 @@ class PolicyEngineCountry:
         return self.policyengine_variables
 
     def population_breakdown(self, params=None):
-        reform, provisions = create_reform(
-            params, self.policyengine_parameters, return_descriptions=True
-        )
+        reform_config = create_reform(params, self.policyengine_parameters)
+
+        def _create_reform(reform):
+            return self.Microsimulation(
+                (reform_config["reform"]["reform"][0], *reform),
+                dataset=self.default_dataset,
+            )
+
+        baseline, reformed = self._get_microsimulations(params)
         return get_breakdown_and_chart_per_provision(
-            reform,
-            provisions,
-            self.baseline,
-            self._create_reform_sim,
+            reform_config["reform"]["reform"][1:],
+            reform_config["reform"]["descriptions"][1:],
+            baseline,
+            reformed,
+            _create_reform,
             self.results_config,
         )
 

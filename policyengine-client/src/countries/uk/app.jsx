@@ -17,6 +17,7 @@ import { situationButtons, validateSituation } from "./logic/situation";
 import { validatePolicy } from "./logic/policy";
 import { ORGANISATIONS, PARAMETER_HIERARCHY, EXTRA_PARAMETER_DATA } from "./data/policy";
 import { DEFAULT_SITUATION, EXTRA_VARIABLE_METADATA, VARIABLE_CATEGORIES } from "./data/situation";
+import TimeTravel from "./components/timeTravel";
 
 export class PolicyEngineUK extends React.Component {
     constructor(props) {
@@ -48,7 +49,12 @@ export class PolicyEngineUK extends React.Component {
     }
 
     fetchData() {
-        fetch(this.props.api_url + "/parameters").then(res => res.json()).then(policyData => {
+        const { searchParams } = new URL(document.location);
+        let date = searchParams.get("policy_date");
+        if(date) {
+            date = `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`;
+        }
+        fetch(this.props.api_url + "/parameters" + (date ? "?policy_date=" + date : "")).then(res => res.json()).then(policyData => {
             fetch(this.props.api_url + "/entities").then(res => res.json()).then(entities => {
                 fetch(this.props.api_url + "/variables").then(res => res.json()).then(variables => {
                     // Once we've got all the data, check it and update the state
@@ -119,6 +125,7 @@ export class PolicyEngineUK extends React.Component {
                                 selected={"/Tax/Income Tax/Labour income"}
                                 open={["/Tax", "/Tax/Income Tax", "/Benefit", "/UBI Center"]}
                                 updatePolicy={this.updatePolicy}
+                                updateEntirePolicy={(policy, defaultPolicy) => this.setState(validatePolicy(policy, defaultPolicy))}
                                 overrides={{
                                     autoUBI: <AutoUBI api_url={this.props.api_url}/>,
                                     extra_UK_band: <ExtraBand 
@@ -129,6 +136,9 @@ export class PolicyEngineUK extends React.Component {
                                         rate_parameter="extra_scot_rate" 
                                         threshold_parameter="extra_scot_threshold"
                                     />,
+                                    timeTravel: <TimeTravel 
+                                        api_url={this.props.api_url}
+                                    />
                                 }}
                                 setPage={setPage}
                                 invalid={!this.state.policyValid}

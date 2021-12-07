@@ -1,8 +1,9 @@
 import { Fragment, default as React, useState } from "react";
 import { CloseCircleFilled, LoadingOutlined, EditOutlined } from "@ant-design/icons";
 import {
-	Divider, Switch, Slider, Select, Alert, Input, Tag, Spin
+	Divider, Switch, Slider, Select, Alert, Input, Tag, Spin, DatePicker
 } from "antd";
+import moment from "moment";
 
 import "../common/policyengine.less";
 
@@ -23,7 +24,7 @@ export function getTranslators(parameter) {
 	let minMax = 1;
 	if (parameter.unit === "/1") {
 		result = {
-			formatter: value => `${Math.round(value * 1000) / 10}%`,
+			formatter: value => `${parseFloat((value * 100).toFixed(2))}%`,
 		}
 	} else if (parameter.unit === "year") {
 		result = {
@@ -48,10 +49,16 @@ export function getTranslators(parameter) {
 		for(let currency in CURRENCY_SYMBOLS) {
 			if(parameter.unit === currency) {
 				result = {
-					formatter: value => `${CURRENCY_SYMBOLS[currency]}${Math.round(Number(value)).toLocaleString()}${period ? ("/" + period) : ""}`,
+					formatter: value => `${CURRENCY_SYMBOLS[currency]}${parseFloat(Number(value).toFixed(2)).toLocaleString()}${period ? ("/" + period) : ""}`,
 				}
 				minMax = {year: 100_000, month: 1000, week: 100, null: 100}[period];
 			}
+		}
+	} else if(parameter.valueType === "date") {
+		const dateIntToMoment = value => moment(value.toString().slice(0, 4) + "-" + value.toString().slice(4, 6) + "-" + value.toString().slice(6, 8), "YYYY-MM-DD");
+		result = {
+			formatter: value => dateIntToMoment(value).format("LL"),
+			parser: dateIntToMoment,
 		}
 	} else {
 		result = {
@@ -61,6 +68,7 @@ export function getTranslators(parameter) {
 	}
 	return {
 		formatter: result.formatter,
+		parser: result.parser,
 		min: 0,
 		max: Math.max(parameter.max || minMax, Math.pow(10, Math.ceil(Math.log10(Math.max(parameter.defaultValue, parameter.value))))),
 	}
@@ -69,7 +77,7 @@ export function getTranslators(parameter) {
 export function Parameter(props) {
 	try {
 		let [focused, setFocused] = useState();
-		let { formatter, min, max } = getTranslators(props.param);
+		let { formatter, parser, min, max } = getTranslators(props.param);
 		if(focused) {
 			formatter = x => x;
 		}
@@ -107,6 +115,10 @@ export function Parameter(props) {
 					defaultValue={props.param.value}
 					disabled={props.disabled}
 				/>
+			);
+		} else if(props.param.valueType === "date") {
+			component = (
+				<DatePicker format="YYYY-MM-DD" value={parser(props.param.value)} onChange={(_, dateStr) => {onChange(+(dateStr.replace("-", "").replace("-", "")))}}/>
 			);
 		} else {
 			let marks = {[max]: formatter(max)};
@@ -152,7 +164,7 @@ export function Parameter(props) {
 			</>
 		);
 		} catch(e) {
-			return <>{e.toString() + JSON.stringify(props.param)}</>;
+			return <></>;
 		}
 }
 

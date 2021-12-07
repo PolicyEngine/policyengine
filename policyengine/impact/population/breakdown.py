@@ -47,6 +47,7 @@ def get_breakdown_and_chart_per_provision(
     reform: ReformType,
     provisions: Tuple[str],
     baseline: Microsimulation,
+    reformed: Microsimulation,
     create_reform_sim: Callable,
     config: PolicyEngineResultsConfig,
 ) -> dict:
@@ -65,18 +66,6 @@ def get_breakdown_and_chart_per_provision(
 
     cumulative_spending = []
 
-    for step in range(1, len(reform) + 1):
-        reform_sim = create_reform_sim(reform[:step])
-        cumulative_spending += [get_spending(reform_sim, baseline, config)]
-
-    additional_spending = np.array(
-        cumulative_spending[:1]
-        + list(
-            np.array(cumulative_spending[1:])
-            - np.array(cumulative_spending[:-1])
-        )
-    )
-
     def formatter(x):
         return round(float(x) / 1e9, 2)
 
@@ -93,8 +82,12 @@ def get_breakdown_and_chart_per_provision(
     colour_positions = [0]
     provision_data = {}
 
-    for i in range(1, len(reform) + 1):
-        reform_sim = create_reform_sim(reform[:i])
+    for step in range(1, len(reform) + 1):
+        if step == len(reform):
+            reform_sim = reformed
+        else:
+            reform_sim = create_reform_sim(reform[:step])
+        cumulative_spending += [get_spending(reform_sim, baseline, config)]
         gain = (
             reform_sim.calc(
                 config.household_net_income_variable, map_to="person"
@@ -114,7 +107,7 @@ def get_breakdown_and_chart_per_provision(
                 "Average change": (gain_by_decile / income_by_decile.count())
                 .round()
                 .values,
-                "Provision": provisions[i - 1],
+                "Provision": provisions[step - 1],
             }
         )
         decile_impacts = pd.concat([decile_impacts, gain_df])
@@ -125,10 +118,18 @@ def get_breakdown_and_chart_per_provision(
             # Reform has a negative (assumed in all deciles) impact
             pos = min(colour_positions) - 1
         colour_positions += [pos]
-        provision_data[provisions[i - 1]] = dict(
+        provision_data[provisions[step - 1]] = dict(
             position=pos,
             decile_impact=list(map(float, list(gain_by_decile.values))),
         )
+
+    additional_spending = np.array(
+        cumulative_spending[:1]
+        + list(
+            np.array(cumulative_spending[1:])
+            - np.array(cumulative_spending[:-1])
+        )
+    )
 
     for provision in provision_data:
         provision_data[provision]["colour"] = colour_position_to_rgb(
