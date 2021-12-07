@@ -235,7 +235,9 @@ class PolicyEngineCountry:
         return self.policyengine_variables
 
     def population_breakdown(self, params=None):
-        reform_config = create_reform(params, self.policyengine_parameters, self.default_reform[:-1])
+        reform_config = create_reform(
+            params, self.policyengine_parameters, self.default_reform[:-1]
+        )
 
         def _create_reform(reform):
             return self.Microsimulation(
