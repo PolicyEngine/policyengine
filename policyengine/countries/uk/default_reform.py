@@ -255,7 +255,7 @@ def create_default_reform() -> ReformType:
         definition_period = YEAR
         value_type = float
 
-    consumption_variables = [
+    CONSUMPTION_VARIABLES = [
         "food_and_non_alcoholic_beverages_consumption",
         "alcohol_and_tobacco_consumption",
         "clothing_and_footwear_consumption",
@@ -280,7 +280,7 @@ def create_default_reform() -> ReformType:
 
         def formula(household, period, parameters):
             spending_by_sector = list(
-                map(lambda var: household(var, period), consumption_variables)
+                map(lambda var: household(var, period), CONSUMPTION_VARIABLES)
             )
             household_weight = household("household_weight", period)
             aggregate_spending_by_sector = list(
@@ -294,10 +294,10 @@ def create_default_reform() -> ReformType:
             ).reforms.carbon.aggregate_carbon_emissions
             aggregate_emissions_by_sector = [
                 carbon_emissions[category.replace("_consumption", "")]
-                for category in consumption_variables
+                for category in CONSUMPTION_VARIABLES
             ]
             carbon_intensity_by_sector = [
-                emissions / spending
+                emissions / spending if spending > 0 else 0
                 for emissions, spending in zip(
                     aggregate_emissions_by_sector, aggregate_spending_by_sector
                 )
