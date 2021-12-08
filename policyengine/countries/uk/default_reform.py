@@ -11,6 +11,9 @@ from openfisca_uk.tools.general import *
 from openfisca_uk.entities import Person, Household
 from openfisca_core.model_api import YEAR, Reform
 from openfisca_core.parameters import ParameterNode, ParameterScale
+import warnings
+
+warnings.filterwarnings("ignore")
 
 
 def add_extra_band(parameters: ParameterNode) -> ParameterNode:
@@ -135,9 +138,15 @@ def create_default_reform() -> ReformType:
                 land_value.aggregate_household_land_value
                 / total_property_wealth
             )
+            property_wealth_intensity = where(
+                total_property_wealth > 0, property_wealth_intensity, 0
+            )
             corporate_wealth_intensity = (
                 land_value.aggregate_corporate_land_value
                 / total_corporate_wealth
+            )
+            corporate_wealth_intensity = where(
+                total_corporate_wealth > 0, corporate_wealth_intensity, 0
             )
             return (
                 property_wealth * property_wealth_intensity
