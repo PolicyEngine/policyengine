@@ -11,6 +11,9 @@ from openfisca_uk.tools.general import *
 from openfisca_uk.entities import Person, Household
 from openfisca_core.model_api import YEAR, Reform
 from openfisca_core.parameters import ParameterNode, ParameterScale
+import warnings
+
+warnings.filterwarnings("ignore")
 
 
 def add_extra_band(parameters: ParameterNode) -> ParameterNode:
@@ -87,13 +90,69 @@ def create_default_reform() -> ReformType:
         for name, variable in baseline_system.variables.items()
     }
 
-    class land_value(Variable):
+    class property_wealth(Variable):
         entity = Household
-        label = "Land value"
-        documentation = "Total land value exposure (your property's land value, and any share of corporate land value)"
+        label = "Property wealth"
+        documentation = "Total property wealth of the household"
         unit = "currency-GBP"
         definition_period = YEAR
         value_type = float
+
+    class corporate_wealth(Variable):
+        entity = Household
+        label = "Corporate wealth"
+        documentation = "Total corporate wealth of the household"
+        unit = "currency-GBP"
+        definition_period = YEAR
+        value_type = float
+
+    class owned_land(Variable):
+        entity = Household
+        label = "Owned land"
+        documentation = (
+            "Total value of all land-only plots owned by the household"
+        )
+        unit = "currency-GBP"
+        definition_period = YEAR
+        value_type = float
+
+    class land_value(Variable):
+        entity = Household
+        label = "Land value"
+        documentation = "Estimated total land value exposure (your property's land value, and any share of corporate land value)"
+        unit = "currency-GBP"
+        definition_period = YEAR
+        value_type = float
+
+        def formula(household, period, parameters):
+            property_wealth = household("property_wealth", period)
+            corporate_wealth = household("corporate_wealth", period)
+            total_property_wealth = (
+                property_wealth * household("household_weight", period)
+            ).sum()
+            total_corporate_wealth = (
+                corporate_wealth * household("household_weight", period)
+            ).sum()
+            land_value = parameters(period).reforms.land_value
+            property_wealth_intensity = (
+                land_value.aggregate_household_land_value
+                / total_property_wealth
+            )
+            property_wealth_intensity = where(
+                total_property_wealth > 0, property_wealth_intensity, 0
+            )
+            corporate_wealth_intensity = (
+                land_value.aggregate_corporate_land_value
+                / total_corporate_wealth
+            )
+            corporate_wealth_intensity = where(
+                total_corporate_wealth > 0, corporate_wealth_intensity, 0
+            )
+            return (
+                property_wealth * property_wealth_intensity
+                + corporate_wealth * corporate_wealth_intensity
+                + household("owned_land", period)
+            )
 
     class LVT(Variable):
         entity = Household
@@ -105,6 +164,121 @@ def create_default_reform() -> ReformType:
             rate = parameters(period).reforms.LVT.rate
             return rate * household("land_value", period)
 
+    class food_and_non_alcoholic_beverages_consumption(Variable):
+        entity = Household
+        label = "Food and alcoholic beverages"
+        documentation = (
+            "Total yearly expenditure on food and alcoholic beverages"
+        )
+        unit = "currency-GBP"
+        definition_period = YEAR
+        value_type = float
+
+    class alcohol_and_tobacco_consumption(Variable):
+        entity = Household
+        label = "Alcohol and tobacco"
+        documentation = "Total yearly expenditure on alcohol and tobacco"
+        unit = "currency-GBP"
+        definition_period = YEAR
+        value_type = float
+
+    class clothing_and_footwear_consumption(Variable):
+        entity = Household
+        label = "Clothing and footwear"
+        documentation = "Total yearly expenditure on clothing and footwear"
+        unit = "currency-GBP"
+        definition_period = YEAR
+        value_type = float
+
+    class housing_water_and_electricity_consumption(Variable):
+        entity = Household
+        label = "Housing, water and electricity"
+        documentation = (
+            "Total yearly expenditure on housing, water and electricity"
+        )
+        unit = "currency-GBP"
+        definition_period = YEAR
+        value_type = float
+
+    class household_furnishings_consumption(Variable):
+        entity = Household
+        label = "Household furnishings"
+        documentation = "Total yearly expenditure on household furnishings"
+        unit = "currency-GBP"
+        definition_period = YEAR
+        value_type = float
+
+    class health_consumption(Variable):
+        entity = Household
+        label = "Health"
+        documentation = "Total yearly expenditure on health"
+        unit = "currency-GBP"
+        definition_period = YEAR
+        value_type = float
+
+    class transport_consumption(Variable):
+        entity = Household
+        label = "Transport"
+        documentation = "Total yearly expenditure on transport"
+        unit = "currency-GBP"
+        definition_period = YEAR
+        value_type = float
+
+    class communication_consumption(Variable):
+        entity = Household
+        label = "Communication"
+        documentation = "Total yearly expenditure on communication"
+        unit = "currency-GBP"
+        definition_period = YEAR
+        value_type = float
+
+    class recreation_consumption(Variable):
+        entity = Household
+        label = "Recreation"
+        documentation = "Total yearly expenditure on recreation"
+        unit = "currency-GBP"
+        definition_period = YEAR
+        value_type = float
+
+    class education_consumption(Variable):
+        entity = Household
+        label = "Education"
+        documentation = "Total yearly expenditure on education"
+        unit = "currency-GBP"
+        definition_period = YEAR
+        value_type = float
+
+    class restaurants_and_hotels_consumption(Variable):
+        entity = Household
+        label = "Restaurants and hotels"
+        documentation = "Total yearly expenditure on restaurants and hotels"
+        unit = "currency-GBP"
+        definition_period = YEAR
+        value_type = float
+
+    class miscellaneous_consumption(Variable):
+        entity = Household
+        label = "Miscellaneous"
+        documentation = "Total yearly expenditure on miscellaneous goods"
+        unit = "currency-GBP"
+        definition_period = YEAR
+        value_type = float
+
+    CONSUMPTION_VARIABLES = [
+        "food_and_non_alcoholic_beverages_consumption",
+        "alcohol_and_tobacco_consumption",
+        "clothing_and_footwear_consumption",
+        "housing_water_and_electricity_consumption",
+        "household_furnishings_consumption",
+        "health_consumption",
+        "transport_consumption",
+        "communication_consumption",
+        "recreation_consumption",
+        "education_consumption",
+        "restaurants_and_hotels_consumption",
+        "miscellaneous_consumption",
+    ]
+
     class carbon_consumption(Variable):
         entity = Household
         label = "Carbon consumption"
@@ -112,6 +286,39 @@ def create_default_reform() -> ReformType:
         unit = "tonne CO2"
         definition_period = YEAR
         value_type = float
+
+        def formula(household, period, parameters):
+            spending_by_sector = list(
+                map(lambda var: household(var, period), CONSUMPTION_VARIABLES)
+            )
+            household_weight = household("household_weight", period)
+            aggregate_spending_by_sector = list(
+                map(
+                    lambda values: (values * household_weight).sum(),
+                    spending_by_sector,
+                )
+            )
+            carbon_emissions = parameters(
+                period
+            ).reforms.carbon.aggregate_carbon_emissions
+            aggregate_emissions_by_sector = [
+                carbon_emissions[category.replace("_consumption", "")]
+                for category in CONSUMPTION_VARIABLES
+            ]
+            carbon_intensity_by_sector = [
+                emissions / spending if spending > 0 else 0
+                for emissions, spending in zip(
+                    aggregate_emissions_by_sector, aggregate_spending_by_sector
+                )
+            ]
+            return sum(
+                [
+                    spending * carbon_intensity
+                    for spending, carbon_intensity in zip(
+                        spending_by_sector, carbon_intensity_by_sector
+                    )
+                ]
+            )
 
     class carbon_tax(Variable):
         entity = Household
@@ -479,5 +686,23 @@ def create_default_reform() -> ReformType:
             self.update_variable(JSA_income_applicable_income)
             self.update_variable(income_support_applicable_income)
             self.update_variable(housing_benefit_applicable_income)
+
+            self.add_variables(
+                owned_land,
+                property_wealth,
+                corporate_wealth,
+                food_and_non_alcoholic_beverages_consumption,
+                alcohol_and_tobacco_consumption,
+                clothing_and_footwear_consumption,
+                housing_water_and_electricity_consumption,
+                household_furnishings_consumption,
+                health_consumption,
+                transport_consumption,
+                communication_consumption,
+                recreation_consumption,
+                education_consumption,
+                restaurants_and_hotels_consumption,
+                miscellaneous_consumption,
+            )
 
     return (default_reform,)
