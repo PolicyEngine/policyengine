@@ -22,7 +22,7 @@ debug-client:
 	cd policyengine-client; npm start
 format:
 	autopep8 policyengine -r -i
-	autopep8 main.py setup.py -i
+	autopep8 setup.py -i
 	black policyengine -l 79
 	black . -l 79
 test:
