@@ -267,7 +267,7 @@ def add_custom_hovercard(fig: go.Figure) -> None:
 
 
 def add_zero_line(fig: go.Figure) -> None:
-    """Add a dotted line across y=0.
+    """Add a solid line across y=0.
 
     :param fig: Plotly figure.
     :type fig: go.Figure
@@ -280,5 +280,5 @@ def add_zero_line(fig: go.Figure) -> None:
         y0=0,
         x1=1,
         y1=0,
-        line=dict(color="grey", width=1, dash="dash"),
+        line=dict(color="grey", width=1),
     )
