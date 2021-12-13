@@ -13,14 +13,26 @@ export const SPM_UNIT_VARIABLES = [
     "school_meal_subsidy",
     "snap_gross_income",
     "snap_deductions",
+    "snap_standard_deduction",
+    "snap_earnings_deduction",
+    "snap_medical_expense_deduction",
+    "snap_child_support_deduction",
+    "snap_dependent_care_deduction",
+    "snap_shelter_deduction",
+    "snap_utility_allowance_type",
+    "snap_utility_allowance",
     "snap_net_income",
     "snap_max_benefit",
-    "snap_expected_contribution_towards_food",
+    "snap_expected_contribution",
     "snap",
+    "housing_cost",
 ];
 
 export const HOUSEHOLD_VARIABLES = [
     "state_code",
+    "has_heating_cooling_expense",
+    "has_telephone_expense",
+    "has_other_utility_expense",    
 ]
 
 export const EXTRA_VARIABLE_METADATA = {
@@ -50,13 +62,29 @@ export const VARIABLE_CATEGORIES = {
     "School meal subsidy": [
         "school_meal_subsidy",
     ],
-    "Supplemental Nutrition Assistance Program": [
+    "SNAP (Overview)": [
         "snap_gross_income",
         "snap_deductions",
         "snap_net_income",
         "snap_max_benefit",
-        "snap_expected_contribution_towards_food",
+        "snap_expected_contribution",
         "snap",
+    ],
+    "SNAP (Deductions)": [
+        "snap_standard_deduction",
+        "snap_earnings_deduction",
+        "snap_medical_expense_deduction",
+        "snap_child_support_deduction",
+        "snap_dependent_care_deduction",
+        "snap_shelter_deduction",
+        "snap_utility_allowance_type",
+        "snap_utility_allowance",
+    ],
+    "Housing expenses": [
+        "housing_cost",
+        "has_heating_cooling_expense",
+        "has_telephone_expense",
+        "has_other_utility_expense",
     ],
 }
 
