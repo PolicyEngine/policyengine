@@ -382,26 +382,15 @@ def create_default_reform() -> ReformType:
             rate = parameters(period).reforms.carbon_tax.rate
             return rate * household("carbon_consumption", period)
 
-    class tax(baseline_variables["tax"]):
-        def formula(person, period, parameters):
-            is_head = person("is_household_head", period)
-            LVT_charge = person.household("LVT", period) * is_head
-            carbon_charge = person.household("carbon_tax", period) * is_head
-            wealth_charge = (
-                person.household("net_financial_wealth_tax", period) * is_head
-            )
-            property_charge = (
-                person.household("property_tax", period) * is_head
-            )
-            original_tax = baseline_variables["tax"].formula(
-                person, period, parameters
-            )
+    class household_tax(baseline_variables["household_tax"]):
+        def formula(household, period, parameters):
+            personal_tax = household.sum(household.members("tax", period))
             return (
-                original_tax
-                + LVT_charge
-                + carbon_charge
-                + wealth_charge
-                + property_charge
+                personal_tax
+                + household("LVT", period)
+                + household("net_financial_wealth_tax", period)
+                + household("property_tax", period)
+                + household("carbon_tax", period)
             )
 
     class UBI(Variable):
@@ -734,7 +723,7 @@ def create_default_reform() -> ReformType:
             self.update_variable(LVT)
             self.update_variable(carbon_consumption)
             self.update_variable(carbon_tax)
-            self.update_variable(tax)
+            self.update_variable(household_tax)
             self.add_variable(UBI)
             self.update_variable(benefits)
             self.modify_parameters(add_extra_band)
