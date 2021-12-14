@@ -11,6 +11,8 @@ from openfisca_uk.tools.general import *
 from openfisca_uk.entities import Person, Household
 from openfisca_core.model_api import YEAR, Reform
 from openfisca_core.parameters import ParameterNode, ParameterScale
+import yaml
+import pandas as pd
 import warnings
 
 warnings.filterwarnings("ignore")
@@ -83,12 +85,28 @@ def add_extra_band(parameters: ParameterNode) -> ParameterNode:
     return parameters
 
 
+folder = Path(__file__).parent
+
+with open(folder / "land_formula.yaml") as f:
+    land_formula = yaml.safe_load(f)
+
+carbon_intensity = pd.read_csv(folder / "carbon_intensity.csv", index_col=0)
+
+
 def create_default_reform() -> ReformType:
     baseline_system = CountryTaxBenefitSystem()
     baseline_variables = {
         name: type(variable)
         for name, variable in baseline_system.variables.items()
     }
+
+    class owned_land_value(Variable):
+        entity = Household
+        label = "Owned land value"
+        documentation = "Total value of land owned by the household"
+        unit = "currency-GBP"
+        definition_period = YEAR
+        value_type = float
 
     class property_wealth(Variable):
         entity = Household
@@ -106,6 +124,14 @@ def create_default_reform() -> ReformType:
         definition_period = YEAR
         value_type = float
 
+    class net_financial_wealth(Variable):
+        entity = Household
+        label = "Net financial wealth"
+        documentation = "Total assets minus liabilities"
+        unit = "currency-GBP"
+        definition_period = YEAR
+        value_type = float
+
     class owned_land(Variable):
         entity = Household
         label = "Owned land"
@@ -115,6 +141,30 @@ def create_default_reform() -> ReformType:
         unit = "currency-GBP"
         definition_period = YEAR
         value_type = float
+
+    class net_financial_wealth_tax(Variable):
+        entity = Household
+        label = "Wealth tax"
+        documentation = "Flat tax on net financial wealth"
+        unit = "currency-GBP"
+        definition_period = YEAR
+        value_type = float
+
+        def formula(household, period, parameters):
+            rate = parameters(period).reforms.wealth_tax.rate
+            return max_(0, household("net_financial_wealth", period)) * rate
+
+    class property_tax(Variable):
+        entity = Household
+        label = "Property tax"
+        documentation = "Flat tax on property values"
+        unit = "currency-GBP"
+        definition_period = YEAR
+        value_type = float
+
+        def formula(household, period, parameters):
+            rate = parameters(period).reforms.property_tax.rate
+            return household("property_wealth", period) * rate
 
     class land_value(Variable):
         entity = Household
@@ -151,7 +201,7 @@ def create_default_reform() -> ReformType:
             return (
                 property_wealth * property_wealth_intensity
                 + corporate_wealth * corporate_wealth_intensity
-                + household("owned_land", period)
+                + household("owned_land_value", period)
             )
 
     class LVT(Variable):
@@ -282,7 +332,7 @@ def create_default_reform() -> ReformType:
     class carbon_consumption(Variable):
         entity = Household
         label = "Carbon consumption"
-        documentation = "Total carbon footprint of the household"
+        documentation = "Estimated total carbon footprint of the household"
         unit = "tonne CO2"
         definition_period = YEAR
         value_type = float
@@ -330,18 +380,16 @@ def create_default_reform() -> ReformType:
             rate = parameters(period).reforms.carbon_tax.rate
             return rate * household("carbon_consumption", period)
 
-    class tax(baseline_variables["tax"]):
-        def formula(person, period, parameters):
-            LVT_charge = person.household("LVT", period) * person(
-                "is_household_head", period
+    class household_tax(baseline_variables["household_tax"]):
+        def formula(household, period, parameters):
+            personal_tax = household.sum(household.members("tax", period))
+            return (
+                personal_tax
+                + household("LVT", period)
+                + household("net_financial_wealth_tax", period)
+                + household("property_tax", period)
+                + household("carbon_tax", period)
             )
-            carbon_charge = person.household("carbon_tax", period) * person(
-                "is_household_head", period
-            )
-            original_tax = baseline_variables["tax"].formula(
-                person, period, parameters
-            )
-            return original_tax + LVT_charge + carbon_charge
 
     class UBI(Variable):
         entity = Person
@@ -673,7 +721,7 @@ def create_default_reform() -> ReformType:
             self.update_variable(LVT)
             self.update_variable(carbon_consumption)
             self.update_variable(carbon_tax)
-            self.update_variable(tax)
+            self.update_variable(household_tax)
             self.add_variable(UBI)
             self.update_variable(benefits)
             self.modify_parameters(add_extra_band)
@@ -686,9 +734,8 @@ def create_default_reform() -> ReformType:
             self.update_variable(JSA_income_applicable_income)
             self.update_variable(income_support_applicable_income)
             self.update_variable(housing_benefit_applicable_income)
-
             self.add_variables(
-                owned_land,
+                owned_land_value,
                 property_wealth,
                 corporate_wealth,
                 food_and_non_alcoholic_beverages_consumption,
@@ -703,6 +750,9 @@ def create_default_reform() -> ReformType:
                 education_consumption,
                 restaurants_and_hotels_consumption,
                 miscellaneous_consumption,
+                net_financial_wealth_tax,
+                property_tax,
+                net_financial_wealth,
             )
 
     return (default_reform,)

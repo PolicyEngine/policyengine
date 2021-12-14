@@ -209,8 +209,12 @@ class PolicyEngineCountry:
     def ubi(self, params=None):
         baseline, reformed = self._get_microsimulations(params)
         revenue = (
-            baseline.calc(self.results_config.net_income_variable).sum()
-            - reformed.calc(self.results_config.net_income_variable).sum()
+            baseline.calc(
+                self.results_config.household_net_income_variable
+            ).sum()
+            - reformed.calc(
+                self.results_config.household_net_income_variable
+            ).sum()
         )
         UBI_amount = max(
             0,
