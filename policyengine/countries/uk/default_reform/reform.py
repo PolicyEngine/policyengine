@@ -13,6 +13,9 @@ from openfisca_core.model_api import YEAR, Reform
 from openfisca_core.parameters import ParameterNode, ParameterScale
 import yaml
 import pandas as pd
+import warnings
+
+warnings.filterwarnings("ignore")
 
 
 def add_extra_band(parameters: ParameterNode) -> ParameterNode:
@@ -129,6 +132,17 @@ def create_default_reform() -> ReformType:
         definition_period = YEAR
         value_type = float
 
+        
+    class owned_land(Variable):
+        entity = Household
+        label = "Owned land"
+        documentation = (
+            "Total value of all land-only plots owned by the household"
+        )
+        unit = "currency-GBP"
+        definition_period = YEAR
+        value_type = float
+
     class net_financial_wealth_tax(Variable):
         entity = Household
         label = "Wealth tax"
@@ -153,21 +167,43 @@ def create_default_reform() -> ReformType:
             rate = parameters(period).reforms.property_tax.rate
             return household("property_wealth", period) * rate
 
+
     class land_value(Variable):
         entity = Household
         label = "Land value"
-        documentation = "Estimated total land value exposure"
+        documentation = "Estimated total land value exposure (your property's land value, and any share of corporate land value)"
         unit = "currency-GBP"
         definition_period = YEAR
         value_type = float
 
-        def formula(household, period):
+        def formula(household, period, parameters):
+            property_wealth = household("property_wealth", period)
+            corporate_wealth = household("corporate_wealth", period)
+            total_property_wealth = (
+                property_wealth * household("household_weight", period)
+            ).sum()
+            total_corporate_wealth = (
+                corporate_wealth * household("household_weight", period)
+            ).sum()
+            land_value = parameters(period).reforms.land_value
+            property_wealth_intensity = (
+                land_value.aggregate_household_land_value
+                / total_property_wealth
+            )
+            property_wealth_intensity = where(
+                total_property_wealth > 0, property_wealth_intensity, 0
+            )
+            corporate_wealth_intensity = (
+                land_value.aggregate_corporate_land_value
+                / total_corporate_wealth
+            )
+            corporate_wealth_intensity = where(
+                total_corporate_wealth > 0, corporate_wealth_intensity, 0
+            )
             return (
-                household("owned_land_value", period)
-                + household("property_wealth", period)
-                * land_formula["land_prop_share"]
-                + household("corporate_wealth", period)
-                * land_formula["land_corp_share"]
+                property_wealth * property_wealth_intensity
+                + corporate_wealth * corporate_wealth_intensity
+                + household("owned_land_value", period)
             )
 
     class LVT(Variable):
@@ -280,6 +316,21 @@ def create_default_reform() -> ReformType:
         definition_period = YEAR
         value_type = float
 
+    CONSUMPTION_VARIABLES = [
+        "food_and_non_alcoholic_beverages_consumption",
+        "alcohol_and_tobacco_consumption",
+        "clothing_and_footwear_consumption",
+        "housing_water_and_electricity_consumption",
+        "household_furnishings_consumption",
+        "health_consumption",
+        "transport_consumption",
+        "communication_consumption",
+        "recreation_consumption",
+        "education_consumption",
+        "restaurants_and_hotels_consumption",
+        "miscellaneous_consumption",
+    ]
+
     class carbon_consumption(Variable):
         entity = Household
         label = "Carbon consumption"
@@ -288,13 +339,35 @@ def create_default_reform() -> ReformType:
         definition_period = YEAR
         value_type = float
 
-        def formula(household, period):
+        def formula(household, period, parameters):
+            spending_by_sector = list(
+                map(lambda var: household(var, period), CONSUMPTION_VARIABLES)
+            )
+            household_weight = household("household_weight", period)
+            aggregate_spending_by_sector = list(
+                map(
+                    lambda values: (values * household_weight).sum(),
+                    spending_by_sector,
+                )
+            )
+            carbon_emissions = parameters(
+                period
+            ).reforms.carbon.aggregate_carbon_emissions
+            aggregate_emissions_by_sector = [
+                carbon_emissions[category.replace("_consumption", "")]
+                for category in CONSUMPTION_VARIABLES
+            ]
+            carbon_intensity_by_sector = [
+                emissions / spending if spending > 0 else 0
+                for emissions, spending in zip(
+                    aggregate_emissions_by_sector, aggregate_spending_by_sector
+                )
+            ]
             return sum(
                 [
-                    household(variable, period) * carbon_intensity
-                    for variable, carbon_intensity in zip(
-                        carbon_intensity.index,
-                        carbon_intensity.carbon_per_pound,
+                    spending * carbon_intensity
+                    for spending, carbon_intensity in zip(
+                        spending_by_sector, carbon_intensity_by_sector
                     )
                 ]
             )
@@ -674,8 +747,6 @@ def create_default_reform() -> ReformType:
             self.update_variable(JSA_income_applicable_income)
             self.update_variable(income_support_applicable_income)
             self.update_variable(housing_benefit_applicable_income)
-
-            # Wealth and consumption
             self.add_variables(
                 owned_land_value,
                 property_wealth,

@@ -5,7 +5,13 @@ export function policyToURL(targetPage, policy) {
 			if(policy[key].unit === "/1") {
 				searchParams.set(key, parseFloat((policy[key].value * 100).toFixed(2)).toString().replace(".", "_"));
 			} else {
-				searchParams.set(key, +parseFloat(policy[key].value.toFixed(2)).toString().replace(".", "_"));
+				let value;
+				try {
+					value = +parseFloat(policy[key].value.toFixed(2));
+				} catch {
+					value = +policy[key].value;
+				}
+				searchParams.set(key, value.toString().replace(".", "_"));
 			}
 		} else {
 			searchParams.delete(key);
