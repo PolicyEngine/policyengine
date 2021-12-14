@@ -132,7 +132,6 @@ def create_default_reform() -> ReformType:
         definition_period = YEAR
         value_type = float
 
-        
     class owned_land(Variable):
         entity = Household
         label = "Owned land"
@@ -166,7 +165,6 @@ def create_default_reform() -> ReformType:
         def formula(household, period, parameters):
             rate = parameters(period).reforms.property_tax.rate
             return household("property_wealth", period) * rate
-
 
     class land_value(Variable):
         entity = Household
