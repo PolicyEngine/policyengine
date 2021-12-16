@@ -152,7 +152,6 @@ def create_default_reform() -> ReformType:
             original_tax = baseline_variables["household_tax"].formula(
                 household,
                 period,
-                parameters,
             )
             return (
                 original_tax
