@@ -263,7 +263,10 @@ def create_reform(
             name = metadata["label"]
             description = get_summary(metadata, value)
             if "abolish" in param:
-                reform = abolish(metadata["variable"])
+                if metadata["variable"] is not None:
+                    reform = abolish(metadata["variable"])
+                else:
+                    reform = parametric(metadata["parameter"], value)
             else:
                 reform = parametric(metadata["parameter"], value)
             if "baseline" in param:

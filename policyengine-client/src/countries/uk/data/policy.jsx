@@ -66,7 +66,8 @@ export const PARAMETER_HIERARCHY = {
 			]
 		},
 		"Property taxes": [
-			"abolish_CT"
+			"abolish_CT",
+			"abolish_SDLT",
 		]
 	},
 	"Benefit": {
