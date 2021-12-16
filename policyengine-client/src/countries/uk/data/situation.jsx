@@ -19,7 +19,7 @@ export const BENUNIT_VARIABLES = [
     "benunit_rent",
     "claims_all_entitled_benefits",
     "claims_UC",
-    "claims_child_benefit",
+    "would_claim_child_benefit",
     "claims_legacy_benefits",
     "would_claim_WTC",
     "would_claim_CTC",
@@ -49,8 +49,12 @@ export const HOUSEHOLD_VARIABLES = [
     "restaurants_and_hotels_consumption",
     "miscellaneous_consumption",
     "carbon_consumption",
-    "owned_land_value",
+    "owned_land",
     "property_wealth",
+    "main_residence_value",
+    "other_residential_property_value",
+    "non_residential_property_value",
+    "expected_stamp_duty",
     "corporate_wealth",
     "land_value",
 ]
@@ -83,7 +87,10 @@ export const VARIABLE_CATEGORIES = {
         "weekly_hours",
     ],
     "Wealth": [
-        "owned_land_value",
+        "owned_land",
+        "main_residence_value",
+        "other_residential_property_value",
+        "non_residential_property_value",
         "property_wealth",
         "corporate_wealth",
         "land_value",
@@ -109,13 +116,16 @@ export const VARIABLE_CATEGORIES = {
         "claims_UC",
         "is_in_startup_period",
         "limited_capability_for_WRA",
-        "claims_child_benefit",
+        "would_claim_child_benefit",
         "claims_legacy_benefits",
         "would_claim_WTC",
         "would_claim_CTC",
         "would_claim_HB",
         "would_claim_JSA",
         "would_claim_PC",
+    ],
+    "Tax": [
+        "expected_stamp_duty",
     ]
 }
 
