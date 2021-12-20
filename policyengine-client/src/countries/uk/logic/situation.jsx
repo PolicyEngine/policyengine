@@ -41,6 +41,7 @@ export function validateSituation(situation) {
             situation.households["Your household"][variable] = {"2021": null};
         }
     }
+    situation["states"] = {"state": {"citizens": Object.keys(situation.people)}}
     return {
         situation: situation,
         situationValid: true,

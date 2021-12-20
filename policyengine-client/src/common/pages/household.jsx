@@ -16,7 +16,7 @@ function SubTitle(props) {
 
 function HouseholdMenu(props) {
 	const personEntities = Object.values(props.entities).filter(entity => !entity.is_group);
-	const groupEntities = Object.values(props.entities).filter(entity => entity.is_group);
+	const groupEntities = Object.values(props.entities).filter(entity => entity.is_group && entity.key !== "state");
 	return (
 		<Menu>
 			<SubTitle>People</SubTitle>

@@ -20,7 +20,7 @@ function HouseholdResultsCaveats() {
 
 
 export function HouseholdResultsPane(props) {
-	const netIncome = props.results["net_income"];
+	const netIncome = props.results["household_net_income"];
 	const isGain = netIncome.new > netIncome.old;
 	const isLoss = netIncome.new < netIncome.old;
 	const formatNumber = num => "£" + num.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0});
