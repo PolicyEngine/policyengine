@@ -98,7 +98,6 @@ class PolicyEngineCountry:
 
             self.baseline.simulation.trace = True
             self.default_year = 2021
-            self.baseline.year = 2021
             self.baseline.calc("net_income")
 
             self.policyengine_parameters = get_PE_parameters(
@@ -142,9 +141,7 @@ class PolicyEngineCountry:
             reform_config["reform"]["reform"], dataset=self.default_dataset
         )
         baseline.default_year = 2021
-        baseline.year = 2021
         reformed.default_year = 2021
-        reformed.year = 2021
         return baseline, reformed
 
     def _get_individualsims(
