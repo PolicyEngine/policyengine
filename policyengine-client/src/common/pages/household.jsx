@@ -192,7 +192,7 @@ export class HouseholdPage extends React.Component {
 						page="household" 
 						policy={this.props.policy}
 						setPage={this.props.setPage} 
-						invalid={!this.props.policyValid} 
+						invalid={!this.props.policyValid || this.state.situationHasChanged} 
 						baseURL={this.props.baseURL}
 						situation={this.state.computedSituation}
 						variables={this.props.variables}
