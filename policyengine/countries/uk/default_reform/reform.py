@@ -134,8 +134,15 @@ def create_default_reform() -> ReformType:
         value_type = float
 
         def formula(household, period, parameters):
-            rate = parameters(period).reforms.LVT.rate
-            return rate * household("land_value", period)
+            lvt = parameters(period).reforms.LVT
+            full_lvt = lvt.rate * household("land_value", period)
+            household_lvt = lvt.household_rate * household(
+                "household_land_value", period
+            )
+            corporate_lvt = lvt.corporate_rate * household(
+                "corporate_land_value", period
+            )
+            return full_lvt + household_lvt + corporate_lvt
 
     class carbon_tax(Variable):
         entity = Household
@@ -485,6 +492,20 @@ def create_default_reform() -> ReformType:
             )
             return applicable_income
 
+    class meets_marriage_allowance_income_conditions(
+        baseline_variables["meets_marriage_allowance_income_conditions"]
+    ):
+        def formula(person, period, parameters):
+            if parameters(
+                period
+            ).reforms.abolish_marriage_allowance_income_condition:
+                # Setting the parameter to true ensures everyone passes
+                # the income test
+                return True
+            return baseline_variables[
+                "meets_marriage_allowance_income_conditions"
+            ].formula(person, period)
+
     class default_reform(Reform):
         def apply(self):
             self.update_variable(LVT)
@@ -507,5 +528,7 @@ def create_default_reform() -> ReformType:
                 property_tax,
                 net_financial_wealth,
             )
+
+            self.update_variable(meets_marriage_allowance_income_conditions)
 
     return (default_reform,)

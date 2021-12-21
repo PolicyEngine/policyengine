@@ -42,7 +42,11 @@ export const PARAMETER_HIERARCHY = {
 				"extra_scot_band",
 			],
 			"Allowances": [
-				"personal_allowance"
+				"personal_allowance",
+				"PA_reduction_threshold",
+				"PA_reduction_rate",
+				"marriage_allowance_cap",
+				"abolish_marriage_allowance_income_condition"
 			],
 			"Structural": [
 				"abolish_income_tax"
@@ -67,7 +71,9 @@ export const PARAMETER_HIERARCHY = {
 		},
 		"Property taxes": [
 			"abolish_CT",
-			"abolish_SDLT",
+			"abolish_sdlt",
+			"abolish_ltt",
+			"abolish_lbtt",
 		]
 	},
 	"Benefit": {
@@ -76,6 +82,8 @@ export const PARAMETER_HIERARCHY = {
 			"CB_eldest",
 			"CB_additional",
 			"CB_takeup",
+			"CB_HITC_reduction_threshold",
+			"CB_HITC_reduction_rate",
 		],
 		"Legacy benefits": [
 			"abolish_CTC",
@@ -124,6 +132,8 @@ export const PARAMETER_HIERARCHY = {
 		],
 		"Land Value Tax": [
 			"LVT",
+			"household_lvt",
+			"corporate_lvt",
 		],
 		"Carbon Tax": [
 			"carbon_tax",

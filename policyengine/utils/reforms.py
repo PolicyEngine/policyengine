@@ -264,7 +264,15 @@ def create_reform(
             description = get_summary(metadata, value)
             if "abolish" in param:
                 if metadata["variable"] is not None:
-                    reform = abolish(metadata["variable"])
+                    if isinstance(metadata["variable"], list):
+                        reform = tuple(
+                            [
+                                abolish(variable)
+                                for variable in metadata["variable"]
+                            ]
+                        )
+                    else:
+                        reform = abolish(metadata["variable"])
                 else:
                     reform = parametric(metadata["parameter"], value)
             else:
