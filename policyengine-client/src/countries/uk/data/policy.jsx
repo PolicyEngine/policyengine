@@ -131,6 +131,7 @@ export const PARAMETER_HIERARCHY = {
 			"autoUBI",
 		],
 		"Land Value Tax": [
+			"LVT",
 			"household_lvt",
 			"corporate_lvt",
 		],
