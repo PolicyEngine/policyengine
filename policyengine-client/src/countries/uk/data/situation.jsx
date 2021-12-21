@@ -54,7 +54,7 @@ export const HOUSEHOLD_VARIABLES = [
     "main_residence_value",
     "other_residential_property_value",
     "non_residential_property_value",
-    "expected_stamp_duty",
+    "expected_sdlt",
     "corporate_wealth",
     "land_value",
 ]
