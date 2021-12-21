@@ -265,7 +265,12 @@ def create_reform(
             if "abolish" in param:
                 if metadata["variable"] is not None:
                     if isinstance(metadata["variable"], list):
-                        reform = tuple([abolish(variable) for variable in metadata["variable"]])
+                        reform = tuple(
+                            [
+                                abolish(variable)
+                                for variable in metadata["variable"]
+                            ]
+                        )
                     else:
                         reform = abolish(metadata["variable"])
                 else:
