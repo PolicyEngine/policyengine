@@ -499,6 +499,8 @@ def create_default_reform() -> ReformType:
             if parameters(
                 period
             ).reforms.abolish_marriage_allowance_income_condition:
+                # Setting the parameter to true ensures everyone passes
+                # the income test
                 return True
             return baseline_variables[
                 "meets_marriage_allowance_income_conditions"
