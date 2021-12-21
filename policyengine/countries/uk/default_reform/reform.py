@@ -135,9 +135,14 @@ def create_default_reform() -> ReformType:
 
         def formula(household, period, parameters):
             lvt = parameters(period).reforms.LVT
-            return lvt.household_rate * household(
+            full_lvt = lvt.rate * household("land_value", period)
+            household_lvt = lvt.household_rate * household(
                 "household_land_value", period
-            ) + lvt.corporate_rate * household("corporate_land_value", period)
+            )
+            corporate_lvt = lvt.corporate_rate * household(
+                "corporate_land_value", period
+            )
+            return full_lvt + household_lvt + corporate_lvt
 
     class carbon_tax(Variable):
         entity = Household

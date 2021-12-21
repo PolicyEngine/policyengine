@@ -8,6 +8,17 @@ reforms:
       name: policy_date
       type: date
   LVT:
+    rate:
+      description: Tax rate on the unimproved value of land
+      values:
+        2021-01-01: 0.00
+      metadata:
+        label: Land value tax
+        name: LVT
+        unit: /1
+        max: 0.1
+        tests:
+          - decreases_net_income: true
     household_rate:
       description: Tax rate on the unimproved value of land for households
       values:
