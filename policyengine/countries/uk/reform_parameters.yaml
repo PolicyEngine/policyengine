@@ -8,13 +8,24 @@ reforms:
       name: policy_date
       type: date
   LVT:
-    rate:
-      description: Tax rate on the unimproved value of land
+    household_rate:
+      description: Tax rate on the unimproved value of land for households
       values:
         2021-01-01: 0.00
       metadata:
-        label: Land value tax
-        name: LVT
+        label: Land value tax (households)
+        name: household_lvt
+        unit: /1
+        max: 0.1
+        tests:
+          - decreases_net_income: true
+    corporate_rate:
+      description: Tax rate on the unimproved value of land for corporations
+      values:
+        2021-01-01: 0.00
+      metadata:
+        label: Land value tax (corporations)
+        name: corporate_lvt
         unit: /1
         max: 0.1
         tests:
@@ -309,100 +320,37 @@ reforms:
           - increases_net_income: true
           - value: true
             revenue: -38.9e9
-  land_value:
-    aggregate_household_land_value:
-      description: Total value of land held by households
+    abolish_sdlt:
       values:
-        2014-01-01: 3_125_384_000_000
-        2015-01-01: 3_487_388_000_000
-        2016-01-01: 3_713_692_000_000
-        2017-01-01: 3_899_194_000_000
-        2018-01-01: 3_947_306_000_000
-        2019-01-01: 3_961_152_000_000
-        2020-01-01: 4_309_138_000_000
+        2021-01-01: false
       metadata:
-        unit: currency-GBP
-        reference:
-          - title: ONS National Balance Sheet (Table 11)
-            href: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/datasets/thenationalbalancesheetestimates/current
-    aggregate_corporate_land_value:
-      description: Total value of land held by (non-financial and financial) corporations
+        label: Abolish Stamp Duty Land Tax
+        name: abolish_sdlt
+        unit: abolition
+        variable: 
+          - sdlt_on_transactions
+          - corporate_sdlt
+    abolish_ltt:
       values:
-        2014-01-01: 1_285_861_000_000
-        2015-01-01: 1_421_660_000_000
-        2016-01-01: 1_481_408_000_000
-        2017-01-01: 1_623_384_000_000
-        2018-01-01: 1_695_825_000_000
-        2019-01-01: 1_683_117_000_000
-        2020-01-01: 1_757_818_000_000
+        2021-01-01: false
       metadata:
-        unit: currency-GBP
-        reference:
-          - title: ONS National Balance Sheet (Tables 3 and 6)
-            href: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/datasets/thenationalbalancesheetestimates/current
-  carbon:
-    aggregate_carbon_emissions:
-      description: Total CO2 emissions by sector
-      reference:
-        - title: UK's carbon footprint - Official Statistics
-          href: https://www.gov.uk/government/statistics/uks-carbon-footprint
-      food_and_non_alcoholic_beverages:
-        values:
-          2018-01-01: 66_312_000
-        metadata:
-          unit: tonne CO2
-      alcohol_and_tobacco:
-        values:
-          2018-01-01: 1_581_000
-        metadata:
-          unit: tonne CO2
-      clothing_and_footwear:
-        values:
-          2018-01-01: 10_958_000
-        metadata:
-          unit: tonne CO2
-      housing_water_and_electricity:
-        values:
-          2018-01-01: 163_862_000
-        metadata:
-          unit: tonne CO2
-      household_furnishings:
-        values:
-          2018-01-01: 15_179_000
-        metadata:
-          unit: tonne CO2
-      health:
-        values:
-          2018-01-01: 9_918_000
-        metadata:
-          unit: tonne CO2
-      transport:
-        values:
-          2018-01-01: 184_591_000
-        metadata:
-          unit: tonne CO2
-      communication:
-        values:
-          2018-01-01: 8_583_000
-        metadata:
-          unit: tonne CO2
-      recreation:
-        values:
-          2018-01-01: 27_408_000
-        metadata:
-          unit: tonne CO2
-      education:
-        values:
-          2018-01-01: 3_808_000
-        metadata:
-          unit: tonne CO2
-      restaurants_and_hotels:
-        values:
-          2018-01-01: 31_444_000
-        metadata:
-          unit: tonne CO2
-      miscellaneous:
-        values:
-          2018-01-01: 20_208_000
-        metadata:
-          unit: tonne CO2
+        label: Abolish Land Transaction Tax (Wales)
+        name: abolish_ltt
+        unit: abolition
+        variable: ltt_on_transactions
+    abolish_lbtt:
+      values:
+        2021-01-01: false
+      metadata:
+        label: Abolish Land and Buildings Transaction Tax (Scotland)
+        name: abolish_lbtt
+        unit: abolition
+        variable: lbtt_on_transactions
+  abolish_marriage_allowance_income_condition:
+    description: The Marriage Allowance is currently withheld from higher and additional rate taxpayers. This switch allows them to receive it.
+    values:
+      2021-01-01: false
+    metadata:
+      label: Abolish the Marriage Allowance income condition
+      name: abolish_marriage_allowance_income_condition
+      unit: abolition
