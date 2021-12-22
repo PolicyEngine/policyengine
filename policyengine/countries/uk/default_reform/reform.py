@@ -154,6 +154,7 @@ def create_default_reform() -> ReformType:
             carbon_tax = parameters(period).reforms.carbon_tax
             rate = carbon_tax.rate
             emissions = household("carbon_consumption", period)
+            # Household's share of total stocks and other corporate tax exposure.
             shareholding = household("shareholding", period)
             total_emissions = (
                 emissions * household("household_weight", period)
