@@ -262,7 +262,7 @@ def create_reform(
             metadata = policyengine_parameters[param]
             name = metadata["label"]
             description = get_summary(metadata, value)
-            if "abolish" in param:
+            if metadata["unit"] == "abolition":
                 if metadata["variable"] is not None:
                     if isinstance(metadata["variable"], list):
                         reform = tuple(
