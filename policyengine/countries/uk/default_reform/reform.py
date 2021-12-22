@@ -151,8 +151,23 @@ def create_default_reform() -> ReformType:
         value_type = float
 
         def formula(household, period, parameters):
-            rate = parameters(period).reforms.carbon_tax.rate
-            return rate * household("carbon_consumption", period)
+            carbon_tax = parameters(period).reforms.carbon_tax
+            rate = carbon_tax.rate
+            emissions = household("carbon_consumption", period)
+            shareholding = household("shareholding", period)
+            total_emissions = (
+                emissions * household("household_weight", period)
+            ).sum()
+            household_incidence = (
+                carbon_tax.household_incidence * rate * emissions
+            )
+            corporate_incidence = (
+                (1 - carbon_tax.household_incidence)
+                * rate
+                * total_emissions
+                * shareholding
+            )
+            return household_incidence + corporate_incidence
 
     class household_tax(baseline_variables["household_tax"]):
         def formula(household, period, parameters):
