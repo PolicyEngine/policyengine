@@ -121,7 +121,7 @@ function HouseholdVariables(props) {
 export class HouseholdPage extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {selected: {name: props.defaultSelectedName, type: props.defaultSelectedType}, error: false, situation: props.situation, computedSituation: props.situation, situationValid: true, autoComputeIntervalID: null, situationHasChanged: true};
+		this.state = {waiting: false, selected: {name: props.defaultSelectedName, type: props.defaultSelectedType}, error: false, situation: props.situation, computedSituation: props.situation, situationValid: true, autoComputeIntervalID: null, situationHasChanged: true};
 		this.updateSituation = this.updateSituation.bind(this);
 		this.autoComputeSituation = this.autoComputeSituation.bind(this);
 	}
@@ -142,8 +142,8 @@ export class HouseholdPage extends React.Component {
 	}
 
 	autoComputeSituation() {
-		if(this.state.situationHasChanged) {
-			fetch(this.props.api_url + "/calculate", {
+		if(this.state.situationHasChanged && !this.state.waiting) {
+			this.setState({waiting: true}, () => {fetch(this.props.api_url + "/calculate", {
 				method: "POST",
 				headers: {
 					'Accept': 'application/json',
@@ -151,9 +151,9 @@ export class HouseholdPage extends React.Component {
 				},
 				body: JSON.stringify(this.state.situation),
 			}).then(response => response.json()).then(situation => {
-				this.setState({computedSituation: situation, situationValid: true, situationHasChanged: false});
+				this.setState({waiting: false, computedSituation: situation, situationValid: true, situationHasChanged: false});
 				this.props.updateSituation(this.state.situation, this.state.computedSituation);
-			}).catch((e) => this.setState({situationHasChanged: false, error: true}));
+			}).catch((e) => this.setState({situationHasChanged: false, error: true}))});
 		}
 	}
 
