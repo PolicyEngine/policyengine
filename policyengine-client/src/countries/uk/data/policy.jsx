@@ -74,6 +74,7 @@ export const PARAMETER_HIERARCHY = {
 			"abolish_sdlt",
 			"abolish_ltt",
 			"abolish_lbtt",
+			"abolish_business_rates",
 		]
 	},
 	"Benefit": {
