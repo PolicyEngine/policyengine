@@ -158,16 +158,16 @@ def create_default_reform() -> ReformType:
             total_emissions = (
                 emissions * household("household_weight", period)
             ).sum()
-            household_incidence = (
-                carbon_tax.household_incidence * rate * emissions
+            consumer_incidence = (
+                carbon_tax.consumer_incidence * rate * emissions
             )
             corporate_incidence = (
-                (1 - carbon_tax.household_incidence)
+                (1 - carbon_tax.consumer_incidence)
                 * rate
                 * total_emissions
                 * shareholding
             )
-            return household_incidence + corporate_incidence
+            return consumer_incidence + corporate_incidence
 
     class household_tax(baseline_variables["household_tax"]):
         def formula(household, period, parameters):
