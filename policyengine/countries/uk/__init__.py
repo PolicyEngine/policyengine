@@ -9,6 +9,7 @@ from openfisca_uk_data import FRSEnhanced, SynthFRS
 from policyengine.utils.general import PolicyEngineResultsConfig
 from policyengine.countries.country import PolicyEngineCountry
 from policyengine.countries.uk.default_reform import create_default_reform
+import os
 
 UK_FOLDER = Path(__file__).parent
 
@@ -28,7 +29,6 @@ class UKResultsConfig(PolicyEngineResultsConfig):
 
 
 class UK(PolicyEngineCountry):
-    use_synthetic_data = True
     name = "uk"
     system = CountryTaxBenefitSystem
     Microsimulation = Microsimulation
@@ -43,7 +43,10 @@ class UK(PolicyEngineCountry):
     results_config = UKResultsConfig
 
     def __init__(self):
-        if self.use_synthetic_data:
+        if (
+            "POLICYENGINE_SYNTH_UK" in os.environ
+            and os.environ["POLICYENGINE_SYNTH_UK"]
+        ):
             self.default_dataset = SynthFRS
             if len(SynthFRS.years) == 0:
                 # No synthetic data - download from GitHub

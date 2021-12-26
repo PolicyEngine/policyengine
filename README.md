@@ -8,6 +8,4 @@ First, install using `make install`. Then, to debug the client, run `make debug-
 
 If your changes involve the server, change `const useLocalServer = false;` to `const useLocalServer = true;` in `src/App.jsx`.
 
-If you don't have access to the UK Family Resources Survey, you can still run the UK population-wide calculator on an anonymised version. To do that, in `policyengine/countries/uk/__init__.py` change:
-
-`use_synthetic_data = False` to `use_synthetic_data = True`
+If you don't have access to the UK Family Resources Survey, you can still run the UK population-wide calculator on an anonymised version. To do that, instead of running `make debug-server`, run `POLICYENGINE_SYNTH_UK=1 make debug-server`
