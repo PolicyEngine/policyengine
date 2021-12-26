@@ -53,6 +53,15 @@ reforms:
         unit: currency-GBP
         tests:
           - decreases_net_income: true
+    consumer_incidence:
+      description: Proportion of corporate carbon taxes which is passed on to consumers in the form of higher prices (as opposed to shareholders in the form of reduced profitability)
+      values:
+        2021-01-01: 1.00
+      metadata:
+        label: Carbon tax consumer incidence
+        name: carbon_tax_consumer_incidence
+        max: 1
+        unit: /1
   wealth_tax:
     rate:
       description: A yearly flat tax on net financial wealth

@@ -138,6 +138,7 @@ export const PARAMETER_HIERARCHY = {
 		],
 		"Carbon Tax": [
 			"carbon_tax",
+			"carbon_tax_consumer_incidence",
 		]
 	}
 };
