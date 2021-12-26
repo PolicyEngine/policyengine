@@ -7,3 +7,5 @@ This repository contains the core infrastructure for PolicyEngine sites in order
 First, install using `make install`. Then, to debug the client, run `make debug-client`, or to debug the server, run `make debug-server`.
 
 If your changes involve the server, change `const useLocalServer = false;` to `const useLocalServer = true;` in `src/App.jsx`.
+
+If you don't have access to the UK Family Resources Survey, you can still run the UK population-wide calculator on an anonymised version. To do that, instead of running `make debug-server`, run `POLICYENGINE_SYNTH_UK=1 make debug-server`
