@@ -47,5 +47,5 @@ class UK(PolicyEngineCountry):
             self.default_dataset = SynthFRS
             if len(SynthFRS.years) == 0:
                 # No synthetic data - download from GitHub
-                SynthFRS.save(2019)
+                SynthFRS.save(year=2019)
         super().__init__()
