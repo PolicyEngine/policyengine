@@ -9,5 +9,7 @@
 **/*.egg-info
 **/.vscode
 **/static/*
+**/_build/*
+**/.ipynb_checkpoints/*
 openfisca_uk/
 openfisca_uk_data/

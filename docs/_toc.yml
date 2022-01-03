@@ -1,0 +1,9 @@
+format: jb-book
+root: index
+parts:
+  - caption: Client
+    chapters:
+      - file: client/index.md
+  - caption: Server
+    chapters:
+      - file: server/index.md

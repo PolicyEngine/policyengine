@@ -45,3 +45,5 @@ test-server:
 monitor:
 	python policyengine/monitoring/api_monitoring.py
 server: install-server test-server
+documentation:
+	jb build docs
