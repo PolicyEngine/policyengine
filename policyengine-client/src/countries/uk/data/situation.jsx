@@ -1,10 +1,14 @@
 export const VARIABLE_HIERARCHY = {
+    "General": [
+        "num_adults",
+        "num_children",
+    ],
     "Demographic": {
-        "Personal": [
-            "age",
-        ],
         "Household": [
             "region",
+        ],
+        "Personal": [
+            "age",
         ],
     },
     "Income": [

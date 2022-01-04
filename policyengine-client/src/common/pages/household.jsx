@@ -1,18 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { Overview } from "../overview";
-import { Collapse, Button } from "antd";
+import { Collapse, Button, Radio, Select } from "antd";
 import { Parameter } from "../parameter";
 import { Menu } from "../menu";
 
-const { Panel } = Collapse;
+const { Option } = Select;
 
 function hasItems(object) {
 	return object && (Object.keys(object).length > 0);
 }
 
-function SubTitle(props) {
-	return <h6 style={{marginTop: 20}}>{props.children}</h6>
+function Spacing() {
+	return <div style={{paddingTop: 15}}/>;
 }
 
 function pathToItem(path, object) {
@@ -23,65 +23,108 @@ function pathToItem(path, object) {
 	return node;
 }
 
-function HouseholdVariables(props) {
-	try {
-		const variables = pathToItem(props.path,)
-		let panels = [];
-		for(let category of Object.keys(props.categories)) {
-			const panelVariables = Object.keys(variables).filter(variable => props.categories[category].includes(variable)).map(variable => {
-				let computed = props.computedSituation[props.entities[props.selected.type].plural][props.selected.name];
-				let value;
-				if(computed === undefined) {
-					value = props.variables[variable].defaultValue;
-				} else if(variables[variable]["2021"] !== null) {
-					value = variables[variable]["2021"];
-				} else {
-					value = computed[variable]["2021"];
-				}
-				if(props.variables[variable].valueType === "Enum") {
-					const match = props.variables[variable].possibleValues.filter(possibleValue => possibleValue.key === value)[0];
-					value = {
-						key: value,
-						value: match && match.value,
-					}
-				}
-				try {
-					const isInputVariable = props.inputVariables.includes(variable);
-					return <Parameter 
-						key={variable} 
-						updatePolicy={props.updateValue}
-						param={{
-							name: props.variables[variable].name,
-							label: props.variables[variable].label,
-							unit: props.variables[variable].unit,
-							period: props.variables[variable].definitionPeriod,
-							defaultValue: value,
-							value: value,
-							min: props.variables[variable].min,
-							max: props.variables[variable].max,
-							valueType: props.variables[variable].valueType,
-							description: props.variables[variable].documentation,
-							possibleValues: props.variables[variable].possibleValues,
-						}}
-						isComputed={!variables[variable]["2021"] & !isInputVariable}
-						loading={props.loading & !((value !== null) & isInputVariable)}
-						error={props.error}
-					/>
-				} catch {
-					return <p>Couldn't load {variable}</p>
-				}
-			});
-			if(panelVariables.length > 0) {
-				panels.push(
-					<Panel style={{marginBottom: 10, padding: 10}} header={category} key={category}>
-					{panelVariables}
-					</Panel>
-				);
-			}
+function HouseholdSetup(props) {
+	return <>
+		<Spacing />
+		<h5>Adults</h5>
+		<Spacing />
+		<Radio.Group defaultValue={props.situation.households["Your household"].adults.length} onChange={e => {props.updateSituation(props.situationActions.setNumAdults(props.situation, e.target.value))}}>
+			{[...Array(3).keys()].slice(1).map(i => <Radio.Button key={i} value={i}>{i}</Radio.Button>)}
+		</Radio.Group>
+		<Spacing />
+		<h5>Children</h5>
+		<Spacing />
+		<Radio.Group defaultValue={props.situation.households["Your household"].children.length} onChange={e => props.updateSituation(props.situationActions.setNumChildren(props.situation, e.target.value))}>
+			{[...Array(6).keys()].map(i => <Radio.Button key={i} value={i}>{i}</Radio.Button>)}
+		</Radio.Group>
+	</>
+}
+
+class HouseholdVariables extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {selectedGroup: null, selectedName: null};
+	}
+
+	render() {
+		const variables = pathToItem(this.props.selected, this.props.hierarchy);
+		const entity = this.props.entities[this.props.variables[variables[0]].entity];
+		const instances = Object.keys(this.props.situation[entity.plural]);
+		let selectedName;
+		if(this.props.selected !== this.state.selectedGroup) {
+			this.setState({selectedGroup: this.props.selected, selectedName: instances[0]});
+			selectedName = instances[0];
+		} else {
+			selectedName = this.state.selectedName;
 		}
-		return <Collapse style={{margin: 10}} bordered={false} defaultActiveKey={props.openCategories}>{panels}</Collapse>
-	} catch(e) {
-		return <>{e.toString}</>;
+		let entitySelector = null;
+		if(instances.length > 1) {
+			entitySelector = <>
+				<Spacing />
+				<Select 
+					defaultValue={selectedName}
+					style={{ width: 200, float: "right" }}
+					onChange={e => this.setState({selectedName: e})}>
+						{instances.map(name => <Option key={name} value={name}>{name}</Option>)}
+				</Select>
+			</>;
+		}
+		if(this.props.selected == "/General") {
+			// Show variables controlling the structure of the household
+			return <HouseholdSetup 
+				updateSituation={this.props.updateSituation} 
+				situation={this.props.situation}
+				situationActions={this.props.situationActions} 
+			/>
+		}
+		// By default, show the variables from the selected category
+		const controls = variables.map(variable => {
+			let computed = this.props.computedSituation[entity.plural][selectedName];
+			let value;
+			const entityVariables = this.props.situation[entity.plural][selectedName];
+			if(computed === undefined) {
+				value = this.props.variables[variable].defaultValue;
+			} else if(entityVariables[variable]["2021"] !== null) {
+				value = entityVariables[variable]["2021"];
+			} else {
+				value = computed[variable]["2021"];
+			}
+			if(this.props.variables[variable].valueType === "Enum") {
+				const match = this.props.variables[variable].possibleValues.filter(possibleValue => possibleValue.key === value)[0];
+				value = {
+					key: value,
+					value: match && match.value,
+				}
+			}
+			try {
+				return <Parameter 
+					key={variable} 
+					updatePolicy={(variable, value) => this.props.updateValue(variable, this.state.selectedName, entity.key, value)}
+					param={{
+						name: this.props.variables[variable].name,
+						label: this.props.variables[variable].label,
+						unit: this.props.variables[variable].unit,
+						period: this.props.variables[variable].definitionPeriod,
+						defaultValue: value,
+						value: value,
+						min: this.props.variables[variable].min,
+						max: this.props.variables[variable].max,
+						valueType: this.props.variables[variable].valueType,
+						description: this.props.variables[variable].documentation,
+						possibleValues: this.props.variables[variable].possibleValues,
+					}}
+					isComputed={!entityVariables[variable]["2021"] && !this.props.inputVariables.includes(variable)}
+					loading={this.props.loading && !this.props.inputVariables.includes(variable)}
+					error={this.props.error}
+				/>
+			} catch(e) {
+				return <p>Couldn't load {variable}: {e.toString()}</p>
+			}
+		});
+		return <>
+			{entitySelector}
+			{controls}
+			</>;
 	}
 }
 
@@ -90,7 +133,7 @@ export class HouseholdPage extends React.Component {
 		super(props);
 		this.state = {
 			waiting: false, 
-			selected: props.defaultSelected, 
+			selected: "/General", 
 			error: false, 
 			situation: props.situation, 
 			computedSituation: props.situation, 
@@ -151,12 +194,15 @@ export class HouseholdPage extends React.Component {
 						selected={this.state.selected} 
 						situation={this.props.situation} 
 						computedSituation={this.state.computedSituation}
-						updateValue={(variable, value) => this.updateSituation(this.state.selected.name, this.state.selected.type, variable, value)}
+						updateValue={(variable, name, entityType, value) => this.updateSituation(name, entityType, variable, value)}
 						entities={this.props.entities}
 						variables={this.props.variables}
 						loading={this.state.situationHasChanged}
 						error={this.state.error}
 						hierarchy={this.props.hierarchy}
+						situationActions={this.props.situationActions}
+						updateSituation={this.props.updateSituation}
+						inputVariables={this.props.inputVariables}
 					/>
 				</Col>
 				<Col xl={3}>
@@ -190,15 +236,12 @@ export default function Household(props) {
 			updateSituation={props.updateSituation}
 			setPage={props.setPage}
 			baseURL={props.baseURL}
-			defaultSelectedName={props.defaultSelectedName}
-			defaultSelectedType={props.defaultSelectedType}
-			situationStructureButtons={props.situationStructureButtons}
 			setHouseholdVisited={props.setHouseholdVisited}
-			categories={props.categories}
 			disableOverviewNavigation={props.disableOverviewNavigation}
 			inputVariables={props.inputVariables}
 			openCategories={props.openCategories}
 			hierarchy={props.hierarchy}
+			situationActions={props.situationActions}
 		/>;
 	} else {
 		return <></>;

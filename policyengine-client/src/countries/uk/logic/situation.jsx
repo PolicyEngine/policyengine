@@ -56,47 +56,68 @@ const childNamer = {
     5: "Your fifth child",
 }
 
-export const situationButtons = {
-    addPartnerToMyBenUnit: {
-        text: "Add partner",
-        available: situation => situation.benunits["Your immediate family"].adults.length < 2,
-        apply: situation => {
-            situation.people["Your partner"] = {};
-            situation.benunits["Your immediate family"].adults.push("Your partner");
-            situation.households["Your household"].adults.push("Your partner");
-            return validateSituation(situation).situation;
+function addPartner(situation) {
+    situation.people["Your partner"] = {};
+    situation.benunits["Your immediate family"].adults.push("Your partner");
+    situation.households["Your household"].adults.push("Your partner");
+    return validateSituation(situation).situation;
+}
+
+function addChild(situation) {
+    const childName = childNamer[situation.benunits["Your immediate family"].children.length + 1];
+    situation.people[childName] = {};
+    situation.benunits["Your immediate family"].children.push(childName);
+    situation.households["Your household"].children.push(childName);
+    return validateSituation(situation).situation;
+}
+
+function removePerson(situation, name) {
+    for(let benunit of Object.keys(situation.benunits)) {
+        if(situation.benunits[benunit].adults.includes(name)) {
+            situation.benunits[benunit].adults.pop(name);
         }
-    },
-    addChildToMyBenUnit: {
-        text: "Add child",
-        available: situation => situation.benunits["Your immediate family"].children.length < 5,
-        apply: situation => {
-            const childName = childNamer[situation.benunits["Your immediate family"].children.length + 1];
-            situation.people[childName] = {};
-            situation.benunits["Your immediate family"].children.push(childName);
-            situation.households["Your household"].children.push(childName);
-            return validateSituation(situation).situation;
-        }
-    },
-    removePerson: {
-        available: () => false,
-        apply: (situation, name) => {
-            for(let benunit of Object.keys(situation.benunits)) {
-                if(situation.benunits[benunit].adults.includes(name)) {
-                    situation.benunits[benunit].adults.pop(name);
-                }
-                if(situation.benunits[benunit].children.includes(name)) {
-                    situation.benunits[benunit].children.pop(name);
-                }
-            }
-            if(situation.households["Your household"].adults.includes(name)) {
-                situation.households["Your household"].adults.pop(name);
-            }
-            if(situation.households["Your household"].children.includes(name)) {
-                situation.households["Your household"].children.pop(name);
-            }
-            delete situation.people[name];
-            return validateSituation(situation).situation;
+        if(situation.benunits[benunit].children.includes(name)) {
+            situation.benunits[benunit].children.pop(name);
         }
     }
+    if(situation.households["Your household"].adults.includes(name)) {
+        situation.households["Your household"].adults.pop(name);
+    }
+    if(situation.households["Your household"].children.includes(name)) {
+        situation.households["Your household"].children.pop(name);
+    }
+    delete situation.people[name];
+    return validateSituation(situation).situation;
+}
+
+function setNumAdults(situation, numAdults) {
+    const numExistingAdults = situation.households["Your household"].adults.length;
+    if(numExistingAdults == 1 && numAdults == 2) {
+        situation = addPartner(situation);
+    } else if(numExistingAdults == 2 && numAdults == 1) {
+        situation = removePerson(situation, "Your partner");
+    }
+    return validateSituation(situation).situation;
+}
+
+function setNumChildren(situation, numChildren) {
+    const numExistingChildren = situation.households["Your household"].children.length;
+    if(numExistingChildren < numChildren) {
+        for(let i = numExistingChildren; i < numChildren; i++) {
+            situation = addChild(situation);
+        }
+    } else if(numExistingChildren > numChildren) {
+        for(let i = numExistingChildren; i > numChildren; i--) {
+            situation = removePerson(situation, childNamer[i]);
+        }
+    }
+    return validateSituation(situation).situation;
+}
+
+export const situationActions = {
+    addPartner: addPartner,
+    addChild: addChild,
+    removePerson: removePerson,
+    setNumAdults: setNumAdults,
+    setNumChildren: setNumChildren,
 }
