@@ -1,8 +1,9 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { Overview } from "../overview";
-import { Menu, Collapse, Button } from "antd";
+import { Collapse, Button } from "antd";
 import { Parameter } from "../parameter";
+import { Menu } from "../menu";
 
 const { Panel } = Collapse;
 
@@ -14,51 +15,17 @@ function SubTitle(props) {
 	return <h6 style={{marginTop: 20}}>{props.children}</h6>
 }
 
-function HouseholdMenu(props) {
-	const personEntities = Object.values(props.entities).filter(entity => !entity.is_group);
-	const groupEntities = Object.values(props.entities).filter(entity => entity.is_group && entity.key !== "state");
-	return (
-		<Menu>
-			<SubTitle>People</SubTitle>
-			{
-				personEntities.map(entity => (
-					<div key={entity.label}>
-					{
-						
-						Object.keys(props.situation[entity.plural]).map(name => (
-							<Menu.Item key={name} onClick={() => props.select(name, entity.key)}>
-								{name}
-								{name !== "You" && <Button onClick={() => props.situationStructureButtons.removePerson.apply(props.situation, name)} style={{float: "right", marginTop: 5}}>Remove</Button>}
-							</Menu.Item>
-						))
-					}
-					</div>
-				))
-			}
-			{
-				Object.values(props.situationStructureButtons).filter(metadata => metadata.available(props.situation)).map(metadata => (
-					<div key={metadata.text}><Button style={{marginBottom: 10}} key={metadata.text} onClick={() => props.updateSituation(metadata.apply(props.situation))}>{metadata.text}</Button><br /></div>
-				))
-			}
-			<SubTitle>Groups</SubTitle>
-			{
-				groupEntities.map(entity => (
-					<div key={entity.label}>
-					{
-						Object.keys(props.situation[entity.plural]).map(name => (
-							<Menu.Item key={name} onClick={() => props.select(name, entity.key)}>{name}</Menu.Item>
-						))
-					}
-					</div>
-				))
-			}
-		</Menu>
-	);
+function pathToItem(path, object) {
+	let node = object;
+	for(const item of path.split("/").slice(1)) {
+		node = node[item];
+	}
+	return node;
 }
 
 function HouseholdVariables(props) {
 	try {
-		const variables = props.situation[props.entities[props.selected.type].plural][props.selected.name];
+		const variables = pathToItem(props.path,)
 		let panels = [];
 		for(let category of Object.keys(props.categories)) {
 			const panelVariables = Object.keys(variables).filter(variable => props.categories[category].includes(variable)).map(variable => {
@@ -79,6 +46,7 @@ function HouseholdVariables(props) {
 					}
 				}
 				try {
+					const isInputVariable = props.inputVariables.includes(variable);
 					return <Parameter 
 						key={variable} 
 						updatePolicy={props.updateValue}
@@ -95,8 +63,8 @@ function HouseholdVariables(props) {
 							description: props.variables[variable].documentation,
 							possibleValues: props.variables[variable].possibleValues,
 						}}
-						isComputed={!variables[variable]["2021"]}
-						loading={props.loading}
+						isComputed={!variables[variable]["2021"] & !isInputVariable}
+						loading={props.loading & !((value !== null) & isInputVariable)}
 						error={props.error}
 					/>
 				} catch {
@@ -111,17 +79,25 @@ function HouseholdVariables(props) {
 				);
 			}
 		}
-		return <Collapse style={{margin: 10}} bordered={false} defaultActiveKey={Object.keys(props.categories)}>{panels}</Collapse>
+		return <Collapse style={{margin: 10}} bordered={false} defaultActiveKey={props.openCategories}>{panels}</Collapse>
 	} catch(e) {
-		props.select("You", "person");
-		return <></>;
+		return <>{e.toString}</>;
 	}
 }
 
 export class HouseholdPage extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {waiting: false, selected: {name: props.defaultSelectedName, type: props.defaultSelectedType}, error: false, situation: props.situation, computedSituation: props.situation, situationValid: true, autoComputeIntervalID: null, situationHasChanged: true};
+		this.state = {
+			waiting: false, 
+			selected: props.defaultSelected, 
+			error: false, 
+			situation: props.situation, 
+			computedSituation: props.situation, 
+			situationValid: true, 
+			autoComputeIntervalID: null, 
+			situationHasChanged: true
+		};
 		this.updateSituation = this.updateSituation.bind(this);
 		this.autoComputeSituation = this.autoComputeSituation.bind(this);
 	}
@@ -164,19 +140,15 @@ export class HouseholdPage extends React.Component {
 		return (
 			<Row>
 				<Col xl={3}>
-					<HouseholdMenu 
-						situationStructureButtons={this.props.situationStructureButtons} 
-						selected={this.state.selected} 
-						entities={this.props.entities} 
-						situation={this.props.situation}
-						select={(name, type) => {this.setState({selected: {name: name, type: type}});}}
-						updateSituation={situation => {this.setState({situation: situation, situationHasChanged: true})}}
+					<Menu 
+						hierarchy={this.props.hierarchy}
+						selectGroup={group => this.setState({selected: group})}
+						selected={this.state.selected}
 					/>
 				</Col>
 				<Col xl={6}>
 					<HouseholdVariables
 						selected={this.state.selected} 
-						select={(name, type) => {this.setState({selected: {name: name, type: type}});}}
 						situation={this.props.situation} 
 						computedSituation={this.state.computedSituation}
 						updateValue={(variable, value) => this.updateSituation(this.state.selected.name, this.state.selected.type, variable, value)}
@@ -184,7 +156,7 @@ export class HouseholdPage extends React.Component {
 						variables={this.props.variables}
 						loading={this.state.situationHasChanged}
 						error={this.state.error}
-						categories={this.props.categories}
+						hierarchy={this.props.hierarchy}
 					/>
 				</Col>
 				<Col xl={3}>
@@ -224,6 +196,9 @@ export default function Household(props) {
 			setHouseholdVisited={props.setHouseholdVisited}
 			categories={props.categories}
 			disableOverviewNavigation={props.disableOverviewNavigation}
+			inputVariables={props.inputVariables}
+			openCategories={props.openCategories}
+			hierarchy={props.hierarchy}
 		/>;
 	} else {
 		return <></>;

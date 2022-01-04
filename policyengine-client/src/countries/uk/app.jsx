@@ -16,7 +16,7 @@ import ExtraBand from "./components/extra_band";
 import { situationButtons, validateSituation } from "./logic/situation";
 import { validatePolicy } from "./logic/policy";
 import { ORGANISATIONS, PARAMETER_HIERARCHY, EXTRA_PARAMETER_DATA } from "./data/policy";
-import { DEFAULT_SITUATION, EXTRA_VARIABLE_METADATA, VARIABLE_CATEGORIES } from "./data/situation";
+import { DEFAULT_SITUATION, VARIABLE_HIERARCHY, EXTRA_VARIABLE_METADATA, OPEN_CATEGORIES, VARIABLE_CATEGORIES, INPUT_VARIABLES } from "./data/situation";
 import TimeTravel from "./components/timeTravel";
 
 export class PolicyEngineUK extends React.Component {
@@ -173,6 +173,9 @@ export class PolicyEngineUK extends React.Component {
                                 situationStructureButtons={situationButtons}
                                 setHouseholdVisited={() => this.setState({householdVisited: true})}
                                 categories={VARIABLE_CATEGORIES}
+                                inputVariables={INPUT_VARIABLES}
+                                openCategories={OPEN_CATEGORIES}
+                                hierarchy={VARIABLE_HIERARCHY}
                             />
                         </Route>
                         <Route path="/uk/household-impact">

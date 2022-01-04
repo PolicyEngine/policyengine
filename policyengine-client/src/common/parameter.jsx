@@ -126,6 +126,8 @@ export function Parameter(props) {
 				marks[min] = formatter(min);
 			}
 			const multiplier = props.param.unit === "/1" ? 100 : 1;
+			let formattedValue = formatter(props.param.value);
+			formattedValue = props.param.value === null ? <Spinner /> : formattedValue;
 			component = (
 				<>
 					<Slider
@@ -142,7 +144,7 @@ export function Parameter(props) {
 					{
 						focused ?
 							<Input.Search enterButton="Enter" style={{maxWidth: 300}} placeholder={multiplier * props.param.value} onSearch={value => {setFocused(false); onChange(value / multiplier);}} /> :
-							<div>{(props.isComputed && props.loading) ? <Spin indicator={antIcon} /> : formatter(props.param.value)} <EditOutlined style={{marginLeft: 5}} onClick={() => setFocused(true)} /></div>
+							<div>{(props.isComputed && props.loading) ? <Spin indicator={antIcon} /> : formattedValue} <EditOutlined style={{marginLeft: 5}} onClick={() => setFocused(true)} /></div>
 					}
 				</>
 			);

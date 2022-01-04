@@ -13,7 +13,7 @@ export default class App extends React.Component {
 	}
 
 	render() {
-		const useLocalServer = false;
+		const useLocalServer = true;
 		let apiUrl = `${window.location.protocol}//${window.location.hostname}`;
 		apiUrl = useLocalServer ? "http://localhost:5000" : apiUrl;
 		const namedPolicies  = Object.keys(REDIRECTS).map(url => <Route exact path={`/uk/population-impact${url}`}><Redirect to={`/uk/population-impact?${REDIRECTS[url]}`} /></Route>);

@@ -1,42 +1,8 @@
-import { Menu } from "antd";
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { Overview } from "../overview";
 import { Parameter } from "../parameter";
-import "../../common/policyengine.less";
-
-const { SubMenu } = Menu;
-
-function PolicyMenu(props) {
-	function addMenuEntry(parameter, parent) {
-		let children = [];
-		for(let child in parameter) {
-			const name = parent + "/" + child;
-			let logo;
-			if(child in props.organisations) {
-				logo = props.organisations[child].logo;
-			} else {
-				logo = null;
-			}
-			if(Array.isArray(parameter[child])) {
-				children.push(<Menu.Item icon={logo} key={name}>{logo ? <div style={{paddingLeft: 10}}>{child}</div> : child}</Menu.Item>);
-			} else {
-				children.push(<SubMenu icon={logo} key={name} title={logo ? <div style={{paddingLeft: 10}}>{child}</div> : child}>{addMenuEntry(parameter[child], name)}</SubMenu>);
-			}
-		}
-		return children;
-	}
-	return (
-		<Menu
-			onClick={(e) => {props.selectGroup(e.key);}}
-			mode="inline"
-			defaultOpenKeys={props.open}
-			defaultSelectedKeys={props.selected}
-		>
-			{addMenuEntry(props.hierarchy, "")}
-		</Menu>
-	);
-}
+import { Menu } from "../menu";
 
 export default class Policy extends React.Component {
 	constructor(props) {
@@ -74,7 +40,13 @@ export default class Policy extends React.Component {
 		return (
 			<Row>
 				<Col xl={3}>
-					<PolicyMenu hierarchy={this.props.hierarchy} organisations={this.props.organisations} selected={this.props.selected} open={this.props.open} selectGroup={this.selectGroup}/>
+					<Menu 
+						hierarchy={this.props.hierarchy} 
+						organisations={this.props.organisations} 
+						selected={this.props.selected} 
+						open={this.props.open} 
+						selectGroup={this.selectGroup}
+					/>
 				</Col>
 				<Col xl={6}>
 					{parameterControls}
