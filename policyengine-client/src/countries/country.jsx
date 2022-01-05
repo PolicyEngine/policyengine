@@ -13,6 +13,10 @@ export default class Country {
 		this.stateHolder.setCountryState({policy: policy, policyValid: policyValid});
     }
 
+    updateEntirePolicy(policy) {
+        this.stateHolder.setCountryState({policy: policy});
+    }
+
     getPolicyJSONPayload() {
         const submission = {};
 		for (const key in this.policy) {

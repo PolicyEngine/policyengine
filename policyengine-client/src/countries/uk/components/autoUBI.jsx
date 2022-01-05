@@ -26,9 +26,9 @@ export default class AutoUBI extends React.Component {
 				}).then((json) => {
 					const amount = Math.round(json.UBI / 52, 2);
 					this.setState({waiting: false, amount: amount});
-					this.context.updatePolicy("child_UBI", this.props.policy["child_UBI"].value + amount);
-					this.context.updatePolicy("adult_UBI", this.props.policy["adult_UBI"].value + amount);
-					this.context.updatePolicy("senior_UBI", this.props.policy["senior_UBI"].value + amount);
+					this.context.updatePolicy("child_UBI", this.context.policy["child_UBI"].value + amount);
+					this.context.updatePolicy("adult_UBI", this.context.policy["adult_UBI"].value + amount);
+					this.context.updatePolicy("senior_UBI", this.context.policy["senior_UBI"].value + amount);
 				}).catch(e => {
 					message.error("Couldn't apply AutoUBI - something went wrong." + e.toString());
 					this.setState({waiting: false});

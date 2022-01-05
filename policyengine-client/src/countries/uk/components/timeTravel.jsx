@@ -2,19 +2,22 @@ import { DatePicker, message, Button } from 'antd';
 import React from 'react';
 import moment from 'moment';
 import Spinner from '../../../policyengine/general/spinner';
+import { useContext } from 'react';
+import { CountryContext } from '../../country';
 
 export default function TimeTravel(props) {
     let [reformDate, setReformDate] = React.useState(moment());
+    const country = useContext(CountryContext);
     let [isLoading, setIsLoading] = React.useState(false);
     return (
         <>
             <h6 style={{marginTop: 20}}>Baseline snapshot</h6>
             <p>PolicyEngine will use tax-benefit policy as of the date set below for the baseline simulation</p>
             <DatePicker 
-                defaultValue={moment(props.policy.policy_date.value, "YYYYMMDD")} 
+                defaultValue={moment(country.policy.policy_date.value, "YYYYMMDD")} 
                 disabledDate={date => date < moment("2021-01-01") | date > moment("2021-12-31")}
                 onChange={(_, dateString) => {
-                    const url = `${props.api_url}/parameters?policy_date=${dateString}`;
+                    const url = `${country.apiURL}/parameters?policy_date=${dateString}`;
                     fetch(url)
                     .then((res) => {
                         if (res.ok) {
@@ -23,16 +26,17 @@ export default function TimeTravel(props) {
                             throw res;
                         }
                     }).then((policy) => {
-                        let previous_policy = props.policy;
+                        let previous_policy = country.policy;
                         const dateInt = +(dateString.replace("-", "").replace("-", ""));
                         for(let key in previous_policy) {
                             previous_policy[key].defaultValue = policy[key].value;
                         }
                         previous_policy.policy_date.value = dateInt;
                         previous_policy.policy_date.defaultValue = +(moment().format("YYYYMMDD"));
-                        props.updateEntirePolicy(previous_policy);
+                        country.updateEntirePolicy(previous_policy);
                     }).catch(e => {
                         message.error("Couldn't time travel - something went wrong." + e.toString());
+                        setIsLoading(false);
                     });
                 }}
             />
@@ -47,7 +51,7 @@ export default function TimeTravel(props) {
             <Button 
                 onClick={() => {
                     const dateString = reformDate.format("YYYY-MM-DD");
-                    const url = `${props.api_url}/parameters?policy_date=${dateString}`;
+                    const url = `${country.apiURL}/parameters?policy_date=${dateString}`;
                     setIsLoading(true);
                     fetch(url)
                         .then((res) => {
@@ -57,16 +61,17 @@ export default function TimeTravel(props) {
                                 throw res;
                             }
                         }).then((policy) => {
-                            let previous_policy = props.policy;
+                            let previous_policy = country.policy;
                             for(let key in policy) {
                                 if(key !== "baseline_policy_date") {
                                     previous_policy[key].value = policy[key].value;
                                 }
                             }
-                            props.updateEntirePolicy(previous_policy);
+                            country.updateEntirePolicy(previous_policy);
                             setIsLoading(false);
                         }).catch(e => {
                             message.error("Couldn't time travel - something went wrong." + e.toString());
+                            setIsLoading(false);
                         });
                 }}
                 style={{marginLeft: 20, marginRight: 20}}

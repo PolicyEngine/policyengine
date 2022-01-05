@@ -201,7 +201,5 @@ export class UK extends Country {
     validateSituation = situation => {}
     // Change handlers
     policy = null
-    updatePolicy = policy => {}
     situation = null
-    updateSituation = situation => {}
 };

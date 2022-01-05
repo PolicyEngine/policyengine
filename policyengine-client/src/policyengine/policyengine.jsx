@@ -6,6 +6,7 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import { CountryContext, UK, US } from "../countries";
 import { Header } from "./header";
+import { Footer } from "./footer";
 import { PolicyEngineWrapper } from "./layout/general";
 import PolicyPage from "./pages/policy/policy";
 import { urlToPolicy } from "./tools/url";
@@ -84,6 +85,7 @@ export default class PolicyEngine extends React.Component {
                         <Route path={`/${countryName}/faq`}>
                         </Route>
                     </Switch>
+                    <Footer />
                 </CountryContext.Provider>
             </PolicyEngineWrapper>
         );

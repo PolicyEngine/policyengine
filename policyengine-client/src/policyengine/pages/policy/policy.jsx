@@ -1,8 +1,12 @@
+import { Divider } from "antd";
 import React, { useContext } from "react"
 import { Col, Row } from "react-bootstrap";
 import { CountryContext } from "../../../countries"
 import Menu from "./menu";
+import { PolicyOverview } from "./overview";
 import Parameter from "./parameter";
+import NavigationButton from "../../general/navigationButton";
+import Centered from "../../general/centered";
 
 
 export default class Policy extends React.Component {
@@ -37,6 +41,17 @@ export default class Policy extends React.Component {
                     <ParameterControlPane
                         parameters={this.getParameters()}
                     />
+                </Col>
+                <Col xl={3}>
+                    <PolicyOverview page="policy"/>
+                    <Divider />
+                    <Centered>
+                        <NavigationButton 
+                            primary 
+                            target="population-impact" 
+                            text={`See the ${this.context.properName} impact`} 
+                        />
+                    </Centered>
                 </Col>
             </Row>
         </>;

@@ -7,7 +7,7 @@ import {
     DatePicker,
 } from "antd";
 import Spinner from "../../general/spinner";
-import { CountryContext } from "../../../countries";
+import { CountryContext } from "../../../countries/country";
 
 const { Option } = Select;
 
@@ -62,6 +62,51 @@ function DateParameterControl(props) {
 	/>
 }
 
+function NumericParameterControl(props) {
+	let [focused, setFocused] = useState(false);
+	let { formatter, min, max } = getTranslators(props.metadata);
+	let marks = {[max]: formatter(max)};
+	if(min) {
+		marks[min] = formatter(min);
+	}
+	const multiplier = props.metadata.unit === "/1" ? 100 : 1;
+	let formattedValue = formatter(props.metadata.value);
+	formattedValue = props.metadata.value === null ? <Spinner /> : formattedValue;
+	return (
+		<>
+			<Slider
+				value={props.metadata.value}
+				style={{marginLeft: min ? 30 : 0, marginRight: 30}}
+				min={min}
+				max={max}
+				marks={marks}
+				onChange={props.onChange}
+				step={props.metadata.unit === "/1" ? 0.01 : 1}
+				tooltipVisible={false}
+				disabled={props.disabled}
+			/>
+			{
+				focused ?
+					<Input.Search 
+						enterButton="Enter" 
+						style={{maxWidth: 300}} 
+						placeholder={multiplier * props.metadata.value} 
+						onSearch={value => {
+							setFocused(false); 
+							props.onChange(value / multiplier);
+						}} /> :
+					<div>
+						{formattedValue} 
+						<EditOutlined 
+							style={{marginLeft: 5}} 
+							onClick={() => setFocused(true)} 
+						/>
+					</div>
+			}
+		</>
+	);
+}
+
 export default class Parameter extends React.Component {
 	static contextType = CountryContext;
 
@@ -73,6 +118,10 @@ export default class Parameter extends React.Component {
 	}
 
 	render() {
+		if(!this.context.fullyLoaded) {
+			console.log(this.context)
+			return <></>;
+		}
 		const metadata = this.context.policy[this.props.name];
 		if (!metadata) {
 			return null;
@@ -87,8 +136,7 @@ export default class Parameter extends React.Component {
 			"Enum": <CategoricalParameterControl onChange={onChange} metadata={metadata} />,
 			"string": <StringParameterControl onChange={onChange} metadata={metadata} />,
 			"date": <DateParameterControl onChange={onChange} metadata={metadata} />,
-
-		}[metadata.valueType] || null;
+		}[metadata.valueType] || <NumericParameterControl onChange={onChange} metadata={metadata} />;
 		return (
 			<>
 				<h6 style={{marginTop: 20}}>{metadata.label}</h6>
@@ -100,10 +148,9 @@ export default class Parameter extends React.Component {
 		);
 	}
 }
-
+/*
 export function ParameterX(props) {
 	try {
-		let [focused, setFocused] = useState();
 		let { formatter, parser, min, max } = getTranslators(props.param);
 		if(focused) {
 			formatter = x => x;
@@ -189,3 +236,4 @@ export function ParameterX(props) {
 			return <>Couldn't load parameter</>;
 		}
 }
+*/
