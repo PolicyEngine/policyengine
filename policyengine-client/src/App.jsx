@@ -10,7 +10,7 @@ import "./style/policyengine.less";
 import PolicyEngine from "./policyengine/policyengine";
 
 
-export default function App() {
+export default function App(props) {
     return (
         <Router>
             <Switch>
@@ -18,10 +18,10 @@ export default function App() {
                     <Redirect to="/uk/policy" />
                 </Route>
                 <Route path="/uk">
-                    <PolicyEngine country="uk"/>
+                    <PolicyEngine country="uk" analytics={props.analytics} />
                 </Route>
                 <Route path="/us">
-                    <PolicyEngine country="us"/>
+                    <PolicyEngine country="us" analytics={props.analytics} />
                 </Route>
             </Switch>
         </Router>

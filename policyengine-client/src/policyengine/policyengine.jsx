@@ -11,6 +11,7 @@ import { PolicyEngineWrapper } from "./layout/general";
 import { Policy } from "./pages/policy";
 import { urlToPolicy } from "./tools/url";
 import { PopulationImpact } from "./pages/populationImpact";
+import FAQ from "../countries/uk/components/faq";
 
 
 export default class PolicyEngine extends React.Component {
@@ -19,6 +20,7 @@ export default class PolicyEngine extends React.Component {
         this.prepareData = this.prepareData.bind(this);
         let country = {uk: new UK(), us: new US()}[props.country];
         country.stateHolder = this;
+        country.analytics = props.analytics;
         this.state = {country: country};
     }
 
@@ -85,6 +87,7 @@ export default class PolicyEngine extends React.Component {
                         <Route path={`/${countryName}/household`}>
                         </Route>
                         <Route path={`/${countryName}/faq`}>
+                            <FAQ />
                         </Route>
                     </Switch>
                     <Footer />
