@@ -1,6 +1,6 @@
 import React from "react"
 import { Col, Row } from "react-bootstrap";
-import { CountryContext } from "../../../countries/country"
+import { CountryContext } from "../../../countries"
 import Menu from "./menu";
 
 

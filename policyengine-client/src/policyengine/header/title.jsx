@@ -4,7 +4,7 @@
 
 import { Tag, PageHeader, Image } from "antd";
 import { useContext } from "react";
-import { CountryContext } from "../../countries/country";
+import { CountryContext } from "../../countries";
 import MainLogo from "../../images/title_logo.png";
 
 export default function Title() {

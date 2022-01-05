@@ -6,7 +6,7 @@ import React from "react";
 import { useContext } from "react";
 import { Container } from "react-bootstrap";
 import { Redirect } from "react-router";
-import { CountryContext } from "../../countries/country";
+import { CountryContext } from "../../countries";
 
 export function BodyWrapper(props) {
 	return (

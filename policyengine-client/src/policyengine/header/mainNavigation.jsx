@@ -9,7 +9,7 @@ import { policyToURL } from "../tools/url";
 import SocialLinks from "./socialLinks";
 import Title from "./title";
 import { useContext } from "react";
-import { CountryContext } from "../../countries/country";
+import { CountryContext } from "../../countries";
 
 const { TabPane } = Tabs;
 

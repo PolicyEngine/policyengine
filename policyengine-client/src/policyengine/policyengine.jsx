@@ -1,6 +1,10 @@
+/*
+ * The main component for PolicyEngine-[Country]
+ */
+
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import { CountryContext, UK, US } from "../countries/country";
+import { CountryContext, UK, US } from "../countries";
 import { Header } from "./header";
 import { PolicyEngineWrapper } from "./layout/general";
 import PolicyPage from "./pages/policy/policy";
@@ -11,47 +15,61 @@ export default class PolicyEngine extends React.Component {
     constructor(props) {
         super(props);
         this.prepareData = this.prepareData.bind(this);
-        this.state = {uk: UK, us: US}[props.country];
+        this.state = {country: {uk: new UK(), us: new US()}[props.country]};
+    }
+
+    setCountryState(data, callback) {
+        let country = this.state.country;
+        for(let key of Object.keys(data)) {
+            country[key] = data[key];
+        }
+        this.setState({country: country}, callback);
     }
 
     prepareData() {
-        let { policy } = this.state.validatePolicy(urlToPolicy(this.state.parameters), this.state.parameters);
+        // Once data is fetched, apply some adjustments to the OpenFisca data
+        // (that we don't want to apply in OpenFisca-[Country] because they're not
+        // legislative)
+        let { policy } = this.state.country.validatePolicy(urlToPolicy(this.state.country.parameters), this.state.country.parameters);
         for(let parameter of Object.keys(policy)) {
-            if(Object.keys(this.state.extraParameterMetadata).includes(parameter)) {
-                policy[parameter] = Object.assign(policy[parameter], this.state.extraParameterMetadata[parameter]);
+            if(Object.keys(this.state.country.extraParameterMetadata).includes(parameter)) {
+                policy[parameter] = Object.assign(policy[parameter], this.state.country.extraParameterMetadata[parameter]);
             }
         }
-        this.setState({policy: policy, fullyLoaded: true});
+        this.setCountryState({policy: policy, fullyLoaded: true});
     }
 
     componentDidMount() {
+        // When the page loads, fetch parameter, variables and entities, and
+        // then mark as done.
         const checkAllFetchesComplete = () => {
             if(
-                (this.state.parameters !== null)
-                && (this.state.variables !== null)
-                && (this.state.entities !== null)
+                (this.state.country.parameters !== null)
+                && (this.state.country.variables !== null)
+                && (this.state.country.entities !== null)
             ) {
                 this.prepareData();
             }
         }
         const fetchEndpoint = name => {
-            fetch(this.state.apiURL + "/" + name)
+            fetch(this.state.country.apiURL + "/" + name)
                 .then(response => response.json())
                 .then(data => {
-                    this.setState({[name]: data}, checkAllFetchesComplete);
+                    this.setCountryState({[name]: data}, checkAllFetchesComplete);
                 });
         }
         ["parameters", "variables", "entities"].forEach(fetchEndpoint);
     }
 
     render() {
-        if(!this.state.fullyLoaded) {
+        // Once fully loaded, direct onto individual pages
+        if(!this.state.country.fullyLoaded) {
             return <></>;
         }
-        const countryName = this.state.name;
+        const countryName = this.state.country.name;
         return (
             <PolicyEngineWrapper>
-                <CountryContext.Provider value={this.state}>
+                <CountryContext.Provider value={this.state.country}>
                     <Header />
                     <Switch>
                         <Route path={`/${countryName}/policy`}>
