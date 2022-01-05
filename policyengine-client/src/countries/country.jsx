@@ -34,6 +34,10 @@ export default class Country {
     setState(object) {
         this.stateHolder.setCountryState(object);
     }
+
+    validatePolicy = policy => {return {policy: policy, valid: true}};
+
+    parameterHierarchy = {};
 }
 
 export const CountryContext = createContext(null);

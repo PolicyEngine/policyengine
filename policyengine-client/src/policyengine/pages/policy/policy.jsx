@@ -21,11 +21,15 @@ export default class Policy extends React.Component {
     }
 
 	getParameters() {
-		let node = this.context.parameterHierarchy;
-		for(const item of this.state.selected.split("/").slice(1)) {
-			node = node[item];
-		}
-		return node;
+        try {
+            let node = this.context.parameterHierarchy;
+            for(const item of this.state.selected.split("/").slice(1)) {
+                node = node[item];
+            }
+            return node;
+        } catch(e) {
+            return [];
+        }
 	}
 
     render() {
@@ -46,11 +50,16 @@ export default class Policy extends React.Component {
                     <PolicyOverview page="policy"/>
                     <Divider />
                     <Centered>
-                        <NavigationButton 
+                        {this.context.showPopulationImpact && <NavigationButton 
                             primary 
                             target="population-impact" 
                             text={`See the ${this.context.properName} impact`} 
-                        />
+                        />}
+                        {this.context.showHousehold && <NavigationButton
+                            target="household" 
+                            text="Describe your household"
+                            primary={!this.context.showPopulationImpact}
+                        />}
                     </Centered>
                 </Col>
             </Row>
