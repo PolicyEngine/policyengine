@@ -2,7 +2,7 @@
  * Parameters for the US app.
 */
 
-import Country from "./country"
+import Country from "../country"
 
 export class US extends Country {
     name = "us"

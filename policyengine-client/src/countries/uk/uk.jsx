@@ -2,8 +2,11 @@
  * Parameters for the UK app.
 */
 
-import UBICenterLogo from "../images/ubicenter.png"
-import Country from "./country";
+import UBICenterLogo from "../../images/ubicenter.png"
+import Country from "../country";
+import AutoUBI from "./components/autoUBI";
+import ExtraBand from "./components/extraBand";
+import TimeTravel from "./components/timeTravel";
 
 function validatePolicy(policy, defaultPolicy) {
     if(defaultPolicy) {
@@ -181,6 +184,18 @@ export class UK extends Country {
     variables = null
     // Adjustments to OpenFisca data
     extraParameterMetadata = {}
+    parameterComponentOverrides = {
+        autoUBI: <AutoUBI />,
+        extra_UK_band: <ExtraBand 
+            rate_parameter="extra_UK_rate" 
+            threshold_parameter="extra_UK_threshold"
+        />,
+        extra_scot_band: <ExtraBand 
+            rate_parameter="extra_scot_rate" 
+            threshold_parameter="extra_scot_threshold"
+        />,
+        timeTravel: <TimeTravel />,
+    }
     extraVariableMetadata = {}
     validatePolicy = validatePolicy
     validateSituation = situation => {}

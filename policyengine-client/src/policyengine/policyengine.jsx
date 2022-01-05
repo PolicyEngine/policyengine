@@ -15,7 +15,9 @@ export default class PolicyEngine extends React.Component {
     constructor(props) {
         super(props);
         this.prepareData = this.prepareData.bind(this);
-        this.state = {country: {uk: new UK(), us: new US()}[props.country]};
+        let country = {uk: new UK(), us: new US()}[props.country];
+        country.stateHolder = this;
+        this.state = {country: country};
     }
 
     setCountryState(data, callback) {
@@ -36,7 +38,7 @@ export default class PolicyEngine extends React.Component {
                 policy[parameter] = Object.assign(policy[parameter], this.state.country.extraParameterMetadata[parameter]);
             }
         }
-        this.setCountryState({policy: policy, fullyLoaded: true});
+        this.setCountryState({parameters: policy, policy: JSON.parse(JSON.stringify(policy)), fullyLoaded: true});
     }
 
     componentDidMount() {
