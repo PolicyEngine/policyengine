@@ -5,16 +5,20 @@ import { createContext } from "react";
 
 export default class Country {
     stateHolder = null
+    populationImpactResults = null
+    populationImpactBreakdownResults = null
+    populationImpactOutdated = true
+
     updatePolicy(name, value) {
         // Update a parameter - validate, then update the state
         let oldPolicy = this.policy;
 		oldPolicy[name].value = value;
 		let { policy, policyValid } = this.validatePolicy(oldPolicy);
-		this.stateHolder.setCountryState({policy: policy, policyValid: policyValid});
+		this.stateHolder.setCountryState({policy: policy, policyValid: policyValid, populationImpactOutdated: true});
     }
 
     updateEntirePolicy(policy) {
-        this.stateHolder.setCountryState({policy: policy});
+        this.stateHolder.setCountryState({policy: policy, populationImpactOutdated: true});
     }
 
     getPolicyJSONPayload() {
@@ -25,6 +29,10 @@ export default class Country {
 			}
 		}
         return submission;
+    }
+
+    setState(object) {
+        this.stateHolder.setCountryState(object);
     }
 }
 

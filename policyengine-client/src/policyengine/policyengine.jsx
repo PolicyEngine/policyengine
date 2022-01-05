@@ -8,8 +8,9 @@ import { CountryContext, UK, US } from "../countries";
 import { Header } from "./header";
 import { Footer } from "./footer";
 import { PolicyEngineWrapper } from "./layout/general";
-import PolicyPage from "./pages/policy/policy";
+import { Policy } from "./pages/policy";
 import { urlToPolicy } from "./tools/url";
+import { PopulationImpact } from "./pages/populationImpact";
 
 
 export default class PolicyEngine extends React.Component {
@@ -76,9 +77,10 @@ export default class PolicyEngine extends React.Component {
                     <Header />
                     <Switch>
                         <Route path={`/${countryName}/policy`}>
-                            <PolicyPage />
+                            <Policy />
                         </Route>
                         <Route path={`/${countryName}/population-impact`}>
+                            <PopulationImpact />
                         </Route>
                         <Route path={`/${countryName}/household`}>
                         </Route>
