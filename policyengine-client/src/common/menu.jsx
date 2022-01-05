@@ -1,4 +1,4 @@
-import { Menu as AntMenu } from "antd";
+import { Divider, Menu as AntMenu } from "antd";
 import React from "react";
 
 const { SubMenu } = AntMenu;
@@ -22,6 +22,13 @@ export function Menu(props) {
 		}
 		return children;
 	}
+	let additionalComponents = [];
+	for(let items of props.additionalSections) {
+		additionalComponents.push(<Divider />);
+		for(let item of items) {
+			additionalComponents.push(<AntMenu.Item key={item}>{item}</AntMenu.Item>);
+		}
+	}
 	return (
 		<AntMenu
 			onClick={(e) => {props.selectGroup(e.key);}}
@@ -30,6 +37,7 @@ export function Menu(props) {
 			defaultSelectedKeys={props.selected}
 		>
 			{addMenuEntry(props.hierarchy, "")}
+			{additionalComponents}
 		</AntMenu>
 	);
 }

@@ -128,6 +128,14 @@ class HouseholdVariables extends React.Component {
 	}
 }
 
+class HouseholdMainSection extends React.Component {
+	render() {
+		if(this.props.selected.includes("/")) {
+			return <HouseholdMainSection {...this.props}/>
+		}
+	}
+}
+
 export class HouseholdPage extends React.Component {
 	constructor(props) {
 		super(props);
@@ -187,10 +195,14 @@ export class HouseholdPage extends React.Component {
 						hierarchy={this.props.hierarchy}
 						selectGroup={group => this.setState({selected: group})}
 						selected={this.state.selected}
+						additionalSections={[[
+							"Reform effect breakdown",
+							"Earnings variation",
+						]]}
 					/>
 				</Col>
 				<Col xl={6}>
-					<HouseholdVariables
+					<HouseholdMainSection
 						selected={this.state.selected} 
 						situation={this.props.situation} 
 						computedSituation={this.state.computedSituation}
