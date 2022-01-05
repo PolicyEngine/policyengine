@@ -3,7 +3,7 @@ import { Route, Switch, useHistory } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import { policyToURL } from "./url";
 import { FacebookOutlined, InstagramOutlined, LinkedinOutlined, TwitterOutlined } from '@ant-design/icons';
-import MainLogo from "../common/images/title_logo.png";
+import MainLogo from "./images/title_logo.png";
 
 const { TabPane } = Tabs;
 

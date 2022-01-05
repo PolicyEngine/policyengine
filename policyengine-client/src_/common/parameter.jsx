@@ -5,7 +5,7 @@ import {
 } from "antd";
 import moment from "moment";
 
-import "../common/policyengine.less";
+import "./policyengine.less";
 
 const { Option } = Select;
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin/>;
