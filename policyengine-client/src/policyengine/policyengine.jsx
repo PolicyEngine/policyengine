@@ -12,6 +12,7 @@ import { Policy } from "./pages/policy";
 import { urlToPolicy } from "./tools/url";
 import { PopulationImpact } from "./pages/populationImpact";
 import FAQ from "../countries/uk/components/faq";
+import { Household } from "./pages/household";
 
 
 export default class PolicyEngine extends React.Component {
@@ -42,7 +43,8 @@ export default class PolicyEngine extends React.Component {
                 policy[parameter] = Object.assign(policy[parameter], this.state.country.extraParameterMetadata[parameter]);
             }
         }
-        this.setCountryState({parameters: policy, policy: JSON.parse(JSON.stringify(policy)), fullyLoaded: true});
+        const situation = this.state.country.validateSituation(this.state.country.situation).situation;
+        this.setCountryState({situation: situation, parameters: policy, policy: JSON.parse(JSON.stringify(policy)), fullyLoaded: true});
     }
 
     componentDidMount() {
@@ -85,6 +87,7 @@ export default class PolicyEngine extends React.Component {
                             <PopulationImpact />
                         </Route>
                         <Route path={`/${countryName}/household`}>
+                            <Household />
                         </Route>
                         <Route path={`/${countryName}/faq`}>
                             <FAQ />

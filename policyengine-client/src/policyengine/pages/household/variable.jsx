@@ -5,6 +5,7 @@ import {
 	Switch, Slider, Select, 
     Alert, Input,
     DatePicker,
+    Radio,
 } from "antd";
 import Spinner from "../../general/spinner";
 import { CountryContext } from "../../../countries/country";
@@ -24,7 +25,6 @@ function BooleanParameterControl(props) {
 	return <Switch
 		onChange={props.onChange}
 		checked={props.metadata.value}
-		className={props.metadata.unit === "abolition" ? "switch-red" : null}
 	/>
 }
 
@@ -32,7 +32,7 @@ function CategoricalParameterControl(props) {
 	return <Select 
 		style={{minWidth: 200}} 
 		showSearch 
-		placeholder={props.metadata.defaultValue} 
+		placeholder={props.metadata.defaultValue.value} 
 		onSelect={props.onChange}>
 		{props.metadata.possibleValues.map(value => (
 			<Option 
@@ -107,7 +107,11 @@ function NumericParameterControl(props) {
 	);
 }
 
-export default class Parameter extends React.Component {
+export function Spacing() {
+	return <div style={{paddingTop: 15}}/>;
+}
+
+export default class Variable extends React.Component {
 	static contextType = CountryContext;
 
 	constructor(props, context) {
@@ -121,13 +125,14 @@ export default class Parameter extends React.Component {
 		if(!this.context.fullyLoaded) {
 			return <></>;
 		}
-		const metadata = this.context.policy[this.props.name];
+		let metadata = this.context.variables[this.props.name];
+        metadata.value = this.context.situation[this.context.entities[metadata.entity].plural][this.props.entityName][metadata.name]["2021"]
 		if (!metadata) {
 			return null;
 		}
 		const onChange = value => {
 			if(value !== "") {
-				this.context.updatePolicy(this.props.name, value)
+				this.context.updateSituationValue(metadata.entity, this.props.entityName, this.props.name, value)
 			}
 		};
 		const control = {

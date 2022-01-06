@@ -198,8 +198,100 @@ export class UK extends Country {
     }
     extraVariableMetadata = {}
     validatePolicy = validatePolicy
-    validateSituation = situation => {}
-    // Change handlers
-    policy = null
-    situation = null
+    situation = {
+        "people": {
+            "You": {},
+            "Your partner": {},
+        },
+        "benunits": {
+            "Your family": {
+                "adults": ["You", "Your partner"],
+            }
+        },
+        "households": {
+            "Your household": {
+                "adults": ["You", "Your partner"],
+            }
+        }
+    }
+    inputVariables = [
+        "age",
+        "employment_income",
+        "is_married",
+        "region",
+        "food_and_non_alcoholic_beverages_consumption",
+        "property_wealth",
+    ]
+    outputVariables = [
+        "household_tax",
+        "household_benefits",
+        "household_market_income",
+        "household_net_income",
+        "tax",
+        "benefits",
+        "market_income",
+        "net_income",
+        "universal_credit",
+        "child_benefit",
+        "state_pension",
+        "employment_income",
+        "self_employment_income",
+        "income_tax",
+        "national_insurance",
+    ]
+    inputVariableHierarchy = {
+        "General": [],
+        "Demographic": {
+            "Personal" : [
+                "age",
+            ],
+            "Family": [
+                "is_married",
+            ],
+            "Household": [
+                "region"
+            ]
+        },
+        "Income": [
+            "employment_income",
+        ],
+        "Consumption": [
+            "food_and_non_alcoholic_beverages_consumption",
+        ],
+        "Wealth": [
+            "property_wealth",
+        ],
+    }
+    defaultOpenVariableGroups = []
+    defaultSelectedVariableGroup = "/General"
+    outputVariableHierarchy = {
+        "net_income": {
+            "add": [
+                "market_income",
+                "benefits",
+            ],
+            "subtract": [
+                "tax",
+            ]
+        },
+        "market_income": {
+            "add": [
+                "employment_income",
+                "self_employment_income",
+            ]
+        },
+        "benefits": {
+            "add": [
+                "universal_credit",
+                "child_benefit",
+                "state_pension",
+            ]
+        },
+        "tax": {
+            "add": [
+                "income_tax",
+                "national_insurance",
+            ]
+        }
+    }
 };

@@ -30,7 +30,7 @@ export class BreakdownTable extends React.Component {
 					}
 				}).then((data) => {
 					this.setState({ waiting: false, error: false });
-                    this.context.setState({populationImpactBreakdownResults: data, populationImpactOutdated: false});
+                    this.context.setState({populationImpactBreakdownResults: data, policyIsOutdated: false});
 				}).catch(e => {
 					this.setState({ waiting: false, error: true });
 				});

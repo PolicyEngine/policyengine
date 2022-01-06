@@ -261,11 +261,14 @@ class PolicyEngineCountry:
 
     @exclude_from_cache
     def calculate(self, params=None):
-        system = apply_reform(self.default_reform, self.system())
-        simulation = SimulationBuilder().build_from_entities(system, params)
+        reform = create_reform(
+            params, self.policyengine_parameters, self.default_reform[:-1]
+        )["reform"]["reform"]
+        system = apply_reform(reform, self.system())
+        simulation = SimulationBuilder().build_from_entities(system, params["household"])
 
         requested_computations = dpath.util.search(
-            params, "*/*/*/*", afilter=lambda t: t is None, yielded=True
+            params["household"], "*/*/*/*", afilter=lambda t: t is None, yielded=True
         )
         computation_results = {}
 
@@ -288,6 +291,6 @@ class PolicyEngineCountry:
 
             dpath.util.new(computation_results, path, entity_result)
 
-        dpath.merge(params, computation_results)
+        dpath.merge(params["household"], computation_results)
 
-        return params
+        return params["household"]

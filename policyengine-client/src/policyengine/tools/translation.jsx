@@ -40,7 +40,7 @@ export function getTranslators(parameter) {
 		for(let currency in CURRENCY_SYMBOLS) {
 			if(parameter.unit === currency) {
 				result = {
-					formatter: value => `${CURRENCY_SYMBOLS[currency]}${parseFloat(Number(value).toFixed(2)).toLocaleString()}${period ? ("/" + period) : ""}`,
+					formatter: (value, noPeriod) => `${value < 0 ? "-" : ""}${CURRENCY_SYMBOLS[currency]}${parseFloat(Number(Math.abs(Math.round(value)))).toLocaleString()}${period && !noPeriod ? ("/" + period) : ""}`,
 				}
 				minMax = {year: 100_000, month: 1000, week: 100, null: 100}[period];
 			}
