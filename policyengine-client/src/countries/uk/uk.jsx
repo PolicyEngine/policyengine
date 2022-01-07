@@ -34,6 +34,13 @@ function validatePolicy(policy, defaultPolicy) {
 }
 
 export class UK extends Country {
+    constructor() {
+        super();
+        this.baseApiUrl = !this.useLocalServer ?
+                        `${window.location.protocol}//${window.location.hostname}` :
+                        `http://localhost:5000`;
+        this.apiURL = `${this.baseApiUrl}/${this.name}/api`;
+    }
     name = "uk"
     properName = "UK"
     beta = false
@@ -191,7 +198,6 @@ export class UK extends Country {
         },
 	}
     // OpenFisca data
-    apiURL = "http://localhost:5000/uk/api"
     parameters = null
     entities = null
     variables = null

@@ -94,6 +94,8 @@ export default class Country {
             reformSituationImpactIsOutdated: true,
         });
     }
+
+    useLocalServer = false;
 }
 
 export const CountryContext = createContext(null);

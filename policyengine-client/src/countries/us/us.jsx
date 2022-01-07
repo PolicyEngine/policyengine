@@ -13,6 +13,13 @@ const childNamer = {
 }
 
 export class US extends Country {
+    constructor() {
+        super();
+        this.baseApiUrl = !this.useLocalServer ?
+                        `${window.location.protocol}//${window.location.hostname}` :
+                        `http://localhost:5000`;
+        this.apiURL = `${this.baseApiUrl}/${this.name}/api`;
+    }
     name = "us"
     properName = "US"
     beta = false
@@ -32,7 +39,6 @@ export class US extends Country {
     defaultSelectedParameterGroup = null
     organisations = {}
     // OpenFisca data
-    apiURL = "http://localhost:5000/us/api"
     parameters = null
     entities = null
     variables = null

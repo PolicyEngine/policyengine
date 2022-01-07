@@ -91,7 +91,13 @@ export default class AccountingTable extends React.Component {
         // Update situations where necessary (re-using where not)
         // If the policy changes, we need to update only the reform 
         // situation. If the situation changes, we need to update both.
-        if(this.state.waitingOnBaseline || this.state.waitingOnReform) {
+        const reformExists = Object.keys(this.context.getPolicyJSONPayload()).length > 0;
+        if(
+            this.context.computedBaselineSituation === null
+            || (reformExists && (this.context.computedReformSituation === null))
+            || this.state.waitingOnBaseline
+            || this.state.waitingOnReform
+        ) {
             const message = (this.state.waitingOnBaseline & this.state.waitingOnReform) ?
                 "Calculating baseline and reform impact..." :
                 (this.state.waitingOnBaseline ? "Calculating baseline impact..." : "Calculating reform impact...");

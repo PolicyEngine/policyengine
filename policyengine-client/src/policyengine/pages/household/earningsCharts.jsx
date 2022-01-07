@@ -55,10 +55,8 @@ export default class AccountingTable extends React.Component {
         // Update situations where necessary (re-using where not)
         // If the policy changes, we need to update only the reform 
         // situation. If the situation changes, we need to update both.
-        if(this.state.waiting) {
-            const message = (this.state.waitingOnBaseline & this.state.waitingOnReform) ?
-                "Comparing tax-benefit responses to your income..." :
-                (this.state.waitingOnBaseline ? "Calculating tax-benefit responses to your income..." : "Calculating reform tax-benefit responses to your income...");
+        if(!this.context.computedSituationVariationCharts || this.state.waiting) {
+            const message = "Calculating tax-benefit responses to your income...";
             return <Centered><Spinner rightSpacing={10}/>{message}</Centered>
         } else if(this.state.error) {
             return <Centered>Something went wrong.</Centered>

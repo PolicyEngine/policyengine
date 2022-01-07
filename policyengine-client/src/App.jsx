@@ -21,6 +21,12 @@ export default function App(props) {
                 <Route exact path="/">
                     <Redirect to="/uk/policy" />
                 </Route>
+                <Route exact path="/uk">
+                    <Redirect to="/uk/policy" />
+                </Route>
+                <Route exact path="/us">
+                    <Redirect to="/us/household" />
+                </Route>
                 <Route path="/uk">
                     {createRedirects(uk.namedPolicies, "uk")}
                     <PolicyEngine country="uk" analytics={props.analytics} />
