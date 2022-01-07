@@ -82,6 +82,7 @@ export default class Country {
         }
         if(this.situationIsOutdated) {
             update.baselineSituationImpactIsOutdated = true;
+            update.situationVariationImpactIsOutdated = true;
         }
         this.setState(update, callback);
     }

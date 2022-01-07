@@ -216,12 +216,18 @@ export class UK extends Country {
             "Your family": {
                 "adults": ["You"],
                 "children": [],
+                "claims_all_entitled_benefits": {"2021": true},
             }
         },
         "households": {
             "Your household": {
                 "adults": ["You"],
                 "children": [],
+            }
+        },
+        "states": {
+            "state": {
+                "citizens": ["You"],
             }
         }
     }
@@ -257,6 +263,8 @@ export class UK extends Country {
         "other_residential_property_value",
         "non_residential_property_value",
         "corporate_wealth",
+        "benunit_rent",
+        "claims_legacy_benefits",
     ]
     outputVariables = [
         "household_tax",
@@ -293,6 +301,7 @@ export class UK extends Country {
             ],
             "Family": [
                 "is_married",
+                "claims_legacy_benefits",
             ],
             "Household": [
                 "region"
@@ -427,6 +436,7 @@ export class UK extends Country {
         } else if(numExistingAdults === 2 && numAdults === 1) {
             situation = this.removePerson(situation, "Your partner");
         }
+        situation.states.state.citizens = Object.keys(situation.people);
         this.setState({situation: this.validateSituation(situation).situation, situationIsOutdated: true})
     }
 
@@ -446,6 +456,7 @@ export class UK extends Country {
                 situation = this.removePerson(situation, childNamer[i]);
             }
         }
+        situation.states.state.citizens = Object.keys(situation.people);
         this.setState({situation: this.validateSituation(situation).situation, situationIsOutdated: true});
     }
 

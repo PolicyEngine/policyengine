@@ -1,5 +1,4 @@
-import { LoadingOutlined } from '@ant-design/icons';
-import { Collapse, Spin, Alert, Table, Tooltip, Radio } from 'antd';
+import { Collapse, Alert, Table, Tooltip, Radio } from 'antd';
 import { Chart } from "./chart";
 import React from 'react';
 import prettyMilliseconds from "pretty-ms";
@@ -30,7 +29,7 @@ export class BreakdownTable extends React.Component {
 					}
 				}).then((data) => {
 					this.setState({ waiting: false, error: false });
-                    this.context.setState({populationImpactBreakdownResults: data, policyIsOutdated: false});
+                    this.context.setState({populationImpactBreakdownResults: data});
 				}).catch(e => {
 					this.setState({ waiting: false, error: true });
 				});

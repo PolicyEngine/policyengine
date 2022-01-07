@@ -35,3 +35,7 @@ export function NamedPolicyRedirects(props) {
 		<Redirect from={`/${country.name}${name}`} to={`/${country.name}${props.page}?${country.namedPolicies[name]}`} />
 	));
 }
+
+export function Spacing() {
+	return <div style={{paddingTop: 15}}/>;
+}

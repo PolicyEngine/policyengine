@@ -40,7 +40,8 @@ def formatted_fig_json(fig: go.Figure) -> dict:
     )
     fig.update_layout(
         hoverlabel_align="right",
-        font_family="Roboto",
+        font_family="Ubuntu",
+        font_color="Black",
         title_font_size=20,
         plot_bgcolor="white",
         paper_bgcolor="white",

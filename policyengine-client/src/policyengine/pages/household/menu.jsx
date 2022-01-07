@@ -32,10 +32,10 @@ export default function Menu(props) {
 			defaultOpenKeys={country.defaultOpenVariableGroups}
 			defaultSelectedKeys={[country.defaultSelectedVariableGroup]}
 		>
-            <Divider>About your household</Divider>
+            <Divider orientation="left">About your household</Divider>
 			{addMenuEntry(country.inputVariableHierarchy, "")}
-            <Divider>Your results</Divider>
-            <AntMenu.Item key="results">Results</AntMenu.Item>
+            <Divider orientation="left">Your results</Divider>
+            <AntMenu.Item key="results">Net income</AntMenu.Item>
             <AntMenu.Item key="earnings">How earnings affect you</AntMenu.Item>
 
 		</AntMenu>
