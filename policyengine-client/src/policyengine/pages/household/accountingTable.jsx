@@ -188,8 +188,8 @@ function VariableTable(props) {
     const data = [{
         variable: <div style={{width: 150}}>{country.variables[props.variable].label}</div>,
         key: props.variable,
-        baseline: applyColorLogic(baselineValue * multiplier, reformExists ? colorZerosGrey : colorChanges),
-        reform: applyColorLogic(reformValue * multiplier, reformExists ? colorZerosGrey : colorChanges),
+        baseline: applyColorLogic(baselineValue * multiplier, colorZerosGrey),
+        reform: applyColorLogic(reformValue * multiplier, colorZerosGrey),
         change: applyColorLogic((reformValue - baselineValue) * multiplier, colorChanges),
     }]
     const isPositive = props.isPositive || depth === 0;
