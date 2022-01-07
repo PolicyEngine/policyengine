@@ -17,7 +17,7 @@ export default function MainNavigation(props) {
 	const history = useHistory();
     const country = useContext(CountryContext);
     const onTabClick = key => {
-        history.push(policyToURL(`/${country.name}/${key}`, props.policy))
+        history.push(policyToURL(`/${country.name}/${key}`, country.policy))
     }
 	let middleColumn;
 	if(props.selected === "faq") {

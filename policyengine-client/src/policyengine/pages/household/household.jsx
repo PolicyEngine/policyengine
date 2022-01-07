@@ -6,6 +6,10 @@ import { VariableControlPane } from "./inputPane";
 import AccountingTable from "./accountingTable";
 import EarningsChartsPane from "./earningsCharts";
 import { PolicyOverview } from "../policy/overview";
+import { Divider } from "antd";
+import Centered from "../../general/centered";
+import NavigationButton from "../../general/navigationButton";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 
 
 export class Household extends React.Component {
@@ -57,6 +61,17 @@ export class Household extends React.Component {
                 </Col>
                 <Col>
                     <PolicyOverview />
+                    <Divider />
+                    <Centered>
+                        <NavigationButton
+                            target="policy" 
+                            text={<><ArrowLeftOutlined /> Edit your policy</>}
+                        />
+                        {this.context.showPopulationImpact && <NavigationButton 
+                            target="population-impact" 
+                            text={<><ArrowLeftOutlined /> Return to the {this.context.properName} impact</>}
+                        />}
+                    </Centered>
                 </Col>
             </Row>
         </>

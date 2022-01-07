@@ -180,6 +180,8 @@ export class UK extends Country {
     }
     defaultOpenParameterGroups = [
         "/Tax",
+        "/Benefit",
+        "/UBI Center",
     ]
     defaultSelectedParameterGroup = "/Tax/Income Tax/Labour income"
     organisations = {
@@ -290,6 +292,9 @@ export class UK extends Country {
         "expected_ltt",
         "expected_lbtt",
         "business_rates",
+        "carbon_tax",
+        "LVT",
+        "UBI",
     ]
     inputVariableHierarchy = {
         "General": [],
@@ -343,16 +348,18 @@ export class UK extends Country {
             "corporate_wealth",
         ],
     }
-    defaultOpenVariableGroups = []
+    defaultOpenVariableGroups = [
+        "/Demographic",
+    ]
     defaultSelectedVariableGroup = "/General"
     outputVariableHierarchy = {
-        "net_income": {
+        "household_net_income": {
             "add": [
                 "market_income",
-                "benefits",
+                "household_benefits",
             ],
             "subtract": [
-                "tax",
+                "household_tax",
             ]
         },
         "market_income": {
@@ -366,7 +373,7 @@ export class UK extends Country {
                 "savings_interest_income",
             ]
         },
-        "benefits": {
+        "household_benefits": {
             "add": [
                 "universal_credit",
                 "working_tax_credit",
@@ -376,9 +383,10 @@ export class UK extends Country {
                 "income_support",
                 "JSA_income",
                 "child_benefit",
+                "UBI",
             ]
         },
-        "tax": {
+        "household_tax": {
             "add": [
                 "income_tax",
                 "national_insurance",
@@ -387,6 +395,8 @@ export class UK extends Country {
                 "expected_ltt",
                 "expected_lbtt",
                 "business_rates",
+                "carbon_tax",
+                "LVT",
             ]
         }
     }

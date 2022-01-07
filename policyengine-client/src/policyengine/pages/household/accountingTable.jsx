@@ -188,7 +188,7 @@ function VariableTable(props) {
         key: props.variable,
         baseline: applyColorLogic(baselineValue * multiplier, reformExists ? colorZerosGrey : colorChanges),
         reform: applyColorLogic(reformValue * multiplier, reformExists ? colorZerosGrey : colorChanges),
-        change: applyColorLogic((reformValue - baselineValue), colorChanges),
+        change: applyColorLogic((reformValue - baselineValue) * multiplier, colorChanges),
     }]
     const isPositive = props.isPositive || depth === 0;
 

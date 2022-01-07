@@ -132,6 +132,7 @@ def create_default_reform() -> ReformType:
         label = "Land value tax"
         definition_period = YEAR
         value_type = float
+        unit = "currency-GBP"
 
         def formula(household, period, parameters):
             lvt = parameters(period).reforms.LVT
@@ -149,6 +150,7 @@ def create_default_reform() -> ReformType:
         label = "Carbon tax"
         definition_period = YEAR
         value_type = float
+        unit = "currency-GBP"
 
         def formula(household, period, parameters):
             carbon_tax = parameters(period).reforms.carbon_tax
