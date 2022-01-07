@@ -191,6 +191,7 @@ def create_default_reform() -> ReformType:
         definition_period = YEAR
         label = "Universal basic income"
         value_type = float
+        unit = "currency-GBP"
 
         def formula(person, period, parameters):
             UBI_params = parameters(period).reforms.UBI

@@ -123,8 +123,6 @@ function getValues(variable, country) {
 
 function shouldShow(variable, country) {
     const { baselineValue, reformValue } = getValues(variable, country);
-    if(variable === "employment_income") {
-    }
     return !(baselineValue === 0 && reformValue === 0);
 }
 
@@ -133,9 +131,6 @@ function VariableTable(props) {
     const country = useContext(CountryContext);
     const reformExists = Object.keys(country.getPolicyJSONPayload()).length > 0;
     const { baselineValue, reformValue } = getValues(props.variable, country);
-    if(props.depth && baselineValue === 0 && reformValue === 0) {
-        return null;
-    }
     const depth = props.depth || 0;
     let columns;
     if(reformExists) {
@@ -194,9 +189,12 @@ function VariableTable(props) {
 
     const generateChildTable = row => {
         try {
-            const addedChildren = (country.outputVariableHierarchy[row.key].add || []).filter(child => shouldShow(child, country));
-            const subtractedChildren = (country.outputVariableHierarchy[row.key].subtract || []).filter(child => shouldShow(child, country));
+            const addedChildren = (country.outputVariableHierarchy[row.key].add || []).filter(child => depth < 1 || shouldShow(child, country));
+            const subtractedChildren = (country.outputVariableHierarchy[row.key].subtract || []).filter(child => depth < 1 || shouldShow(child, country));
             const children = addedChildren.concat(subtractedChildren);
+            if(children.length === 0) {
+                return null;
+            }
             return children.map((child, i) => <VariableTable 
                 key={child} 
                 depth={depth + 1} 
@@ -209,8 +207,7 @@ function VariableTable(props) {
             return <></>
         }
     };
-    const rowIsExpandable = row => country.outputVariableHierarchy[row.key];
-
+    const rowIsExpandable = row => country.outputVariableHierarchy[row.key] && generateChildTable(row) !== null;
     return <Table 
         columns={columns}
         // The Ant Design table seems to have a bug where
@@ -218,8 +215,8 @@ function VariableTable(props) {
         // one nested table. The below styling fixes that.
         style={{
             width: props.isSingle ? 600 - 15 : 600,
-            marginTop: props.isSingle ? 10 : 0,
-            marginBottom: props.isSingle ? 10 : 0,
+            marginTop: props.isSingle ? 10 : null,
+            marginBottom: props.isSingle ? 10 : null,
         }}
         dataSource={data} 
         pagination={false} 
