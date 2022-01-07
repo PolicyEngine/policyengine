@@ -133,7 +133,7 @@ function VariableTable(props) {
     const country = useContext(CountryContext);
     const reformExists = Object.keys(country.getPolicyJSONPayload()).length > 0;
     const { baselineValue, reformValue } = getValues(props.variable, country);
-    if(baselineValue === 0 && reformValue === 0) {
+    if(props.depth && baselineValue === 0 && reformValue === 0) {
         return null;
     }
     const depth = props.depth || 0;

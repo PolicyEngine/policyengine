@@ -41,6 +41,7 @@ export class UK extends Country {
     showPolicy = true
     showPopulationImpact = true
     showHousehold = true
+    showEarningsVariation = true
     showFAQ = true
     // Vanity URLs
     namedPolicies = {

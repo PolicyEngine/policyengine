@@ -36,7 +36,7 @@ export default function Menu(props) {
 			{addMenuEntry(country.inputVariableHierarchy, "")}
             <Divider orientation="left">Your results</Divider>
             <AntMenu.Item key="results">Net income</AntMenu.Item>
-            <AntMenu.Item key="earnings">How earnings affect you</AntMenu.Item>
+            {country.showEarningsVariation && <AntMenu.Item key="earnings">How earnings affect you</AntMenu.Item>}
 
 		</AntMenu>
 	);

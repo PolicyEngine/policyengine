@@ -77,6 +77,7 @@ class PolicyEngineCountry:
                 entities=self.entities,
                 variables=self.variables,
                 calculate=self.calculate,
+                household_variation=self.household_variation,
             )
 
             self.entities = build_entities(self.baseline_system)

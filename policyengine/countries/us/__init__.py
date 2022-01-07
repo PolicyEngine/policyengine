@@ -1,8 +1,8 @@
 from openfisca_us import CountryTaxBenefitSystem
-from openfisca_uk.entities import *
-from openfisca_uk_data import FRS_WAS_Imputation
+from openfisca_us.entities import *
 from policyengine.utils.general import PolicyEngineResultsConfig
 from policyengine.countries.country import PolicyEngineCountry
+from openfisca_us import IndividualSim
 
 
 class US(PolicyEngineCountry):
@@ -10,3 +10,4 @@ class US(PolicyEngineCountry):
     system = CountryTaxBenefitSystem
     calculate_only = True
     household_page_only = True
+    IndividualSim = IndividualSim
