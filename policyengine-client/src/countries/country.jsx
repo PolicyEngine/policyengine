@@ -13,11 +13,22 @@ export default class Country {
         let oldPolicy = this.policy;
 		oldPolicy[name].value = value;
 		let { policy, policyValid } = this.validatePolicy(oldPolicy);
-		this.stateHolder.setCountryState({policy: policy, policyValid: policyValid, policyIsOutdated: true});
+		this.stateHolder.setCountryState({
+            policy: policy, 
+            policyValid: policyValid, 
+            populationImpactIsOutdated: true,
+            reformSituationImpactIsOutdated: true,
+            situationVariationImpactIsOutdated: true
+        });
     }
 
     updateEntirePolicy(policy) {
-        this.stateHolder.setCountryState({policy: policy, policyIsOutdated: true});
+        this.stateHolder.setCountryState({
+            policy: policy, 
+            populationImpactIsOutdated: true,
+            reformSituationImpactIsOutdated: true,
+            situationVariationImpactIsOutdated: true
+        });
     }
 
     getPolicyJSONPayload() {
@@ -71,29 +82,17 @@ export default class Country {
     reformSituationImpactIsOutdated = true;
     situationVariationImpactIsOutdated = true;
 
-    updateOutdatedThen(callback) {
-        let update;
-        if(this.policyIsOutdated) {
-            update = {
-                populationImpactIsOutdated: true,
-                reformSituationImpactIsOutdated: true,
-                situationVariationImpactIsOutdated: true
-            };
-        }
-        if(this.situationIsOutdated) {
-            update.baselineSituationImpactIsOutdated = true;
-            update.situationVariationImpactIsOutdated = true;
-        }
-        this.setState(update, callback);
-    }
-
     computedBaselineSituation = null;
     computedReformSituation = null;
 
     updateSituationValue(entityType, entityName, variable, value) {
         let situation = this.situation;
         situation[this.entities[entityType].plural][entityName][variable] = {"2021": value};
-        this.setState({situation: situation, situationIsOutdated: true});
+        this.setState({
+            situation: situation, 
+            baselineSituationImpactIsOutdated: true,
+            reformSituationImpactIsOutdated: true,
+        });
     }
 }
 

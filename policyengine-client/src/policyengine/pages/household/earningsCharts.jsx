@@ -11,7 +11,7 @@ export default class AccountingTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            waiting: true,
+            waiting: false,
             error: false,
         }
         this.updateCharts = this.updateCharts.bind(this);
@@ -46,11 +46,9 @@ export default class AccountingTable extends React.Component {
     }
 
     componentDidMount() {
-        this.context.updateOutdatedThen(() => {
-			if(this.context.situationVariationImpactIsOutdated) {
-				this.updateCharts();
-			}
-		});
+        if(this.context.situationVariationImpactIsOutdated) {
+            this.updateCharts();
+        }
     }
 
     render() {

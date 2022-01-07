@@ -161,8 +161,12 @@ export class US extends Country {
         } else if(numExistingAdults === 2 && numAdults === 1) {
             situation = this.removePerson(situation, "Your partner");
         }
-        this.setState({situation: this.validateSituation(situation).situation, situationIsOutdated: true})
-    }
+
+        this.setState({
+            situation: this.validateSituation(situation).situation, 
+            baselineSituationImpactIsOutdated: true,
+            reformSituationImpactIsOutdated: true,
+        });    }
 
     getNumAdults() {
         return this.situation.households["Your household"].members.filter(
@@ -182,8 +186,12 @@ export class US extends Country {
                 situation = this.removePerson(situation, childNamer[i]);
             }
         }
-        this.setState({situation: this.validateSituation(situation).situation, situationIsOutdated: true});
-    }
+
+        this.setState({
+            situation: this.validateSituation(situation).situation, 
+            baselineSituationImpactIsOutdated: true,
+            reformSituationImpactIsOutdated: true,
+        });    }
 
     getNumChildren() {
         return this.situation.households["Your household"].members.filter(

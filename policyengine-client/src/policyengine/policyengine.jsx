@@ -3,7 +3,7 @@
  */
 
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { CountryContext, UK, US } from "../countries";
 import { Header } from "./header";
 import { Footer } from "./footer";
@@ -60,7 +60,18 @@ export default class PolicyEngine extends React.Component {
             }
         }
         const fetchEndpoint = name => {
-            fetch(this.state.country.apiURL + "/" + name)
+            let url;
+            if(name === "parameters") {
+                const { searchParams } = new URL(document.location);
+                let date = searchParams.get("policy_date");
+                if(date) {
+                    date = `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`;
+                }
+                url = this.state.country.apiURL + "/" + name + (date ? "?policy_date=" + date : "")
+            } else {
+                url = this.state.country.apiURL + "/" + name;
+            }
+            fetch(url)
                 .then(response => response.json())
                 .then(data => {
                     this.setCountryState({[name]: data}, checkAllFetchesComplete);

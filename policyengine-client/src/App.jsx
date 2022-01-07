@@ -8,9 +8,13 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-d
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style/policyengine.less";
 import PolicyEngine from "./policyengine/policyengine";
+import createRedirects from "./policyengine/tools/namedPolicies";
+import { UK, US } from "./countries";
 
 
 export default function App(props) {
+    const uk = new UK();
+    const us = new US();
     return (
         <Router>
             <Switch>
@@ -18,9 +22,11 @@ export default function App(props) {
                     <Redirect to="/uk/policy" />
                 </Route>
                 <Route path="/uk">
+                    {createRedirects(uk.namedPolicies, "uk")}
                     <PolicyEngine country="uk" analytics={props.analytics} />
                 </Route>
                 <Route path="/us">
+                    {createRedirects(us.namedPolicies, "us")}
                     <PolicyEngine country="us" analytics={props.analytics} />
                 </Route>
             </Switch>

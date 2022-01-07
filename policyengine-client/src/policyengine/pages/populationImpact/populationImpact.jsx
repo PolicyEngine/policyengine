@@ -104,11 +104,9 @@ export default class PopulationImpact extends React.Component {
 	}
 
 	componentDidMount() {
-        this.context.updateOutdatedThen(() => {
-			if(this.context.populationImpactIsOutdated) {
-				this.simulate();
-			};
-		});
+		if(this.context.populationImpactIsOutdated) {
+			this.simulate();
+		};
 	}
 
 	simulate() {

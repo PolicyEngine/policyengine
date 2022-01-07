@@ -12,7 +12,7 @@ export default class AccountingTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            waitingOnBaseline: true,
+            waitingOnBaseline: false,
             waitingOnReform: false,
             error: false,
         }
@@ -22,7 +22,10 @@ export default class AccountingTable extends React.Component {
 
     updateBaselineSituation() {
         this.setState({waitingOnBaseline: true}, () => {
+            const submission = this.context.getPolicyJSONPayload();
+            submission.ignoreReform = true;
             let url = new URL(this.context.apiURL + "/calculate");
+            url.search = new URLSearchParams(submission).toString();
             fetch(url, {
                 method: 'POST',
                 headers: {
@@ -75,15 +78,13 @@ export default class AccountingTable extends React.Component {
     }
 
     componentDidMount() {
-        this.context.updateOutdatedThen(() => {
-			if(this.context.baselineSituationImpactIsOutdated) {
-				this.updateBaselineSituation();
-			}
-            const reformExists = Object.keys(this.context.getPolicyJSONPayload()).length > 0;
-            if(reformExists && this.context.reformSituationImpactIsOutdated) {
-                this.updateReformSituation();
-            }
-		});
+        if(this.context.baselineSituationImpactIsOutdated) {
+            this.updateBaselineSituation();
+        }
+        const reformExists = Object.keys(this.context.getPolicyJSONPayload()).length > 0;
+        if(reformExists && this.context.reformSituationImpactIsOutdated) {
+            this.updateReformSituation();
+        }
     }
 
     render() {

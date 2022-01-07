@@ -267,9 +267,14 @@ class PolicyEngineCountry:
     @exclude_from_cache
     def calculate(self, params=None):
         reform = create_reform(
-            params, self.policyengine_parameters, self.default_reform[:-1]
-        )["reform"]["reform"]
-        system = apply_reform(reform, self.system())
+            {x: y for x, y in params.items() if x != "ignoreReform"},
+            self.policyengine_parameters,
+            self.default_reform[:-1],
+        )
+        if "ignoreReform" not in params:
+            system = apply_reform(reform["reform"]["reform"], self.system())
+        else:
+            system = apply_reform(reform["baseline"]["reform"], self.system())
         simulation = SimulationBuilder().build_from_entities(
             system, params["household"]
         )
