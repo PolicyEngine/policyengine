@@ -12,7 +12,7 @@ export default class AccountingTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            waiting: false,
+            waiting: true,
             error: false,
         }
         this.updateBaselineSituation = this.updateBaselineSituation.bind(this);
@@ -36,8 +36,9 @@ export default class AccountingTable extends React.Component {
                     throw res;
                 }
             }).then((data) => {
-                this.setState({ waiting: false, waitingOnBaseline: false, error: false });
-                this.context.setState({computedBaselineSituation: data, baselineSituationImpactIsOutdated: false})
+                this.context.setState({computedBaselineSituation: data, baselineSituationImpactIsOutdated: false}, () => {
+                    this.setState({ waiting: false, waitingOnBaseline: false, error: false });
+                });
             }).catch(e => {
                 this.setState({ waiting: false, waitingOnBaseline: false, error: true, });
             });
@@ -63,12 +64,25 @@ export default class AccountingTable extends React.Component {
                     throw res;
                 }
             }).then((data) => {
-                this.setState({ waiting: false, waitingOnReform: false, error: false });
-                this.context.setState({computedReformSituation: data, reformSituationImpactIsOutdated: false})
+                this.context.setState({computedReformSituation: data, reformSituationImpactIsOutdated: false}, () => {
+                    this.setState({ waiting: false, waitingOnReform: false, error: false });
+                })
             }).catch(e => {
                 this.setState({ waiting: false, waitingOnReform: false, error: true});
             });
         });
+    }
+
+    componentDidMount() {
+        this.context.updateOutdatedThen(() => {
+			if(this.context.baselineSituationImpactIsOutdated) {
+				this.updateBaselineSituation();
+			}
+            const reformExists = Object.keys(this.context.getPolicyJSONPayload()).length > 0;
+            if(reformExists && this.context.reformSituationImpactIsOutdated) {
+                this.updateReformSituation();
+            }
+		});
     }
 
     render() {
@@ -83,14 +97,6 @@ export default class AccountingTable extends React.Component {
         } else if(this.state.error) {
             return <Centered>Something went wrong.</Centered>
         }
-        const reformExists = Object.keys(this.context.getPolicyJSONPayload()).length > 0;
-        if(this.context.baselineSituationImpactIsOutdated) {
-            this.updateBaselineSituation();
-            if(reformExists && this.context.reformSituationImpactIsOutdated) {
-                this.updateReformSituation();
-            }
-            return <></>
-        }
 
         return <VariableTable variable={Object.keys(this.context.outputVariableHierarchy)[0]} />;
     }
@@ -102,13 +108,14 @@ function VariableTable(props) {
     const reformExists = Object.keys(country.getPolicyJSONPayload()).length > 0;
     const baseline = country.computedBaselineSituation;
     const reform = reformExists ? country.computedReformSituation : baseline;
+    const depth = props.depth || 0;
     let columns;
     if(reformExists) {
         columns = [{
             title: "",
             dataIndex: "variable",
             key: "variable",
-            width: 150,
+            width: 300,
         }, {
             title: "Baseline",
             dataIndex: "baseline",
@@ -133,12 +140,12 @@ function VariableTable(props) {
             title: "",
             dataIndex: "variable",
             key: "variable",
-            width: 150,
+            width: 300,
         }, {
             title: "Value",
             dataIndex: "baseline",
             key: "baseline",
-            width: 70 * 3,
+            width: 70 * 3 ,
             align: "center",
         }]
     }
@@ -157,9 +164,11 @@ function VariableTable(props) {
     const colorChanges = value => value > 0 ? "green" : value < 0 ? "red" : "grey";
     const applyColorLogic = (value, logic) => <div style={{color: logic(value)}}>{formatter(value, true)}</div>;
     
-    const depth = props.depth || 0;
+    if(baselineValue === 0 && reformValue === 0) {
+        return <></>;
+    }
     const data = [{
-        variable: <div style={{paddingLeft: depth * 15}}>{country.variables[props.variable].label}</div>,
+        variable: country.variables[props.variable].label,
         key: props.variable,
         baseline: applyColorLogic(baselineValue, colorZerosGrey),
         reform: applyColorLogic(reformValue, colorZerosGrey),
@@ -179,8 +188,7 @@ function VariableTable(props) {
     const rowIsExpandable = row => country.outputVariableHierarchy[row.key];
 
     return <Table 
-        columns={columns} 
-        style={{}}
+        columns={columns}
         dataSource={data} 
         pagination={false} 
         showHeader={!props.isChild}

@@ -8,6 +8,14 @@ import AutoUBI from "./components/autoUBI";
 import ExtraBand from "./components/extraBand";
 import TimeTravel from "./components/timeTravel";
 
+const childNamer = {
+    1: "Your first child",
+    2: "Your second child",
+    3: "Your third child",
+    4: "Your fourth child",
+    5: "Your fifth child",
+}
+
 function validatePolicy(policy, defaultPolicy) {
     if(defaultPolicy) {
         for(let parameter in policy) {
@@ -40,6 +48,7 @@ export class UK extends Country {
         "/ubi-labs/covid-dividend": "child_UBI=46&adult_UBI=92&senior_UBI=46&WA_adult_UBI_age=16"
     }
     // Policy page metadata
+    extraParameterMetadata = {}
     parameterHierarchy = {
         "General": [
             "timeTravel",
@@ -183,7 +192,6 @@ export class UK extends Country {
     entities = null
     variables = null
     // Adjustments to OpenFisca data
-    extraParameterMetadata = {}
     parameterComponentOverrides = {
         autoUBI: <AutoUBI />,
         extra_UK_band: <ExtraBand 
@@ -200,27 +208,55 @@ export class UK extends Country {
     validatePolicy = validatePolicy
     situation = {
         "people": {
-            "You": {},
-            "Your partner": {},
+            "You": {
+                "age": {"2021": 25}
+            },
         },
         "benunits": {
             "Your family": {
-                "adults": ["You", "Your partner"],
+                "adults": ["You"],
+                "children": [],
             }
         },
         "households": {
             "Your household": {
-                "adults": ["You", "Your partner"],
+                "adults": ["You"],
+                "children": [],
             }
         }
     }
     inputVariables = [
         "age",
+        "is_in_startup_period",
+        "limited_capability_for_WRA",
+        "weekly_hours",
         "employment_income",
+        "self_employment_income",
+        "pension_income",
+        "state_pension",
+        "dividend_income",
+        "property_income",
+        "savings_interest_income",
         "is_married",
         "region",
         "food_and_non_alcoholic_beverages_consumption",
-        "property_wealth",
+        "alcohol_and_tobacco_consumption",
+        "clothing_and_footwear_consumption",
+        "housing_water_and_electricity_consumption",
+        "household_furnishings_consumption",
+        "health_consumption",
+        "transport_consumption",
+        "communication_consumption",
+        "recreation_consumption",
+        "education_consumption",
+        "restaurants_and_hotels_consumption",
+        "miscellaneous_consumption",
+        "council_tax",
+        "owned_land",
+        "main_residence_value",
+        "other_residential_property_value",
+        "non_residential_property_value",
+        "corporate_wealth",
     ]
     outputVariables = [
         "household_tax",
@@ -232,18 +268,28 @@ export class UK extends Country {
         "market_income",
         "net_income",
         "universal_credit",
+        "working_tax_credit",
+        "child_tax_credit",
+        "housing_benefit",
+        "ESA_income",
+        "income_support",
+        "JSA_income",
         "child_benefit",
-        "state_pension",
-        "employment_income",
-        "self_employment_income",
         "income_tax",
         "national_insurance",
+        "expected_sdlt",
+        "expected_ltt",
+        "expected_lbtt",
+        "business_rates",
     ]
     inputVariableHierarchy = {
         "General": [],
         "Demographic": {
             "Personal" : [
                 "age",
+                "is_in_startup_period",
+                "limited_capability_for_WRA",
+                "weekly_hours",
             ],
             "Family": [
                 "is_married",
@@ -254,12 +300,37 @@ export class UK extends Country {
         },
         "Income": [
             "employment_income",
+            "self_employment_income",
+            "pension_income",
+            "state_pension",
+            "dividend_income",
+            "property_income",
+            "savings_interest_income",
         ],
-        "Consumption": [
-            "food_and_non_alcoholic_beverages_consumption",
-        ],
+        "Consumption": {
+            "Family": ["benunit_rent"],
+            "Household": [
+                "food_and_non_alcoholic_beverages_consumption",
+                "alcohol_and_tobacco_consumption",
+                "clothing_and_footwear_consumption",
+                "housing_water_and_electricity_consumption",
+                "household_furnishings_consumption",
+                "health_consumption",
+                "transport_consumption",
+                "communication_consumption",
+                "recreation_consumption",
+                "education_consumption",
+                "restaurants_and_hotels_consumption",
+                "miscellaneous_consumption",
+                "council_tax",
+            ]
+        },
         "Wealth": [
-            "property_wealth",
+            "owned_land",
+            "main_residence_value",
+            "other_residential_property_value",
+            "non_residential_property_value",
+            "corporate_wealth",
         ],
     }
     defaultOpenVariableGroups = []
@@ -278,20 +349,107 @@ export class UK extends Country {
             "add": [
                 "employment_income",
                 "self_employment_income",
+                "pension_income",
+                "state_pension",
+                "dividend_income",
+                "property_income",
+                "savings_interest_income",
             ]
         },
         "benefits": {
             "add": [
                 "universal_credit",
+                "working_tax_credit",
+                "child_tax_credit",
+                "housing_benefit",
+                "ESA_income",
+                "income_support",
+                "JSA_income",
                 "child_benefit",
-                "state_pension",
             ]
         },
         "tax": {
             "add": [
                 "income_tax",
                 "national_insurance",
+                "council_tax",
+                "expected_sdlt",
+                "expected_ltt",
+                "expected_lbtt",
+                "business_rates",
             ]
         }
+    }
+
+    addPartner(situation) {
+        situation.people["Your partner"] = {
+            "age": {"2021": 25},
+        };
+        situation.benunits["Your family"].adults.push("Your partner");
+        situation.households["Your household"].adults.push("Your partner");
+        return this.validateSituation(situation).situation;
+    }
+    
+    addChild(situation) {
+        const childName = childNamer[situation.benunits["Your family"].children.length + 1];
+        situation.people[childName] = {
+            "age": {"2021": 10},
+        };
+        situation.benunits["Your family"].children.push(childName);
+        situation.households["Your household"].children.push(childName);
+        return this.validateSituation(situation).situation;
+    }
+    
+    removePerson(situation, name) {
+        for(let benunit of Object.keys(situation.benunits)) {
+            if(situation.benunits[benunit].adults.includes(name)) {
+                situation.benunits[benunit].adults.pop(name);
+            }
+            if(situation.benunits[benunit].children.includes(name)) {
+                situation.benunits[benunit].children.pop(name);
+            }
+        }
+        if(situation.households["Your household"].adults.includes(name)) {
+            situation.households["Your household"].adults.pop(name);
+        }
+        if(situation.households["Your household"].children.includes(name)) {
+            situation.households["Your household"].children.pop(name);
+        }
+        delete situation.people[name];
+        return this.validateSituation(situation).situation;
+    }
+    
+    setNumAdults(numAdults) {
+        let situation = this.situation;
+        const numExistingAdults = situation.households["Your household"].adults.length;
+        if(numExistingAdults === 1 && numAdults === 2) {
+            situation = this.addPartner(situation);
+        } else if(numExistingAdults === 2 && numAdults === 1) {
+            situation = this.removePerson(situation, "Your partner");
+        }
+        this.setState({situation: this.validateSituation(situation).situation, situationIsOutdated: true})
+    }
+
+    getNumAdults() {
+        return this.situation.households["Your household"].adults.length;
+    }
+    
+    setNumChildren(numChildren) {
+        let situation = this.situation;
+        const numExistingChildren = situation.households["Your household"].children.length;
+        if(numExistingChildren < numChildren) {
+            for(let i = numExistingChildren; i < numChildren; i++) {
+                situation = this.addChild(situation);
+            }
+        } else if(numExistingChildren > numChildren) {
+            for(let i = numExistingChildren; i > numChildren; i--) {
+                situation = this.removePerson(situation, childNamer[i]);
+            }
+        }
+        this.setState({situation: this.validateSituation(situation).situation, situationIsOutdated: true});
+    }
+
+    getNumChildren() {
+        return this.situation.households["Your household"].children.length;
     }
 };

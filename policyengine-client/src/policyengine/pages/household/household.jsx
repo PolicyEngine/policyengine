@@ -5,6 +5,7 @@ import Menu from "./menu";
 import { VariableControlPane } from "./inputPane";
 import AccountingTable from "./accountingTable";
 import EarningsChartsPane from "./earningsCharts";
+import { PolicyOverview } from "../policy/overview";
 
 
 export class Household extends React.Component {
@@ -53,6 +54,9 @@ export class Household extends React.Component {
                 </Col>
                 <Col xl={6}>
                     {middlePane}
+                </Col>
+                <Col>
+                    <PolicyOverview />
                 </Col>
             </Row>
         </>

@@ -13,11 +13,11 @@ export default class Country {
         let oldPolicy = this.policy;
 		oldPolicy[name].value = value;
 		let { policy, policyValid } = this.validatePolicy(oldPolicy);
-		this.stateHolder.setCountryState({policy: policy, policyValid: policyValid, reformSituationImpactIsOutdated: true, populationImpactIsOutdated: true});
+		this.stateHolder.setCountryState({policy: policy, policyValid: policyValid, policyIsOutdated: true});
     }
 
     updateEntirePolicy(policy) {
-        this.stateHolder.setCountryState({policy: policy, reformSituationImpactIsOutdated: true, populationImpactIsOutdated: true});
+        this.stateHolder.setCountryState({policy: policy, policyIsOutdated: true});
     }
 
     getPolicyJSONPayload() {
@@ -30,8 +30,8 @@ export default class Country {
         return submission;
     }
 
-    setState(object) {
-        this.stateHolder.setCountryState(object);
+    setState(object, callback) {
+        this.stateHolder.setCountryState(object, callback);
     }
 
     validatePolicy = policy => {return {policy: policy, valid: true}};
@@ -64,9 +64,27 @@ export default class Country {
         return {situation: situation, valid: true}
     }
 
+    policyIsOutdated = true;
+    situationIsOutdated = true;
     populationImpactIsOutdated = true;
     baselineSituationImpactIsOutdated = true;
     reformSituationImpactIsOutdated = true;
+    situationVariationImpactIsOutdated = true;
+
+    updateOutdatedThen(callback) {
+        let update;
+        if(this.policyIsOutdated) {
+            update = {
+                populationImpactIsOutdated: true,
+                reformSituationImpactIsOutdated: true,
+                situationVariationImpactIsOutdated: true
+            };
+        }
+        if(this.situationIsOutdated) {
+            update.baselineSituationImpactIsOutdated = true;
+        }
+        this.setState(update, callback);
+    }
 
     computedBaselineSituation = null;
     computedReformSituation = null;
@@ -74,7 +92,7 @@ export default class Country {
     updateSituationValue(entityType, entityName, variable, value) {
         let situation = this.situation;
         situation[this.entities[entityType].plural][entityName][variable] = {"2021": value};
-        this.setState({situation: situation, baselineSituationImpactIsOutdated: true, reformSituationImpactIsOutdated: true});
+        this.setState({situation: situation, situationIsOutdated: true});
     }
 }
 

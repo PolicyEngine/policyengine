@@ -104,9 +104,11 @@ export default class PopulationImpact extends React.Component {
 	}
 
 	componentDidMount() {
-        if(this.context.policyIsOutdated) {
-            this.simulate();
-        }
+        this.context.updateOutdatedThen(() => {
+			if(this.context.populationImpactIsOutdated) {
+				this.simulate();
+			};
+		});
 	}
 
 	simulate() {
@@ -122,8 +124,9 @@ export default class PopulationImpact extends React.Component {
 						throw res;
 					}
 				}).then((data) => {
-					this.setState({ waiting: false, error: false });
-                    this.context.setState({populationImpactResults: data, policyIsOutdated: false})
+					this.context.setState({populationImpactResults: data, populationImpactIsOutdated: false}, () => {
+						this.setState({ waiting: false, error: false });
+					});
 				}).catch(e => {
 					this.setState({waiting: false, error: true});
 				});

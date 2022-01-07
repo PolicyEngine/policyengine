@@ -7,7 +7,7 @@ import { Route, Switch } from "react-router-dom";
 import { CountryContext, UK, US } from "../countries";
 import { Header } from "./header";
 import { Footer } from "./footer";
-import { PolicyEngineWrapper } from "./layout/general";
+import { BodyWrapper, PolicyEngineWrapper } from "./layout/general";
 import { Policy } from "./pages/policy";
 import { urlToPolicy } from "./tools/url";
 import { PopulationImpact } from "./pages/populationImpact";
@@ -79,20 +79,22 @@ export default class PolicyEngine extends React.Component {
             <PolicyEngineWrapper>
                 <CountryContext.Provider value={this.state.country}>
                     <Header />
-                    <Switch>
-                        <Route path={`/${countryName}/policy`}>
-                            <Policy />
-                        </Route>
-                        <Route path={`/${countryName}/population-impact`}>
-                            <PopulationImpact />
-                        </Route>
-                        <Route path={`/${countryName}/household`}>
-                            <Household />
-                        </Route>
-                        <Route path={`/${countryName}/faq`}>
-                            <FAQ />
-                        </Route>
-                    </Switch>
+                    <BodyWrapper>
+                        <Switch>
+                            <Route path={`/${countryName}/policy`}>
+                                <Policy />
+                            </Route>
+                            <Route path={`/${countryName}/population-impact`}>
+                                <PopulationImpact />
+                            </Route>
+                            <Route path={`/${countryName}/household`}>
+                                <Household />
+                            </Route>
+                            <Route path={`/${countryName}/faq`}>
+                                <FAQ />
+                            </Route>
+                        </Switch>
+                    </BodyWrapper>
                     <Footer />
                 </CountryContext.Provider>
             </PolicyEngineWrapper>

@@ -1,21 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import { CountryContext } from "../../../countries";
 import Variable, { Spacing } from "./variable";
 import { Radio, Select } from "antd";
 
 
 function HouseholdSetup(props) {
+    const country = useContext(CountryContext);
 	return <>
 		<Spacing />
 		<h5>Adults</h5>
 		<Spacing />
-		<Radio.Group defaultValue={2} onChange={e => {}}>
+		<Radio.Group defaultValue={country.getNumAdults()} onChange={e => country.setNumAdults(e.target.value)}>
 			{[...Array(3).keys()].slice(1).map(i => <Radio.Button key={i} value={i}>{i}</Radio.Button>)}
 		</Radio.Group>
 		<Spacing />
 		<h5>Children</h5>
 		<Spacing />
-		<Radio.Group defaultValue={0} onChange={e => {}}>
+		<Radio.Group defaultValue={country.getNumChildren()} onChange={e => country.setNumChildren(e.target.value)}>
 			{[...Array(6).keys()].map(i => <Radio.Button key={i} value={i}>{i}</Radio.Button>)}
 		</Radio.Group>
 	</>
