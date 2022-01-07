@@ -25,6 +25,7 @@ setup(
         "wheel",
         "rdbl",
         "pytest",
+        "dpath>=1.5.0",
     ],
     packages=find_packages(),
 )
