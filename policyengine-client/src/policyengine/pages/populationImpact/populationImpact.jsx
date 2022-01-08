@@ -149,7 +149,7 @@ export default class PopulationImpact extends React.Component {
                     <Divider />
                     <Centered>
                         <NavigationButton
-                            target="household" 
+                            target="policy" 
                             text={<><ArrowLeftOutlined /> Edit your policy</>}
                         />
                         <NavigationButton
