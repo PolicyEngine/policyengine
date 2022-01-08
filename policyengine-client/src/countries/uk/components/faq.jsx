@@ -1,10 +1,11 @@
-import FAQText from "../data/faq.md";
+import FAQText from "./faq.md";
 
 import ReactMarkdown from "react-markdown";
 import { Row, Col } from "react-bootstrap";
 import { Divider } from "antd";
 import React from "react";
 import rehypeRaw from "rehype-raw";
+import { CountryContext } from "../../country";
 
 function Header(props) {
 	return <><h1>{props.children}</h1></>;
@@ -19,6 +20,7 @@ function Subsubheader(props) {
 }
 
 export class FAQ extends React.Component {
+	static contextType = CountryContext;
 	constructor(props) {
 		super(props);
         this.state = {text: ""};
@@ -26,7 +28,7 @@ export class FAQ extends React.Component {
 
     componentDidMount() {
         fetch(FAQText).then(res => res.text()).then(text => this.setState({text: text}));
-        this.props.analytics.pageview("/uk/faq");
+        this.context.analytics.pageview("/uk/faq");
     }
 
 	render() {

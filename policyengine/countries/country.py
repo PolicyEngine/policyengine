@@ -5,7 +5,7 @@ from openfisca_core.indexed_enums.enum import Enum
 from openfisca_core.parameters.parameter import Parameter
 from openfisca_tools.model_api import ReformType
 import yaml
-import dpath
+import dpath.util
 from openfisca_core.taxbenefitsystems.tax_benefit_system import (
     TaxBenefitSystem,
 )
@@ -77,6 +77,7 @@ class PolicyEngineCountry:
                 entities=self.entities,
                 variables=self.variables,
                 calculate=self.calculate,
+                household_variation=self.household_variation,
             )
 
             self.entities = build_entities(self.baseline_system)
@@ -117,6 +118,7 @@ class PolicyEngineCountry:
                 variables=self.variables,
                 population_breakdown=self.population_breakdown,
                 calculate=self.calculate,
+                household_variation=self.household_variation,
             )
 
             self.entities = build_entities(
@@ -154,9 +156,12 @@ class PolicyEngineCountry:
         baseline = situation(
             self.IndividualSim(reform_config["baseline"]["reform"], 2021)
         )
-        reformed = situation(
-            self.IndividualSim(reform_config["reform"]["reform"], 2021)
-        )
+        if len(params.keys()) - 1 > 0:
+            reformed = situation(
+                self.IndividualSim(reform_config["reform"]["reform"], 2021)
+            )
+        else:
+            reformed = baseline
         return baseline, reformed
 
     def population_reform(self, params: dict = None):
@@ -261,11 +266,24 @@ class PolicyEngineCountry:
 
     @exclude_from_cache
     def calculate(self, params=None):
-        system = apply_reform(self.default_reform, self.system())
-        simulation = SimulationBuilder().build_from_entities(system, params)
+        reform = create_reform(
+            {x: y for x, y in params.items() if x != "ignoreReform"},
+            self.policyengine_parameters,
+            self.default_reform[:-1],
+        )
+        if "ignoreReform" not in params:
+            system = apply_reform(reform["reform"]["reform"], self.system())
+        else:
+            system = apply_reform(reform["baseline"]["reform"], self.system())
+        simulation = SimulationBuilder().build_from_entities(
+            system, params["household"]
+        )
 
         requested_computations = dpath.util.search(
-            params, "*/*/*/*", afilter=lambda t: t is None, yielded=True
+            params["household"],
+            "*/*/*/*",
+            afilter=lambda t: t is None,
+            yielded=True,
         )
         computation_results = {}
 
@@ -288,6 +306,28 @@ class PolicyEngineCountry:
 
             dpath.util.new(computation_results, path, entity_result)
 
-        dpath.merge(params, computation_results)
+        dpath.util.merge(params["household"], computation_results)
 
-        return params
+        return params["household"]
+
+    @exclude_from_cache
+    def household_variation(self, params=None):
+        baseline, reformed = self._get_individualsims(params)
+        vary_max = max(200_000, baseline.calc("employment_income").sum() * 1.5)
+        baseline.vary(
+            "employment_income",
+            step=100,
+            max=vary_max,
+        )
+        if len(params.keys()) - 1 > 0:
+            reformed.vary(
+                "employment_income",
+                step=100,
+                max=vary_max,
+            )
+        budget = budget_chart(baseline, reformed, self.results_config)
+        mtr = mtr_chart(baseline, reformed, self.results_config)
+        return dict(
+            budget_chart=budget,
+            mtr_chart=mtr,
+        )
