@@ -95,7 +95,7 @@ export default class Country {
         });
     }
 
-    useLocalServer = false;
+    useLocalServer = true;
 }
 
 export const CountryContext = createContext(null);
