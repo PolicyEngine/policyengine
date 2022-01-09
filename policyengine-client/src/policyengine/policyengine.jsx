@@ -3,13 +3,13 @@
  */
 
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { CountryContext, UK, US } from "../countries";
 import { Header } from "./header";
 import { Footer } from "./footer";
 import { BodyWrapper, PolicyEngineWrapper } from "./layout/general";
 import { Policy } from "./pages/policy";
-import { urlToPolicy } from "./tools/url";
+import { policyToURL, urlToPolicy } from "./tools/url";
 import { PopulationImpact } from "./pages/populationImpact";
 import FAQ from "../countries/uk/components/faq";
 import { Household } from "./pages/household";
@@ -103,6 +103,19 @@ export default class PolicyEngine extends React.Component {
                             </Route>
                             <Route path={`/${countryName}/faq`}>
                                 <FAQ />
+                            </Route>
+                            {/* Redirects from legacy URLs */}
+                            <Route path={`/${countryName}/population-results`}>
+                                <Redirect to={policyToURL("population-impact", urlToPolicy(this.state.country.policy))} />
+                            </Route>
+                            <Route path={`/${countryName}/household-impact`}>
+                                <Redirect to={policyToURL("household", urlToPolicy(this.state.country.policy))} />
+                            </Route>
+                            <Route path={`/${countryName}/situation`}>
+                                <Redirect to={policyToURL("household", urlToPolicy(this.state.country.policy))} />
+                            </Route>
+                            <Route path={`/${countryName}/situation-results`}>
+                                <Redirect to={policyToURL("household", urlToPolicy(this.state.country.policy))} />
                             </Route>
                         </Switch>
                     </BodyWrapper>
