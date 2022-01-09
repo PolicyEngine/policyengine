@@ -46,7 +46,7 @@ export function PolicyOverview(props) {
 
 export function SharePolicyLinks(props) {
     const country = useContext(CountryContext);
-	const url = policyToURL(`https://policyengine.org${country.name}/${props.page}`, country.policy);
+	const url = policyToURL(`https://policyengine.org/${country.name}/${props.page}`, country.policy);
 	return (
 		<>
 			<Divider>Share this policy<Button style={{marginRight: 20, border: 0}} onClick={() => {navigator.clipboard.writeText(url); message.info("Link copied!");}}><LinkOutlined /></Button><TwitterShareButton style={{marginRight: 20, border: 0}} title="I just simulated a reform to the UK tax and benefit system with @ThePolicyEngine. Check it out or make your own!" url={url}><TwitterOutlined /></TwitterShareButton></Divider>
