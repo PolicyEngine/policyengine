@@ -4,10 +4,13 @@ from policyengine.utils.general import PolicyEngineResultsConfig
 from policyengine.utils import charts
 import plotly.express as px
 import pandas as pd
+import plotly.graph_objects as go
 
 COLOR_MAP = {
     "Baseline": charts.GRAY,
     "Reform": charts.BLUE,
+    "Marginal tax rate": charts.BLUE,
+    "Net income": charts.BLUE,
 }
 
 LABELS = dict(
@@ -20,6 +23,8 @@ def budget_chart(
     baseline: IndividualSim,
     reformed: IndividualSim,
     config: Type[PolicyEngineResultsConfig],
+    has_reform: bool = True,
+    original_total_income: float = None,
 ) -> str:
     """Produces line chart with employment income on the x axis and net income
     on the y axis, for baseline and reform simulations.
@@ -31,20 +36,28 @@ def budget_chart(
     :rtype: str
     """
     variable_values = {}
+    total_income = baseline.calc("total_income").sum(axis=0)
+    # Find the x-point on the chart which is the current situation
+    i = (total_income < original_total_income).sum()
     for explaining_variable in (
         "total_income",
         "tax",
         "benefits",
     ):
-        variable_values[explaining_variable + "_baseline"] = baseline.calc(
-            explaining_variable
-        ).sum(axis=0)
+        if has_reform:
+            variable_values[explaining_variable + "_baseline"] = baseline.calc(
+                explaining_variable
+            ).sum(axis=0)
+        else:
+            variable_values[explaining_variable + "_baseline"] = [baseline.calc(
+                explaining_variable
+            ).sum(axis=0)[i]] * len(total_income)
         variable_values[explaining_variable + "_reform"] = reformed.calc(
             explaining_variable
         ).sum(axis=0)
     df = pd.DataFrame(
         {
-            "employment_income": baseline.calc(config.earnings_variable).sum(
+            "Earnings": baseline.calc(config.earnings_variable).sum(
                 axis=0
             ),
             "Baseline": baseline.calc(config.net_income_variable).sum(axis=0),
@@ -52,9 +65,11 @@ def budget_chart(
             **variable_values,
         }
     )
+    if not has_reform:
+        df["Net income"] = df["Baseline"]
     df["hover"] = df.apply(
         lambda x: budget_hover_label(
-            x.employment_income,
+            x.Earnings,
             x.Baseline,
             x.Reform,
             x.total_income_baseline,
@@ -68,13 +83,14 @@ def budget_chart(
     )
     fig = px.line(
         df.round(0),
-        x=config.earnings_variable,
-        y=["Baseline", "Reform"],
+        x="Earnings",
+        y=["Baseline", "Reform"] if has_reform else ["Net income"],
         labels=dict(LABELS, value="Net income"),
         color_discrete_map=COLOR_MAP,
         custom_data=["hover"],
     )
     charts.add_custom_hovercard(fig)
+    add_you_are_here(fig, df.Earnings[i], df.Reform[i])
     fig.update_layout(
         title="Net income by employment income",
         xaxis_title="Employment income",
@@ -84,6 +100,16 @@ def budget_chart(
         legend_title=None,
     )
     return charts.formatted_fig_json(fig)
+
+def add_you_are_here(fig: go.Figure, x, y):
+    fig.add_annotation(
+            x=x, y=y,
+            text="You are here",
+            showarrow=True,
+            arrowhead=1,
+            ax=20,
+            ay=-30,
+        )
 
 
 def describe_change(
@@ -160,11 +186,15 @@ def mtr_hover_label(
     )
     return f"<b>At {earnings_str} employment income:<br>Your MTR {mtr_change}</b><br><br>Tax MTR {tax_change}<br>Benefits MTR {benefits_change}"
 
+def get_mtr(x, y):
+    return 1 - ((y[1:] - y[:-1]) / (x[1:] - x[:-1]))
 
 def mtr_chart(
     baseline: IndividualSim,
     reformed: IndividualSim,
     config: Type[PolicyEngineResultsConfig],
+    has_reform: bool = True,
+    original_total_income: float = None,
 ) -> str:
     """Produces line chart with employment income on the x axis and marginal
     tax rate on the y axis, for baseline and reform simulations.
@@ -180,40 +210,52 @@ def mtr_chart(
     baseline_net = baseline.calc(config.net_income_variable).sum(axis=0)
     reform_net = reformed.calc(config.net_income_variable).sum(axis=0)
 
-    def get_mtr(x, y):
-        return 1 - ((y[1:] - y[:-1]) / (x[1:] - x[:-1]))
+    total_income = baseline.calc("total_income").sum(axis=0)
+    # Find the x-point on the chart which is the current situation
+    i = (total_income < original_total_income).sum()
 
     baseline_mtr = get_mtr(earnings, baseline_net)
     reform_mtr = get_mtr(earnings, reform_net)
     variable_mtrs = {}
-    for explaining_variable, inverted in zip(
+    for explaining_variable, inverted, name in zip(
+        (
+            config.tax_variable,
+            config.benefit_variable,
+        ),
+        (False, True),
         (
             "tax",
             "benefits",
-        ),
-        (False, True),
+        )
     ):
         baseline_values = baseline.calc(explaining_variable).sum(axis=0)
         reform_values = reformed.calc(explaining_variable).sum(axis=0)
         multiplier = 1 if inverted else -1
         addition = -1 if inverted else 1
-        variable_mtrs[explaining_variable + "_baseline"] = (
-            get_mtr(earnings, baseline_values) * multiplier + addition
-        )
-        variable_mtrs[explaining_variable + "_reform"] = (
+        if has_reform:
+            variable_mtrs[name + "_baseline"] = (
+                get_mtr(earnings, baseline_values) * multiplier + addition
+            )
+        else:
+            variable_mtrs[name + "_baseline"] = [(
+                get_mtr(earnings, baseline_values) * multiplier + addition
+            )[i]] * (len(total_income) - 1)
+        variable_mtrs[name + "_reform"] = (
             get_mtr(earnings, reform_values) * multiplier + addition
         )
     df = pd.DataFrame(
         {
-            "employment_income": earnings[:-1].round(0),
+            "Earnings": earnings[:-1].round(0),
             "Baseline": baseline_mtr,
             "Reform": reform_mtr,
             **variable_mtrs,
         }
     )
+    if not has_reform:
+        df["Marginal tax rate"] = df["Baseline"]
     df["hover"] = df.apply(
         lambda x: mtr_hover_label(
-            x.employment_income,
+            x.Earnings,
             x.Baseline,
             x.Reform,
             x.tax_baseline,
@@ -225,13 +267,14 @@ def mtr_chart(
     )
     fig = px.line(
         df,
-        x="employment_income",
-        y=["Baseline", "Reform"],
+        x="Earnings",
+        y=["Baseline", "Reform"] if has_reform else ["Marginal tax rate"],
         labels=dict(LABELS, value="Marginal tax rate"),
         color_discrete_map=COLOR_MAP,
         line_shape="hv",
         custom_data=["hover"],
     )
+    add_you_are_here(fig, df.Earnings[i], df.Reform[i])
     charts.add_custom_hovercard(fig)
     fig.update_layout(
         title="Marginal tax rate by employment income",

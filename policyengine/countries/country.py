@@ -186,6 +186,8 @@ class PolicyEngineCountry:
 
     @exclude_from_cache
     def household_reform(self, params=None):
+        # Deprecated - use /calculate or /household_variation
+        has_reform = len(params.keys()) - 1 > 0
         baseline, reformed = self._get_individualsims(params)
         headlines = headline_figures(baseline, reformed, self.results_config)
         waterfall = household_waterfall_chart(
@@ -202,8 +204,8 @@ class PolicyEngineCountry:
             step=100,
             max=vary_max,
         )
-        budget = budget_chart(baseline, reformed, self.results_config)
-        mtr = mtr_chart(baseline, reformed, self.results_config)
+        budget = budget_chart(baseline, reformed, self.results_config, has_reform)
+        mtr = mtr_chart(baseline, reformed, self.results_config, has_reform)
         return dict(
             **headlines,
             waterfall_chart=waterfall,
@@ -312,8 +314,11 @@ class PolicyEngineCountry:
 
     @exclude_from_cache
     def household_variation(self, params=None):
+        has_reform = len(params.keys()) - 1 > 0
         baseline, reformed = self._get_individualsims(params)
-        vary_max = max(200_000, baseline.calc("employment_income").sum() * 1.5)
+        earnings = baseline.calc("employment_income").sum()
+        total_income = baseline.calc("total_income").sum()
+        vary_max = max(200_000, earnings * 1.5)
         baseline.vary(
             "employment_income",
             step=100,
@@ -325,8 +330,8 @@ class PolicyEngineCountry:
                 step=100,
                 max=vary_max,
             )
-        budget = budget_chart(baseline, reformed, self.results_config)
-        mtr = mtr_chart(baseline, reformed, self.results_config)
+        budget = budget_chart(baseline, reformed, self.results_config, has_reform, total_income)
+        mtr = mtr_chart(baseline, reformed, self.results_config, has_reform, total_income)
         return dict(
             budget_chart=budget,
             mtr_chart=mtr,

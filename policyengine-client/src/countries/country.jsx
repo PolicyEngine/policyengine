@@ -91,11 +91,12 @@ export default class Country {
         this.setState({
             situation: situation, 
             baselineSituationImpactIsOutdated: true,
+            situationVariationImpactIsOutdated: true,
             reformSituationImpactIsOutdated: true,
         });
     }
 
-    useLocalServer = false;
+    useLocalServer = true;
 }
 
 export const CountryContext = createContext(null);
