@@ -316,17 +316,24 @@ class PolicyEngineCountry:
     def household_variation(self, params=None):
         has_reform = len(params.keys()) - 1 > 0
         baseline, reformed = self._get_individualsims(params)
-        earnings = baseline.calc("employment_income").sum()
+        employment_income = baseline.calc(self.results_config.employment_income_variable)
+        self_employment_income = baseline.calc(self.results_config.self_employment_income_variable)
+        earnings_variable = (
+            self.results_config.employment_income_variable
+            if employment_income >= self_employment_income
+            else self.results_config.self_employment_income_variable
+        )
+        earnings = max(employment_income, self_employment_income)
         total_income = baseline.calc("total_income").sum()
         vary_max = max(200_000, earnings * 1.5)
         baseline.vary(
-            "employment_income",
+            earnings_variable,
             step=100,
             max=vary_max,
         )
         if len(params.keys()) - 1 > 0:
             reformed.vary(
-                "employment_income",
+                earnings_variable,
                 step=100,
                 max=vary_max,
             )

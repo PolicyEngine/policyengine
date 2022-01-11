@@ -1,4 +1,5 @@
 from typing import Callable, Type
+import numpy as np
 from openfisca_uk import IndividualSim
 from policyengine.utils.general import PolicyEngineResultsConfig
 from policyengine.utils import charts
@@ -36,13 +37,13 @@ def budget_chart(
     :rtype: str
     """
     variable_values = {}
-    total_income = baseline.calc("total_income").sum(axis=0)
+    total_income = baseline.calc(config.total_income_variable).sum(axis=0)
     # Find the x-point on the chart which is the current situation
     i = (total_income < original_total_income).sum()
     for explaining_variable in (
-        "total_income",
-        "tax",
-        "benefits",
+        config.total_income_variable,
+        config.tax_variable,
+        config.benefit_variable,
     ):
         if has_reform:
             variable_values[explaining_variable + "_baseline"] = baseline.calc(
@@ -57,7 +58,7 @@ def budget_chart(
         ).sum(axis=0)
     df = pd.DataFrame(
         {
-            "Earnings": baseline.calc(config.earnings_variable).sum(
+            "Total income": baseline.calc(config.total_income_variable).sum(
                 axis=0
             ),
             "Baseline": baseline.calc(config.net_income_variable).sum(axis=0),
@@ -65,32 +66,24 @@ def budget_chart(
             **variable_values,
         }
     )
-    if not has_reform:
-        df["Net income"] = df["Baseline"]
     df["hover"] = df.apply(
         lambda x: budget_hover_label(
-            x.Earnings,
-            x.Baseline,
-            x.Reform,
-            x.total_income_baseline,
-            x.total_income_reform,
-            x.tax_baseline,
-            x.tax_reform,
-            x.benefits_baseline,
-            x.benefits_reform,
+            *[getattr(x, column) for column in df.columns]
         ),
         axis=1,
     )
+    if not has_reform:
+        df["Net income"] = df["Baseline"]
     fig = px.line(
         df.round(0),
-        x="Earnings",
+        x="Total income",
         y=["Baseline", "Reform"] if has_reform else ["Net income"],
         labels=dict(LABELS, value="Net income"),
         color_discrete_map=COLOR_MAP,
         custom_data=["hover"],
     )
     charts.add_custom_hovercard(fig)
-    add_you_are_here(fig, df.Earnings[i], df.Reform[i])
+    add_you_are_here(fig, df["Total income"][i])
     fig.update_layout(
         title="Net income by employment income",
         xaxis_title="Employment income",
@@ -101,15 +94,17 @@ def budget_chart(
     )
     return charts.formatted_fig_json(fig)
 
-def add_you_are_here(fig: go.Figure, x, y):
-    fig.add_annotation(
-            x=x, y=y,
-            text="You are here",
-            showarrow=True,
-            arrowhead=1,
-            ax=20,
-            ay=-30,
-        )
+def add_you_are_here(fig: go.Figure, x):
+    fig.add_shape(
+        type="line",
+        xref="x",
+        yref="paper",
+        x0=x,
+        y0=0,
+        x1=x,
+        y1=1,
+        line=dict(color="grey", width=1, dash="dash"),
+    )
 
 
 def describe_change(
@@ -206,11 +201,11 @@ def mtr_chart(
         string.
     :rtype: str
     """
-    earnings = baseline.calc(config.earnings_variable).sum(axis=0)
+    earnings = baseline.calc(config.total_income_variable).sum(axis=0)
     baseline_net = baseline.calc(config.net_income_variable).sum(axis=0)
     reform_net = reformed.calc(config.net_income_variable).sum(axis=0)
 
-    total_income = baseline.calc("total_income").sum(axis=0)
+    total_income = baseline.calc(config.total_income_variable).sum(axis=0)
     # Find the x-point on the chart which is the current situation
     i = (total_income < original_total_income).sum()
 
@@ -265,6 +260,10 @@ def mtr_chart(
         ),
         axis=1,
     )
+    uncapped_mtr = df.Reform.copy()
+    df.Reform = np.where(df.Reform > 1, np.nan, df.Reform)
+    if not has_reform:
+        df["Marginal tax rate"] = df["Reform"]
     fig = px.line(
         df,
         x="Earnings",
@@ -274,7 +273,8 @@ def mtr_chart(
         line_shape="hv",
         custom_data=["hover"],
     )
-    add_you_are_here(fig, df.Earnings[i], df.Reform[i])
+    add_you_are_here(fig, df.Earnings[i])
+    label_cliffs(fig, df.Earnings, uncapped_mtr, baseline_net, reform_net)
     charts.add_custom_hovercard(fig)
     fig.update_layout(
         title="Marginal tax rate by employment income",
@@ -282,9 +282,29 @@ def mtr_chart(
         xaxis_tickprefix="£",
         yaxis_tickformat=",.0%",
         yaxis_title="Marginal tax rate",
+        yaxis_range=(0, 1),
         legend_title=None,
     )
     return charts.formatted_fig_json(fig)
+
+def label_cliffs(fig, earnings, mtr, baseline_net, reform_net):
+    for i in range(len(earnings)):
+        if mtr[i] > 1:
+            fig.add_annotation(
+                x=earnings[i],
+                y=0.5,
+                xref="x",
+                yref="y",
+                text="<b>Cliff</b>",
+                showarrow=True,
+                arrowhead=7,
+                ax=0,
+                ay=-40,
+                font=dict(
+                    size=12,
+                    color="#7f7f7f",
+                ),
+            )
 
 
 def household_waterfall_chart(
