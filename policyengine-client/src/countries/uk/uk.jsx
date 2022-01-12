@@ -94,7 +94,10 @@ export class UK extends Country {
                     "PA_reduction_threshold",
                     "PA_reduction_rate",
                     "marriage_allowance_cap",
-                    "abolish_marriage_allowance_income_condition"
+                    "abolish_marriage_allowance_income_condition",
+                    "dividend_allowance",
+                    "property_allowance",
+                    "trading_allowance",
                 ],
                 "Structural": [
                     "abolish_income_tax"
