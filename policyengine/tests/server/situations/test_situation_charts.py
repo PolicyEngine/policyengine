@@ -52,7 +52,13 @@ def test_budget_chart(situation, reform):
     reformed = situation(IndividualSim(reform))
     baseline.vary("employment_income")
     reformed.vary("employment_income")
-    budget_chart(baseline, reformed, UKResultsConfig)
+    budget_chart(
+        baseline,
+        reformed,
+        UKResultsConfig,
+        has_reform=True,
+        original_total_income=0,
+    )
 
 
 @pytest.mark.parametrize(
@@ -63,4 +69,10 @@ def test_mtr_chart(situation, reform):
     reformed = situation(IndividualSim(reform))
     baseline.vary("employment_income")
     reformed.vary("employment_income")
-    mtr_chart(baseline, reformed, UKResultsConfig)
+    mtr_chart(
+        baseline,
+        reformed,
+        UKResultsConfig,
+        has_reform=True,
+        original_total_income=0,
+    )
