@@ -9,7 +9,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 ## [1.5.1] - 2022-01-12
 
-### Fixed
+### Changed
 
 * Consolidated markdown files handling, with code documented to add more static pages.
 
