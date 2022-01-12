@@ -25,7 +25,9 @@ class UKResultsConfig(PolicyEngineResultsConfig):
     person_variable: str = "people"
     tax_variable: str = "household_tax"
     benefit_variable: str = "household_benefits"
-    earnings_variable: str = "employment_income"
+    employment_income_variable: str = "employment_income"
+    self_employment_income_variable: str = "self_employment_income"
+    total_income_variable: str = "total_income"
 
 
 class UK(PolicyEngineCountry):

@@ -37,8 +37,12 @@ export class UK extends Country {
     constructor() {
         super();
         this.baseApiUrl = !this.useLocalServer ?
-                        `${window.location.protocol}//${window.location.hostname}` :
-                        `http://localhost:5000`;
+                            (
+                                this.usePolicyEngineOrgServer ?
+                                    "https://policyengine.org/" :
+                                    `${window.location.protocol}//${window.location.hostname}`
+                            ) :
+                            `http://localhost:5000`;
         this.apiURL = `${this.baseApiUrl}/${this.name}/api`;
     }
     name = "uk"
@@ -90,7 +94,10 @@ export class UK extends Country {
                     "PA_reduction_threshold",
                     "PA_reduction_rate",
                     "marriage_allowance_cap",
-                    "abolish_marriage_allowance_income_condition"
+                    "abolish_marriage_allowance_income_condition",
+                    "dividend_allowance",
+                    "property_allowance",
+                    "trading_allowance",
                 ],
                 "Structural": [
                     "abolish_income_tax"
@@ -347,7 +354,7 @@ export class UK extends Country {
                 "council_tax",
             ]
         },
-        "Wealth": [
+        "Assets": [
             "owned_land",
             "main_residence_value",
             "other_residential_property_value",
