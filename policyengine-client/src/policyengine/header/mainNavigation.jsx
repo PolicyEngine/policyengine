@@ -16,20 +16,19 @@ const { TabPane } = Tabs;
 export default function MainNavigation(props) {
 	const history = useHistory();
     const country = useContext(CountryContext);
-    const onTabClick = key => {
-        history.push(policyToURL(`/${country.name}/${key}`, country.policy))
-    }
 	let middleColumn;
-	if(props.selected === "faq") {
+	if(props.title) {
 		middleColumn = (
 			<Tabs 
-                activeKey={props.selected} 
-                centered 
-                onChange={onTabClick}>
-				<TabPane tab="FAQ" key="faq"/>
+                activeKey={props.title} 
+                centered>
+				<TabPane tab={props.title} key={props.title}/>
 			</Tabs>
 		);
 	} else {
+		const onTabClick = key => {
+			history.push(policyToURL(`/${country.name}/${key}`, country.policy))
+		}
 		middleColumn = (
 			<Tabs 
                 moreIcon={null} 
