@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.5.1] - 2022-01-12
+
+### Changed
+
+* Consolidated markdown files handling, with code documented to add more static pages.
+
 ## [1.5.0] - 2022-01-12
 
 ### Added
