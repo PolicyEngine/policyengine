@@ -11,7 +11,7 @@ import { BodyWrapper, PolicyEngineWrapper } from "./layout/general";
 import { Policy } from "./pages/policy";
 import { policyToURL, urlToPolicy } from "./tools/url";
 import { PopulationImpact } from "./pages/populationImpact";
-import FAQ from "../countries/uk/components/faq";
+import FAQ from "./pages/markdown";
 import { Household } from "./pages/household";
 
 

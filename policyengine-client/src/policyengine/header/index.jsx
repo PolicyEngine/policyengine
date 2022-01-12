@@ -4,25 +4,30 @@ import { Route, Switch } from "react-router-dom";
 import { CountryContext } from "../../countries";
 import MainNavigation from "./mainNavigation";
 
-export function Header() {
+export function Header(props) {
     const country = useContext(CountryContext);
+	let navigation;
+	if(props.title) {
+		navigation = <MainNavigation title={props.title} />;
+	} else {
+		navigation = (
+			<Switch>
+				<Route path={`/${country.name}/policy`}>
+					<MainNavigation selected="policy"/>
+				</Route>
+				<Route path={`/${country.name}/population-impact`}>
+					<MainNavigation selected="population-impact"/>
+				</Route>
+				<Route path={`/${country.name}/household`}>
+					<MainNavigation selected="household"/>
+				</Route>
+			</Switch>
+		);
+	}
 	return (
 		<Affix offsetTop={0}>
 			<div style={{backgroundColor: "#2c6496"}}>
-				<Switch>
-					<Route path={`/${country.name}/policy`}>
-						<MainNavigation selected="policy"/>
-					</Route>
-					<Route path={`/${country.name}/population-impact`}>
-						<MainNavigation selected="population-impact"/>
-					</Route>
-					<Route path={`/${country.name}/household`}>
-						<MainNavigation selected="household"/>
-					</Route>
-					<Route path={`/${country.name}/faq`}>
-						<MainNavigation selected="faq"/>
-					</Route>
-				</Switch>
+				{navigation}
 			</div>
 		</Affix>
 	);

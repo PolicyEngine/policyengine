@@ -10,9 +10,9 @@ import { policyToURL } from "../tools/url";
 
 export default function Title() {
     const country = useContext(CountryContext);
-	const betaTag = country.beta ? [<Tag key="beta" color="#002766">BETA</Tag>] : null;
+	const betaTag = country && (country.beta ? [<Tag key="beta" color="#002766">BETA</Tag>] : null);
 	const title = (
-        <a href={policyToURL(`/${country.name}/policy`, country.policy)}>
+        <a href={country ? policyToURL(`/${country.name}/policy`, country.policy) : "/"}>
             <Image 
                 src={MainLogo} 
                 preview={false} 
