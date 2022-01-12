@@ -260,8 +260,6 @@ def mtr_chart(
         ),
         axis=1,
     )
-    uncapped_mtr = df.Reform.copy()
-    df.Reform = np.where(df.Reform > 1, np.nan, df.Reform)
     if not has_reform:
         df["Marginal tax rate"] = df["Reform"]
     fig = px.line(
@@ -274,7 +272,6 @@ def mtr_chart(
         custom_data=["hover"],
     )
     add_you_are_here(fig, df.Earnings[i])
-    label_cliffs(fig, df.Earnings, uncapped_mtr, baseline_net, reform_net)
     charts.add_custom_hovercard(fig)
     fig.update_layout(
         title="Marginal tax rate by employment income",
@@ -286,25 +283,6 @@ def mtr_chart(
         legend_title=None,
     )
     return charts.formatted_fig_json(fig)
-
-def label_cliffs(fig, earnings, mtr, baseline_net, reform_net):
-    for i in range(len(earnings)):
-        if mtr[i] > 1:
-            fig.add_annotation(
-                x=earnings[i],
-                y=0.5,
-                xref="x",
-                yref="y",
-                text="<b>Cliff</b>",
-                showarrow=True,
-                arrowhead=7,
-                ax=0,
-                ay=-40,
-                font=dict(
-                    size=12,
-                    color="#7f7f7f",
-                ),
-            )
 
 
 def household_waterfall_chart(
