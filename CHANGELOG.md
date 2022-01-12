@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.4.3] - 2022-01-12
+
+### Fixed
+
+* Removed the clear buton from date pickers.
+* Clicking the top-left icon preserves the policy.
+* Renames Wealth to Assets.
+
 ## [1.4.2] - 2022-01-12
 
 ### Added

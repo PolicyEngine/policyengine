@@ -91,6 +91,7 @@ export default class Country {
         this.setState({
             situation: situation, 
             baselineSituationImpactIsOutdated: true,
+            situationVariationImpactIsOutdated: true,
             reformSituationImpactIsOutdated: true,
         });
     }
