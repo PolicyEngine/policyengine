@@ -210,8 +210,7 @@ def mtr_chart(
 
     total_income = baseline.calc(config.total_income_variable).sum(axis=0)
     # Find the x-point on the chart which is the current situation
-    if not has_reform:
-        i = (total_income < original_total_income).sum()
+    i = (total_income < original_total_income).sum()
 
     baseline_mtr = get_mtr(earnings, baseline_net)
     reform_mtr = get_mtr(earnings, reform_net)

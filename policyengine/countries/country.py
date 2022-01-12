@@ -330,7 +330,9 @@ class PolicyEngineCountry:
             else self.results_config.self_employment_income_variable
         )
         earnings = max(employment_income, self_employment_income)
-        total_income = baseline.calc("total_income").sum()
+        total_income = baseline.calc(
+            self.results_config.total_income_variable
+        ).sum()
         vary_max = max(200_000, earnings * 1.5)
         baseline.vary(
             earnings_variable,
