@@ -97,6 +97,7 @@ export default class Country {
     }
 
     useLocalServer = true;
+    usePolicyEngineOrgServer = false;
 }
 
 export const CountryContext = createContext(null);
