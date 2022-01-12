@@ -13,6 +13,10 @@ This repo consists of two packages - the React client and the Python server. A c
 
 * The Property, Trading and Dividend Allowances.
 
+### Fixed
+
+* A bug causing the taxable UBI option to break the results.
+
 ## [1.4.3] - 2022-01-12
 
 ### Fixed

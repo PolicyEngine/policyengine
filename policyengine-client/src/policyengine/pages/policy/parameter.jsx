@@ -22,7 +22,7 @@ function Error(props) {
 
 function BooleanParameterControl(props) {
 	return <Switch
-		onChange={props.onChange}
+		onChange={value => props.onChange(+value)}
 		checked={props.metadata.value}
 		className={props.metadata.unit === "abolition" ? "switch-red" : null}
 	/>
