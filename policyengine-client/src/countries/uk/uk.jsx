@@ -37,8 +37,12 @@ export class UK extends Country {
     constructor() {
         super();
         this.baseApiUrl = !this.useLocalServer ?
-                        `${window.location.protocol}//${window.location.hostname}` :
-                        `http://localhost:5000`;
+                            (
+                                this.usePolicyEngineOrgServer ?
+                                    "https://policyengine.org/" :
+                                    `${window.location.protocol}//${window.location.hostname}`
+                            ) :
+                            `http://localhost:5000`;
         this.apiURL = `${this.baseApiUrl}/${this.name}/api`;
     }
     name = "uk"
