@@ -14,6 +14,7 @@ export default function TimeTravel(props) {
             <h6 style={{marginTop: 20}}>Baseline snapshot</h6>
             <p>PolicyEngine will use tax-benefit policy as of the date set below for the baseline simulation</p>
             <DatePicker 
+                allowClear={false}
                 defaultValue={moment(country.policy.policy_date.value, "YYYYMMDD")} 
                 disabledDate={date => date < moment("2021-01-01") | date > moment("2021-12-31")}
                 onChange={(_, dateString) => {
@@ -44,6 +45,7 @@ export default function TimeTravel(props) {
             <h6 style={{marginTop: 20}}>Reform snapshot</h6>
             <p>Select a date below to set all parameters to their legislative value as of that date</p>
             <DatePicker
+                allowClear={false}
                 defaultValue={reformDate}
                 onChange={date => setReformDate(date)}
                 disabledDate={date => date < moment("2021-01-01") | date > moment("2021-12-31")}

@@ -53,6 +53,7 @@ function StringParameterControl(props) {
 
 function DateParameterControl(props) {
 	return <DatePicker 
+		allowClear={false}
 		format="YYYY-MM-DD" 
 		value={getTranslators(props.metadata.name).parser(props.metadata.value)} 
 		onChange={(_, dateStr) => {

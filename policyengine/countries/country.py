@@ -186,6 +186,8 @@ class PolicyEngineCountry:
 
     @exclude_from_cache
     def household_reform(self, params=None):
+        # Deprecated - use /calculate or /household_variation
+        has_reform = len(params.keys()) - 1 > 0
         baseline, reformed = self._get_individualsims(params)
         headlines = headline_figures(baseline, reformed, self.results_config)
         waterfall = household_waterfall_chart(
@@ -202,8 +204,10 @@ class PolicyEngineCountry:
             step=100,
             max=vary_max,
         )
-        budget = budget_chart(baseline, reformed, self.results_config)
-        mtr = mtr_chart(baseline, reformed, self.results_config)
+        budget = budget_chart(
+            baseline, reformed, self.results_config, has_reform
+        )
+        mtr = mtr_chart(baseline, reformed, self.results_config, has_reform)
         return dict(
             **headlines,
             waterfall_chart=waterfall,
@@ -312,21 +316,41 @@ class PolicyEngineCountry:
 
     @exclude_from_cache
     def household_variation(self, params=None):
+        has_reform = len(params.keys()) - 1 > 0
         baseline, reformed = self._get_individualsims(params)
-        vary_max = max(200_000, baseline.calc("employment_income").sum() * 1.5)
+        employment_income = baseline.calc(
+            self.results_config.employment_income_variable
+        )
+        self_employment_income = baseline.calc(
+            self.results_config.self_employment_income_variable
+        )
+        earnings_variable = (
+            self.results_config.employment_income_variable
+            if employment_income >= self_employment_income
+            else self.results_config.self_employment_income_variable
+        )
+        earnings = max(employment_income, self_employment_income)
+        total_income = baseline.calc(
+            self.results_config.total_income_variable
+        ).sum()
+        vary_max = max(200_000, earnings * 1.5)
         baseline.vary(
-            "employment_income",
+            earnings_variable,
             step=100,
             max=vary_max,
         )
         if len(params.keys()) - 1 > 0:
             reformed.vary(
-                "employment_income",
+                earnings_variable,
                 step=100,
                 max=vary_max,
             )
-        budget = budget_chart(baseline, reformed, self.results_config)
-        mtr = mtr_chart(baseline, reformed, self.results_config)
+        budget = budget_chart(
+            baseline, reformed, self.results_config, has_reform, total_income
+        )
+        mtr = mtr_chart(
+            baseline, reformed, self.results_config, has_reform, total_income
+        )
         return dict(
             budget_chart=budget,
             mtr_chart=mtr,

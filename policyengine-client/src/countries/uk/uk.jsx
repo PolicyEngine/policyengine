@@ -351,7 +351,7 @@ export class UK extends Country {
                 "council_tax",
             ]
         },
-        "Wealth": [
+        "Assets": [
             "owned_land",
             "main_residence_value",
             "other_residential_property_value",
