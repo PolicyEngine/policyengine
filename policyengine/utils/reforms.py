@@ -149,9 +149,7 @@ def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
                 name = parameter.metadata["name"]
             else:
                 name = parameter.name.split(".")[-1]
-            assert parameter(now).__class__ not in (
-                list,
-            )
+            assert parameter(now).__class__ not in (list,)
             parameter_metadata[name] = dict(
                 name=name,
                 parameter=parameter.name,

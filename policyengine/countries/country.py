@@ -204,7 +204,9 @@ class PolicyEngineCountry:
             step=100,
             max=vary_max,
         )
-        budget = budget_chart(baseline, reformed, self.results_config, has_reform)
+        budget = budget_chart(
+            baseline, reformed, self.results_config, has_reform
+        )
         mtr = mtr_chart(baseline, reformed, self.results_config, has_reform)
         return dict(
             **headlines,
@@ -316,8 +318,12 @@ class PolicyEngineCountry:
     def household_variation(self, params=None):
         has_reform = len(params.keys()) - 1 > 0
         baseline, reformed = self._get_individualsims(params)
-        employment_income = baseline.calc(self.results_config.employment_income_variable)
-        self_employment_income = baseline.calc(self.results_config.self_employment_income_variable)
+        employment_income = baseline.calc(
+            self.results_config.employment_income_variable
+        )
+        self_employment_income = baseline.calc(
+            self.results_config.self_employment_income_variable
+        )
         earnings_variable = (
             self.results_config.employment_income_variable
             if employment_income >= self_employment_income
@@ -337,8 +343,12 @@ class PolicyEngineCountry:
                 step=100,
                 max=vary_max,
             )
-        budget = budget_chart(baseline, reformed, self.results_config, has_reform, total_income)
-        mtr = mtr_chart(baseline, reformed, self.results_config, has_reform, total_income)
+        budget = budget_chart(
+            baseline, reformed, self.results_config, has_reform, total_income
+        )
+        mtr = mtr_chart(
+            baseline, reformed, self.results_config, has_reform, total_income
+        )
         return dict(
             budget_chart=budget,
             mtr_chart=mtr,

@@ -50,9 +50,9 @@ def budget_chart(
                 explaining_variable
             ).sum(axis=0)
         else:
-            variable_values[explaining_variable + "_baseline"] = [baseline.calc(
-                explaining_variable
-            ).sum(axis=0)[i]] * len(total_income)
+            variable_values[explaining_variable + "_baseline"] = [
+                baseline.calc(explaining_variable).sum(axis=0)[i]
+            ] * len(total_income)
         variable_values[explaining_variable + "_reform"] = reformed.calc(
             explaining_variable
         ).sum(axis=0)
@@ -93,6 +93,7 @@ def budget_chart(
         legend_title=None,
     )
     return charts.formatted_fig_json(fig)
+
 
 def add_you_are_here(fig: go.Figure, x):
     fig.add_shape(
@@ -181,8 +182,10 @@ def mtr_hover_label(
     )
     return f"<b>At {earnings_str} employment income:<br>Your MTR {mtr_change}</b><br><br>Tax MTR {tax_change}<br>Benefits MTR {benefits_change}"
 
+
 def get_mtr(x, y):
     return 1 - ((y[1:] - y[:-1]) / (x[1:] - x[:-1]))
+
 
 def mtr_chart(
     baseline: IndividualSim,
@@ -207,7 +210,8 @@ def mtr_chart(
 
     total_income = baseline.calc(config.total_income_variable).sum(axis=0)
     # Find the x-point on the chart which is the current situation
-    i = (total_income < original_total_income).sum()
+    if not has_reform:
+        i = (total_income < original_total_income).sum()
 
     baseline_mtr = get_mtr(earnings, baseline_net)
     reform_mtr = get_mtr(earnings, reform_net)
@@ -221,7 +225,7 @@ def mtr_chart(
         (
             "tax",
             "benefits",
-        )
+        ),
     ):
         baseline_values = baseline.calc(explaining_variable).sum(axis=0)
         reform_values = reformed.calc(explaining_variable).sum(axis=0)
@@ -232,9 +236,9 @@ def mtr_chart(
                 get_mtr(earnings, baseline_values) * multiplier + addition
             )
         else:
-            variable_mtrs[name + "_baseline"] = [(
-                get_mtr(earnings, baseline_values) * multiplier + addition
-            )[i]] * (len(total_income) - 1)
+            variable_mtrs[name + "_baseline"] = [
+                (get_mtr(earnings, baseline_values) * multiplier + addition)[i]
+            ] * (len(total_income) - 1)
         variable_mtrs[name + "_reform"] = (
             get_mtr(earnings, reform_values) * multiplier + addition
         )
