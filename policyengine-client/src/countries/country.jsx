@@ -11,11 +11,11 @@ export default class Country {
     updatePolicy(name, value) {
         // Update a parameter - validate, then update the state
         let oldPolicy = this.policy;
-		oldPolicy[name].value = value;
-		let { policy, policyValid } = this.validatePolicy(oldPolicy);
-		this.stateHolder.setCountryState({
-            policy: policy, 
-            policyValid: policyValid, 
+        oldPolicy[name].value = value;
+        let { policy, policyValid } = this.validatePolicy(oldPolicy);
+        this.stateHolder.setCountryState({
+            policy: policy,
+            policyValid: policyValid,
             populationImpactIsOutdated: true,
             reformSituationImpactIsOutdated: true,
             situationVariationImpactIsOutdated: true
@@ -24,7 +24,7 @@ export default class Country {
 
     updateEntirePolicy(policy) {
         this.stateHolder.setCountryState({
-            policy: policy, 
+            policy: policy,
             populationImpactIsOutdated: true,
             reformSituationImpactIsOutdated: true,
             situationVariationImpactIsOutdated: true
@@ -33,11 +33,11 @@ export default class Country {
 
     getPolicyJSONPayload() {
         const submission = {};
-		for (const key in this.policy) {
-			if(this.policy[key].value !== this.policy[key].defaultValue) {
-				submission[key] = this.policy[key].value;
-			}
-		}
+        for (const key in this.policy) {
+            if (this.policy[key].value !== this.policy[key].defaultValue) {
+                submission[key] = this.policy[key].value;
+            }
+        }
         return submission;
     }
 
@@ -45,7 +45,7 @@ export default class Country {
         this.stateHolder.setCountryState(object, callback);
     }
 
-    validatePolicy = policy => {return {policy: policy, valid: true}};
+    validatePolicy = policy => { return { policy: policy, valid: true } };
 
     parameterHierarchy = {};
 
@@ -53,26 +53,26 @@ export default class Country {
         let metadata;
         let entity;
         let value;
-        for(let variable of this.inputVariables) {
+        for (let variable of this.inputVariables) {
             metadata = this.variables[variable];
             value = metadata.valueType === "Enum" ? metadata.defaultValue.key : metadata.defaultValue;
             entity = this.entities[metadata.entity];
-            for(let entityInstance of Object.keys(situation[entity.plural])) {
-                if(!Object.keys(situation[entity.plural][entityInstance]).includes(variable)) {
-                    situation[entity.plural][entityInstance][variable] = {"2021": value};
+            for (let entityInstance of Object.keys(situation[entity.plural])) {
+                if (!Object.keys(situation[entity.plural][entityInstance]).includes(variable)) {
+                    situation[entity.plural][entityInstance][variable] = { "2021": value };
                 }
             }
         }
-        for(let variable of this.outputVariables) {
+        for (let variable of this.outputVariables) {
             metadata = this.variables[variable];
             entity = this.entities[metadata.entity];
-            for(let entityInstance of Object.keys(situation[entity.plural])) {
-                if(!Object.keys(situation[entity.plural][entityInstance]).includes(variable)) {
-                    situation[entity.plural][entityInstance][variable] = {"2021": null};
+            for (let entityInstance of Object.keys(situation[entity.plural])) {
+                if (!Object.keys(situation[entity.plural][entityInstance]).includes(variable)) {
+                    situation[entity.plural][entityInstance][variable] = { "2021": null };
                 }
             }
         }
-        return {situation: situation, valid: true}
+        return { situation: situation, valid: true }
     }
 
     policyIsOutdated = true;
@@ -87,9 +87,9 @@ export default class Country {
 
     updateSituationValue(entityType, entityName, variable, value) {
         let situation = this.situation;
-        situation[this.entities[entityType].plural][entityName][variable] = {"2021": value};
+        situation[this.entities[entityType].plural][entityName][variable] = { "2021": value };
         this.setState({
-            situation: situation, 
+            situation: situation,
             baselineSituationImpactIsOutdated: true,
             situationVariationImpactIsOutdated: true,
             reformSituationImpactIsOutdated: true,
