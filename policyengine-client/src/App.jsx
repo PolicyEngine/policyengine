@@ -24,7 +24,7 @@ export default function App(props) {
     const us = new US();
     const markdownPages = [
         { content: UK_FAQ, path: "/uk/faq", title: "FAQ" },
-        { content: UK_FAQ, path: "/about", title: "About" },
+        { content: ABOUT, path: "/about", title: "About" },
         // Add other pages here
     ];
     return (
