@@ -15,6 +15,7 @@ import MarkdownPage from "./policyengine/pages/markdown";
 // Markdown files
 
 import UK_FAQ from "./markdown/uk/faq.md";
+import ABOUT from "./markdown/about.md";
 // Import other markdown files here
 
 
@@ -22,7 +23,8 @@ export default function App(props) {
     const uk = new UK();
     const us = new US();
     const markdownPages = [
-        {content: UK_FAQ, path: "/uk/faq", title: "FAQ"},
+        { content: UK_FAQ, path: "/uk/faq", title: "FAQ" },
+        { content: UK_FAQ, path: "/about", title: "About" },
         // Add other pages here
     ];
     return (

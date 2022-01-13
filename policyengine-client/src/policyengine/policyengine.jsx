@@ -19,18 +19,18 @@ export default class PolicyEngine extends React.Component {
     constructor(props) {
         super(props);
         this.prepareData = this.prepareData.bind(this);
-        let country = {uk: new UK(), us: new US()}[props.country];
+        let country = { uk: new UK(), us: new US() }[props.country];
         country.stateHolder = this;
         country.analytics = props.analytics;
-        this.state = {country: country};
+        this.state = { country: country };
     }
 
     setCountryState(data, callback) {
         let country = this.state.country;
-        for(let key of Object.keys(data)) {
+        for (let key of Object.keys(data)) {
             country[key] = data[key];
         }
-        this.setState({country: country}, callback);
+        this.setState({ country: country }, callback);
     }
 
     prepareData() {
@@ -38,20 +38,20 @@ export default class PolicyEngine extends React.Component {
         // (that we don't want to apply in OpenFisca-[Country] because they're not
         // legislative)
         let { policy } = this.state.country.validatePolicy(urlToPolicy(this.state.country.parameters), this.state.country.parameters);
-        for(let parameter of Object.keys(policy)) {
-            if(Object.keys(this.state.country.extraParameterMetadata).includes(parameter)) {
+        for (let parameter of Object.keys(policy)) {
+            if (Object.keys(this.state.country.extraParameterMetadata).includes(parameter)) {
                 policy[parameter] = Object.assign(policy[parameter], this.state.country.extraParameterMetadata[parameter]);
             }
         }
         const situation = this.state.country.validateSituation(this.state.country.situation).situation;
-        this.setCountryState({situation: situation, parameters: policy, policy: JSON.parse(JSON.stringify(policy)), fullyLoaded: true});
+        this.setCountryState({ situation: situation, parameters: policy, policy: JSON.parse(JSON.stringify(policy)), fullyLoaded: true });
     }
 
     componentDidMount() {
         // When the page loads, fetch parameter, variables and entities, and
         // then mark as done.
         const checkAllFetchesComplete = () => {
-            if(
+            if (
                 (this.state.country.parameters !== null)
                 && (this.state.country.variables !== null)
                 && (this.state.country.entities !== null)
@@ -61,10 +61,10 @@ export default class PolicyEngine extends React.Component {
         }
         const fetchEndpoint = name => {
             let url;
-            if(name === "parameters") {
+            if (name === "parameters") {
                 const { searchParams } = new URL(document.location);
                 let date = searchParams.get("policy_date");
-                if(date) {
+                if (date) {
                     date = `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`;
                 }
                 url = this.state.country.apiURL + "/" + name + (date ? "?policy_date=" + date : "")
@@ -74,7 +74,7 @@ export default class PolicyEngine extends React.Component {
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    this.setCountryState({[name]: data}, checkAllFetchesComplete);
+                    this.setCountryState({ [name]: data }, checkAllFetchesComplete);
                 });
         }
         ["parameters", "variables", "entities"].forEach(fetchEndpoint);
@@ -82,7 +82,7 @@ export default class PolicyEngine extends React.Component {
 
     render() {
         // Once fully loaded, direct onto individual pages
-        if(!this.state.country.fullyLoaded) {
+        if (!this.state.country.fullyLoaded) {
             return <></>;
         }
         const countryName = this.state.country.name;
