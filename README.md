@@ -9,4 +9,4 @@ First, install using `make install`. Then, to debug the client, run `make debug-
 If your changes involve the server, change `useLocalServer = false;` to `useLocalServer = true;` in `policyengine-client/src/countries/country.jsx`.
 Otherwise, change `usePolicyEngineOrgServer = false;` to `usePolicyEngineOrgServer = true;` in `policyengine-client/src/countries/country.jsx`.
 
-If you don't have access to the UK Family Resources Survey, you can still run the UK population-wide calculator on an anonymised version. To do that, instead of running `make debug-server`, run `POLICYENGINE_SYNTH_UK=1 make debug-server`
+If you don't have access to the UK Family Resources Survey, you can still run the UK population-wide calculator on an anonymised version. To do that, instead of running `make debug-server`, run `UK_SYNTHETIC=1 make debug-server`

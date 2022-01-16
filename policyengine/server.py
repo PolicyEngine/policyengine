@@ -1,6 +1,7 @@
 """
 The PolicyEngine server logic (Flask-based).
 """
+import os
 from pathlib import Path
 from typing import Tuple, Type
 from flask import Flask, request, send_from_directory
@@ -103,8 +104,12 @@ class PolicyEngine:
         )
         CORS(self.app)
 
+    @property
+    def debug_mode(self):
+        return bool(os.environ.get("POLICYENGINE_DEBUG"))
+
     def _init_cache(self):
-        if self.cache_bucket_name is not None:
+        if self.cache_bucket_name is not None and not self.debug_mode:
             from google.cloud import storage
 
             self.cache = storage.Client().get_bucket(self.cache_bucket_name)
