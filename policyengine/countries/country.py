@@ -82,9 +82,6 @@ class PolicyEngineCountry:
 
             self.entities = build_entities(self.baseline_system)
         else:
-            if self.default_dataset_year not in self.default_dataset.years:
-                self.default_dataset.download(self.default_dataset_year)
-
             self.default_reform = (
                 add_parameter_file(self.parameter_file.absolute())
                 if self.parameter_file is not None
@@ -137,10 +134,13 @@ class PolicyEngineCountry:
             else self.Microsimulation(
                 reform_config["baseline"]["reform"],
                 dataset=self.default_dataset,
+                year=self.default_dataset_year,
             )
         )
         reformed = self.Microsimulation(
-            reform_config["reform"]["reform"], dataset=self.default_dataset
+            reform_config["reform"]["reform"],
+            dataset=self.default_dataset,
+            year=self.default_dataset_year,
         )
         baseline.default_year = 2021
         reformed.default_year = 2021
