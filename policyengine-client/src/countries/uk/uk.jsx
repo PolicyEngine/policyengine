@@ -280,7 +280,7 @@ export class UK extends Country {
         "other_residential_property_value",
         "non_residential_property_value",
         "corporate_wealth",
-        "benunit_rent",
+        "rent",
         "claims_legacy_benefits",
     ]
     outputVariables = [
@@ -311,34 +311,22 @@ export class UK extends Country {
         "UBI",
     ]
     inputVariableHierarchy = {
-        "General": [],
-        "Demographic": {
-            "Personal" : [
-                "age",
-                "is_in_startup_period",
-                "limited_capability_for_WRA",
-                "weekly_hours",
+        "Household": {
+            "Structure": [
+                "setup",
             ],
-            "Family": [
+            "Location": [
+                "region"
+            ],
+            "Relationships": [
                 "is_married",
+            ],
+            "Benefits": [
                 "claims_legacy_benefits",
             ],
-            "Household": [
-                "region"
-            ]
-        },
-        "Income": [
-            "employment_income",
-            "self_employment_income",
-            "pension_income",
-            "state_pension",
-            "dividend_income",
-            "property_income",
-            "savings_interest_income",
-        ],
-        "Consumption": {
-            "Family": ["benunit_rent"],
-            "Household": [
+            "Consumption": [
+                "council_tax",
+                "rent",
                 "food_and_non_alcoholic_beverages_consumption",
                 "alcohol_and_tobacco_consumption",
                 "clothing_and_footwear_consumption",
@@ -351,21 +339,38 @@ export class UK extends Country {
                 "education_consumption",
                 "restaurants_and_hotels_consumption",
                 "miscellaneous_consumption",
-                "council_tax",
-            ]
+            ],
+            "Assets": [
+                "owned_land",
+                "main_residence_value",
+                "other_residential_property_value",
+                "non_residential_property_value",
+                "corporate_wealth",
+            ],
         },
-        "Assets": [
-            "owned_land",
-            "main_residence_value",
-            "other_residential_property_value",
-            "non_residential_property_value",
-            "corporate_wealth",
-        ],
+        "Personal": {
+            "About": [
+                "age",
+                "is_in_startup_period",
+                "limited_capability_for_WRA",
+                "weekly_hours",
+            ],
+            "Income": [
+                "employment_income",
+                "self_employment_income",
+                "pension_income",
+                "state_pension",
+                "dividend_income",
+                "property_income",
+                "savings_interest_income",
+            ],
+        }
     }
     defaultOpenVariableGroups = [
-        "/Demographic",
+        "/Household",
+        "/Personal",
     ]
-    defaultSelectedVariableGroup = "/General"
+    defaultSelectedVariableGroup = "/Household/Structure"
     outputVariableHierarchy = {
         "household_net_income": {
             "add": [
