@@ -413,7 +413,7 @@ def inequality_chart(
     )
     df = pd.DataFrame(
         {
-            "Metric": ["Gini coefficient", f"Top 10% share", f"Top 1% share"],
+            "Metric": ["Gini index", f"Top 10% share", f"Top 1% share"],
             "Percent change": [
                 gini_change,
                 top_ten_pct_share_change,
@@ -437,8 +437,8 @@ def inequality_chart(
     fig = (
         px.bar(df, x="Metric", y="Percent change", custom_data=["label"])
         .update_layout(
-            title="Inequality impacts",
-            xaxis_title="Metric",
+            title="Income inequality impact",
+            xaxis_title=None,
             yaxis_title="Percent change",
             yaxis_tickformat=".1%",
         )
