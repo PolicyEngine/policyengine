@@ -103,6 +103,11 @@ export class US extends Country {
         "dividend_income",
         "interest_income",
         "medical_out_of_pocket_expenses",
+        "ssdi",
+        "is_ssi_disabled",
+        "is_permanently_disabled_veteran",
+        "is_surviving_spouse_of_disabled_veteran",
+        "is_surviving_child_of_disabled_veteran",
     ]
     outputVariables = [
         "spm_unit_net_income",
@@ -119,6 +124,11 @@ export class US extends Country {
             "dividend_income",
             "interest_income",
             "medical_out_of_pocket_expenses",
+            "ssdi",
+            "is_ssi_disabled",
+            "is_permanently_disabled_veteran",
+            "is_surviving_spouse_of_disabled_veteran",
+            "is_surviving_child_of_disabled_veteran",
         ],
         "Household": [
             "state_code",
