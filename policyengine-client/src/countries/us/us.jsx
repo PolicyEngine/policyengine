@@ -13,24 +13,24 @@ const childNamer = {
 }
 
 function validatePolicy(policy, defaultPolicy) {
-    if(defaultPolicy) {
-        for(let parameter in policy) {
+    if (defaultPolicy) {
+        for (let parameter in policy) {
             policy[parameter].defaultValue = defaultPolicy[parameter].value;
         }
     }
-    return {policy: policy, policyValid: true};
+    return { policy: policy, policyValid: true };
 }
 
 export class US extends Country {
     constructor() {
         super();
         this.baseApiUrl = !this.useLocalServer ?
-                            (
-                                this.usePolicyEngineOrgServer ?
-                                    "https://policyengine.org/" :
-                                    `${window.location.protocol}//${window.location.hostname}`
-                            ) :
-                            `http://localhost:5000`;
+            (
+                this.usePolicyEngineOrgServer ?
+                    "https://policyengine.org/" :
+                    `${window.location.protocol}//${window.location.hostname}`
+            ) :
+            `http://localhost:5000`;
         this.apiURL = `${this.baseApiUrl}/${this.name}/api`;
     }
     name = "us"
@@ -108,7 +108,7 @@ export class US extends Country {
     ]
     inputVariableHierarchy = {
         "General": [],
-        "Personal" : [
+        "Personal": [
             "age",
             "market_income",
         ],
@@ -127,7 +127,7 @@ export class US extends Country {
         },
         "snap": {
             "add": [
-                "snap_max_benefit",
+                "snap_max_allotment",
             ],
             "subtract": [
                 "snap_expected_contribution",
@@ -139,7 +139,7 @@ export class US extends Country {
     addPartner(situation) {
         const name = "Your partner"
         situation.people[name] = {
-            "age": {"2021": 25},
+            "age": { "2021": 25 },
         };
         situation.families["Your family"].members.push(name);
         situation.tax_units["Your tax unit"].members.push(name);
@@ -147,11 +147,11 @@ export class US extends Country {
         situation.households["Your household"].members.push(name);
         return this.validateSituation(situation).situation;
     }
-    
+
     addChild(situation) {
         const childName = childNamer[this.getNumChildren() + 1];
         situation.people[childName] = {
-            "age": {"2021": 10},
+            "age": { "2021": 10 },
         };
         situation.families["Your family"].members.push(childName);
         situation.tax_units["Your tax unit"].members.push(childName);
@@ -159,11 +159,11 @@ export class US extends Country {
         situation.households["Your household"].members.push(childName);
         return this.validateSituation(situation).situation;
     }
-    
+
     removePerson(situation, name) {
-        for(let entityPlural of ["tax_units", "families", "spm_units", "households"]) {
-            for(let entity of Object.keys(situation[entityPlural])) {
-                if(situation[entityPlural][entity].members.includes(name)) {
+        for (let entityPlural of ["tax_units", "families", "spm_units", "households"]) {
+            for (let entity of Object.keys(situation[entityPlural])) {
+                if (situation[entityPlural][entity].members.includes(name)) {
                     situation[entityPlural][entity].members.pop(name);
                 }
             }
@@ -171,46 +171,48 @@ export class US extends Country {
         delete situation.people[name];
         return this.validateSituation(situation).situation;
     }
-    
+
     setNumAdults(numAdults) {
         let situation = this.situation;
         const numExistingAdults = this.getNumAdults();
-        if(numExistingAdults === 1 && numAdults === 2) {
+        if (numExistingAdults === 1 && numAdults === 2) {
             situation = this.addPartner(situation);
-        } else if(numExistingAdults === 2 && numAdults === 1) {
+        } else if (numExistingAdults === 2 && numAdults === 1) {
             situation = this.removePerson(situation, "Your partner");
         }
 
         this.setState({
-            situation: this.validateSituation(situation).situation, 
+            situation: this.validateSituation(situation).situation,
             baselineSituationImpactIsOutdated: true,
             reformSituationImpactIsOutdated: true,
-        });    }
+        });
+    }
 
     getNumAdults() {
         return this.situation.households["Your household"].members.filter(
             name => this.situation.people[name].age["2021"] >= 18
         ).length;
     }
-    
+
     setNumChildren(numChildren) {
         let situation = this.situation;
         const numExistingChildren = this.getNumChildren();
-        if(numExistingChildren < numChildren) {
-            for(let i = numExistingChildren; i < numChildren; i++) {
+        if (numExistingChildren < numChildren) {
+            for (let i = numExistingChildren; i < numChildren; i++) {
                 situation = this.addChild(situation);
             }
-        } else if(numExistingChildren > numChildren) {
-            for(let i = numExistingChildren; i > numChildren; i--) {
+        } else if (numExistingChildren > numChildren) {
+            for (let i = numExistingChildren; i > numChildren; i--) {
                 situation = this.removePerson(situation, childNamer[i]);
             }
         }
 
         this.setState({
-            situation: this.validateSituation(situation).situation, 
+            situation: this.validateSituation(situation).situation,
             baselineSituationImpactIsOutdated: true,
             reformSituationImpactIsOutdated: true,
-        });    }
+        });
+    }
 
     getNumChildren() {
         return this.situation.households["Your household"].members.filter(
