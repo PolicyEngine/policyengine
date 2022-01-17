@@ -54,6 +54,9 @@ export class US extends Country {
             ],
             "Deductions": [
                 "snap_earned_income_deduction",
+                "snap_medical_expense_disregard",
+                "snap_homeless_shelter_deduction",
+                "snap_shelter_deduction_income_share_disregard",
             ]
         }
     }
