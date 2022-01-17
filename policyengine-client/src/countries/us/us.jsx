@@ -102,6 +102,7 @@ export class US extends Country {
         "self_employment_income",
         "dividend_income",
         "interest_income",
+        "medical_out_of_pocket_expenses",
     ]
     outputVariables = [
         "spm_unit_net_income",
@@ -117,6 +118,7 @@ export class US extends Country {
             "self_employment_income",
             "dividend_income",
             "interest_income",
+            "medical_out_of_pocket_expenses",
         ],
         "Household": [
             "state_code",
