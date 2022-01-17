@@ -4,7 +4,6 @@ from policyengine.impact.population.charts import (
     population_waterfall_chart,
 )
 from policyengine.countries.uk import UK, UKResultsConfig
-from policyengine.utils.reforms import abolish, parametric
 import pytest
 
 PolicyEngineUK = UK()

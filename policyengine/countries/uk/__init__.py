@@ -10,6 +10,7 @@ from policyengine.utils.general import PolicyEngineResultsConfig
 from policyengine.countries.country import PolicyEngineCountry
 from policyengine.countries.uk.default_reform import create_default_reform
 import os
+import logging
 
 UK_FOLDER = Path(__file__).parent
 
@@ -44,13 +45,17 @@ class UK(PolicyEngineCountry):
     version = "0.2.0"
     results_config = UKResultsConfig
 
+    @property
+    def synthetic(self):
+        return bool(os.environ.get("UK_SYNTHETIC"))
+
     def __init__(self):
-        if (
-            "POLICYENGINE_SYNTH_UK" in os.environ
-            and os.environ["POLICYENGINE_SYNTH_UK"]
-        ):
+        if self.synthetic:
             self.default_dataset = SynthFRS
-            if len(SynthFRS.years) == 0:
-                # No synthetic data - download from GitHub
-                SynthFRS.save(year=2019)
+            logging.warn("Using the synthetic FRS.")
+        if self.default_dataset_year not in self.default_dataset.years:
+            logging.info(
+                f"{self.default_dataset_year} not found in dataset {self.default_dataset.name} years, downloading."
+            )
+            self.default_dataset.download(self.default_dataset_year)
         super().__init__()

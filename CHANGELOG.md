@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.5.5] - 2022-01-16
+
+### Changed
+
+* Command-line flag added for using synthetic UK data for debugging.
+* OpenFisca-UK version updated to 0.10.5.
+* OpenFisca-US version updated to 0.23.1.
+
 ## [1.5.4] - 2022-01-13
 
 ### Changed
