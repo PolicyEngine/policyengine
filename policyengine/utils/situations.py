@@ -33,7 +33,9 @@ def get_PE_variables(system: TaxBenefitSystem) -> Dict[str, dict]:
                 entity=variable.entity.key,
                 possibleValues=None,
                 possibleKeys=None,
-                quantityType=FLOW.lower() if not hasattr(variable, "quantity_type") else variable.quantity_type.lower(),
+                quantityType=FLOW.lower()
+                if not hasattr(variable, "quantity_type")
+                else variable.quantity_type.lower(),
             )
             if variable_metadata[variable.name]["valueType"] == "Enum":
                 variable_metadata[variable.name]["possibleValues"] = [
