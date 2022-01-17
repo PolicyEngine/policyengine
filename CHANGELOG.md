@@ -7,11 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
-## [1.6.0] - 2022-01-17
+## [1.7.0] - 2022-01-17
 
 ### Added
 
 * More inputs for calculating US SNAP benefits.
+
+## [1.6.0] - 2022-01-17
+
+### Added
+
+* Inequality chart showing relative change to the Gini coefficient and top-10% and top-1% income shares.
 
 ## [1.5.5] - 2022-01-16
 

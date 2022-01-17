@@ -30,7 +30,7 @@ export class US extends Country {
                     "https://policyengine.org/" :
                     `${window.location.protocol}//${window.location.hostname}`
             ) :
-            `http://localhost:5000`;
+            `http://127.0.0.1:5000`;
         this.apiURL = `${this.baseApiUrl}/${this.name}/api`;
     }
     name = "us"

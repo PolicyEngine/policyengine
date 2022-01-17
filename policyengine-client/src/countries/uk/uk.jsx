@@ -17,32 +17,32 @@ const childNamer = {
 }
 
 function validatePolicy(policy, defaultPolicy) {
-    if(defaultPolicy) {
-        for(let parameter in policy) {
+    if (defaultPolicy) {
+        for (let parameter in policy) {
             policy[parameter].defaultValue = defaultPolicy[parameter].value;
         }
     }
-    if(policy.higher_threshold.value === policy.add_threshold.value) {
+    if (policy.higher_threshold.value === policy.add_threshold.value) {
         policy.higher_threshold.error = "The higher rate threshold must be different than the additional rate threshold.";
         policy.add_threshold.error = "The additional rate threshold must be different than the higher rate threshold.";
-        return {policy: policy, policyValid: false};
+        return { policy: policy, policyValid: false };
     } else {
         policy.higher_threshold.error = null;
         policy.add_threshold.error = null;
     }
-    return {policy: policy, policyValid: true};
+    return { policy: policy, policyValid: true };
 }
 
 export class UK extends Country {
     constructor() {
         super();
         this.baseApiUrl = !this.useLocalServer ?
-                            (
-                                this.usePolicyEngineOrgServer ?
-                                    "https://policyengine.org/" :
-                                    `${window.location.protocol}//${window.location.hostname}`
-                            ) :
-                            `http://localhost:5000`;
+            (
+                this.usePolicyEngineOrgServer ?
+                    "https://policyengine.org/" :
+                    `${window.location.protocol}//${window.location.hostname}`
+            ) :
+            `http://127.0.0.1:5000`;
         this.apiURL = `${this.baseApiUrl}/${this.name}/api`;
     }
     name = "uk"
@@ -203,7 +203,7 @@ export class UK extends Country {
         "UBI Center": {
             logo: UBICenterLogo,
         },
-	}
+    }
     // OpenFisca data
     parameters = null
     entities = null
@@ -211,12 +211,12 @@ export class UK extends Country {
     // Adjustments to OpenFisca data
     parameterComponentOverrides = {
         autoUBI: <AutoUBI />,
-        extra_UK_band: <ExtraBand 
-            rate_parameter="extra_UK_rate" 
+        extra_UK_band: <ExtraBand
+            rate_parameter="extra_UK_rate"
             threshold_parameter="extra_UK_threshold"
         />,
-        extra_scot_band: <ExtraBand 
-            rate_parameter="extra_scot_rate" 
+        extra_scot_band: <ExtraBand
+            rate_parameter="extra_scot_rate"
             threshold_parameter="extra_scot_threshold"
         />,
         timeTravel: <TimeTravel />,
@@ -226,14 +226,14 @@ export class UK extends Country {
     situation = {
         "people": {
             "You": {
-                "age": {"2021": 25}
+                "age": { "2021": 25 }
             },
         },
         "benunits": {
             "Your family": {
                 "adults": ["You"],
                 "children": [],
-                "claims_all_entitled_benefits": {"2021": true},
+                "claims_all_entitled_benefits": { "2021": true },
             }
         },
         "households": {
@@ -313,7 +313,7 @@ export class UK extends Country {
     inputVariableHierarchy = {
         "General": [],
         "Demographic": {
-            "Personal" : [
+            "Personal": [
                 "age",
                 "is_in_startup_period",
                 "limited_capability_for_WRA",
@@ -417,53 +417,53 @@ export class UK extends Country {
 
     addPartner(situation) {
         situation.people["Your partner"] = {
-            "age": {"2021": 25},
+            "age": { "2021": 25 },
         };
         situation.benunits["Your family"].adults.push("Your partner");
         situation.households["Your household"].adults.push("Your partner");
         return this.validateSituation(situation).situation;
     }
-    
+
     addChild(situation) {
         const childName = childNamer[situation.benunits["Your family"].children.length + 1];
         situation.people[childName] = {
-            "age": {"2021": 10},
+            "age": { "2021": 10 },
         };
         situation.benunits["Your family"].children.push(childName);
         situation.households["Your household"].children.push(childName);
         return this.validateSituation(situation).situation;
     }
-    
+
     removePerson(situation, name) {
-        for(let benunit of Object.keys(situation.benunits)) {
-            if(situation.benunits[benunit].adults.includes(name)) {
+        for (let benunit of Object.keys(situation.benunits)) {
+            if (situation.benunits[benunit].adults.includes(name)) {
                 situation.benunits[benunit].adults.pop(name);
             }
-            if(situation.benunits[benunit].children.includes(name)) {
+            if (situation.benunits[benunit].children.includes(name)) {
                 situation.benunits[benunit].children.pop(name);
             }
         }
-        if(situation.households["Your household"].adults.includes(name)) {
+        if (situation.households["Your household"].adults.includes(name)) {
             situation.households["Your household"].adults.pop(name);
         }
-        if(situation.households["Your household"].children.includes(name)) {
+        if (situation.households["Your household"].children.includes(name)) {
             situation.households["Your household"].children.pop(name);
         }
         delete situation.people[name];
         return this.validateSituation(situation).situation;
     }
-    
+
     setNumAdults(numAdults) {
         let situation = this.situation;
         const numExistingAdults = situation.households["Your household"].adults.length;
-        if(numExistingAdults === 1 && numAdults === 2) {
+        if (numExistingAdults === 1 && numAdults === 2) {
             situation = this.addPartner(situation);
-        } else if(numExistingAdults === 2 && numAdults === 1) {
+        } else if (numExistingAdults === 2 && numAdults === 1) {
             situation = this.removePerson(situation, "Your partner");
         }
         situation.states.state.citizens = Object.keys(situation.people);
         this.setState({
-            situation: this.validateSituation(situation).situation, 
+            situation: this.validateSituation(situation).situation,
             baselineSituationImpactIsOutdated: true,
             reformSituationImpactIsOutdated: true,
         })
@@ -472,22 +472,22 @@ export class UK extends Country {
     getNumAdults() {
         return this.situation.households["Your household"].adults.length;
     }
-    
+
     setNumChildren(numChildren) {
         let situation = this.situation;
         const numExistingChildren = situation.households["Your household"].children.length;
-        if(numExistingChildren < numChildren) {
-            for(let i = numExistingChildren; i < numChildren; i++) {
+        if (numExistingChildren < numChildren) {
+            for (let i = numExistingChildren; i < numChildren; i++) {
                 situation = this.addChild(situation);
             }
-        } else if(numExistingChildren > numChildren) {
-            for(let i = numExistingChildren; i > numChildren; i--) {
+        } else if (numExistingChildren > numChildren) {
+            for (let i = numExistingChildren; i > numChildren; i--) {
                 situation = this.removePerson(situation, childNamer[i]);
             }
         }
         situation.states.state.citizens = Object.keys(situation.people);
         this.setState({
-            situation: this.validateSituation(situation).situation, 
+            situation: this.validateSituation(situation).situation,
             baselineSituationImpactIsOutdated: true,
             reformSituationImpactIsOutdated: true,
         });

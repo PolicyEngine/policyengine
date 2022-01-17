@@ -88,6 +88,9 @@ export function PopulationResultsPane(props) {
 				<Chart plot={results.intra_decile_chart} md={12}/>
 			</Row>
 			<Row>
+				<Chart plot={results.inequality_chart} md={12}/>
+			</Row>
+			<Row>
 				<BreakdownTable policy={country.policy} api_url={country.apiURL} />
 			</Row>
 		</>
