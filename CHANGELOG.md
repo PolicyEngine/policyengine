@@ -13,6 +13,14 @@ This repo consists of two packages - the React client and the Python server. A c
 
 * Inequality chart showing relative change to the Gini coefficient and top-10% and top-1% income shares.
 
+## [1.5.5] - 2022-01-16
+
+### Changed
+
+* Command-line flag added for using synthetic UK data for debugging.
+* OpenFisca-UK version updated to 0.10.5.
+* OpenFisca-US version updated to 0.23.1.
+
 ## [1.5.4] - 2022-01-13
 
 ### Changed

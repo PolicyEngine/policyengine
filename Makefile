@@ -17,9 +17,7 @@ publish-server: policyengine
 publish-client:
 	cd policyengine-client; npm publish
 debug-server:
-	FLASK_APP=policyengine/server.py FLASK_DEBUG=1 flask run
-debug-server-synth: 
-	POLICYENGINE_SYNTH_UK=1 make debug-server
+	POLICYENGINE_DEBUG=1 FLASK_APP=policyengine/server.py FLASK_DEBUG=1 flask run
 debug-client:
 	cd policyengine-client; npm start
 format:
