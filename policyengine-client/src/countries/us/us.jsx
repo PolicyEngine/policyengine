@@ -98,7 +98,10 @@ export class US extends Country {
     inputVariables = [
         "age",
         "state_code",
-        "market_income",
+        "employment_income",
+        "self_employment_income",
+        "dividend_income",
+        "interest_income",
     ]
     outputVariables = [
         "spm_unit_net_income",
@@ -111,7 +114,7 @@ export class US extends Country {
         "Personal": [
             "age",
             "employment_income",
-            "self_employed_income",
+            "self_employment_income",
             "dividend_income",
             "interest_income",
         ],
