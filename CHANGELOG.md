@@ -13,6 +13,12 @@ This repo consists of two packages - the React client and the Python server. A c
 
 * More inputs for calculating US SNAP benefits.
 
+## [1.6.1] - 2022-01-17
+
+### Fixed
+
+* OpenFisca-Tools dependency updated after patch to fix PolicyEngine deployment failure.
+
 ## [1.6.0] - 2022-01-17
 
 ### Added
