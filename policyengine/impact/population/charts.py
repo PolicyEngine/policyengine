@@ -369,3 +369,81 @@ def intra_decile_chart(
     for i in range(5):
         fig.data[i].showlegend = False
     return charts.formatted_fig_json(fig)
+
+
+def inequality_chart(
+    baseline: Microsimulation,
+    reformed: Microsimulation,
+    config: Type[PolicyEngineResultsConfig],
+) -> dict:
+    income = baseline.calc(
+        config.household_net_income_variable, map_to="person"
+    )
+    reform_income = reformed.calc(
+        config.household_net_income_variable, map_to="person"
+    )
+    equiv_income = baseline.calc(
+        config.equiv_household_net_income_variable, map_to="person"
+    )
+    reform_equiv_income = reformed.calc(
+        config.equiv_household_net_income_variable, map_to="person"
+    )
+    baseline_gini = equiv_income.gini()
+    reform_gini = reform_equiv_income.gini()
+    gini_change = reform_gini / baseline_gini - 1
+    baseline_top_ten_pct_share = (
+        income[equiv_income.decile_rank() == 10].sum() / income.sum()
+    )
+    reform_top_ten_pct_share = (
+        reform_income[reform_equiv_income.decile_rank() == 10].sum()
+        / reform_income.sum()
+    )
+    top_ten_pct_share_change = (
+        reform_top_ten_pct_share / baseline_top_ten_pct_share - 1
+    )
+    baseline_top_one_pct_share = (
+        income[equiv_income.percentile_rank() == 100].sum() / income.sum()
+    )
+    reform_top_one_pct_share = (
+        reform_income[reform_equiv_income.percentile_rank() == 100].sum()
+        / reform_income.sum()
+    )
+    top_one_pct_share_change = (
+        reform_top_one_pct_share / baseline_top_one_pct_share - 1
+    )
+    df = pd.DataFrame(
+        {
+            "Metric": ["Gini coefficient", f"Top 10% share", f"Top 1% share"],
+            "Percent change": [
+                gini_change,
+                top_ten_pct_share_change,
+                top_one_pct_share_change,
+            ],
+        }
+    )
+    df["pct_change_str"] = df["Percent change"].abs().map("{:.1%}".format)
+    df["label"] = (
+        df.Metric
+        + " "
+        + np.where(
+            df.pct_change_str == "0.0%",
+            "does not change",
+            (
+                np.where(df["Percent change"] < 0, "falls ", "rises ")
+                + df.pct_change_str.astype(str)
+            ),
+        )
+    )
+    fig = (
+        px.bar(df, x="Metric", y="Percent change", custom_data=["label"])
+        .update_layout(
+            title="Inequality impacts",
+            xaxis_title="Metric",
+            yaxis_title="Percent change",
+            yaxis_tickformat=".1%",
+        )
+        .update_traces(marker_color=charts.BLUE)
+    )
+    charts.add_zero_line(fig)
+    charts.add_custom_hovercard(fig)
+    return charts.formatted_fig_json(fig)
