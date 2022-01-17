@@ -110,7 +110,10 @@ export class US extends Country {
         "General": [],
         "Personal": [
             "age",
-            "market_income",
+            "employment_income",
+            "self_employed_income",
+            "dividend_income",
+            "interest_income",
         ],
         "Household": [
             "state_code",
