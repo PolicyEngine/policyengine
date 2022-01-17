@@ -96,8 +96,8 @@ export class US extends Country {
         }
     }
     inputVariables = [
+        // Person.
         "age",
-        "state_code",
         "employment_income",
         "self_employment_income",
         "dividend_income",
@@ -108,6 +108,11 @@ export class US extends Country {
         "is_permanently_disabled_veteran",
         "is_surviving_spouse_of_disabled_veteran",
         "is_surviving_child_of_disabled_veteran",
+        // SPM unit.
+        "housing_cost",
+        "childcare_expenses",
+        // Household.
+        "state_code",
     ]
     outputVariables = [
         "spm_unit_net_income",
@@ -129,6 +134,10 @@ export class US extends Country {
             "is_permanently_disabled_veteran",
             "is_surviving_spouse_of_disabled_veteran",
             "is_surviving_child_of_disabled_veteran",
+        ],
+        "SPM unit": [
+            "housing_cost",
+            "childcare_expenses",
         ],
         "Household": [
             "state_code",
