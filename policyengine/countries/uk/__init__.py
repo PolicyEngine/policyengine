@@ -50,12 +50,10 @@ class UK(PolicyEngineCountry):
         return bool(os.environ.get("UK_SYNTHETIC"))
 
     def __init__(self):
-        if self.synthetic or len(self.default_dataset.years) == 0:
+        if self.synthetic:
             self.default_dataset = SynthFRS
             logging.warn("Using the synthetic FRS.")
-            if len(SynthFRS.years):
-                logging.warn(
-                    f"No years found for the synthetic FRS, attempting to download for {self.default_dataset_year}."
-                )
-                SynthFRS.download(year=2019)
+        if self.default_year not in self.default_dataset.years:
+            logging.info(f"{self.default_year} not found in dataset {self.default_dataset.name} years, downloading.")
+            self.default_dataset.download(self.default_year)
         super().__init__()
