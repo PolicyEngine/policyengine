@@ -111,6 +111,7 @@ export class US extends Country {
         "childcare_expenses",
         // Household.
         "state_code",
+        "is_homeless",
     ]
     outputVariables = [
         "spm_unit_net_income",
@@ -140,6 +141,7 @@ export class US extends Country {
         ],
         "Household": [
             "state_code",
+            "is_homeless",
         ]
     }
     defaultOpenVariableGroups = []
