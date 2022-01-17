@@ -56,7 +56,7 @@ export class US extends Country {
                 "snap_net_income_limit_standard",
             ],
             "Deductions": [
-                "snap_earnings_deduction",
+                "snap_earned_income_deduction",
             ]
         }
     }
@@ -102,7 +102,7 @@ export class US extends Country {
     ]
     outputVariables = [
         "spm_unit_net_income",
-        "snap_max_benefit",
+        "snap_max_allotment",
         "snap_expected_contribution",
         "snap",
     ]
