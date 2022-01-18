@@ -312,7 +312,7 @@ export class UK extends Country {
     ]
     inputVariableHierarchy = {
         "Household": {
-            "Structure": [
+            "People": [
                 "setup",
             ],
             "Location": [
@@ -348,8 +348,8 @@ export class UK extends Country {
                 "corporate_wealth",
             ],
         },
-        "Personal": {
-            "About": [
+        "People": {
+            "Demographics": [
                 "age",
                 "is_in_startup_period",
                 "limited_capability_for_WRA",
@@ -368,9 +368,9 @@ export class UK extends Country {
     }
     defaultOpenVariableGroups = [
         "/Household",
-        "/Personal",
+        "/People",
     ]
-    defaultSelectedVariableGroup = "/Household/Structure"
+    defaultSelectedVariableGroup = "/Household/People"
     outputVariableHierarchy = {
         "household_net_income": {
             "add": [
