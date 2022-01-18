@@ -33,7 +33,7 @@ export class VariableControlPane extends React.Component {
     }
 
     render() {
-        if(this.props.selected === "/Household/Structure") {
+        if((this.props.variables.length > 0) && this.props.variables.includes("setup")) {
 			// Show variables controlling the structure of the household
 			return <HouseholdSetup />
 		}
