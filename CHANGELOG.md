@@ -11,6 +11,12 @@ This repo consists of two packages - the React client and the Python server. A c
 
 ### Fixed
 
+* A bug which caused the UK household impact to be blank and the US to not show the household structure panel.
+
+## [1.7.1] - 2022-01-18
+
+### Fixed
+
 * Gini index is calculated from disposable (not equivalised) household income.
 
 ### Changed

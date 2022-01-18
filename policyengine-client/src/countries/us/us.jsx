@@ -123,7 +123,9 @@ export class US extends Country {
         "snap",
     ]
     inputVariableHierarchy = {
-        "General": [],
+        "General": [
+            "setup",
+        ],
         "Personal": [
             "age",
             "employment_income",
