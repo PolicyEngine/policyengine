@@ -13,24 +13,24 @@ const childNamer = {
 }
 
 function validatePolicy(policy, defaultPolicy) {
-    if(defaultPolicy) {
-        for(let parameter in policy) {
+    if (defaultPolicy) {
+        for (let parameter in policy) {
             policy[parameter].defaultValue = defaultPolicy[parameter].value;
         }
     }
-    return {policy: policy, policyValid: true};
+    return { policy: policy, policyValid: true };
 }
 
 export class US extends Country {
     constructor() {
         super();
         this.baseApiUrl = !this.useLocalServer ?
-                            (
-                                this.usePolicyEngineOrgServer ?
-                                    "https://policyengine.org/" :
-                                    `${window.location.protocol}//${window.location.hostname}`
-                            ) :
-                            `http://localhost:5000`;
+            (
+                this.usePolicyEngineOrgServer ?
+                    "https://policyengine.org/" :
+                    `${window.location.protocol}//${window.location.hostname}`
+            ) :
+            `http://127.0.0.1:5000`;
         this.apiURL = `${this.baseApiUrl}/${this.name}/api`;
     }
     name = "us"
@@ -42,10 +42,7 @@ export class US extends Country {
     showHousehold = true
     showFAQ = true
     // Vanity URLs
-    namedPolicies = {
-        "/ubi-labs/resilience-ubi": "WA_adult_UBI_age=16&adult_UBI=184&child_UBI=92&senior_UBI=184&abolish_CB=1&abolish_CTC=1&abolish_ESA_income=1&abolish_IS=1&abolish_JSA_income=1&abolish_PC=1&abolish_SP=1&abolish_UC_carer=1&abolish_UC_child=1&abolish_UC_childcare=1&abolish_UC_standard=1&abolish_WTC=1&personal_allowance=0&higher_threshold=50000&add_rate=60&basic_rate=35&higher_rate=55&NI_add_rate=10&NI_class_4_add_rate=10&NI_class_4_main_rate=10&NI_main_rate=10",
-        "/ubi-labs/covid-dividend": "child_UBI=46&adult_UBI=92&senior_UBI=46&WA_adult_UBI_age=16"
-    }
+    namedPolicies = {}
     validatePolicy = validatePolicy;
     // Policy page metadata
     parameterHierarchy = {
@@ -56,7 +53,10 @@ export class US extends Country {
                 "snap_net_income_limit_standard",
             ],
             "Deductions": [
-                "snap_earnings_deduction",
+                "snap_earned_income_deduction",
+                "snap_medical_expense_disregard",
+                "snap_homeless_shelter_deduction",
+                "snap_shelter_deduction_income_share_disregard",
             ]
         }
     }
@@ -96,24 +96,55 @@ export class US extends Country {
         }
     }
     inputVariables = [
+        // Person.
         "age",
+        "employment_income",
+        "self_employment_income",
+        "dividend_income",
+        "interest_income",
+        "medical_out_of_pocket_expenses",
+        "ssdi",
+        "is_ssi_disabled",
+        "is_permanently_disabled_veteran",
+        "is_surviving_spouse_of_disabled_veteran",
+        "is_surviving_child_of_disabled_veteran",
+        // SPM unit.
+        "ssi",
+        "housing_cost",
+        "childcare_expenses",
+        // Household.
         "state_code",
-        "market_income",
+        "is_homeless",
     ]
     outputVariables = [
         "spm_unit_net_income",
-        "snap_max_benefit",
+        "snap_max_allotment",
         "snap_expected_contribution",
         "snap",
     ]
     inputVariableHierarchy = {
         "General": [],
-        "Personal" : [
+        "Personal": [
             "age",
-            "market_income",
+            "employment_income",
+            "self_employment_income",
+            "dividend_income",
+            "interest_income",
+            "medical_out_of_pocket_expenses",
+            "ssdi",
+            "is_ssi_disabled",
+            "is_permanently_disabled_veteran",
+            "is_surviving_spouse_of_disabled_veteran",
+            "is_surviving_child_of_disabled_veteran",
+        ],
+        "SPM unit": [
+            "ssi",
+            "housing_cost",
+            "childcare_expenses",
         ],
         "Household": [
             "state_code",
+            "is_homeless",
         ]
     }
     defaultOpenVariableGroups = []
@@ -127,7 +158,7 @@ export class US extends Country {
         },
         "snap": {
             "add": [
-                "snap_max_benefit",
+                "snap_max_allotment",
             ],
             "subtract": [
                 "snap_expected_contribution",
@@ -139,7 +170,7 @@ export class US extends Country {
     addPartner(situation) {
         const name = "Your partner"
         situation.people[name] = {
-            "age": {"2021": 25},
+            "age": { "2021": 25 },
         };
         situation.families["Your family"].members.push(name);
         situation.tax_units["Your tax unit"].members.push(name);
@@ -147,11 +178,11 @@ export class US extends Country {
         situation.households["Your household"].members.push(name);
         return this.validateSituation(situation).situation;
     }
-    
+
     addChild(situation) {
         const childName = childNamer[this.getNumChildren() + 1];
         situation.people[childName] = {
-            "age": {"2021": 10},
+            "age": { "2021": 10 },
         };
         situation.families["Your family"].members.push(childName);
         situation.tax_units["Your tax unit"].members.push(childName);
@@ -159,11 +190,11 @@ export class US extends Country {
         situation.households["Your household"].members.push(childName);
         return this.validateSituation(situation).situation;
     }
-    
+
     removePerson(situation, name) {
-        for(let entityPlural of ["tax_units", "families", "spm_units", "households"]) {
-            for(let entity of Object.keys(situation[entityPlural])) {
-                if(situation[entityPlural][entity].members.includes(name)) {
+        for (let entityPlural of ["tax_units", "families", "spm_units", "households"]) {
+            for (let entity of Object.keys(situation[entityPlural])) {
+                if (situation[entityPlural][entity].members.includes(name)) {
                     situation[entityPlural][entity].members.pop(name);
                 }
             }
@@ -171,46 +202,48 @@ export class US extends Country {
         delete situation.people[name];
         return this.validateSituation(situation).situation;
     }
-    
+
     setNumAdults(numAdults) {
         let situation = this.situation;
         const numExistingAdults = this.getNumAdults();
-        if(numExistingAdults === 1 && numAdults === 2) {
+        if (numExistingAdults === 1 && numAdults === 2) {
             situation = this.addPartner(situation);
-        } else if(numExistingAdults === 2 && numAdults === 1) {
+        } else if (numExistingAdults === 2 && numAdults === 1) {
             situation = this.removePerson(situation, "Your partner");
         }
 
         this.setState({
-            situation: this.validateSituation(situation).situation, 
+            situation: this.validateSituation(situation).situation,
             baselineSituationImpactIsOutdated: true,
             reformSituationImpactIsOutdated: true,
-        });    }
+        });
+    }
 
     getNumAdults() {
         return this.situation.households["Your household"].members.filter(
             name => this.situation.people[name].age["2021"] >= 18
         ).length;
     }
-    
+
     setNumChildren(numChildren) {
         let situation = this.situation;
         const numExistingChildren = this.getNumChildren();
-        if(numExistingChildren < numChildren) {
-            for(let i = numExistingChildren; i < numChildren; i++) {
+        if (numExistingChildren < numChildren) {
+            for (let i = numExistingChildren; i < numChildren; i++) {
                 situation = this.addChild(situation);
             }
-        } else if(numExistingChildren > numChildren) {
-            for(let i = numExistingChildren; i > numChildren; i--) {
+        } else if (numExistingChildren > numChildren) {
+            for (let i = numExistingChildren; i > numChildren; i--) {
                 situation = this.removePerson(situation, childNamer[i]);
             }
         }
 
         this.setState({
-            situation: this.validateSituation(situation).situation, 
+            situation: this.validateSituation(situation).situation,
             baselineSituationImpactIsOutdated: true,
             reformSituationImpactIsOutdated: true,
-        });    }
+        });
+    }
 
     getNumChildren() {
         return this.situation.households["Your household"].members.filter(
