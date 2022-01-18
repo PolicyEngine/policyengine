@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.7.1] - 2022-01-18
+
+### Fixed
+
+* Gini index is calculated from disposable (not equivalised) household income.
+
+### Changed
+
+* UK household input structure simplified.
+
 ## [1.7.0] - 2022-01-17
 
 ### Added

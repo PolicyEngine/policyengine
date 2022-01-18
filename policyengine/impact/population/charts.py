@@ -388,8 +388,8 @@ def inequality_chart(
     reform_equiv_income = reformed.calc(
         config.equiv_household_net_income_variable, map_to="person"
     )
-    baseline_gini = equiv_income.gini()
-    reform_gini = reform_equiv_income.gini()
+    baseline_gini = income.gini()
+    reform_gini = reform_income.gini()
     gini_change = reform_gini / baseline_gini - 1
     baseline_top_ten_pct_share = (
         income[equiv_income.decile_rank() == 10].sum() / income.sum()

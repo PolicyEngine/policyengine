@@ -5,7 +5,7 @@ Functions to convert URL query parameters into OpenFisca situation initialiser f
 from typing import Callable, Dict, Tuple
 from openfisca_core.taxbenefitsystems import TaxBenefitSystem
 from openfisca_core.model_api import Enum
-
+from openfisca_tools.model_api import FLOW
 from openfisca_tools import IndividualSim
 
 
@@ -33,6 +33,9 @@ def get_PE_variables(system: TaxBenefitSystem) -> Dict[str, dict]:
                 entity=variable.entity.key,
                 possibleValues=None,
                 possibleKeys=None,
+                quantityType=FLOW.lower()
+                if not hasattr(variable, "quantity_type")
+                else variable.quantity_type.lower(),
             )
             if variable_metadata[variable.name]["valueType"] == "Enum":
                 variable_metadata[variable.name]["possibleValues"] = [

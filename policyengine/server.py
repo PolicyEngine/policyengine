@@ -72,7 +72,9 @@ class PolicyEngine:
                         )
                     return result
 
-            new_fn.__name__ = "cached_" + fn.__name__
+            new_fn.__name__ = (
+                "cached_" if not hasattr(fn, "_exclude_from_cache") else ""
+            ) + fn.__name__
             return new_fn
 
         self.api_decorators = (
