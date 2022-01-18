@@ -28,6 +28,7 @@ from policyengine.impact.household.metrics import headline_figures
 from policyengine.impact.population.metrics import headline_metrics
 from policyengine.impact.population.charts import (
     decile_chart,
+    inequality_chart,
     poverty_chart,
     population_waterfall_chart,
     intra_decile_chart,
@@ -181,6 +182,11 @@ class PolicyEngineCountry:
             ),
             intra_decile_chart=intra_decile_chart(
                 baseline, reformed, self.results_config
+            ),
+            inequality_chart=inequality_chart(
+                baseline,
+                reformed,
+                self.results_config,
             ),
         )
 
