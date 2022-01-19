@@ -96,7 +96,7 @@ export default class Country {
         });
     }
 
-    useLocalServer = false;
+    useLocalServer = true;
     usePolicyEngineOrgServer = false;
 }
 
