@@ -534,18 +534,31 @@ def create_default_reform() -> ReformType:
         value_type = float
 
         def formula(household, period, parameters):
-            sps = parameters(period).reforms.green_party.single_pensioner_supplement
+            sps = parameters(
+                period
+            ).reforms.green_party.single_pensioner_supplement
             lives_alone = household.nb_persons() == 1
-            is_pensioner = household.sum(household.members("is_SP_age", period)) == 1
+            is_pensioner = (
+                household.sum(household.members("is_SP_age", period)) == 1
+            )
             income = max_(0, household("household_market_income", period))
             income_over_threshold = max_(0, income - sps.reduction_threshold)
-            maximum_amount = sps.amount * lives_alone * is_pensioner * WEEKS_IN_YEAR
-            return max_(0, maximum_amount - income_over_threshold * sps.reduction_rate)
+            maximum_amount = (
+                sps.amount * lives_alone * is_pensioner * WEEKS_IN_YEAR
+            )
+            return max_(
+                0, maximum_amount - income_over_threshold * sps.reduction_rate
+            )
 
     class household_benefits(baseline_variables["household_benefits"]):
         def formula(household, period, parameters):
             sps = household("single_pensioner_supplement", period)
-            return baseline_variables["household_benefits"].formula(household, period, parameters) + sps
+            return (
+                baseline_variables["household_benefits"].formula(
+                    household, period, parameters
+                )
+                + sps
+            )
 
     class default_reform(Reform):
         def apply(self):
