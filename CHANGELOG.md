@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.8.1] - 2022-01-20
+
+### Fixed
+
+* SPS takeup now applies to survey data runs and is exempted from household simulations.
+* Earnings variation charts now use household net income rather than personal net income.
+
 ## [1.8.0] - 2022-01-19
 
 ### Added
