@@ -326,10 +326,10 @@ class PolicyEngineCountry:
         baseline, reformed = self._get_individualsims(params)
         employment_income = baseline.calc(
             self.results_config.employment_income_variable
-        )
+        ).sum()
         self_employment_income = baseline.calc(
             self.results_config.self_employment_income_variable
-        )
+        ).sum()
         earnings_variable = (
             self.results_config.employment_income_variable
             if employment_income >= self_employment_income

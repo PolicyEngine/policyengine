@@ -493,6 +493,7 @@ export class UK extends Country {
             situation: this.validateSituation(situation).situation,
             baselineSituationImpactIsOutdated: true,
             reformSituationImpactIsOutdated: true,
+            situationVariationImpactIsOutdated: true,
         })
     }
 
@@ -517,6 +518,7 @@ export class UK extends Country {
             situation: this.validateSituation(situation).situation,
             baselineSituationImpactIsOutdated: true,
             reformSituationImpactIsOutdated: true,
+            situationVariationImpactIsOutdated: true,
         });
     }
 
