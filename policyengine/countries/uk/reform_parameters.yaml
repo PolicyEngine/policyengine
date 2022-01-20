@@ -382,3 +382,39 @@ reforms:
       name: abolish_business_rates
       unit: abolition
       variable: business_rates
+  green_party:
+    single_pensioner_supplement:
+      amount:
+        description: The single pensioner supplement is paid to people over State Pension age who live alone.
+        values:
+          2021-01-01: 0
+        metadata:
+          name: SPS_amount
+          label: Single pensioner supplement amount
+          unit: currency-GBP
+          period: week
+      reduction_rate:
+        description: The rate at which the single pensioner supplement is reduced with non-benefit income.
+        values:
+          2021-01-01: 0
+        metadata:
+          name: SPS_reduction_rate
+          label: Single pensioner supplement reduction rate
+          unit: /1
+      reduction_threshold:
+        description: The threshold for market (non-benefit) income to reduce the single pensioner supplement.
+        values:
+          2021-01-01: 0
+        metadata:
+          name: SPS_reduction_threshold
+          label: Single pensioner supplement reduction threshold
+          unit: currency-GBP
+          period: year
+      takeup_rate:
+        description: The percentage of eligible recepients that claim the single pensioner supplement. By default, this is the same take-up rate as Pension Credit, the main means-tested benefit for pensioners.
+        values:
+          2021-01-01: 0.63
+        metadata:
+          name: SPS_takeup_rate
+          label: Single pensioner supplement take-up rate
+          unit: /1

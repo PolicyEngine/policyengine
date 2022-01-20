@@ -40,7 +40,7 @@ export class BreakdownTable extends React.Component {
         const results = this.context.populationImpactBreakdownResults;
         return (
             <Collapse ghost onChange={open => {if(open && !results) { this.fetchResults(); }}}>
-                <Panel header={<Tooltip title={`Estimated to take around ${prettyMilliseconds(2400 + Object.keys(this.props.policy).length * 1600)}`}>See a breakdown of the changes (may take longer)</Tooltip>} key="1">
+                <Panel header={<Tooltip title={`Estimated to take around ${prettyMilliseconds(2400 + Object.keys(this.props.policy).filter(x => x.value !== x.defaultValue).length * 1600, {compact: true})}`}>See a breakdown of the changes (may take longer)</Tooltip>} key="1">
                     {
                         (this.state.waiting || (!this.state.error && !results)) ?
                             <Spinner /> :
