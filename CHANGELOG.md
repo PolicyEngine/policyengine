@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.8.0] - 2022-01-19
+
+### Added
+
+* UK flag icons for Tax and Benefit sections.
+* The single pensioner supplement - a hypothetical means-tested payment to single pensioners proposed by the Green Party.
+
+### Fixed
+
+* Inequality measures all use equivalised income.
+
 ## [1.7.2] - 2022-01-18
 
 ### Fixed

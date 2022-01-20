@@ -3,6 +3,8 @@
 */
 
 import UBICenterLogo from "../../images/ubicenter.png"
+import UKLogo from "../../images/uk.png";
+import GreenPartyLogo from "../../images/green.png";
 import Country from "../country";
 import AutoUBI from "./components/autoUBI";
 import ExtraBand from "./components/extraBand";
@@ -191,17 +193,35 @@ export class UK extends Country {
                 "carbon_tax",
                 "carbon_tax_consumer_incidence",
             ]
-        }
+        },
+        "Green Party": {
+            "Single pensioner supplement": [
+                "SPS_amount",
+                "SPS_reduction_threshold",
+                "SPS_reduction_rate",
+                "SPS_takeup_rate",
+            ],
+        },
     }
     defaultOpenParameterGroups = [
         "/Tax",
         "/Benefit",
         "/UBI Center",
+        "/Green Party",
     ]
     defaultSelectedParameterGroup = "/Tax/Income Tax/Labour income"
     organisations = {
         "UBI Center": {
             logo: UBICenterLogo,
+        },
+        "Tax": {
+            logo: UKLogo,
+        },
+        "Benefit": {
+            logo: UKLogo,
+        },
+        "Green Party": {
+            logo: GreenPartyLogo,
         },
     }
     // OpenFisca data
@@ -309,6 +329,7 @@ export class UK extends Country {
         "carbon_tax",
         "LVT",
         "UBI",
+        "single_pensioner_supplement",
     ]
     inputVariableHierarchy = {
         "Household": {
@@ -403,6 +424,7 @@ export class UK extends Country {
                 "JSA_income",
                 "child_benefit",
                 "UBI",
+                "single_pensioner_supplement",
             ]
         },
         "household_tax": {
