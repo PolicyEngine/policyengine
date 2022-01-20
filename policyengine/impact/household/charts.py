@@ -61,8 +61,12 @@ def budget_chart(
             "Total income": baseline.calc(config.total_income_variable).sum(
                 axis=0
             ),
-            "Baseline": baseline.calc(config.net_income_variable).sum(axis=0),
-            "Reform": reformed.calc(config.net_income_variable).sum(axis=0),
+            "Baseline": baseline.calc(
+                config.household_net_income_variable
+            ).sum(axis=0),
+            "Reform": reformed.calc(config.household_net_income_variable).sum(
+                axis=0
+            ),
             **variable_values,
         }
     )
@@ -205,8 +209,12 @@ def mtr_chart(
     :rtype: str
     """
     earnings = baseline.calc(config.total_income_variable).sum(axis=0)
-    baseline_net = baseline.calc(config.net_income_variable).sum(axis=0)
-    reform_net = reformed.calc(config.net_income_variable).sum(axis=0)
+    baseline_net = baseline.calc(config.household_net_income_variable).sum(
+        axis=0
+    )
+    reform_net = reformed.calc(config.household_net_income_variable).sum(
+        axis=0
+    )
 
     total_income = baseline.calc(config.total_income_variable).sum(axis=0)
     # Find the x-point on the chart which is the current situation
