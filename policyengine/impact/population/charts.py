@@ -386,7 +386,8 @@ def inequality_chart(
     reform_gini = reform_equiv_income.gini()
     gini_change = reform_gini / baseline_gini - 1
     baseline_top_ten_pct_share = (
-        equiv_income[equiv_income.decile_rank() == 10].sum() / equiv_income.sum()
+        equiv_income[equiv_income.decile_rank() == 10].sum()
+        / equiv_income.sum()
     )
     reform_top_ten_pct_share = (
         reform_equiv_income[reform_equiv_income.decile_rank() == 10].sum()
@@ -396,7 +397,8 @@ def inequality_chart(
         reform_top_ten_pct_share / baseline_top_ten_pct_share - 1
     )
     baseline_top_one_pct_share = (
-        equiv_income[equiv_income.percentile_rank() == 100].sum() / equiv_income.sum()
+        equiv_income[equiv_income.percentile_rank() == 100].sum()
+        / equiv_income.sum()
     )
     reform_top_one_pct_share = (
         reform_equiv_income[reform_equiv_income.percentile_rank() == 100].sum()
