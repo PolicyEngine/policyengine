@@ -16,8 +16,8 @@ const { Panel } = Collapse;
 
 function PopulationResultsCaveats() {
 	return (
-		<Collapse defaultActiveKey={["1"]} ghost>
-			<Panel header={<><ExclamationCircleOutlined />  Disclaimer</>} key="1">
+		<Collapse defaultActiveKey={["0"]} ghost>
+			<Panel header={<><ExclamationCircleOutlined />  &nbsp; &nbsp;Disclaimer</>} key="1">
 				<p>Results are calculated using the OpenFisca-UK tax-benefit microsimulation model, and assume no behavioural or macroeconomic effects. See the <a href="https://github.com/PSLmodels/openfisca-uk">repository</a> for more information.</p>
 			</Panel>
 		</Collapse>
@@ -55,7 +55,7 @@ export function PopulationResultsPane(props) {
 	const [showAbsDecile, setShowAbsDecile] = React.useState(false);
 	return (
 		<>
-			<Divider>Population results</Divider>
+			<Divider></Divider>
 			<PopulationResultsCaveats />
 			<Row style={{padding: 30}}>
 				<TakeAway><p style={{textAlign: "center"}}>Reform produces <br /><span style={{color: costColor}}>{cost}</span> net {isSurplus ? "surplus" : "cost"}</p></TakeAway>
