@@ -7,12 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
-## [1.8.2] - 2022
+## [1.8.3] - 2022
 
 ### Changed
 
 * Your policy, UK impact and Share policy headers removed.
 * Spacing and auto-collapsed status added to the UK impact disclaimer.
+
+## [1.8.2] - 2022-01-20
+
+### Fixed
+
+* Changing the number of adults previously didn't update the variation charts.
+* Variation charts wouldn't load for multi-person households.
 
 ## [1.8.1] - 2022-01-20
 
