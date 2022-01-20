@@ -532,6 +532,7 @@ def create_default_reform() -> ReformType:
         definition_period = YEAR
         label = "Single pensioner supplement"
         value_type = float
+        unit = "currency-GBP"
 
         def formula(household, period, parameters):
             sps = parameters(
@@ -541,14 +542,22 @@ def create_default_reform() -> ReformType:
             is_pensioner = (
                 household.sum(household.members("is_SP_age", period)) == 1
             )
+            imputed_take_up = random(household) < sps.takeup_rate
+            specified_take_up = household.any(
+                household.members.benunit(
+                    "claims_all_entitled_benefits", period
+                )
+            )
+            takes_up = imputed_take_up | specified_take_up
             income = max_(0, household("household_market_income", period))
             income_over_threshold = max_(0, income - sps.reduction_threshold)
             maximum_amount = (
                 sps.amount * lives_alone * is_pensioner * WEEKS_IN_YEAR
             )
-            return max_(
+            means_tested_amount = max_(
                 0, maximum_amount - income_over_threshold * sps.reduction_rate
             )
+            return means_tested_amount * takes_up
 
     class household_benefits(baseline_variables["household_benefits"]):
         def formula(household, period, parameters):
