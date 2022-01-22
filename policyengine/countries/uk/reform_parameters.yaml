@@ -317,6 +317,15 @@ reforms:
         unit: abolition
         tests:
           - decreases_net_income: true
+    abolish_UC_housing_costs_element:
+      description:
+      values:
+        2021-01-01: false
+      metadata:
+        label: Abolish Universal Credit housing costs element
+        name: abolish_UC_housing_costs
+        variable: UC_housing_costs_element
+        unit: abolition
     abolish_ESA_income:
       description:
       values:
