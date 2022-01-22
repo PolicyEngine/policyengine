@@ -96,8 +96,8 @@ export default class Country {
         });
     }
 
-    useLocalServer = false;
-    usePolicyEngineOrgServer = true;
+    useLocalServer = true;
+    usePolicyEngineOrgServer = false;
 }
 
 export const CountryContext = createContext(null);

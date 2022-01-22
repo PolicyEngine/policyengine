@@ -157,22 +157,49 @@ export class UK extends Country {
                 "abolish_PC",
                 "PC_takeup",
             ],
-            "Universal Credit": [
-                "abolish_UC",
-                "abolish_UC_standard",
-                "UC_single_young",
-                "UC_single_old",
-                "UC_couple_young",
-                "UC_couple_old",
-                "abolish_UC_child",
-                "abolish_UC_disability",
-                "abolish_UC_carer",
-                "abolish_UC_housing_costs",
-                "abolish_UC_childcare",
-                "UC_work_allowance_without_housing",
-                "UC_work_allowance_with_housing",
-                "UC_reduction_rate",
-            ],
+            "Universal Credit": {
+                "Structural": [
+                    "abolish_UC",
+                ],
+                "Elements": {
+                    "Standard allowance": [
+                        "abolish_UC_standard",
+                        "UC_single_young",
+                        "UC_single_old",
+                        "UC_couple_young",
+                        "UC_couple_old",
+                    ],
+                    "Child": [
+                        "abolish_UC_child",
+                        "UC_first_child_element",
+                        "UC_child_element",
+                        "UC_child_limit",
+                        "UC_disabled_element",
+                        "UC_severely_disabled_element",
+                    ],
+                    "Disability": [
+                        "abolish_UC_disability",
+                        "UC_lcwra_element",
+                    ],
+                    "Housing": [
+                        "abolish_UC_housing_costs",
+                        "UC_non_dep_deduction",
+                    ],
+                    "Care": [
+                        "abolish_UC_carer",
+                        "UC_carer_element",
+                    ],
+                    "Childcare": [
+                        "abolish_UC_childcare",
+                        "UC_childcare_coverage_rate",
+                    ],
+                },
+                "Means test": [
+                    "UC_work_allowance_without_housing",
+                    "UC_work_allowance_with_housing",
+                    "UC_reduction_rate",
+                ],
+            },
         },
         "UBI Center": {
             "Universal Basic Income": [
