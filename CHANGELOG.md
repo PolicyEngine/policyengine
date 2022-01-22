@@ -12,6 +12,11 @@ This repo consists of two packages - the React client and the Python server. A c
 ### Added
 
 * Universal Credit parameters for specific elements.
+* Green Party url for the 2019 manifesto (/green-party/manifesto-2019).
+
+### Fixed
+
+* Named policy redirects now work for all pages, not just population impact.
 
 ## [1.8.3] - 2022-01-21
 
