@@ -220,7 +220,7 @@ def waterfall_chart(
         "color",
         custom_data=["hover"],
         color_discrete_map=dict(
-            blank=WHITE, negative=GRAY, positive=LIGHT_GREEN
+            blank=WHITE, negative=GRAY, positive=DARK_GREEN
         ),
         barmode="relative",
         category_orders={
