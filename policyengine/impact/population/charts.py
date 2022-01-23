@@ -64,7 +64,11 @@ def decile_chart(
             showlegend=False,
             xaxis_tickvals=list(range(1, 11)),
         )
-        .update_traces(marker_color=charts.DARK_GREEN)
+        .update_traces(
+            marker_color=np.where(
+                df["Relative change"] > 0, charts.DARK_GREEN, charts.GRAY
+            )
+        )
     )
     abs_fig = (
         px.bar(df, x="Decile", y="Average change")
@@ -77,7 +81,11 @@ def decile_chart(
             showlegend=False,
             xaxis_tickvals=list(range(1, 11)),
         )
-        .update_traces(marker_color=charts.DARK_GREEN)
+        .update_traces(
+            marker_color=np.where(
+                df["Average change"] > 0, charts.DARK_GREEN, charts.GRAY
+            )
+        )
     )
     charts.add_zero_line(rel_fig)
     charts.add_zero_line(abs_fig)
@@ -163,7 +171,9 @@ def poverty_chart(
         xaxis_title=None,
         yaxis=dict(title="Percent change", tickformat=",.1%"),
     )
-    fig.update_traces(marker_color=charts.DARK_GREEN)
+    fig.update_traces(
+        marker_color=np.where(df.pov_chg < 0, charts.DARK_GREEN, charts.GRAY)
+    )
     charts.add_custom_hovercard(fig)
     charts.add_zero_line(fig)
     return charts.formatted_fig_json(fig)
@@ -438,7 +448,11 @@ def inequality_chart(
             yaxis_title="Percent change",
             yaxis_tickformat=".1%",
         )
-        .update_traces(marker_color=charts.DARK_GREEN)
+        .update_traces(
+            marker_color=np.where(
+                df["Percent change"] < 0, charts.DARK_GREEN, charts.GRAY
+            )
+        )
     )
     charts.add_zero_line(fig)
     charts.add_custom_hovercard(fig)
