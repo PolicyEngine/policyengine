@@ -77,7 +77,7 @@ def decile_chart(
             showlegend=False,
             xaxis_tickvals=list(range(1, 11)),
         )
-        .update_traces(marker_color=charts.BLUE)
+        .update_traces(marker_color=charts.DARK_GREEN)
     )
     charts.add_zero_line(rel_fig)
     charts.add_zero_line(abs_fig)
