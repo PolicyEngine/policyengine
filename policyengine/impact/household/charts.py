@@ -9,9 +9,9 @@ import plotly.graph_objects as go
 
 COLOR_MAP = {
     "Baseline": charts.GRAY,
-    "Reform": charts.DARK_GREEN,
-    "Marginal tax rate": charts.DARK_GREEN,
-    "Net income": charts.DARK_GREEN,
+    "Reform": charts.BLUE,
+    "Marginal tax rate": charts.BLUE,
+    "Net income": charts.BLUE,
 }
 
 LABELS = dict(
