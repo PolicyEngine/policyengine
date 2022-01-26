@@ -55,6 +55,9 @@ export default class Country {
         let value;
         for (let variable of this.inputVariables) {
             metadata = this.variables[variable];
+            if(!metadata) {
+                throw new Error(`Failed to load ${variable}.`)
+            }
             value = metadata.valueType === "Enum" ? metadata.defaultValue.key : metadata.defaultValue;
             entity = this.entities[metadata.entity];
             for (let entityInstance of Object.keys(situation[entity.plural])) {
@@ -65,6 +68,9 @@ export default class Country {
         }
         for (let variable of this.outputVariables) {
             metadata = this.variables[variable];
+            if(!metadata) {
+                throw new Error(`Failed to load ${variable}.`)
+            }
             entity = this.entities[metadata.entity];
             for (let entityInstance of Object.keys(situation[entity.plural])) {
                 if (!Object.keys(situation[entity.plural][entityInstance]).includes(variable)) {
