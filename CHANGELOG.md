@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.10.1] - 2022-01-26
+
+### Fixed
+
+* Copy links from the population impact and household pages are now valid.
+* The accounting table is now responsive.
+
+### Added
+
+* The household page now has a primary navigation button, pointing to the results tab.
+* Descriptive error messages when variables fail to load.
+
+### Changed
+
+* The dividers on the household page link to their first descendent when clicked.
+
 ## [1.10.0] - 2022-01-26
 
 ### Added

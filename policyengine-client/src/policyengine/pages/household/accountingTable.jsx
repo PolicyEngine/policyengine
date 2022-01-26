@@ -170,12 +170,12 @@ function VariableTable(props) {
             title: "",
             dataIndex: "variable",
             key: "variable",
-            width: 150,
+            width: 75,
         }, {
             title: "Value",
             dataIndex: "baseline",
             key: "baseline",
-            width: 70,
+            width: 75,
             align: "center",
         }]
     }
@@ -186,7 +186,7 @@ function VariableTable(props) {
     const applyColorLogic = (value, logic) => <div style={{color: logic(value)}}>{formatter(value, true)}</div>;
     const multiplier = props.isPositive || depth === 0 ? 1 : -1;
     const data = [{
-        variable: <div style={{width: 150}}>{country.variables[props.variable].label}</div>,
+        variable: <div style={{width: "100%"}}>{country.variables[props.variable].label}</div>,
         key: props.variable,
         baseline: applyColorLogic(baselineValue * multiplier, colorZerosGrey),
         reform: applyColorLogic(reformValue * multiplier, colorZerosGrey),
@@ -221,7 +221,7 @@ function VariableTable(props) {
         // nested children are indented if there is exactly
         // one nested table. The below styling fixes that.
         style={{
-            width: props.isSingle ? 600 - 15 : 600,
+            width: "100%",
             marginTop: props.isSingle ? 10 : null,
             marginBottom: props.isSingle ? 10 : null,
         }}

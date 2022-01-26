@@ -32,9 +32,9 @@ export default function Menu(props) {
 			defaultOpenKeys={country.defaultOpenVariableGroups}
 			defaultSelectedKeys={[country.defaultSelectedVariableGroup]}
 		>
-            <Divider orientation="left">About your household</Divider>
+            <Divider orientation="left" onClick={() => props.selectVariableGroup(country.defaultSelectedVariableGroup)}>About your household</Divider>
 			{addMenuEntry(country.inputVariableHierarchy, "")}
-            <Divider orientation="left">Your results</Divider>
+            <Divider orientation="left" onClick={() => props.selectVariableGroup("results")}>Your results</Divider>
             <AntMenu.Item key="results">Net income</AntMenu.Item>
             {country.showEarningsVariation && <AntMenu.Item key="earnings">How earnings affect you</AntMenu.Item>}
 

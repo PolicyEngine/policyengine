@@ -7,13 +7,17 @@ import { policyToURL } from "../tools/url";
 export default function SimulateButton(props) {
     const country = useContext(CountryContext);
 	const url = policyToURL(`/${country.name}/${props.target}`, country.policy);
+	let button = <Button 
+			disabled={props.disabled} 
+			type={props.primary ? "primary" : null} 
+			onClick={props.onClick}>{props.text}
+		</Button>;
+	if(props.target) {
+		button = <Link to={url}>{button}</Link>;
+	}
 	return (
 		<div style={{marginBottom: 20}}>
-			<Link to={url}><Button 
-                disabled={props.disabled} 
-                type={props.primary ? "primary" : null} 
-                onClick={props.onClick}>{props.text}
-            </Button></Link>
+			{button}
 		</div>
 	);
 }
