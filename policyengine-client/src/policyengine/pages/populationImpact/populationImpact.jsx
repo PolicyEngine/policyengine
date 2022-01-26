@@ -148,7 +148,7 @@ export default class PopulationImpact extends React.Component {
 					}
 				</Col>
 				<Col xl={3}>
-                    <PolicyOverview page="policy"/>
+                    <PolicyOverview page="population-impact"/>
                     <Divider />
                     <Centered>
                         <NavigationButton
