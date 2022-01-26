@@ -58,9 +58,15 @@ export class US extends Country {
                 "snap_homeless_shelter_deduction",
                 "snap_shelter_deduction_income_share_disregard",
             ]
+        },
+        "School meals": {
+            "Eligibility": [
+                "school_meal_free_fpg_limit",
+                "school_meal_reduced_fpg_limit",
+            ]
         }
     }
-    defaultOpenParameterGroups = ["/SNAP"]
+    defaultOpenParameterGroups = ["/SNAP", "/School meals"];
     defaultSelectedParameterGroup = "/SNAP/Eligibility"
     organisations = {}
     // OpenFisca data
@@ -112,6 +118,7 @@ export class US extends Country {
         "ssi",
         "housing_cost",
         "childcare_expenses",
+        "fdpir",
         // Household.
         "state_code",
         "is_homeless",
@@ -133,6 +140,7 @@ export class US extends Country {
             "dividend_income",
             "interest_income",
             "medical_out_of_pocket_expenses",
+            "is_in_school",
             "ssdi",
             "is_ssi_disabled",
             "is_permanently_disabled_veteran",
@@ -143,6 +151,7 @@ export class US extends Country {
             "ssi",
             "housing_cost",
             "childcare_expenses",
+            "fdpir",
         ],
         "Household": [
             "state_code",
@@ -155,6 +164,7 @@ export class US extends Country {
         "spm_unit_net_income": {
             "add": [
                 "snap",
+                "school_meal_subsidy",
             ],
             "subtract": []
         },
