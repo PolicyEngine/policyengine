@@ -114,6 +114,7 @@ export class US extends Country {
         "is_permanently_disabled_veteran",
         "is_surviving_spouse_of_disabled_veteran",
         "is_surviving_child_of_disabled_veteran",
+        "is_in_school",
         // SPM unit.
         "ssi",
         "housing_cost",
