@@ -337,6 +337,7 @@ export class UK extends Country {
         "corporate_wealth",
         "rent",
         "claims_legacy_benefits",
+        "BRMA",
     ]
     outputVariables = [
         "household_tax",
@@ -374,7 +375,8 @@ export class UK extends Country {
                 "setup",
             ],
             "Location": [
-                "region"
+                "region",
+                "BRMA",
             ],
             "Relationships": [
                 "is_married",
