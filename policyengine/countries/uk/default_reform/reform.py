@@ -575,7 +575,9 @@ def create_default_reform() -> ReformType:
         entity = Household
         definition_period = YEAR
         label = "Benefit-based cash payment"
-        documentation = "The benefit-based cash payment this household receives."
+        documentation = (
+            "The benefit-based cash payment this household receives."
+        )
         value_type = float
         unit = "currency-GBP"
 
@@ -589,7 +591,17 @@ def create_default_reform() -> ReformType:
                 "income_support",
                 "universal_credit",
             ]
-            eligible = household.sum(sum([household.members.benunit(benefit, period) for benefit in PASSPORTED_BENEFITS])) > 0
+            eligible = (
+                household.sum(
+                    sum(
+                        [
+                            household.members.benunit(benefit, period)
+                            for benefit in PASSPORTED_BENEFITS
+                        ]
+                    )
+                )
+                > 0
+            )
             rate = parameters(period).reforms.smf_cash_payment.benefit
             return eligible * rate
 
@@ -597,7 +609,9 @@ def create_default_reform() -> ReformType:
         entity = Household
         definition_period = YEAR
         label = "Tax bracket-based cash payment"
-        documentation = "The tax bracket-based cash payment this household receives."
+        documentation = (
+            "The tax bracket-based cash payment this household receives."
+        )
         value_type = float
         unit = "currency-GBP"
 
@@ -606,12 +620,10 @@ def create_default_reform() -> ReformType:
             tax_band = person("tax_band", period)
             bands = tax_band.possible_values
             eligible = ~household.any(
-                (tax_band == bands.ADDITIONAL)
-                | (tax_band == bands.HIGHER)
+                (tax_band == bands.ADDITIONAL) | (tax_band == bands.HIGHER)
             ) * (household("smf_benefit_cash_payment", period) == 0)
             rate = parameters(period).reforms.smf_cash_payment.tax
             return eligible * rate
-
 
     class default_reform(Reform):
         def apply(self):

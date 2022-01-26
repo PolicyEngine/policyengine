@@ -160,7 +160,7 @@ reforms:
         tests:
           - increases_net_income: true
     tax:
-      description: A cash payment made to all households not paying the higher or additional rates of Income Tax.
+      description: A cash payment made to all non-benefit-receiving households not paying the higher or additional rates of Income Tax.
       values:
         2021-01-01: 0.00
       metadata:
