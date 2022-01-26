@@ -230,12 +230,19 @@ export class UK extends Country {
                 "SPS_takeup_rate",
             ],
         },
+        "Miscellaneous": {
+            "Cash payments": [
+                "benefit_based_cash_payment",
+                "tax_bracket_based_cash_payment",
+            ],
+        },
     }
     defaultOpenParameterGroups = [
         "/Tax",
         "/Benefit",
         "/UBI Center",
         "/Green Party",
+        "/Miscellaneous",
     ]
     defaultSelectedParameterGroup = "/Tax/Income Tax/Labour income"
     organisations = {

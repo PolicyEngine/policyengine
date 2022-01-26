@@ -146,6 +146,31 @@ reforms:
       metadata:
         label: Count universal basic income in means tests
         name: means_test_UBI
+  smf_cash_payment:
+    benefit:
+      description: A cash payment made to all households receiving Universal Credit or legacy benefits.
+      values:
+        2021-01-01: 0.00
+      metadata:
+        label: Cash payment to benefit recipients
+        name: benefit_based_cash_payment
+        unit: currency-GBP
+        period: year
+        max: 1_000
+        tests:
+          - increases_net_income: true
+    tax:
+      description: A cash payment made to all households not paying the higher or additional rates of Income Tax.
+      values:
+        2021-01-01: 0.00
+      metadata:
+        label: Cash payment to basic-rate taxpayers.
+        name: tax_bracket_based_cash_payment
+        unit: currency-GBP
+        period: year
+        max: 1_000
+        tests:
+          - increases_net_income: true
   abolition:
     abolish_income_tax:
       values:
