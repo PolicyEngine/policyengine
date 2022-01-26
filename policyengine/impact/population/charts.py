@@ -81,8 +81,9 @@ def decile_chart(
     )
     charts.add_zero_line(rel_fig)
     charts.add_zero_line(abs_fig)
-    return charts.formatted_fig_json(rel_fig), charts.formatted_fig_json(
-        abs_fig
+    return (
+        charts.formatted_fig_json(rel_fig),
+        charts.formatted_fig_json(abs_fig),
     )
 
 
