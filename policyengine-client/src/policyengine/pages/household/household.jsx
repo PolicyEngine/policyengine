@@ -60,9 +60,14 @@ export class Household extends React.Component {
                     {middlePane}
                 </Col>
                 <Col>
-                    <PolicyOverview />
+                    <PolicyOverview page="household"/>
                     <Divider />
                     <Centered>
+                        <NavigationButton
+                            text="See your net income"
+                            onClick={() => this.setState({selected: "results"})}
+                            primary
+                        />
                         <NavigationButton
                             target="policy" 
                             text={<><ArrowLeftOutlined /> Edit your policy</>}
