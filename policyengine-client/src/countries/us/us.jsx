@@ -124,10 +124,26 @@ export class US extends Country {
         "is_homeless",
     ]
     outputVariables = [
+        // Top level.
         "spm_unit_net_income",
-        "snap_max_allotment",
-        "snap_expected_contribution",
+        // Second level.
+        "spm_unit_market_income",
+        "spm_unit_benefits",
+        "spm_unit_taxes",
+        // Third level - spm_unit_market_income.
+        "employment_income",
+        "self_employment_income",
+        "dividend_income",
+        "interest_income",
+        // Third level - spm_unit_benefits.
         "snap",
+        "school_meal_subsidy",
+        "ssi",
+        "ssdi",
+        // Third level - spm_unit_taxes.
+        "spm_unit_fica",
+        "spm_unit_federal_tax",
+        "spm_unit_state_tax",
     ]
     inputVariableHierarchy = {
         "General": [
@@ -152,6 +168,9 @@ export class US extends Country {
             "housing_cost",
             "childcare_expenses",
             "fdpir",
+            "spm_unit_fica",
+            "spm_unit_federal_tax",
+            "spm_unit_state_tax",
         ],
         "Household": [
             "state_code",
@@ -163,18 +182,36 @@ export class US extends Country {
     outputVariableHierarchy = {
         "spm_unit_net_income": {
             "add": [
+                "spm_unit_market_income",
+                "spm_unit_benefits",
+            ],
+            "subtract": [
+                "spm_unit_taxes",
+            ]
+        },
+        "spm_unit_market_income": {
+            "add": [
+                "employment_income",
+                "self_employment_income",
+                "dividend_income",
+                "interest_income",
+            ],
+            "subtract": []
+        },
+        "spm_unit_benefits": {
+            "add": [
                 "snap",
                 "school_meal_subsidy",
             ],
             "subtract": []
         },
-        "snap": {
+        "spm_unit_taxes": {
             "add": [
-                "snap_max_allotment",
+                "spm_unit_fica",
+                "spm_unit_federal_tax",
+                "spm_unit_state_tax",
             ],
-            "subtract": [
-                "snap_expected_contribution",
-            ]
+            "subtract": []
         }
     }
 
@@ -195,6 +232,7 @@ export class US extends Country {
         const childName = childNamer[this.getNumChildren() + 1];
         situation.people[childName] = {
             "age": { "2021": 10 },
+            "is_in_school": { "2021": true },
         };
         situation.families["Your family"].members.push(childName);
         situation.tax_units["Your tax unit"].members.push(childName);
