@@ -86,6 +86,7 @@ export default class PolicyEngine extends React.Component {
             return <></>;
         }
         const countryName = this.state.country.name;
+        document.title = "PolicyEngine " + this.state.country.properName;
         return (
             <PolicyEngineWrapper>
                 <CountryContext.Provider value={this.state.country}>
