@@ -365,6 +365,8 @@ export class UK extends Country {
         "LVT",
         "UBI",
         "single_pensioner_supplement",
+        "smf_benefit_cash_payment",
+        "smf_tax_cash_payment",
     ]
     inputVariableHierarchy = {
         "Household": {
@@ -460,6 +462,8 @@ export class UK extends Country {
                 "child_benefit",
                 "UBI",
                 "single_pensioner_supplement",
+                "smf_benefit_cash_payment",
+                "smf_tax_cash_payment",
             ]
         },
         "household_tax": {
