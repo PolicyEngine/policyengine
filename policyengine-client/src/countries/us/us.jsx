@@ -123,6 +123,10 @@ export class US extends Country {
         // Household.
         "state_code",
         "is_homeless",
+        // Taxes manually specified
+        "spm_unit_fica",
+        "spm_unit_federal_tax",
+        "spm_unit_state_tax",
     ]
     outputVariables = [
         // Top level.
@@ -142,9 +146,6 @@ export class US extends Country {
         "ssi",
         "ssdi",
         // Third level - spm_unit_taxes.
-        "spm_unit_fica",
-        "spm_unit_federal_tax",
-        "spm_unit_state_tax",
     ]
     inputVariableHierarchy = {
         "General": [
