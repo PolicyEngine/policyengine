@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.10.2] - 2022-01-26
+
+### Changed
+
+* Miscellaneous cash payments now have the Social Market Foundation branding.
+
 ## [1.10.1] - 2022-01-26
 
 ### Fixed
