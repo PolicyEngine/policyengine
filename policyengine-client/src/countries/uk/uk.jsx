@@ -5,6 +5,7 @@
 import UBICenterLogo from "../../images/ubicenter.png"
 import UKLogo from "../../images/uk.png";
 import GreenPartyLogo from "../../images/green.png";
+import SMFLogo from "../../images/smf.png";
 import Country from "../country";
 import AutoUBI from "./components/autoUBI";
 import ExtraBand from "./components/extraBand";
@@ -230,7 +231,7 @@ export class UK extends Country {
                 "SPS_takeup_rate",
             ],
         },
-        "Miscellaneous": {
+        "Social Market Foundation": {
             "Cash payments": [
                 "benefit_based_cash_payment",
                 "tax_bracket_based_cash_payment",
@@ -240,9 +241,6 @@ export class UK extends Country {
     defaultOpenParameterGroups = [
         "/Tax",
         "/Benefit",
-        "/UBI Center",
-        "/Green Party",
-        "/Miscellaneous",
     ]
     defaultSelectedParameterGroup = "/Tax/Income Tax/Labour income"
     organisations = {
@@ -258,6 +256,9 @@ export class UK extends Country {
         "Green Party": {
             logo: GreenPartyLogo,
         },
+        "Social Market Foundation": {
+            logo: SMFLogo,
+        }
     }
     // OpenFisca data
     parameters = null
