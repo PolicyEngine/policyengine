@@ -571,6 +571,51 @@ def create_default_reform() -> ReformType:
                 + household("smf_tax_cash_payment", period)
             )
 
+    class smf_benefit_payment_eligible(Variable):
+        entity = Household
+        definition_period = YEAR
+        label = "Eligible for SMF benefit payments"
+        value_type = bool
+
+        def formula(household, period):
+            PASSPORTED_BENEFITS = [
+                "working_tax_credit",
+                "child_tax_credit",
+                "housing_benefit",
+                "ESA_income",
+                "JSA_income",
+                "income_support",
+                "universal_credit",
+            ]
+            return (
+                household.sum(
+                    sum(
+                        [
+                            household.members.benunit(benefit, period)
+                            for benefit in PASSPORTED_BENEFITS
+                        ]
+                    )
+                )
+                > 0
+            )
+
+    class smf_tax_payment_eligible(Variable):
+        entity = Household
+        definition_period = YEAR
+        label = "Eligible for SMF tax-related payments"
+        value_type = bool
+
+        def formula(household, period):
+            person = household.members
+            tax_band = person("tax_band", period)
+            bands = tax_band.possible_values
+
+            return household.any(
+                (tax_band == bands.BASIC)
+                | (tax_band == bands.STARTER)
+                | (tax_band == bands.INTERMEDIATE)
+            ) * ~household("smf_benefit_payment_eligible", period)
+
     class smf_benefit_cash_payment(Variable):
         entity = Household
         definition_period = YEAR
@@ -582,28 +627,9 @@ def create_default_reform() -> ReformType:
         unit = "currency-GBP"
 
         def formula(household, period, parameters):
-            PASSPORTED_BENEFITS = [
-                "working_tax_credit",
-                "child_tax_credit",
-                "housing_benefit",
-                "ESA_income",
-                "JSA_income",
-                "income_support",
-                "universal_credit",
-            ]
-            eligible = (
-                household.sum(
-                    sum(
-                        [
-                            household.members.benunit(benefit, period)
-                            for benefit in PASSPORTED_BENEFITS
-                        ]
-                    )
-                )
-                > 0
-            )
+
             rate = parameters(period).reforms.smf_cash_payment.benefit
-            return eligible * rate
+            return household("smf_benefit_payment_eligible", period) * rate
 
     class smf_tax_cash_payment(Variable):
         entity = Household
@@ -616,14 +642,7 @@ def create_default_reform() -> ReformType:
         unit = "currency-GBP"
 
         def formula(household, period, parameters):
-            person = household.members
-            tax_band = person("tax_band", period)
-            bands = tax_band.possible_values
-            eligible = household.any(
-                (tax_band == bands.BASIC)
-                | (tax_band == bands.STARTER)
-                | (tax_band == bands.INTERMEDIATE)
-            ) * (household("smf_benefit_cash_payment", period) == 0)
+            eligible = household("smf_tax_payment_eligible", period)
             rate = parameters(period).reforms.smf_cash_payment.tax
             return eligible * rate
 
@@ -653,9 +672,10 @@ def create_default_reform() -> ReformType:
             self.update_variable(meets_marriage_allowance_income_conditions)
 
             self.update_variable(single_pensioner_supplement)
-
+            self.update_variable(smf_benefit_payment_eligible)
+            self.update_variable(smf_tax_payment_eligible)
             self.update_variable(smf_benefit_cash_payment)
             self.update_variable(smf_tax_cash_payment)
             self.update_variable(household_benefits)
 
-    return (default_reform,)
+    return default_reform
