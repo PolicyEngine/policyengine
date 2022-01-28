@@ -619,8 +619,10 @@ def create_default_reform() -> ReformType:
             person = household.members
             tax_band = person("tax_band", period)
             bands = tax_band.possible_values
-            eligible = ~household.any(
-                (tax_band == bands.ADDITIONAL) | (tax_band == bands.HIGHER)
+            eligible = household.any(
+                (tax_band == bands.BASIC)
+                | (tax_band == bands.STARTER)
+                | (tax_band == bands.INTERMEDIATE)
             ) * (household("smf_benefit_cash_payment", period) == 0)
             rate = parameters(period).reforms.smf_cash_payment.tax
             return eligible * rate
