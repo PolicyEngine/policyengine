@@ -614,15 +614,13 @@ def create_default_reform() -> ReformType:
                 (tax_band == bands.BASIC)
                 | (tax_band == bands.STARTER)
                 | (tax_band == bands.INTERMEDIATE)
-            ) * ~household("smf_benefit_payment_eligible", period)
+            ) & ~household("smf_benefit_payment_eligible", period)
 
     class smf_benefit_cash_payment(Variable):
         entity = Household
         definition_period = YEAR
-        label = "Benefit-based cash payment"
-        documentation = (
-            "The benefit-based cash payment this household receives."
-        )
+        label = "SMF benefit-based cash payment"
+        documentation = "The Social Market Foundation's benefit-based cash payment this household receives."
         value_type = float
         unit = "currency-GBP"
 
@@ -634,10 +632,8 @@ def create_default_reform() -> ReformType:
     class smf_tax_cash_payment(Variable):
         entity = Household
         definition_period = YEAR
-        label = "Tax bracket-based cash payment"
-        documentation = (
-            "The tax bracket-based cash payment this household receives."
-        )
+        label = "SMF tax bracket-based cash payment"
+        documentation = "The Social Market Foundation's tax bracket-based cash payment this household receives."
         value_type = float
         unit = "currency-GBP"
 
