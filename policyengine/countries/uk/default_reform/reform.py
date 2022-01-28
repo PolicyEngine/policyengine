@@ -571,17 +571,13 @@ def create_default_reform() -> ReformType:
                 + household("smf_tax_cash_payment", period)
             )
 
-    class smf_benefit_cash_payment(Variable):
+    class smf_benefit_payment_eligible(Variable):
         entity = Household
         definition_period = YEAR
-        label = "Benefit-based cash payment"
-        documentation = (
-            "The benefit-based cash payment this household receives."
-        )
-        value_type = float
-        unit = "currency-GBP"
+        label = "Eligible for SMF benefit payments"
+        value_type = bool
 
-        def formula(household, period, parameters):
+        def formula(household, period):
             PASSPORTED_BENEFITS = [
                 "working_tax_credit",
                 "child_tax_credit",
@@ -591,7 +587,7 @@ def create_default_reform() -> ReformType:
                 "income_support",
                 "universal_credit",
             ]
-            eligible = (
+            return (
                 household.sum(
                     sum(
                         [
@@ -602,26 +598,47 @@ def create_default_reform() -> ReformType:
                 )
                 > 0
             )
-            rate = parameters(period).reforms.smf_cash_payment.benefit
-            return eligible * rate
 
-    class smf_tax_cash_payment(Variable):
+    class smf_tax_payment_eligible(Variable):
         entity = Household
         definition_period = YEAR
-        label = "Tax bracket-based cash payment"
-        documentation = (
-            "The tax bracket-based cash payment this household receives."
-        )
+        label = "Eligible for SMF tax-related payments"
+        value_type = bool
+
+        def formula(household, period):
+            person = household.members
+            tax_band = person("tax_band", period)
+            bands = tax_band.possible_values
+
+            return household.any(
+                (tax_band == bands.BASIC)
+                | (tax_band == bands.STARTER)
+                | (tax_band == bands.INTERMEDIATE)
+            ) & ~household("smf_benefit_payment_eligible", period)
+
+    class smf_benefit_cash_payment(Variable):
+        entity = Household
+        definition_period = YEAR
+        label = "SMF benefit-based cash payment"
+        documentation = "The Social Market Foundation's benefit-based cash payment this household receives."
         value_type = float
         unit = "currency-GBP"
 
         def formula(household, period, parameters):
-            person = household.members
-            tax_band = person("tax_band", period)
-            bands = tax_band.possible_values
-            eligible = ~household.any(
-                (tax_band == bands.ADDITIONAL) | (tax_band == bands.HIGHER)
-            ) * (household("smf_benefit_cash_payment", period) == 0)
+
+            rate = parameters(period).reforms.smf_cash_payment.benefit
+            return household("smf_benefit_payment_eligible", period) * rate
+
+    class smf_tax_cash_payment(Variable):
+        entity = Household
+        definition_period = YEAR
+        label = "SMF tax bracket-based cash payment"
+        documentation = "The Social Market Foundation's tax bracket-based cash payment this household receives."
+        value_type = float
+        unit = "currency-GBP"
+
+        def formula(household, period, parameters):
+            eligible = household("smf_tax_payment_eligible", period)
             rate = parameters(period).reforms.smf_cash_payment.tax
             return eligible * rate
 
@@ -651,9 +668,10 @@ def create_default_reform() -> ReformType:
             self.update_variable(meets_marriage_allowance_income_conditions)
 
             self.update_variable(single_pensioner_supplement)
-
+            self.update_variable(smf_benefit_payment_eligible)
+            self.update_variable(smf_tax_payment_eligible)
             self.update_variable(smf_benefit_cash_payment)
             self.update_variable(smf_tax_cash_payment)
             self.update_variable(household_benefits)
 
-    return (default_reform,)
+    return default_reform
