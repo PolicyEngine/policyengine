@@ -7,6 +7,71 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.10.6] - 2022-01-29
+
+### Changed
+
+* Change color scheme to gray/green for negative/positive changes.
+
+## [1.10.5] - 2022-01-29
+
+### Fixed
+
+* Decile changes are now all household-weighted, except for decile placement.
+
+## [1.10.4] - 2022-01-29
+
+### Fixed
+
+* The SMF tax-based payment now excludes households with higher and additional rate payers.
+
+## [1.10.3] - 2022-01-28
+
+### Fixed
+
+* A bug which caused boolean parameters to display "false -> false" when unchecked.
+* The SMF tax-based payment now is paid to basic/intermediate/starter rate payers, rather than just not higher and additional rate payers.
+
+## [1.10.2] - 2022-01-26
+
+### Changed
+
+* Miscellaneous cash payments now have the Social Market Foundation branding.
+
+## [1.10.1] - 2022-01-26
+
+### Fixed
+
+* Copy links from the population impact and household pages are now valid.
+* The accounting table is now responsive.
+
+### Added
+
+* The household page now has a primary navigation button, pointing to the results tab.
+* Descriptive error messages when variables fail to load.
+
+### Changed
+
+* The dividers on the household page link to their first descendent when clicked.
+
+## [1.10.0] - 2022-01-26
+
+### Added
+
+* Miscellaneous: cash payments to benefit recipients or taxpayers.
+
+## [1.9.0] - 2022-01-25
+
+### Added
+
+* School meal subsidies and net income to US app.
+
+## [1.8.5] - 2022-01-24
+
+### Changed
+
+* Green Party Manifesto link increases child UBI from £70/week to £75/week.
+
 ## [1.8.4] - 2022-01-22
 
 ### Added

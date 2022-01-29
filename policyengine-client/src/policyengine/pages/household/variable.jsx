@@ -125,8 +125,13 @@ export default class Variable extends React.Component {
 		if(!this.context.fullyLoaded) {
 			return <></>;
 		}
-		let metadata = this.context.variables[this.props.name];
-        metadata.value = this.context.situation[this.context.entities[metadata.entity].plural][this.props.entityName][metadata.name]["2021"]
+		let metadata;
+		try {
+			metadata = this.context.variables[this.props.name];
+			metadata.value = this.context.situation[this.context.entities[metadata.entity].plural][this.props.entityName][metadata.name]["2021"];
+		} catch {
+			return null;
+		}
 		if (!metadata) {
 			return null;
 		}

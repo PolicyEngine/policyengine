@@ -58,9 +58,15 @@ export class US extends Country {
                 "snap_homeless_shelter_deduction",
                 "snap_shelter_deduction_income_share_disregard",
             ]
+        },
+        "School meals": {
+            "Eligibility": [
+                "school_meal_free_fpg_limit",
+                "school_meal_reduced_fpg_limit",
+            ]
         }
     }
-    defaultOpenParameterGroups = ["/SNAP"]
+    defaultOpenParameterGroups = ["/SNAP", "/School meals"];
     defaultSelectedParameterGroup = "/SNAP/Eligibility"
     organisations = {}
     // OpenFisca data
@@ -108,19 +114,38 @@ export class US extends Country {
         "is_permanently_disabled_veteran",
         "is_surviving_spouse_of_disabled_veteran",
         "is_surviving_child_of_disabled_veteran",
+        "is_in_school",
         // SPM unit.
         "ssi",
         "housing_cost",
         "childcare_expenses",
+        "fdpir",
         // Household.
         "state_code",
         "is_homeless",
+        // Taxes manually specified
+        "spm_unit_fica",
+        "spm_unit_federal_tax",
+        "spm_unit_state_tax",
     ]
     outputVariables = [
+        // Top level.
         "spm_unit_net_income",
-        "snap_max_allotment",
-        "snap_expected_contribution",
+        // Second level.
+        "spm_unit_market_income",
+        "spm_unit_benefits",
+        "spm_unit_taxes",
+        // Third level - spm_unit_market_income.
+        "employment_income",
+        "self_employment_income",
+        "dividend_income",
+        "interest_income",
+        // Third level - spm_unit_benefits.
         "snap",
+        "school_meal_subsidy",
+        "ssi",
+        "ssdi",
+        // Third level - spm_unit_taxes.
     ]
     inputVariableHierarchy = {
         "General": [
@@ -133,6 +158,7 @@ export class US extends Country {
             "dividend_income",
             "interest_income",
             "medical_out_of_pocket_expenses",
+            "is_in_school",
             "ssdi",
             "is_ssi_disabled",
             "is_permanently_disabled_veteran",
@@ -143,6 +169,10 @@ export class US extends Country {
             "ssi",
             "housing_cost",
             "childcare_expenses",
+            "fdpir",
+            "spm_unit_fica",
+            "spm_unit_federal_tax",
+            "spm_unit_state_tax",
         ],
         "Household": [
             "state_code",
@@ -154,17 +184,36 @@ export class US extends Country {
     outputVariableHierarchy = {
         "spm_unit_net_income": {
             "add": [
-                "snap",
+                "spm_unit_market_income",
+                "spm_unit_benefits",
+            ],
+            "subtract": [
+                "spm_unit_taxes",
+            ]
+        },
+        "spm_unit_market_income": {
+            "add": [
+                "employment_income",
+                "self_employment_income",
+                "dividend_income",
+                "interest_income",
             ],
             "subtract": []
         },
-        "snap": {
+        "spm_unit_benefits": {
             "add": [
-                "snap_max_allotment",
+                "snap",
+                "school_meal_subsidy",
             ],
-            "subtract": [
-                "snap_expected_contribution",
-            ]
+            "subtract": []
+        },
+        "spm_unit_taxes": {
+            "add": [
+                "spm_unit_fica",
+                "spm_unit_federal_tax",
+                "spm_unit_state_tax",
+            ],
+            "subtract": []
         }
     }
 
@@ -185,6 +234,7 @@ export class US extends Country {
         const childName = childNamer[this.getNumChildren() + 1];
         situation.people[childName] = {
             "age": { "2021": 10 },
+            "is_in_school": { "2021": true },
         };
         situation.families["Your family"].members.push(childName);
         situation.tax_units["Your tax unit"].members.push(childName);
