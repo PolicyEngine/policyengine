@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.10.5] - 2022-01-29
+
+### Fixed
+
+* Decile changes are now all household-weighted, except for decile placement.
+
 ## [1.10.4] - 2022-01-29
 
 ### Fixed
