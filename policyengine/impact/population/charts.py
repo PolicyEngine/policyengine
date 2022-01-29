@@ -65,23 +65,23 @@ def decile_chart(
         .astype(float)
     )
     # Total gain / number of households by decile.
-    mean_abs_changes = (agg_gain_by_decile / households_by_decile).round()
+    mean_gain_by_decile = (agg_gain_by_decile / households_by_decile).round()
     # Write out hovercard.
     decile_number = rel_agg_changes.index
     verb = np.where(
         mean_gain_by_decile > 0,
-        "gained",
-        np.where(mean_gain_by_decile < 0, "lost", "remained"),
+        "rise",
+        np.where(mean_gain_by_decile < 0, "fall", "remain"),
     )
     label_prefix = (
         "Household incomes in the "
-        + decile_number
+        + pd.Series(decile_number.astype(str))
         + " decile "
         + verb
         + " by an average of "
     )
-    label_value_abs = np.abs(mean_abs_changes).astype(str)
-    label_value_rel = rel_agg_changes.astype(str)
+    label_value_abs = pd.Series(np.abs(mean_gain_by_decile).astype(str))
+    label_value_rel = pd.Series(rel_agg_changes.astype(str))
     label_suffix = (
         ", from £"
         + baseline_mean_income_by_decile
@@ -101,7 +101,7 @@ def decile_chart(
         {
             "Decile": decile_number,
             "Relative change": rel_agg_changes.values,
-            "Average change": mean_abs_changes.values,
+            "Average change": mean_gain_by_decile.values,
             "label_rel": label_rel,
             "label_abs": label_abs,
         }
