@@ -66,15 +66,48 @@ def decile_chart(
     )
     # Total gain / number of households by decile.
     mean_abs_changes = (agg_gain_by_decile / households_by_decile).round()
+    # Write out hovercard.
+    decile_number = rel_agg_changes.index
+    verb = np.where(
+        mean_gain_by_decile > 0,
+        "gained",
+        np.where(mean_gain_by_decile < 0, "lost", "remained"),
+    )
+    label_prefix = (
+        "Household incomes in the "
+        + decile_number
+        + " decile "
+        + verb
+        + " by an average of "
+    )
+    label_value_abs = np.abs(mean_abs_changes).astype(str)
+    label_value_rel = rel_agg_changes.astype(str)
+    label_suffix = (
+        ", from £"
+        + baseline_mean_income_by_decile
+        + " to £"
+        + reform_mean_income_by_decile
+        + " per year"
+    )
+    label_rel = label_prefix + label_value_rel + label_suffix
+    label_abs = label_prefix + label_value_abs + label_suffix
+    """
+    Examples:
+    - Household incomes in the 1st decile rise by an average of $1, from $1,000 to $1,001 per year
+    - Household incomes in the 2nd decile fall by an average of $1, from $1,000 to $999 per year
+    - Household incomes in the 3rd decile remain at $1,000 per year
+    """
     df = pd.DataFrame(
         {
-            "Decile": rel_agg_changes.index,
+            "Decile": decile_number,
             "Relative change": rel_agg_changes.values,
             "Average change": mean_abs_changes.values,
+            "label_rel": label_rel,
+            "label_abs": label_abs,
         }
     )
     rel_fig = (
-        px.bar(df, x="Decile", y="Relative change")
+        px.bar(df, x="Decile", y="Relative change", custom_data=["label_rel"])
         .update_layout(
             title="Change to net income by decile",
             xaxis_title="Equivalised disposable income decile",
@@ -90,7 +123,7 @@ def decile_chart(
         )
     )
     abs_fig = (
-        px.bar(df, x="Decile", y="Average change")
+        px.bar(df, x="Decile", y="Average change", custom_data=["label_abs"])
         .update_layout(
             title="Change to net income by decile",
             xaxis_title="Equivalised disposable income decile",
@@ -108,6 +141,8 @@ def decile_chart(
     )
     charts.add_zero_line(rel_fig)
     charts.add_zero_line(abs_fig)
+    charts.add_hovercard(rel_fig)
+    charts.add_hovercard(abs_fig)
     return (
         charts.formatted_fig_json(rel_fig),
         charts.formatted_fig_json(abs_fig),
