@@ -31,29 +31,41 @@ def decile_chart(
     baseline_household_equiv_income = baseline.calc(
         config.equiv_household_net_income_variable
     )
+    reform_household_net_income = reformed.calc(
+        config.household_net_income_variable
+    )
     household_gain = (
-        reformed.calc(config.household_net_income_variable)
-        - baseline_household_net_income
+        reform_household_net_income - baseline_household_net_income
     )
     household_size = baseline.calc("people", map_to="household")
     # Group households in decile such that each decile has the same
     # number of people
     baseline_household_equiv_income.weights *= household_size
     household_decile = baseline_household_equiv_income.decile_rank()
+    agg_gain_by_decile = household_gain.groupby(household_decile).sum()
+    households_by_decile = baseline_household_net_income.groupby(
+        household_decile
+    ).count()
+    baseline_agg_income_by_decile = baseline_household_net_income.groupby(
+        household_decile
+    ).sum()
+    reform_agg_income_by_decile = reform_household_net_income.groupby(
+        household_decile
+    ).sum()
+    baseline_mean_income_by_decile = (
+        baseline_agg_income_by_decile / households_by_decile
+    )
+    reform_mean_income_by_decile = (
+        reform_agg_income_by_decile / households_by_decile
+    )
+    # Total decile gain / total decile income.
     rel_agg_changes = (
-        # Total decile gain / total decile income
-        (
-            household_gain.groupby(household_decile).sum()
-            / baseline_household_net_income.groupby(household_decile).sum()
-        )
+        (agg_gain_by_decile / baseline_agg_income_by_decile)
         .round(3)
         .astype(float)
     )
-    mean_abs_changes = (
-        # Total decile gain / number of households
-        household_gain.groupby(household_decile).sum()
-        / baseline_household_net_income.groupby(household_decile).count()
-    ).round()
+    # Total gain / number of households by decile.
+    mean_abs_changes = (agg_gain_by_decile / households_by_decile).round()
     df = pd.DataFrame(
         {
             "Decile": rel_agg_changes.index,
