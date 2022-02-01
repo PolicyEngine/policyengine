@@ -635,7 +635,6 @@ def create_default_reform() -> ReformType:
         unit = "currency-GBP"
 
         def formula(household, period, parameters):
-
             rate = parameters(period).reforms.smf_cash_payment.benefit
             return household("smf_benefit_payment_eligible", period) * rate
 
