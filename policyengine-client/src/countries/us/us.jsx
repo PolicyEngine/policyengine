@@ -35,12 +35,12 @@ export class US extends Country {
     }
     name = "us"
     properName = "US"
-    beta = false
+    beta = true
     // Pages to show
     showPolicy = true
     showPopulationImpact = false
     showHousehold = true
-    showEarningsVariation = true
+    showEarningsVariation = false
     showFAQ = true
     // Vanity URLs
     namedPolicies = {}
@@ -124,6 +124,8 @@ export class US extends Country {
         // Household.
         "state_code",
         "is_homeless",
+        // SPM unit
+        "spm_unit_state_tax",
     ]
     outputVariables = [
         // Top level.
@@ -145,7 +147,6 @@ export class US extends Country {
         // Third level - spm_unit_taxes.
         "spm_unit_fica",
         "spm_unit_federal_tax",
-        "spm_unit_state_tax",
     ]
     inputVariableHierarchy = {
         "General": [
