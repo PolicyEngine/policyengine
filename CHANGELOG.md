@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.11.0] - 2022-02-02
+
+### Added
+
+* Federal tax output variable in the net income panel.
+* Beta label on PolicyEngine US.
+
 ## [1.10.6] - 2022-01-29
 
 ### Changed

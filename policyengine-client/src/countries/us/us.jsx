@@ -35,11 +35,12 @@ export class US extends Country {
     }
     name = "us"
     properName = "US"
-    beta = false
+    beta = true
     // Pages to show
     showPolicy = true
     showPopulationImpact = false
     showHousehold = true
+    showEarningsVariation = false
     showFAQ = true
     // Vanity URLs
     namedPolicies = {}
@@ -123,9 +124,7 @@ export class US extends Country {
         // Household.
         "state_code",
         "is_homeless",
-        // Taxes manually specified
-        "spm_unit_fica",
-        "spm_unit_federal_tax",
+        // SPM unit
         "spm_unit_state_tax",
     ]
     outputVariables = [
@@ -146,6 +145,8 @@ export class US extends Country {
         "ssi",
         "ssdi",
         // Third level - spm_unit_taxes.
+        "spm_unit_fica",
+        "spm_unit_federal_tax",
     ]
     inputVariableHierarchy = {
         "General": [
@@ -170,8 +171,6 @@ export class US extends Country {
             "housing_cost",
             "childcare_expenses",
             "fdpir",
-            "spm_unit_fica",
-            "spm_unit_federal_tax",
             "spm_unit_state_tax",
         ],
         "Household": [
@@ -268,6 +267,7 @@ export class US extends Country {
             situation: this.validateSituation(situation).situation,
             baselineSituationImpactIsOutdated: true,
             reformSituationImpactIsOutdated: true,
+            situationVariationImpactIsOutdated: true,
         });
     }
 
@@ -294,6 +294,7 @@ export class US extends Country {
             situation: this.validateSituation(situation).situation,
             baselineSituationImpactIsOutdated: true,
             reformSituationImpactIsOutdated: true,
+            situationVariationImpactIsOutdated: true,
         });
     }
 
