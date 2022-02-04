@@ -11,7 +11,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 ### Changed
 
-* GP manifesto policy extends the higher rate threshold to £50,000.
+* UK Green Party manifesto policy extends the higher rate threshold to £50,000.
 * OpenFisca-UK updated with re-weighting routine.
 
 ## [1.11.0] - 2022-02-02
