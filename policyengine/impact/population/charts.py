@@ -73,7 +73,6 @@ def decile_chart(
         "rise",
         np.where(mean_gain_by_decile < 0, "fall", "remain"),
     )
-    print("creating label_prefix")
     label_prefix = (
         "Household incomes in the "
         + pd.Series(decile_number).astype(str).reset_index(drop=True)
@@ -81,7 +80,6 @@ def decile_chart(
         + pd.Series(verb).reset_index(drop=True)
         + " by an average of "
     )
-    print("creating label_value_abs")
     label_value_abs = (
         pd.Series(np.abs(mean_gain_by_decile))
         .astype(str)
@@ -102,11 +100,6 @@ def decile_chart(
         + " per year"
     )
     label_rel = label_prefix + label_value_rel + label_suffix
-    print(label_prefix)
-    print(label_value_abs)
-    print(label_suffix)
-    print(baseline_mean_income_by_decile)
-    print(mean_gain_by_decile)
     label_abs = label_prefix + label_value_abs + label_suffix
     """
     Examples:
