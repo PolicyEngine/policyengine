@@ -54,6 +54,7 @@ class PolicyEngineCountry:
     calculate_only: bool = False
     version: str
     results_config: Type[PolicyEngineResultsConfig]
+    baseline = None
 
     def __init__(self):
         if self.calculate_only:
@@ -91,20 +92,18 @@ class PolicyEngineCountry:
                 use_current_parameters(),
             )
 
-            self.baseline = self.Microsimulation(
-                self.default_reform, dataset=self.default_dataset
+            self.year = 2022
+
+            self.tax_benefit_system = apply_reform(
+                self.default_reform, self.system()
             )
 
-            self.baseline.simulation.trace = True
-            self.year = 2022
-            self.baseline.calc("net_income")
-
             self.policyengine_parameters = get_PE_parameters(
-                self.baseline.simulation.tax_benefit_system
+                self.tax_benefit_system
             )
 
             self.policyengine_variables = get_PE_variables(
-                self.baseline.simulation.tax_benefit_system
+                self.tax_benefit_system
             )
 
             self.api_endpoints = dict(
@@ -119,9 +118,8 @@ class PolicyEngineCountry:
                 household_variation=self.household_variation,
             )
 
-            self.entities = build_entities(
-                self.baseline.simulation.tax_benefit_system
-            )
+            self.entities = build_entities(self.tax_benefit_system)
+            self.baseline, _ = self._get_microsimulations({})
 
     def _get_microsimulations(
         self, params: dict
@@ -131,7 +129,7 @@ class PolicyEngineCountry:
         )
         baseline = (
             self.baseline
-            if not reform_config["baseline"]["has_changed"]
+            if self.baseline and not reform_config["baseline"]["has_changed"]
             else self.Microsimulation(
                 reform_config["baseline"]["reform"],
                 dataset=self.default_dataset,
