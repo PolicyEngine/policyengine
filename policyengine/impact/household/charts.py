@@ -223,12 +223,33 @@ def mtr_chart(
     baseline_mtr = get_mtr(earnings, baseline_net)
     reform_mtr = get_mtr(earnings, reform_net)
     variable_mtrs = {}
+
+    # Un-comment this section and others to debug the MTR chart by plotting additional variables.
+    """
+    explainer_variables = [
+        "income_tax",
+        "regular_tax_before_credits",
+        "taxable_income",
+        "alternative_minimum_tax",
+        "income_tax_before_credits",
+        "income_tax_non_refundable_credits",
+        "income_tax_before_refundable_credits",
+        "income_tax_refundable_credits",
+        "eitc",
+        "refundable_american_opportunity_credit",
+        "cdcc_refund",
+        "refundable_ctc",
+        "recovery_rebate_credit",
+        "refundable_payroll_tax_credit",
+    ]
+    """
+
     for explaining_variable, inverted, name in zip(
         (
             config.tax_variable,
             config.benefit_variable,
         ),
-        (False, True),
+        (False, True, False),
         (
             "tax",
             "benefits",
@@ -249,6 +270,19 @@ def mtr_chart(
         variable_mtrs[name + "_reform"] = (
             get_mtr(earnings, reform_values) * multiplier + addition
         )
+    inverted = False
+    """
+    explainer_names = []
+    for variable in explainer_variables:
+        baseline_values = baseline.calc(variable).sum(axis=0)
+        multiplier = 1 if inverted else -1
+        addition = -1 if inverted else 1
+        name = baseline.simulation.tax_benefit_system.variables[variable].label or variable
+        explainer_names += [name]
+        variable_mtrs[name] = (
+            get_mtr(earnings, baseline_values) * multiplier + addition
+        )
+    """
     df = pd.DataFrame(
         {
             "Earnings": earnings[:-1].round(0),
@@ -276,11 +310,13 @@ def mtr_chart(
     fig = px.line(
         df,
         x="Earnings",
-        y=["Baseline", "Reform"] if has_reform else ["Marginal tax rate"],
+        y=["Baseline", "Reform"]
+        if has_reform
+        else ["Marginal tax rate"],  # explainer_names,
         labels=dict(LABELS, value="Marginal tax rate"),
         color_discrete_map=COLOR_MAP,
-        line_shape="hv",
         custom_data=["hover"],
+        line_shape="hv",
     )
     add_you_are_here(fig, df.Earnings[i])
     charts.add_custom_hovercard(fig)
@@ -290,7 +326,7 @@ def mtr_chart(
         xaxis_tickprefix="£",
         yaxis_tickformat=",.0%",
         yaxis_title="Marginal tax rate",
-        yaxis_range=(0, 1),
+        yaxis_range=(-1, 1),
         legend_title=None,
     )
     return charts.formatted_fig_json(fig)

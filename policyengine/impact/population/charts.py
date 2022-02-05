@@ -73,23 +73,40 @@ def decile_chart(
         "rise",
         np.where(mean_gain_by_decile < 0, "fall", "remain"),
     )
+    print("creating label_prefix")
     label_prefix = (
         "Household incomes in the "
-        + pd.Series(decile_number.astype(str))
+        + pd.Series(decile_number).astype(str).reset_index(drop=True)
         + " decile "
-        + verb
+        + pd.Series(verb).reset_index(drop=True)
         + " by an average of "
     )
-    label_value_abs = pd.Series(np.abs(mean_gain_by_decile).astype(str))
-    label_value_rel = pd.Series(rel_agg_changes.astype(str))
+    print("creating label_value_abs")
+    label_value_abs = (
+        pd.Series(np.abs(mean_gain_by_decile))
+        .astype(str)
+        .reset_index(drop=True)
+    )
+    label_value_rel = (
+        pd.Series(rel_agg_changes).astype(str).reset_index(drop=True)
+    )
     label_suffix = (
         ", from £"
-        + baseline_mean_income_by_decile
+        + pd.Series(baseline_mean_income_by_decile)
+        .astype(str)
+        .reset_index(drop=True)
         + " to £"
-        + reform_mean_income_by_decile
+        + pd.Series(reform_mean_income_by_decile)
+        .astype(str)
+        .reset_index(drop=True)
         + " per year"
     )
     label_rel = label_prefix + label_value_rel + label_suffix
+    print(label_prefix)
+    print(label_value_abs)
+    print(label_suffix)
+    print(baseline_mean_income_by_decile)
+    print(mean_gain_by_decile)
     label_abs = label_prefix + label_value_abs + label_suffix
     """
     Examples:
@@ -141,8 +158,8 @@ def decile_chart(
     )
     charts.add_zero_line(rel_fig)
     charts.add_zero_line(abs_fig)
-    charts.add_hovercard(rel_fig)
-    charts.add_hovercard(abs_fig)
+    charts.add_custom_hovercard(rel_fig)
+    charts.add_custom_hovercard(abs_fig)
     return (
         charts.formatted_fig_json(rel_fig),
         charts.formatted_fig_json(abs_fig),

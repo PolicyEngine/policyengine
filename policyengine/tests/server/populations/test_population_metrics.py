@@ -20,7 +20,7 @@ EXPECTED_RESULTS = (
     dict(net_cost_numeric=(0, 0)),
     dict(net_cost_numeric=(-110e9, -90e9)),
     dict(net_cost_numeric=(-6e9, -3e9)),
-    dict(net_cost_numeric=(10e9, 20e9)),
+    dict(net_cost_numeric=(10e9, 30e9)),
     dict(loser_share=(0, 1e-3)),
 )
 

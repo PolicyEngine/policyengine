@@ -218,7 +218,7 @@ def create_default_reform() -> ReformType:
     class adjusted_net_income(Variable):
         value_type = float
         entity = Person
-        label = u"Taxable income after tax reliefs and before allowances"
+        label = "Taxable income after tax reliefs and before allowances"
         definition_period = YEAR
         reference = "Income Tax Act 2007 s. 23"
 
@@ -245,7 +245,7 @@ def create_default_reform() -> ReformType:
     class UC_earned_income(Variable):
         value_type = float
         entity = BenUnit
-        label = u"Universal Credit earned income (after disregards and tax)"
+        label = "Universal Credit earned income (after disregards and tax)"
         definition_period = YEAR
 
         def formula(benunit, period, parameters):
@@ -269,7 +269,7 @@ def create_default_reform() -> ReformType:
     class tax_credits_applicable_income(Variable):
         value_type = float
         entity = BenUnit
-        label = u"Applicable income for Tax Credits"
+        label = "Applicable income for Tax Credits"
         definition_period = YEAR
         reference = "The Tax Credits (Definition and Calculation of Income) Regulations 2002 s. 3"
 
@@ -303,7 +303,7 @@ def create_default_reform() -> ReformType:
     class guarantee_credit_applicable_income(Variable):
         value_type = float
         entity = BenUnit
-        label = u"Applicable income for Pension Credit"
+        label = "Applicable income for Pension Credit"
         definition_period = YEAR
 
         def formula(benunit, period, parameters):
@@ -344,7 +344,7 @@ def create_default_reform() -> ReformType:
     class JSA_income_applicable_income(Variable):
         value_type = float
         entity = BenUnit
-        label = u"Relevant income for JSA (income-based) means test"
+        label = "Relevant income for JSA (income-based) means test"
         definition_period = YEAR
 
         def formula(benunit, period, parameters):
@@ -390,7 +390,7 @@ def create_default_reform() -> ReformType:
     class income_support_applicable_income(Variable):
         value_type = float
         entity = BenUnit
-        label = u"Relevant income for Income Support means test"
+        label = "Relevant income for Income Support means test"
         definition_period = YEAR
 
         def formula(benunit, period, parameters):
@@ -436,7 +436,7 @@ def create_default_reform() -> ReformType:
     class housing_benefit_applicable_income(Variable):
         value_type = float
         entity = BenUnit
-        label = u"Relevant income for Housing Benefit means test"
+        label = "Relevant income for Housing Benefit means test"
         definition_period = YEAR
 
         def formula(benunit, period, parameters):
@@ -635,7 +635,6 @@ def create_default_reform() -> ReformType:
         unit = "currency-GBP"
 
         def formula(household, period, parameters):
-
             rate = parameters(period).reforms.smf_cash_payment.benefit
             return household("smf_benefit_payment_eligible", period) * rate
 
