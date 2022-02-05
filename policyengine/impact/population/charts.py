@@ -1,6 +1,9 @@
 from typing import Tuple, Type
-from microdf import MicroSeries
-from policyengine.impact.population.metrics import poverty_rate, pct_change
+from policyengine.impact.population.metrics import (
+    poverty_rate,
+    deep_poverty_rate,
+    pct_change,
+)
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
@@ -125,6 +128,29 @@ def pov_chg(
     )
 
 
+def deep_pov_chg(
+    baseline: Microsimulation,
+    reformed: Microsimulation,
+    criterion: str,
+    config: Type[PolicyEngineResultsConfig],
+) -> float:
+    """Calculate change in poverty rates.
+
+    :param baseline: Baseline simulation.
+    :type baseline: Microsimulation
+    :param reform: Reform simulation.
+    :type reform: Microsimulation
+    :param criterion: Filter for each simulation.
+    :type criterion: str
+    :return: Percentage (not percentage point) difference in poverty rates.
+    :rtype: float
+    """
+    return pct_change(
+        deep_poverty_rate(baseline, criterion, config),
+        deep_poverty_rate(reformed, criterion, config),
+    )
+
+
 def poverty_chart(
     baseline: Microsimulation,
     reformed: Microsimulation,
@@ -157,6 +183,7 @@ def poverty_chart(
             ],
         }
     )
+    # TODO: Duplicate rows with column for `metric` and the value "Poverty" or "Deep poverty"
     df["abs_chg_str"] = df.pov_chg.abs().map("{:.1%}".format)
     df["label"] = (
         np.where(df.group == "All", "Total", df.group)
@@ -171,6 +198,7 @@ def poverty_chart(
         df,
         x="group",
         y="pov_chg",
+        # TODO: Add `color="metric"`
         custom_data=["label"],
         labels={"group": "Group", "pov_chg": "Poverty rate change"},
     )
