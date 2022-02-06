@@ -16,6 +16,7 @@ import pandas as pd
 import warnings
 
 warnings.filterwarnings("ignore")
+baseline_parameters = CountryTaxBenefitSystem().parameters
 
 
 def add_extra_band(parameters: ParameterNode) -> ParameterNode:
@@ -651,6 +652,19 @@ def create_default_reform() -> ReformType:
             rate = parameters(period).reforms.smf_cash_payment.tax
             return eligible * rate
 
+    class personal_allowance(baseline_variables["personal_allowance"]):
+        def formula(person, period, parameters):
+            default_pa = baseline_variables["personal_allowance"].formula(
+                person, period, parameters
+            )
+            is_sp_age = person("is_SP_age", period)
+            baseline_pa = baseline_variables["personal_allowance"].formula(
+                person, period, baseline_parameters
+            )
+            if parameters(period).reforms.misc.exempt_seniors_from_PA_changes:
+                return where(is_sp_age, baseline_pa, default_pa)
+            return default_pa
+
     class default_reform(Reform):
         def apply(self):
             self.update_variable(LVT)
@@ -682,5 +696,6 @@ def create_default_reform() -> ReformType:
             self.update_variable(smf_benefit_cash_payment)
             self.update_variable(smf_tax_cash_payment)
             self.update_variable(household_benefits)
+            self.update_variable(personal_allowance)
 
     return default_reform

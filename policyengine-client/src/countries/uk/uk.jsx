@@ -237,6 +237,11 @@ export class UK extends Country {
                 "tax_bracket_based_cash_payment",
             ],
         },
+        "Miscellaneous": {
+            "Tax ": [
+                "exempt_seniors_from_PA_reforms",
+            ]
+        }
     }
     defaultOpenParameterGroups = [
         "/Tax",
