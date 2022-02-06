@@ -16,7 +16,7 @@ import pandas as pd
 import warnings
 
 warnings.filterwarnings("ignore")
-baseline_system = CountryTaxBenefitSystem().parameters
+baseline_parameters = CountryTaxBenefitSystem().parameters
 
 
 def add_extra_band(parameters: ParameterNode) -> ParameterNode:
