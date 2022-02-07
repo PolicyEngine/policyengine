@@ -3,7 +3,7 @@ import React, { useContext } from "react"
 import { Col, Row } from "react-bootstrap";
 import { CountryContext } from "../../../countries"
 import Menu from "./menu";
-import { PolicyOverview } from "./overview";
+import { OverviewHolder, PolicyOverview } from "./overview";
 import Parameter from "./parameter";
 import NavigationButton from "../../general/navigationButton";
 import Centered from "../../general/centered";
@@ -47,6 +47,7 @@ export default class Policy extends React.Component {
                     />
                 </Col>
                 <Col xl={3}>
+                    <OverviewHolder>
                     <PolicyOverview page="policy"/>
                     <Divider />
                     <Centered>
@@ -61,6 +62,7 @@ export default class Policy extends React.Component {
                             primary={!this.context.showPopulationImpact}
                         />}
                     </Centered>
+                    </OverviewHolder>
                 </Col>
             </Row>
         </>;
