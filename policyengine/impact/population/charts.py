@@ -25,27 +25,34 @@ def decile_chart(
     :return: Decile charts (relative and absolute) as JSON representations of Plotly charts.
     :rtype: Tuple[dict, dict]
     """
-    income = baseline.calc(
-        config.household_net_income_variable, map_to="person"
+    baseline_household_net_income = baseline.calc(
+        config.household_net_income_variable
     )
-    equiv_income = baseline.calc(
-        config.equiv_household_net_income_variable, map_to="person"
+    baseline_household_equiv_income = baseline.calc(
+        config.equiv_household_net_income_variable
     )
-    gain = (
-        reformed.calc(config.household_net_income_variable, map_to="person")
-        - income
+    household_gain = (
+        reformed.calc(config.household_net_income_variable)
+        - baseline_household_net_income
     )
+    household_size = baseline.calc("people", map_to="household")
+    # Group households in decile such that each decile has the same
+    # number of people
+    baseline_household_equiv_income.weights *= household_size
+    household_decile = baseline_household_equiv_income.decile_rank()
     rel_agg_changes = (
+        # Total decile gain / total decile income
         (
-            gain.groupby(equiv_income.decile_rank()).sum()
-            / income.groupby(equiv_income.decile_rank()).sum()
+            household_gain.groupby(household_decile).sum()
+            / baseline_household_net_income.groupby(household_decile).sum()
         )
         .round(3)
         .astype(float)
     )
     mean_abs_changes = (
-        gain.groupby(equiv_income.decile_rank()).sum()
-        / income.groupby(equiv_income.decile_rank()).count()
+        # Total decile gain / number of households
+        household_gain.groupby(household_decile).sum()
+        / baseline_household_net_income.groupby(household_decile).count()
     ).round()
     df = pd.DataFrame(
         {
@@ -64,7 +71,11 @@ def decile_chart(
             showlegend=False,
             xaxis_tickvals=list(range(1, 11)),
         )
-        .update_traces(marker_color=charts.BLUE)
+        .update_traces(
+            marker_color=np.where(
+                df["Relative change"] > 0, charts.DARK_GREEN, charts.GRAY
+            )
+        )
     )
     abs_fig = (
         px.bar(df, x="Decile", y="Average change")
@@ -77,12 +88,17 @@ def decile_chart(
             showlegend=False,
             xaxis_tickvals=list(range(1, 11)),
         )
-        .update_traces(marker_color=charts.BLUE)
+        .update_traces(
+            marker_color=np.where(
+                df["Average change"] > 0, charts.DARK_GREEN, charts.GRAY
+            )
+        )
     )
     charts.add_zero_line(rel_fig)
     charts.add_zero_line(abs_fig)
-    return charts.formatted_fig_json(rel_fig), charts.formatted_fig_json(
-        abs_fig
+    return (
+        charts.formatted_fig_json(rel_fig),
+        charts.formatted_fig_json(abs_fig),
     )
 
 
@@ -163,7 +179,9 @@ def poverty_chart(
         xaxis_title=None,
         yaxis=dict(title="Percent change", tickformat=",.1%"),
     )
-    fig.update_traces(marker_color=charts.BLUE)
+    fig.update_traces(
+        marker_color=np.where(df.pov_chg < 0, charts.DARK_GREEN, charts.GRAY)
+    )
     charts.add_custom_hovercard(fig)
     charts.add_zero_line(fig)
     return charts.formatted_fig_json(fig)
@@ -368,4 +386,82 @@ def intra_decile_chart(
     )
     for i in range(5):
         fig.data[i].showlegend = False
+    return charts.formatted_fig_json(fig)
+
+
+def inequality_chart(
+    baseline: Microsimulation,
+    reformed: Microsimulation,
+    config: Type[PolicyEngineResultsConfig],
+) -> dict:
+    equiv_income = baseline.calc(
+        config.equiv_household_net_income_variable, map_to="person"
+    )
+    reform_equiv_income = reformed.calc(
+        config.equiv_household_net_income_variable, map_to="person"
+    )
+    baseline_gini = equiv_income.gini()
+    reform_gini = reform_equiv_income.gini()
+    gini_change = reform_gini / baseline_gini - 1
+    baseline_top_ten_pct_share = (
+        equiv_income[equiv_income.decile_rank() == 10].sum()
+        / equiv_income.sum()
+    )
+    reform_top_ten_pct_share = (
+        reform_equiv_income[reform_equiv_income.decile_rank() == 10].sum()
+        / reform_equiv_income.sum()
+    )
+    top_ten_pct_share_change = (
+        reform_top_ten_pct_share / baseline_top_ten_pct_share - 1
+    )
+    baseline_top_one_pct_share = (
+        equiv_income[equiv_income.percentile_rank() == 100].sum()
+        / equiv_income.sum()
+    )
+    reform_top_one_pct_share = (
+        reform_equiv_income[reform_equiv_income.percentile_rank() == 100].sum()
+        / reform_equiv_income.sum()
+    )
+    top_one_pct_share_change = (
+        reform_top_one_pct_share / baseline_top_one_pct_share - 1
+    )
+    df = pd.DataFrame(
+        {
+            "Metric": ["Gini index", f"Top 10% share", f"Top 1% share"],
+            "Percent change": [
+                gini_change,
+                top_ten_pct_share_change,
+                top_one_pct_share_change,
+            ],
+        }
+    )
+    df["pct_change_str"] = df["Percent change"].abs().map("{:.1%}".format)
+    df["label"] = (
+        df.Metric
+        + " "
+        + np.where(
+            df.pct_change_str == "0.0%",
+            "does not change",
+            (
+                np.where(df["Percent change"] < 0, "falls ", "rises ")
+                + df.pct_change_str.astype(str)
+            ),
+        )
+    )
+    fig = (
+        px.bar(df, x="Metric", y="Percent change", custom_data=["label"])
+        .update_layout(
+            title="Income inequality impact",
+            xaxis_title=None,
+            yaxis_title="Percent change",
+            yaxis_tickformat=".1%",
+        )
+        .update_traces(
+            marker_color=np.where(
+                df["Percent change"] < 0, charts.DARK_GREEN, charts.GRAY
+            )
+        )
+    )
+    charts.add_zero_line(fig)
+    charts.add_custom_hovercard(fig)
     return charts.formatted_fig_json(fig)

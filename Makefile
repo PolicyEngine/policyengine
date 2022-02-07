@@ -17,21 +17,26 @@ publish-server: policyengine
 publish-client:
 	cd policyengine-client; npm publish
 debug-server:
-	FLASK_APP=policyengine/server.py FLASK_DEBUG=1 flask run
+	POLICYENGINE_DEBUG=1 FLASK_APP=policyengine/server.py FLASK_DEBUG=1 flask run
 debug-client:
 	cd policyengine-client; npm start
 format:
 	autopep8 policyengine -r -i
-	autopep8 main.py setup.py -i
+	autopep8 setup.py -i
 	black policyengine -l 79
 	black . -l 79
 test:
 	pytest policyengine/tests -vv
 	python policyengine/monitoring/api_monitoring.py
-deploy: test
+deploy: test build-client
 	cat $(GOOGLE_APPLICATION_CREDENTIALS) > .gac.json
 	gcloud config set app/cloud_build_timeout 1800
 	y | gcloud app deploy
+	rm .gac.json
+deploy-beta:
+	cat $(GOOGLE_APPLICATION_CREDENTIALS) > .gac.json
+	gcloud config set app/cloud_build_timeout 1800
+	y | gcloud app deploy --version beta --no-promote
 	rm .gac.json
 test-server:
 	pytest policyengine/tests/server/

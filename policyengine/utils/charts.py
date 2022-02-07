@@ -40,7 +40,8 @@ def formatted_fig_json(fig: go.Figure) -> dict:
     )
     fig.update_layout(
         hoverlabel_align="right",
-        font_family="Roboto",
+        font_family="Ubuntu",
+        font_color="Black",
         title_font_size=20,
         plot_bgcolor="white",
         paper_bgcolor="white",
@@ -112,10 +113,14 @@ def waterfall_data(amounts: list, labels: list) -> pd.DataFrame:
 
 
 POP_LABELS = dict(
-    tax="Tax revenues", benefits="Benefit outlays", total="Net impact"
+    tax_variable="Tax revenues",
+    benefit_variable="Benefit outlays",
+    total="Net impact",
 )
 HH_LABELS = dict(
-    tax="Your taxes", benefits="Your benefits", total="Your net income"
+    tax_variable="Your taxes",
+    benefit_variable="Your benefits",
+    total="Your net income",
 )
 
 
@@ -142,7 +147,7 @@ def tax_benefit_waterfall_data(
         )
         for var, multiplier in zip(GROUPS, multipliers)
     ]
-    res = waterfall_data(effects, GROUPS)
+    res = waterfall_data(effects, ["tax_variable", "benefit_variable"])
     if is_pop:
         res.label = res.label.map(POP_LABELS)
     else:
@@ -214,7 +219,9 @@ def waterfall_chart(
         "value",
         "color",
         custom_data=["hover"],
-        color_discrete_map=dict(blank=WHITE, negative=GRAY, positive=BLUE),
+        color_discrete_map=dict(
+            blank=WHITE, negative=GRAY, positive=DARK_GREEN
+        ),
         barmode="relative",
         category_orders={
             "label": list(POP_LABELS.values())
@@ -263,7 +270,7 @@ def add_custom_hovercard(fig: go.Figure) -> None:
 
 
 def add_zero_line(fig: go.Figure) -> None:
-    """Add a dotted line across y=0.
+    """Add a solid line across y=0.
 
     :param fig: Plotly figure.
     :type fig: go.Figure
@@ -276,5 +283,5 @@ def add_zero_line(fig: go.Figure) -> None:
         y0=0,
         x1=1,
         y1=0,
-        line=dict(color="grey", width=1, dash="dash"),
+        line=dict(color="grey", width=1),
     )

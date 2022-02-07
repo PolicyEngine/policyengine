@@ -1,8 +1,10 @@
 import React from "react";
 import { Button, Divider, Alert, Spin, message } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
+import { CountryContext } from "../../country";
 
 export default class AutoUBI extends React.Component {
+	static contextType = CountryContext;
 	constructor(props) {
 		super(props);
 		this.state = {waiting: false, amount: 0};
@@ -10,13 +12,8 @@ export default class AutoUBI extends React.Component {
 	}
 
 	applyAutoUBI() {
-		const submission = {};
-		for (const key in this.props.policy) {
-			if(this.props.policy[key].value !== this.props.policy[key].default) {
-				submission[key] = this.props.policy[key].value;
-			}
-		}
-		let url = new URL(this.props.api_url + "/ubi");
+		const submission = this.context.getPolicyJSONPayload();
+		let url = new URL(this.context.apiURL + "/ubi");
 		url.search = new URLSearchParams(submission).toString();
 		this.setState({waiting: true}, () => {
 			fetch(url)
@@ -29,11 +26,11 @@ export default class AutoUBI extends React.Component {
 				}).then((json) => {
 					const amount = Math.round(json.UBI / 52, 2);
 					this.setState({waiting: false, amount: amount});
-					this.props.setPolicy("child_UBI", this.props.policy["child_UBI"].value + amount);
-					this.props.setPolicy("adult_UBI", this.props.policy["adult_UBI"].value + amount);
-					this.props.setPolicy("senior_UBI", this.props.policy["senior_UBI"].value + amount);
+					this.context.updatePolicy("child_UBI", this.context.policy["child_UBI"].value + amount);
+					this.context.updatePolicy("adult_UBI", this.context.policy["adult_UBI"].value + amount);
+					this.context.updatePolicy("senior_UBI", this.context.policy["senior_UBI"].value + amount);
 				}).catch(e => {
-					message.error("Couldn't apply AutoUBI - something went wrong.");
+					message.error("Couldn't apply AutoUBI - something went wrong." + e.toString());
 					this.setState({waiting: false});
 				});
 		});

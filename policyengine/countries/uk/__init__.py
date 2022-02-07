@@ -5,10 +5,12 @@ from openfisca_uk import (
     CountryTaxBenefitSystem,
 )
 from openfisca_uk.entities import *
-from openfisca_uk_data import FRSEnhanced
+from openfisca_uk_data import FRSEnhanced, SynthFRS
 from policyengine.utils.general import PolicyEngineResultsConfig
 from policyengine.countries.country import PolicyEngineCountry
 from policyengine.countries.uk.default_reform import create_default_reform
+import os
+import logging
 
 UK_FOLDER = Path(__file__).parent
 
@@ -22,9 +24,11 @@ class UKResultsConfig(PolicyEngineResultsConfig):
     working_age_variable: str = "is_WA_adult"
     senior_variable: str = "is_SP_age"
     person_variable: str = "people"
-    tax_variable: str = "tax"
-    benefit_variable: str = "benefits"
-    earnings_variable: str = "employment_income"
+    tax_variable: str = "household_tax"
+    benefit_variable: str = "household_benefits"
+    employment_income_variable: str = "employment_income"
+    self_employment_income_variable: str = "self_employment_income"
+    total_income_variable: str = "total_income"
 
 
 class UK(PolicyEngineCountry):
@@ -40,3 +44,18 @@ class UK(PolicyEngineCountry):
     entity_hierarchy_file = UK_FOLDER / "entities.yaml"
     version = "0.2.0"
     results_config = UKResultsConfig
+
+    @property
+    def synthetic(self):
+        return bool(os.environ.get("UK_SYNTHETIC"))
+
+    def __init__(self):
+        if self.synthetic:
+            self.default_dataset = SynthFRS
+            logging.warn("Using the synthetic FRS.")
+        if self.default_dataset_year not in self.default_dataset.years:
+            logging.info(
+                f"{self.default_dataset_year} not found in dataset {self.default_dataset.name} years, downloading."
+            )
+            self.default_dataset.download(self.default_dataset_year)
+        super().__init__()

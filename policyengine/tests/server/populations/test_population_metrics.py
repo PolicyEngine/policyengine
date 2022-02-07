@@ -6,13 +6,11 @@ import pytest
 PolicyEngineUK = UK()
 
 reform_examples = (
-    (),
-    abolish("personal_allowance"),
-    parametric("tax.income_tax.rates.uk[0].rate", 0.21),
-    parametric(
-        "benefit.universal_credit.standard_allowance.amount.SINGLE_OLD", 1000
-    ),
-    parametric("benefit.child_benefit.amount.eldest", 1000),
+    {},
+    dict(personal_allowance=0),
+    dict(basic_rate=0.21),
+    dict(UC_single_old=1000),
+    dict(CB_eldest=1000),
 )
 
 # Wide ranges - these tests are verifying that the model is being used
@@ -22,7 +20,7 @@ EXPECTED_RESULTS = (
     dict(net_cost_numeric=(0, 0)),
     dict(net_cost_numeric=(-110e9, -90e9)),
     dict(net_cost_numeric=(-6e9, -3e9)),
-    dict(net_cost_numeric=(10e9, 20e9)),
+    dict(net_cost_numeric=(10e9, 30e9)),
     dict(loser_share=(0, 1e-3)),
 )
 
@@ -30,12 +28,11 @@ EXPECTED_RESULTS = (
 
 
 @pytest.mark.parametrize(
-    "reform,expected", zip(reform_examples, EXPECTED_RESULTS)
+    "reform_params,expected", zip(reform_examples, EXPECTED_RESULTS)
 )
-def test_headline_metrics(reform, expected):
+def test_headline_metrics(reform_params, expected):
     results = headline_metrics(
-        PolicyEngineUK.baseline,
-        PolicyEngineUK._create_reform_sim(reform),
+        *PolicyEngineUK._get_microsimulations(reform_params),
         UKResultsConfig,
     )
     for result in expected:

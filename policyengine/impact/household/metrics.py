@@ -29,6 +29,6 @@ def headline_figures(
         }
 
     VARIABLES = [
-        config.net_income_variable,
+        config.household_net_income_variable,
     ]
     return {name: get_values(name) for name in VARIABLES}

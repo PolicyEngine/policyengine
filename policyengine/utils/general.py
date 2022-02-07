@@ -15,6 +15,8 @@ class PolicyEngineResultsConfig:
     senior_variable: str
     person_variable: str
     earnings_variable: str
+    tax_variable: str
+    benefit_variable: str
 
 
 def dict_to_string(d: dict) -> str:
