@@ -144,27 +144,20 @@ export class UK extends Country {
                 "abolish_CB",
                 "CB_eldest",
                 "CB_additional",
-                "CB_takeup",
                 "CB_HITC_reduction_threshold",
                 "CB_HITC_reduction_rate",
             ],
             "Legacy benefits": [
                 "abolish_CTC",
-                "CTC_takeup",
                 "abolish_WTC",
-                "WTC_takeup",
                 "abolish_HB",
-                "HB_takeup",
                 "abolish_IS",
-                "IS_takeup",
                 "abolish_JSA_income",
-                "JSA_IB_takeup",
                 "abolish_ESA_income",
             ],
             "State Pension": [
                 "abolish_SP",
                 "abolish_PC",
-                "PC_takeup",
             ],
             "Universal Credit": {
                 "Structural": [
