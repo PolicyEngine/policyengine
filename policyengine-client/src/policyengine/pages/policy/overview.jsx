@@ -46,7 +46,7 @@ export function PolicyOverview(props) {
 	const plan = Object.values(country.policy).map(generateStepFromParameter).filter(step => step != null);
 	const isEmpty = plan.length === 0;
 	const [page, setPage] = useState(1);
-	const pageSize = 5;
+	const pageSize = 4;
 	return (
 		<>
 				<Divider></Divider>
