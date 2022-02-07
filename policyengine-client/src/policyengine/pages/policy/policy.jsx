@@ -50,18 +50,22 @@ export default class Policy extends React.Component {
                     <OverviewHolder>
                     <PolicyOverview page="policy"/>
                     <Divider />
-                    <Centered>
-                        {this.context.showPopulationImpact && <NavigationButton 
-                            primary 
-                            target="population-impact" 
-                            text={`See the ${this.context.properName} impact`} 
-                        />}
-                        {this.context.showHousehold && <NavigationButton
-                            target="household" 
-                            text="Describe your household"
-                            primary={!this.context.showPopulationImpact}
-                        />}
-                    </Centered>
+                    <div className="d-block align-middle">
+                        <div className="d-flex justify-content-center">
+                            {this.context.showPopulationImpact && <NavigationButton 
+                                primary 
+                                target="population-impact" 
+                                text={`See the ${this.context.properName} impact`} 
+                            />}
+                        </div>
+                        <div className="d-flex justify-content-center">
+                            {this.context.showHousehold && <NavigationButton
+                                target="household" 
+                                text="Describe your household"
+                                primary={!this.context.showPopulationImpact}
+                            />}
+                        </div>
+                    </div>
                     </OverviewHolder>
                 </Col>
             </Row>

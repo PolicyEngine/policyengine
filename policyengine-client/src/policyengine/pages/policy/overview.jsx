@@ -46,21 +46,24 @@ export function PolicyOverview(props) {
 	const plan = Object.values(country.policy).map(generateStepFromParameter).filter(step => step != null);
 	const isEmpty = plan.length === 0;
 	const [page, setPage] = useState(1);
+	const pageSize = 5;
 	return (
 		<>
 				<Divider></Divider>
 				{!isEmpty ?
 					<>
 						<Steps progressDot direction="vertical">
-							{plan.slice((page - 1) * 5, page * 5)}
+							{plan.slice((page - 1) * pageSize, page * pageSize)}
 						</Steps> 
-						<Pagination 
-							pageSize={5} 
-							defaultCurrent={page} 
-							simple 
-							onChange={setPage} 
-							total={plan.length} 
-						/>
+							{
+								(plan.length > pageSize) && <Pagination 
+									pageSize={pageSize} 
+									defaultCurrent={page} 
+									simple 
+									onChange={setPage} 
+									total={plan.length} 
+								/>
+							}
 					</> :
 					<Empty description="No plan provided" />
 				}
