@@ -125,6 +125,7 @@ export class US extends Country {
         "is_surviving_spouse_of_disabled_veteran",
         "is_surviving_child_of_disabled_veteran",
         "is_in_school",
+        "ca_cvrp_vehicle_rebate_amount",
         "ca_cvrp",
         // SPM unit.
         "ssi",
@@ -178,6 +179,7 @@ export class US extends Country {
             "is_permanently_disabled_veteran",
             "is_surviving_spouse_of_disabled_veteran",
             "is_surviving_child_of_disabled_veteran",
+            "ca_cvrp_vehicle_rebate_amount",
         ],
         "SPM unit": [
             "ssi",
