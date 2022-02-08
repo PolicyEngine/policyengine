@@ -64,6 +64,14 @@ export class US extends Country {
                 "school_meal_free_fpg_limit",
                 "school_meal_reduced_fpg_limit",
             ]
+        },
+        "Lifeline": {
+            "Eligibility": [
+                "lifeline_income_fpl_limit",
+            ],
+            "Benefit": [
+                "lifeline_amount",
+            ]
         }
     }
     defaultOpenParameterGroups = ["/SNAP", "/School meals"];
