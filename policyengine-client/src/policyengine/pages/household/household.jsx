@@ -7,7 +7,6 @@ import AccountingTable from "./accountingTable";
 import EarningsChartsPane from "./earningsCharts";
 import { OverviewHolder, PolicyOverview } from "../policy/overview";
 import { Divider } from "antd";
-import Centered from "../../general/centered";
 import NavigationButton from "../../general/navigationButton";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 

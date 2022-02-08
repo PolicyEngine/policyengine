@@ -248,9 +248,6 @@ export class UK extends Country {
         }
     }
     defaultOpenParameterGroups = [
-        "/Tax",
-        "/Tax/Income Tax",
-        "/Benefit",
     ]
     defaultSelectedParameterGroup = "/Tax/Income Tax/Labour income"
     organisations = {

@@ -6,7 +6,6 @@ import Menu from "./menu";
 import { OverviewHolder, PolicyOverview } from "./overview";
 import Parameter from "./parameter";
 import NavigationButton from "../../general/navigationButton";
-import Centered from "../../general/centered";
 
 
 export default class Policy extends React.Component {
