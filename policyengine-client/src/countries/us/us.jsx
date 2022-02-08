@@ -222,6 +222,8 @@ export class US extends Country {
                 "school_meal_subsidy",
                 "lifeline",
                 "ca_cvrp",
+                "ssi",
+                "ssdi",
             ],
             "subtract": []
         },
