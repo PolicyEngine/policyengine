@@ -224,6 +224,13 @@ export class US extends Country {
                 "spm_unit_state_tax",
             ],
             "subtract": []
+        },
+        "snap": {
+            "add": [
+                "snap_normal_allotment",
+                "snap_emergency_allotment",
+            ],
+            "subtract": []
         }
     }
 
