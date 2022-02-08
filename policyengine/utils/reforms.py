@@ -234,6 +234,8 @@ def create_reform(
     for key, value in parameters.items():
         components = key.split("_")
         name = "_".join(components)
+        if isinstance(value, list):
+            value = value[0]
         try:
             params[name] = float(value)
         except:

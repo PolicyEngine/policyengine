@@ -25,27 +25,34 @@ def decile_chart(
     :return: Decile charts (relative and absolute) as JSON representations of Plotly charts.
     :rtype: Tuple[dict, dict]
     """
-    income = baseline.calc(
-        config.household_net_income_variable, map_to="person"
+    baseline_household_net_income = baseline.calc(
+        config.household_net_income_variable
     )
-    equiv_income = baseline.calc(
-        config.equiv_household_net_income_variable, map_to="person"
+    baseline_household_equiv_income = baseline.calc(
+        config.equiv_household_net_income_variable
     )
-    gain = (
-        reformed.calc(config.household_net_income_variable, map_to="person")
-        - income
+    household_gain = (
+        reformed.calc(config.household_net_income_variable)
+        - baseline_household_net_income
     )
+    household_size = baseline.calc("people", map_to="household")
+    # Group households in decile such that each decile has the same
+    # number of people
+    baseline_household_equiv_income.weights *= household_size
+    household_decile = baseline_household_equiv_income.decile_rank()
     rel_agg_changes = (
+        # Total decile gain / total decile income
         (
-            gain.groupby(equiv_income.decile_rank()).sum()
-            / income.groupby(equiv_income.decile_rank()).sum()
+            household_gain.groupby(household_decile).sum()
+            / baseline_household_net_income.groupby(household_decile).sum()
         )
         .round(3)
         .astype(float)
     )
     mean_abs_changes = (
-        gain.groupby(equiv_income.decile_rank()).sum()
-        / income.groupby(equiv_income.decile_rank()).count()
+        # Total decile gain / number of households
+        household_gain.groupby(household_decile).sum()
+        / baseline_household_net_income.groupby(household_decile).count()
     ).round()
     df = pd.DataFrame(
         {
@@ -64,7 +71,11 @@ def decile_chart(
             showlegend=False,
             xaxis_tickvals=list(range(1, 11)),
         )
-        .update_traces(marker_color=charts.BLUE)
+        .update_traces(
+            marker_color=np.where(
+                df["Relative change"] > 0, charts.DARK_GREEN, charts.GRAY
+            )
+        )
     )
     abs_fig = (
         px.bar(df, x="Decile", y="Average change")
@@ -77,7 +88,11 @@ def decile_chart(
             showlegend=False,
             xaxis_tickvals=list(range(1, 11)),
         )
-        .update_traces(marker_color=charts.BLUE)
+        .update_traces(
+            marker_color=np.where(
+                df["Average change"] > 0, charts.DARK_GREEN, charts.GRAY
+            )
+        )
     )
     charts.add_zero_line(rel_fig)
     charts.add_zero_line(abs_fig)
@@ -164,7 +179,9 @@ def poverty_chart(
         xaxis_title=None,
         yaxis=dict(title="Percent change", tickformat=",.1%"),
     )
-    fig.update_traces(marker_color=charts.BLUE)
+    fig.update_traces(
+        marker_color=np.where(df.pov_chg < 0, charts.DARK_GREEN, charts.GRAY)
+    )
     charts.add_custom_hovercard(fig)
     charts.add_zero_line(fig)
     return charts.formatted_fig_json(fig)
@@ -439,7 +456,11 @@ def inequality_chart(
             yaxis_title="Percent change",
             yaxis_tickformat=".1%",
         )
-        .update_traces(marker_color=charts.BLUE)
+        .update_traces(
+            marker_color=np.where(
+                df["Percent change"] < 0, charts.DARK_GREEN, charts.GRAY
+            )
+        )
     )
     charts.add_zero_line(fig)
     charts.add_custom_hovercard(fig)

@@ -96,7 +96,7 @@ class PolicyEngineCountry:
             )
 
             self.baseline.simulation.trace = True
-            self.default_year = 2021
+            self.year = 2022
             self.baseline.calc("net_income")
 
             self.policyengine_parameters = get_PE_parameters(
@@ -143,8 +143,8 @@ class PolicyEngineCountry:
             dataset=self.default_dataset,
             year=self.default_dataset_year,
         )
-        baseline.default_year = 2021
-        reformed.default_year = 2021
+        baseline.year = 2022
+        reformed.year = 2022
         return baseline, reformed
 
     def _get_individualsims(
@@ -259,10 +259,12 @@ class PolicyEngineCountry:
         )
 
         def _create_reform(reform):
-            return self.Microsimulation(
+            sim = self.Microsimulation(
                 (reform_config["reform"]["reform"][0], *reform),
                 dataset=self.default_dataset,
             )
+            sim.year = 2022
+            return sim
 
         baseline, reformed = self._get_microsimulations(params)
         return get_breakdown_and_chart_per_provision(

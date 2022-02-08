@@ -219,7 +219,9 @@ def waterfall_chart(
         "value",
         "color",
         custom_data=["hover"],
-        color_discrete_map=dict(blank=WHITE, negative=GRAY, positive=BLUE),
+        color_discrete_map=dict(
+            blank=WHITE, negative=GRAY, positive=DARK_GREEN
+        ),
         barmode="relative",
         category_orders={
             "label": list(POP_LABELS.values())

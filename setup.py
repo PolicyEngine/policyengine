@@ -8,7 +8,7 @@ setup(
     license="http://www.fsf.org/licensing/licenses/agpl-3.0.html",
     url="https://github.com/policyengine/policyengine",
     install_requires=[
-        "OpenFisca-UK==0.10.8",
+        "OpenFisca-UK==0.12.0",
         "OpenFisca-US==0.30.0",
         "OpenFisca-Tools>=0.2.2",
         "plotly",

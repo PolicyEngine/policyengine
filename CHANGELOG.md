@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
-## [1.11.0] - 2022-02-08
+## [1.14.0] - 2022-02-08
 
 ### Added
 
@@ -15,6 +15,56 @@ This repo consists of two packages - the React client and the Python server. A c
 * Lifeline and CVRP US benefits.
 * Separation of normal and emergency SNAP allotments.
 * Parameters for Lifeline amount and income limit (% of FPL).
+
+## [1.13.1] - 2022-02-07
+
+### Removed
+
+* UK benefit take-up rates.
+
+## [1.13.0] - 2022-02-06
+
+### Added
+
+* Energy Bills Rebate parameters and household variables.
+
+## [1.12.0] - 2022-02-06
+
+### Added
+
+* UK miscellaneous reform - exempt seniors from personal allowance changes.
+
+## [1.11.1] - 2022-02-04
+
+### Changed
+
+* UK Green Party manifesto policy extends the higher rate threshold to £50,000.
+* OpenFisca-UK updated with re-weighting routine.
+
+## [1.11.0] - 2022-02-02
+
+### Added
+
+* Federal tax output variable in the net income panel.
+* Beta label on PolicyEngine US.
+
+## [1.10.6] - 2022-01-29
+
+### Changed
+
+* Change color scheme to gray/green for negative/positive changes.
+
+## [1.10.5] - 2022-01-29
+
+### Fixed
+
+* Decile changes are now all household-weighted, except for decile placement.
+
+## [1.10.4] - 2022-01-29
+
+### Fixed
+
+* The SMF tax-based payment now excludes households with higher and additional rate payers.
 
 ## [1.10.3] - 2022-01-28
 
