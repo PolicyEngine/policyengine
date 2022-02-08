@@ -120,6 +120,8 @@ export class US extends Country {
         "housing_cost",
         "childcare_expenses",
         "fdpir",
+        "phone_cost",
+        "broadband_cost",
         // Household.
         "state_code",
         "is_homeless",
@@ -173,6 +175,8 @@ export class US extends Country {
             "spm_unit_fica",
             "spm_unit_federal_tax",
             "spm_unit_state_tax",
+            "phone_cost",
+            "broadband_cost",
         ],
         "Household": [
             "state_code",
