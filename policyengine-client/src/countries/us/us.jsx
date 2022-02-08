@@ -116,6 +116,7 @@ export class US extends Country {
         "is_surviving_spouse_of_disabled_veteran",
         "is_surviving_child_of_disabled_veteran",
         "is_in_school",
+        "ca_cvrp",
         // SPM unit.
         "ssi",
         "housing_cost",
@@ -123,6 +124,7 @@ export class US extends Country {
         "fdpir",
         "phone_cost",
         "broadband_cost",
+        "lifeline",
         // Household.
         "state_code",
         "is_homeless",
@@ -210,6 +212,8 @@ export class US extends Country {
             "add": [
                 "snap",
                 "school_meal_subsidy",
+                "lifeline",
+                "ca_cvrp",
             ],
             "subtract": []
         },
