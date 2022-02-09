@@ -65,7 +65,7 @@ export class Household extends React.Component {
                     <div className="d-block align-middle">
                         <div className="d-flex justify-content-center">
                             <NavigationButton
-                                text="See your net income"
+                                text="Calculate your net income"
                                 onClick={() => this.setState({selected: "results"})}
                                 primary
                             />
