@@ -172,6 +172,7 @@ export class US extends Country {
             "self_employment_income",
             "dividend_income",
             "interest_income",
+            "gi_cash_assistance",
             "medical_out_of_pocket_expenses",
             "is_in_school",
             "ssdi",
