@@ -125,6 +125,10 @@ export class US extends Country {
         "is_surviving_spouse_of_disabled_veteran",
         "is_surviving_child_of_disabled_veteran",
         "is_in_school",
+        "is_mother",
+        "is_pregnant",
+        "is_breastfeeding",
+        "is_wic_at_nutritional_risk",
         "ca_cvrp_vehicle_rebate_amount",
         // SPM unit.
         "ssi",
@@ -158,6 +162,7 @@ export class US extends Country {
         "ssdi",
         "lifeline",
         "ca_cvrp",
+        "wic",
         // Third level - spm_unit_taxes.
         "spm_unit_fica",
         "spm_unit_federal_tax",
@@ -180,6 +185,10 @@ export class US extends Country {
             "is_permanently_disabled_veteran",
             "is_surviving_spouse_of_disabled_veteran",
             "is_surviving_child_of_disabled_veteran",
+            "is_mother",
+            "is_pregnant",
+            "is_breastfeeding",
+            "is_wic_at_nutritional_risk",
             "ca_cvrp_vehicle_rebate_amount",
         ],
         "SPM unit": [
@@ -226,6 +235,7 @@ export class US extends Country {
                 "ca_cvrp",
                 "ssi",
                 "ssdi",
+                "wic",
             ],
             "subtract": []
         },
