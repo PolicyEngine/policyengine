@@ -7,11 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
-## [1.13.2] - 2022-02-07
+## [1.14.1] - 2022-02-07
 
 ### Changed
 
 * Right policy overview sidebar is now fixed and applies pagination.
+
+## [1.14.0] - 2022-02-08
+
+### Added
+
+* US inputs for guaranteed income, phone expenses, and broadband expenses.
+* Lifeline and CVRP US benefits.
+* Separation of normal and emergency SNAP allotments.
+* Parameters for Lifeline amount and income limit (% of FPL).
 
 ## [1.13.1] - 2022-02-07
 

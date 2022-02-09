@@ -7,6 +7,8 @@ Namely:
 
 ## Development
 
+*NOTE:* requires Python 3.7 
+
 First, install using `make install`. Then, to debug the client, run `make debug-client`, or to debug the server, run `make debug-server`.
 
 If your changes involve the server, change `useLocalServer = false;` to `useLocalServer = true;` in `policyengine-client/src/countries/country.jsx`.
