@@ -218,4 +218,5 @@ function generateTableData(variable, country, depth, isPositive) {
         children: childElements,
     }]
     return data;
+
 }
