@@ -166,6 +166,8 @@ export class US extends Country {
         // Third level - spm_unit_taxes.
         "spm_unit_fica",
         "spm_unit_federal_tax",
+        "snap_normal_allotment",
+        "snap_emergency_allotment",
     ]
     inputVariableHierarchy = {
         "General": [
