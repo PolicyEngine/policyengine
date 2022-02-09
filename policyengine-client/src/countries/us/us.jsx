@@ -65,6 +65,14 @@ export class US extends Country {
                 "school_meal_free_fpg_limit",
                 "school_meal_reduced_fpg_limit",
             ]
+        },
+        "Lifeline": {
+            "Eligibility": [
+                "lifeline_income_fpl_limit",
+            ],
+            "Benefit": [
+                "lifeline_amount",
+            ]
         }
     }
     defaultOpenParameterGroups = ["/SNAP", "/School meals"];
@@ -109,6 +117,7 @@ export class US extends Country {
         "self_employment_income",
         "dividend_income",
         "interest_income",
+        "gi_cash_assistance",
         "medical_out_of_pocket_expenses",
         "ssdi",
         "is_ssi_disabled",
@@ -116,11 +125,16 @@ export class US extends Country {
         "is_surviving_spouse_of_disabled_veteran",
         "is_surviving_child_of_disabled_veteran",
         "is_in_school",
+        "ca_cvrp_vehicle_rebate_amount",
+        "ca_cvrp",
         // SPM unit.
         "ssi",
         "housing_cost",
         "childcare_expenses",
         "fdpir",
+        "phone_cost",
+        "broadband_cost",
+        "lifeline",
         // Household.
         "state_code",
         "is_homeless",
@@ -165,6 +179,7 @@ export class US extends Country {
             "is_permanently_disabled_veteran",
             "is_surviving_spouse_of_disabled_veteran",
             "is_surviving_child_of_disabled_veteran",
+            "ca_cvrp_vehicle_rebate_amount",
         ],
         "SPM unit": [
             "ssi",
@@ -172,6 +187,8 @@ export class US extends Country {
             "childcare_expenses",
             "fdpir",
             "spm_unit_state_tax",
+            "phone_cost",
+            "broadband_cost",
         ],
         "Household": [
             "state_code",
@@ -196,6 +213,7 @@ export class US extends Country {
                 "self_employment_income",
                 "dividend_income",
                 "interest_income",
+                "gi_cash_assistance",
             ],
             "subtract": []
         },
@@ -203,6 +221,10 @@ export class US extends Country {
             "add": [
                 "snap",
                 "school_meal_subsidy",
+                "lifeline",
+                "ca_cvrp",
+                "ssi",
+                "ssdi",
             ],
             "subtract": []
         },
@@ -211,6 +233,13 @@ export class US extends Country {
                 "spm_unit_fica",
                 "spm_unit_federal_tax",
                 "spm_unit_state_tax",
+            ],
+            "subtract": []
+        },
+        "snap": {
+            "add": [
+                "snap_normal_allotment",
+                "snap_emergency_allotment",
             ],
             "subtract": []
         }
