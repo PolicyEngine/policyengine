@@ -13,6 +13,10 @@ This repo consists of two packages - the React client and the Python server. A c
 
 * Right policy overview sidebar is now fixed and applies pagination.
 
+### Fixed
+
+* US Lifeline and CA CVRP calculate correctly in the household page.
+
 ## [1.14.0] - 2022-02-08
 
 ### Added
