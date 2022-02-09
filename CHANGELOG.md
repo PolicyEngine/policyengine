@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.14.1] - 2022-02-07
+
+### Changed
+
+* Right policy overview sidebar is now fixed and applies pagination.
+
+### Fixed
+
+* US Lifeline and CA CVRP calculate correctly in the household page.
+
 ## [1.14.0] - 2022-02-08
 
 ### Added

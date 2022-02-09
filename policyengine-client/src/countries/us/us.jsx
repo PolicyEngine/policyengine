@@ -126,7 +126,6 @@ export class US extends Country {
         "is_surviving_child_of_disabled_veteran",
         "is_in_school",
         "ca_cvrp_vehicle_rebate_amount",
-        "ca_cvrp",
         // SPM unit.
         "ssi",
         "housing_cost",
@@ -134,7 +133,6 @@ export class US extends Country {
         "fdpir",
         "phone_cost",
         "broadband_cost",
-        "lifeline",
         // Household.
         "state_code",
         "is_homeless",
@@ -158,6 +156,8 @@ export class US extends Country {
         "school_meal_subsidy",
         "ssi",
         "ssdi",
+        "lifeline",
+        "ca_cvrp",
         // Third level - spm_unit_taxes.
         "spm_unit_fica",
         "spm_unit_federal_tax",
