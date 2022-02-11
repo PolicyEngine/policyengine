@@ -8,6 +8,7 @@ import {
 } from "antd";
 import Spinner from "../../general/spinner";
 import { CountryContext } from "../../../countries/country";
+import { useContext } from "react";
 
 const { Option } = Select;
 
@@ -108,6 +109,35 @@ function NumericParameterControl(props) {
 	);
 }
 
+function BreakdownParameterControl(props) {
+	const country = useContext(CountryContext);
+	const childParameters = Object.values(country.policy).filter(p => (p.valueType !== "parameter_node") && p.name.includes(props.metadata.name));
+	let firstEntry = childParameters[0].parameter.replace(props.metadata.parameter + ".", "").split(".");
+	let [selected, setSelected] = useState(firstEntry);
+	let numBreakdowns = firstEntry.length
+	let dropDowns = [];
+	let possibleValues;
+	for(let i = 0; i < numBreakdowns; i++) {
+		possibleValues = childParameters.map(p => p.breakdown_parts[i]);
+		let keyToValueMap = {};
+		possibleValues.forEach(value => {
+			keyToValueMap[value[0]] = value[1];
+		});
+		let possibleKeys = [...new Set(possibleValues.map(value => value[0]))];
+		dropDowns.push(
+			<Select key={i} defaultValue={possibleKeys[0]} onChange={target => {
+				let selectedCopy = [...selected];
+				selectedCopy[i] = target;
+				setSelected(selectedCopy);
+			}}>
+				{possibleKeys.map(key => <Option key={key} value={key}>{keyToValueMap[key]}</Option>)}
+			</Select>
+		);
+	}
+	const selectedParameter = childParameters.find(p => p.parameter === props.metadata.parameter + "." + selected.join("."));
+	return <Parameter hideTitle name={selectedParameter.name} prefix={dropDowns} onChange={props.onChange} />;
+}
+
 export default class Parameter extends React.Component {
 	static contextType = CountryContext;
 
@@ -136,12 +166,20 @@ export default class Parameter extends React.Component {
 			"Enum": <CategoricalParameterControl onChange={onChange} metadata={metadata} />,
 			"string": <StringParameterControl onChange={onChange} metadata={metadata} />,
 			"date": <DateParameterControl onChange={onChange} metadata={metadata} />,
+			"parameter_node": <BreakdownParameterControl metadata={metadata} />,
 		}[metadata.valueType] || <NumericParameterControl onChange={onChange} metadata={metadata} />;
 		return (
 			<>
-				<h6 style={{marginTop: 20}}>{metadata.label}</h6>
-				{metadata.error ? <Error message={metadata.error} /> : null}
-				<p>{metadata.description}</p>
+				{
+					!this.props.hideTitle ?
+						<>
+							<h6 style={{marginTop: 20}}>{metadata.label}</h6>
+							{metadata.error ? <Error message={metadata.error} /> : null}
+							<p>{metadata.description}</p>
+						</> :
+						null
+				}
+				{this.props.prefix}
 				{control}
 				<div style={{paddingBottom: 20}} />
 			</>
