@@ -204,7 +204,7 @@ function generateTableData(variable, country, depth, isPositive) {
         const subtractedChildren = (hierarchy.subtract || []).filter(child => depth < 1 || shouldShow(child, country));
         const children = addedChildren.concat(subtractedChildren);
         for(let child in children) {
-            childElements = childElements.concat(generateTableData(children[child], country, depth + 1, isPositive));
+            childElements = childElements.concat(generateTableData(children[child], country, depth + 1, isPositive !== (subtractedChildren.includes(children[child]))));
         }
     } else {
         childElements = null;
@@ -215,8 +215,10 @@ function generateTableData(variable, country, depth, isPositive) {
         baseline: applyColorLogic(baselineValue * multiplier, colorZerosGrey),
         reform: applyColorLogic(reformValue * multiplier, colorZerosGrey),
         change: applyColorLogic((reformValue - baselineValue) * multiplier, colorChanges),
-        children: childElements,
     }]
+    if(childElements) {
+        data[0].children = childElements;
+    }
     return data;
 
 }
