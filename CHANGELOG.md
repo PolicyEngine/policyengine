@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.16.0] - 2022-02-13
+
+### Added
+
+* Affordable Connectivity Program and Emergency Broadband Benefit to US household calculator.
+
 ## [1.15.3] - 2022-02-10
 
 ### Fixed
