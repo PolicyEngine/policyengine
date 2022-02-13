@@ -299,3 +299,44 @@ This repo consists of two packages - the React client and the Python server. A c
 
 * "Edit policy" button previously incorrectly pointed to the household page.
 * Share policy URLS missed a slash between policyengine.org and the country name.
+
+[1.16.0]: https://github.com/PolicyEngine/policyengine/compare/1.15.3...1.16.0
+[1.15.3]: https://github.com/PolicyEngine/policyengine/compare/1.15.2...1.15.3
+[1.15.2]: https://github.com/PolicyEngine/policyengine/compare/1.15.1...1.15.2
+[1.15.1]: https://github.com/PolicyEngine/policyengine/compare/1.15.0...1.15.1
+[1.15.0]: https://github.com/PolicyEngine/policyengine/compare/1.14.1...1.15.0
+[1.14.1]: https://github.com/PolicyEngine/policyengine/compare/1.14.0...1.14.1
+[1.14.0]: https://github.com/PolicyEngine/policyengine/compare/1.13.1...1.14.0
+[1.13.1]: https://github.com/PolicyEngine/policyengine/compare/1.13.0...1.13.1
+[1.13.0]: https://github.com/PolicyEngine/policyengine/compare/1.12.0...1.13.0
+[1.12.0]: https://github.com/PolicyEngine/policyengine/compare/1.11.1...1.12.0
+[1.11.1]: https://github.com/PolicyEngine/policyengine/compare/1.11.0...1.11.1
+[1.11.0]: https://github.com/PolicyEngine/policyengine/compare/1.10.6...1.11.0
+[1.10.6]: https://github.com/PolicyEngine/policyengine/compare/1.10.5...1.10.6
+[1.10.5]: https://github.com/PolicyEngine/policyengine/compare/1.10.4...1.10.5
+[1.10.4]: https://github.com/PolicyEngine/policyengine/compare/1.10.3...1.10.4
+[1.10.3]: https://github.com/PolicyEngine/policyengine/compare/1.10.2...1.10.3
+[1.10.2]: https://github.com/PolicyEngine/policyengine/compare/1.10.1...1.10.2
+[1.10.1]: https://github.com/PolicyEngine/policyengine/compare/1.10.0...1.10.1
+[1.10.0]: https://github.com/PolicyEngine/policyengine/compare/1.9.0...1.10.0
+[1.9.0]: https://github.com/PolicyEngine/policyengine/compare/1.8.5...1.9.0
+[1.8.5]: https://github.com/PolicyEngine/policyengine/compare/1.8.4...1.8.5
+[1.8.4]: https://github.com/PolicyEngine/policyengine/compare/1.8.3...1.8.4
+[1.8.3]: https://github.com/PolicyEngine/policyengine/compare/1.8.2...1.8.3
+[1.8.2]: https://github.com/PolicyEngine/policyengine/compare/1.8.1...1.8.2
+[1.8.1]: https://github.com/PolicyEngine/policyengine/compare/1.8.0...1.8.1
+[1.8.0]: https://github.com/PolicyEngine/policyengine/compare/1.7.2...1.8.0
+[1.7.2]: https://github.com/PolicyEngine/policyengine/compare/1.7.1...1.7.2
+[1.7.1]: https://github.com/PolicyEngine/policyengine/compare/1.7.0...1.7.1
+[1.7.0]: https://github.com/PolicyEngine/policyengine/compare/1.6.1...1.7.0
+[1.6.1]: https://github.com/PolicyEngine/policyengine/compare/1.6.0...1.6.1
+[1.6.0]: https://github.com/PolicyEngine/policyengine/compare/1.5.5...1.6.0
+[1.5.5]: https://github.com/PolicyEngine/policyengine/compare/1.5.4...1.5.5
+[1.5.4]: https://github.com/PolicyEngine/policyengine/compare/1.5.3...1.5.4
+[1.5.3]: https://github.com/PolicyEngine/policyengine/compare/1.5.2...1.5.3
+[1.5.2]: https://github.com/PolicyEngine/policyengine/compare/1.5.1...1.5.2
+[1.5.1]: https://github.com/PolicyEngine/policyengine/compare/1.5.0...1.5.1
+[1.5.0]: https://github.com/PolicyEngine/policyengine/compare/1.4.3...1.5.0
+[1.4.3]: https://github.com/PolicyEngine/policyengine/compare/1.4.2...1.4.3
+[1.4.2]: https://github.com/PolicyEngine/policyengine/compare/1.4.1...1.4.2
+[1.4.1]: https://github.com/PolicyEngine/policyengine/releases/tag/1.4.1
