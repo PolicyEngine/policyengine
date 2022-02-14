@@ -208,13 +208,16 @@ export class UK extends Country {
             ]
         },
         "UBI Center": {
-            "Universal Basic Income": [
-                "child_UBI",
-                "adult_UBI",
-                "senior_UBI",
-                "WA_adult_UBI_age",
-                "taxable_UBI",
-                "means_test_UBI",
+            "Basic Income": [
+                "child_bi",
+                "adult_bi",
+                "senior_bi",
+                "bi_child_age",
+                "include_bi_in_taxable_income",
+                "include_bi_in_means_tests",
+                "bi_withdraw_cb",
+                "bi_phase_out_threshold",
+                "bi_phase_out_rate",
                 "autoUBI",
             ],
             "Land Value Tax": [
@@ -373,7 +376,7 @@ export class UK extends Country {
         "business_rates",
         "carbon_tax",
         "LVT",
-        "UBI",
+        "basic_income",
         "single_pensioner_supplement",
         "smf_benefit_cash_payment",
         "smf_tax_cash_payment",
@@ -473,7 +476,7 @@ export class UK extends Country {
                 "income_support",
                 "JSA_income",
                 "child_benefit",
-                "UBI",
+                "basic_income",
                 "single_pensioner_supplement",
                 "smf_benefit_cash_payment",
                 "smf_tax_cash_payment",
