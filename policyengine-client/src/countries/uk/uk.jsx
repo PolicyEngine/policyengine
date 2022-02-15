@@ -69,6 +69,7 @@ export class UK extends Country {
         "adult_UBI": "adult_bi",
         "child_UBI": "child_bi",
         "senior_UBI": "senior_bi",
+        "WA_adult_UBI_age": "bi_adult_age",
     }
 
     // Policy page metadata
@@ -219,7 +220,7 @@ export class UK extends Country {
                 "child_bi",
                 "adult_bi",
                 "senior_bi",
-                "bi_child_age",
+                "bi_adult_age",
                 "include_bi_in_taxable_income",
                 "include_bi_in_means_tests",
                 "bi_withdraw_cb",
