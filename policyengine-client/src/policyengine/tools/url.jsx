@@ -31,7 +31,8 @@ export function urlToPolicy(defaultPolicy, policyRenames) {
 	if(policyRenames) {
 		for (const key in policyRenames) {
 			if (searchParams.has(key)) {
-				searchParams[policyRenames[key]] = searchParams[key];
+				searchParams.set(policyRenames[key], searchParams.get(key));
+				searchParams.delete(key)
 			}
 		}
 	}
