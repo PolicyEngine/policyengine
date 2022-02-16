@@ -1,6 +1,7 @@
 """
 Utility functions for writing reforms.
 """
+from collections import OrderedDict
 from pathlib import Path
 from typing import Any, Callable, Dict, Tuple, Type
 from openfisca_core.parameters.helpers import load_parameter_file
@@ -142,7 +143,7 @@ def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
                 for attribute in ("rate", "amount", "threshold"):
                     if hasattr(bracket, attribute):
                         parameters += [getattr(bracket, attribute)]
-    parameter_metadata = {}
+    parameter_metadata = OrderedDict()
     for parameter in parameters:
         try:
             if "name" in parameter.metadata:
