@@ -1,6 +1,7 @@
 """
 Utility functions for writing reforms.
 """
+from collections import OrderedDict
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Tuple, Type
 import numpy as np
@@ -199,7 +200,7 @@ def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
                         parameters += [getattr(bracket, attribute)]
         else:
             parameters += [parameter]
-    parameter_metadata = {}
+    parameter_metadata = OrderedDict()
     for parameter in parameters:
         try:
             if "name" in parameter.metadata:

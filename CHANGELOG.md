@@ -14,6 +14,16 @@ This repo consists of two packages - the React client and the Python server. A c
 * Breakdown parameter control for parameters broken down by successive categories.
 * SNAP maximum allotment parameter.
 
+## [1.15.4] - 2022-02-10
+
+### Added
+
+* Basic income phase-outs and Child Benefit withdrawal switch added.
+
+### Changed
+
+* UBI Center UBI parameters renamed to basic income.
+
 ## [1.15.3] - 2022-02-10
 
 ### Fixed
