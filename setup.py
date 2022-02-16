@@ -9,8 +9,8 @@ setup(
     url="https://github.com/policyengine/policyengine",
     install_requires=[
         "OpenFisca-UK==0.12.2",
-        "OpenFisca-US==0.32.3",
-        "OpenFisca-Tools>=0.2.2",
+        "OpenFisca-US==0.32.6",
+        "OpenFisca-Tools>=0.4.1",
         "plotly",
         "flask",
         "flask_cors",

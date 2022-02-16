@@ -388,7 +388,6 @@ export class UK extends Country {
         "single_pensioner_supplement",
         "smf_benefit_cash_payment",
         "smf_tax_cash_payment",
-        "energy_bills_rebate",
     ]
     inputVariableHierarchy = {
         "Household": {
@@ -488,7 +487,6 @@ export class UK extends Country {
                 "single_pensioner_supplement",
                 "smf_benefit_cash_payment",
                 "smf_tax_cash_payment",
-                "energy_bills_rebate",
             ]
         },
         "household_tax": {

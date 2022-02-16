@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.16.1] - 2022-02-16
+
+### Fixed
+
+* Bumped OpenFisca-Tools to 0.4.1, fixing a mistaken import that caused GCP machine failure.
+
+## [1.16.0] - 2022-02-16
+
+### Added
+
+* Breakdown parameter control for parameters broken down by successive categories.
+* SNAP maximum allotment parameter.
+
 ## [1.15.4] - 2022-02-10
 
 ### Added

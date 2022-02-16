@@ -3,9 +3,10 @@ Utility functions for writing reforms.
 """
 from collections import OrderedDict
 from pathlib import Path
-from typing import Any, Callable, Dict, Tuple, Type
+from typing import Any, Callable, Dict, List, Tuple, Type
+import numpy as np
 from openfisca_core.parameters.helpers import load_parameter_file
-from openfisca_core.parameters.parameter import Parameter
+from openfisca_core.parameters import Parameter, ParameterNode
 from openfisca_core.parameters.parameter_scale import ParameterScale
 from openfisca_core.reforms.reform import Reform
 from openfisca_core.tracers.tracing_parameter_node_at_instant import (
@@ -15,6 +16,7 @@ from openfisca_core.variables import Variable
 from datetime import datetime
 from openfisca_core.taxbenefitsystems import TaxBenefitSystem
 from openfisca_tools.model_api import ReformType
+from openfisca_core.model_api import Enum
 from rdbl import gbp
 
 
@@ -123,6 +125,56 @@ def summary_from_metadata(metadata: dict) -> str:
         return f"Change the {metadata['title']} to @"
 
 
+def get_enum_map_from_variable_name(
+    variable: str, variables: Dict[str, Variable]
+) -> Dict[str, str]:
+    if not isinstance(variable, str) or variable not in variables:
+        return {}
+    enum: Type[Enum] = variables[variable].possible_values
+    return {key: enum.value for key, enum in enum._member_map_.items()}
+
+
+def flow_breakdown_parameter_metadata_down(
+    parameters: ParameterNode, variables: List[Variable]
+) -> ParameterNode:
+    for parameter in parameters.get_descendants():
+        parameter_name = parameter.metadata.get(
+            "name", parameter.name.replace(".", "_")
+        )
+        if parameter.metadata.get("breakdown"):
+            enum_maps = [
+                get_enum_map_from_variable_name(variable, variables)
+                for variable in parameter.metadata["breakdown"]
+            ]
+            for descendant in parameter.get_descendants():
+                descendant_path = descendant.name.replace(parameter.name, "")[
+                    1:
+                ]
+                descendant.metadata.update(
+                    {
+                        x: y
+                        for x, y in parameter.metadata.items()
+                        if x != "breakdown"
+                    }
+                )
+                descendant.metadata["name"] = (
+                    parameter_name + "_" + "_".join(descendant_path.split("."))
+                )
+                step_labels = [
+                    (key, enum_maps[i].get(key, key))
+                    for i, key in enumerate(descendant_path.split("."))
+                ]
+                step_label = f"({', '.join([x[1] for x in step_labels])})"
+                descendant.metadata["label"] = (
+                    parameter.metadata.get("label", parameter.name)
+                    + " "
+                    + step_label
+                )
+                descendant.metadata["breakdown_parts"] = step_labels
+
+    return parameters
+
+
 def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
     """Extracts PolicyEngine parameters from OpenFisca parameter metadata.
 
@@ -135,6 +187,9 @@ def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
 
     now = datetime.now().strftime("%Y-%m-%d")
     parameters = []
+    system.parameters = flow_breakdown_parameter_metadata_down(
+        system.parameters, system.variables
+    )
     for parameter in system.parameters.get_descendants():
         if isinstance(parameter, Parameter):
             parameters += [parameter]
@@ -143,30 +198,49 @@ def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
                 for attribute in ("rate", "amount", "threshold"):
                     if hasattr(bracket, attribute):
                         parameters += [getattr(bracket, attribute)]
+        else:
+            parameters += [parameter]
     parameter_metadata = OrderedDict()
     for parameter in parameters:
         try:
             if "name" in parameter.metadata:
                 name = parameter.metadata["name"]
             else:
-                name = parameter.name.split(".")[-1]
+                name = parameter.name.replace(".", "_")
             assert parameter(now).__class__ not in (list,)
+            if isinstance(parameter, Parameter):
+                value_type = parameter.metadata.get(
+                    "value_type", parameter(now).__class__.__name__
+                )
+            else:
+                value_type = "parameter_node"
             parameter_metadata[name] = dict(
                 name=name,
                 parameter=parameter.name,
                 description=parameter.description,
-                label=parameter.metadata["label"],
-                value=parameter(now),
-                valueType=parameter.metadata["type"]
-                if "type" in parameter.metadata
-                else parameter(now).__class__.__name__,
+                label=parameter.metadata.get("label", name),
+                value=parameter(now)
+                if isinstance(parameter, Parameter)
+                else None,
+                valueType=value_type,
                 unit=None,
                 period=None,
                 variable=None,
                 max=None,
                 min=None,
             )
-            OPTIONAL_ATTRIBUTES = ("period", "variable", "max", "min", "unit")
+            if parameter(now) == np.inf:
+                parameter_metadata[name]["value"] = "inf"
+            if parameter(now) == -np.inf:
+                parameter_metadata[name]["value"] = "-inf"
+            OPTIONAL_ATTRIBUTES = (
+                "period",
+                "variable",
+                "max",
+                "min",
+                "unit",
+                "breakdown_parts",
+            )
             for attribute in OPTIONAL_ATTRIBUTES:
                 if attribute in parameter.metadata:
                     parameter_metadata[name][attribute] = parameter.metadata[
