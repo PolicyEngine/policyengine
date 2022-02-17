@@ -5,10 +5,10 @@ import { CountryContext } from "../../countries";
 import MainNavigation from "./mainNavigation";
 
 export function Header(props) {
-    const country = useContext(CountryContext);
+    const country = useContext(CountryContext) || {};
 	let navigation;
-	if(props.title) {
-		navigation = <MainNavigation title={props.title} />;
+	if(props.title || props.noTabs) {
+		navigation = <MainNavigation title={props.title} noTabs={props.noTabs}/>;
 	} else {
 		navigation = (
 			<Switch>

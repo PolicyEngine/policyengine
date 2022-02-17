@@ -17,7 +17,7 @@ export default function MainNavigation(props) {
 	const history = useHistory();
     const country = useContext(CountryContext);
 	let middleColumn;
-	if(props.title) {
+	if(props.title || props.noTabs) {
 		middleColumn = (
 			<Tabs 
                 activeKey={props.title} 
@@ -46,7 +46,7 @@ export default function MainNavigation(props) {
 		<>
 			<Row style={{margin: 0}}>
 				<Col lg={2}>
-					<Title/>
+					<Title link={props.noTabs && "/"} />
 				</Col>
 				<Col lg={8} className="d-flex align-items-center justify-content-center" style={{paddingLeft: 25, paddingRight: 25}}>
 					{middleColumn}

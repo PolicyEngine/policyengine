@@ -11,6 +11,7 @@ import PolicyEngine from "./policyengine/policyengine";
 import createRedirects from "./policyengine/tools/namedPolicies";
 import { UK, US } from "./countries";
 import MarkdownPage from "./policyengine/pages/markdown";
+import LandingPage from "./landing";
 
 // Markdown files
 
@@ -36,7 +37,7 @@ export default function App(props) {
                     </Route>
                 ))}
                 <Route exact path="/">
-                    <Redirect to="/uk/policy" />
+                    <LandingPage />
                 </Route>
                 <Route exact path="/uk">
                     <Redirect to="/uk/policy" />
