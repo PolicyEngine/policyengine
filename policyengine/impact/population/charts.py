@@ -75,27 +75,27 @@ def decile_chart(
     )
     label_prefix = (
         "Household incomes in the "
-        + pd.Series(decile_number).astype(str).reset_index(drop=True)
-        + " decile "
+        + pd.Series(decile_number).astype(int).reset_index(drop=True).apply(charts.ordinal)
+        + " decile <br><b>"
         + pd.Series(verb).reset_index(drop=True)
-        + " by an average of "
+        + "</b> by an average of "
     )
     label_value_abs = (
         pd.Series(np.abs(mean_gain_by_decile))
-        .astype(str)
+        .apply(lambda x: f"£{x:,.0f}")
         .reset_index(drop=True)
     )
     label_value_rel = (
-        pd.Series(rel_agg_changes).astype(str).reset_index(drop=True)
+        pd.Series(rel_agg_changes).apply(lambda x: f"{x:.1%}").reset_index(drop=True)
     )
     label_suffix = (
-        ", from £"
+        "<br>from £"
         + pd.Series(baseline_mean_income_by_decile)
-        .astype(str)
+        .apply(lambda x: f"{x:,.0f}")
         .reset_index(drop=True)
         + " to £"
         + pd.Series(reform_mean_income_by_decile)
-        .astype(str)
+        .apply(lambda x: f"{x:,.0f}")
         .reset_index(drop=True)
         + " per year"
     )
