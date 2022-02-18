@@ -6,6 +6,7 @@ import UBICenterLogo from "../../images/ubicenter.png"
 import UKLogo from "../../images/uk.png";
 import GreenPartyLogo from "../../images/green.png";
 import SMFLogo from "../../images/smf.png";
+import ClockLogo from "../../images/clock.png";
 import Country from "../country";
 import AutoUBI from "./components/autoUBI";
 import ExtraBand from "./components/extraBand";
@@ -82,7 +83,7 @@ export class UK extends Country {
         },
     }
     parameterHierarchy = {
-        "General": [
+        "Snapshot": [
             "timeTravel",
         ],
         "Tax": {
@@ -262,6 +263,9 @@ export class UK extends Country {
     ]
     defaultSelectedParameterGroup = "/Tax/Income Tax/Labour income"
     organisations = {
+        "Snapshot": {
+            logo: ClockLogo,
+        },
         "UBI Center": {
             logo: UBICenterLogo,
         },
