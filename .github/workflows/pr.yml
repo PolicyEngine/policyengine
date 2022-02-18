@@ -40,7 +40,7 @@ jobs:
         with:
           node-version: 14
       - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@master
+        uses: google-github-actions/setup-gcloud@v0
         with:
           project_id: uk-policy-engine
           service_account_key: ${{ secrets.GCP_SA_KEY }}
