@@ -7,6 +7,7 @@ import UKLogo from "../../images/uk.png";
 import GreenPartyLogo from "../../images/green.png";
 import SMFLogo from "../../images/smf.png";
 import ClockLogo from "../../images/clock.png";
+import MiscLogo from "../../images/misc.png";
 import Country from "../country";
 import AutoUBI from "./components/autoUBI";
 import ExtraBand from "./components/extraBand";
@@ -280,7 +281,10 @@ export class UK extends Country {
         },
         "Social Market Foundation": {
             logo: SMFLogo,
-        }
+        },
+        "Miscellaneous": {
+            logo: MiscLogo,
+        },
     }
     // OpenFisca data
     parameters = null

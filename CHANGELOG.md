@@ -15,6 +15,7 @@ This repo consists of two packages - the React client and the Python server. A c
 * Current-policy accounting table numbers are closer to their labels.
 * Deployment code quality fixes.
 * UK policy "General" section renamed to "Snapshot" and clock icon added.
+* UK policy section "Miscellaneous" icon added.
 
 ## [1.16.1] - 2022-02-16
 
