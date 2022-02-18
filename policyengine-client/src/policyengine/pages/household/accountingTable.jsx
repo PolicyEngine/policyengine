@@ -168,13 +168,13 @@ function VariableTable(props) {
             title: "",
             dataIndex: "variable",
             key: "variable",
-            width: 70,
+            width: 20,
         }, {
             title: "Value",
             dataIndex: "baseline",
             key: "baseline",
-            width: 30,
             align: "center",
+            width: 80,
         }]
     }
     const data = generateTableData(props.variable, country, 0, true);

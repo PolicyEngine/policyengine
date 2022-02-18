@@ -12,6 +12,7 @@ This repo consists of two packages - the React client and the Python server. A c
 ### Changed
 
 * Household MTR chart y-axis now defaults to (0, 100%) instead of (-100%, 100%).
+* Current-policy accounting table numbers are closer to their labels.
 
 ## [1.16.1] - 2022-02-16
 
