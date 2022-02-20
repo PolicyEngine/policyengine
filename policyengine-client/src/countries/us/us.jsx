@@ -166,7 +166,8 @@ export class US extends Country {
         "interest_income",
         // Third level - spm_unit_benefits.
         "snap",
-        "school_meal_subsidy",
+        "free_school_meals",
+        "reduced_price_school_meals",
         "ssi",
         "ssdi",
         "lifeline",
@@ -244,7 +245,8 @@ export class US extends Country {
         "spm_unit_benefits": {
             "add": [
                 "snap",
-                "school_meal_subsidy",
+                "free_school_meals",
+                "reduced_price_school_meals",
                 "lifeline",
                 "ebb",
                 "acp",
