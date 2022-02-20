@@ -329,7 +329,8 @@ This repo consists of two packages - the React client and the Python server. A c
 
 [1.17.0]: https://github.com/PolicyEngine/policyengine/compare/1.15.3...1.17.0
 [1.16.1]: https://github.com/PolicyEngine/policyengine/compare/1.16.0...1.16.1
-[1.16.0]: https://github.com/PolicyEngine/policyengine/compare/1.15.3...1.16.0
+[1.16.0]: https://github.com/PolicyEngine/policyengine/compare/1.15.4...1.16.0
+[1.15.4]: https://github.com/PolicyEngine/policyengine/compare/1.15.3...1.15.4
 [1.15.3]: https://github.com/PolicyEngine/policyengine/compare/1.15.2...1.15.3
 [1.15.2]: https://github.com/PolicyEngine/policyengine/compare/1.15.1...1.15.2
 [1.15.1]: https://github.com/PolicyEngine/policyengine/compare/1.15.0...1.15.1
