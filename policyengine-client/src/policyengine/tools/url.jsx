@@ -25,9 +25,17 @@ export function policyToURL(targetPage, policy) {
 	return url;
 }
 
-export function urlToPolicy(defaultPolicy) {
+export function urlToPolicy(defaultPolicy, policyRenames) {
 	let plan = JSON.parse(JSON.stringify(defaultPolicy));
 	const { searchParams } = new URL(document.location);
+	if(policyRenames) {
+		for (const key in policyRenames) {
+			if (searchParams.has(key)) {
+				searchParams.set(policyRenames[key], searchParams.get(key));
+				searchParams.delete(key)
+			}
+		}
+	}
 	for (const key of searchParams.keys()) {
 		try {
 			plan[key].value = +searchParams.get(key).replace("_", ".") / (defaultPolicy[key].unit === "/1" ? 100 : 1);

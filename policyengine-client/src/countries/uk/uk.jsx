@@ -64,6 +64,14 @@ export class UK extends Country {
         "/government/uc-budget-2021": "policy_date=20211030&UC_reduction_rate=55&UC_work_allowance_without_housing=557&UC_work_allowance_with_housing=335",
         "/green-party/manifesto-2019": "higher_threshold=50270&household_lvt=1_2&UC_reduction_rate=40&WA_adult_UBI_age=16&abolish_CB=1&abolish_CT=1&abolish_CTC=1&abolish_ESA_income=1&abolish_JSA_income=1&abolish_NI=1&abolish_PC=1&abolish_SP=1&abolish_WTC=1&abolish_lbtt=1&abolish_ltt=1&abolish_sdlt=1&add_rate=47&adult_UBI=94&basic_rate=32&carbon_tax=135&child_UBI=75&higher_rate=42&personal_allowance=0&scottish_basic_rate=32&scottish_higher_rate=42&scottish_intermediate_rate=32&scottish_starter_rate=32&senior_UBI=185&SPS_amount=25&SPS_reduction_rate=10&abolish_IS=1&abolish_UC_child=1&corporate_lvt=1_9&abolish_business_rates=1&abolish_UC_standard=1&UC_disabled_element=400&UC_lcwra_element=500&UC_severely_disabled_element=600",
     }
+
+    parameterRenames = {
+        "adult_UBI": "adult_bi",
+        "child_UBI": "child_bi",
+        "senior_UBI": "senior_bi",
+        "WA_adult_UBI_age": "bi_adult_age",
+    }
+
     // Policy page metadata
     extraParameterMetadata = {
         "ebr_ct_rebate": {
@@ -208,13 +216,16 @@ export class UK extends Country {
             ]
         },
         "UBI Center": {
-            "Universal Basic Income": [
-                "child_UBI",
-                "adult_UBI",
-                "senior_UBI",
-                "WA_adult_UBI_age",
-                "taxable_UBI",
-                "means_test_UBI",
+            "Basic Income": [
+                "child_bi",
+                "adult_bi",
+                "senior_bi",
+                "bi_adult_age",
+                "include_bi_in_taxable_income",
+                "include_bi_in_means_tests",
+                "bi_withdraw_cb",
+                "bi_phase_out_threshold",
+                "bi_phase_out_rate",
                 "autoUBI",
             ],
             "Land Value Tax": [
@@ -373,11 +384,10 @@ export class UK extends Country {
         "business_rates",
         "carbon_tax",
         "LVT",
-        "UBI",
+        "basic_income",
         "single_pensioner_supplement",
         "smf_benefit_cash_payment",
         "smf_tax_cash_payment",
-        "energy_bills_rebate",
     ]
     inputVariableHierarchy = {
         "Household": {
@@ -473,11 +483,10 @@ export class UK extends Country {
                 "income_support",
                 "JSA_income",
                 "child_benefit",
-                "UBI",
+                "basic_income",
                 "single_pensioner_supplement",
                 "smf_benefit_cash_payment",
                 "smf_tax_cash_payment",
-                "energy_bills_rebate",
             ]
         },
         "household_tax": {
