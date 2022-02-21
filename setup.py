@@ -13,6 +13,7 @@ setup(
         "OpenFisca-Tools>=0.4.1",
         "plotly",
         "flask",
+        "itsdangerous==2.0.1",
         "flask_cors",
         "kaleido",
         "google-cloud-storage>=1.42.0",

@@ -326,7 +326,7 @@ def mtr_chart(
         xaxis_tickprefix="£",
         yaxis_tickformat=",.0%",
         yaxis_title="Marginal tax rate",
-        yaxis_range=(-1, 1),
+        yaxis_range=(0, 1),
         legend_title=None,
     )
     return charts.formatted_fig_json(fig)
