@@ -7,15 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
-## [1.17.0] - 2022-02-20
+## [1.17.0] - 2022-02-21
 
 ### Added
 
 * Affordable Connectivity Program and Emergency Broadband Benefit to US household calculator.
+* Rural flag to calculate Lifeline's rural Tribal supplement.
 
 ### Changed
 
 * Split out free and reduced price school meals.
+
+## [1.16.2] - 2022-02-18
+
+### Changed
+
+* Household MTR chart y-axis now defaults to (0, 100%) instead of (-100%, 100%).
+* Current-policy accounting table numbers are closer to their labels.
+* Deployment code quality fixes.
+* UK policy "General" section renamed to "Snapshot" and clock icon added.
+* UK policy section "Miscellaneous" icon added.
 
 ## [1.16.1] - 2022-02-16
 
@@ -327,7 +338,8 @@ This repo consists of two packages - the React client and the Python server. A c
 * "Edit policy" button previously incorrectly pointed to the household page.
 * Share policy URLS missed a slash between policyengine.org and the country name.
 
-[1.17.0]: https://github.com/PolicyEngine/policyengine/compare/1.15.3...1.17.0
+[1.17.0]: https://github.com/PolicyEngine/policyengine/compare/1.16.2...1.17.0
+[1.16.2]: https://github.com/PolicyEngine/policyengine/compare/1.16.1...1.16.2
 [1.16.1]: https://github.com/PolicyEngine/policyengine/compare/1.16.0...1.16.1
 [1.16.0]: https://github.com/PolicyEngine/policyengine/compare/1.15.4...1.16.0
 [1.15.4]: https://github.com/PolicyEngine/policyengine/compare/1.15.3...1.15.4
