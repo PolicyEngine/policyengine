@@ -75,7 +75,13 @@ export class US extends Country {
             ],
             "Benefit": [
                 "lifeline_amount",
+                "lifeline_rural_tribal_supplement",
             ]
+        },
+        "Affordable Connectivity Program": {
+            "Eligibility": [
+                "acp_income_fpl_limit",
+            ],
         }
     }
     defaultOpenParameterGroups = ["/SNAP", "/School meals"];
@@ -142,6 +148,8 @@ export class US extends Country {
         "broadband_cost",
         // Household.
         "state_code",
+        "is_on_tribal_land",
+        "is_rural",
         "is_homeless",
         // SPM unit
         "spm_unit_state_tax",
@@ -160,10 +168,13 @@ export class US extends Country {
         "interest_income",
         // Third level - spm_unit_benefits.
         "snap",
-        "school_meal_subsidy",
+        "free_school_meals",
+        "reduced_price_school_meals",
         "ssi",
         "ssdi",
         "lifeline",
+        "ebb",
+        "acp",
         "ca_cvrp",
         "wic",
         // Third level - spm_unit_taxes.
@@ -207,6 +218,8 @@ export class US extends Country {
         ],
         "Household": [
             "state_code",
+            "is_on_tribal_land",
+            "is_rural",
             "is_homeless",
         ]
     }
@@ -235,8 +248,11 @@ export class US extends Country {
         "spm_unit_benefits": {
             "add": [
                 "snap",
-                "school_meal_subsidy",
+                "free_school_meals",
+                "reduced_price_school_meals",
                 "lifeline",
+                "ebb",
+                "acp",
                 "ca_cvrp",
                 "ssi",
                 "ssdi",
