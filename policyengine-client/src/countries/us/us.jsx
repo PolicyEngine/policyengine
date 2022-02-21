@@ -75,6 +75,7 @@ export class US extends Country {
             ],
             "Benefit": [
                 "lifeline_amount",
+                "lifeline_rural_tribal_supplement",
             ]
         },
         "Affordable Connectivity Program": {
@@ -148,6 +149,7 @@ export class US extends Country {
         // Household.
         "state_code",
         "is_on_tribal_land",
+        "is_rural",
         "is_homeless",
         // SPM unit
         "spm_unit_state_tax",
@@ -217,6 +219,7 @@ export class US extends Country {
         "Household": [
             "state_code",
             "is_on_tribal_land",
+            "is_rural",
             "is_homeless",
         ]
     }
