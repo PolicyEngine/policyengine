@@ -193,7 +193,6 @@ def poverty_chart(
             (np.where(df.pov_chg < 0, "falls ", "rises ") + df.abs_chg_str),
         )
     )
-    print(df)
     fig = px.bar(
         df,
         x="group",
@@ -260,7 +259,6 @@ def deep_poverty_chart(
             ),
         )
     )
-    print(df)
     fig = px.bar(
         df,
         x="group",
