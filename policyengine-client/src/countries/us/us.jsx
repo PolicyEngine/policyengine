@@ -207,16 +207,18 @@ export class US extends Country {
             "is_wic_at_nutritional_risk",
             "ca_cvrp_vehicle_rebate_amount",
         ],
-        "SPM unit": [
+        "Household benefits": [
             "ssi",
+            "fdpir",
+        ],
+        "Household expenses": [
             "housing_cost",
             "childcare_expenses",
-            "fdpir",
             "spm_unit_state_tax",
             "phone_cost",
             "broadband_cost",
         ],
-        "Household": [
+        "Geographic": [
             "state_code",
             "is_on_tribal_land",
             "is_rural",
