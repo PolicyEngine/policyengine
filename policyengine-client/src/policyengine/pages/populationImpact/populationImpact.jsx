@@ -25,22 +25,22 @@ function PopulationResultsCaveats() {
 }
 
 function Loading(props) {
-    const country = useContext(CountryContext);
-    const message = `Simulating your results on the ${country.properName} population (this usually takes about 10 seconds)`;
-    return (
-        <Centered><Empty description={message}>
-        {!props.noSpin && <Spinner />}
-    </Empty>
-        </Centered>
-    );
+	const country = useContext(CountryContext);
+	const message = `Simulating your results on the ${country.properName} population (this usually takes about 10 seconds)`;
+	return (
+		<Centered><Empty description={message}>
+			{!props.noSpin && <Spinner />}
+		</Empty>
+		</Centered>
+	);
 }
 
 
 export function PopulationResultsPane(props) {
-    const country = useContext(CountryContext);
+	const country = useContext(CountryContext);
 
-    // process take-away figures
-    const results = country.populationImpactResults;
+	// process take-away figures
+	const results = country.populationImpactResults;
 	const isSurplus = results.net_cost[0] === "-";
 	const cost = isSurplus ? results.net_cost.slice(1) : results.net_cost;
 	const costColor = isSurplus ? "green" : "darkred";
@@ -53,42 +53,55 @@ export function PopulationResultsPane(props) {
 	const losers = Math.round(+results.loser_share * 100);
 	const loserColor = losers > 0 ? "darkred" : (losers === 0 ? "grey" : "green");
 	const [showAbsDecile, setShowAbsDecile] = React.useState(false);
+	const [showDeepPoverty, setShowDeepPoverty] = React.useState(false);
 	return (
 		<>
 			<Divider></Divider>
 			<PopulationResultsCaveats />
-			<Row style={{padding: 30}}>
-				<TakeAway><p style={{textAlign: "center"}}>Reform produces <br /><span style={{color: costColor}}>{cost}</span> net {isSurplus ? "surplus" : "cost"}</p></TakeAway>
-				<TakeAway><p style={{textAlign: "center"}}>Poverty <br />{isPovRise ? "rises" : "falls"} <span style={{color: povColor}}>{pov}%</span></p></TakeAway>
-				<TakeAway><p style={{textAlign: "center"}}><span style={{color: winnerColor}}>{winners}%</span> of people <br />come out ahead</p></TakeAway>
-				<TakeAway><p style={{textAlign: "center"}}><span style={{color: loserColor}}>{losers}%</span> of people <br />come out behind</p></TakeAway>
+			<Row style={{ padding: 30 }}>
+				<TakeAway><p style={{ textAlign: "center" }}>Reform produces <br /><span style={{ color: costColor }}>{cost}</span> net {isSurplus ? "surplus" : "cost"}</p></TakeAway>
+				<TakeAway><p style={{ textAlign: "center" }}>Poverty <br />{isPovRise ? "rises" : "falls"} <span style={{ color: povColor }}>{pov}%</span></p></TakeAway>
+				<TakeAway><p style={{ textAlign: "center" }}><span style={{ color: winnerColor }}>{winners}%</span> of people <br />come out ahead</p></TakeAway>
+				<TakeAway><p style={{ textAlign: "center" }}><span style={{ color: loserColor }}>{losers}%</span> of people <br />come out behind</p></TakeAway>
 			</Row>
 			<Row>
 				<Chart plot={results.waterfall_chart} md={12} />
 			</Row>
 			<Row>
-				<Chart plot={results.poverty_chart} md={12} />
-			</Row>
-			<Row>
 				{
-					showAbsDecile ?
-						<Chart plot={results.avg_decile_chart} md={12}/> :
-						<Chart plot={results.rel_decile_chart} md={12}/>
+					showDeepPoverty ?
+						<Chart plot={results.deep_poverty_chart} md={12} /> :
+						<Chart plot={results.poverty_chart} md={12} />
 				}
 			</Row>
 			<Row>
 				<div className="justify-content-center d-flex">
-				<Radio.Group defaultValue={true} buttonStyle="solid"  onChange={() => setShowAbsDecile(!showAbsDecile)} >
-					<Radio.Button value={true}>Relative change</Radio.Button>
-					<Radio.Button value={false}>Absolute change</Radio.Button>
-				</Radio.Group>
+					<Radio.Group defaultValue={true} buttonStyle="solid" onChange={() => setShowDeepPoverty(!showDeepPoverty)} >
+						<Radio.Button value={true}>Poverty</Radio.Button>
+						<Radio.Button value={false}>Deep Poverty</Radio.Button>
+					</Radio.Group>
 				</div>
 			</Row>
 			<Row>
-				<Chart plot={results.intra_decile_chart} md={12}/>
+				{
+					showAbsDecile ?
+						<Chart plot={results.avg_decile_chart} md={12} /> :
+						<Chart plot={results.rel_decile_chart} md={12} />
+				}
 			</Row>
 			<Row>
-				<Chart plot={results.inequality_chart} md={12}/>
+				<div className="justify-content-center d-flex">
+					<Radio.Group defaultValue={true} buttonStyle="solid" onChange={() => setShowAbsDecile(!showAbsDecile)} >
+						<Radio.Button value={true}>Relative change</Radio.Button>
+						<Radio.Button value={false}>Absolute change</Radio.Button>
+					</Radio.Group>
+				</div>
+			</Row>
+			<Row>
+				<Chart plot={results.intra_decile_chart} md={12} />
+			</Row>
+			<Row>
+				<Chart plot={results.inequality_chart} md={12} />
 			</Row>
 			<Row>
 				<BreakdownTable policy={country.policy} api_url={country.apiURL} />
@@ -99,15 +112,15 @@ export function PopulationResultsPane(props) {
 
 
 export default class PopulationImpact extends React.Component {
-    static contextType = CountryContext;
+	static contextType = CountryContext;
 	constructor(props) {
 		super(props);
-		this.state = {waiting: false, error: false};
+		this.state = { waiting: false, error: false };
 		this.simulate = this.simulate.bind(this);
 	}
 
 	componentDidMount() {
-		if(this.context.populationImpactIsOutdated) {
+		if (this.context.populationImpactIsOutdated) {
 			this.simulate();
 		};
 	}
@@ -125,11 +138,11 @@ export default class PopulationImpact extends React.Component {
 						throw res;
 					}
 				}).then((data) => {
-					this.context.setState({populationImpactResults: data, populationImpactIsOutdated: false}, () => {
+					this.context.setState({ populationImpactResults: data, populationImpactIsOutdated: false }, () => {
 						this.setState({ waiting: false, error: false });
 					});
 				}).catch(e => {
-					this.setState({waiting: false, error: true});
+					this.setState({ waiting: false, error: true });
 				});
 		});
 	}
@@ -141,26 +154,26 @@ export default class PopulationImpact extends React.Component {
 				<Col xl={8}>
 					{
 						(this.state.waiting || (!this.state.error & (this.context.populationImpactResults === null))) ?
-							<Loading message={`Simulating your results on the ${this.context.properName} population (this usually takes about 10 seconds)`}/> :
+							<Loading message={`Simulating your results on the ${this.context.properName} population (this usually takes about 10 seconds)`} /> :
 							this.state.error ?
-								<Loading noSpin message="Something went wrong (try navigating back and returning to this page)"/> :
+								<Loading noSpin message="Something went wrong (try navigating back and returning to this page)" /> :
 								<PopulationResultsPane />
 					}
 				</Col>
 				<Col xl={3}>
-                    <PolicyOverview page="population-impact"/>
-                    <Divider />
-                    <Centered>
-                        <NavigationButton
-                            target="policy" 
-                            text={<><ArrowLeftOutlined /> Edit your policy</>}
-                        />
-                        <NavigationButton
-                            primary 
-                            target="household" 
-                            text="Describe your household"
-                        />
-                    </Centered>
+					<PolicyOverview page="population-impact" />
+					<Divider />
+					<Centered>
+						<NavigationButton
+							target="policy"
+							text={<><ArrowLeftOutlined /> Edit your policy</>}
+						/>
+						<NavigationButton
+							primary
+							target="household"
+							text="Describe your household"
+						/>
+					</Centered>
 				</Col>
 			</Row>
 		);
