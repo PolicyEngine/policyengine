@@ -6,10 +6,21 @@ import { VariableControlPane } from "./inputPane";
 import AccountingTable from "./accountingTable";
 import EarningsChartsPane from "./earningsCharts";
 import { OverviewHolder, PolicyOverview } from "../policy/overview";
-import { Divider } from "antd";
+import { Divider, Collapse } from "antd";
 import NavigationButton from "../../general/navigationButton";
-import { ArrowLeftOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 
+const { Panel } = Collapse;
+
+function HouseholdResultsCaveats() {
+	return (
+		<Collapse style={{marginTop: 15}} defaultActiveKey={["0"]} ghost>
+			<Panel header={<><ExclamationCircleOutlined />  &nbsp; &nbsp;Disclaimer</>} key="1">
+				<p>Results are calculated using the OpenFisca-US tax-benefit microsimulation model, may not constitute exact benefit entitlement. See the <a href="https://github.com/PSLmodels/openfisca-uk">repository</a> for more information.</p>
+			</Panel>
+		</Collapse>
+	);
+}
 
 export class Household extends React.Component {
     static contextType = CountryContext;
@@ -46,9 +57,15 @@ export class Household extends React.Component {
                 variables={this.getVariables()} 
             />;
         } else if(this.state.selected === "results") {
-            middlePane = <AccountingTable />;
+            middlePane = <>
+                <AccountingTable />
+                <HouseholdResultsCaveats />
+            </>;
         } else if(this.state.selected === "earnings") {
-            middlePane = <EarningsChartsPane />
+            middlePane = <>
+                <AccountingTable />
+                <EarningsChartsPane />
+            </>;
         }
         return <>
             <Row>
