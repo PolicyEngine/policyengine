@@ -1,4 +1,5 @@
-import { Table } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { Table, Collapse } from "antd";
 import React from "react";
 import { useContext } from "react";
 import { CountryContext } from "../../../countries";
@@ -6,6 +7,19 @@ import Centered from "../../general/centered";
 import Spinner from "../../general/spinner";
 import { Spacing } from "../../layout/general";
 import { getTranslators } from "../../tools/translation";
+
+const { Panel } = Collapse;
+
+function HouseholdResultsCaveats() {
+    const country = useContext(CountryContext);
+	return (
+		<Collapse style={{marginTop: 15}} defaultActiveKey={["0"]} ghost>
+			<Panel header={<><ExclamationCircleOutlined />  &nbsp; &nbsp;Disclaimer</>} key="1">
+				<p>{`Results are calculated using the OpenFisca-${country.properName} tax-benefit microsimulation model, may not constitute exact tax liabilities or benefit entitlements. See the `}<a href={`https://github.com/PolicyEngine/OpenFisca-${country.properName}`}>repository</a> for more information.</p>
+			</Panel>
+		</Collapse>
+	);
+}
 
 export default class AccountingTable extends React.Component {
     static contextType = CountryContext;
@@ -109,6 +123,8 @@ export default class AccountingTable extends React.Component {
         return <>
             <Spacing />
             <VariableTable variable={Object.keys(this.context.outputVariableHierarchy)[0]} />
+            <Spacing />
+            <HouseholdResultsCaveats />
         </>;
     }
 }
