@@ -10,7 +10,6 @@ import { Divider } from "antd";
 import NavigationButton from "../../general/navigationButton";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 
-
 export class Household extends React.Component {
     static contextType = CountryContext;
     constructor(props, context) {
@@ -48,7 +47,7 @@ export class Household extends React.Component {
         } else if(this.state.selected === "results") {
             middlePane = <AccountingTable />;
         } else if(this.state.selected === "earnings") {
-            middlePane = <EarningsChartsPane />
+            middlePane = <EarningsChartsPane />;
         }
         return <>
             <Row>

@@ -54,7 +54,7 @@ export default class Policy extends React.Component {
                             {this.context.showPopulationImpact && <NavigationButton 
                                 primary 
                                 target="population-impact" 
-                                text={`Calculate the ${this.context.properName} impact`} 
+                                text={`Calculate ${this.context.properName} impact`} 
                             />}
                         </div>
                         <div className="d-flex justify-content-center">
