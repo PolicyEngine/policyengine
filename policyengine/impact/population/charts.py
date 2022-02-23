@@ -181,6 +181,24 @@ def poverty_chart(
                     config.person_variable,
                 ]
             ],
+            "baseline": [
+                poverty_rate(baseline, i, config)
+                for i in [
+                    config.child_variable,
+                    config.working_age_variable,
+                    config.senior_variable,
+                    config.person_variable,
+                ]
+            ],
+            "reformed": [
+                poverty_rate(reformed, i, config)
+                for i in [
+                    config.child_variable,
+                    config.working_age_variable,
+                    config.senior_variable,
+                    config.person_variable,
+                ]
+            ],
         }
     )
     df["abs_chg_str"] = df.pov_chg.abs().map("{:.1%}".format)
@@ -190,14 +208,20 @@ def poverty_chart(
         + np.where(
             df.abs_chg_str == "0.0%",
             "does not change",
-            (np.where(df.pov_chg < 0, "falls ", "rises ") + df.abs_chg_str),
+            (
+                np.where(df.pov_chg < 0, "falls ", "rises ")
+                + df.abs_chg_str
+                + " from "
+                + df.baseline.map("{:.1%}".format)
+                + " to "
+                + df.reformed.map("{:.1%}".format)
+            ),
         )
     )
     fig = px.bar(
         df,
         x="group",
         y="pov_chg",
-        # TODO: Add `color="metric"`
         custom_data=["label"],
         labels={"group": "Group", "pov_chg": "Poverty rate change"},
     )
@@ -244,6 +268,24 @@ def deep_poverty_chart(
                     config.person_variable,
                 ]
             ],
+            "baseline": [
+                deep_poverty_rate(baseline, i, config)
+                for i in [
+                    config.child_variable,
+                    config.working_age_variable,
+                    config.senior_variable,
+                    config.person_variable,
+                ]
+            ],
+            "reformed": [
+                deep_poverty_rate(reformed, i, config)
+                for i in [
+                    config.child_variable,
+                    config.working_age_variable,
+                    config.senior_variable,
+                    config.person_variable,
+                ]
+            ],
         }
     )
     df["abs_chg_str"] = df.deep_pov_chg.abs().map("{:.1%}".format)
@@ -256,6 +298,10 @@ def deep_poverty_chart(
             (
                 np.where(df.deep_pov_chg < 0, "falls ", "rises ")
                 + df.abs_chg_str
+                + " from "
+                + df.baseline.map("{:.1%}".format)
+                + " to "
+                + df.reformed.map("{:.1%}".format)
             ),
         )
     )
