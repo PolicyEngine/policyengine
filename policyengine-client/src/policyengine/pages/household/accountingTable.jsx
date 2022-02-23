@@ -11,11 +11,10 @@ import { getTranslators } from "../../tools/translation";
 const { Panel } = Collapse;
 
 function HouseholdResultsCaveats() {
-    const country = useContext(CountryContext);
 	return (
-		<Collapse style={{marginTop: 15}} defaultActiveKey={["0"]} ghost>
+		<Collapse style={{marginTop: 15}} defaultActiveKey={["1"]} ghost>
 			<Panel header={<><ExclamationCircleOutlined />  &nbsp; &nbsp;Disclaimer</>} key="1">
-				<p>{`Results are calculated using the OpenFisca-${country.properName} tax-benefit microsimulation model, may not constitute exact tax liabilities or benefit entitlements. See the `}<a href={`https://github.com/PolicyEngine/OpenFisca-${country.properName}`}>repository</a> for more information.</p>
+				<p>PolicyEngine results may not constitute exact tax liabilities or benefit entitlements.</p>
 			</Panel>
 		</Collapse>
 	);
