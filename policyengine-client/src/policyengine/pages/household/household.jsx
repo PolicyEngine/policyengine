@@ -5,12 +5,10 @@ import Menu from "./menu";
 import { VariableControlPane } from "./inputPane";
 import AccountingTable from "./accountingTable";
 import EarningsChartsPane from "./earningsCharts";
-import { PolicyOverview } from "../policy/overview";
+import { OverviewHolder, PolicyOverview } from "../policy/overview";
 import { Divider } from "antd";
-import Centered from "../../general/centered";
 import NavigationButton from "../../general/navigationButton";
 import { ArrowLeftOutlined } from "@ant-design/icons";
-
 
 export class Household extends React.Component {
     static contextType = CountryContext;
@@ -49,7 +47,7 @@ export class Household extends React.Component {
         } else if(this.state.selected === "results") {
             middlePane = <AccountingTable />;
         } else if(this.state.selected === "earnings") {
-            middlePane = <EarningsChartsPane />
+            middlePane = <EarningsChartsPane />;
         }
         return <>
             <Row>
@@ -60,23 +58,31 @@ export class Household extends React.Component {
                     {middlePane}
                 </Col>
                 <Col>
+                    <OverviewHolder>
                     <PolicyOverview page="household"/>
                     <Divider />
-                    <Centered>
-                        <NavigationButton
-                            text="See your net income"
-                            onClick={() => this.setState({selected: "results"})}
-                            primary
-                        />
-                        <NavigationButton
-                            target="policy" 
-                            text={<><ArrowLeftOutlined /> Edit your policy</>}
-                        />
-                        {this.context.showPopulationImpact && <NavigationButton 
-                            target="population-impact" 
-                            text={<><ArrowLeftOutlined /> Return to the {this.context.properName} impact</>}
-                        />}
-                    </Centered>
+                    <div className="d-block align-middle">
+                        <div className="d-flex justify-content-center">
+                            <NavigationButton
+                                text="Calculate your net income"
+                                onClick={() => this.setState({selected: "results"})}
+                                primary
+                            />
+                        </div>
+                        <div className="d-flex justify-content-center">
+                            <NavigationButton
+                                target="policy" 
+                                text={<><ArrowLeftOutlined /> Edit your policy</>}
+                            />
+                        </div>
+                        <div className="d-flex justify-content-center">
+                            {this.context.showPopulationImpact && <NavigationButton 
+                                target="population-impact" 
+                                text={<><ArrowLeftOutlined /> Return to the {this.context.properName} impact</>}
+                            />}
+                        </div>
+                    </div>
+                    </OverviewHolder>
                 </Col>
             </Row>
         </>

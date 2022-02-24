@@ -1,4 +1,5 @@
-import { Table } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { Table, Collapse } from "antd";
 import React from "react";
 import { useContext } from "react";
 import { CountryContext } from "../../../countries";
@@ -6,6 +7,18 @@ import Centered from "../../general/centered";
 import Spinner from "../../general/spinner";
 import { Spacing } from "../../layout/general";
 import { getTranslators } from "../../tools/translation";
+
+const { Panel } = Collapse;
+
+function HouseholdResultsCaveats() {
+	return (
+		<Collapse style={{marginTop: 15}} defaultActiveKey={["1"]} ghost>
+			<Panel header={<><ExclamationCircleOutlined />  &nbsp; &nbsp;Disclaimer</>} key="1">
+				<p>PolicyEngine results may not constitute exact tax liabilities or benefit entitlements.</p>
+			</Panel>
+		</Collapse>
+	);
+}
 
 export default class AccountingTable extends React.Component {
     static contextType = CountryContext;
@@ -109,6 +122,8 @@ export default class AccountingTable extends React.Component {
         return <>
             <Spacing />
             <VariableTable variable={Object.keys(this.context.outputVariableHierarchy)[0]} />
+            <Spacing />
+            <HouseholdResultsCaveats />
         </>;
     }
 }
@@ -137,32 +152,30 @@ function VariableTable(props) {
     // Given a variable name, return a table.
     const country = useContext(CountryContext);
     const reformExists = Object.keys(country.getPolicyJSONPayload()).length > 0;
-    const { baselineValue, reformValue } = getValues(props.variable, country);
-    const depth = props.depth || 0;
     let columns;
     if(reformExists) {
         columns = [{
             title: "",
             dataIndex: "variable",
             key: "variable",
-            width: 150,
+            width: 70,
         }, {
             title: "Baseline",
             dataIndex: "baseline",
             key: "baseline",
-            width: 70,
+            width: 10,
             align: "center",
         }, {
             title: "Reform",
             dataIndex: "reform",
             key: "reform",
-            width: 70,
+            width: 10,
             align: "center",
         }, {
             title: "Change",
             dataIndex: "change",
             key: "change",
-            width: 70,
+            width: 10,
             align: "center",
         }];
     } else {
@@ -170,67 +183,57 @@ function VariableTable(props) {
             title: "",
             dataIndex: "variable",
             key: "variable",
-            width: 75,
+            width: 20,
         }, {
             title: "Value",
             dataIndex: "baseline",
             key: "baseline",
-            width: 75,
             align: "center",
+            width: 80,
         }]
     }
-    const { formatter } = getTranslators(country.variables[props.variable]);
+    const data = generateTableData(props.variable, country, 0, true);
+    return <Table 
+        columns={columns}
+        dataSource={data}
+        expandable={{
+            indentSize: 10,
+            expandRowByClick: true,
+            defaultExpandedRowKeys: [props.variable],
+        }}
+        pagination={false}
+    />;
+}
 
+function generateTableData(variable, country, depth, isPositive) {
+    const { baselineValue, reformValue } = getValues(variable, country);
+    const { formatter } = getTranslators(country.variables[variable]);
     const colorZerosGrey = value => value === 0 ? "grey" : "black";
     const colorChanges = value => value > 0 ? "green" : value < 0 ? "red" : "grey";
     const applyColorLogic = (value, logic) => <div style={{color: logic(value)}}>{formatter(value, true)}</div>;
-    const multiplier = props.isPositive || depth === 0 ? 1 : -1;
+    const multiplier = isPositive || depth === 0 ? 1 : -1;
+    const hierarchy = country.outputVariableHierarchy[variable];
+    let childElements = [];
+    if(hierarchy) {
+        const addedChildren = (hierarchy.add || []).filter(child => depth < 1 || shouldShow(child, country));
+        const subtractedChildren = (hierarchy.subtract || []).filter(child => depth < 1 || shouldShow(child, country));
+        const children = addedChildren.concat(subtractedChildren);
+        for(let child in children) {
+            childElements = childElements.concat(generateTableData(children[child], country, depth + 1, isPositive !== (subtractedChildren.includes(children[child]))));
+        }
+    } else {
+        childElements = null;
+    }
     const data = [{
-        variable: <div style={{width: "100%"}}>{country.variables[props.variable].label}</div>,
-        key: props.variable,
+        variable: <div className="d-flex">{country.variables[variable].label}</div>,
+        key: variable,
         baseline: applyColorLogic(baselineValue * multiplier, colorZerosGrey),
         reform: applyColorLogic(reformValue * multiplier, colorZerosGrey),
         change: applyColorLogic((reformValue - baselineValue) * multiplier, colorChanges),
     }]
-    const isPositive = props.isPositive || depth === 0;
+    if(childElements) {
+        data[0].children = childElements;
+    }
+    return data;
 
-    const generateChildTable = row => {
-        try {
-            const addedChildren = (country.outputVariableHierarchy[row.key].add || []).filter(child => depth < 1 || shouldShow(child, country));
-            const subtractedChildren = (country.outputVariableHierarchy[row.key].subtract || []).filter(child => depth < 1 || shouldShow(child, country));
-            const children = addedChildren.concat(subtractedChildren);
-            if(children.length === 0) {
-                return null;
-            }
-            return children.map((child, i) => <VariableTable 
-                key={child} 
-                depth={depth + 1} 
-                variable={child} 
-                isPositive={isPositive === (i < addedChildren.length)} 
-                isChild={true}
-                isSingle={children.length === 1}
-            />);
-        } catch(e) {
-            return <></>
-        }
-    };
-    const rowIsExpandable = row => country.outputVariableHierarchy[row.key] && generateChildTable(row) !== null;
-    return <Table 
-        columns={columns}
-        // The Ant Design table seems to have a bug where
-        // nested children are indented if there is exactly
-        // one nested table. The below styling fixes that.
-        style={{
-            width: "100%",
-            marginTop: props.isSingle ? 10 : null,
-            marginBottom: props.isSingle ? 10 : null,
-        }}
-        dataSource={data} 
-        pagination={false} 
-        showHeader={!props.isChild}
-        expandable={{
-            expandedRowRender: generateChildTable,
-            rowExpandable: rowIsExpandable,
-            defaultExpandAllRows: depth === 0,
-        }}/>;
 }

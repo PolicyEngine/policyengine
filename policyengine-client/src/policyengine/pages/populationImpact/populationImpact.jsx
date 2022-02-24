@@ -10,7 +10,7 @@ import Centered from "../../general/centered";
 import Spinner from "../../general/spinner";
 import { useContext } from "react";
 import NavigationButton from "../../general/navigationButton";
-import { PolicyOverview } from "../policy/overview";
+import { OverviewHolder, PolicyOverview } from "../policy/overview";
 
 const { Panel } = Collapse;
 
@@ -161,6 +161,7 @@ export default class PopulationImpact extends React.Component {
 					}
 				</Col>
 				<Col xl={3}>
+<<<<<<< HEAD
 					<PolicyOverview page="population-impact" />
 					<Divider />
 					<Centered>
@@ -174,6 +175,28 @@ export default class PopulationImpact extends React.Component {
 							text="Describe your household"
 						/>
 					</Centered>
+=======
+                    <OverviewHolder>
+                    <PolicyOverview page="population-impact"/>
+                    <Divider />
+                    <div className="d-block align-middle">
+                        <div className="d-flex justify-content-center">
+                            {this.context.showPopulationImpact && 
+							<NavigationButton
+								target="policy" 
+								text={<><ArrowLeftOutlined /> Edit your policy</>}
+							/>}
+                        </div>
+                        <div className="d-flex justify-content-center">
+                            {this.context.showHousehold && <NavigationButton
+                                target="household" 
+                                text="Describe your household"
+                                primary={!this.context.showPopulationImpact}
+                            />}
+                        </div>
+                    </div>
+                    </OverviewHolder>
+>>>>>>> 7425e30aeb6373846fc50d9adb0bf03d0fff9d86
 				</Col>
 			</Row>
 		);
