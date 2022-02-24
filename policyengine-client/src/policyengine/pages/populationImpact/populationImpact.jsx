@@ -161,42 +161,26 @@ export default class PopulationImpact extends React.Component {
 					}
 				</Col>
 				<Col xl={3}>
-<<<<<<< HEAD
-					<PolicyOverview page="population-impact" />
-					<Divider />
-					<Centered>
-						<NavigationButton
-							target="policy"
-							text={<><ArrowLeftOutlined /> Edit your policy</>}
-						/>
-						<NavigationButton
-							primary
-							target="household"
-							text="Describe your household"
-						/>
-					</Centered>
-=======
-                    <OverviewHolder>
-                    <PolicyOverview page="population-impact"/>
-                    <Divider />
-                    <div className="d-block align-middle">
-                        <div className="d-flex justify-content-center">
-                            {this.context.showPopulationImpact && 
-							<NavigationButton
-								target="policy" 
-								text={<><ArrowLeftOutlined /> Edit your policy</>}
-							/>}
-                        </div>
-                        <div className="d-flex justify-content-center">
-                            {this.context.showHousehold && <NavigationButton
-                                target="household" 
-                                text="Describe your household"
-                                primary={!this.context.showPopulationImpact}
-                            />}
-                        </div>
-                    </div>
-                    </OverviewHolder>
->>>>>>> 7425e30aeb6373846fc50d9adb0bf03d0fff9d86
+					<OverviewHolder>
+						<PolicyOverview page="population-impact" />
+						<Divider />
+						<div className="d-block align-middle">
+							<div className="d-flex justify-content-center">
+								{this.context.showPopulationImpact &&
+									<NavigationButton
+										target="policy"
+										text={<><ArrowLeftOutlined /> Edit your policy</>}
+									/>}
+							</div>
+							<div className="d-flex justify-content-center">
+								{this.context.showHousehold && <NavigationButton
+									target="household"
+									text="Describe your household"
+									primary={!this.context.showPopulationImpact}
+								/>}
+							</div>
+						</div>
+					</OverviewHolder>
 				</Col>
 			</Row>
 		);

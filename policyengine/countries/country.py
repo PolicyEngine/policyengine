@@ -30,7 +30,6 @@ from policyengine.impact.population.charts import (
     decile_chart,
     inequality_chart,
     poverty_chart,
-    deep_poverty_chart,
     population_waterfall_chart,
     intra_decile_chart,
 )
@@ -176,10 +175,10 @@ class PolicyEngineCountry:
             rel_decile_chart=rel_decile_chart,
             avg_decile_chart=avg_decile_chart,
             poverty_chart=poverty_chart(
-                baseline, reformed, self.results_config
+                baseline, reformed, False, self.results_config
             ),
-            deep_poverty_chart=deep_poverty_chart(
-                baseline, reformed, self.results_config
+            deep_poverty_chart=poverty_chart(
+                baseline, reformed, True, self.results_config
             ),
             waterfall_chart=population_waterfall_chart(
                 baseline, reformed, self.results_config

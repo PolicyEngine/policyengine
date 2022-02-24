@@ -1,4 +1,5 @@
 from typing import Tuple, Type
+from xmlrpc.client import Boolean
 from policyengine.impact.population.metrics import (
     poverty_rate,
     deep_poverty_rate,
@@ -154,6 +155,7 @@ def deep_pov_chg(
 def poverty_chart(
     baseline: Microsimulation,
     reformed: Microsimulation,
+    is_deep: bool,
     config: Type[PolicyEngineResultsConfig],
 ) -> dict:
     """Chart of poverty impact by age group and overall.
@@ -169,11 +171,19 @@ def poverty_chart(
         - Overall
     :rtype: dict
     """
+    if is_deep:
+        f_pov_chg = deep_pov_chg
+        f_poverty_rate = deep_poverty_rate
+        metric_name = "Deep poverty"
+    else:
+        f_pov_chg = pov_chg
+        f_poverty_rate = poverty_rate
+        metric_name = "Poverty"
     df = pd.DataFrame(
         {
             "group": ["Child", "Working-age", "Senior", "All"],
             "pov_chg": [
-                pov_chg(baseline, reformed, i, config)
+                f_pov_chg(baseline, reformed, i, config)
                 for i in [
                     config.child_variable,
                     config.working_age_variable,
@@ -182,7 +192,7 @@ def poverty_chart(
                 ]
             ],
             "baseline": [
-                poverty_rate(baseline, i, config)
+                f_poverty_rate(baseline, i, config)
                 for i in [
                     config.child_variable,
                     config.working_age_variable,
@@ -191,7 +201,7 @@ def poverty_chart(
                 ]
             ],
             "reformed": [
-                poverty_rate(reformed, i, config)
+                f_poverty_rate(reformed, i, config)
                 for i in [
                     config.child_variable,
                     config.working_age_variable,
@@ -205,7 +215,9 @@ def poverty_chart(
     df["label"] = (
         "<b>"
         + np.where(df.group == "All", "Total", df.group)
-        + " poverty "
+        + " "
+        + metric_name.lower()
+        + " "
         + np.where(
             df.abs_chg_str == "0.0%",
             "does not change",
@@ -224,105 +236,15 @@ def poverty_chart(
         x="group",
         y="pov_chg",
         custom_data=["label"],
-        labels={"group": "Group", "pov_chg": "Poverty rate change"},
+        labels={"group": "Group", "pov_chg": metric_name + " rate change"},
     )
     fig.update_layout(
-        title="Poverty impact by age group",
+        title=metric_name + " impact by age group",
         xaxis_title=None,
         yaxis=dict(title="Percent change", tickformat=",.1%"),
     )
     fig.update_traces(
         marker_color=np.where(df.pov_chg < 0, charts.DARK_GREEN, charts.GRAY)
-    )
-    charts.add_custom_hovercard(fig)
-    charts.add_zero_line(fig)
-    return charts.formatted_fig_json(fig)
-
-
-def deep_poverty_chart(
-    baseline: Microsimulation,
-    reformed: Microsimulation,
-    config: Type[PolicyEngineResultsConfig],
-) -> dict:
-    """Chart of deep poverty impact by age group and overall.
-
-    :param baseline: Baseline microsimulation.
-    :type baseline: Microsimulation
-    :param reformed: Reform microsimulation.
-    :type reformed: Microsimulation
-    :return: JSON representation of Plotly chart with poverty impact for:
-        - Children (under 18)
-        - Working age adults (18 to State Pension age)
-        - Pensioners (State Pension age and above)
-        - Overall
-    :rtype: dict
-    """
-    df = pd.DataFrame(
-        {
-            "group": ["Child", "Working-age", "Senior", "All"],
-            "deep_pov_chg": [
-                deep_pov_chg(baseline, reformed, i, config)
-                for i in [
-                    config.child_variable,
-                    config.working_age_variable,
-                    config.senior_variable,
-                    config.person_variable,
-                ]
-            ],
-            "baseline": [
-                deep_poverty_rate(baseline, i, config)
-                for i in [
-                    config.child_variable,
-                    config.working_age_variable,
-                    config.senior_variable,
-                    config.person_variable,
-                ]
-            ],
-            "reformed": [
-                deep_poverty_rate(reformed, i, config)
-                for i in [
-                    config.child_variable,
-                    config.working_age_variable,
-                    config.senior_variable,
-                    config.person_variable,
-                ]
-            ],
-        }
-    )
-    df["abs_chg_str"] = df.deep_pov_chg.abs().map("{:.1%}".format)
-    df["label"] = (
-        "<b>"
-        + np.where(df.group == "All", "Total", df.group)
-        + " deep poverty "
-        + np.where(
-            df.abs_chg_str == "0.0%",
-            "does not change",
-            (
-                np.where(df.deep_pov_chg < 0, "falls ", "rises ")
-                + df.abs_chg_str
-                + "</b><br> from "
-                + df.baseline.map("{:.1%}".format)
-                + " to "
-                + df.reformed.map("{:.1%}".format)
-            ),
-        )
-    )
-    fig = px.bar(
-        df,
-        x="group",
-        y="deep_pov_chg",
-        custom_data=["label"],
-        labels={"group": "Group", "deep_pov_chg": "Deep poverty rate change"},
-    )
-    fig.update_layout(
-        title="Deep poverty impact by age group",
-        xaxis_title=None,
-        yaxis=dict(title="Percent change", tickformat=",.1%"),
-    )
-    fig.update_traces(
-        marker_color=np.where(
-            df.deep_pov_chg < 0, charts.DARK_GREEN, charts.GRAY
-        )
     )
     charts.add_custom_hovercard(fig)
     charts.add_zero_line(fig)
