@@ -203,7 +203,8 @@ def poverty_chart(
     )
     df["abs_chg_str"] = df.pov_chg.abs().map("{:.1%}".format)
     df["label"] = (
-        np.where(df.group == "All", "Total", df.group)
+        "<b>"
+        + np.where(df.group == "All", "Total", df.group)
         + " poverty "
         + np.where(
             df.abs_chg_str == "0.0%",
@@ -211,7 +212,7 @@ def poverty_chart(
             (
                 np.where(df.pov_chg < 0, "falls ", "rises ")
                 + df.abs_chg_str
-                + " from "
+                + "</b><br> from "
                 + df.baseline.map("{:.1%}".format)
                 + " to "
                 + df.reformed.map("{:.1%}".format)
@@ -290,7 +291,8 @@ def deep_poverty_chart(
     )
     df["abs_chg_str"] = df.deep_pov_chg.abs().map("{:.1%}".format)
     df["label"] = (
-        np.where(df.group == "All", "Total", df.group)
+        "<b>"
+        + np.where(df.group == "All", "Total", df.group)
         + " deep poverty "
         + np.where(
             df.abs_chg_str == "0.0%",
@@ -298,7 +300,7 @@ def deep_poverty_chart(
             (
                 np.where(df.deep_pov_chg < 0, "falls ", "rises ")
                 + df.abs_chg_str
-                + " from "
+                + "</b><br> from "
                 + df.baseline.map("{:.1%}".format)
                 + " to "
                 + df.reformed.map("{:.1%}".format)
