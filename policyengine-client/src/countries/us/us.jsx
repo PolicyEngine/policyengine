@@ -182,49 +182,58 @@ export class US extends Country {
         "snap_emergency_allotment",
     ]
     inputVariableHierarchy = {
-        "General": [
-            "setup",
-        ],
-        "Personal": [
-            "age",
-            "employment_income",
-            "self_employment_income",
-            "dividend_income",
-            "interest_income",
-            "gi_cash_assistance",
-            "medical_out_of_pocket_expenses",
-            "is_in_school",
-            "ssdi",
-            "is_ssi_disabled",
-            "is_permanently_disabled_veteran",
-            "is_surviving_spouse_of_disabled_veteran",
-            "is_surviving_child_of_disabled_veteran",
-            "is_mother",
-            "is_pregnant",
-            "is_breastfeeding",
-            "is_wic_at_nutritional_risk",
-            "ca_cvrp_vehicle_rebate_amount",
-        ],
-        "Household benefits": [
-            "ssi",
-            "fdpir",
-        ],
-        "Household expenses": [
-            "housing_cost",
-            "childcare_expenses",
-            "spm_unit_state_tax",
-            "phone_cost",
-            "broadband_cost",
-        ],
-        "Geographic": [
-            "state_code",
-            "is_on_tribal_land",
-            "is_rural",
-            "is_homeless",
-        ]
+        "Household": {
+            "People": [
+                "setup",
+            ],
+            "Location": [
+                "state_code",
+                "is_on_tribal_land",
+                "is_rural",
+                "is_homeless",
+            ],
+            "Household expenses": [
+                "housing_cost",
+                "childcare_expenses",
+                "phone_cost",
+                "broadband_cost",
+            ],
+            "Household benefits": [
+                "ssi",
+                "fdpir",
+            ],
+        },
+        "People": {
+            "Income": [
+                "employment_income",
+                "self_employment_income",
+                "dividend_income",
+                "interest_income",
+                "gi_cash_assistance",
+                "ssdi",
+            ],
+            "Demographics": [
+                "age",
+                "is_ssi_disabled",
+                "is_permanently_disabled_veteran",
+                "is_surviving_spouse_of_disabled_veteran",
+                "is_surviving_child_of_disabled_veteran",
+                "is_mother",
+                "is_pregnant",
+                "is_breastfeeding",
+                "is_wic_at_nutritional_risk",
+            ],
+            "Expenses": [
+                "medical_out_of_pocket_expenses",
+                "ca_cvrp_vehicle_rebate_amount",
+            ],
+        }
     }
-    defaultOpenVariableGroups = []
-    defaultSelectedVariableGroup = "/General"
+    defaultOpenVariableGroups = [
+        "/Household",
+        "/People"
+    ]
+    defaultSelectedVariableGroup = "/Household/People"
     outputVariableHierarchy = {
         "spm_unit_net_income": {
             "add": [
