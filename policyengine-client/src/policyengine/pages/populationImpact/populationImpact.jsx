@@ -1,4 +1,4 @@
-import { Divider, Collapse, Radio, Empty } from "antd";
+import { Divider, Radio, Empty } from "antd";
 import { ArrowLeftOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { Row, Col } from "react-bootstrap";
 import React from "react";
@@ -11,17 +11,8 @@ import Spinner from "../../general/spinner";
 import { useContext } from "react";
 import NavigationButton from "../../general/navigationButton";
 import { OverviewHolder, PolicyOverview } from "../policy/overview";
-
-const { Panel } = Collapse;
-
 function PopulationResultsCaveats() {
-	return (
-		<Collapse defaultActiveKey={["0"]} ghost>
-			<Panel header={<><ExclamationCircleOutlined />  &nbsp; &nbsp;Disclaimer</>} key="1">
-				<p>Results are calculated using the OpenFisca-UK tax-benefit microsimulation model, and assume no behavioural or macroeconomic effects. See the <a href="https://github.com/PSLmodels/openfisca-uk">repository</a> for more information.</p>
-			</Panel>
-		</Collapse>
-	);
+	return <p style={{color: "grey"}}><ExclamationCircleOutlined />  &nbsp; &nbsp;PolicyEngine results assume no behavioural or macroeconomic effects</p>;
 }
 
 function Loading(props) {
@@ -55,8 +46,6 @@ export function PopulationResultsPane(props) {
 	const [showAbsDecile, setShowAbsDecile] = React.useState(false);
 	return (
 		<>
-			<Divider></Divider>
-			<PopulationResultsCaveats />
 			<Row style={{padding: 30}}>
 				<TakeAway><p style={{textAlign: "center"}}>Reform produces <br /><span style={{color: costColor}}>{cost}</span> net {isSurplus ? "surplus" : "cost"}</p></TakeAway>
 				<TakeAway><p style={{textAlign: "center"}}>Poverty <br />{isPovRise ? "rises" : "falls"} <span style={{color: povColor}}>{pov}%</span></p></TakeAway>
@@ -93,6 +82,8 @@ export function PopulationResultsPane(props) {
 			<Row>
 				<BreakdownTable policy={country.policy} api_url={country.apiURL} />
 			</Row>
+			<Divider />
+			<PopulationResultsCaveats />
 		</>
 	);
 }
@@ -150,7 +141,6 @@ export default class PopulationImpact extends React.Component {
 				<Col xl={3}>
                     <OverviewHolder>
                     <PolicyOverview page="population-impact"/>
-                    <Divider />
                     <div className="d-block align-middle">
                         <div className="d-flex justify-content-center">
                             {this.context.showPopulationImpact && 

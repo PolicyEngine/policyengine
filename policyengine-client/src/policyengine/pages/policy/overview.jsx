@@ -49,7 +49,7 @@ export function PolicyOverview(props) {
 	const pageSize = 4;
 	return (
 		<>
-				<Divider></Divider>
+			<div style={{paddingTop: 20}}></div>
 				{!isEmpty ?
 					<>
 						<Steps progressDot direction="vertical">
