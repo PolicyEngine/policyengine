@@ -1,4 +1,3 @@
-import { Divider } from "antd";
 import React, { useContext } from "react"
 import { Col, Row } from "react-bootstrap";
 import { CountryContext } from "../../../countries"
@@ -48,7 +47,6 @@ export default class Policy extends React.Component {
                 <Col xl={3}>
                     <OverviewHolder>
                     <PolicyOverview page="policy"/>
-                    <Divider />
                     <div className="d-block align-middle">
                         <div className="d-flex justify-content-center">
                             {this.context.showPopulationImpact && <NavigationButton 

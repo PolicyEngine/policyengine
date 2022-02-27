@@ -6,7 +6,6 @@ import { VariableControlPane } from "./inputPane";
 import AccountingTable from "./accountingTable";
 import EarningsChartsPane from "./earningsCharts";
 import { OverviewHolder, PolicyOverview } from "../policy/overview";
-import { Divider } from "antd";
 import NavigationButton from "../../general/navigationButton";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 
@@ -60,7 +59,6 @@ export class Household extends React.Component {
                 <Col>
                     <OverviewHolder>
                     <PolicyOverview page="household"/>
-                    <Divider />
                     <div className="d-block align-middle">
                         <div className="d-flex justify-content-center">
                             <NavigationButton

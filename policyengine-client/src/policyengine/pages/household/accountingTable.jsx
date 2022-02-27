@@ -1,5 +1,5 @@
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-import { Table, Collapse } from "antd";
+import { Table } from "antd";
 import React from "react";
 import { useContext } from "react";
 import { CountryContext } from "../../../countries";
@@ -8,16 +8,9 @@ import Spinner from "../../general/spinner";
 import { Spacing } from "../../layout/general";
 import { getTranslators } from "../../tools/translation";
 
-const { Panel } = Collapse;
-
 function HouseholdResultsCaveats() {
-    return (
-        <Collapse style={{ marginTop: 15 }} defaultActiveKey={["1"]} ghost>
-            <Panel header={<><ExclamationCircleOutlined />  &nbsp; &nbsp;Disclaimer</>} key="1">
-                <p>PolicyEngine results may not constitute exact tax liabilities or benefit entitlements.</p>
-            </Panel>
-        </Collapse>
-    );
+    return <p style={{color: "grey"}}><ExclamationCircleOutlined />  &nbsp; &nbsp;PolicyEngine results may not constitute exact tax liabilities or benefit entitlements.</p>;
+
 }
 
 export default class AccountingTable extends React.Component {
