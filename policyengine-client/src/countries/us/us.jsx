@@ -192,13 +192,13 @@ export class US extends Country {
                 "is_rural",
                 "is_homeless",
             ],
-            "Household expenses": [
+            "Expenses": [
                 "housing_cost",
                 "childcare_expenses",
                 "phone_cost",
                 "broadband_cost",
             ],
-            "Household benefits": [
+            "Benefits": [
                 "ssi",
                 "fdpir",
             ],
