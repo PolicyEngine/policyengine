@@ -151,8 +151,6 @@ export class US extends Country {
         "is_on_tribal_land",
         "is_rural",
         "is_homeless",
-        // SPM unit
-        "spm_unit_state_tax",
     ]
     outputVariables = [
         // Top level.
@@ -266,7 +264,6 @@ export class US extends Country {
             "add": [
                 "spm_unit_fica",
                 "spm_unit_federal_tax",
-                "spm_unit_state_tax",
             ],
             "subtract": []
         },
