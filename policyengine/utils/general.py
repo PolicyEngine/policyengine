@@ -8,6 +8,7 @@ from openfisca_core.model_api import *
 class PolicyEngineResultsConfig:
     net_income_variable: str
     in_poverty_variable: str
+    in_deep_poverty_variable: str
     household_net_income_variable: str
     equiv_household_net_income_variable: str
     child_variable: str
