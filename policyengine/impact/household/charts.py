@@ -96,6 +96,9 @@ def budget_chart(
         xaxis_tickprefix="£",
         legend_title=None,
     )
+    # Hide legend if there's no reform.
+    if not has_reform:
+        fig.update_layout(showlegend=False)
     return charts.formatted_fig_json(fig)
 
 
@@ -329,6 +332,9 @@ def mtr_chart(
         yaxis_range=(0, 1),
         legend_title=None,
     )
+    # Hide legend if there's no reform.
+    if not has_reform:
+        fig.update_layout(showlegend=False)
     return charts.formatted_fig_json(fig)
 
 

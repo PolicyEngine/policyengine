@@ -15,6 +15,40 @@ from policyengine.utils import charts
 from policyengine.utils.general import PolicyEngineResultsConfig
 
 
+def individual_decile_chart(
+    df: pd.DataFrame,
+    metric: str,
+) -> dict:
+    """Chart of average or relative net effect of a reform by income decile.
+
+    :param df: DataFrame with columns for Decile, Relative change, and Average change.
+    :type df: pd.DataFrame
+    :param metric: "Relative change" or "Average change".
+    :type metric: str
+    :return: Decile chart (relative or absolute) as a JSON representation of a Plotly chart.
+    :rtype: dict
+    """
+    fig = (
+        px.bar(df, x="Decile", y=metric)
+        .update_layout(
+            title="Change to net income by decile",
+            xaxis_title="Equivalised disposable income decile",
+            yaxis_title="Average change to household net income",
+            yaxis_tickformat=",.1%" if metric == "Relative change" else ",",
+            yaxis_tickprefix="" if metric == "Relative change" else "£",
+            showlegend=False,
+            xaxis_tickvals=list(range(1, 11)),
+        )
+        .update_traces(
+            marker_color=np.where(
+                df[metric] > 0, charts.DARK_GREEN, charts.GRAY
+            )
+        )
+    )
+    charts.add_zero_line(fig)
+    return charts.formatted_fig_json(fig)
+
+
 def decile_chart(
     baseline: Microsimulation,
     reformed: Microsimulation,
@@ -65,44 +99,9 @@ def decile_chart(
             "Average change": mean_abs_changes.values,
         }
     )
-    rel_fig = (
-        px.bar(df, x="Decile", y="Relative change")
-        .update_layout(
-            title="Change to net income by decile",
-            xaxis_title="Equivalised disposable income decile",
-            yaxis_title="Percentage change",
-            yaxis_tickformat=",.1%",
-            showlegend=False,
-            xaxis_tickvals=list(range(1, 11)),
-        )
-        .update_traces(
-            marker_color=np.where(
-                df["Relative change"] > 0, charts.DARK_GREEN, charts.GRAY
-            )
-        )
-    )
-    abs_fig = (
-        px.bar(df, x="Decile", y="Average change")
-        .update_layout(
-            title="Change to net income by decile",
-            xaxis_title="Equivalised disposable income decile",
-            yaxis_title="Average change",
-            yaxis_tickprefix="£",
-            yaxis_tickformat=",",
-            showlegend=False,
-            xaxis_tickvals=list(range(1, 11)),
-        )
-        .update_traces(
-            marker_color=np.where(
-                df["Average change"] > 0, charts.DARK_GREEN, charts.GRAY
-            )
-        )
-    )
-    charts.add_zero_line(rel_fig)
-    charts.add_zero_line(abs_fig)
     return (
-        charts.formatted_fig_json(rel_fig),
-        charts.formatted_fig_json(abs_fig),
+        individual_decile_chart(df, "Relative change"),
+        individual_decile_chart(df, "Average change"),
     )
 
 
