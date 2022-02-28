@@ -14,6 +14,11 @@ reform_examples = (
     dict(basic_rate=0.21),
 )
 
+is_deep_examples = (
+    dict(is_deep=False),
+    dict(is_deep=True),
+)
+
 # Test charts for each reform
 
 
@@ -26,9 +31,11 @@ def test_UK_decile_chart(reform):
 
 
 @pytest.mark.parametrize("reform", reform_examples)
-def test_UK_poverty_chart(reform):
+@pytest.mark.parametrize("is_deep", reform_examples)
+def test_UK_poverty_chart(reform, is_deep):
     poverty_chart(
         *PolicyEngineUK._get_microsimulations(reform),
+        *PolicyEngineUK._get_microsimulations(is_deep),
         UKResultsConfig,
     )
 
