@@ -35,7 +35,7 @@ def test_UK_decile_chart(reform):
 def test_UK_poverty_chart(reform, is_deep):
     poverty_chart(
         *PolicyEngineUK._get_microsimulations(reform),
-        *PolicyEngineUK._get_microsimulations(is_deep),
+        is_deep,
         UKResultsConfig,
     )
 
