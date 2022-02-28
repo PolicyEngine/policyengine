@@ -12,6 +12,7 @@ This repo consists of two packages - the React client and the Python server. A c
 ### Changed
 
 * Hides legend from household charts when user has not provided a reform.
+* Edits y axis title on decile chart and refactors decile chart.
 
 ## [1.18.0] - 2022-02-28
 
