@@ -7,16 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
-## [1.18.0] - 2022-02-24
+## [1.18.1] - 2022-02-28
+
+### Changed
+
+* Hides legend from household charts when user has not provided a reform.
+
+## [1.18.0] - 2022-02-28
 
 ### Added
 
 * Deep poverty.
 
-## [1.17.1] - 2022-01-23
 ## [1.17.2] - 2022-02-27
-
-
 
 ### Changed
 
@@ -368,6 +371,7 @@ This repo consists of two packages - the React client and the Python server. A c
 * "Edit policy" button previously incorrectly pointed to the household page.
 * Share policy URLS missed a slash between policyengine.org and the country name.
 
+[1.18.1]: https://github.com/PolicyEngine/policyengine/compare/1.18.0...1.18.1
 [1.18.0]: https://github.com/PolicyEngine/policyengine/compare/1.17.2...1.18.0
 [1.17.2]: https://github.com/PolicyEngine/policyengine/compare/1.17.1...1.17.2
 [1.17.1]: https://github.com/PolicyEngine/policyengine/compare/1.17.0...1.17.1
