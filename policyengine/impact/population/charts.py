@@ -34,7 +34,8 @@ def individual_decile_chart(
             title="Change to net income by decile",
             xaxis_title="Equivalised disposable income decile",
             yaxis_title="Average change to household net income",
-            yaxis_tickformat=",.1%" if metric == "Relative change" else "£",
+            yaxis_tickformat=",.1%" if metric == "Relative change" else ",",
+            yaxis_tickprefix="" if metric == "Relative change" else "£",
             showlegend=False,
             xaxis_tickvals=list(range(1, 11)),
         )
