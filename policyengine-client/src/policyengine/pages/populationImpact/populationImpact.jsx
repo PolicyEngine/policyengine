@@ -69,7 +69,7 @@ export function PopulationResultsPane(props) {
 				<div className="justify-content-center d-flex">
 					<Radio.Group defaultValue={true} buttonStyle="solid" onChange={() => setShowDeepPoverty(!showDeepPoverty)} >
 						<Radio.Button value={true}>Poverty</Radio.Button>
-						<Radio.Button value={false}>Deep Poverty</Radio.Button>
+						<Radio.Button value={false}>Deep poverty</Radio.Button>
 					</Radio.Group>
 				</div>
 			</Row>
