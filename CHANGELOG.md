@@ -11,7 +11,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 ### Changed
 
-* OpenFisca-UK bumped to 0.14.0.
+* OpenFisca-UK bumped to 0.13.0.
 * Numeric parameters now round to the nearest 0.01 (previously 1).
 
 ### Fixed
