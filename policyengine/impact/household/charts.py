@@ -223,7 +223,12 @@ def mtr_chart(
     # Find the x-point on the chart which is the current situation
     i = (total_income < original_total_income).sum()
 
-    baseline_mtr = get_mtr(earnings, baseline_net)
+    if has_reform:
+        baseline_mtr = get_mtr(earnings, baseline_net)
+    else:
+        baseline_mtr = [get_mtr(earnings, baseline_net)[i]] * (
+            len(baseline_net) - 1
+        )
     reform_mtr = get_mtr(earnings, reform_net)
     variable_mtrs = {}
 
