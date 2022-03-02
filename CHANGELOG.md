@@ -17,6 +17,7 @@ This repo consists of two packages - the React client and the Python server. A c
 ### Fixed
 
 * A bug preventing AutoUBI from functioning.
+* A bug causing boolean parameter switches to not revert properly.
 * A bug causing the MTR chart to always say "MTR remains at ...".
 
 ## [1.18.1] - 2022-02-28
