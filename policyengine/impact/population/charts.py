@@ -74,11 +74,14 @@ def decile_chart(
         np.where(mean_gain_by_decile < 0, "fall", "remain"),
     )
     label_prefix = (
-        "Household incomes in the "
-        + pd.Series(decile_number).astype(int).reset_index(drop=True).apply(charts.ordinal)
-        + " decile <br><b>"
+        "<b>Household incomes in the "
+        + pd.Series(decile_number)
+        .astype(int)
+        .reset_index(drop=True)
+        .apply(charts.ordinal)
+        + " decile <br>"
         + pd.Series(verb).reset_index(drop=True)
-        + "</b> by an average of "
+        + " by an average of "
     )
     label_value_abs = (
         pd.Series(np.abs(mean_gain_by_decile))
@@ -86,10 +89,12 @@ def decile_chart(
         .reset_index(drop=True)
     )
     label_value_rel = (
-        pd.Series(rel_agg_changes).apply(lambda x: f"{x:.1%}").reset_index(drop=True)
+        pd.Series(rel_agg_changes)
+        .apply(lambda x: f"{x:.1%}")
+        .reset_index(drop=True)
     )
     label_suffix = (
-        "<br>from £"
+        "</b><br>from £"
         + pd.Series(baseline_mean_income_by_decile)
         .apply(lambda x: f"{x:,.0f}")
         .reset_index(drop=True)
@@ -116,6 +121,7 @@ def decile_chart(
             "label_abs": label_abs,
         }
     )
+    print(df)
     rel_fig = (
         px.bar(df, x="Decile", y="Relative change", custom_data=["label_rel"])
         .update_layout(
