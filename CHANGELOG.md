@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+# [1.18.2] - 2022-03-01
+
+### Changed
+
+* OpenFisca-UK bumped to 0.13.0.
+* Numeric parameters now round to the nearest 0.01 (previously 1).
+
+### Fixed
+
+* A bug preventing AutoUBI from functioning.
+* A bug causing boolean parameter switches to not revert properly.
+* A bug causing the MTR chart to always say "MTR remains at ...".
+
 ## [1.18.1] - 2022-02-28
 
 ### Changed

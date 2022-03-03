@@ -47,8 +47,6 @@ export function PopulationResultsPane(props) {
 	const [showDeepPoverty, setShowDeepPoverty] = React.useState(false);
 	return (
 		<>
-			<Divider></Divider>
-			<PopulationResultsCaveats />
 			<Row style={{ padding: 30 }}>
 				<TakeAway><p style={{ textAlign: "center" }}>Reform produces <br /><span style={{ color: costColor }}>{cost}</span> net {isSurplus ? "surplus" : "cost"}</p></TakeAway>
 				<TakeAway><p style={{ textAlign: "center" }}>Poverty <br />{isPovRise ? "rises" : "falls"} <span style={{ color: povColor }}>{pov}%</span></p></TakeAway>
