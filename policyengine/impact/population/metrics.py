@@ -21,6 +21,16 @@ def poverty_rate(
     ].mean()
 
 
+def deep_poverty_rate(
+    sim: Microsimulation,
+    population: str,
+    config: Type[PolicyEngineResultsConfig],
+) -> float:
+    return sim.calc(config.in_deep_poverty_variable, map_to="person")[
+        sim.calc(population) > 0
+    ].mean()
+
+
 def headline_metrics(
     baseline: Microsimulation,
     reformed: Microsimulation,

@@ -1,12 +1,10 @@
-import { Divider } from "antd";
 import React, { useContext } from "react"
 import { Col, Row } from "react-bootstrap";
 import { CountryContext } from "../../../countries"
 import Menu from "./menu";
-import { PolicyOverview } from "./overview";
+import { OverviewHolder, PolicyOverview } from "./overview";
 import Parameter from "./parameter";
 import NavigationButton from "../../general/navigationButton";
-import Centered from "../../general/centered";
 
 
 export default class Policy extends React.Component {
@@ -47,20 +45,25 @@ export default class Policy extends React.Component {
                     />
                 </Col>
                 <Col xl={3}>
+                    <OverviewHolder>
                     <PolicyOverview page="policy"/>
-                    <Divider />
-                    <Centered>
-                        {this.context.showPopulationImpact && <NavigationButton 
-                            primary 
-                            target="population-impact" 
-                            text={`See the ${this.context.properName} impact`} 
-                        />}
-                        {this.context.showHousehold && <NavigationButton
-                            target="household" 
-                            text="Describe your household"
-                            primary={!this.context.showPopulationImpact}
-                        />}
-                    </Centered>
+                    <div className="d-block align-middle">
+                        <div className="d-flex justify-content-center">
+                            {this.context.showPopulationImpact && <NavigationButton 
+                                primary 
+                                target="population-impact" 
+                                text={`Calculate ${this.context.properName} impact`} 
+                            />}
+                        </div>
+                        <div className="d-flex justify-content-center">
+                            {this.context.showHousehold && <NavigationButton
+                                target="household" 
+                                text="Describe your household"
+                                primary={!this.context.showPopulationImpact}
+                            />}
+                        </div>
+                    </div>
+                    </OverviewHolder>
                 </Col>
             </Row>
         </>;

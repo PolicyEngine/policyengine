@@ -1,7 +1,7 @@
-import { Steps, Divider, Empty, Button, message } from "antd";
+import { Affix, Pagination, Steps, Divider, Empty, Button, message } from "antd";
 import { LinkOutlined, TwitterOutlined } from "@ant-design/icons";
 import { TwitterShareButton } from "react-share";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { policyToURL } from "../../tools/url";
 import { getTranslators } from "../../tools/translation";
 import { CountryContext } from "../../../countries";
@@ -26,20 +26,48 @@ function generateStepFromParameter(parameter) {
     }
 }
 
-export function PolicyOverview(props) {
-    const country = useContext(CountryContext);
-	const plan = Object.values(country.policy).map(generateStepFromParameter);
-	const isEmpty = plan.every(element => element === null);
+export function OverviewHolder(props) {
 	return (
 		<>
-			<Divider></Divider>
-			{!isEmpty ?
-				<Steps progressDot direction="vertical">
-					{plan}
-				</Steps> :
-				<Empty description="No plan provided" />
-			}
-			<SharePolicyLinks page={props.page}/>
+			<div className="d-block d-lg-none">
+				{props.children}
+			</div>
+			<div className="d-none d-lg-block">
+				<Affix offsetTop={55}>
+					{props.children}
+				</Affix>
+			</div>
+		</>
+	);
+}
+
+export function PolicyOverview(props) {
+    const country = useContext(CountryContext);
+	const plan = Object.values(country.policy).map(generateStepFromParameter).filter(step => step != null);
+	const isEmpty = plan.length === 0;
+	const [page, setPage] = useState(1);
+	const pageSize = 4;
+	return (
+		<>
+			<div style={{paddingTop: 20}}></div>
+				{!isEmpty ?
+					<>
+						<Steps progressDot direction="vertical">
+							{plan.slice((page - 1) * pageSize, page * pageSize)}
+						</Steps> 
+							{
+								(plan.length > pageSize) && <Pagination 
+									pageSize={pageSize} 
+									defaultCurrent={page} 
+									simple 
+									onChange={setPage} 
+									total={plan.length} 
+								/>
+							}
+					</> :
+					<Empty description="No plan provided" />
+				}
+				<SharePolicyLinks page={props.page}/>
 		</>
 	);
 }

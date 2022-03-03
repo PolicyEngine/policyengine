@@ -6,6 +6,8 @@ import UBICenterLogo from "../../images/ubicenter.png"
 import UKLogo from "../../images/uk.png";
 import GreenPartyLogo from "../../images/green.png";
 import SMFLogo from "../../images/smf.png";
+import ClockLogo from "../../images/clock.png";
+import MiscLogo from "../../images/misc.png";
 import Country from "../country";
 import AutoUBI from "./components/autoUBI";
 import ExtraBand from "./components/extraBand";
@@ -64,10 +66,25 @@ export class UK extends Country {
         "/government/uc-budget-2021": "policy_date=20211030&UC_reduction_rate=55&UC_work_allowance_without_housing=557&UC_work_allowance_with_housing=335",
         "/green-party/manifesto-2019": "higher_threshold=50270&household_lvt=1_2&UC_reduction_rate=40&WA_adult_UBI_age=16&abolish_CB=1&abolish_CT=1&abolish_CTC=1&abolish_ESA_income=1&abolish_JSA_income=1&abolish_NI=1&abolish_PC=1&abolish_SP=1&abolish_WTC=1&abolish_lbtt=1&abolish_ltt=1&abolish_sdlt=1&add_rate=47&adult_UBI=94&basic_rate=32&carbon_tax=135&child_UBI=75&higher_rate=42&personal_allowance=0&scottish_basic_rate=32&scottish_higher_rate=42&scottish_intermediate_rate=32&scottish_starter_rate=32&senior_UBI=185&SPS_amount=25&SPS_reduction_rate=10&abolish_IS=1&abolish_UC_child=1&corporate_lvt=1_9&abolish_business_rates=1&abolish_UC_standard=1&UC_disabled_element=400&UC_lcwra_element=500&UC_severely_disabled_element=600",
     }
+
+    parameterRenames = {
+        "adult_UBI": "adult_bi",
+        "child_UBI": "child_bi",
+        "senior_UBI": "senior_bi",
+        "WA_adult_UBI_age": "bi_adult_age",
+    }
+
     // Policy page metadata
-    extraParameterMetadata = {}
+    extraParameterMetadata = {
+        "ebr_ct_rebate": {
+            max: 500,
+        },
+        "ebr_energy_bills_credit": {
+            max: 500,
+        },
+    }
     parameterHierarchy = {
-        "General": [
+        "Snapshot": [
             "timeTravel",
         ],
         "Tax": {
@@ -137,27 +154,20 @@ export class UK extends Country {
                 "abolish_CB",
                 "CB_eldest",
                 "CB_additional",
-                "CB_takeup",
                 "CB_HITC_reduction_threshold",
                 "CB_HITC_reduction_rate",
             ],
             "Legacy benefits": [
                 "abolish_CTC",
-                "CTC_takeup",
                 "abolish_WTC",
-                "WTC_takeup",
                 "abolish_HB",
-                "HB_takeup",
                 "abolish_IS",
-                "IS_takeup",
                 "abolish_JSA_income",
-                "JSA_IB_takeup",
                 "abolish_ESA_income",
             ],
             "State Pension": [
                 "abolish_SP",
                 "abolish_PC",
-                "PC_takeup",
             ],
             "Universal Credit": {
                 "Structural": [
@@ -202,15 +212,22 @@ export class UK extends Country {
                     "UC_reduction_rate",
                 ],
             },
+            "Energy bills support": [
+                "ebr_ct_rebate",
+                "ebr_energy_bills_credit",
+            ]
         },
         "UBI Center": {
-            "Universal Basic Income": [
-                "child_UBI",
-                "adult_UBI",
-                "senior_UBI",
-                "WA_adult_UBI_age",
-                "taxable_UBI",
-                "means_test_UBI",
+            "Basic Income": [
+                "child_bi",
+                "adult_bi",
+                "senior_bi",
+                "bi_adult_age",
+                "include_bi_in_taxable_income",
+                "include_bi_in_means_tests",
+                "bi_withdraw_cb",
+                "bi_phase_out_threshold",
+                "bi_phase_out_rate",
                 "autoUBI",
             ],
             "Land Value Tax": [
@@ -237,13 +254,19 @@ export class UK extends Country {
                 "tax_bracket_based_cash_payment",
             ],
         },
+        "Miscellaneous": {
+            "Tax ": [
+                "exempt_seniors_from_PA_reforms",
+            ]
+        }
     }
     defaultOpenParameterGroups = [
-        "/Tax",
-        "/Benefit",
     ]
     defaultSelectedParameterGroup = "/Tax/Income Tax/Labour income"
     organisations = {
+        "Snapshot": {
+            logo: ClockLogo,
+        },
         "UBI Center": {
             logo: UBICenterLogo,
         },
@@ -258,7 +281,10 @@ export class UK extends Country {
         },
         "Social Market Foundation": {
             logo: SMFLogo,
-        }
+        },
+        "Miscellaneous": {
+            logo: MiscLogo,
+        },
     }
     // OpenFisca data
     parameters = null
@@ -339,6 +365,7 @@ export class UK extends Country {
         "rent",
         "claims_legacy_benefits",
         "BRMA",
+        "council_tax_band",
     ]
     outputVariables = [
         "household_tax",
@@ -365,7 +392,7 @@ export class UK extends Country {
         "business_rates",
         "carbon_tax",
         "LVT",
-        "UBI",
+        "basic_income",
         "single_pensioner_supplement",
         "smf_benefit_cash_payment",
         "smf_tax_cash_payment",
@@ -378,6 +405,7 @@ export class UK extends Country {
             "Location": [
                 "region",
                 "BRMA",
+                "council_tax_band",
             ],
             "Relationships": [
                 "is_married",
@@ -463,7 +491,7 @@ export class UK extends Country {
                 "income_support",
                 "JSA_income",
                 "child_benefit",
-                "UBI",
+                "basic_income",
                 "single_pensioner_supplement",
                 "smf_benefit_cash_payment",
                 "smf_tax_cash_payment",

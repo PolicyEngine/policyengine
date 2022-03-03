@@ -1,6 +1,10 @@
 from typing import Tuple, Type
-from microdf import MicroSeries
-from policyengine.impact.population.metrics import poverty_rate, pct_change
+from xmlrpc.client import Boolean
+from policyengine.impact.population.metrics import (
+    poverty_rate,
+    deep_poverty_rate,
+    pct_change,
+)
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
@@ -9,6 +13,40 @@ from openfisca_tools import Microsimulation
 import pandas as pd
 from policyengine.utils import charts
 from policyengine.utils.general import PolicyEngineResultsConfig
+
+
+def individual_decile_chart(
+    df: pd.DataFrame,
+    metric: str,
+) -> dict:
+    """Chart of average or relative net effect of a reform by income decile.
+
+    :param df: DataFrame with columns for Decile, Relative change, and Average change.
+    :type df: pd.DataFrame
+    :param metric: "Relative change" or "Average change".
+    :type metric: str
+    :return: Decile chart (relative or absolute) as a JSON representation of a Plotly chart.
+    :rtype: dict
+    """
+    fig = (
+        px.bar(df, x="Decile", y=metric)
+        .update_layout(
+            title="Change to net income by decile",
+            xaxis_title="Equivalised disposable income decile",
+            yaxis_title="Average change to household net income",
+            yaxis_tickformat=",.1%" if metric == "Relative change" else ",",
+            yaxis_tickprefix="" if metric == "Relative change" else "£",
+            showlegend=False,
+            xaxis_tickvals=list(range(1, 11)),
+        )
+        .update_traces(
+            marker_color=np.where(
+                df[metric] > 0, charts.DARK_GREEN, charts.GRAY
+            )
+        )
+    )
+    charts.add_zero_line(fig)
+    return charts.formatted_fig_json(fig)
 
 
 def decile_chart(
@@ -121,7 +159,6 @@ def decile_chart(
             "label_abs": label_abs,
         }
     )
-    print(df)
     rel_fig = (
         px.bar(df, x="Decile", y="Relative change", custom_data=["label_rel"])
         .update_layout(
@@ -160,8 +197,8 @@ def decile_chart(
     charts.add_custom_hovercard(rel_fig)
     charts.add_custom_hovercard(abs_fig)
     return (
-        charts.formatted_fig_json(rel_fig),
-        charts.formatted_fig_json(abs_fig),
+        individual_decile_chart(df, "Relative change"),
+        individual_decile_chart(df, "Average change"),
     )
 
 
@@ -188,9 +225,33 @@ def pov_chg(
     )
 
 
+def deep_pov_chg(
+    baseline: Microsimulation,
+    reformed: Microsimulation,
+    criterion: str,
+    config: Type[PolicyEngineResultsConfig],
+) -> float:
+    """Calculate change in poverty rates.
+
+    :param baseline: Baseline simulation.
+    :type baseline: Microsimulation
+    :param reform: Reform simulation.
+    :type reform: Microsimulation
+    :param criterion: Filter for each simulation.
+    :type criterion: str
+    :return: Percentage (not percentage point) difference in poverty rates.
+    :rtype: float
+    """
+    return pct_change(
+        deep_poverty_rate(baseline, criterion, config),
+        deep_poverty_rate(reformed, criterion, config),
+    )
+
+
 def poverty_chart(
     baseline: Microsimulation,
     reformed: Microsimulation,
+    is_deep: bool,
     config: Type[PolicyEngineResultsConfig],
 ) -> dict:
     """Chart of poverty impact by age group and overall.
@@ -206,11 +267,37 @@ def poverty_chart(
         - Overall
     :rtype: dict
     """
+    if is_deep:
+        f_pov_chg = deep_pov_chg
+        f_poverty_rate = deep_poverty_rate
+        metric_name = "Deep poverty"
+    else:
+        f_pov_chg = pov_chg
+        f_poverty_rate = poverty_rate
+        metric_name = "Poverty"
     df = pd.DataFrame(
         {
             "group": ["Child", "Working-age", "Senior", "All"],
             "pov_chg": [
-                pov_chg(baseline, reformed, i, config)
+                f_pov_chg(baseline, reformed, i, config)
+                for i in [
+                    config.child_variable,
+                    config.working_age_variable,
+                    config.senior_variable,
+                    config.person_variable,
+                ]
+            ],
+            "baseline": [
+                f_poverty_rate(baseline, i, config)
+                for i in [
+                    config.child_variable,
+                    config.working_age_variable,
+                    config.senior_variable,
+                    config.person_variable,
+                ]
+            ],
+            "reformed": [
+                f_poverty_rate(reformed, i, config)
                 for i in [
                     config.child_variable,
                     config.working_age_variable,
@@ -222,12 +309,22 @@ def poverty_chart(
     )
     df["abs_chg_str"] = df.pov_chg.abs().map("{:.1%}".format)
     df["label"] = (
-        np.where(df.group == "All", "Total", df.group)
-        + " poverty "
+        "<b>"
+        + np.where(df.group == "All", "Total", df.group)
+        + " "
+        + metric_name.lower()
+        + " "
         + np.where(
             df.abs_chg_str == "0.0%",
             "does not change",
-            (np.where(df.pov_chg < 0, "falls ", "rises ") + df.abs_chg_str),
+            (
+                np.where(df.pov_chg < 0, "falls ", "rises ")
+                + df.abs_chg_str
+                + "</b><br> from "
+                + df.baseline.map("{:.1%}".format)
+                + " to "
+                + df.reformed.map("{:.1%}".format)
+            ),
         )
     )
     fig = px.bar(
@@ -235,10 +332,10 @@ def poverty_chart(
         x="group",
         y="pov_chg",
         custom_data=["label"],
-        labels={"group": "Group", "pov_chg": "Poverty rate change"},
+        labels={"group": "Group", "pov_chg": metric_name + " rate change"},
     )
     fig.update_layout(
-        title="Poverty impact by age",
+        title=metric_name + " impact by age group",
         xaxis_title=None,
         yaxis=dict(title="Percent change", tickformat=",.1%"),
     )

@@ -452,3 +452,12 @@ reforms:
           name: SPS_takeup_rate
           label: Single pensioner supplement take-up rate
           unit: /1
+  misc:
+    exempt_seniors_from_PA_changes:
+      description: Exempt individuals over State Pension Age from reforms to the Personal Allowance.
+      values: 
+        2021-01-01: false
+      metadata:
+        label: Exempt seniors from PA reforms
+        name: exempt_seniors_from_PA_reforms
+        unit: bool
