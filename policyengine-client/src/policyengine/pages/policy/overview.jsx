@@ -1,4 +1,4 @@
-import { Affix, Pagination, Steps, Divider, Empty, Button, message } from "antd";
+import { Pagination, Steps, Divider, Empty, Button, message } from "antd";
 import { LinkOutlined, TwitterOutlined } from "@ant-design/icons";
 import { TwitterShareButton } from "react-share";
 import React, { useContext, useState } from "react";
@@ -33,9 +33,7 @@ export function OverviewHolder(props) {
 				{props.children}
 			</div>
 			<div className="d-none d-lg-block">
-				<Affix offsetTop={55}>
-					{props.children}
-				</Affix>
+				{props.children}
 			</div>
 		</>
 	);
