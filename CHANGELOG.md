@@ -7,7 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
-# [1.18.2] - 2022-03-01
+## [1.20.1] - 2022-03-04
+
+### Changed
+
+* Update OpenFisca US for variable label changes.
+
+## [1.20.0] - 2022-03-04
+
+### Added
+
+* Social Security inputs to US app.
+
+### Changed
+
+* Moved personal benefits into their own section.
+* Moved SSI from household to personal.
+
+## [1.19.0] - 2022-03-03
+
+### Added
+
+* Baseline and reformed values to hovercards.
+
+## [1.18.2] - 2022-03-01
 
 ### Changed
 
@@ -385,6 +408,10 @@ This repo consists of two packages - the React client and the Python server. A c
 * "Edit policy" button previously incorrectly pointed to the household page.
 * Share policy URLS missed a slash between policyengine.org and the country name.
 
+[1.20.1]: https://github.com/PolicyEngine/policyengine/compare/1.20.0...1.20.1
+[1.20.0]: https://github.com/PolicyEngine/policyengine/compare/1.19.0...1.20.0
+[1.19.0]: https://github.com/PolicyEngine/policyengine/compare/1.18.2...1.19.0
+[1.18.2]: https://github.com/PolicyEngine/policyengine/compare/1.18.1...1.18.2
 [1.18.1]: https://github.com/PolicyEngine/policyengine/compare/1.18.0...1.18.1
 [1.18.0]: https://github.com/PolicyEngine/policyengine/compare/1.17.2...1.18.0
 [1.17.2]: https://github.com/PolicyEngine/policyengine/compare/1.17.1...1.17.2

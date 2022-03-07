@@ -69,36 +69,133 @@ def decile_chart(
     baseline_household_equiv_income = baseline.calc(
         config.equiv_household_net_income_variable
     )
+    reform_household_net_income = reformed.calc(
+        config.household_net_income_variable
+    )
     household_gain = (
-        reformed.calc(config.household_net_income_variable)
-        - baseline_household_net_income
+        reform_household_net_income - baseline_household_net_income
     )
     household_size = baseline.calc("people", map_to="household")
     # Group households in decile such that each decile has the same
     # number of people
     baseline_household_equiv_income.weights *= household_size
     household_decile = baseline_household_equiv_income.decile_rank()
+    agg_gain_by_decile = household_gain.groupby(household_decile).sum()
+    households_by_decile = baseline_household_net_income.groupby(
+        household_decile
+    ).count()
+    baseline_agg_income_by_decile = baseline_household_net_income.groupby(
+        household_decile
+    ).sum()
+    reform_agg_income_by_decile = reform_household_net_income.groupby(
+        household_decile
+    ).sum()
+    baseline_mean_income_by_decile = (
+        baseline_agg_income_by_decile / households_by_decile
+    )
+    reform_mean_income_by_decile = (
+        reform_agg_income_by_decile / households_by_decile
+    )
+    # Total decile gain / total decile income.
     rel_agg_changes = (
-        # Total decile gain / total decile income
-        (
-            household_gain.groupby(household_decile).sum()
-            / baseline_household_net_income.groupby(household_decile).sum()
-        )
+        (agg_gain_by_decile / baseline_agg_income_by_decile)
         .round(3)
         .astype(float)
     )
-    mean_abs_changes = (
-        # Total decile gain / number of households
-        household_gain.groupby(household_decile).sum()
-        / baseline_household_net_income.groupby(household_decile).count()
-    ).round()
+    # Total gain / number of households by decile.
+    mean_gain_by_decile = (agg_gain_by_decile / households_by_decile).round()
+    # Write out hovercard.
+    decile_number = rel_agg_changes.index
+    verb = np.where(
+        mean_gain_by_decile > 0,
+        "rise",
+        np.where(mean_gain_by_decile < 0, "fall", "remain"),
+    )
+    label_prefix = (
+        "<b>Household incomes in the "
+        + pd.Series(decile_number)
+        .astype(int)
+        .reset_index(drop=True)
+        .apply(charts.ordinal)
+        + " decile <br>"
+        + pd.Series(verb).reset_index(drop=True)
+        + " by an average of "
+    )
+    label_value_abs = (
+        pd.Series(np.abs(mean_gain_by_decile))
+        .apply(lambda x: f"£{x:,.0f}")
+        .reset_index(drop=True)
+    )
+    label_value_rel = (
+        pd.Series(rel_agg_changes)
+        .apply(lambda x: f"{x:.1%}")
+        .reset_index(drop=True)
+    )
+    label_suffix = (
+        "</b><br>from £"
+        + pd.Series(baseline_mean_income_by_decile)
+        .apply(lambda x: f"{x:,.0f}")
+        .reset_index(drop=True)
+        + " to £"
+        + pd.Series(reform_mean_income_by_decile)
+        .apply(lambda x: f"{x:,.0f}")
+        .reset_index(drop=True)
+        + " per year"
+    )
+    label_rel = label_prefix + label_value_rel + label_suffix
+    label_abs = label_prefix + label_value_abs + label_suffix
+    """
+    Examples:
+    - Household incomes in the 1st decile rise by an average of $1, from $1,000 to $1,001 per year
+    - Household incomes in the 2nd decile fall by an average of $1, from $1,000 to $999 per year
+    - Household incomes in the 3rd decile remain at $1,000 per year
+    """
     df = pd.DataFrame(
         {
-            "Decile": rel_agg_changes.index,
+            "Decile": decile_number,
             "Relative change": rel_agg_changes.values,
-            "Average change": mean_abs_changes.values,
+            "Average change": mean_gain_by_decile.values,
+            "label_rel": label_rel,
+            "label_abs": label_abs,
         }
     )
+    rel_fig = (
+        px.bar(df, x="Decile", y="Relative change", custom_data=["label_rel"])
+        .update_layout(
+            title="Change to net income by decile",
+            xaxis_title="Equivalised disposable income decile",
+            yaxis_title="Percentage change",
+            yaxis_tickformat=",.1%",
+            showlegend=False,
+            xaxis_tickvals=list(range(1, 11)),
+        )
+        .update_traces(
+            marker_color=np.where(
+                df["Relative change"] > 0, charts.DARK_GREEN, charts.GRAY
+            )
+        )
+    )
+    abs_fig = (
+        px.bar(df, x="Decile", y="Average change", custom_data=["label_abs"])
+        .update_layout(
+            title="Change to net income by decile",
+            xaxis_title="Equivalised disposable income decile",
+            yaxis_title="Average change",
+            yaxis_tickprefix="£",
+            yaxis_tickformat=",",
+            showlegend=False,
+            xaxis_tickvals=list(range(1, 11)),
+        )
+        .update_traces(
+            marker_color=np.where(
+                df["Average change"] > 0, charts.DARK_GREEN, charts.GRAY
+            )
+        )
+    )
+    charts.add_zero_line(rel_fig)
+    charts.add_zero_line(abs_fig)
+    charts.add_custom_hovercard(rel_fig)
+    charts.add_custom_hovercard(abs_fig)
     return (
         individual_decile_chart(df, "Relative change"),
         individual_decile_chart(df, "Average change"),
