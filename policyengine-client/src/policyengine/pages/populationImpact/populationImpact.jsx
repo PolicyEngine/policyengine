@@ -1,4 +1,4 @@
-import { Divider, Radio, Empty } from "antd";
+import { Divider, Radio, Empty, Affix } from "antd";
 import { ArrowLeftOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { Row, Col } from "react-bootstrap";
 import React from "react";
@@ -153,23 +153,27 @@ export default class PopulationImpact extends React.Component {
 				</Col>
 				<Col xl={3}>
 					<OverviewHolder>
-						<PolicyOverview page="population-impact" />
-						<div className="d-block align-middle">
-							<div className="d-flex justify-content-center">
-								{this.context.showPopulationImpact &&
-									<NavigationButton
-										target="policy"
-										text={<><ArrowLeftOutlined /> Edit your policy</>}
+						<Affix offsetTop={55}>
+							<PolicyOverview page="population-impact" />
+				        </Affix>
+						<Affix offsetTop={450}>
+							<div className="d-block align-middle">
+								<div className="d-flex justify-content-center">
+									{this.context.showPopulationImpact &&
+										<NavigationButton
+											target="policy"
+											text={<><ArrowLeftOutlined /> Edit your policy</>}
+										/>}
+								</div>
+								<div className="d-flex justify-content-center">
+									{this.context.showHousehold && <NavigationButton
+										target="household"
+										text="Describe your household"
+										primary={!this.context.showPopulationImpact}
 									/>}
+								</div>
 							</div>
-							<div className="d-flex justify-content-center">
-								{this.context.showHousehold && <NavigationButton
-									target="household"
-									text="Describe your household"
-									primary={!this.context.showPopulationImpact}
-								/>}
-							</div>
-						</div>
+						</Affix>
 					</OverviewHolder>
 				</Col>
 			</Row>
