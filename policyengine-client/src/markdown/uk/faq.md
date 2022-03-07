@@ -83,12 +83,6 @@ We also [adjust FRS weights](https://policyengine.github.io/openfisca-uk/model/r
 None; PolicyEngine is a "static model" only.
 For example, it assumes that changing marginal tax rates will not affect labour supply.
 
-### How are the reform provisions sequenced for the budgetary impact chart?
-
-Since policy reforms can interact, we do not model them independently.
-Instead, we start with programs that produce budgetary costs (like new spending programs or tax cuts), ordered from largest to smallest, then do the same with programs that produce budgetary surpluses.
-This sequence does not follow the order the reforms were specified.
-
 ### How does PolicyEngine define poverty?
 
 PolicyEngine reports the change to the absolute poverty rate before housing costs.
