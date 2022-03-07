@@ -13,6 +13,11 @@ This repo consists of two packages - the React client and the Python server. A c
 
 * Update OpenFisca UK to use new weights.
 * Update OpenFisca US to capture Social Security taxability.
+* Update UK FAQ.
+
+### Added
+
+* US FAQ.
 
 ## [1.20.1] - 2022-03-04
 
