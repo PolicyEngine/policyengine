@@ -7,11 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
-## [1.20.1] - 2022-03-04
+## [1.20.1] - 2022-03-06
 
 ### Changed
 
-* Update OpenFisca US for variable label changes.
+* Fix policy summary to 50% vertical height.
 
 ## [1.20.0] - 2022-03-04
 
