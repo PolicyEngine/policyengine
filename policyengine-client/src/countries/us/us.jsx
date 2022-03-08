@@ -293,6 +293,20 @@ export class US extends Country {
         }
     }
 
+    householdMaritalOptions = ["Single", "Married"]
+
+    getHouseholdMaritalStatus() {
+        return this.getNumAdults() > 1 ? "Married" : "Single";
+    }
+
+    setHouseholdMaritalStatus(status) {
+        if(status === "Single") {
+            this.setNumAdults(1);
+        } else {
+            this.setNumAdults(2);
+        }
+    }
+
 
     addPartner(situation) {
         const name = "Your partner"

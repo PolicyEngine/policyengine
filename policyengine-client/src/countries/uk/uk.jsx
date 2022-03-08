@@ -512,11 +512,26 @@ export class UK extends Country {
         }
     }
 
+    householdMaritalOptions = ["Single", "Married"]
+
+    getHouseholdMaritalStatus() {
+        return this.getNumAdults() > 1 ? "Married" : "Single";
+    }
+
+    setHouseholdMaritalStatus(status) {
+        if(status === "Single") {
+            this.setNumAdults(1);
+        } else {
+            this.setNumAdults(2);
+        }
+    }
+
     addPartner(situation) {
         situation.people["Your partner"] = {
             "age": { "2021": 25 },
         };
         situation.benunits["Your family"].adults.push("Your partner");
+        situation.benunits["Your family"]["is_married"]["2021"] = true;
         situation.households["Your household"].adults.push("Your partner");
         return this.validateSituation(situation).situation;
     }

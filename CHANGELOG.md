@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.21.0] - 2022-03-08
+
+### Changed
+
+* Household entry page now opts for "Single"/"Married" instead of the number of adults.
+
 ## [1.20.2] - 2022-03-07
 
 ### Changed
