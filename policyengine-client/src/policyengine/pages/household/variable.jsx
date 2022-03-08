@@ -4,7 +4,7 @@ import { CloseCircleFilled, EditOutlined } from "@ant-design/icons";
 import {
 	Switch, Slider, Select, 
     Alert, Input,
-    DatePicker,
+    DatePicker, Tooltip
 } from "antd";
 import Spinner from "../../general/spinner";
 import { CountryContext } from "../../../countries/country";
@@ -28,20 +28,23 @@ function BooleanParameterControl(props) {
 }
 
 function CategoricalParameterControl(props) {
-	return <Select 
-		style={{minWidth: 200}} 
-		showSearch 
-		placeholder={props.metadata.defaultValue.value} 
-		onSelect={props.onChange}>
-		{props.metadata.possibleValues.map(value => (
-			<Option 
-				key={value.key} 
-				value={value.key}
-			>
-				{value.value}
-			</Option>
-		))}
-	</Select>
+	return <Tooltip placement="bottom" title={<span>{props.metadata.tooltip}</span>}>
+		<Select 
+			style={{minWidth: 200}} 
+			showSearch 
+			placeholder={props.metadata.defaultValue.value} 
+			disabled={props.metadata.disabled}
+			onSelect={props.onChange}>
+			{props.metadata.possibleValues.map(value => (
+				<Option 
+					key={value.key} 
+					value={value.key}
+				>
+					{value.value}
+				</Option>
+			))}
+		</Select>
+	</Tooltip>
 }
 
 function StringParameterControl(props) {

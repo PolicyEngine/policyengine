@@ -237,6 +237,12 @@ export class US extends Country {
             ],
         }
     }
+    extraVariableMetadata = {
+        "state_code": {
+            "disabled": true,
+            "tooltip": "PolicyEngine currently only supports benefit calculations for California.",
+        }
+    }
     defaultOpenVariableGroups = [
         "/Household",
         "/People"
