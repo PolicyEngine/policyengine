@@ -39,7 +39,7 @@ export function OverviewHolder(props) {
 	);
 }
 
-export function PolicyOverview(props) {
+export function PolicyOverview() {
     const country = useContext(CountryContext);
 	const plan = Object.values(country.policy).map(generateStepFromParameter).filter(step => step != null);
 	const isEmpty = plan.length === 0;
@@ -65,7 +65,6 @@ export function PolicyOverview(props) {
 					</> :
 					<Empty description="No plan provided" />
 				}
-				<SharePolicyLinks page={props.page}/>
 		</>
 	);
 }

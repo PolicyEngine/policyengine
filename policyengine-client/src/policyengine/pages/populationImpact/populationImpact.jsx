@@ -10,7 +10,7 @@ import Centered from "../../general/centered";
 import Spinner from "../../general/spinner";
 import { useContext } from "react";
 import NavigationButton from "../../general/navigationButton";
-import { OverviewHolder, PolicyOverview } from "../policy/overview";
+import { OverviewHolder, PolicyOverview, SharePolicyLinks } from "../policy/overview";
 function PopulationResultsCaveats() {
 	return <p style={{ color: "grey" }}><ExclamationCircleOutlined />  &nbsp; &nbsp;PolicyEngine results assume no behavioural or macroeconomic effects</p>;
 }
@@ -154,9 +154,10 @@ export default class PopulationImpact extends React.Component {
 				<Col xl={3}>
 					<OverviewHolder>
 						<Affix offsetTop={55}>
-							<PolicyOverview page="population-impact" />
+							<PolicyOverview />
 				        </Affix>
-						<Affix offsetTop={450}>
+						<Affix offsetTop={400}>
+							<SharePolicyLinks page="population-impact"/>
 							<div className="d-block align-middle">
 								<div className="d-flex justify-content-center">
 									{this.context.showPopulationImpact &&

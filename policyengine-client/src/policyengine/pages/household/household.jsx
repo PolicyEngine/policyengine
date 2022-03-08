@@ -5,7 +5,7 @@ import Menu from "./menu";
 import { VariableControlPane } from "./inputPane";
 import AccountingTable from "./accountingTable";
 import EarningsChartsPane from "./earningsCharts";
-import { OverviewHolder, PolicyOverview } from "../policy/overview";
+import { OverviewHolder, PolicyOverview, SharePolicyLinks } from "../policy/overview";
 import NavigationButton from "../../general/navigationButton";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Affix } from "antd";
@@ -60,9 +60,10 @@ export class Household extends React.Component {
                 <Col>
                     <OverviewHolder>
                         <Affix offsetTop={55}>
-                            <PolicyOverview page="household"/>
+                            <PolicyOverview />
 				        </Affix>
-                        <Affix offsetTop={450}>
+                        <Affix offsetTop={400}>
+                            <SharePolicyLinks page="household"/>
                             <div className="d-block align-middle">
                                 <div className="d-flex justify-content-center">
                                     <NavigationButton

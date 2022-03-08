@@ -2,7 +2,7 @@ import React, { useContext } from "react"
 import { Col, Row } from "react-bootstrap";
 import { CountryContext } from "../../../countries"
 import Menu from "./menu";
-import { OverviewHolder, PolicyOverview } from "./overview";
+import { OverviewHolder, PolicyOverview, SharePolicyLinks } from "./overview";
 import Parameter from "./parameter";
 import NavigationButton from "../../general/navigationButton";
 import { Affix } from "antd";
@@ -48,9 +48,10 @@ export default class Policy extends React.Component {
                 <Col xl={3}>
                     <OverviewHolder>
                         <Affix offsetTop={55}>
-                            <PolicyOverview page="policy"/>
+                            <PolicyOverview />
 				        </Affix>
-                        <Affix offsetTop={450}>
+                        <Affix offsetTop={400}>
+                            <SharePolicyLinks page="policy"/>
                             <div className="d-block align-middle">
                                 <div className="d-flex justify-content-center">
                                     {this.context.showPopulationImpact && <NavigationButton 
