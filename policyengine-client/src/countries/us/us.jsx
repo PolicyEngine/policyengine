@@ -240,7 +240,7 @@ export class US extends Country {
     extraVariableMetadata = {
         "state_code": {
             "disabled": true,
-            "tooltip": "PolicyEngine currently only supports benefit calculations for California.",
+            "tooltip": "PolicyEngine currently only calculates benefits for California.",
         }
     }
     defaultOpenVariableGroups = [
