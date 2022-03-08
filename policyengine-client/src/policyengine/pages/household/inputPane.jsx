@@ -8,7 +8,7 @@ function HouseholdSetup(props) {
     const country = useContext(CountryContext);
 	return <>
 		<Spacing />
-		<h5>Type</h5>
+		<h5>Marital status</h5>
 		<Spacing />
 		<Radio.Group defaultValue={country.getHouseholdMaritalStatus()} onChange={e => country.setHouseholdMaritalStatus(e.target.value)}>
 			{country.householdMaritalOptions.map(i => <Radio.Button key={i} value={i}>{i}</Radio.Button>)}

@@ -519,11 +519,7 @@ export class UK extends Country {
     }
 
     setHouseholdMaritalStatus(status) {
-        if(status === "Single") {
-            this.setNumAdults(1);
-        } else {
-            this.setNumAdults(2);
-        }
+        this.setNumAdults(status === "Single" ? 1 : 2);
     }
 
     addPartner(situation) {
