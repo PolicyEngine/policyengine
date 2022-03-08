@@ -170,8 +170,6 @@ class PolicyEngineCountry:
         rel_decile_chart, avg_decile_chart = decile_chart(
             baseline, reformed, self.results_config
         )
-        for variable in ["household_tax", "household_benefits", "basic_income", "universal_credit", "child_benefit", "personal_benefits", "family_benefits"]:
-            print(f"{variable}: £{(reformed.calc(variable, map_to='household').sum() - baseline.calc(variable, map_to='household').sum())/1e9:.2f}bn")
         return dict(
             **headline_metrics(baseline, reformed, self.results_config),
             rel_decile_chart=rel_decile_chart,
