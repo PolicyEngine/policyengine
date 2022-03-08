@@ -309,7 +309,7 @@ export class US extends Country {
 
 
     addPartner(situation) {
-        const name = "Your partner"
+        const name = "Your spouse"
         situation.people[name] = {
             "age": { "2021": 25 },
         };
@@ -351,7 +351,7 @@ export class US extends Country {
         if (numExistingAdults === 1 && numAdults === 2) {
             situation = this.addPartner(situation);
         } else if (numExistingAdults === 2 && numAdults === 1) {
-            situation = this.removePerson(situation, "Your partner");
+            situation = this.removePerson(situation, "Your spouse");
         }
 
         this.setState({
