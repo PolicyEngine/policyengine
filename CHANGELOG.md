@@ -12,6 +12,7 @@ This repo consists of two packages - the React client and the Python server. A c
 ### Fixed
 
 * US state code switch disabled and a tooltip added.
+* Updates 2021 references to 2022.
 
 ## [1.20.2] - 2022-03-07
 
