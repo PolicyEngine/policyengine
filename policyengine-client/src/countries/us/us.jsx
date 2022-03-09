@@ -237,6 +237,12 @@ export class US extends Country {
             ],
         }
     }
+    extraVariableMetadata = {
+        "state_code": {
+            "disabled": true,
+            "tooltip": "PolicyEngine currently only calculates benefits for California.",
+        }
+    }
     defaultOpenVariableGroups = [
         "/Household",
         "/People"
@@ -307,7 +313,7 @@ export class US extends Country {
     addPartner(situation) {
         const name = "Your spouse"
         situation.people[name] = {
-            "age": { "2021": 25 },
+            "age": { "2022": 25 },
         };
         situation.families["Your family"].members.push(name);
         situation.tax_units["Your tax unit"].members.push(name);
@@ -319,8 +325,8 @@ export class US extends Country {
     addChild(situation) {
         const childName = childNamer[this.getNumChildren() + 1];
         situation.people[childName] = {
-            "age": { "2021": 10 },
-            "is_in_school": { "2021": true },
+            "age": { "2022": 10 },
+            "is_in_school": { "2022": true },
         };
         situation.families["Your family"].members.push(childName);
         situation.tax_units["Your tax unit"].members.push(childName);
@@ -363,7 +369,7 @@ export class US extends Country {
 
     getNumAdults() {
         return this.situation.households["Your household"].members.filter(
-            name => this.situation.people[name].age["2021"] >= 18
+            name => this.situation.people[name].age["2022"] >= 18
         ).length;
     }
 
@@ -390,7 +396,7 @@ export class US extends Country {
 
     getNumChildren() {
         return this.situation.households["Your household"].members.filter(
-            name => this.situation.people[name].age["2021"] < 18
+            name => this.situation.people[name].age["2022"] < 18
         ).length;
     }
 };

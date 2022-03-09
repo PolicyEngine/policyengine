@@ -13,6 +13,13 @@ This repo consists of two packages - the React client and the Python server. A c
 
 * Household entry page now opts for "Single"/"Married" instead of the number of adults.
 
+## [1.20.4] - 2022-03-09
+
+### Fixed
+
+* US state code switch disabled and a tooltip added.
+* Updates 2021 references to 2022.
+
 ## [1.20.3] - 2022-03-08
 
 ### Added
