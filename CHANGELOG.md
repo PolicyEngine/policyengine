@@ -7,12 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
-## [1.20.3] - 2022-03-08
+## [1.20.4] - 2022-03-09
 
 ### Fixed
 
 * US state code switch disabled and a tooltip added.
 * Updates 2021 references to 2022.
+
+## [1.20.3] - 2022-03-08
+
+### Added
+
+* UK income tax rate reform pensioner exemption switch.
+
+### Fixed
+
+* AutoUBI now calculates correct UBI amounts.
 
 ## [1.20.2] - 2022-03-07
 

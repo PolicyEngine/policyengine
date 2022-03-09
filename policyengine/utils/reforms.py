@@ -12,6 +12,7 @@ from openfisca_core.reforms.reform import Reform
 from openfisca_core.tracers.tracing_parameter_node_at_instant import (
     ParameterNode,
 )
+from openfisca_core.periods import period as parse_period
 from openfisca_core.variables import Variable
 from datetime import datetime
 from openfisca_core.taxbenefitsystems import TaxBenefitSystem
@@ -340,6 +341,16 @@ def create_reform(
             metadata = policyengine_parameters[param]
             name = metadata["label"]
             description = get_summary(metadata, value)
+            if metadata["valueType"] == "bool":
+                # Extra safety checks
+                value = {
+                    "true": True,
+                    "false": False,
+                    1: True,
+                    0: False,
+                    True: True,
+                    False: False,
+                }[value]
             if metadata["unit"] == "abolition":
                 if metadata["variable"] is not None:
                     if isinstance(metadata["variable"], list):
