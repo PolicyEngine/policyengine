@@ -300,11 +300,7 @@ export class US extends Country {
     }
 
     setHouseholdMaritalStatus(status) {
-        if(status === "Single") {
-            this.setNumAdults(1);
-        } else {
-            this.setNumAdults(2);
-        }
+        this.setNumAdults(status === "Single" ? 1 : 2);
     }
 
 
@@ -340,6 +336,9 @@ export class US extends Country {
                     situation[entityPlural][entity].members.pop(name);
                 }
             }
+        }
+        if(name === "Your spouse") {
+            situation["families"]["Your family"]["is_married"]["2022"] = false;
         }
         delete situation.people[name];
         return this.validateSituation(situation).situation;

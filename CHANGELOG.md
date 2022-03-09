@@ -13,6 +13,16 @@ This repo consists of two packages - the React client and the Python server. A c
 
 * Household entry page now opts for "Single"/"Married" instead of the number of adults.
 
+## [1.20.3] - 2022-03-08
+
+### Added
+
+* UK income tax rate reform pensioner exemption switch.
+
+### Fixed
+
+* AutoUBI now calculates correct UBI amounts.
+
 ## [1.20.2] - 2022-03-07
 
 ### Changed

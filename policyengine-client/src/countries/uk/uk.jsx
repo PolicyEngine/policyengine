@@ -257,6 +257,7 @@ export class UK extends Country {
         "Miscellaneous": {
             "Tax ": [
                 "exempt_seniors_from_PA_reforms",
+                "contrib_ubi_center_basic_income_exempt_pensioners_from_tax_changes",
             ]
         }
     }
@@ -556,6 +557,9 @@ export class UK extends Country {
         }
         if (situation.households["Your household"].children.includes(name)) {
             situation.households["Your household"].children.pop(name);
+        }
+        if(name === "Your spouse") {
+            situation["families"]["Your family"]["is_married"]["2022"] = false;
         }
         delete situation.people[name];
         return this.validateSituation(situation).situation;
