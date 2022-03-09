@@ -62,7 +62,7 @@ export default class Country {
             entity = this.entities[metadata.entity];
             for (let entityInstance of Object.keys(situation[entity.plural])) {
                 if (!Object.keys(situation[entity.plural][entityInstance]).includes(variable)) {
-                    situation[entity.plural][entityInstance][variable] = { "2021": value };
+                    situation[entity.plural][entityInstance][variable] = { "2022": value };
                 }
             }
         }
@@ -74,7 +74,7 @@ export default class Country {
             entity = this.entities[metadata.entity];
             for (let entityInstance of Object.keys(situation[entity.plural])) {
                 if (!Object.keys(situation[entity.plural][entityInstance]).includes(variable)) {
-                    situation[entity.plural][entityInstance][variable] = { "2021": null };
+                    situation[entity.plural][entityInstance][variable] = { "2022": null };
                 }
             }
         }
@@ -93,7 +93,7 @@ export default class Country {
 
     updateSituationValue(entityType, entityName, variable, value) {
         let situation = this.situation;
-        situation[this.entities[entityType].plural][entityName][variable] = { "2021": value };
+        situation[this.entities[entityType].plural][entityName][variable] = { "2022": value };
         this.setState({
             situation: situation,
             baselineSituationImpactIsOutdated: true,

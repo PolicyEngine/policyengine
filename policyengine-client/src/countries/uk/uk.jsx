@@ -309,14 +309,14 @@ export class UK extends Country {
     situation = {
         "people": {
             "You": {
-                "age": { "2021": 25 }
+                "age": { "2022": 25 }
             },
         },
         "benunits": {
             "Your family": {
                 "adults": ["You"],
                 "children": [],
-                "claims_all_entitled_benefits": { "2021": true },
+                "claims_all_entitled_benefits": { "2022": true },
             }
         },
         "households": {
@@ -515,7 +515,7 @@ export class UK extends Country {
 
     addPartner(situation) {
         situation.people["Your partner"] = {
-            "age": { "2021": 25 },
+            "age": { "2022": 25 },
         };
         situation.benunits["Your family"].adults.push("Your partner");
         situation.households["Your household"].adults.push("Your partner");
@@ -525,7 +525,7 @@ export class UK extends Country {
     addChild(situation) {
         const childName = childNamer[situation.benunits["Your family"].children.length + 1];
         situation.people[childName] = {
-            "age": { "2021": 10 },
+            "age": { "2022": 10 },
         };
         situation.benunits["Your family"].children.push(childName);
         situation.households["Your household"].children.push(childName);
