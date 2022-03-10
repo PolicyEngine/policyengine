@@ -44,4 +44,4 @@ monitor:
 	python policyengine/monitoring/api_monitoring.py
 server: install-server test-server
 changelog:
-	build-changelog changelog.yaml --org PolicyEngine --repo policyengine --output CHANGELOG.md --update-last-date
+	build-changelog changelog.yaml --org PolicyEngine --repo policyengine --output CHANGELOG.md --update-last-date --template .github/changelog_template.md
