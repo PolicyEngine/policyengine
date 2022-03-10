@@ -34,7 +34,7 @@ jobs:
           git config --global user.email "nikhil@policyengine.org"
           git config --global user.name "Github Actions[bot]"
           git commit -m "Update changelog" -a
-          git push
+          git push origin HEAD:$GITHUB_REF_NAME
   test:
     name: Test
     runs-on: ubuntu-latest
