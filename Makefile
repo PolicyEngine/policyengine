@@ -43,3 +43,5 @@ test-server:
 monitor:
 	python policyengine/monitoring/api_monitoring.py
 server: install-server test-server
+changelog:
+	build-changelog changelog.yaml --org PolicyEngine --repo policyengine --output CHANGELOG.md

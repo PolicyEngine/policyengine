@@ -7,9 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.21.0] - 2022-03-09 00:00:01
 
-### Added
+### Changed
 
-- US income tax rates and thresholds.
+- Household entry page now opts for "Single"/"Married" instead of the number of adults.
 
 ## [1.20.4] - 2022-03-09 00:00:00
 
@@ -435,58 +435,58 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[1.21.0]: https://github.com/policyengine/policyengine/compare/1.20.4...1.21.0
-[1.20.4]: https://github.com/policyengine/policyengine/compare/1.20.3...1.20.4
-[1.20.3]: https://github.com/policyengine/policyengine/compare/1.20.2...1.20.3
-[1.20.2]: https://github.com/policyengine/policyengine/compare/1.20.1...1.20.2
-[1.20.1]: https://github.com/policyengine/policyengine/compare/1.20.0...1.20.1
-[1.20.0]: https://github.com/policyengine/policyengine/compare/1.19.0...1.20.0
-[1.19.0]: https://github.com/policyengine/policyengine/compare/1.18.2...1.19.0
-[1.18.2]: https://github.com/policyengine/policyengine/compare/1.18.1...1.18.2
-[1.18.1]: https://github.com/policyengine/policyengine/compare/1.18.0...1.18.1
-[1.18.0]: https://github.com/policyengine/policyengine/compare/1.17.2...1.18.0
-[1.17.2]: https://github.com/policyengine/policyengine/compare/1.17.1...1.17.2
-[1.17.1]: https://github.com/policyengine/policyengine/compare/1.17.0...1.17.1
-[1.17.0]: https://github.com/policyengine/policyengine/compare/1.16.2...1.17.0
-[1.16.2]: https://github.com/policyengine/policyengine/compare/1.16.1...1.16.2
-[1.16.1]: https://github.com/policyengine/policyengine/compare/1.16.0...1.16.1
-[1.16.0]: https://github.com/policyengine/policyengine/compare/1.15.4...1.16.0
-[1.15.4]: https://github.com/policyengine/policyengine/compare/1.15.3...1.15.4
-[1.15.3]: https://github.com/policyengine/policyengine/compare/1.15.2...1.15.3
-[1.15.2]: https://github.com/policyengine/policyengine/compare/1.15.1...1.15.2
-[1.15.1]: https://github.com/policyengine/policyengine/compare/1.15.0...1.15.1
-[1.15.0]: https://github.com/policyengine/policyengine/compare/1.14.1...1.15.0
-[1.14.1]: https://github.com/policyengine/policyengine/compare/1.14.0...1.14.1
-[1.14.0]: https://github.com/policyengine/policyengine/compare/1.13.1...1.14.0
-[1.13.1]: https://github.com/policyengine/policyengine/compare/1.13.0...1.13.1
-[1.13.0]: https://github.com/policyengine/policyengine/compare/1.12.0...1.13.0
-[1.12.0]: https://github.com/policyengine/policyengine/compare/1.11.1...1.12.0
-[1.11.1]: https://github.com/policyengine/policyengine/compare/1.11.0...1.11.1
-[1.11.0]: https://github.com/policyengine/policyengine/compare/1.10.6...1.11.0
-[1.10.6]: https://github.com/policyengine/policyengine/compare/1.10.5...1.10.6
-[1.10.5]: https://github.com/policyengine/policyengine/compare/1.10.4...1.10.5
-[1.10.4]: https://github.com/policyengine/policyengine/compare/1.10.3...1.10.4
-[1.10.3]: https://github.com/policyengine/policyengine/compare/1.10.2...1.10.3
-[1.10.2]: https://github.com/policyengine/policyengine/compare/1.10.1...1.10.2
-[1.10.1]: https://github.com/policyengine/policyengine/compare/1.10.0...1.10.1
-[1.10.0]: https://github.com/policyengine/policyengine/compare/1.9.0...1.10.0
-[1.9.0]: https://github.com/policyengine/policyengine/compare/1.8.5...1.9.0
-[1.8.5]: https://github.com/policyengine/policyengine/compare/1.8.4...1.8.5
-[1.8.4]: https://github.com/policyengine/policyengine/compare/1.8.3...1.8.4
-[1.8.3]: https://github.com/policyengine/policyengine/compare/1.8.2...1.8.3
-[1.8.2]: https://github.com/policyengine/policyengine/compare/1.8.1...1.8.2
-[1.8.1]: https://github.com/policyengine/policyengine/compare/1.8.0...1.8.1
-[1.8.0]: https://github.com/policyengine/policyengine/compare/1.7.2...1.8.0
-[1.7.2]: https://github.com/policyengine/policyengine/compare/1.7.1...1.7.2
-[1.7.1]: https://github.com/policyengine/policyengine/compare/1.7.0...1.7.1
-[1.7.0]: https://github.com/policyengine/policyengine/compare/1.6.1...1.7.0
-[1.6.1]: https://github.com/policyengine/policyengine/compare/1.6.0...1.6.1
-[1.6.0]: https://github.com/policyengine/policyengine/compare/1.5.5...1.6.0
-[1.5.5]: https://github.com/policyengine/policyengine/compare/1.5.4...1.5.5
-[1.5.4]: https://github.com/policyengine/policyengine/compare/1.5.3...1.5.4
-[1.5.3]: https://github.com/policyengine/policyengine/compare/1.5.2...1.5.3
-[1.5.2]: https://github.com/policyengine/policyengine/compare/1.5.1...1.5.2
-[1.5.1]: https://github.com/policyengine/policyengine/compare/1.5.0...1.5.1
-[1.5.0]: https://github.com/policyengine/policyengine/compare/1.4.3...1.5.0
-[1.4.3]: https://github.com/policyengine/policyengine/compare/1.4.2...1.4.3
-[1.4.2]: https://github.com/policyengine/policyengine/compare/1.4.1...1.4.2
+[1.21.0]: https://github.com/PolicyEngine/policyengine/compare/1.20.4...1.21.0
+[1.20.4]: https://github.com/PolicyEngine/policyengine/compare/1.20.3...1.20.4
+[1.20.3]: https://github.com/PolicyEngine/policyengine/compare/1.20.2...1.20.3
+[1.20.2]: https://github.com/PolicyEngine/policyengine/compare/1.20.1...1.20.2
+[1.20.1]: https://github.com/PolicyEngine/policyengine/compare/1.20.0...1.20.1
+[1.20.0]: https://github.com/PolicyEngine/policyengine/compare/1.19.0...1.20.0
+[1.19.0]: https://github.com/PolicyEngine/policyengine/compare/1.18.2...1.19.0
+[1.18.2]: https://github.com/PolicyEngine/policyengine/compare/1.18.1...1.18.2
+[1.18.1]: https://github.com/PolicyEngine/policyengine/compare/1.18.0...1.18.1
+[1.18.0]: https://github.com/PolicyEngine/policyengine/compare/1.17.2...1.18.0
+[1.17.2]: https://github.com/PolicyEngine/policyengine/compare/1.17.1...1.17.2
+[1.17.1]: https://github.com/PolicyEngine/policyengine/compare/1.17.0...1.17.1
+[1.17.0]: https://github.com/PolicyEngine/policyengine/compare/1.16.2...1.17.0
+[1.16.2]: https://github.com/PolicyEngine/policyengine/compare/1.16.1...1.16.2
+[1.16.1]: https://github.com/PolicyEngine/policyengine/compare/1.16.0...1.16.1
+[1.16.0]: https://github.com/PolicyEngine/policyengine/compare/1.15.4...1.16.0
+[1.15.4]: https://github.com/PolicyEngine/policyengine/compare/1.15.3...1.15.4
+[1.15.3]: https://github.com/PolicyEngine/policyengine/compare/1.15.2...1.15.3
+[1.15.2]: https://github.com/PolicyEngine/policyengine/compare/1.15.1...1.15.2
+[1.15.1]: https://github.com/PolicyEngine/policyengine/compare/1.15.0...1.15.1
+[1.15.0]: https://github.com/PolicyEngine/policyengine/compare/1.14.1...1.15.0
+[1.14.1]: https://github.com/PolicyEngine/policyengine/compare/1.14.0...1.14.1
+[1.14.0]: https://github.com/PolicyEngine/policyengine/compare/1.13.1...1.14.0
+[1.13.1]: https://github.com/PolicyEngine/policyengine/compare/1.13.0...1.13.1
+[1.13.0]: https://github.com/PolicyEngine/policyengine/compare/1.12.0...1.13.0
+[1.12.0]: https://github.com/PolicyEngine/policyengine/compare/1.11.1...1.12.0
+[1.11.1]: https://github.com/PolicyEngine/policyengine/compare/1.11.0...1.11.1
+[1.11.0]: https://github.com/PolicyEngine/policyengine/compare/1.10.6...1.11.0
+[1.10.6]: https://github.com/PolicyEngine/policyengine/compare/1.10.5...1.10.6
+[1.10.5]: https://github.com/PolicyEngine/policyengine/compare/1.10.4...1.10.5
+[1.10.4]: https://github.com/PolicyEngine/policyengine/compare/1.10.3...1.10.4
+[1.10.3]: https://github.com/PolicyEngine/policyengine/compare/1.10.2...1.10.3
+[1.10.2]: https://github.com/PolicyEngine/policyengine/compare/1.10.1...1.10.2
+[1.10.1]: https://github.com/PolicyEngine/policyengine/compare/1.10.0...1.10.1
+[1.10.0]: https://github.com/PolicyEngine/policyengine/compare/1.9.0...1.10.0
+[1.9.0]: https://github.com/PolicyEngine/policyengine/compare/1.8.5...1.9.0
+[1.8.5]: https://github.com/PolicyEngine/policyengine/compare/1.8.4...1.8.5
+[1.8.4]: https://github.com/PolicyEngine/policyengine/compare/1.8.3...1.8.4
+[1.8.3]: https://github.com/PolicyEngine/policyengine/compare/1.8.2...1.8.3
+[1.8.2]: https://github.com/PolicyEngine/policyengine/compare/1.8.1...1.8.2
+[1.8.1]: https://github.com/PolicyEngine/policyengine/compare/1.8.0...1.8.1
+[1.8.0]: https://github.com/PolicyEngine/policyengine/compare/1.7.2...1.8.0
+[1.7.2]: https://github.com/PolicyEngine/policyengine/compare/1.7.1...1.7.2
+[1.7.1]: https://github.com/PolicyEngine/policyengine/compare/1.7.0...1.7.1
+[1.7.0]: https://github.com/PolicyEngine/policyengine/compare/1.6.1...1.7.0
+[1.6.1]: https://github.com/PolicyEngine/policyengine/compare/1.6.0...1.6.1
+[1.6.0]: https://github.com/PolicyEngine/policyengine/compare/1.5.5...1.6.0
+[1.5.5]: https://github.com/PolicyEngine/policyengine/compare/1.5.4...1.5.5
+[1.5.4]: https://github.com/PolicyEngine/policyengine/compare/1.5.3...1.5.4
+[1.5.3]: https://github.com/PolicyEngine/policyengine/compare/1.5.2...1.5.3
+[1.5.2]: https://github.com/PolicyEngine/policyengine/compare/1.5.1...1.5.2
+[1.5.1]: https://github.com/PolicyEngine/policyengine/compare/1.5.0...1.5.1
+[1.5.0]: https://github.com/PolicyEngine/policyengine/compare/1.4.3...1.5.0
+[1.4.3]: https://github.com/PolicyEngine/policyengine/compare/1.4.2...1.4.3
+[1.4.2]: https://github.com/PolicyEngine/policyengine/compare/1.4.1...1.4.2

@@ -351,9 +351,9 @@
     - US state code switch disabled and a tooltip added.
     - Updates 2021 references to 2022.
   date: 2022-03-09 00:00:00
-- _version: 1.21.0
-  bump: minor
+- bump: minor
   changes:
-    added:
-    - US income tax rates and thresholds.
+    changed:
+    - Household entry page now opts for "Single"/"Married" instead of the number of
+      adults.
   date: 2022-03-09 00:00:01

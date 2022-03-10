@@ -25,6 +25,8 @@ jobs:
           python-version: 3.7
       - name: Check version number has been properly updated
         run: ".github/is-version-number-acceptable.sh"
+      - name: Preview changelog update
+        run: ".github/get-changelog-diff.sh"
   test:
     name: Test
     runs-on: ubuntu-latest
