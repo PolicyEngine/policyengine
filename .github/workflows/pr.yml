@@ -26,7 +26,7 @@ jobs:
       - name: Check version number has been properly updated
         run: ".github/is-version-number-acceptable.sh"
       - name: Build changelog
-        run: make install && make changelog
+        run: make install-server && make changelog
       - name: Preview changelog update
         run: ".github/get-changelog-diff.sh"
       - name: Update changelog
