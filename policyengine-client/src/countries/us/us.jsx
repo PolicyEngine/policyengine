@@ -47,6 +47,12 @@ export class US extends Country {
     validatePolicy = validatePolicy;
     // Policy page metadata
     parameterHierarchy = {
+        "IRS": {
+            "Income tax schedule": [
+                "irs_income_bracket_rates",
+                "irs_income_bracket_thresholds",
+            ]
+        },
         "SNAP": {
             "Eligibility": [
                 "snap_gross_income_limit_standard",
@@ -84,7 +90,7 @@ export class US extends Country {
             ],
         }
     }
-    defaultOpenParameterGroups = ["/SNAP", "/School meals"];
+    defaultOpenParameterGroups = ["/SNAP"];
     defaultSelectedParameterGroup = "/SNAP/Eligibility"
     organisations = {}
     // OpenFisca data
