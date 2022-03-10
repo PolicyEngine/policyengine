@@ -60,7 +60,8 @@ jobs:
       - name: Update changelog
         uses: EndBug/add-and-commit@v8
         with:
-          add: 'CHANGELOG.md'
+          add: "."
+          committer_name: Github Actions[bot]
           author_name: Github Actions[bot]
           message: "Update changelog"
       - name: Publish a git tag
