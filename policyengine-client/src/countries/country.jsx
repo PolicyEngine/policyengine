@@ -103,7 +103,7 @@ export default class Country {
         });
     }
 
-    useLocalServer = DEBUG_MODE;
+    useLocalServer = false;
     usePolicyEngineOrgServer = false;
 }
 
