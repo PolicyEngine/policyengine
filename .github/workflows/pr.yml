@@ -25,12 +25,12 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.7
-      - name: Check version number has been properly updated
-        run: ".github/is-version-number-acceptable.sh"
       - name: Build changelog
         run: pip install yaml-changelog && make changelog
       - name: Preview changelog update
         run: ".github/get-changelog-diff.sh"
+      - name: Check version number has been properly updated
+        run: ".github/is-version-number-acceptable.sh"
   test:
     name: Test
     runs-on: ubuntu-latest
