@@ -362,3 +362,7 @@
     - Household entry page now opts for "Single"/"Married" instead of the number of
       adults.
   date: 2022-03-09 00:00:02
+- bump: patch
+  changes:
+    added:
+    - YAML-based changelog.
