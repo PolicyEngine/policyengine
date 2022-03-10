@@ -353,11 +353,12 @@
   date: 2022-03-09 00:00:00
 - bump: minor
   changes:
+    added:
+    - US income tax rates and thresholds.
+  date: 2022-03-09 00:00:01
+- bump: minor
+  changes:
     changed:
     - Household entry page now opts for "Single"/"Married" instead of the number of
       adults.
-  date: 2022-03-09 00:00:01
-- bump: patch
-  changes:
-    added:
-    - YAML changelog.
+  date: 2022-03-09 00:00:02
