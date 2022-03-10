@@ -25,10 +25,10 @@ jobs:
           python-version: 3.7
       - name: Check version number has been properly updated
         run: ".github/is-version-number-acceptable.sh"
-      - name: Preview changelog update
-        run: ".github/get-changelog-diff.sh"
       - name: Build changelog
         run: make changelog
+      - name: Preview changelog update
+        run: ".github/get-changelog-diff.sh"
       - name: Update changelog
         uses: EndBug/add-and-commit@v8 # You can change this to use a specific version.
         with:
