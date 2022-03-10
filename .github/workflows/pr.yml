@@ -31,6 +31,8 @@ jobs:
         run: ".github/get-changelog-diff.sh"
       - name: Update changelog
         run: |
+          git config --global user.email "nikhil@policyengine.org"
+          git config --global user.name "Github Actions[bot]"
           git commit -m "Update changelog" -a
           git push
   test:
