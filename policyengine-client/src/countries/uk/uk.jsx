@@ -513,12 +513,23 @@ export class UK extends Country {
         }
     }
 
+    householdMaritalOptions = ["Single", "Married"]
+
+    getHouseholdMaritalStatus() {
+        return this.getNumAdults() > 1 ? "Married" : "Single";
+    }
+
+    setHouseholdMaritalStatus(status) {
+        this.setNumAdults(status === "Single" ? 1 : 2);
+    }
+
     addPartner(situation) {
-        situation.people["Your partner"] = {
-            "age": { "2022": 25 },
+        situation.people["Your spouse"] = {
+            "age": { "2021": 25 },
         };
-        situation.benunits["Your family"].adults.push("Your partner");
-        situation.households["Your household"].adults.push("Your partner");
+        situation.benunits["Your family"].adults.push("Your spouse");
+        situation.benunits["Your family"]["is_married"]["2021"] = true;
+        situation.households["Your household"].adults.push("Your spouse");
         return this.validateSituation(situation).situation;
     }
 
@@ -547,6 +558,9 @@ export class UK extends Country {
         if (situation.households["Your household"].children.includes(name)) {
             situation.households["Your household"].children.pop(name);
         }
+        if(name === "Your spouse") {
+            situation["families"]["Your family"]["is_married"]["2022"] = false;
+        }
         delete situation.people[name];
         return this.validateSituation(situation).situation;
     }
@@ -557,7 +571,7 @@ export class UK extends Country {
         if (numExistingAdults === 1 && numAdults === 2) {
             situation = this.addPartner(situation);
         } else if (numExistingAdults === 2 && numAdults === 1) {
-            situation = this.removePerson(situation, "Your partner");
+            situation = this.removePerson(situation, "Your spouse");
         }
         situation.states.state.citizens = Object.keys(situation.people);
         this.setState({

@@ -305,9 +305,19 @@ export class US extends Country {
         }
     }
 
+    householdMaritalOptions = ["Single", "Married"]
+
+    getHouseholdMaritalStatus() {
+        return this.getNumAdults() > 1 ? "Married" : "Single";
+    }
+
+    setHouseholdMaritalStatus(status) {
+        this.setNumAdults(status === "Single" ? 1 : 2);
+    }
+
 
     addPartner(situation) {
-        const name = "Your partner"
+        const name = "Your spouse"
         situation.people[name] = {
             "age": { "2022": 25 },
         };
@@ -339,6 +349,9 @@ export class US extends Country {
                 }
             }
         }
+        if(name === "Your spouse") {
+            situation["families"]["Your family"]["is_married"]["2022"] = false;
+        }
         delete situation.people[name];
         return this.validateSituation(situation).situation;
     }
@@ -349,7 +362,7 @@ export class US extends Country {
         if (numExistingAdults === 1 && numAdults === 2) {
             situation = this.addPartner(situation);
         } else if (numExistingAdults === 2 && numAdults === 1) {
-            situation = this.removePerson(situation, "Your partner");
+            situation = this.removePerson(situation, "Your spouse");
         }
 
         this.setState({

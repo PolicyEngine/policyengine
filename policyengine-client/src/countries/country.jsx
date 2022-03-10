@@ -2,6 +2,7 @@
     * This file contains static data for each country.
 */
 import { createContext } from "react";
+import { DEBUG_MODE } from "./debug";
 
 export default class Country {
     stateHolder = null
@@ -102,7 +103,7 @@ export default class Country {
         });
     }
 
-    useLocalServer = false;
+    useLocalServer = DEBUG_MODE;
     usePolicyEngineOrgServer = false;
 }
 
