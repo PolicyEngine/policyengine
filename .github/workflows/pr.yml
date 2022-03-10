@@ -30,11 +30,9 @@ jobs:
       - name: Preview changelog update
         run: ".github/get-changelog-diff.sh"
       - name: Update changelog
-        uses: EndBug/add-and-commit@v8 # You can change this to use a specific version.
-        with:
-          # The arguments for the `git add` command (see the paragraph below for more info)
-          # Default: '.'
-          add: CHANGELOG.md
+        run: |
+          git commit -m "Update changelog" -a
+          git push
   test:
     name: Test
     runs-on: ubuntu-latest
