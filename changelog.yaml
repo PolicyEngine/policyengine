@@ -358,7 +358,6 @@
       adults.
   date: 2022-03-09 00:00:01
 - bump: patch
-  date: 2022-03-10 00:00:00
   changes:
     added:
     - YAML changelog.
