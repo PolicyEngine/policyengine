@@ -27,6 +27,14 @@ jobs:
         run: ".github/is-version-number-acceptable.sh"
       - name: Preview changelog update
         run: ".github/get-changelog-diff.sh"
+      - name: Build changelog
+        run: make changelog
+      - name: Update changelog
+        uses: EndBug/add-and-commit@v8 # You can change this to use a specific version.
+        with:
+          # The arguments for the `git add` command (see the paragraph below for more info)
+          # Default: '.'
+          add: CHANGELOG.md
   test:
     name: Test
     runs-on: ubuntu-latest
