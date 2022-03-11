@@ -17,6 +17,7 @@ jobs:
           options: ". -l 79 --check"
   test:
     name: Test and Deploy
+    needs: publish
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -46,10 +47,24 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
           python-version: 3.7
+      - name: Build changelog
+        run: pip install yaml-changelog && make changelog
+      - name: Preview changelog update
+        run: ".github/get-changelog-diff.sh"
+      - name: Update changelog
+        uses: EndBug/add-and-commit@v8
+        with:
+          add: "."
+          committer_name: Github Actions[bot]
+          author_name: Github Actions[bot]
+          message: "Update changelog"
       - name: Publish a git tag
         run: ".github/publish-git-tag.sh"
       - name: Setup Node

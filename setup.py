@@ -27,6 +27,7 @@ setup(
         "rdbl",
         "pytest",
         "dpath>=1.5.0",
+        "yaml-changelog>=0.1.5",
     ],
     packages=find_packages(),
 )
