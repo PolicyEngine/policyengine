@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       (github.repository == 'PolicyEngine/policyengine')
-      && (${{ github.event.head_commit.message }} == 'Update PolicyEngine')
+      && (github.event.head_commit.message == 'Update PolicyEngine')
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       (github.repository == 'PolicyEngine/policyengine')
-      && (${{ github.event.head_commit.message }} == 'Update PolicyEngine')
+      && (github.event.head_commit.message == 'Update PolicyEngine')
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -50,7 +50,7 @@ jobs:
     name: Update versioning
     if: |
       (github.repository == 'PolicyEngine/policyengine')
-      && !(${{ github.event.head_commit.message }} == 'Update PolicyEngine')
+      && !(github.event.head_commit.message == 'Update PolicyEngine')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -78,7 +78,7 @@ jobs:
     name: Publish packages
     if: |
       (github.repository == 'PolicyEngine/policyengine')
-      && (${{ github.event.head_commit.message }} == 'Update PolicyEngine')
+      && (github.event.head_commit.message == 'Update PolicyEngine')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo

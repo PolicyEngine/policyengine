@@ -377,3 +377,7 @@
     fixed:
     - Bugs relating to changelog features.
   date: 2022-03-11 13:35:34
+- bump: patch
+  changes:
+    fixed:
+    - PR action now previews changelog updates.
