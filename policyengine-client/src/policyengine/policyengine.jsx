@@ -43,6 +43,12 @@ export default class PolicyEngine extends React.Component {
                 policy[parameter] = Object.assign(policy[parameter], this.state.country.extraParameterMetadata[parameter]);
             }
         }
+        let variables = this.state.country.variables;
+        for (let variable of Object.keys(variables)) {
+            if (Object.keys(this.state.country.extraVariableMetadata).includes(variable)) {
+                variables[variable] = Object.assign(variables[variable], this.state.country.extraVariableMetadata[variable]);
+            }
+        }
         const situation = this.state.country.validateSituation(this.state.country.situation).situation;
         this.setCountryState({ situation: situation, parameters: policy, policy: JSON.parse(JSON.stringify(policy)), fullyLoaded: true });
     }

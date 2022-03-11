@@ -47,6 +47,12 @@ export class US extends Country {
     validatePolicy = validatePolicy;
     // Policy page metadata
     parameterHierarchy = {
+        "IRS": {
+            "Income tax schedule": [
+                "irs_income_bracket_rates",
+                "irs_income_bracket_thresholds",
+            ]
+        },
         "SNAP": {
             "Eligibility": [
                 "snap_gross_income_limit_standard",
@@ -84,7 +90,7 @@ export class US extends Country {
             ],
         }
     }
-    defaultOpenParameterGroups = ["/SNAP", "/School meals"];
+    defaultOpenParameterGroups = ["/SNAP"];
     defaultSelectedParameterGroup = "/SNAP/Eligibility"
     organisations = {}
     // OpenFisca data
@@ -237,6 +243,12 @@ export class US extends Country {
             ],
         }
     }
+    extraVariableMetadata = {
+        "state_code": {
+            "disabled": true,
+            "tooltip": "PolicyEngine currently only calculates benefits for California.",
+        }
+    }
     defaultOpenVariableGroups = [
         "/Household",
         "/People"
@@ -293,11 +305,21 @@ export class US extends Country {
         }
     }
 
+    householdMaritalOptions = ["Single", "Married"]
+
+    getHouseholdMaritalStatus() {
+        return this.getNumAdults() > 1 ? "Married" : "Single";
+    }
+
+    setHouseholdMaritalStatus(status) {
+        this.setNumAdults(status === "Single" ? 1 : 2);
+    }
+
 
     addPartner(situation) {
-        const name = "Your partner"
+        const name = "Your spouse"
         situation.people[name] = {
-            "age": { "2021": 25 },
+            "age": { "2022": 25 },
         };
         situation.families["Your family"].members.push(name);
         situation.tax_units["Your tax unit"].members.push(name);
@@ -309,8 +331,8 @@ export class US extends Country {
     addChild(situation) {
         const childName = childNamer[this.getNumChildren() + 1];
         situation.people[childName] = {
-            "age": { "2021": 10 },
-            "is_in_school": { "2021": true },
+            "age": { "2022": 10 },
+            "is_in_school": { "2022": true },
         };
         situation.families["Your family"].members.push(childName);
         situation.tax_units["Your tax unit"].members.push(childName);
@@ -327,6 +349,9 @@ export class US extends Country {
                 }
             }
         }
+        if(name === "Your spouse") {
+            situation["families"]["Your family"]["is_married"]["2022"] = false;
+        }
         delete situation.people[name];
         return this.validateSituation(situation).situation;
     }
@@ -337,7 +362,7 @@ export class US extends Country {
         if (numExistingAdults === 1 && numAdults === 2) {
             situation = this.addPartner(situation);
         } else if (numExistingAdults === 2 && numAdults === 1) {
-            situation = this.removePerson(situation, "Your partner");
+            situation = this.removePerson(situation, "Your spouse");
         }
 
         this.setState({
@@ -350,7 +375,7 @@ export class US extends Country {
 
     getNumAdults() {
         return this.situation.households["Your household"].members.filter(
-            name => this.situation.people[name].age["2021"] >= 18
+            name => this.situation.people[name].age["2022"] >= 18
         ).length;
     }
 
@@ -377,7 +402,7 @@ export class US extends Country {
 
     getNumChildren() {
         return this.situation.households["Your household"].members.filter(
-            name => this.situation.people[name].age["2021"] < 18
+            name => this.situation.people[name].age["2022"] < 18
         ).length;
     }
 };

@@ -155,11 +155,11 @@ class PolicyEngineCountry:
         )
         situation = create_situation(params["household"])
         baseline = situation(
-            self.IndividualSim(reform_config["baseline"]["reform"], 2021)
+            self.IndividualSim(reform_config["baseline"]["reform"], 2022)
         )
         if len(params.keys()) - 1 > 0:
             reformed = situation(
-                self.IndividualSim(reform_config["reform"]["reform"], 2021)
+                self.IndividualSim(reform_config["reform"]["reform"], 2022)
             )
         else:
             reformed = baseline

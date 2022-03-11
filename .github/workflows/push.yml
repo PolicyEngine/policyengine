@@ -9,6 +9,9 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    if: |
+      (github.repository == 'PolicyEngine/policyengine')
+      && (${{ github.event.head_commit.message }} == 'Update PolicyEngine')
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -17,7 +20,11 @@ jobs:
           options: ". -l 79 --check"
   test:
     name: Test and Deploy
+    needs: publish
     runs-on: ubuntu-latest
+    if: |
+      (github.repository == 'PolicyEngine/policyengine')
+      && (${{ github.event.head_commit.message }} == 'Update PolicyEngine')
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -39,13 +46,46 @@ jobs:
         run: make install
       - name: Deploy
         run: make deploy
-  publish:
-    name: Publish packages
-    if: github.repository == 'PolicyEngine/policyengine'
+  versioning:
+    name: Update versioning
+    if: |
+      (github.repository == 'PolicyEngine/policyengine')
+      && !(${{ github.event.head_commit.message }} == 'Update PolicyEngine')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          token: ${{ secrets.POLICYENGINE_GITHUB }}
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: Build changelog
+        run: pip install yaml-changelog && make changelog
+      - name: Preview changelog update
+        run: ".github/get-changelog-diff.sh"
+      - name: Update changelog
+        uses: EndBug/add-and-commit@v8
+        with:
+          add: "."
+          committer_name: Github Actions[bot]
+          author_name: Github Actions[bot]
+          message: Update PolicyEngine
+  publish:
+    name: Publish packages
+    if: |
+      (github.repository == 'PolicyEngine/policyengine')
+      && (${{ github.event.head_commit.message }} == 'Update PolicyEngine')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
