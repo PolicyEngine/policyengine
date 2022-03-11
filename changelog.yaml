@@ -379,5 +379,10 @@
   date: 2022-03-11 13:35:34
 - bump: patch
   changes:
+    fixed:
+    - PR action now previews changelog updates.
+  date: 2022-03-11 15:19:49
+- bump: patch
+  changes:
     changed:
     - Fix policy summary to 50% vertical height.
