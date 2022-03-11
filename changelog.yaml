@@ -372,3 +372,7 @@
     added:
     - YAML-based changelog.
   date: 2022-03-11 13:14:28
+- bump: patch
+  changes:
+    fixed:
+    - Bugs relating to changelog features.
