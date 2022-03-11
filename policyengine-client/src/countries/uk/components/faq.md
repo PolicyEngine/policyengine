@@ -94,7 +94,7 @@ We suggest abolishing Universal Credit and legacy benefits together if abolishin
 
 We use the most recent Family Resources Survey (FRS), which covers the 2019-2020 fiscal year.
 The FRS is the UK's standard survey for estimating the distribution of income.
-We then extrapolate the FRS to 2021 using growth factors published by the Office of National Statistics and Office for Budget Responsibility.
+We then extrapolate the FRS to 2022 using growth factors published by the Office of National Statistics and Office for Budget Responsibility.
 We also adjust benefit receipt to reflect trends like the Universal Credit rollout.
 
 The FRS underestimates high incomes, so PolicyEngine accordingly will as well; for example, we'll underestimate the revenue from a reform that raises the Additional Rate.

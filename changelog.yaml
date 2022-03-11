@@ -1,0 +1,384 @@
+- changes:
+    fixed:
+    - '"Edit policy" button previously incorrectly pointed to the household page.'
+    - Share policy URLS missed a slash between policyengine.org and the country name.
+  date: 2022-01-09 00:00:00
+  version: 1.4.1
+- bump: patch
+  changes:
+    added:
+    - An option to use the policyengine.org server when debugging, rather than inferring
+      from the URL.
+  date: 2022-01-12 00:00:00
+- bump: patch
+  changes:
+    fixed:
+    - Removed the clear buton from date pickers.
+    - Clicking the top-left icon preserves the policy.
+    - Renames Wealth to Assets.
+  date: 2022-01-12 00:00:01
+- bump: minor
+  changes:
+    added:
+    - The Property, Trading and Dividend Allowances.
+    fixed:
+    - A bug causing the taxable UBI option to break the results.
+  date: 2022-01-12 00:00:02
+- bump: patch
+  changes:
+    changed:
+    - Consolidated markdown files handling, with code documented to add more static
+      pages.
+  date: 2022-01-12 00:00:03
+- bump: patch
+  changes:
+    added:
+    - About page.
+  date: 2022-01-13 00:00:00
+- bump: patch
+  changes:
+    changed:
+    - OpenFisca-UK dependency updated to version 1.5.3.
+  date: 2022-01-13 00:00:01
+- bump: patch
+  changes:
+    changed:
+    - OpenFisca-UK dependency updated to version 1.5.4.
+    - OpenFisca-UK dependency updated to version 0.20.2.
+  date: 2022-01-13 00:00:02
+- bump: patch
+  changes:
+    changed:
+    - Command-line flag added for using synthetic UK data for debugging.
+    - OpenFisca-UK version updated to 0.10.5.
+    - OpenFisca-US version updated to 0.23.1.
+  date: 2022-01-16 00:00:00
+- bump: minor
+  changes:
+    added:
+    - Inequality chart showing relative change to the Gini coefficient and top-10%
+      and top-1% income shares.
+  date: 2022-01-17 00:00:00
+- bump: patch
+  changes:
+    fixed:
+    - OpenFisca-Tools dependency updated after patch to fix PolicyEngine deployment
+      failure.
+  date: 2022-01-17 00:00:01
+- bump: minor
+  changes:
+    added:
+    - More inputs for calculating US SNAP benefits.
+  date: 2022-01-17 00:00:02
+- bump: patch
+  changes:
+    changed:
+    - UK household input structure simplified.
+    fixed:
+    - Gini index is calculated from disposable (not equivalised) household income.
+  date: 2022-01-18 00:00:00
+- bump: patch
+  changes:
+    fixed:
+    - A bug which caused the UK household impact to be blank and the US to not show
+      the household structure panel.
+  date: 2022-01-18 00:00:01
+- bump: minor
+  changes:
+    added:
+    - UK flag icons for Tax and Benefit sections.
+    - The single pensioner supplement - a hypothetical means-tested payment to single
+      pensioners proposed by the Green Party.
+    fixed:
+    - Inequality measures all use equivalised income.
+  date: 2022-01-19 00:00:00
+- bump: patch
+  changes:
+    fixed:
+    - SPS takeup now applies to survey data runs and is exempted from household simulations.
+    - Earnings variation charts now use household net income rather than personal
+      net income.
+  date: 2022-01-20 00:00:00
+- bump: patch
+  changes:
+    fixed:
+    - Changing the number of adults previously didn't update the variation charts.
+    - Variation charts wouldn't load for multi-person households.
+  date: 2022-01-20 00:00:01
+- bump: patch
+  changes:
+    changed:
+    - Your policy, UK impact and Share policy headers removed.
+    - Spacing and auto-collapsed status added to the UK impact disclaimer.
+  date: 2022-01-21 00:00:00
+- bump: patch
+  changes:
+    added:
+    - Universal Credit parameters for specific elements.
+    - Green Party url for the 2019 manifesto (/green-party/manifesto-2019).
+    fixed:
+    - Named policy redirects now work for all pages, not just population impact.
+  date: 2022-01-22 00:00:00
+- bump: patch
+  changes:
+    changed:
+    - "Green Party Manifesto link increases child UBI from \xA370/week to \xA375/week."
+  date: 2022-01-24 00:00:00
+- bump: minor
+  changes:
+    added:
+    - School meal subsidies and net income to US app.
+  date: 2022-01-25 00:00:00
+- bump: minor
+  changes:
+    added:
+    - 'Miscellaneous: cash payments to benefit recipients or taxpayers.'
+  date: 2022-01-26 00:00:00
+- bump: patch
+  changes:
+    added:
+    - The household page now has a primary navigation button, pointing to the results
+      tab.
+    - Descriptive error messages when variables fail to load.
+    changed:
+    - The dividers on the household page link to their first descendent when clicked.
+    fixed:
+    - Copy links from the population impact and household pages are now valid.
+    - The accounting table is now responsive.
+  date: 2022-01-26 00:00:01
+- bump: patch
+  changes:
+    changed:
+    - Miscellaneous cash payments now have the Social Market Foundation branding.
+  date: 2022-01-26 00:00:02
+- bump: patch
+  changes:
+    fixed:
+    - A bug which caused boolean parameters to display "false -> false" when unchecked.
+    - The SMF tax-based payment now is paid to basic/intermediate/starter rate payers,
+      rather than just not higher and additional rate payers.
+  date: 2022-01-28 00:00:00
+- bump: patch
+  changes:
+    fixed:
+    - The SMF tax-based payment now excludes households with higher and additional
+      rate payers.
+  date: 2022-01-29 00:00:00
+- bump: patch
+  changes:
+    fixed:
+    - Decile changes are now all household-weighted, except for decile placement.
+  date: 2022-01-29 00:00:01
+- bump: patch
+  changes:
+    changed:
+    - Change color scheme to gray/green for negative/positive changes.
+  date: 2022-01-29 00:00:02
+- bump: minor
+  changes:
+    added:
+    - Federal tax output variable in the net income panel.
+    - Beta label on PolicyEngine US.
+  date: 2022-02-02 00:00:00
+- bump: patch
+  changes:
+    changed:
+    - "UK Green Party manifesto policy extends the higher rate threshold to \xA350,000."
+    - OpenFisca-UK updated with re-weighting routine.
+  date: 2022-02-04 00:00:00
+- bump: minor
+  changes:
+    added:
+    - UK miscellaneous reform - exempt seniors from personal allowance changes.
+  date: 2022-02-06 00:00:00
+- bump: minor
+  changes:
+    added:
+    - Energy Bills Rebate parameters and household variables.
+  date: 2022-02-06 00:00:01
+- bump: patch
+  changes: {}
+  date: 2022-02-07 00:00:00
+- bump: minor
+  changes:
+    added:
+    - US inputs for guaranteed income, phone expenses, and broadband expenses.
+    - Lifeline and CVRP US benefits.
+    - Separation of normal and emergency SNAP allotments.
+    - Parameters for Lifeline amount and income limit (% of FPL).
+  date: 2022-02-08 00:00:00
+- bump: patch
+  changes:
+    changed:
+    - Right policy overview sidebar is now fixed and applies pagination.
+    fixed:
+    - US Lifeline and CA CVRP calculate correctly in the household page.
+  date: 2022-02-08 00:00:01
+- bump: minor
+  changes:
+    added:
+    - US WIC program and its inputs.
+    - US guaranteed income / cash assistance input.
+  date: 2022-02-09 00:00:00
+- bump: patch
+  changes:
+    added:
+    - US SNAP normal and emergency allotment breakdown.
+    fixed:
+    - Styling and indentation inconsistencies in the household accounting table.
+  date: 2022-02-09 00:00:01
+- bump: patch
+  changes:
+    fixed:
+    - UK household breakdown did not calculate the energy bills rebate in the accounting
+      table.
+    - Removed test run from merge action (this is run on GCP as well).
+  date: 2022-02-10 00:00:00
+- bump: patch
+  changes:
+    fixed:
+    - Accounting table did not correctly apply negative sign.
+  date: 2022-02-10 00:00:01
+- bump: patch
+  changes:
+    added:
+    - Basic income phase-outs and Child Benefit withdrawal switch added.
+    changed:
+    - UBI Center UBI parameters renamed to basic income.
+  date: 2022-02-10 00:00:02
+- bump: minor
+  changes:
+    added:
+    - Breakdown parameter control for parameters broken down by successive categories.
+    - SNAP maximum allotment parameter.
+  date: 2022-02-16 00:00:00
+- bump: patch
+  changes:
+    fixed:
+    - Bumped OpenFisca-Tools to 0.4.1, fixing a mistaken import that caused GCP machine
+      failure.
+  date: 2022-02-16 00:00:01
+- bump: patch
+  changes:
+    changed:
+    - Household MTR chart y-axis now defaults to (0, 100%) instead of (-100%, 100%).
+    - Current-policy accounting table numbers are closer to their labels.
+    - Deployment code quality fixes.
+    - UK policy "General" section renamed to "Snapshot" and clock icon added.
+    - UK policy section "Miscellaneous" icon added.
+  date: 2022-02-18 00:00:00
+- bump: minor
+  changes:
+    added:
+    - Affordable Connectivity Program and Emergency Broadband Benefit to US household
+      calculator.
+    - Rural flag to calculate Lifeline's rural Tribal supplement.
+    changed:
+    - Split out free and reduced price school meals.
+  date: 2022-02-21 00:00:00
+- bump: patch
+  changes:
+    added:
+    - Disclaimer to the household impact page.
+    changed:
+    - 'US household entry page: split up household inputs into benefits/expenses and
+      geography.'
+    - Shortened UK impact button text.
+  date: 2022-02-23 00:00:00
+- bump: patch
+  changes:
+    changed:
+    - Reorganized PolicyEngine US input variable hierarchy.
+  date: 2022-02-27 00:00:00
+- bump: minor
+  changes:
+    added:
+    - Deep poverty.
+  date: 2022-02-28 00:00:00
+- bump: patch
+  changes:
+    changed:
+    - Hides legend from household charts when user has not provided a reform.
+    - Edits y axis title on decile chart and refactors decile chart.
+  date: 2022-02-28 00:00:01
+- bump: patch
+  changes:
+    changed:
+    - OpenFisca-UK bumped to 0.13.0.
+    - Numeric parameters now round to the nearest 0.01 (previously 1).
+    fixed:
+    - A bug preventing AutoUBI from functioning.
+    - A bug causing boolean parameter switches to not revert properly.
+    - A bug causing the MTR chart to always say "MTR remains at ...".
+  date: 2022-03-01 00:00:00
+- bump: minor
+  changes:
+    added:
+    - Baseline and reformed values to hovercards.
+  date: 2022-03-03 00:00:00
+- bump: minor
+  changes:
+    added:
+    - Social Security inputs to US app.
+    changed:
+    - Moved personal benefits into their own section.
+    - Moved SSI from household to personal.
+  date: 2022-03-04 00:00:00
+- bump: patch
+  changes:
+    changed:
+    - Update OpenFisca US for variable label changes.
+  date: 2022-03-04 00:00:01
+- bump: patch
+  changes:
+    added:
+    - US FAQ.
+    changed:
+    - Update OpenFisca UK to use new weights.
+    - Update OpenFisca US to capture Social Security taxability.
+    - Update UK FAQ.
+  date: 2022-03-07 00:00:00
+- bump: patch
+  changes:
+    added:
+    - UK income tax rate reform pensioner exemption switch.
+    fixed:
+    - AutoUBI now calculates correct UBI amounts.
+  date: 2022-03-08 00:00:00
+- bump: patch
+  changes:
+    fixed:
+    - US state code switch disabled and a tooltip added.
+    - Updates 2021 references to 2022.
+  date: 2022-03-09 00:00:00
+- bump: minor
+  changes:
+    added:
+    - US income tax rates and thresholds.
+  date: 2022-03-09 00:00:01
+- bump: minor
+  changes:
+    changed:
+    - Household entry page now opts for "Single"/"Married" instead of the number of
+      adults.
+  date: 2022-03-09 00:00:02
+- bump: patch
+  changes:
+    fixed:
+    - US policy page broke when selecting IRS parameters.
+  date: 2022-03-10 00:00:00
+- bump: patch
+  changes:
+    added:
+    - YAML-based changelog.
+  date: 2022-03-11 13:14:28
+- bump: patch
+  changes:
+    fixed:
+    - Bugs relating to changelog features.
+  date: 2022-03-11 13:35:34
+- bump: patch
+  changes:
+    fixed:
+    - PR action now previews changelog updates.
+  date: 2022-03-11 15:19:49

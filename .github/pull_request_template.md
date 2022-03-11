@@ -2,6 +2,8 @@
 
 Short description of the changes made.
 
+- [ ] Added a new entry to `changelog.yaml` (undated).
+
 ### Status
 - [ ] Cosmetic change
   - [ ] Screenshots attached
@@ -14,3 +16,4 @@ Short description of the changes made.
 
 ### Issues fixed
 
+List any issues fixed here.
