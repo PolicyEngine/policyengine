@@ -17,6 +17,7 @@ jobs:
           options: ". -l 79 --check"
   test:
     name: Test and Deploy
+    needs: publish
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
