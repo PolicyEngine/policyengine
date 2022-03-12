@@ -382,3 +382,7 @@
     fixed:
     - PR action now previews changelog updates.
   date: 2022-03-11 15:19:49
+- bump: patch
+  changes:
+    fixed:
+    - Update inequality chart's hover cards to include baseline and reform values
