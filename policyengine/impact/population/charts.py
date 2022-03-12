@@ -619,9 +619,17 @@ def inequality_chart(
             ),
         )
         + "</b><br> from "
-        + df.Baseline.map("{:.1%}".format).astype(str)
+        + np.where(
+            df.Metric == "Gini index",
+            df.Baseline.map("{:.3}".format).astype(str),
+            df.Baseline.map("{:.1%}".format).astype(str),
+        )
         + " to "
-        + df.Reform.map("{:.1%}".format).astype(str)
+        + np.where(
+            df.Metric == "Gini index",
+            df.Reform.map("{:.3}".format).astype(str),
+            df.Reform.map("{:.1%}".format).astype(str),
+        )
     )
     fig = (
         px.bar(df, x="Metric", y="Percent change", custom_data=["label"])
