@@ -593,11 +593,22 @@ def inequality_chart(
                 top_ten_pct_share_change,
                 top_one_pct_share_change,
             ],
+            "Baseline": [
+                baseline_gini,
+                baseline_top_ten_pct_share,
+                baseline_top_one_pct_share,
+            ],
+            "Reform": [
+                reform_gini,
+                reform_top_ten_pct_share,
+                reform_top_one_pct_share,
+            ],
         }
     )
     df["pct_change_str"] = df["Percent change"].abs().map("{:.1%}".format)
     df["label"] = (
-        df.Metric
+        "<b>"
+        + df.Metric
         + " "
         + np.where(
             df.pct_change_str == "0.0%",
@@ -606,6 +617,18 @@ def inequality_chart(
                 np.where(df["Percent change"] < 0, "falls ", "rises ")
                 + df.pct_change_str.astype(str)
             ),
+        )
+        + "</b><br> from "
+        + np.where(
+            df.Metric == "Gini index",
+            df.Baseline.map("{:.3}".format).astype(str),
+            df.Baseline.map("{:.1%}".format).astype(str),
+        )
+        + " to "
+        + np.where(
+            df.Metric == "Gini index",
+            df.Reform.map("{:.3}".format).astype(str),
+            df.Reform.map("{:.1%}".format).astype(str),
         )
     )
     fig = (
