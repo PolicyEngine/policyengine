@@ -397,3 +397,7 @@
     changed:
     - Fix policy summary to 50% vertical height.
   date: 2022-03-14 13:06:55
+- bump: minor
+  changes:
+    added:
+    - Earnings variation charts for the US.

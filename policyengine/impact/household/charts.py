@@ -334,7 +334,7 @@ def mtr_chart(
         xaxis_tickprefix="£",
         yaxis_tickformat=",.0%",
         yaxis_title="Marginal tax rate",
-        yaxis_range=(0, 1),
+        yaxis_range=(min(0, np.floor(df["Reform"].min() * 10) / 10), 1),
         legend_title=None,
     )
     # Hide legend if there's no reform.

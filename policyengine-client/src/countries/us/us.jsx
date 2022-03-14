@@ -40,7 +40,7 @@ export class US extends Country {
     showPolicy = true
     showPopulationImpact = false
     showHousehold = true
-    showEarningsVariation = false
+    showEarningsVariation = true
     showFAQ = true
     // Vanity URLs
     namedPolicies = {}
