@@ -392,6 +392,11 @@
     fixed:
     - Font issues when users don't have the fonts installed.
   date: 2022-03-13 20:46:24
+- bump: patch
+  changes:
+    changed:
+    - Fix policy summary to 50% vertical height.
+  date: 2022-03-14 13:06:55
 - bump: minor
   changes:
     added:
