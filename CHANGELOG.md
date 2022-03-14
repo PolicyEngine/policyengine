@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.22.7] - 2022-03-14 13:06:55
+
+### Changed
+
+- Fix policy summary to 50% vertical height.
+
 ## [1.22.6] - 2022-03-13 20:46:24
 
 ### Fixed
@@ -479,6 +485,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.22.7]: https://github.com/PolicyEngine/policyengine/compare/1.22.6...1.22.7
 [1.22.6]: https://github.com/PolicyEngine/policyengine/compare/1.22.5...1.22.6
 [1.22.5]: https://github.com/PolicyEngine/policyengine/compare/1.22.4...1.22.5
 [1.22.4]: https://github.com/PolicyEngine/policyengine/compare/1.22.3...1.22.4
