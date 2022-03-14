@@ -1,4 +1,4 @@
-import { Affix, Pagination, Steps, Divider, Empty, Button, message } from "antd";
+import { Pagination, Steps, Divider, Empty, Button, message } from "antd";
 import { LinkOutlined, TwitterOutlined } from "@ant-design/icons";
 import { TwitterShareButton } from "react-share";
 import React, { useContext, useState } from "react";
@@ -33,15 +33,13 @@ export function OverviewHolder(props) {
 				{props.children}
 			</div>
 			<div className="d-none d-lg-block">
-				<Affix offsetTop={55}>
-					{props.children}
-				</Affix>
+				{props.children}
 			</div>
 		</>
 	);
 }
 
-export function PolicyOverview(props) {
+export function PolicyOverview() {
     const country = useContext(CountryContext);
 	const plan = Object.values(country.policy).map(generateStepFromParameter).filter(step => step != null);
 	const isEmpty = plan.length === 0;
@@ -67,7 +65,6 @@ export function PolicyOverview(props) {
 					</> :
 					<Empty description="No plan provided" />
 				}
-				<SharePolicyLinks page={props.page}/>
 		</>
 	);
 }
