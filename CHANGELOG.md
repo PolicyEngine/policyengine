@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.23.1] - 2022-03-15 19:07:08
+
+### Fixed
+
+- A bug in which adding a spouse would not correctly add their age.
+
 ## [1.23.0] - 2022-03-14 16:11:04
 
 ### Added
@@ -491,6 +497,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.23.1]: https://github.com/PolicyEngine/policyengine/compare/1.23.0...1.23.1
 [1.23.0]: https://github.com/PolicyEngine/policyengine/compare/1.22.7...1.23.0
 [1.22.7]: https://github.com/PolicyEngine/policyengine/compare/1.22.6...1.22.7
 [1.22.6]: https://github.com/PolicyEngine/policyengine/compare/1.22.5...1.22.6
