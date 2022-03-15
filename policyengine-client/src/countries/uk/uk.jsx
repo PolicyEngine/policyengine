@@ -525,10 +525,10 @@ export class UK extends Country {
 
     addPartner(situation) {
         situation.people["Your spouse"] = {
-            "age": { "2021": 25 },
+            "age": { "2022": 25 },
         };
         situation.benunits["Your family"].adults.push("Your spouse");
-        situation.benunits["Your family"]["is_married"]["2021"] = true;
+        situation.benunits["Your family"]["is_married"]["2022"] = true;
         situation.households["Your household"].adults.push("Your spouse");
         return this.validateSituation(situation).situation;
     }
@@ -559,7 +559,7 @@ export class UK extends Country {
             situation.households["Your household"].children.pop(name);
         }
         if(name === "Your spouse") {
-            situation["families"]["Your family"]["is_married"]["2022"] = false;
+            situation.benunits["Your family"]["is_married"]["2022"] = false;
         }
         delete situation.people[name];
         return this.validateSituation(situation).situation;
