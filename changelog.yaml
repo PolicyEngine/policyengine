@@ -402,3 +402,7 @@
     added:
     - Earnings variation charts for the US.
   date: 2022-03-14 16:11:04
+- bump: patch
+  changes:
+    fixed:
+    - A bug in which adding a spouse would not correctly add their age.
