@@ -407,3 +407,9 @@
     fixed:
     - A bug in which adding a spouse would not correctly add their age.
   date: 2022-03-15 19:07:08
+- bump: patch
+  changes:
+    added:
+    - Debugging tools for household charts.
+    changed:
+    - OpenFisca-US bumped to 0.37.7
