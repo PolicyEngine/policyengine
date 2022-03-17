@@ -7,15 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.23.3] - 2022-03-17 12:14:12
+
+### Changed
+
+- Bump OpenFisca-US to 0.3.7.
+
 ## [1.23.2] - 2022-03-16 22:47:57
 
 ### Added
 
 - Debugging tools for household charts.
-
-### Changed
-
-- OpenFisca-US bumped to 0.37.7
 
 ## [1.23.1] - 2022-03-15 19:07:08
 
@@ -507,6 +509,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.23.3]: https://github.com/PolicyEngine/policyengine/compare/1.23.2...1.23.3
 [1.23.2]: https://github.com/PolicyEngine/policyengine/compare/1.23.1...1.23.2
 [1.23.1]: https://github.com/PolicyEngine/policyengine/compare/1.23.0...1.23.1
 [1.23.0]: https://github.com/PolicyEngine/policyengine/compare/1.22.7...1.23.0
