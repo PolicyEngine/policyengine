@@ -18,6 +18,7 @@ UK_FOLDER = Path(__file__).parent
 class UKResultsConfig(PolicyEngineResultsConfig):
     net_income_variable: str = "net_income"
     in_poverty_variable: str = "in_poverty_bhc"
+    in_deep_poverty_variable: str = "in_deep_poverty_bhc"
     household_net_income_variable: str = "household_net_income"
     equiv_household_net_income_variable: str = "equiv_household_net_income"
     child_variable: str = "is_child"

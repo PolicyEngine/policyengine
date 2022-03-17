@@ -155,11 +155,11 @@ class PolicyEngineCountry:
         )
         situation = create_situation(params["household"])
         baseline = situation(
-            self.IndividualSim(reform_config["baseline"]["reform"], 2021)
+            self.IndividualSim(reform_config["baseline"]["reform"], 2022)
         )
         if len(params.keys()) - 1 > 0:
             reformed = situation(
-                self.IndividualSim(reform_config["reform"]["reform"], 2021)
+                self.IndividualSim(reform_config["reform"]["reform"], 2022)
             )
         else:
             reformed = baseline
@@ -175,7 +175,10 @@ class PolicyEngineCountry:
             rel_decile_chart=rel_decile_chart,
             avg_decile_chart=avg_decile_chart,
             poverty_chart=poverty_chart(
-                baseline, reformed, self.results_config
+                baseline, reformed, False, self.results_config
+            ),
+            deep_poverty_chart=poverty_chart(
+                baseline, reformed, True, self.results_config
             ),
             waterfall_chart=population_waterfall_chart(
                 baseline, reformed, self.results_config

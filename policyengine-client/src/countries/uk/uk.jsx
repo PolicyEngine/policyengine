@@ -6,6 +6,8 @@ import UBICenterLogo from "../../images/ubicenter.png"
 import UKLogo from "../../images/uk.png";
 import GreenPartyLogo from "../../images/green.png";
 import SMFLogo from "../../images/smf.png";
+import ClockLogo from "../../images/clock.png";
+import MiscLogo from "../../images/misc.png";
 import Country from "../country";
 import AutoUBI from "./components/autoUBI";
 import ExtraBand from "./components/extraBand";
@@ -82,7 +84,7 @@ export class UK extends Country {
         },
     }
     parameterHierarchy = {
-        "General": [
+        "Snapshot": [
             "timeTravel",
         ],
         "Tax": {
@@ -255,6 +257,7 @@ export class UK extends Country {
         "Miscellaneous": {
             "Tax ": [
                 "exempt_seniors_from_PA_reforms",
+                "contrib_ubi_center_basic_income_exempt_pensioners_from_tax_changes",
             ]
         }
     }
@@ -262,6 +265,9 @@ export class UK extends Country {
     ]
     defaultSelectedParameterGroup = "/Tax/Income Tax/Labour income"
     organisations = {
+        "Snapshot": {
+            logo: ClockLogo,
+        },
         "UBI Center": {
             logo: UBICenterLogo,
         },
@@ -276,7 +282,10 @@ export class UK extends Country {
         },
         "Social Market Foundation": {
             logo: SMFLogo,
-        }
+        },
+        "Miscellaneous": {
+            logo: MiscLogo,
+        },
     }
     // OpenFisca data
     parameters = null
@@ -300,14 +309,14 @@ export class UK extends Country {
     situation = {
         "people": {
             "You": {
-                "age": { "2021": 25 }
+                "age": { "2022": 25 }
             },
         },
         "benunits": {
             "Your family": {
                 "adults": ["You"],
                 "children": [],
-                "claims_all_entitled_benefits": { "2021": true },
+                "claims_all_entitled_benefits": { "2022": true },
             }
         },
         "households": {
@@ -504,19 +513,30 @@ export class UK extends Country {
         }
     }
 
+    householdMaritalOptions = ["Single", "Married"]
+
+    getHouseholdMaritalStatus() {
+        return this.getNumAdults() > 1 ? "Married" : "Single";
+    }
+
+    setHouseholdMaritalStatus(status) {
+        this.setNumAdults(status === "Single" ? 1 : 2);
+    }
+
     addPartner(situation) {
-        situation.people["Your partner"] = {
-            "age": { "2021": 25 },
+        situation.people["Your spouse"] = {
+            "age": { "2022": 25 },
         };
-        situation.benunits["Your family"].adults.push("Your partner");
-        situation.households["Your household"].adults.push("Your partner");
+        situation.benunits["Your family"].adults.push("Your spouse");
+        situation.benunits["Your family"]["is_married"]["2022"] = true;
+        situation.households["Your household"].adults.push("Your spouse");
         return this.validateSituation(situation).situation;
     }
 
     addChild(situation) {
         const childName = childNamer[situation.benunits["Your family"].children.length + 1];
         situation.people[childName] = {
-            "age": { "2021": 10 },
+            "age": { "2022": 10 },
         };
         situation.benunits["Your family"].children.push(childName);
         situation.households["Your household"].children.push(childName);
@@ -538,6 +558,9 @@ export class UK extends Country {
         if (situation.households["Your household"].children.includes(name)) {
             situation.households["Your household"].children.pop(name);
         }
+        if(name === "Your spouse") {
+            situation.benunits["Your family"]["is_married"]["2022"] = false;
+        }
         delete situation.people[name];
         return this.validateSituation(situation).situation;
     }
@@ -548,7 +571,7 @@ export class UK extends Country {
         if (numExistingAdults === 1 && numAdults === 2) {
             situation = this.addPartner(situation);
         } else if (numExistingAdults === 2 && numAdults === 1) {
-            situation = this.removePerson(situation, "Your partner");
+            situation = this.removePerson(situation, "Your spouse");
         }
         situation.states.state.citizens = Object.keys(situation.people);
         this.setState({

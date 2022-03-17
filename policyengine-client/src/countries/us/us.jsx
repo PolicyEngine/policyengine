@@ -40,13 +40,19 @@ export class US extends Country {
     showPolicy = true
     showPopulationImpact = false
     showHousehold = true
-    showEarningsVariation = false
+    showEarningsVariation = true
     showFAQ = true
     // Vanity URLs
     namedPolicies = {}
     validatePolicy = validatePolicy;
     // Policy page metadata
     parameterHierarchy = {
+        "IRS": {
+            "Income tax schedule": [
+                "irs_income_bracket_rates",
+                "irs_income_bracket_thresholds",
+            ]
+        },
         "SNAP": {
             "Eligibility": [
                 "snap_gross_income_limit_standard",
@@ -75,10 +81,16 @@ export class US extends Country {
             ],
             "Benefit": [
                 "lifeline_amount",
+                "lifeline_rural_tribal_supplement",
             ]
+        },
+        "Affordable Connectivity Program": {
+            "Eligibility": [
+                "acp_income_fpl_limit",
+            ],
         }
     }
-    defaultOpenParameterGroups = ["/SNAP", "/School meals"];
+    defaultOpenParameterGroups = ["/SNAP"];
     defaultSelectedParameterGroup = "/SNAP/Eligibility"
     organisations = {}
     // OpenFisca data
@@ -122,8 +134,12 @@ export class US extends Country {
         "interest_income",
         "gi_cash_assistance",
         "medical_out_of_pocket_expenses",
-        "ssdi",
+        "social_security_dependents",
+        "social_security_disability",
+        "social_security_retirement",
+        "social_security_survivors",
         "is_ssi_disabled",
+        "ssi",
         "is_permanently_disabled_veteran",
         "is_surviving_spouse_of_disabled_veteran",
         "is_surviving_child_of_disabled_veteran",
@@ -134,7 +150,6 @@ export class US extends Country {
         "is_wic_at_nutritional_risk",
         "ca_cvrp_vehicle_rebate_amount",
         // SPM unit.
-        "ssi",
         "housing_cost",
         "childcare_expenses",
         "fdpir",
@@ -142,9 +157,9 @@ export class US extends Country {
         "broadband_cost",
         // Household.
         "state_code",
+        "is_on_tribal_land",
+        "is_rural",
         "is_homeless",
-        // SPM unit
-        "spm_unit_state_tax",
     ]
     outputVariables = [
         // Top level.
@@ -160,10 +175,13 @@ export class US extends Country {
         "interest_income",
         // Third level - spm_unit_benefits.
         "snap",
-        "school_meal_subsidy",
+        "free_school_meals",
+        "reduced_price_school_meals",
         "ssi",
-        "ssdi",
+        "social_security",
         "lifeline",
+        "ebb",
+        "acp",
         "ca_cvrp",
         "wic",
         // Third level - spm_unit_taxes.
@@ -173,45 +191,69 @@ export class US extends Country {
         "snap_emergency_allotment",
     ]
     inputVariableHierarchy = {
-        "General": [
-            "setup",
-        ],
-        "Personal": [
-            "age",
-            "employment_income",
-            "self_employment_income",
-            "dividend_income",
-            "interest_income",
-            "gi_cash_assistance",
-            "medical_out_of_pocket_expenses",
-            "is_in_school",
-            "ssdi",
-            "is_ssi_disabled",
-            "is_permanently_disabled_veteran",
-            "is_surviving_spouse_of_disabled_veteran",
-            "is_surviving_child_of_disabled_veteran",
-            "is_mother",
-            "is_pregnant",
-            "is_breastfeeding",
-            "is_wic_at_nutritional_risk",
-            "ca_cvrp_vehicle_rebate_amount",
-        ],
-        "SPM unit": [
-            "ssi",
-            "housing_cost",
-            "childcare_expenses",
-            "fdpir",
-            "spm_unit_state_tax",
-            "phone_cost",
-            "broadband_cost",
-        ],
-        "Household": [
-            "state_code",
-            "is_homeless",
-        ]
+        "Household": {
+            "People": [
+                "setup",
+            ],
+            "Location": [
+                "state_code",
+                "is_on_tribal_land",
+                "is_rural",
+                "is_homeless",
+            ],
+            "Expenses": [
+                "housing_cost",
+                "childcare_expenses",
+                "phone_cost",
+                "broadband_cost",
+            ],
+            "Benefits": [
+                "fdpir",
+            ],
+        },
+        "People": {
+            "Income": [
+                "employment_income",
+                "self_employment_income",
+                "dividend_income",
+                "interest_income",
+                "gi_cash_assistance",
+            ],
+            "Benefits": [
+                "social_security_retirement",
+                "social_security_survivors",
+                "social_security_dependents",
+                "social_security_disability",
+                "ssi",
+            ],
+            "Demographics": [
+                "age",
+                "is_ssi_disabled",
+                "is_permanently_disabled_veteran",
+                "is_surviving_spouse_of_disabled_veteran",
+                "is_surviving_child_of_disabled_veteran",
+                "is_mother",
+                "is_pregnant",
+                "is_breastfeeding",
+                "is_wic_at_nutritional_risk",
+            ],
+            "Expenses": [
+                "medical_out_of_pocket_expenses",
+                "ca_cvrp_vehicle_rebate_amount",
+            ],
+        }
     }
-    defaultOpenVariableGroups = []
-    defaultSelectedVariableGroup = "/General"
+    extraVariableMetadata = {
+        "state_code": {
+            "disabled": true,
+            "tooltip": "PolicyEngine currently only calculates benefits for California.",
+        }
+    }
+    defaultOpenVariableGroups = [
+        "/Household",
+        "/People"
+    ]
+    defaultSelectedVariableGroup = "/Household/People"
     outputVariableHierarchy = {
         "spm_unit_net_income": {
             "add": [
@@ -235,11 +277,14 @@ export class US extends Country {
         "spm_unit_benefits": {
             "add": [
                 "snap",
-                "school_meal_subsidy",
+                "free_school_meals",
+                "reduced_price_school_meals",
                 "lifeline",
+                "ebb",
+                "acp",
                 "ca_cvrp",
                 "ssi",
-                "ssdi",
+                "social_security",
                 "wic",
             ],
             "subtract": []
@@ -248,7 +293,6 @@ export class US extends Country {
             "add": [
                 "spm_unit_fica",
                 "spm_unit_federal_tax",
-                "spm_unit_state_tax",
             ],
             "subtract": []
         },
@@ -261,11 +305,21 @@ export class US extends Country {
         }
     }
 
+    householdMaritalOptions = ["Single", "Married"]
+
+    getHouseholdMaritalStatus() {
+        return this.getNumAdults() > 1 ? "Married" : "Single";
+    }
+
+    setHouseholdMaritalStatus(status) {
+        this.setNumAdults(status === "Single" ? 1 : 2);
+    }
+
 
     addPartner(situation) {
-        const name = "Your partner"
+        const name = "Your spouse"
         situation.people[name] = {
-            "age": { "2021": 25 },
+            "age": { "2022": 25 },
         };
         situation.families["Your family"].members.push(name);
         situation.tax_units["Your tax unit"].members.push(name);
@@ -277,8 +331,8 @@ export class US extends Country {
     addChild(situation) {
         const childName = childNamer[this.getNumChildren() + 1];
         situation.people[childName] = {
-            "age": { "2021": 10 },
-            "is_in_school": { "2021": true },
+            "age": { "2022": 10 },
+            "is_in_school": { "2022": true },
         };
         situation.families["Your family"].members.push(childName);
         situation.tax_units["Your tax unit"].members.push(childName);
@@ -295,6 +349,9 @@ export class US extends Country {
                 }
             }
         }
+        if(name === "Your spouse") {
+            situation["families"]["Your family"]["is_married"]["2022"] = false;
+        }
         delete situation.people[name];
         return this.validateSituation(situation).situation;
     }
@@ -305,7 +362,7 @@ export class US extends Country {
         if (numExistingAdults === 1 && numAdults === 2) {
             situation = this.addPartner(situation);
         } else if (numExistingAdults === 2 && numAdults === 1) {
-            situation = this.removePerson(situation, "Your partner");
+            situation = this.removePerson(situation, "Your spouse");
         }
 
         this.setState({
@@ -318,7 +375,7 @@ export class US extends Country {
 
     getNumAdults() {
         return this.situation.households["Your household"].members.filter(
-            name => this.situation.people[name].age["2021"] >= 18
+            name => this.situation.people[name].age["2022"] >= 18
         ).length;
     }
 
@@ -345,7 +402,7 @@ export class US extends Country {
 
     getNumChildren() {
         return this.situation.households["Your household"].members.filter(
-            name => this.situation.people[name].age["2021"] < 18
+            name => this.situation.people[name].age["2022"] < 18
         ).length;
     }
 };
