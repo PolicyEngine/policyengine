@@ -102,8 +102,8 @@ export default class Country {
         });
     }
 
-    useLocalServer = true;
+    useLocalServer = false;
     usePolicyEngineOrgServer = false;
 }
 
-export const CountryContext = createContext(null);
+export const CountryContext = createContext({name: "uk"});
