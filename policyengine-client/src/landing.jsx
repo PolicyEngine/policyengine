@@ -1,17 +1,22 @@
 import React from "react";
-import { Header } from "./policyengine/header";
 import { PolicyEngineWrapper } from "./policyengine/layout/general";
 import { Row, Col, Container } from "react-bootstrap";
-import { Card, Divider } from "antd";
+import { Card, Divider as DefaultDivider, Tag } from "antd";
 
 import UKFadedBlue from "./images/uk_faded_blue.png";
 import USFadedBlue from "./images/us_faded_blue.png";
 import { Footer } from "./policyengine/footer";
+import { Header } from "./policyengine/header";
+
+
+function Divider(props) {
+    return <DefaultDivider {...props} style={{marginTop: 50, marginBottom: 50}} />
+}
 
 export default function LandingPage() {
     return (
         <PolicyEngineWrapper>
-            <Header noTabs />
+            <Header noTabs/>
             <Container>
                 <LandingPageContent />
             </Container>
@@ -20,7 +25,7 @@ export default function LandingPage() {
 }
 
 function Subheader(props) {
-    return <><Divider /><Row style={{marginTop: 30, marginBottom: 30}}>
+    return <><Divider /><Row style={{marginTop: 10, marginBottom: 10}}>
         <h2>{props.children}</h2>
         <h6>{props.subtitle}</h6>
     </Row>
@@ -46,18 +51,17 @@ function UsageBox(props) {
 
 function UsageExplanations(props) {
     return <>
-        <UsageBox title="For citizens" description="Check your eligibility for government benefits and programs. Simulate how a change in requirements could affect your household." />
-        <UsageBox title="For think tanks" description="Simulate tax-benefit reforms on the UK economy and individual households to better understand and recommend policy changes." />
-        <UsageBox title="For parties and campaigns" description="Estimate the economic oucomes of your policy proposals. Produce evidence-based talking points and refute speculative criticism of your platform." />
-        <UsageBox title="For developers" description="Allow your users to check their benefits eligibility with our API. Contribute to our work on GitHub." />
+        <UsageBox title="Citizens" description="Check your eligibility for government benefits and programs. Simulate how a change in requirements could affect your household." />
+        <UsageBox title="Think tanks" description="Simulate tax-benefit reforms on the UK economy and individual households to better understand and recommend policy changes." />
+        <UsageBox title="Parties and campaigns" description="Estimate the economic oucomes of your policy proposals. Produce evidence-based talking points and refute speculative criticism of your platform." />
+        <UsageBox title="Developers" description="Allow your users to check their benefits eligibility with our API. Contribute to our work on GitHub." />
     </>
 }
 
 function LandingPageContent() {
     return <>
         <Row>
-            <Col lg={2}></Col>
-            <Col lg={8} style={{padding: 50}}>
+            <Col lg={10} style={{paddingTop: 50}}>
                 <h4><b>PolicyEngine</b> empowers people to understand and change public policy. </h4><br /><h4>Our app lets anyone imagine reforms to the tax and benefit system and see the impact on society and their own household.</h4>
             </Col>
             <Col lg={2}></Col>
@@ -72,7 +76,7 @@ function LandingPageContent() {
                     cover={<img alt="UK" src={UKFadedBlue} />}
                     onClick={() => window.location.href = "/uk"}
                 >
-                    Explore the impact of tax-benefit reforms on UK households.
+                    <h6>Explore the impact of tax-benefit reforms on UK households, powered by our fully-featured UK microsimulation model.</h6>
                 </Card>
             </Col>
             <Col md={6}>
@@ -83,11 +87,11 @@ function LandingPageContent() {
                     cover={<img alt="US" src={USFadedBlue} />}
                     onClick={() => window.location.href = "/us"}
                 >
-                    Explore the impact of tax-benefit reforms on US households.
+                    <h6><Tag key="beta" color="#002766">BETA</Tag>Explore the impact of tax-benefit reforms on US households.</h6>
                 </Card>
             </Col>
         </Row>
-        <Divider />
+        <Subheader>Who we help</Subheader>
         <UsageExplanations />
         <Subheader subtitle="Analyses of policy reforms by the PolicyEngine team.">Commentary</Subheader>
         <MediumFeed />
@@ -120,7 +124,7 @@ class MediumFeed extends React.Component {
                 }
                     onClick={() => window.open(post.link, "_blank")}
                 >
-                    <h6>{post.title}</h6>
+                    <h5>{post.title}</h5>
                 </Card>
             </Col>
         )
