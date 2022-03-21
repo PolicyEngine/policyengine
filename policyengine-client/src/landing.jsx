@@ -69,7 +69,7 @@ function LandingPageContent() {
             </Col>
             <Col lg={2}></Col>
         </Row>
-        <Subheader></Subheader>
+        <Subheader><a href={(in_uk ? "/uk/policy" : (in_us ? "/us/household" : "/uk/policy"))}>Use the app→</a></Subheader>
         <Row>
             <Col md={(
                 outside_uk_us ?
@@ -78,15 +78,7 @@ function LandingPageContent() {
                         7 :
                         5
             )}>
-                <Card 
-                    style={{marginTop: 10}} 
-                    hoverable
-                    bordered={false}
-                    cover={<img alt="UK" src={UKFadedBlue} />}
-                    onClick={() => window.location.href = "/uk"}
-                >
-                    <h6>Explore the impact of tax-benefit reforms on UK households, powered by our fully-featured UK microsimulation model.</h6>
-                </Card>
+            <img onClick={() => window.location.href = "/uk/policy"} className="img-fluid" style={{borderRadius: 35, cursor: "pointer"}} alt="UK" src={UKFadedBlue} />
             </Col>
             <Col md={(
                 outside_uk_us ?
@@ -95,15 +87,7 @@ function LandingPageContent() {
                         7 :
                         5
             )}>
-                <Card 
-                    style={{marginTop: 10}} 
-                    hoverable
-                    bordered={false}
-                    cover={<img alt="US" src={USFadedBlue} />}
-                    onClick={() => window.location.href = "/us"}
-                >
-                    <h6>Explore the impact of tax-benefit reforms on US households.</h6>
-                </Card>
+                <img onClick={() => window.location.href = "/us/household"} className="img-fluid" style={{borderRadius: 35, cursor: "pointer"}} alt="US" src={USFadedBlue} />
             </Col>
         </Row>
         <Subheader>Who we help</Subheader>
