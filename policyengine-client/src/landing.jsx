@@ -66,7 +66,7 @@ function LandingPageContent() {
             </Col>
             <Col lg={2}></Col>
         </Row>
-        <Subheader>Our projects</Subheader>
+        <Subheader></Subheader>
         <Row>
             <Col md={6}>
                 <Card 
@@ -93,6 +93,7 @@ function LandingPageContent() {
         </Row>
         <Subheader>Who we help</Subheader>
         <UsageExplanations />
+        <Subheader subtitle={<><p>We're currently seeking funding partners, volunteer developers and policy analysts to expand our work and its impact. </p><p>Is that you? <a href="mailto:hello@policyengine.org">Get in touch.</a></p></>}></Subheader>
         <Subheader subtitle="Analyses of policy reforms by the PolicyEngine team.">Commentary</Subheader>
         <MediumFeed />
         <Footer />

@@ -17,6 +17,7 @@ import LandingPage from "./landing";
 
 import UK_FAQ from "./markdown/uk/faq.md";
 import ABOUT from "./markdown/about.md";
+import CONTACT from "./markdown/contact.md";
 // Import other markdown files here
 
 
@@ -26,6 +27,7 @@ export default function App(props) {
     const markdownPages = [
         { content: UK_FAQ, path: "/uk/faq", title: "FAQ" },
         { content: ABOUT, path: "/about", title: "About" },
+        { content: CONTACT, path: "/contact", title: "Contact" },
         // Add other pages here
     ];
     return (

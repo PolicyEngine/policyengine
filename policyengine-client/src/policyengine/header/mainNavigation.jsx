@@ -45,10 +45,23 @@ export default function MainNavigation(props) {
 	return (
 		<>
 			<Row style={{margin: 0}}>
-				<Col lg={2}>
+				<Col lg={1}>
 					<Title link={props.noTabs && "/"} />
 				</Col>
-				<Col lg={8} className="d-flex align-items-center justify-content-center" style={{paddingLeft: 25, paddingRight: 25}}>
+				<Col lg={2} className="d-flex align-items-center justify-content-center" style={{paddingLeft: 25, paddingRight: 25}}>
+					<Tabs
+						moreIcon={null} 
+						style={{paddingTop: 0, paddingBottom: 0}}
+						activeKey={history.location.pathname}
+						centered
+						onChange={history.push}
+					>
+						<TabPane tab="Home" key="/"/>
+						<TabPane tab="About" key="/about"/>
+						<TabPane tab="Contact" key="/contact"/>
+					</Tabs>
+				</Col>
+				<Col lg={7} className="d-flex align-items-center justify-content-center" style={{paddingLeft: 25, paddingRight: 25}}>
 					{middleColumn}
 				</Col>
 				<Col lg={2} className="d-none d-lg-flex align-items-center">
