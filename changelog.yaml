@@ -417,6 +417,11 @@
     changed:
     - Bump OpenFisca-US to 0.3.7.
   date: 2022-03-17 12:14:12
+- bump: patch
+  changes:
+    changed:
+    - Bump OpenFisca-Tools to 0.7.0.
+  date: 2022-03-21 14:04:55
 - bump: minor
   changes:
     added:
