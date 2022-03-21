@@ -12,7 +12,7 @@ export default function Title(props) {
     const country = useContext(CountryContext) || {};
 	const betaTag = country && (country.beta ? [<Tag key="beta" color="#002766">BETA</Tag>] : null);
 	const title = (
-        <a href={props.link || (country ? policyToURL(`/${country.name}/policy`, country.policy) : "/")}>
+        <a href={props.link || "/"}>
             <Image 
                 src={MainLogo} 
                 preview={false} 

@@ -1,7 +1,7 @@
 import React from "react";
 import { PolicyEngineWrapper } from "./policyengine/layout/general";
 import { Row, Col, Container } from "react-bootstrap";
-import { Card, Divider as DefaultDivider, Tag } from "antd";
+import { Card, Divider as DefaultDivider } from "antd";
 
 import UKFadedBlue from "./images/uk_faded_blue.png";
 import USFadedBlue from "./images/us_faded_blue.png";
@@ -42,7 +42,7 @@ function UsageBox(props) {
             <h3 style={{marginBottom: 0}}>{props.title}</h3>
         </Col>
         <Col xs={12} md={6}>
-            <p style={{marginTop: 0}}>{props.description}</p>
+            <h6 style={{marginTop: 0}}>{props.description}</h6>
         </Col>
     </Row>
 
@@ -59,6 +59,9 @@ function UsageExplanations(props) {
 }
 
 function LandingPageContent() {
+    const in_uk = window.navigator.language === "en-GB";
+    const in_us = window.navigator.language === "en-US";
+    const outside_uk_us = !in_uk && !in_us;
     return <>
         <Row>
             <Col lg={10} style={{paddingTop: 50}}>
@@ -68,7 +71,13 @@ function LandingPageContent() {
         </Row>
         <Subheader></Subheader>
         <Row>
-            <Col md={6}>
+            <Col md={(
+                outside_uk_us ?
+                    6 :
+                    in_uk ?
+                        7 :
+                        5
+            )}>
                 <Card 
                     style={{marginTop: 10}} 
                     hoverable
@@ -79,7 +88,13 @@ function LandingPageContent() {
                     <h6>Explore the impact of tax-benefit reforms on UK households, powered by our fully-featured UK microsimulation model.</h6>
                 </Card>
             </Col>
-            <Col md={6}>
+            <Col md={(
+                outside_uk_us ?
+                    6 :
+                    in_us ?
+                        7 :
+                        5
+            )}>
                 <Card 
                     style={{marginTop: 10}} 
                     hoverable
@@ -87,13 +102,13 @@ function LandingPageContent() {
                     cover={<img alt="US" src={USFadedBlue} />}
                     onClick={() => window.location.href = "/us"}
                 >
-                    <h6><Tag key="beta" color="#002766">BETA</Tag>Explore the impact of tax-benefit reforms on US households.</h6>
+                    <h6>Explore the impact of tax-benefit reforms on US households.</h6>
                 </Card>
             </Col>
         </Row>
         <Subheader>Who we help</Subheader>
         <UsageExplanations />
-        <Subheader subtitle={<><p>We're currently seeking funding partners, volunteer developers and policy analysts to expand our work and its impact. </p><p>Is that you? <a href="mailto:hello@policyengine.org">Get in touch.</a></p></>}></Subheader>
+        <Subheader subtitle={<><h6>We're currently seeking funding partners, volunteer developers and policy analysts to expand our work and its impact. </h6><h6>Is that you? <a href="mailto:hello@policyengine.org">Get in touch.</a></h6></>}></Subheader>
         <Subheader subtitle="Analyses of policy reforms by the PolicyEngine team.">Commentary</Subheader>
         <MediumFeed />
         <Footer />

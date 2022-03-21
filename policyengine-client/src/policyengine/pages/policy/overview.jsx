@@ -63,7 +63,7 @@ export function PolicyOverview() {
 								/>
 							}
 					</> :
-					<Empty description="No plan provided" />
+					<Empty description="You haven't created a reform yet." />
 				}
 		</>
 	);

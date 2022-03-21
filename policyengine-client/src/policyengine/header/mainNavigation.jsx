@@ -2,7 +2,7 @@
  * Components for the main tab-based navigation.
 */
 
-import { Tabs } from "antd";
+import { Button, Tabs } from "antd";
 import { useHistory } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import { policyToURL } from "../tools/url";
@@ -54,11 +54,11 @@ export default function MainNavigation(props) {
 						style={{paddingTop: 0, paddingBottom: 0}}
 						activeKey={history.location.pathname}
 						centered
-						onChange={history.push}
+						onChange={key => key !== "/donate" && history.push(key)}
 					>
 						<TabPane tab="Home" key="/"/>
 						<TabPane tab="About" key="/about"/>
-						<TabPane tab="Contact" key="/contact"/>
+						<TabPane tab={<Button ghost onClick={() => window.open("https://opencollective.com/psl", "_blank")}>Donate</Button>} key="/donate"/>
 					</Tabs>
 				</Col>
 				<Col lg={7} className="d-flex align-items-center justify-content-center" style={{paddingLeft: 25, paddingRight: 25}}>
