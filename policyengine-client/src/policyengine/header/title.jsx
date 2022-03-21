@@ -6,7 +6,6 @@ import { Tag, PageHeader, Image } from "antd";
 import { useContext } from "react";
 import { CountryContext } from "../../countries";
 import MainLogo from "../../images/title_logo.png";
-import { policyToURL } from "../tools/url";
 
 export default function Title(props) {
     const country = useContext(CountryContext) || {};
