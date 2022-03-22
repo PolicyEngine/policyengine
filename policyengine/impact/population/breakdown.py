@@ -164,7 +164,7 @@ def get_breakdown_and_chart_per_provision(
             title="Change in net income by decile",
             color_discrete_map=colour_map,
         ).update_layout(
-            yaxis_tickprefix="£",
+            yaxis_tickprefix=config.currency,
             yaxis_tickformat=",",
             xaxis_tickvals=list(range(1, 11)),
         )
