@@ -108,6 +108,7 @@ def budget_chart(
             x[config.tax_variable + "_reform"],
             x[config.benefit_variable + "_baseline"],
             x[config.benefit_variable + "_reform"],
+            config,
         ),
         axis=1,
     )
@@ -130,8 +131,8 @@ def budget_chart(
         title="Net income by employment income",
         xaxis_title="Employment income",
         yaxis_title="Household net income",
-        yaxis_tickprefix="£",
-        xaxis_tickprefix="£",
+        yaxis_tickprefix=config.currency,
+        xaxis_tickprefix=config.currency,
         legend_title=None,
     )
     # Hide legend if there's no reform.
@@ -179,9 +180,10 @@ def budget_hover_label(
     tax_reform,
     benefits_baseline,
     benefits_reform,
+    config: Type[PolicyEngineResultsConfig],
 ) -> str:
     def formatter(x):
-        return f"£{round(x):,}"
+        return f"{config.currency}{round(x):,}"
 
     earnings_str = formatter(earnings)
     budget_change = describe_change(
@@ -207,8 +209,9 @@ def mtr_hover_label(
     tax_reform,
     benefits_baseline,
     benefits_reform,
+    config: Type[PolicyEngineResultsConfig],
 ) -> str:
-    earnings_str = f"£{round(earnings):,}"
+    earnings_str = f"{config.currency}{round(earnings):,}"
 
     def pct_formatter(x):
         return str(round(x * 100)) + "%"
@@ -332,6 +335,7 @@ def mtr_chart(
             x.tax_reform,
             x.benefits_baseline,
             x.benefits_reform,
+            config,
         ),
         axis=1,
     )
@@ -354,7 +358,7 @@ def mtr_chart(
     fig.update_layout(
         title="Marginal tax rate by employment income",
         xaxis_title="Employment income",
-        xaxis_tickprefix="£",
+        xaxis_tickprefix=config.currency,
         yaxis_tickformat=",.1%",
         yaxis_title="Marginal tax rate",
         yaxis_range=(min(0, np.floor(df["Reform"].min() * 10) / 10), 1),
