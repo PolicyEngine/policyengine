@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.23.5] - 2022-03-22 14:38:23
+
+### Fixed
+
+- US pages use the USD currency in charts and hover labels.
+
 ## [1.23.4] - 2022-03-21 14:04:55
 
 ### Changed
@@ -515,6 +521,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.23.5]: https://github.com/PolicyEngine/policyengine/compare/1.23.4...1.23.5
 [1.23.4]: https://github.com/PolicyEngine/policyengine/compare/1.23.3...1.23.4
 [1.23.3]: https://github.com/PolicyEngine/policyengine/compare/1.23.2...1.23.3
 [1.23.2]: https://github.com/PolicyEngine/policyengine/compare/1.23.1...1.23.2
