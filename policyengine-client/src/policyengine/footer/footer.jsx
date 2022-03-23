@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { CountryContext } from "../../countries";
 
 
-export default function Footer() {
+export default function Footer(props) {
 	const country = useContext(CountryContext);
 	return (
 		<div style={{ paddingBottom: 25 }}>

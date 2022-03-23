@@ -106,4 +106,4 @@ export default class Country {
     usePolicyEngineOrgServer = false;
 }
 
-export const CountryContext = createContext(null);
+export const CountryContext = createContext({name: "uk"});

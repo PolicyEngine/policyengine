@@ -2,7 +2,7 @@
  * Components for the main tab-based navigation.
 */
 
-import { Tabs } from "antd";
+import { Button, Tabs } from "antd";
 import { useHistory } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import { policyToURL } from "../tools/url";
@@ -17,7 +17,7 @@ export default function MainNavigation(props) {
 	const history = useHistory();
     const country = useContext(CountryContext);
 	let middleColumn;
-	if(props.title) {
+	if(props.title || props.noTabs) {
 		middleColumn = (
 			<Tabs 
                 activeKey={props.title} 
@@ -45,10 +45,23 @@ export default function MainNavigation(props) {
 	return (
 		<>
 			<Row style={{margin: 0}}>
-				<Col lg={2}>
-					<Title/>
+				<Col lg={1}>
+					<Title link={props.noTabs && "/"} />
 				</Col>
-				<Col lg={8} className="d-flex align-items-center justify-content-center" style={{paddingLeft: 25, paddingRight: 25}}>
+				<Col lg={2} className="d-flex align-items-center justify-content-center" style={{paddingLeft: 25, paddingRight: 25}}>
+					<Tabs
+						moreIcon={null} 
+						style={{paddingTop: 0, paddingBottom: 0}}
+						activeKey={history.location.pathname}
+						centered
+						onChange={key => key !== "/donate" && history.push(key)}
+					>
+						<TabPane tab="Home" key="/"/>
+						<TabPane tab="About" key="/about"/>
+						<TabPane tab={<Button ghost onClick={() => window.open("https://opencollective.com/psl", "_blank")}>Donate</Button>} key="/donate"/>
+					</Tabs>
+				</Col>
+				<Col lg={7} className="d-flex align-items-center justify-content-center" style={{paddingLeft: 25, paddingRight: 25}}>
 					{middleColumn}
 				</Col>
 				<Col lg={2} className="d-none d-lg-flex align-items-center">

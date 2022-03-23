@@ -6,6 +6,7 @@ import { OverviewHolder, PolicyOverview, SharePolicyLinks } from "./overview";
 import Parameter from "./parameter";
 import NavigationButton from "../../general/navigationButton";
 import { Affix } from "antd";
+import HelpButton from "../../general/help";
 
 
 export default class Policy extends React.Component {
@@ -33,6 +34,7 @@ export default class Policy extends React.Component {
 
     render() {
         return <>
+            <HelpButton />
             <Row>
                 <Col xl={3}>
                     <Menu
