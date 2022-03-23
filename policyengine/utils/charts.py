@@ -155,7 +155,12 @@ def tax_benefit_waterfall_data(
     return res
 
 
-def hover_label(component: str, amount: float, is_pop: bool) -> str:
+def hover_label(
+    component: str,
+    amount: float,
+    is_pop: bool,
+    config: Type[PolicyEngineResultsConfig],
+) -> str:
     """Create a label for an individual point in a waterfall hovercard.
 
     :param component: Name of the component, e.g. "Tax revenues".
@@ -177,7 +182,9 @@ def hover_label(component: str, amount: float, is_pop: bool) -> str:
         amount *= -1
     # Round population estimates, not individual.
     abs_amount = round(abs(amount))
-    abs_amount_display = gbp(abs_amount) if is_pop else f"£{abs_amount:,}"
+    abs_amount_display = (
+        gbp(abs_amount) if is_pop else f"{config.currency}{abs_amount:,}"
+    )
     # Branch logic, starting with no change.
     # More special handling of the net impact to match the title.
     if amount == 0:
@@ -211,7 +218,7 @@ def waterfall_chart(
     is_pop = isinstance(baseline, Microsimulation)
     data = tax_benefit_waterfall_data(baseline, reformed, config)
     data["hover"] = data.apply(
-        lambda x: hover_label(x.label, x.amount, is_pop), axis=1
+        lambda x: hover_label(x.label, x.amount, is_pop, config), axis=1
     )
     fig = px.bar(
         data,
@@ -235,7 +242,7 @@ def waterfall_chart(
     fig.update_layout(
         title="Budget breakdown",
         yaxis_title="Yearly amount",
-        yaxis_tickprefix="£",
+        yaxis_tickprefix=config.currency,
         showlegend=False,
         xaxis_title=None,
     )

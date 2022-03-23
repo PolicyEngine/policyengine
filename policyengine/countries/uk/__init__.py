@@ -30,6 +30,7 @@ class UKResultsConfig(PolicyEngineResultsConfig):
     employment_income_variable: str = "employment_income"
     self_employment_income_variable: str = "self_employment_income"
     total_income_variable: str = "total_income"
+    currency = "£"
 
 
 class UK(PolicyEngineCountry):

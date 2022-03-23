@@ -422,6 +422,11 @@
     changed:
     - Bump OpenFisca-Tools to 0.7.0.
   date: 2022-03-21 14:04:55
+- bump: patch
+  changes:
+    fixed:
+    - US pages use the USD currency in charts and hover labels.
+  date: 2022-03-22 14:38:23
 - bump: minor
   changes:
     added:
