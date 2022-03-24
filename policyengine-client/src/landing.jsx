@@ -53,8 +53,8 @@ function UsageExplanations(props) {
     return <>
         <UsageBox title="Citizens" description="Check your eligibility for government benefits and programs. Simulate how a change in requirements could affect your household." />
         <UsageBox title="Think tanks" description="Simulate tax-benefit reforms on the UK economy and individual households to better understand and recommend policy changes." />
-        <UsageBox title="Parties and campaigns" description="Estimate the economic oucomes of your policy proposals. Produce evidence-based talking points and refute speculative criticism of your platform." />
-        <UsageBox title="Developers" description="Allow your users to check their benefits eligibility with our API. Contribute to our work on GitHub." />
+        <UsageBox title="Parties and campaigns" description="Estimate the economic outcomes of your policy proposals. Produce evidence-based talking points and refute speculative criticism of your platform." />
+        <UsageBox title="Developers" description={<>Allow your users to check their benefits eligibility with our API. <a href="https://github.com/PolicyEngine">Contribute to our work on GitHub.</a></>} />
     </>
 }
 
@@ -62,6 +62,24 @@ function LandingPageContent() {
     const in_uk = window.navigator.language === "en-GB";
     const in_us = window.navigator.language === "en-US";
     const outside_uk_us = !in_uk && !in_us;
+    const ukIcon = <Col md={(
+            outside_uk_us ?
+                6 :
+                in_uk ?
+                    7 :
+                    5
+        )} style={{marginBottom: 15}}>
+        <img onClick={() => window.location.href = "/uk/policy"} className="img-fluid" style={{borderRadius: 35, cursor: "pointer"}} alt="UK" src={UKFadedBlue} />
+        </Col>;
+    const usIcon = <Col md={(
+            outside_uk_us ?
+                6 :
+                in_us ?
+                    7 :
+                    5
+        )} style={{marginBottom: 15}}>
+            <img onClick={() => window.location.href = "/us/household"} className="img-fluid" style={{borderRadius: 35, cursor: "pointer"}} alt="US" src={USFadedBlue} />
+        </Col>;
     return <>
         <Row>
             <Col lg={10} style={{paddingTop: 50}}>
@@ -71,29 +89,18 @@ function LandingPageContent() {
         </Row>
         <Subheader><a href={(in_uk ? "/uk/policy" : (in_us ? "/us/household" : "/uk/policy"))}>Use the app→</a></Subheader>
         <Row>
-            <Col md={(
+            {
                 outside_uk_us ?
-                    6 :
+                    [ukIcon, usIcon] :
                     in_uk ?
-                        7 :
-                        5
-            )}>
-            <img onClick={() => window.location.href = "/uk/policy"} className="img-fluid" style={{borderRadius: 35, cursor: "pointer"}} alt="UK" src={UKFadedBlue} />
-            </Col>
-            <Col md={(
-                outside_uk_us ?
-                    6 :
-                    in_us ?
-                        7 :
-                        5
-            )}>
-                <img onClick={() => window.location.href = "/us/household"} className="img-fluid" style={{borderRadius: 35, cursor: "pointer"}} alt="US" src={USFadedBlue} />
-            </Col>
+                        [ukIcon, usIcon] :
+                        [usIcon, ukIcon]
+            }            
         </Row>
         <Subheader>Who we help</Subheader>
         <UsageExplanations />
         <Subheader subtitle={<><h6>We're currently seeking funding partners, volunteer developers and policy analysts to expand our work and its impact. </h6><h6>Is that you? <a href="mailto:hello@policyengine.org">Get in touch.</a></h6></>}></Subheader>
-        <Subheader subtitle="Analyses of policy reforms by the PolicyEngine team.">Commentary</Subheader>
+        <Subheader subtitle="Analyses of policy reforms by the PolicyEngine team.">Blog</Subheader>
         <MediumFeed />
         <Footer />
     </>

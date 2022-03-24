@@ -319,6 +319,11 @@ class PolicyEngineCountry:
             else:
                 entity_result = result.tolist()[entity_index]
 
+            # Bug fix, unclear of the root cause
+
+            if isinstance(entity_result, list) and len(entity_result) > 2_000:
+                entity_result = {period: entity_result[-1]}
+
             dpath.util.new(computation_results, path, entity_result)
 
         dpath.util.merge(params["household"], computation_results)

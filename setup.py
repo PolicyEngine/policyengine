@@ -28,6 +28,8 @@ setup(
         "pytest",
         "dpath>=1.5.0",
         "yaml-changelog>=0.1.5",
+        "Jinja2==3.0.3",
+        "dpath<2.0.0,>=1.5.0",
     ],
     packages=find_packages(),
 )
