@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.24.1] - 2022-03-24 20:43:07
+
+### Changed
+
+- HTTP redirects to HTTPS.
+- Commentary on landing page changed to Blog.
+- Make header spacing more responsive.
+- Remove Home tab in the top menu.
+- Fix typo on landing page.
+- Set card title to PolicyEngine.
+- Link to GitHub on the landing page.
+- Add spacing in landing page and fix card ordering.
+
 ## [1.24.0] - 2022-03-23 22:20:50
 
 ### Added
@@ -528,6 +541,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.24.1]: https://github.com/PolicyEngine/policyengine/compare/1.24.0...1.24.1
 [1.24.0]: https://github.com/PolicyEngine/policyengine/compare/1.23.5...1.24.0
 [1.23.5]: https://github.com/PolicyEngine/policyengine/compare/1.23.4...1.23.5
 [1.23.4]: https://github.com/PolicyEngine/policyengine/compare/1.23.3...1.23.4
