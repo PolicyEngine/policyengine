@@ -445,3 +445,7 @@
     - Link to GitHub on the landing page.
     - Add spacing in landing page and fix card ordering.
   date: 2022-03-24 20:43:07
+- bump: patch
+  changes:
+    fixed:
+    - Ensures the docker instance upgrades pip before installing packages.
