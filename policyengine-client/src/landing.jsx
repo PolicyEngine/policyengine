@@ -54,7 +54,7 @@ function UsageExplanations(props) {
         <UsageBox title="Citizens" description="Check your eligibility for government benefits and programs. Simulate how a change in requirements could affect your household." />
         <UsageBox title="Think tanks" description="Simulate tax-benefit reforms on the UK economy and individual households to better understand and recommend policy changes." />
         <UsageBox title="Parties and campaigns" description="Estimate the economic outcomes of your policy proposals. Produce evidence-based talking points and refute speculative criticism of your platform." />
-        <UsageBox title="Developers" description="Allow your users to check their benefits eligibility with our API. Contribute to our work on GitHub." />
+        <UsageBox title="Developers" description={<>Allow your users to check their benefits eligibility with our API. <a href="https://github.com/PolicyEngine">Contribute to our work on GitHub.</a></>} />
     </>
 }
 
