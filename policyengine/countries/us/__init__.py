@@ -12,6 +12,7 @@ class USResultsConfig(PolicyEngineResultsConfig):
     employment_income_variable: str = "employment_income"
     self_employment_income_variable: str = "self_employment_income"
     total_income_variable: str = "spm_unit_market_income"
+    currency = "$"
 
 
 class US(PolicyEngineCountry):

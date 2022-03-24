@@ -7,6 +7,61 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.24.0] - 2022-03-23 22:20:50
+
+### Added
+
+- Landing page.
+- Help icon which launches a walkthrough.
+
+## [1.23.5] - 2022-03-22 14:38:23
+
+### Fixed
+
+- US pages use the USD currency in charts and hover labels.
+
+## [1.23.4] - 2022-03-21 14:04:55
+
+### Changed
+
+- Bump OpenFisca-Tools to 0.7.0.
+
+## [1.23.3] - 2022-03-17 12:14:12
+
+### Changed
+
+- Bump OpenFisca-US to 0.3.7.
+
+## [1.23.2] - 2022-03-16 22:47:57
+
+### Added
+
+- Debugging tools for household charts.
+
+## [1.23.1] - 2022-03-15 19:07:08
+
+### Fixed
+
+- A bug in which adding a spouse would not correctly add their age.
+
+## [1.23.0] - 2022-03-14 16:11:04
+
+### Added
+
+- Earnings variation charts for the US.
+
+## [1.22.7] - 2022-03-14 13:06:55
+
+### Changed
+
+- Fix policy summary to 50% vertical height.
+
+## [1.22.6] - 2022-03-13 20:46:24
+
+### Fixed
+
+- Font issues when users don't have the fonts installed.
+
 ## [1.22.5] - 2022-03-13 02:57:09
 
 ### Fixed
@@ -473,6 +528,15 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.24.0]: https://github.com/PolicyEngine/policyengine/compare/1.23.5...1.24.0
+[1.23.5]: https://github.com/PolicyEngine/policyengine/compare/1.23.4...1.23.5
+[1.23.4]: https://github.com/PolicyEngine/policyengine/compare/1.23.3...1.23.4
+[1.23.3]: https://github.com/PolicyEngine/policyengine/compare/1.23.2...1.23.3
+[1.23.2]: https://github.com/PolicyEngine/policyengine/compare/1.23.1...1.23.2
+[1.23.1]: https://github.com/PolicyEngine/policyengine/compare/1.23.0...1.23.1
+[1.23.0]: https://github.com/PolicyEngine/policyengine/compare/1.22.7...1.23.0
+[1.22.7]: https://github.com/PolicyEngine/policyengine/compare/1.22.6...1.22.7
+[1.22.6]: https://github.com/PolicyEngine/policyengine/compare/1.22.5...1.22.6
 [1.22.5]: https://github.com/PolicyEngine/policyengine/compare/1.22.4...1.22.5
 [1.22.4]: https://github.com/PolicyEngine/policyengine/compare/1.22.3...1.22.4
 [1.22.3]: https://github.com/PolicyEngine/policyengine/compare/1.22.2...1.22.3

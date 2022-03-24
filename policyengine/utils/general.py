@@ -18,6 +18,7 @@ class PolicyEngineResultsConfig:
     earnings_variable: str
     tax_variable: str
     benefit_variable: str
+    currency: str
 
 
 def dict_to_string(d: dict) -> str:

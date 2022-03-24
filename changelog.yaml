@@ -387,3 +387,49 @@
     fixed:
     - Update inequality chart's hover cards to include baseline and reform values
   date: 2022-03-13 02:57:09
+- bump: patch
+  changes:
+    fixed:
+    - Font issues when users don't have the fonts installed.
+  date: 2022-03-13 20:46:24
+- bump: patch
+  changes:
+    changed:
+    - Fix policy summary to 50% vertical height.
+  date: 2022-03-14 13:06:55
+- bump: minor
+  changes:
+    added:
+    - Earnings variation charts for the US.
+  date: 2022-03-14 16:11:04
+- bump: patch
+  changes:
+    fixed:
+    - A bug in which adding a spouse would not correctly add their age.
+  date: 2022-03-15 19:07:08
+- bump: patch
+  changes:
+    added:
+    - Debugging tools for household charts.
+  date: 2022-03-16 22:47:57
+- bump: patch
+  changes:
+    changed:
+    - Bump OpenFisca-US to 0.3.7.
+  date: 2022-03-17 12:14:12
+- bump: patch
+  changes:
+    changed:
+    - Bump OpenFisca-Tools to 0.7.0.
+  date: 2022-03-21 14:04:55
+- bump: patch
+  changes:
+    fixed:
+    - US pages use the USD currency in charts and hover labels.
+  date: 2022-03-22 14:38:23
+- bump: minor
+  changes:
+    added:
+    - Landing page.
+    - Help icon which launches a walkthrough.
+  date: 2022-03-23 22:20:50

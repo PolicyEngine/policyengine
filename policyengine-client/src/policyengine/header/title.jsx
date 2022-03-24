@@ -6,13 +6,12 @@ import { Tag, PageHeader, Image } from "antd";
 import { useContext } from "react";
 import { CountryContext } from "../../countries";
 import MainLogo from "../../images/title_logo.png";
-import { policyToURL } from "../tools/url";
 
-export default function Title() {
-    const country = useContext(CountryContext);
+export default function Title(props) {
+    const country = useContext(CountryContext) || {};
 	const betaTag = country && (country.beta ? [<Tag key="beta" color="#002766">BETA</Tag>] : null);
 	const title = (
-        <a href={country ? policyToURL(`/${country.name}/policy`, country.policy) : "/"}>
+        <a href={props.link || "/"}>
             <Image 
                 src={MainLogo} 
                 preview={false} 
@@ -23,7 +22,7 @@ export default function Title() {
         </a>
     );
 	return (
-		<div style={{minWidth: 300}}>
+		 <div style={{minWidth: 300}}>
 			<div className="d-none d-lg-flex align-items-center ">
 				<PageHeader
 					title={title}

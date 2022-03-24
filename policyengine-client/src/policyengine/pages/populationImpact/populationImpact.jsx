@@ -1,4 +1,4 @@
-import { Divider, Radio, Empty } from "antd";
+import { Divider, Radio, Empty, Affix } from "antd";
 import { ArrowLeftOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { Row, Col } from "react-bootstrap";
 import React from "react";
@@ -10,7 +10,8 @@ import Centered from "../../general/centered";
 import Spinner from "../../general/spinner";
 import { useContext } from "react";
 import NavigationButton from "../../general/navigationButton";
-import { OverviewHolder, PolicyOverview } from "../policy/overview";
+import { OverviewHolder, PolicyOverview, SharePolicyLinks } from "../policy/overview";
+import HelpButton from "../../general/help";
 function PopulationResultsCaveats() {
 	return <p style={{ color: "grey" }}><ExclamationCircleOutlined />  &nbsp; &nbsp;PolicyEngine results assume no behavioural or macroeconomic effects</p>;
 }
@@ -139,7 +140,8 @@ export default class PopulationImpact extends React.Component {
 	}
 
 	render() {
-		return (
+		return <>
+			<HelpButton />
 			<Row>
 				<Col xl={1} />
 				<Col xl={8}>
@@ -153,26 +155,31 @@ export default class PopulationImpact extends React.Component {
 				</Col>
 				<Col xl={3}>
 					<OverviewHolder>
-						<PolicyOverview page="population-impact" />
-						<div className="d-block align-middle">
-							<div className="d-flex justify-content-center">
-								{this.context.showPopulationImpact &&
-									<NavigationButton
-										target="policy"
-										text={<><ArrowLeftOutlined /> Edit your policy</>}
+						<Affix offsetTop={55}>
+							<PolicyOverview />
+				        </Affix>
+						<Affix offsetTop={400}>
+							<SharePolicyLinks page="population-impact"/>
+							<div className="d-block align-middle">
+								<div className="d-flex justify-content-center">
+									{this.context.showPopulationImpact &&
+										<NavigationButton
+											target="policy"
+											text={<><ArrowLeftOutlined /> Edit your policy</>}
+										/>}
+								</div>
+								<div className="d-flex justify-content-center">
+									{this.context.showHousehold && <NavigationButton
+										target="household"
+										text="Describe your household"
+										primary={!this.context.showPopulationImpact}
 									/>}
+								</div>
 							</div>
-							<div className="d-flex justify-content-center">
-								{this.context.showHousehold && <NavigationButton
-									target="household"
-									text="Describe your household"
-									primary={!this.context.showPopulationImpact}
-								/>}
-							</div>
-						</div>
+						</Affix>
 					</OverviewHolder>
 				</Col>
 			</Row>
-		);
+		</>;
 	}
 }

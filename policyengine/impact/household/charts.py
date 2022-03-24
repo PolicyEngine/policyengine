@@ -22,6 +22,21 @@ LABELS = dict(
     employment_income="Employment income",
 )
 
+DEBUG_MODE = False
+
+DEBUG_VARIABLES = [
+    "spm_unit_fica",
+    "spm_unit_federal_tax",
+    "adjusted_gross_income",
+    "income_tax_main_rates",
+    "regular_tax_before_credits",
+    "alternative_minimum_tax",
+    "amt_income",
+    "income_tax_before_credits",
+    "income_tax_non_refundable_credits",
+    "income_tax_refundable_credits",
+]
+
 
 def budget_chart(
     baseline: IndividualSim,
@@ -60,6 +75,18 @@ def budget_chart(
         variable_values[explaining_variable + "_reform"] = reformed.calc(
             explaining_variable
         ).sum(axis=0)
+    explainer_names = []
+    if DEBUG_MODE:
+        for variable in DEBUG_VARIABLES:
+            baseline_values = baseline.calc(variable).sum(axis=0)
+            name = (
+                baseline.simulation.tax_benefit_system.variables[
+                    variable
+                ].label
+                or variable
+            )
+            explainer_names += [name]
+            variable_values[name] = baseline_values
     df = pd.DataFrame(
         {
             "Total income": baseline.calc(config.total_income_variable).sum(
@@ -76,7 +103,16 @@ def budget_chart(
     )
     df["hover"] = df.apply(
         lambda x: budget_hover_label(
-            *[getattr(x, column) for column in df.columns]
+            x["Total income"],
+            x.Baseline,
+            x.Reform,
+            x["Total income"],
+            x["Total income"],
+            x[config.tax_variable + "_baseline"],
+            x[config.tax_variable + "_reform"],
+            x[config.benefit_variable + "_baseline"],
+            x[config.benefit_variable + "_reform"],
+            config,
         ),
         axis=1,
     )
@@ -88,7 +124,11 @@ def budget_chart(
         d_title = "Difference in net income by employment income"
         y_title = "Household net income difference"
     else:
-        y_fig = ["Baseline", "Reform"] if has_reform else ["Net income"]
+        y_fig = (
+            ["Baseline", "Reform"]
+            if has_reform
+            else ["Net income"] + (explainer_names)
+        )
         d_title = "Net income by employment income"
         y_title = "Household net income"
     fig = px.line(
@@ -99,21 +139,22 @@ def budget_chart(
         color_discrete_map=COLOR_MAP,
         custom_data=["hover"],
     )
-    charts.add_zero_line(fig)
-    charts.add_custom_hovercard(fig)
+    if not DEBUG_MODE:
+        charts.add_zero_line(fig)
+        charts.add_custom_hovercard(fig)
     add_you_are_here(fig, df["Total income"][i])
     fig.update_layout(
         title=d_title,
         xaxis_title="Employment income",
         yaxis_title=y_title,
-        yaxis_tickprefix="£",
-        xaxis_tickprefix="£",
+        yaxis_tickprefix=config.currency,
+        xaxis_tickprefix=config.currency,
         legend_title=None,
     )
     if show_difference:
         fig.update_traces(line_color=charts.BLUE)
     # Hide legend if there's no reform.
-    if not has_reform:
+    if not has_reform and not DEBUG_MODE:
         fig.update_layout(showlegend=False)
     return charts.formatted_fig_json(fig)
 
@@ -157,9 +198,10 @@ def budget_hover_label(
     tax_reform,
     benefits_baseline,
     benefits_reform,
+    config: Type[PolicyEngineResultsConfig],
 ) -> str:
     def formatter(x):
-        return f"£{round(x):,}"
+        return f"{config.currency}{round(x):,}"
 
     earnings_str = formatter(earnings)
     budget_change = describe_change(
@@ -185,8 +227,9 @@ def mtr_hover_label(
     tax_reform,
     benefits_baseline,
     benefits_reform,
+    config: Type[PolicyEngineResultsConfig],
 ) -> str:
-    earnings_str = f"£{round(earnings):,}"
+    earnings_str = f"{config.currency}{round(earnings):,}"
 
     def pct_formatter(x):
         return str(round(x * 100)) + "%"
@@ -249,26 +292,6 @@ def mtr_chart(
     reform_mtr = get_mtr(earnings, reform_net)
     variable_mtrs = {}
 
-    # Un-comment this section and others to debug the MTR chart by plotting additional variables.
-    """
-    explainer_variables = [
-        "income_tax",
-        "regular_tax_before_credits",
-        "taxable_income",
-        "alternative_minimum_tax",
-        "income_tax_before_credits",
-        "income_tax_non_refundable_credits",
-        "income_tax_before_refundable_credits",
-        "income_tax_refundable_credits",
-        "eitc",
-        "refundable_american_opportunity_credit",
-        "cdcc_refund",
-        "refundable_ctc",
-        "recovery_rebate_credit",
-        "refundable_payroll_tax_credit",
-    ]
-    """
-
     for explaining_variable, inverted, name in zip(
         (
             config.tax_variable,
@@ -296,18 +319,22 @@ def mtr_chart(
             get_mtr(earnings, reform_values) * multiplier + addition
         )
     inverted = False
-    """
-    explainer_names = []
-    for variable in explainer_variables:
-        baseline_values = baseline.calc(variable).sum(axis=0)
-        multiplier = 1 if inverted else -1
-        addition = -1 if inverted else 1
-        name = baseline.simulation.tax_benefit_system.variables[variable].label or variable
-        explainer_names += [name]
-        variable_mtrs[name] = (
-            get_mtr(earnings, baseline_values) * multiplier + addition
-        )
-    """
+    if DEBUG_MODE:
+        explainer_names = []
+        for variable in DEBUG_VARIABLES:
+            baseline_values = baseline.calc(variable).sum(axis=0)
+            multiplier = 1 if inverted else -1
+            addition = -1 if inverted else 1
+            name = (
+                baseline.simulation.tax_benefit_system.variables[
+                    variable
+                ].label
+                or variable
+            )
+            explainer_names += [name]
+            variable_mtrs[name] = (
+                get_mtr(earnings, baseline_values) * multiplier + addition
+            )
     df = pd.DataFrame(
         {
             "Earnings": earnings[:-1].round(0),
@@ -327,6 +354,7 @@ def mtr_chart(
             x.tax_reform,
             x.benefits_baseline,
             x.benefits_reform,
+            config,
         ),
         axis=1,
     )
@@ -338,7 +366,12 @@ def mtr_chart(
         d_title = "Difference in Marginal tax rate by employment income"
         y_title = "Difference in marginal tax rate"
     else:
-        y_fig = ["Baseline", "Reform"] if has_reform else ["Marginal tax rate"]
+        y_fig = (
+            ["Baseline", "Reform"]
+            if has_reform
+            else ["Marginal tax rate"]
+            + (explainer_names if DEBUG_MODE else [])
+        )
         d_title = "Marginal tax rate by employment income"
         y_title = "Marginal tax rate"
     fig = px.line(
@@ -351,21 +384,22 @@ def mtr_chart(
         line_shape="hv",
     )
     add_you_are_here(fig, df.Earnings[i])
-    charts.add_custom_hovercard(fig)
-    charts.add_zero_line(fig)
+    if not DEBUG_MODE:
+        charts.add_zero_line(fig)
+        charts.add_custom_hovercard(fig)
     fig.update_layout(
         title=d_title,
         xaxis_title="Employment income",
-        xaxis_tickprefix="£",
-        yaxis_tickformat=",.0%",
+        xaxis_tickprefix=config.currency,
+        yaxis_tickformat=",.1%",
         yaxis_title=y_title,
-        yaxis_range=(0, 1),
+        yaxis_range=(min(0, np.floor(df["Reform"].min() * 10) / 10), 1),
         legend_title=None,
     )
     if show_difference:
         fig.update_traces(line_color=charts.BLUE)
     # Hide legend if there's no reform.
-    if not has_reform:
+    if not has_reform and not DEBUG_MODE:
         fig.update_layout(showlegend=False)
     return charts.formatted_fig_json(fig)
 

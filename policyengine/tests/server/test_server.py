@@ -4,6 +4,7 @@ def test_server_starts():
     with app.test_client() as client:
         for url in [
             "/",
+            "/us",
             "/uk/policy",
             "/uk/population-impact",
             "/uk/household",

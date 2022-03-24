@@ -18,6 +18,7 @@ from policyengine.utils.general import PolicyEngineResultsConfig
 def individual_decile_chart(
     df: pd.DataFrame,
     metric: str,
+    config: Type[PolicyEngineResultsConfig],
 ) -> dict:
     """Chart of average or relative net effect of a reform by income decile.
 
@@ -35,7 +36,9 @@ def individual_decile_chart(
             xaxis_title="Equivalised disposable income decile",
             yaxis_title="Average change to household net income",
             yaxis_tickformat=",.1%" if metric == "Relative change" else ",",
-            yaxis_tickprefix="" if metric == "Relative change" else "£",
+            yaxis_tickprefix=""
+            if metric == "Relative change"
+            else config.currency,
             showlegend=False,
             xaxis_tickvals=list(range(1, 11)),
         )
@@ -123,7 +126,7 @@ def decile_chart(
     )
     label_value_abs = (
         pd.Series(np.abs(mean_gain_by_decile))
-        .apply(lambda x: f"£{x:,.0f}")
+        .apply(lambda x: f"{config.currency}{x:,.0f}")
         .reset_index(drop=True)
     )
     label_value_rel = (
@@ -132,11 +135,11 @@ def decile_chart(
         .reset_index(drop=True)
     )
     label_suffix = (
-        "</b><br>from £"
+        f"</b><br>from {config.currency}"
         + pd.Series(baseline_mean_income_by_decile)
         .apply(lambda x: f"{x:,.0f}")
         .reset_index(drop=True)
-        + " to £"
+        + f" to {config.currency}"
         + pd.Series(reform_mean_income_by_decile)
         .apply(lambda x: f"{x:,.0f}")
         .reset_index(drop=True)
@@ -181,7 +184,7 @@ def decile_chart(
             title="Change to net income by decile",
             xaxis_title="Equivalised disposable income decile",
             yaxis_title="Average change",
-            yaxis_tickprefix="£",
+            yaxis_tickprefix=config.currency,
             yaxis_tickformat=",",
             showlegend=False,
             xaxis_tickvals=list(range(1, 11)),
@@ -197,8 +200,8 @@ def decile_chart(
     charts.add_custom_hovercard(rel_fig)
     charts.add_custom_hovercard(abs_fig)
     return (
-        individual_decile_chart(df, "Relative change"),
-        individual_decile_chart(df, "Average change"),
+        individual_decile_chart(df, "Relative change", config),
+        individual_decile_chart(df, "Average change", config),
     )
 
 

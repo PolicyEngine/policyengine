@@ -7,8 +7,8 @@ import MainNavigation from "./mainNavigation";
 export function Header(props) {
     const country = useContext(CountryContext);
 	let navigation;
-	if(props.title) {
-		navigation = <MainNavigation title={props.title} />;
+	if(props.title || props.noTabs) {
+		navigation = <MainNavigation title={props.title} noTabs={props.noTabs}/>;
 	} else {
 		navigation = (
 			<Switch>
@@ -20,6 +20,9 @@ export function Header(props) {
 				</Route>
 				<Route path={`/${country.name}/household`}>
 					<MainNavigation selected="household"/>
+				</Route>
+				<Route path={"/"}>
+					<MainNavigation selected={window.location.pathname}/>
 				</Route>
 			</Switch>
 		);

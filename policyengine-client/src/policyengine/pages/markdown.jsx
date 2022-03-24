@@ -6,7 +6,7 @@ import rehypeRaw from "rehype-raw";
 import { CountryContext } from "../../countries/country";
 import { BodyWrapper } from "../layout/general";
 import { Header as PageHeader } from "../header";
-import { Footer } from "antd/lib/layout/layout";
+import { Footer } from "../footer";
 
 function Header(props) {
 	return <><h1>{props.children}</h1></>;
@@ -35,15 +35,15 @@ export class MarkdownPage extends React.Component {
 		const components = {h1: Header, h2: Subheader, h3: Subsubheader};
 		return (
 			<>
-				<PageHeader title={this.props.title} />
+				<PageHeader title={!["Home", "About", "Contact"].includes(this.props.title) && this.props.title}/>
 				<BodyWrapper>
 				<Row style={{paddingTop: 30}}>
-					<Col md={2}>
+					<Col md={3}>
 					</Col>
 					<Col>
 						<ReactMarkdown rehypePlugins={[rehypeRaw]} components={components}>{this.state.text}</ReactMarkdown>
 					</Col>
-					<Col md={2}>
+					<Col md={3}>
 					</Col>
 				</Row>
 				</BodyWrapper>

@@ -46,7 +46,7 @@ def abolish(variable: str) -> Reform:
 
 
 def parametric(
-    parameter: str, value: float, period: str = "year:2015:10"
+    parameter: str, value: float, period: str = "year:2015:20"
 ) -> Reform:
     """Generates a parametric reform.
 
@@ -148,6 +148,8 @@ def flow_breakdown_parameter_metadata_down(
                 for variable in parameter.metadata["breakdown"]
             ]
             for descendant in parameter.get_descendants():
+                if not isinstance(descendant, Parameter):
+                    continue
                 descendant_path = descendant.name.replace(parameter.name, "")[
                     1:
                 ]
