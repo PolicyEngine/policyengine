@@ -444,3 +444,7 @@
     - Set card title to PolicyEngine.
     - Link to GitHub on the landing page.
     - Add spacing in landing page and fix card ordering.
+- bump: patch
+  changes:
+    fixed:
+    - Ensures the docker instance upgrades pip before installing packages.
