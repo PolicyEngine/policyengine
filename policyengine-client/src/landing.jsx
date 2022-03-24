@@ -62,6 +62,24 @@ function LandingPageContent() {
     const in_uk = window.navigator.language === "en-GB";
     const in_us = window.navigator.language === "en-US";
     const outside_uk_us = !in_uk && !in_us;
+    const ukIcon = <Col md={(
+            outside_uk_us ?
+                6 :
+                in_uk ?
+                    7 :
+                    5
+        )} style={{marginBottom: 15}}>
+        <img onClick={() => window.location.href = "/uk/policy"} className="img-fluid" style={{borderRadius: 35, cursor: "pointer"}} alt="UK" src={UKFadedBlue} />
+        </Col>;
+    const usIcon = <Col md={(
+            outside_uk_us ?
+                6 :
+                in_us ?
+                    7 :
+                    5
+        )} style={{marginBottom: 15}}>
+            <img onClick={() => window.location.href = "/us/household"} className="img-fluid" style={{borderRadius: 35, cursor: "pointer"}} alt="US" src={USFadedBlue} />
+        </Col>;
     return <>
         <Row>
             <Col lg={10} style={{paddingTop: 50}}>
@@ -71,24 +89,13 @@ function LandingPageContent() {
         </Row>
         <Subheader><a href={(in_uk ? "/uk/policy" : (in_us ? "/us/household" : "/uk/policy"))}>Use the app→</a></Subheader>
         <Row>
-            <Col md={(
+            {
                 outside_uk_us ?
-                    6 :
+                    [ukIcon, usIcon] :
                     in_uk ?
-                        7 :
-                        5
-            )}>
-            <img onClick={() => window.location.href = "/uk/policy"} className="img-fluid" style={{borderRadius: 35, cursor: "pointer"}} alt="UK" src={UKFadedBlue} />
-            </Col>
-            <Col md={(
-                outside_uk_us ?
-                    6 :
-                    in_us ?
-                        7 :
-                        5
-            )}>
-                <img onClick={() => window.location.href = "/us/household"} className="img-fluid" style={{borderRadius: 35, cursor: "pointer"}} alt="US" src={USFadedBlue} />
-            </Col>
+                        [ukIcon, usIcon] :
+                        [usIcon, ukIcon]
+            }            
         </Row>
         <Subheader>Who we help</Subheader>
         <UsageExplanations />
