@@ -93,7 +93,7 @@ function LandingPageContent() {
         <Subheader>Who we help</Subheader>
         <UsageExplanations />
         <Subheader subtitle={<><h6>We're currently seeking funding partners, volunteer developers and policy analysts to expand our work and its impact. </h6><h6>Is that you? <a href="mailto:hello@policyengine.org">Get in touch.</a></h6></>}></Subheader>
-        <Subheader subtitle="Analyses of policy reforms by the PolicyEngine team.">Commentary</Subheader>
+        <Subheader subtitle="Analyses of policy reforms by the PolicyEngine team.">Blog</Subheader>
         <MediumFeed />
         <Footer />
     </>
