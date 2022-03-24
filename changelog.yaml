@@ -433,3 +433,7 @@
     - Landing page.
     - Help icon which launches a walkthrough.
   date: 2022-03-23 22:20:50
+- bump: patch
+  changes:
+    changed:
+    - HTTP redirects to HTTPS.
