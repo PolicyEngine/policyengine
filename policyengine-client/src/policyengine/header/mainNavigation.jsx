@@ -56,7 +56,6 @@ export default function MainNavigation(props) {
 						centered
 						onChange={key => key !== "/donate" && history.push(key)}
 					>
-						<TabPane tab="Home" key="/"/>
 						<TabPane tab="About" key="/about"/>
 						<TabPane tab={<Button ghost onClick={() => window.open("https://opencollective.com/psl", "_blank")}>Donate</Button>} key="/donate"/>
 					</Tabs>
