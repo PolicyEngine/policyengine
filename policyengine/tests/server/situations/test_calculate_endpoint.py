@@ -20,7 +20,7 @@ def test_basic_usage():
             },
         )
 
-        snap = response.json()["spm_units"]["spm_unit"]["snap"]
+        snap = response.json["spm_units"]["spm_unit"]["snap"]
 
         assert not isinstance(snap, list)
         assert snap["2022"] > 0
