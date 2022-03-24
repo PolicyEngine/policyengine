@@ -438,3 +438,4 @@
     changed:
     - HTTP redirects to HTTPS.
     - Commentary on landing page changed to Blog.
+    - Make header spacing more responsive.
