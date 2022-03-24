@@ -88,11 +88,14 @@ class PolicyEngineCountry:
                 if self.parameter_file is not None
                 else (),
                 self.default_reform,
+                self.Microsimulation.post_reform,
                 use_current_parameters(),
             )
 
             self.baseline = self.Microsimulation(
-                self.default_reform, dataset=self.default_dataset
+                self.default_reform,
+                dataset=self.default_dataset,
+                post_reform=(),
             )
 
             self.baseline.simulation.trace = True
@@ -136,12 +139,14 @@ class PolicyEngineCountry:
                 reform_config["baseline"]["reform"],
                 dataset=self.default_dataset,
                 year=self.default_dataset_year,
+                post_reform=(),
             )
         )
         reformed = self.Microsimulation(
             reform_config["reform"]["reform"],
             dataset=self.default_dataset,
             year=self.default_dataset_year,
+            post_reform=(),
         )
         baseline.year = 2022
         reformed.year = 2022

@@ -14,6 +14,8 @@ from openfisca_core.parameters import ParameterNode, ParameterScale
 import yaml
 import pandas as pd
 import warnings
+from openfisca_core.model_api import Reform
+
 
 warnings.filterwarnings("ignore")
 baseline_parameters = CountryTaxBenefitSystem().parameters

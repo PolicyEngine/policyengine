@@ -16,7 +16,7 @@ export default function TimeTravel(props) {
             <DatePicker 
                 allowClear={false}
                 defaultValue={moment(country.policy.policy_date.value, "YYYYMMDD")} 
-                disabledDate={date => date < moment("2021-01-01") | date > moment("2021-12-31")}
+                disabledDate={date => date < moment("2021-01-01") | date > moment("2027-12-31")}
                 onChange={(_, dateString) => {
                     const url = `${country.apiURL}/parameters?policy_date=${dateString}`;
                     fetch(url)
@@ -48,7 +48,7 @@ export default function TimeTravel(props) {
                 allowClear={false}
                 defaultValue={reformDate}
                 onChange={date => setReformDate(date)}
-                disabledDate={date => date < moment("2021-01-01") | date > moment("2021-12-31")}
+                disabledDate={date => date < moment("2021-01-01") | date > moment("2027-12-31")}
             />
             <Button 
                 onClick={() => {

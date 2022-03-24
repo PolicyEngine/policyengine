@@ -221,7 +221,7 @@ def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
                 name=name,
                 parameter=parameter.name,
                 description=parameter.description,
-                label=parameter.metadata.get("label", name),
+                label=parameter.metadata["label"],
                 value=parameter(now)
                 if isinstance(parameter, Parameter)
                 else None,
