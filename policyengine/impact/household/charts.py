@@ -1,4 +1,5 @@
 from typing import Callable, Type
+from xmlrpc.client import Boolean
 import numpy as np
 from openfisca_uk import IndividualSim
 from policyengine.utils.general import PolicyEngineResultsConfig
@@ -7,12 +8,14 @@ import plotly.express as px
 import pandas as pd
 import plotly.graph_objects as go
 
+
 COLOR_MAP = {
     "Baseline": charts.GRAY,
     "Reform": charts.BLUE,
     "Marginal tax rate": charts.BLUE,
     "Net income": charts.BLUE,
 }
+
 
 LABELS = dict(
     variable="Policy",
@@ -23,6 +26,7 @@ LABELS = dict(
 def budget_chart(
     baseline: IndividualSim,
     reformed: IndividualSim,
+    show_difference: bool,
     config: Type[PolicyEngineResultsConfig],
     has_reform: bool = True,
     original_total_income: float = None,
@@ -78,24 +82,36 @@ def budget_chart(
     )
     if not has_reform:
         df["Net income"] = df["Baseline"]
+    df["Difference"] = df["Reform"] - df["Baseline"]
+    if show_difference:
+        y_fig = "Difference"
+        d_title = "Difference in net income by employment income"
+        y_title = "Household net income difference"
+    else:
+        y_fig = ["Baseline", "Reform"] if has_reform else ["Net income"]
+        d_title = "Net income by employment income"
+        y_title = "Household net income"
     fig = px.line(
         df.round(0),
         x="Total income",
-        y=["Baseline", "Reform"] if has_reform else ["Net income"],
+        y=y_fig,
         labels=dict(LABELS, value="Net income"),
         color_discrete_map=COLOR_MAP,
         custom_data=["hover"],
     )
+    charts.add_zero_line(fig)
     charts.add_custom_hovercard(fig)
     add_you_are_here(fig, df["Total income"][i])
     fig.update_layout(
-        title="Net income by employment income",
+        title=d_title,
         xaxis_title="Employment income",
-        yaxis_title="Household net income",
+        yaxis_title=y_title,
         yaxis_tickprefix="£",
         xaxis_tickprefix="£",
         legend_title=None,
     )
+    if show_difference:
+        fig.update_traces(line_color=charts.BLUE)
     # Hide legend if there's no reform.
     if not has_reform:
         fig.update_layout(showlegend=False)
@@ -197,6 +213,7 @@ def get_mtr(x, y):
 def mtr_chart(
     baseline: IndividualSim,
     reformed: IndividualSim,
+    show_difference: bool,
     config: Type[PolicyEngineResultsConfig],
     has_reform: bool = True,
     original_total_income: float = None,
@@ -315,12 +332,19 @@ def mtr_chart(
     )
     if not has_reform:
         df["Marginal tax rate"] = df["Reform"]
+    df["Difference"] = df["Reform"] - df["Baseline"]
+    if show_difference:
+        y_fig = "Difference"
+        d_title = "Difference in Marginal tax rate by employment income"
+        y_title = "Difference in marginal tax rate"
+    else:
+        y_fig = ["Baseline", "Reform"] if has_reform else ["Marginal tax rate"]
+        d_title = "Marginal tax rate by employment income"
+        y_title = "Marginal tax rate"
     fig = px.line(
         df,
         x="Earnings",
-        y=["Baseline", "Reform"]
-        if has_reform
-        else ["Marginal tax rate"],  # explainer_names,
+        y=y_fig,
         labels=dict(LABELS, value="Marginal tax rate"),
         color_discrete_map=COLOR_MAP,
         custom_data=["hover"],
@@ -328,15 +352,18 @@ def mtr_chart(
     )
     add_you_are_here(fig, df.Earnings[i])
     charts.add_custom_hovercard(fig)
+    charts.add_zero_line(fig)
     fig.update_layout(
-        title="Marginal tax rate by employment income",
+        title=d_title,
         xaxis_title="Employment income",
         xaxis_tickprefix="£",
         yaxis_tickformat=",.0%",
-        yaxis_title="Marginal tax rate",
+        yaxis_title=y_title,
         yaxis_range=(0, 1),
         legend_title=None,
     )
+    if show_difference:
+        fig.update_traces(line_color=charts.BLUE)
     # Hide legend if there's no reform.
     if not has_reform:
         fig.update_layout(showlegend=False)

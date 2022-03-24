@@ -214,13 +214,17 @@ class PolicyEngineCountry:
             max=vary_max,
         )
         budget = budget_chart(
-            baseline, reformed, self.results_config, has_reform
+            baseline, reformed, False, self.results_config, has_reform
+        )
+        budget_difference = budget_chart(
+            baseline, reformed, True, self.results_config, has_reform
         )
         mtr = mtr_chart(baseline, reformed, self.results_config, has_reform)
         return dict(
             **headlines,
             waterfall_chart=waterfall,
             budget_chart=budget,
+            budget_difference_chart=budget_difference,
             mtr_chart=mtr,
         )
 
@@ -357,12 +361,40 @@ class PolicyEngineCountry:
                 max=vary_max,
             )
         budget = budget_chart(
-            baseline, reformed, self.results_config, has_reform, total_income
+            baseline,
+            reformed,
+            False,
+            self.results_config,
+            has_reform,
+            total_income,
+        )
+        budget_difference = budget_chart(
+            baseline,
+            reformed,
+            True,
+            self.results_config,
+            has_reform,
+            total_income,
         )
         mtr = mtr_chart(
-            baseline, reformed, self.results_config, has_reform, total_income
+            baseline,
+            reformed,
+            False,
+            self.results_config,
+            has_reform,
+            total_income,
+        )
+        mtr_difference = mtr_chart(
+            baseline,
+            reformed,
+            True,
+            self.results_config,
+            has_reform,
+            total_income,
         )
         return dict(
             budget_chart=budget,
+            budget_difference_chart=budget_difference,
             mtr_chart=mtr,
+            mtr_difference_chart=mtr_difference,
         )
