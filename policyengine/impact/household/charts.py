@@ -139,9 +139,8 @@ def budget_chart(
         color_discrete_map=COLOR_MAP,
         custom_data=["hover"],
     )
-    if not DEBUG_MODE:
-        charts.add_zero_line(fig)
-        charts.add_custom_hovercard(fig)
+    charts.add_zero_line(fig)
+    charts.add_custom_hovercard(fig)
     add_you_are_here(fig, df["Total income"][i])
     fig.update_layout(
         title=d_title,
@@ -384,9 +383,8 @@ def mtr_chart(
         line_shape="hv",
     )
     add_you_are_here(fig, df.Earnings[i])
-    if not DEBUG_MODE:
-        charts.add_zero_line(fig)
-        charts.add_custom_hovercard(fig)
+    charts.add_zero_line(fig)
+    charts.add_custom_hovercard(fig)
     fig.update_layout(
         title=d_title,
         xaxis_title="Employment income",
