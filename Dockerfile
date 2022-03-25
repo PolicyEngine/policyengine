@@ -17,6 +17,8 @@ ENV GOOGLE_APPLICATION_CREDENTIALS .gac.json
 # Add the application source code.
 ADD . /app
 
+RUN python -m pip install --upgrade pip
+
 RUN cd /app && make server
 
 # Run a WSGI server to serve the application. gunicorn must be declared as

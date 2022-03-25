@@ -433,3 +433,20 @@
     - Landing page.
     - Help icon which launches a walkthrough.
   date: 2022-03-23 22:20:50
+- bump: patch
+  changes:
+    changed:
+    - HTTP redirects to HTTPS.
+    - Commentary on landing page changed to Blog.
+    - Make header spacing more responsive.
+    - Remove Home tab in the top menu.
+    - Fix typo on landing page.
+    - Set card title to PolicyEngine.
+    - Link to GitHub on the landing page.
+    - Add spacing in landing page and fix card ordering.
+  date: 2022-03-24 20:43:07
+- bump: patch
+  changes:
+    fixed:
+    - Ensures the docker instance upgrades pip before installing packages.
+  date: 2022-03-24 21:40:50

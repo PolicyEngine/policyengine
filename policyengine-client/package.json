@@ -1,6 +1,6 @@
 {
   "name": "policyengine-client",
-  "version": "1.24.0",
+  "version": "1.24.2",
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@emotion/react": "^11.5.0",
@@ -29,7 +29,7 @@
     "react-scripts": "4.0.3",
     "react-share": "^4.4.0",
     "rehype-raw": "^6.1.0",
-    "styled-components": "^5.3.1",
+    "styled-components": "5.0.0",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
