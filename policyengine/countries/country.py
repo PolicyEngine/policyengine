@@ -98,6 +98,8 @@ class PolicyEngineCountry:
                 post_reform=(),
             )
 
+            self.baseline_system = apply_reform(self.default_reform[:-1], self.system())
+
             self.baseline.simulation.trace = True
             self.year = 2022
             self.baseline.calc("net_income")
@@ -248,9 +250,7 @@ class PolicyEngineCountry:
     @exclude_from_cache
     def parameters(self, params=None):
         if "policy_date" in params:
-            system = apply_reform(self.default_reform[:-1], self.system())
-            system = use_current_parameters(params["policy_date"])(system)
-            return get_PE_parameters(system)
+            return get_PE_parameters(self.baseline_system, date=params.get("policy_date"))
         return self.policyengine_parameters
 
     @exclude_from_cache

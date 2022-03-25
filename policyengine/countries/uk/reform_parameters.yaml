@@ -2,7 +2,7 @@ reforms:
   policy_date:
     description: Simulate the baseline and reformed systems on this date
     values:
-      2021-01-01: 20210101
+      2010-01-01: 20210101
     metadata:
       label: Policy snapshot
       name: policy_date
@@ -11,7 +11,7 @@ reforms:
     rate:
       description: Tax rate on the unimproved value of land
       values:
-        2021-01-01: 0.00
+        2010-01-01: 0.00
       metadata:
         label: Land value tax
         name: LVT
@@ -22,7 +22,7 @@ reforms:
     household_rate:
       description: Tax rate on the unimproved value of land owned by households
       values:
-        2021-01-01: 0.00
+        2010-01-01: 0.00
       metadata:
         label: Land value tax (households)
         name: household_lvt
@@ -33,7 +33,7 @@ reforms:
     corporate_rate:
       description: Tax rate on the unimproved value of land owned by corporations
       values:
-        2021-01-01: 0.00
+        2010-01-01: 0.00
       metadata:
         label: Land value tax (corporations)
         name: corporate_lvt
@@ -45,7 +45,7 @@ reforms:
     rate:
       description: Price per tonne of carbon emissions
       values:
-        2021-01-01: 0.00
+        2010-01-01: 0.00
       metadata:
         label: Carbon tax
         name: carbon_tax
@@ -56,7 +56,7 @@ reforms:
     consumer_incidence:
       description: Proportion of corporate carbon taxes which is passed on to consumers in the form of higher prices (as opposed to shareholders in the form of reduced profitability)
       values:
-        2021-01-01: 1.00
+        2010-01-01: 1.00
       metadata:
         label: Carbon tax consumer incidence
         name: carbon_tax_consumer_incidence
@@ -66,7 +66,7 @@ reforms:
     rate:
       description: A yearly flat tax on net financial wealth
       values:
-        2021-01-01: 0.00
+        2010-01-01: 0.00
       metadata:
         label: Wealth Tax
         name: wealth_tax
@@ -78,7 +78,7 @@ reforms:
     rate:
       description: A yearly flat tax on property wealth
       values:
-        2021-01-01: 0.00
+        2010-01-01: 0.00
       metadata:
         label: Property Tax
         name: property_tax
@@ -90,7 +90,7 @@ reforms:
     adult:
       description: Flat payment given to each person at or above the adult universal basic income age threshold, but under State Pension age
       values: 
-        2021-01-01: 0.00
+        2010-01-01: 0.00
       metadata:
         label: Working-age adult universal basic income
         name: adult_UBI
@@ -102,7 +102,7 @@ reforms:
     child:
       description: Flat payment given to each person below the adult universal basic income age threshold
       values: 
-        2021-01-01: 0.00
+        2010-01-01: 0.00
       metadata:
         label: Child universal basic income
         name: child_UBI
@@ -114,7 +114,7 @@ reforms:
     senior:
       description: Flat payment given to each person at or above State Pension age
       values: 
-        2021-01-01: 0.00
+        2010-01-01: 0.00
       metadata:
         label: Senior universal basic income
         name: senior_UBI
@@ -126,7 +126,7 @@ reforms:
     WA_adult_UBI_age:
       description: Age at which a person receives the working-age adult universal basic income payment
       values: 
-        2021-01-01: 18
+        2010-01-01: 18
       metadata:
         label: Adult universal basic income age threshold
         name: WA_adult_UBI_age
@@ -135,14 +135,14 @@ reforms:
     taxable:
       description: Include universal basic income as countable income for Income Tax
       values:
-        2021-01-01: false
+        2010-01-01: false
       metadata:
         label: Make universal basic income taxable
         name: taxable_UBI
     in_means_tests:
       description: Include universal basic income as countable income for means tested benefits
       values: 
-        2021-01-01: false
+        2010-01-01: false
       metadata:
         label: Count universal basic income in means tests
         name: means_test_UBI
@@ -150,7 +150,7 @@ reforms:
     benefit:
       description: A cash payment made to all households receiving Universal Credit or legacy benefits.
       values:
-        2021-01-01: 0.00
+        2010-01-01: 0.00
       metadata:
         label: Cash payment to benefit recipients
         name: benefit_based_cash_payment
@@ -162,7 +162,7 @@ reforms:
     tax:
       description: A cash payment made to all non-benefit-receiving households not paying the higher or additional rates of Income Tax.
       values:
-        2021-01-01: 0.00
+        2010-01-01: 0.00
       metadata:
         label: Cash payment to basic-rate taxpayers.
         name: tax_bracket_based_cash_payment
@@ -174,7 +174,7 @@ reforms:
   abolition:
     abolish_income_tax:
       values:
-        2021-01-01: false
+        2010-01-01: false
       metadata:
         label: Abolish Income Tax
         name: abolish_income_tax
@@ -184,7 +184,7 @@ reforms:
           - increases_net_income: true
     abolish_NI:
       values:
-        2021-01-01: false
+        2010-01-01: false
       metadata:
         label: Abolish National Insurance
         name: abolish_NI
@@ -195,7 +195,7 @@ reforms:
     abolish_UC:
       description: This does not trigger migration back to legacy benefits
       values:
-        2021-01-01: false
+        2010-01-01: false
       metadata:
         label: Abolish Universal Credit
         name: abolish_UC
@@ -206,7 +206,7 @@ reforms:
     abolish_CB:
       description: End all Child Benefit payments
       values:
-        2021-01-01: false
+        2010-01-01: false
       metadata:
         label: Abolish Child Benefit
         name: abolish_CB
@@ -217,7 +217,7 @@ reforms:
     abolish_HB:
       description: This does not trigger migration to Universal Credit
       values:
-        2021-01-01: false
+        2010-01-01: false
       metadata:
         label: Abolish Housing Benefit
         name: abolish_HB
@@ -228,7 +228,7 @@ reforms:
     abolish_CTC:
       description: This does not trigger migration to Universal Credit
       values:
-        2021-01-01: false
+        2010-01-01: false
       metadata:
         label: Abolish Child Tax Credit
         name: abolish_CTC
@@ -239,7 +239,7 @@ reforms:
     abolish_WTC:
       description: This does not trigger migration to Universal Credit
       values:
-        2021-01-01: false
+        2010-01-01: false
       metadata:
         label: Abolish Working Tax Credit
         name: abolish_WTC
@@ -250,7 +250,7 @@ reforms:
     abolish_SP:
       description:
       values:
-        2021-01-01: false
+        2010-01-01: false
       metadata:
         label: Abolish State Pension
         name: abolish_SP
@@ -260,7 +260,7 @@ reforms:
           - decreases_net_income: true
     abolish_PC:
       values:
-        2021-01-01: false
+        2010-01-01: false
       metadata:
         label: Abolish Pension Credit
         name: abolish_PC
@@ -271,7 +271,7 @@ reforms:
     abolish_IS:
       description: This does not trigger migration to Universal Credit
       values:
-        2021-01-01: false
+        2010-01-01: false
       metadata:
         label: Abolish Income Support
         name: abolish_IS
@@ -282,7 +282,7 @@ reforms:
     abolish_JSA_income:
       description: This does not trigger migration to Universal Credit
       values:
-        2021-01-01: false
+        2010-01-01: false
       metadata:
         label: Abolish income-based Jobseeker's Allowance
         name: abolish_JSA_income
@@ -292,7 +292,7 @@ reforms:
           - decreases_net_income: true
     abolish_UC_standard_allowance:
       values:
-        2021-01-01: false
+        2010-01-01: false
       metadata:
         label: Abolish Universal Credit standard allowance
         name: abolish_UC_standard
@@ -303,7 +303,7 @@ reforms:
     abolish_UC_child_element:
       description:
       values:
-        2021-01-01: false
+        2010-01-01: false
       metadata:
         label: Abolish Universal Credit child element
         name: abolish_UC_child
@@ -313,7 +313,7 @@ reforms:
           - decreases_net_income: true
     abolish_UC_disability_element:
       values:
-        2021-01-01: false
+        2010-01-01: false
       metadata:
         label: Abolish Universal Credit disability element
         name: abolish_UC_disability
@@ -323,7 +323,7 @@ reforms:
           - decreases_net_income: true
     abolish_UC_carer_element:
       values:
-        2021-01-01: false
+        2010-01-01: false
       metadata:
         label: Abolish Universal Credit carer element
         unit: abolition
@@ -334,7 +334,7 @@ reforms:
     abolish_UC_childcare_element:
       description:
       values:
-        2021-01-01: false
+        2010-01-01: false
       metadata:
         label: Abolish Universal Credit childcare element
         name: abolish_UC_childcare
@@ -345,7 +345,7 @@ reforms:
     abolish_UC_housing_costs_element:
       description:
       values:
-        2021-01-01: false
+        2010-01-01: false
       metadata:
         label: Abolish Universal Credit housing costs element
         name: abolish_UC_housing_costs
@@ -354,7 +354,7 @@ reforms:
     abolish_ESA_income:
       description:
       values:
-        2021-01-01: false
+        2010-01-01: false
       metadata:
         label: Abolish income-based Employment and Support Allowance
         variable: ESA_income
@@ -364,7 +364,7 @@ reforms:
           - decreases_net_income: true
     abolish_CT:
       values:
-        2021-01-01: false
+        2010-01-01: false
       metadata:
         label: Abolish Council Tax
         name: abolish_CT
@@ -376,7 +376,7 @@ reforms:
             revenue: -38.9e9
     abolish_sdlt:
       values:
-        2021-01-01: false
+        2010-01-01: false
       metadata:
         label: Abolish Stamp Duty Land Tax
         name: abolish_sdlt
@@ -386,7 +386,7 @@ reforms:
           - corporate_sdlt
     abolish_ltt:
       values:
-        2021-01-01: false
+        2010-01-01: false
       metadata:
         label: Abolish Land Transaction Tax (Wales)
         name: abolish_ltt
@@ -394,7 +394,7 @@ reforms:
         variable: ltt_on_transactions
     abolish_lbtt:
       values:
-        2021-01-01: false
+        2010-01-01: false
       metadata:
         label: Abolish Land and Buildings Transaction Tax (Scotland)
         name: abolish_lbtt
@@ -403,14 +403,14 @@ reforms:
   abolish_marriage_allowance_income_condition:
     description: The Marriage Allowance is currently withheld from higher and additional rate taxpayers. This switch allows them to receive it.
     values:
-      2021-01-01: false
+      2010-01-01: false
     metadata:
       label: Abolish the Marriage Allowance income condition
       name: abolish_marriage_allowance_income_condition
       unit: abolition
   abolish_business_rates:
     values:
-      2021-01-01: false
+      2010-01-01: false
     metadata:
       label: Abolish business rates
       name: abolish_business_rates
@@ -421,7 +421,7 @@ reforms:
       amount:
         description: The single pensioner supplement is paid to people over State Pension age who live alone.
         values:
-          2021-01-01: 0
+          2010-01-01: 0
         metadata:
           name: SPS_amount
           label: Single pensioner supplement amount
@@ -430,7 +430,7 @@ reforms:
       reduction_rate:
         description: The rate at which the single pensioner supplement is reduced with non-benefit income.
         values:
-          2021-01-01: 0
+          2010-01-01: 0
         metadata:
           name: SPS_reduction_rate
           label: Single pensioner supplement reduction rate
@@ -438,7 +438,7 @@ reforms:
       reduction_threshold:
         description: The threshold for market (non-benefit) income to reduce the single pensioner supplement.
         values:
-          2021-01-01: 0
+          2010-01-01: 0
         metadata:
           name: SPS_reduction_threshold
           label: Single pensioner supplement reduction threshold
@@ -447,7 +447,7 @@ reforms:
       takeup_rate:
         description: The percentage of eligible recepients that claim the single pensioner supplement. By default, this is the same take-up rate as Pension Credit, the main means-tested benefit for pensioners.
         values:
-          2021-01-01: 0.63
+          2010-01-01: 0.63
         metadata:
           name: SPS_takeup_rate
           label: Single pensioner supplement take-up rate
@@ -456,7 +456,7 @@ reforms:
     exempt_seniors_from_PA_changes:
       description: Exempt individuals over State Pension Age from reforms to the Personal Allowance.
       values: 
-        2021-01-01: false
+        2010-01-01: false
       metadata:
         label: Exempt seniors from PA reforms
         name: exempt_seniors_from_PA_reforms

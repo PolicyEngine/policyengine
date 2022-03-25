@@ -178,17 +178,20 @@ def flow_breakdown_parameter_metadata_down(
     return parameters
 
 
-def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
+def get_PE_parameters(system: TaxBenefitSystem, date: str=None) -> Dict[str, dict]:
     """Extracts PolicyEngine parameters from OpenFisca parameter metadata.
 
     Args:
         system (TaxBenefitSystem): The tax-benefit system to extract from.
+        date (str): The date to extract parameters for. Defaults to the current date.
 
     Returns:
         Dict[str, dict]: The parameter metadata.
     """
 
     now = datetime.now().strftime("%Y-%m-%d")
+    if date is not None:
+        now = datetime.strptime(date, "%Y-%m-%d").strftime("%Y-%m-%d")
     parameters = []
     system.parameters = flow_breakdown_parameter_metadata_down(
         system.parameters, system.variables
