@@ -29,7 +29,6 @@ export default class AccountingTable extends React.Component {
     updateBaselineSituation() {
         this.setState({ waitingOnBaseline: true }, () => {
             const submission = this.context.getPolicyJSONPayload();
-            submission.ignoreReform = true;
             let url = new URL(this.context.apiURL + "/calculate");
             url.search = new URLSearchParams(submission).toString();
             fetch(url, {

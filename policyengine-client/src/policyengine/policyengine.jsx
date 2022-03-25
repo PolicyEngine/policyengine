@@ -38,6 +38,7 @@ export default class PolicyEngine extends React.Component {
         // (that we don't want to apply in OpenFisca-[Country] because they're not
         // legislative)
         let { policy } = this.state.country.validatePolicy(urlToPolicy(this.state.country.parameters, this.state.country.parameterRenames), this.state.country.parameters);
+        console.log(policy.basic_rate)
         for (let parameter of Object.keys(policy)) {
             if (Object.keys(this.state.country.extraParameterMetadata).includes(parameter)) {
                 policy[parameter] = Object.assign(policy[parameter], this.state.country.extraParameterMetadata[parameter]);
@@ -66,17 +67,7 @@ export default class PolicyEngine extends React.Component {
             }
         }
         const fetchEndpoint = name => {
-            let url;
-            if (name === "parameters") {
-                const { searchParams } = new URL(document.location);
-                let date = searchParams.get("policy_date");
-                if (date) {
-                    date = `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`;
-                }
-                url = this.state.country.apiURL + "/" + name + (date ? "?policy_date=" + date : "")
-            } else {
-                url = this.state.country.apiURL + "/" + name;
-            }
+            let url = this.state.country.apiURL + "/" + name;
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
