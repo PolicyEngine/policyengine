@@ -456,3 +456,5 @@
     - HTTPS redirect sped up using HTML meta tags.
     changed:
     - Baseline policy is now editable.
+    added:
+    - Snapshot and reset buttons to the US app.
