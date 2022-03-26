@@ -21,7 +21,7 @@ export function policyToURL(targetPage, policy) {
 				}
 				searchParams.set(editingReform ? key : `baseline_${key}`, value);
 			} else {
-				searchParams.delete(key);
+				searchParams.delete(editingReform ? key : `baseline_${key}`);
 			}
 		}
 	}

@@ -38,7 +38,6 @@ export default class PolicyEngine extends React.Component {
         // (that we don't want to apply in OpenFisca-[Country] because they're not
         // legislative)
         let { policy } = this.state.country.validatePolicy(urlToPolicy(this.state.country.parameters, this.state.country.parameterRenames), this.state.country.parameters);
-        console.log(policy.basic_rate)
         for (let parameter of Object.keys(policy)) {
             if (Object.keys(this.state.country.extraParameterMetadata).includes(parameter)) {
                 policy[parameter] = Object.assign(policy[parameter], this.state.country.extraParameterMetadata[parameter]);
