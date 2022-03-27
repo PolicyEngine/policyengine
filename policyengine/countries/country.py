@@ -288,6 +288,7 @@ class PolicyEngineCountry:
             self.results_config,
         )
 
+    @exclude_from_cache
     def calculate(self, params=None):
         reform = create_reform(
             {x: y for x, y in params.items() if x != "ignoreReform"},
@@ -338,6 +339,7 @@ class PolicyEngineCountry:
 
         return params["household"]
 
+    @exclude_from_cache
     def household_variation(self, params=None):
         has_reform = len(params.keys()) - 1 > 0
         baseline, reformed = self._get_individualsims(params)
