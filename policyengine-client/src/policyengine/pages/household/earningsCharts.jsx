@@ -68,14 +68,12 @@ export default class AccountingTable extends React.Component {
             return (
                 <>
                     <Spacing />
-                    <Row>
-                        <div className="justify-content-center d-flex">
-                            <Radio.Group defaultValue={true} buttonStyle="solid" onChange={() => this.setState({ show_difference: !this.state.show_difference })} >
-                                <Radio.Button value={true}>Baseline and Reform Chart</Radio.Button>
-                                <Radio.Button value={false}>Difference Chart</Radio.Button>
-                            </Radio.Group>
-                        </div>
-                    </Row>
+                    <div className="justify-content-center d-flex" style={{marginBottom: 10}}>
+                        <Radio.Group defaultValue={true} buttonStyle="solid" onChange={() => this.setState({ show_difference: !this.state.show_difference })} >
+                            <Radio.Button value={true}>Baseline and Reform Chart</Radio.Button>
+                            <Radio.Button value={false}>Difference Chart</Radio.Button>
+                        </Radio.Group>
+                    </div>
                     <Row>
                         <Chart plot={this.state.show_difference ? this.context.computedSituationVariationCharts.budget_difference_chart : this.context.computedSituationVariationCharts.budget_chart} />
                     </Row>

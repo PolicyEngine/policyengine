@@ -395,6 +395,9 @@ def mtr_chart(
         legend_title=None,
     )
     if show_difference:
+        fig.update_layout(
+            yaxis_range=(min(0, np.floor(df[y_fig].min() * 10) / 10), 1),
+        )
         fig.update_traces(line_color=charts.BLUE)
     # Hide legend if there's no reform.
     if not has_reform and not DEBUG_MODE:
