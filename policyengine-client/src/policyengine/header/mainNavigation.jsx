@@ -45,10 +45,10 @@ export default function MainNavigation(props) {
 	return (
 		<>
 			<Row style={{margin: 0}}>
-				<Col lg={1}>
+				<Col xl={1} lg={2}>
 					<Title link={props.noTabs && "/"} />
 				</Col>
-				<Col lg={2} className="d-flex align-items-center justify-content-center" style={{paddingLeft: 25, paddingRight: 25}}>
+				<Col xl={3} lg={4} className="d-flex align-items-center justify-content-center" style={{paddingLeft: 25, paddingRight: 25}}>
 					<Tabs
 						moreIcon={null} 
 						style={{paddingTop: 0, paddingBottom: 0}}
@@ -56,12 +56,11 @@ export default function MainNavigation(props) {
 						centered
 						onChange={key => key !== "/donate" && history.push(key)}
 					>
-						<TabPane tab="Home" key="/"/>
 						<TabPane tab="About" key="/about"/>
 						<TabPane tab={<Button ghost onClick={() => window.open("https://opencollective.com/psl", "_blank")}>Donate</Button>} key="/donate"/>
 					</Tabs>
 				</Col>
-				<Col lg={7} className="d-flex align-items-center justify-content-center" style={{paddingLeft: 25, paddingRight: 25}}>
+				<Col xl={6} lg={4} className="d-flex align-items-center justify-content-center" style={{paddingLeft: 25, paddingRight: 25}}>
 					{middleColumn}
 				</Col>
 				<Col lg={2} className="d-none d-lg-flex align-items-center">

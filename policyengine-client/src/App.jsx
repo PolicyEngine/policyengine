@@ -30,6 +30,10 @@ export default function App(props) {
         { content: CONTACT, path: "/contact", title: "Contact" },
         // Add other pages here
     ];
+    // Redirect http to https
+    if (!(window.location.hostname.includes("localhost")) && (window.location.protocol !== "https:")) {
+        window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+    }
     return (
         <Router>
             <Switch>
