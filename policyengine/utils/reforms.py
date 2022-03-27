@@ -178,7 +178,9 @@ def flow_breakdown_parameter_metadata_down(
     return parameters
 
 
-def get_PE_parameters(system: TaxBenefitSystem, date: str=None) -> Dict[str, dict]:
+def get_PE_parameters(
+    system: TaxBenefitSystem, date: str = None
+) -> Dict[str, dict]:
     """Extracts PolicyEngine parameters from OpenFisca parameter metadata.
 
     Args:
