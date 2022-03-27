@@ -354,7 +354,7 @@ def mtr_chart(
     )
     add_you_are_here(fig, df.Earnings[i])
     if not DEBUG_MODE:
-        charts.add_custom_hovercard(fig)
+        charts.add_custom_hovercard(fig)  # todo: fix bug here
     fig.update_layout(
         title="Marginal tax rate by employment income",
         xaxis_title="Employment income",
