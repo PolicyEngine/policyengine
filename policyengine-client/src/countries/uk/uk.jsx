@@ -153,9 +153,6 @@ export class UK extends Country {
             ]
         },
         "Benefit": {
-            "General": [
-                "benefit_additional_uprating",
-            ],
             "Child Benefit": [
                 "abolish_CB",
                 "CB_eldest",

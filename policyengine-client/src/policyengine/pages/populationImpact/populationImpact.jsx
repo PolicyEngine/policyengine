@@ -160,7 +160,7 @@ export default class PopulationImpact extends React.Component {
 						<Affix offsetTop={55}>
 							<PolicyOverview />
 				        </Affix>
-						<Affix offsetTop={400}>
+						<Affix offsetTop={450}>
 							<SharePolicyLinks page="population-impact"/>
 							<div className="d-block align-middle">
 								<div className="d-flex justify-content-center">
