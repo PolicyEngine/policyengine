@@ -1,15 +1,15 @@
-def test_server_starts():
-    from policyengine.server import app
+from policyengine.tests.server.initialisation import test_client
 
-    with app.test_client() as client:
-        for url in [
-            "/",
-            "/us",
-            "/uk/policy",
-            "/uk/population-impact",
-            "/uk/household",
-            "/us/policy",
-            "/us/household",
-        ]:
-            response = client.get(url)
-            assert response.status_code == 200
+
+def test_server_starts():
+    for url in [
+        "/",
+        "/us",
+        "/uk/policy",
+        "/uk/population-impact",
+        "/uk/household",
+        "/us/policy",
+        "/us/household",
+    ]:
+        response = test_client.get(url)
+        assert response.status_code == 200
