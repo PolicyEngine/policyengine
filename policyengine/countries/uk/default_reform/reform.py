@@ -14,6 +14,8 @@ from openfisca_core.parameters import ParameterNode, ParameterScale
 import yaml
 import pandas as pd
 import warnings
+from openfisca_core.model_api import Reform
+
 
 warnings.filterwarnings("ignore")
 baseline_parameters = CountryTaxBenefitSystem().parameters
@@ -26,7 +28,7 @@ def add_extra_band(parameters: ParameterNode) -> ParameterNode:
         data={
             "threshold": {
                 "description": "An extra Income Tax band for the UK",
-                "values": {"2021-01-01": 1e7},
+                "values": {"2010-01-01": 1e7},
                 "metadata": {
                     "label": "Extra band threshold",
                     "unit": "currency-GBP",
@@ -35,7 +37,7 @@ def add_extra_band(parameters: ParameterNode) -> ParameterNode:
                 },
             },
             "rate": {
-                "values": {"2021-01-01": 0.45},
+                "values": {"2010-01-01": 0.45},
                 "description": "Rate of the extra Income Tax band for the UK",
                 "metadata": {
                     "label": "Extra band rate",
@@ -51,7 +53,7 @@ def add_extra_band(parameters: ParameterNode) -> ParameterNode:
         data={
             "threshold": {
                 "description": "An extra Income Tax band for Scotland",
-                "values": {"2021-01-01": 1e7},
+                "values": {"2010-01-01": 1e7},
                 "metadata": {
                     "label": "Extra band threshold",
                     "unit": "currency-GBP",
@@ -60,7 +62,7 @@ def add_extra_band(parameters: ParameterNode) -> ParameterNode:
                 },
             },
             "rate": {
-                "values": {"2021-01-01": 0.46},
+                "values": {"2010-01-01": 0.46},
                 "description": "Rate of the extra Income Tax band for Scotland",
                 "metadata": {
                     "label": "Extra band rate",

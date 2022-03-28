@@ -66,17 +66,7 @@ export default class PolicyEngine extends React.Component {
             }
         }
         const fetchEndpoint = name => {
-            let url;
-            if (name === "parameters") {
-                const { searchParams } = new URL(document.location);
-                let date = searchParams.get("policy_date");
-                if (date) {
-                    date = `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`;
-                }
-                url = this.state.country.apiURL + "/" + name + (date ? "?policy_date=" + date : "")
-            } else {
-                url = this.state.country.apiURL + "/" + name;
-            }
+            let url = this.state.country.apiURL + "/" + name;
             fetch(url)
                 .then(response => response.json())
                 .then(data => {

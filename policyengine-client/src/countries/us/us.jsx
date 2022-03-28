@@ -3,6 +3,7 @@
 */
 
 import Country from "../country"
+import TimeTravel from "../uk/components/timeTravel";
 
 const childNamer = {
     1: "Your first child",
@@ -16,6 +17,9 @@ function validatePolicy(policy, defaultPolicy) {
     if (defaultPolicy) {
         for (let parameter in policy) {
             policy[parameter].defaultValue = defaultPolicy[parameter].value;
+            if(policy[parameter].baselineValue === undefined) {
+                policy[parameter].baselineValue = defaultPolicy[parameter].value;
+            }
         }
     }
     return { policy: policy, policyValid: true };
@@ -45,8 +49,15 @@ export class US extends Country {
     // Vanity URLs
     namedPolicies = {}
     validatePolicy = validatePolicy;
+
+    parameterComponentOverrides = {
+        timeTravel: <TimeTravel />,
+    }
     // Policy page metadata
     parameterHierarchy = {
+        "Snapshot": [
+            "timeTravel",
+        ],
         "IRS": {
             "Income tax schedule": [
                 "irs_income_bracket_rates",

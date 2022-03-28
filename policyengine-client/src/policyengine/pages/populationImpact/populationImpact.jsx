@@ -107,12 +107,12 @@ export default class PopulationImpact extends React.Component {
 	static contextType = CountryContext;
 	constructor(props) {
 		super(props);
-		this.state = { waiting: false, error: false };
+		this.state = { error: false };
 		this.simulate = this.simulate.bind(this);
 	}
 
 	componentDidMount() {
-		if (this.context.populationImpactIsOutdated) {
+		if (this.context.populationImpactIsOutdated && !this.context.waitingOnPopulationImpact) {
 			this.simulate();
 		};
 	}
@@ -121,7 +121,7 @@ export default class PopulationImpact extends React.Component {
 		const submission = this.context.getPolicyJSONPayload();
 		let url = new URL(`${this.context.apiURL}/population-reform`);
 		url.search = new URLSearchParams(submission).toString();
-		this.setState({ waiting: true }, () => {
+		this.context.setState({ waitingOnPopulationImpact: true }, () => {
 			fetch(url)
 				.then((res) => {
 					if (res.ok) {
@@ -131,10 +131,12 @@ export default class PopulationImpact extends React.Component {
 					}
 				}).then((data) => {
 					this.context.setState({ populationImpactResults: data, populationImpactIsOutdated: false }, () => {
-						this.setState({ waiting: false, error: false });
+						this.setState({ error: false });
+						this.context.setState({waitingOnPopulationImpact: false});
 					});
 				}).catch(e => {
-					this.setState({ waiting: false, error: true });
+					this.setState({ error: true });
+					this.context.setState({waitingOnPopulationImpact: false});
 				});
 		});
 	}
@@ -146,9 +148,9 @@ export default class PopulationImpact extends React.Component {
 				<Col xl={1} />
 				<Col xl={8}>
 					{
-						(this.state.waiting || (!this.state.error & (this.context.populationImpactResults === null))) ?
-							<Loading message={`Simulating your results on the ${this.context.properName} population (this usually takes about 10 seconds)`} /> :
-							this.state.error ?
+						(this.context.waitingOnPopulationImpact || (!this.state.error & (this.context.populationImpactResults === null))) ?
+						<Loading message={`Simulating your results on the ${this.context.properName} population (this usually takes about 10 seconds)`} /> :
+						this.state.error ?
 								<Loading noSpin message="Something went wrong (try navigating back and returning to this page)" /> :
 								<PopulationResultsPane />
 					}
@@ -158,7 +160,7 @@ export default class PopulationImpact extends React.Component {
 						<Affix offsetTop={55}>
 							<PolicyOverview />
 				        </Affix>
-						<Affix offsetTop={400}>
+						<Affix offsetTop={450}>
 							<SharePolicyLinks page="population-impact"/>
 							<div className="d-block align-middle">
 								<div className="d-flex justify-content-center">

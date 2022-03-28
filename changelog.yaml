@@ -450,3 +450,11 @@
     fixed:
     - Ensures the docker instance upgrades pip before installing packages.
   date: 2022-03-24 21:40:50
+- bump: minor
+  changes:
+    fixed:
+    - HTTPS redirect sped up using HTML meta tags.
+    changed:
+    - Baseline policy is now editable.
+    added:
+    - Snapshot and reset buttons to the US app.

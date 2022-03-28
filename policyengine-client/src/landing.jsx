@@ -62,22 +62,10 @@ function LandingPageContent() {
     const in_uk = window.navigator.language === "en-GB";
     const in_us = window.navigator.language === "en-US";
     const outside_uk_us = !in_uk && !in_us;
-    const ukIcon = <Col md={(
-            outside_uk_us ?
-                6 :
-                in_uk ?
-                    7 :
-                    5
-        )} style={{marginBottom: 15}}>
+    const ukIcon = <Col md={6} style={{marginBottom: 15}}>
         <img onClick={() => window.location.href = "/uk/policy"} className="img-fluid" style={{borderRadius: 35, cursor: "pointer"}} alt="UK" src={UKFadedBlue} />
         </Col>;
-    const usIcon = <Col md={(
-            outside_uk_us ?
-                6 :
-                in_us ?
-                    7 :
-                    5
-        )} style={{marginBottom: 15}}>
+    const usIcon = <Col md={6} style={{marginBottom: 15}}>
             <img onClick={() => window.location.href = "/us/household"} className="img-fluid" style={{borderRadius: 35, cursor: "pointer"}} alt="US" src={USFadedBlue} />
         </Col>;
     return <>

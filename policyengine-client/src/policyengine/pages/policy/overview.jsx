@@ -5,16 +5,19 @@ import React, { useContext, useState } from "react";
 import { policyToURL } from "../../tools/url";
 import { getTranslators } from "../../tools/translation";
 import { CountryContext } from "../../../countries";
+import RadioButton from "../../general/radioButton";
 
 const { Step } = Steps;
 
-function generateStepFromParameter(parameter) {
-	if(parameter.value !== parameter.defaultValue) {
+function generateStepFromParameter(parameter, editingReform) {
+	const comparisonKey = editingReform ? "baselineValue" : "defaultValue";
+	const targetKey = editingReform ? "value" : "baselineValue";
+	if(parameter[targetKey] !== parameter[comparisonKey]) {
 		const formatter = getTranslators(parameter).formatter;
-		const changeLabel = (!isNaN(parameter.value) && (typeof parameter.value !== "boolean")) ? 
-			(parameter.value > parameter.defaultValue ? "Increase" : "Decrease") : 
+		const changeLabel = (!isNaN(parameter[targetKey]) && (typeof parameter[targetKey] !== "boolean")) ? 
+			(parameter[targetKey] > parameter[comparisonKey] ? "Increase" : "Decrease") : 
 			"Change";
-		const description = `${changeLabel} from ${formatter(parameter.defaultValue)} to ${formatter(parameter.value)}`
+		const description = `${changeLabel} from ${formatter(parameter[comparisonKey])} to ${formatter(parameter[targetKey])}`
 		return <Step
 			key={parameter.name}
 			status="finish"
@@ -41,12 +44,13 @@ export function OverviewHolder(props) {
 
 export function PolicyOverview() {
     const country = useContext(CountryContext);
-	const plan = Object.values(country.policy).map(generateStepFromParameter).filter(step => step != null);
+	const plan = Object.values(country.policy).map(step => generateStepFromParameter(step, country.editingReform)).filter(step => step != null);
 	const isEmpty = plan.length === 0;
-	const [page, setPage] = useState(1);
 	const pageSize = 4;
+	let [page, setPage] = useState(1);
 	return (
 		<>
+		<RadioButton style={{marginTop: 15}} options={["Baseline", "Reform"]} selected={country.editingReform ? "Reform" : "Baseline"} onChange={option => {country.setState({editingReform: option === "Reform"})}} />
 			<div style={{paddingTop: 20}}></div>
 				{!isEmpty ?
 					<>
@@ -63,9 +67,12 @@ export function PolicyOverview() {
 								/>
 							}
 					</> :
-					<Empty description="You haven't created a reform yet." />
-				}
-		</>
+					<Empty description={
+						country.editingReform ?
+							"You haven't created a reform yet." :
+							"Your reform will be compared against current policy."
+					 } />
+			}		</>
 	);
 }
 

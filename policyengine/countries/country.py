@@ -88,11 +88,18 @@ class PolicyEngineCountry:
                 if self.parameter_file is not None
                 else (),
                 self.default_reform,
+                self.Microsimulation.post_reform,
                 use_current_parameters(),
             )
 
             self.baseline = self.Microsimulation(
-                self.default_reform, dataset=self.default_dataset
+                self.default_reform,
+                dataset=self.default_dataset,
+                post_reform=(),
+            )
+
+            self.baseline_system = apply_reform(
+                self.default_reform[:-1], self.system()
             )
 
             self.baseline.simulation.trace = True
@@ -136,12 +143,14 @@ class PolicyEngineCountry:
                 reform_config["baseline"]["reform"],
                 dataset=self.default_dataset,
                 year=self.default_dataset_year,
+                post_reform=(),
             )
         )
         reformed = self.Microsimulation(
             reform_config["reform"]["reform"],
             dataset=self.default_dataset,
             year=self.default_dataset_year,
+            post_reform=(),
         )
         baseline.year = 2022
         reformed.year = 2022
@@ -243,9 +252,9 @@ class PolicyEngineCountry:
     @exclude_from_cache
     def parameters(self, params=None):
         if "policy_date" in params:
-            system = apply_reform(self.default_reform[:-1], self.system())
-            system = use_current_parameters(params["policy_date"])(system)
-            return get_PE_parameters(system)
+            return get_PE_parameters(
+                self.baseline_system, date=params.get("policy_date")
+            )
         return self.policyengine_parameters
 
     @exclude_from_cache
