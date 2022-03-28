@@ -452,9 +452,10 @@
   date: 2022-03-24 21:40:50
 - bump: minor
   changes:
-    fixed:
-    - HTTPS redirect sped up using HTML meta tags.
-    changed:
-    - Baseline policy is now editable.
     added:
     - Snapshot and reset buttons to the US app.
+    changed:
+    - Baseline policy is now editable.
+    fixed:
+    - HTTPS redirect sped up using HTML meta tags.
+  date: 2022-03-28 10:17:04
