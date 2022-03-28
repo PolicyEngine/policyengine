@@ -55,6 +55,7 @@ def test_budget_chart(situation, reform):
     budget_chart(
         baseline,
         reformed,
+        False,
         UKResultsConfig,
         has_reform=True,
         original_total_income=0,
@@ -72,6 +73,7 @@ def test_mtr_chart(situation, reform):
     mtr_chart(
         baseline,
         reformed,
+        False,
         UKResultsConfig,
         has_reform=True,
         original_total_income=0,

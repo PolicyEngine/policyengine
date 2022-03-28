@@ -464,3 +464,7 @@
     fixed:
     - Deployment timeout increased.
   date: 2022-03-28 13:15:19
+- bump: minor
+  changes:
+    added:
+    - Options to see the household earnings charts as difference only.

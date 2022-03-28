@@ -113,4 +113,4 @@ export default class Country {
     waitingOnPopulationImpact = false;
 }
 
-export const CountryContext = createContext({name: "uk"});
+export const CountryContext = createContext({ name: "uk" });
