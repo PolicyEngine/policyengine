@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.25.1] - 2022-03-28 13:15:19
+
+### Fixed
+
+- Deployment timeout increased.
+
 ## [1.25.0] - 2022-03-28 10:17:04
 
 ### Added
@@ -561,6 +567,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.25.1]: https://github.com/PolicyEngine/policyengine/compare/1.25.0...1.25.1
 [1.25.0]: https://github.com/PolicyEngine/policyengine/compare/1.24.2...1.25.0
 [1.24.2]: https://github.com/PolicyEngine/policyengine/compare/1.24.1...1.24.2
 [1.24.1]: https://github.com/PolicyEngine/policyengine/compare/1.24.0...1.24.1
