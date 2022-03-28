@@ -7,11 +7,13 @@ export default class Country {
     stateHolder = null
     populationImpactResults = null
     populationImpactBreakdownResults = null
+    editingReform = true;
 
     updatePolicy(name, value) {
         // Update a parameter - validate, then update the state
         let oldPolicy = this.policy;
-        oldPolicy[name].value = value;
+        const targetKey = this.editingReform ? "value" : "baselineValue";
+        oldPolicy[name][targetKey] = value;
         let { policy, policyValid } = this.validatePolicy(oldPolicy);
         this.stateHolder.setCountryState({
             policy: policy,
@@ -36,6 +38,9 @@ export default class Country {
         for (const key in this.policy) {
             if (this.policy[key].value !== this.policy[key].defaultValue) {
                 submission[key] = this.policy[key].value;
+            }
+            if (this.policy[key].baselineValue !== this.policy[key].defaultValue) {
+                submission["baseline_" + key] = this.policy[key].baselineValue;
             }
         }
         return submission;
@@ -104,6 +109,8 @@ export default class Country {
 
     useLocalServer = false;
     usePolicyEngineOrgServer = false;
+
+    waitingOnPopulationImpact = false;
 }
 
 export const CountryContext = createContext({ name: "uk" });

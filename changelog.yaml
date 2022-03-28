@@ -453,4 +453,18 @@
 - bump: minor
   changes:
     added:
+    - Snapshot and reset buttons to the US app.
+    changed:
+    - Baseline policy is now editable.
+    fixed:
+    - HTTPS redirect sped up using HTML meta tags.
+  date: 2022-03-28 10:17:04
+- bump: patch
+  changes:
+    fixed:
+    - Deployment timeout increased.
+  date: 2022-03-28 13:15:19
+- bump: minor
+  changes:
+    added:
     - Options to see the household earnings charts as difference only.

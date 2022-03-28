@@ -178,17 +178,22 @@ def flow_breakdown_parameter_metadata_down(
     return parameters
 
 
-def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
+def get_PE_parameters(
+    system: TaxBenefitSystem, date: str = None
+) -> Dict[str, dict]:
     """Extracts PolicyEngine parameters from OpenFisca parameter metadata.
 
     Args:
         system (TaxBenefitSystem): The tax-benefit system to extract from.
+        date (str): The date to extract parameters for. Defaults to the current date.
 
     Returns:
         Dict[str, dict]: The parameter metadata.
     """
 
     now = datetime.now().strftime("%Y-%m-%d")
+    if date is not None:
+        now = datetime.strptime(date, "%Y-%m-%d").strftime("%Y-%m-%d")
     parameters = []
     system.parameters = flow_breakdown_parameter_metadata_down(
         system.parameters, system.variables
@@ -221,7 +226,7 @@ def get_PE_parameters(system: TaxBenefitSystem) -> Dict[str, dict]:
                 name=name,
                 parameter=parameter.name,
                 description=parameter.description,
-                label=parameter.metadata.get("label", name),
+                label=parameter.metadata["label"],
                 value=parameter(now)
                 if isinstance(parameter, Parameter)
                 else None,
@@ -340,7 +345,7 @@ def create_reform(
                 f"{str_value[:4]}-{str_value[4:6]}-{str_value[6:8]}"
             )
         elif param != "household":
-            metadata = policyengine_parameters[param]
+            metadata = policyengine_parameters[param.replace("baseline_", "")]
             name = metadata["label"]
             description = get_summary(metadata, value)
             if metadata["valueType"] == "bool":

@@ -4,21 +4,25 @@
 
 export function policyToURL(targetPage, policy) {
 	let searchParams = new URLSearchParams(window.location.search);
-	for (const key in policy) {
-		if (policy[key].value !== policy[key].defaultValue) {
-			if(policy[key].unit === "/1") {
-				searchParams.set(key, parseFloat((policy[key].value * 100).toFixed(2)).toString().replace(".", "_"));
-			} else {
+	for (const editingReform of [true, false]) {
+		const targetKey = editingReform ? "value" : "baselineValue";
+		for (const key in policy) {
+			if (policy[key][targetKey] !== policy[key].defaultValue) {
 				let value;
-				try {
-					value = +parseFloat(policy[key].value.toFixed(2));
-				} catch {
-					value = +policy[key].value;
+				if(policy[key].unit === "/1") {
+					value = parseFloat((policy[key][targetKey] * 100).toFixed(2)).toString().replace(".", "_");
+				} else {
+					try {
+						value = +parseFloat(policy[key][targetKey].toFixed(2));
+					} catch {
+						value = +policy[key][targetKey];
+					}
+					value = value.toString().replace(".", "_");
 				}
-				searchParams.set(key, value.toString().replace(".", "_"));
+				searchParams.set(editingReform ? key : `baseline_${key}`, value);
+			} else {
+				searchParams.delete(editingReform ? key : `baseline_${key}`);
 			}
-		} else {
-			searchParams.delete(key);
 		}
 	}
 	const url = `${targetPage}?${searchParams.toString()}`;
@@ -37,9 +41,11 @@ export function urlToPolicy(defaultPolicy, policyRenames) {
 		}
 	}
 	for (const key of searchParams.keys()) {
+		const target = key.includes("baseline_") ? "baselineValue" : "value";
+		const parameterName = key.replace("baseline_", "");
 		try {
-			plan[key].value = +searchParams.get(key).replace("_", ".") / (defaultPolicy[key].unit === "/1" ? 100 : 1);
-		} catch {
+			plan[parameterName][target] = +searchParams.get(key).replace("_", ".") / (defaultPolicy[parameterName].unit === "/1" ? 100 : 1);
+		} catch(e) {
 			// Bad parameter, do nothing
 		}
 	}

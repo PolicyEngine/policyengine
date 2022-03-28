@@ -22,34 +22,39 @@ function Error(props) {
 }
 
 function BooleanParameterControl(props) {
+	const country = useContext(CountryContext);
 	return <Switch
 		onChange={value => props.onChange(Boolean(value))}
-		checked={props.metadata.value}
+		checked={country.editingReform ? props.metadata.value : props.metadata.baselineValue}
 		className={props.metadata.unit === "abolition" ? "switch-red" : null}
 	/>
 }
 
 function CategoricalParameterControl(props) {
+	const country = useContext(CountryContext);
+	const comparisonKey = country.editingReform ? "baselineValue" : "defaultValue";
+	const targetKey = country.editingReform ? "value" : "baselineValue";
 	return <Select 
 		style={{minWidth: 200}} 
 		showSearch 
-		placeholder={props.metadata.defaultValue} 
+		placeholder={props.metadata[comparisonKey]} 
 		onSelect={props.onChange}>
 		{props.metadata.possibleValues.map(value => (
 			<Option 
 				key={value.key} 
 				value={value.key}
 			>
-				{value.value}
+				{value[targetKey]}
 			</Option>
 		))}
 	</Select>
 }
 
 function StringParameterControl(props) {
+	const country = useContext(CountryContext);
 	return <Input
 		onPressEnter={(e) => {props.onChange(e.target.value)}}
-		defaultValue={props.metadata.value}
+		defaultValue={country.editingReform ? props.metadata.value : props.metadata.baselineValue}
 	/>
 }
 
@@ -65,6 +70,8 @@ function DateParameterControl(props) {
 }
 
 function NumericParameterControl(props) {
+	const country = useContext(CountryContext);
+	const targetKey = country.editingReform ? "value" : "baselineValue";
 	let [focused, setFocused] = useState(false);
 	let { formatter, min, max } = getTranslators(props.metadata);
 	let marks = {[max]: formatter(max)};
@@ -72,12 +79,12 @@ function NumericParameterControl(props) {
 		marks[min] = formatter(min);
 	}
 	const multiplier = props.metadata.unit === "/1" ? 100 : 1;
-	let formattedValue = formatter(props.metadata.value);
-	formattedValue = props.metadata.value === null ? <Spinner /> : formattedValue;
+	let formattedValue = formatter(props.metadata[targetKey]);
+	formattedValue = props.metadata[targetKey] === null ? <Spinner /> : formattedValue;
 	return (
 		<>
 			<Slider
-				value={props.metadata.value}
+				value={props.metadata[targetKey]}
 				style={{marginLeft: min ? 30 : 0, marginRight: 30}}
 				min={min}
 				max={max}
@@ -92,7 +99,7 @@ function NumericParameterControl(props) {
 					<Input.Search 
 						enterButton="Enter" 
 						style={{maxWidth: 300}} 
-						placeholder={multiplier * props.metadata.value} 
+						placeholder={multiplier * props.metadata[targetKey]} 
 						onSearch={value => {
 							setFocused(false); 
 							props.onChange(value / multiplier);
