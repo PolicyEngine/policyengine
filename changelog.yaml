@@ -459,3 +459,7 @@
     fixed:
     - HTTPS redirect sped up using HTML meta tags.
   date: 2022-03-28 10:17:04
+- bump: patch
+  changes:
+    fixed:
+    - Deployment timeout increased.
