@@ -9,14 +9,7 @@ With PolicyEngine, you can design simple or complex tax and benefit reforms, and
 
 ### How do I use PolicyEngine?
 
-See our demo video below for a tour of the interface. 
-<div class="row">
-
-    <div class="col d-flex justify-content-center" style="margin-top: 10px; margin-bottom: 20px;">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/nTIzJ-mzkno" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
-
-</div>
+See the help button in the bottom-left for a demo.
 
 ### When will PolicyEngine be available in my country?
 

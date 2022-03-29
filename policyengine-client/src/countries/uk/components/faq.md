@@ -8,14 +8,10 @@
 PolicyEngine is a tool to democratise tax and benefit analysis.
 With PolicyEngine, anyone can design a reform to the UK tax and benefit system, and explore the impact of that reform both on society and one's own household.
 
+
 ### How do I use PolicyEngine?
 
-See our demo video below for a tour of the interface. 
-<div class="row">
-    <div class="col d-flex justify-content-center" style="margin-top: 10px; margin-bottom: 20px;">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/nTIzJ-mzkno" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
-</div>
+See the help button in the bottom-left for a demo.
 
 
 ### Who created PolicyEngine?
