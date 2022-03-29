@@ -307,7 +307,13 @@ export class UK extends Country {
         />,
         timeTravel: <TimeTravel />,
     }
-    extraVariableMetadata = {}
+    extraVariableMetadata = {
+        owned_land: {max: 1_000_000},
+        main_residence_value: {max: 1_000_000},
+        other_residential_property_value: {max: 1_000_000},
+        non_residential_property_value: {max: 1_000_000},
+        corporate_wealth: {max: 1_000_000},
+    }
     validatePolicy = validatePolicy
     situation = {
         "people": {

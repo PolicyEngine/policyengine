@@ -6,7 +6,10 @@
 import moment from "moment";
 
 export function getTranslators(parameter) {
-	const period = parameter.period || parameter.definitionPeriod;
+	let period = parameter.period || parameter.definitionPeriod;
+	if(parameter.quantityType === "stock") {
+		period = null;
+	}
 	const CURRENCY_SYMBOLS = {
 		"currency-GBP": "£",
 		"currency-USD": "$",
