@@ -12,14 +12,14 @@ export class BreakdownTable extends React.Component {
     static contextType = CountryContext;
     constructor(props) {
         super(props);
-        this.state = {waiting: false, error: false, showAbsDecile: false};
+        this.state = {error: false, showAbsDecile: false};
         this.fetchResults = this.fetchResults.bind(this);
     }
 
     fetchResults() {
         let url = new URL(`${this.context.apiURL}/population-breakdown`);
 		url.search = new URLSearchParams(this.context.getPolicyJSONPayload()).toString();
-		this.setState({ waiting: true }, () => {
+		this.context.setState({ waitingOnPopulationBreakdown: true }, () => {
 			fetch(url)
 				.then((res) => {
 					if (res.ok) {
@@ -28,10 +28,11 @@ export class BreakdownTable extends React.Component {
 						throw res;
 					}
 				}).then((data) => {
-					this.setState({ waiting: false, error: false });
-                    this.context.setState({populationImpactBreakdownResults: data});
+					this.setState({ error: false });
+                    this.context.setState({populationImpactBreakdownResults: data, waitingOnPopulationBreakdown: false});
 				}).catch(e => {
-					this.setState({ waiting: false, error: true });
+                    this.context.setState({ waitingOnPopulationBreakdown: false});
+					this.setState({ error: true });
 				});
 		});
     }
@@ -39,10 +40,10 @@ export class BreakdownTable extends React.Component {
     render() {
         const results = this.context.populationImpactBreakdownResults;
         return (
-            <Collapse ghost onChange={open => {if(open && !results) { this.fetchResults(); }}}>
-                <Panel header={<Tooltip title={`Estimated to take around ${prettyMilliseconds(2400 + Object.keys(this.props.policy).filter(x => x.value !== x.defaultValue).length * 1600, {compact: true})}`}>See a breakdown of the changes (may take longer)</Tooltip>} key="1">
+            <Collapse ghost onChange={open => {if(open && (!results || this.context.populationBreakdownIsOutdated)) { this.fetchResults(); }}}>
+                <Panel header={<Tooltip title={`Estimated to take around ${prettyMilliseconds(2400 + Object.values(this.props.policy).filter(x => x.value !== x.baselineValue).length * 1600, {compact: true})}`}>See a breakdown of the changes (may take longer)</Tooltip>} key="1">
                     {
-                        (this.state.waiting || (!this.state.error && !results)) ?
+                        (this.context.waitingOnPopulationBreakdown || (!this.state.error && !results)) ?
                             <Spinner /> :
                             this.state.error ?
                                 <Alert type="error" message="Something went wrong." /> :

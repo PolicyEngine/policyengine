@@ -6,8 +6,9 @@ export function policyToURL(targetPage, policy) {
 	let searchParams = new URLSearchParams(window.location.search);
 	for (const editingReform of [true, false]) {
 		const targetKey = editingReform ? "value" : "baselineValue";
+		const comparisonKey = editingReform ? "baselineValue" : "defaultValue";
 		for (const key in policy) {
-			if (policy[key][targetKey] !== policy[key].defaultValue) {
+			if (policy[key][targetKey] !== policy[key][comparisonKey]) {
 				let value;
 				if(policy[key].unit === "/1") {
 					value = parseFloat((policy[key][targetKey] * 100).toFixed(2)).toString().replace(".", "_");
@@ -45,6 +46,9 @@ export function urlToPolicy(defaultPolicy, policyRenames) {
 		const parameterName = key.replace("baseline_", "");
 		try {
 			plan[parameterName][target] = +searchParams.get(key).replace("_", ".") / (defaultPolicy[parameterName].unit === "/1" ? 100 : 1);
+			if((target === "baselineValue") && !searchParams.has(parameterName)) {
+				plan[parameterName].value = +searchParams.get(key).replace("_", ".") / (defaultPolicy[parameterName].unit === "/1" ? 100 : 1);
+			}
 		} catch(e) {
 			// Bad parameter, do nothing
 		}

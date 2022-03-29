@@ -272,19 +272,50 @@ class PolicyEngineCountry:
         reform_config = create_reform(
             params, self.policyengine_parameters, self.default_reform[:-1]
         )
+        if reform_config["baseline"]["has_changed"]:
+            baseline_reform_indices = [
+                i
+                for i in range(len(reform_config["reform"]["descriptions"]))
+                if reform_config["reform"]["descriptions"][i]
+                in reform_config["baseline"]["descriptions"]
+            ]
+            filtered_reforms = [
+                reform
+                for i, reform in enumerate(reform_config["reform"]["reform"])
+                if i not in baseline_reform_indices
+            ]
+            filtered_descriptions = [
+                description
+                for i, description in enumerate(
+                    reform_config["reform"]["descriptions"]
+                )
+                if i not in baseline_reform_indices
+            ]
+        else:
+            filtered_reforms = reform_config["reform"]["reform"][1:]
+            filtered_descriptions = reform_config["reform"]["descriptions"][1:]
 
         def _create_reform(reform):
+            if reform_config["baseline"]["has_changed"]:
+                reform_input = (
+                    reform_config["baseline"]["reform"][1:],
+                    reform_config["reform"]["reform"][0],
+                    *reform,
+                )
+            else:
+                reform_input = (reform_config["reform"]["reform"][0], *reform)
             sim = self.Microsimulation(
-                (reform_config["reform"]["reform"][0], *reform),
+                reform_input,
                 dataset=self.default_dataset,
+                post_reform=(),
             )
             sim.year = 2022
             return sim
 
         baseline, reformed = self._get_microsimulations(params)
         return get_breakdown_and_chart_per_provision(
-            reform_config["reform"]["reform"][1:],
-            reform_config["reform"]["descriptions"][1:],
+            filtered_reforms,
+            filtered_descriptions,
             baseline,
             reformed,
             _create_reform,
