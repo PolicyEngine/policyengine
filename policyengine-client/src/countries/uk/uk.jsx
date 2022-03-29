@@ -109,7 +109,7 @@ export class UK extends Country {
                     "scottish_intermediate_threshold",
                     "scottish_higher_rate",
                     "scottish_higher_threshold",
-                    "scottish_add_rate",
+                    "scottish_additional_rate",
                     "scottish_add_threshold",
                     "extra_scot_band",
                 ],

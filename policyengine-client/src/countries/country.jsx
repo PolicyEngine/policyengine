@@ -111,6 +111,9 @@ export default class Country {
     usePolicyEngineOrgServer = false;
 
     waitingOnPopulationImpact = false;
+    waitingOnAccountingTableBaseline = false;
+    waitingOnAccountingTableReform = false;
+    waitingOnEarningsCharts = false;
 }
 
 export const CountryContext = createContext({ name: "uk" });

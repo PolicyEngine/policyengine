@@ -266,11 +266,17 @@ CURRENCY_SYMBOLS = {
 
 
 def apply_reform(reform: tuple, system: TaxBenefitSystem) -> TaxBenefitSystem:
+    if not hasattr(system, "modify_parameters"):
+
+        def modify_parameters(self, modifier):
+            self.parameters = modifier(self.parameters)
+
+        system.modify_parameters = modify_parameters.__get__(system)
     if isinstance(reform, tuple):
         for subreform in reform:
             system = apply_reform(subreform, system)
     else:
-        system = reform(system)
+        reform.apply(system)
     return system
 
 

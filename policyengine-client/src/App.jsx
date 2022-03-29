@@ -20,6 +20,12 @@ import ABOUT from "./markdown/about.md";
 import CONTACT from "./markdown/contact.md";
 // Import other markdown files here
 
+const markdownPages = [
+    { content: UK_FAQ, path: "/uk/faq", title: "FAQ" },
+    { content: ABOUT, path: "/about", title: "About" },
+    { content: CONTACT, path: "/contact", title: "Contact" },
+    // Add other pages here
+];
 
 export default function App(props) {
     // Redirect http to https
@@ -28,12 +34,6 @@ export default function App(props) {
     }
     const uk = new UK();
     const us = new US();
-    const markdownPages = [
-        { content: UK_FAQ, path: "/uk/faq", title: "FAQ" },
-        { content: ABOUT, path: "/about", title: "About" },
-        { content: CONTACT, path: "/contact", title: "Contact" },
-        // Add other pages here
-    ];
     return (
         <Router>
             <Switch>

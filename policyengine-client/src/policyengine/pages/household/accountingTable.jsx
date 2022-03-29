@@ -18,8 +18,6 @@ export default class AccountingTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            waitingOnBaseline: false,
-            waitingOnReform: false,
             error: false,
         }
         this.updateBaselineSituation = this.updateBaselineSituation.bind(this);
@@ -27,10 +25,8 @@ export default class AccountingTable extends React.Component {
     }
 
     updateBaselineSituation() {
-        this.setState({ waitingOnBaseline: true }, () => {
-            const submission = this.context.getPolicyJSONPayload();
+        this.context.setState({ waitingOnAccountingTableBaseline: true }, () => {
             let url = new URL(this.context.apiURL + "/calculate");
-            url.search = new URLSearchParams(submission).toString();
             fetch(url, {
                 method: 'POST',
                 headers: {
@@ -45,17 +41,18 @@ export default class AccountingTable extends React.Component {
                     throw res;
                 }
             }).then((data) => {
-                this.context.setState({ computedBaselineSituation: data, baselineSituationImpactIsOutdated: false }, () => {
-                    this.setState({ waitingOnBaseline: false, error: false });
+                this.context.setState({ waitingOnAccountingTableBaseline: false, computedBaselineSituation: data, baselineSituationImpactIsOutdated: false }, () => {
+                    this.setState({ error: false });
                 });
             }).catch(e => {
-                this.setState({ waitingOnBaseline: false, error: true, });
+                this.context.setState({ waitingOnAccountingTableBaseline: false});
+                this.setState({ error: true, });
             });
         });
     }
 
     updateReformSituation() {
-        this.setState({ waitingOnReform: true }, () => {
+        this.context.setState({ waitingOnAccountingTableReform: true }, () => {
             const submission = this.context.getPolicyJSONPayload();
             let url = new URL(this.context.apiURL + "/calculate");
             url.search = new URLSearchParams(submission).toString();
@@ -73,21 +70,22 @@ export default class AccountingTable extends React.Component {
                     throw res;
                 }
             }).then((data) => {
-                this.context.setState({ computedReformSituation: data, reformSituationImpactIsOutdated: false }, () => {
-                    this.setState({ waitingOnReform: false, error: false });
+                this.context.setState({ waitingOnAccountingTableReform: false, computedReformSituation: data, reformSituationImpactIsOutdated: false }, () => {
+                    this.setState({ error: false });
                 })
             }).catch(e => {
-                this.setState({ waitingOnReform: false, error: true });
+                this.context.setState({ waitingOnAccountingTableReform: false});
+                this.setState({ error: true });
             });
         });
     }
 
     componentDidMount() {
-        if (this.context.baselineSituationImpactIsOutdated) {
+        if (this.context.baselineSituationImpactIsOutdated && !this.context.waitingOnAccountingTableBaseline) {
             this.updateBaselineSituation();
         }
         const reformExists = Object.keys(this.context.getPolicyJSONPayload()).length > 0;
-        if (reformExists && this.context.reformSituationImpactIsOutdated) {
+        if (reformExists && this.context.reformSituationImpactIsOutdated && !this.context.waitingOnAccountingTableReform) {
             this.updateReformSituation();
         }
     }
@@ -100,12 +98,12 @@ export default class AccountingTable extends React.Component {
         if (
             this.context.computedBaselineSituation === null
             || (reformExists && (this.context.computedReformSituation === null))
-            || this.state.waitingOnBaseline
-            || this.state.waitingOnReform
+            || this.context.waitingOnAccountingTableBaseline
+            || this.context.waitingOnAccountingTableReform
         ) {
-            const message = (this.state.waitingOnBaseline & this.state.waitingOnReform) ?
+            const message = (this.context.waitingOnAccountingTableBaseline & this.context.waitingOnAccountingTableReform) ?
                 "Calculating baseline and reform impact..." :
-                (this.state.waitingOnBaseline ? "Calculating baseline impact..." : "Calculating reform impact...");
+                (this.context.waitingOnAccountingTableBaseline ? "Calculating baseline impact..." : "Calculating reform impact...");
             return <Centered><Spinner rightSpacing={10} />{message}</Centered>
         } else if (this.state.error) {
             return <Centered>Something went wrong.</Centered>

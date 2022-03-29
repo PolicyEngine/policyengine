@@ -12,7 +12,6 @@ export default class AccountingTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            waiting: false,
             error: false,
             show_difference: false,
         }
@@ -20,7 +19,7 @@ export default class AccountingTable extends React.Component {
     }
 
     updateCharts() {
-        this.setState({ waiting: true, }, () => {
+        this.context.setState({ waitingOnEarningsCharts: true, }, () => {
             const submission = this.context.getPolicyJSONPayload();
             let url = new URL(this.context.apiURL + "/household-variation");
             url.search = new URLSearchParams(submission).toString();
@@ -38,11 +37,12 @@ export default class AccountingTable extends React.Component {
                     throw res;
                 }
             }).then((data) => {
-                this.context.setState({ computedSituationVariationCharts: data, situationVariationImpactIsOutdated: false }, () => {
-                    this.setState({ waiting: false, error: false });
+                this.context.setState({ computedSituationVariationCharts: data, situationVariationImpactIsOutdated: false, waitingOnEarningsCharts: false }, () => {
+                    this.setState({ error: false });
                 });
             }).catch(e => {
-                this.setState({ waiting: false, error: true, });
+                this.context.setState({ waitingOnEarningsCharts: false });
+                this.setState({ error: true, });
             });
         });
     }
@@ -57,7 +57,7 @@ export default class AccountingTable extends React.Component {
         // Update situations where necessary (re-using where not)
         // If the policy changes, we need to update only the reform 
         // situation. If the situation changes, we need to update both.
-        if (!this.context.computedSituationVariationCharts || this.state.waiting) {
+        if (!this.context.computedSituationVariationCharts || this.context.waitingOnEarningsCharts) {
             const message = "Calculating tax-benefit responses to your income...";
             return <Centered><Spinner rightSpacing={10} />{message}</Centered>
         } else if (this.state.error) {
@@ -70,8 +70,8 @@ export default class AccountingTable extends React.Component {
                     <Spacing />
                     <div className="justify-content-center d-flex" style={{marginBottom: 10}}>
                         <Radio.Group defaultValue={true} buttonStyle="solid" onChange={() => this.setState({ show_difference: !this.state.show_difference })} >
-                            <Radio.Button value={true}>Baseline and Reform Chart</Radio.Button>
-                            <Radio.Button value={false}>Difference Chart</Radio.Button>
+                            <Radio.Button value={true}>Baseline and reform</Radio.Button>
+                            <Radio.Button value={false}>Difference</Radio.Button>
                         </Radio.Group>
                     </div>
                     <Row>
