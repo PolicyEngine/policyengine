@@ -62,10 +62,10 @@ function LandingPageContent() {
     const in_uk = window.navigator.language === "en-GB";
     const in_us = window.navigator.language === "en-US";
     const outside_uk_us = !in_uk && !in_us;
-    const ukIcon = <Col md={6} style={{marginBottom: 15}}>
+    const ukIcon = <Col md={6} style={{marginBottom: 15}} key={"ukIcon"}>
         <img onClick={() => window.location.href = "/uk/policy"} className="img-fluid" style={{borderRadius: 35, cursor: "pointer"}} alt="UK" src={UKFadedBlue} />
         </Col>;
-    const usIcon = <Col md={6} style={{marginBottom: 15}}>
+    const usIcon = <Col md={6} style={{marginBottom: 15}} key={"usIcon"}>
             <img onClick={() => window.location.href = "/us/household"} className="img-fluid" style={{borderRadius: 35, cursor: "pointer"}} alt="US" src={USFadedBlue} />
         </Col>;
     return <>
@@ -87,8 +87,8 @@ function LandingPageContent() {
         </Row>
         <Subheader>Who we help</Subheader>
         <UsageExplanations />
-        <Subheader subtitle={<><h6>We're currently seeking funding partners, volunteer developers and policy analysts to expand our work and its impact. </h6><h6>Is that you? <a href="mailto:hello@policyengine.org">Get in touch.</a></h6></>}></Subheader>
-        <Subheader subtitle="Analyses of policy reforms by the PolicyEngine team.">Blog</Subheader>
+        <Subheader subtitle={<>We're currently seeking funding partners, volunteer developers and policy analysts to expand our work and its impact. Is that you? <a href="mailto:hello@policyengine.org">Get in touch.</a></>}></Subheader>
+        <Subheader>Blog</Subheader>
         <MediumFeed />
         <Footer />
     </>
@@ -113,7 +113,7 @@ class MediumFeed extends React.Component {
             return <></>;
         }
         const items = this.state.feed.items.map(post => 
-            <Col md={3} style={{display: "inline-block"}}>
+            <Col md={3} style={{display: "inline-block"}} key={post.link}>
                 <Card hoverable style={{marginTop: 10}} bordered={false} cover={
                     <img style={{minHeight: 200, objectFit: "cover"}} alt={post.title + " cover image"} src={post.thumbnail} />
                 }

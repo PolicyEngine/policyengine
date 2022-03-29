@@ -1,4 +1,3 @@
-from datetime import datetime
 from pathlib import Path
 from typing import Dict, Tuple, Type
 from openfisca_core.indexed_enums.enum import Enum

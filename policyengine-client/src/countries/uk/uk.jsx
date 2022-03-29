@@ -109,7 +109,7 @@ export class UK extends Country {
                     "scottish_intermediate_threshold",
                     "scottish_higher_rate",
                     "scottish_higher_threshold",
-                    "scottish_add_rate",
+                    "scottish_additional_rate",
                     "scottish_add_threshold",
                     "extra_scot_band",
                 ],
@@ -307,7 +307,13 @@ export class UK extends Country {
         />,
         timeTravel: <TimeTravel />,
     }
-    extraVariableMetadata = {}
+    extraVariableMetadata = {
+        owned_land: {max: 1_000_000},
+        main_residence_value: {max: 1_000_000},
+        other_residential_property_value: {max: 1_000_000},
+        non_residential_property_value: {max: 1_000_000},
+        corporate_wealth: {max: 1_000_000},
+    }
     validatePolicy = validatePolicy
     situation = {
         "people": {

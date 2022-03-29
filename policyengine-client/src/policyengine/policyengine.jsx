@@ -13,6 +13,8 @@ import { policyToURL, urlToPolicy } from "./tools/url";
 import { PopulationImpact } from "./pages/populationImpact";
 import FAQ from "./pages/markdown";
 import { Household } from "./pages/household";
+import Centered from "./general/centered";
+import Spinner from "./general/spinner";
 
 
 export default class PolicyEngine extends React.Component {
@@ -79,7 +81,15 @@ export default class PolicyEngine extends React.Component {
     render() {
         // Once fully loaded, direct onto individual pages
         if (!this.state.country.fullyLoaded) {
-            return <></>;
+            return <PolicyEngineWrapper>
+                <CountryContext.Provider value={this.state.country}>
+                    <Header />
+                    <BodyWrapper>
+                        <Centered><Spinner /></Centered>
+                    </BodyWrapper>
+                    <Footer />
+                </CountryContext.Provider>
+            </PolicyEngineWrapper>
         }
         const countryName = this.state.country.name;
         document.title = "PolicyEngine " + this.state.country.properName;
