@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.27.0] - 2022-03-29 10:35:30
+
+### Fixed
+
+- 50-70% speed increase in simulations.
+- Broken IFrame removed from FAQ pages.
+- Blog subtitle removed.
+
 ## [1.26.0] - 2022-03-28 14:55:14
 
 ### Added
@@ -573,6 +581,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.27.0]: https://github.com/PolicyEngine/policyengine/compare/1.26.0...1.27.0
 [1.26.0]: https://github.com/PolicyEngine/policyengine/compare/1.25.1...1.26.0
 [1.25.1]: https://github.com/PolicyEngine/policyengine/compare/1.25.0...1.25.1
 [1.25.0]: https://github.com/PolicyEngine/policyengine/compare/1.24.2...1.25.0
