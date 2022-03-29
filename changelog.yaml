@@ -469,3 +469,9 @@
     added:
     - Options to see the household earnings charts as difference only.
   date: 2022-03-28 14:55:14
+- bump: minor
+  changes:
+    fixed:
+    - 50-70% speed increase in simulations.
+    - Broken IFrame removed from FAQ pages.
+    - Blog subtitle removed.
