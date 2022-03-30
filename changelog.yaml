@@ -492,3 +492,8 @@
   changes:
     added:
     - CDCC parameters.
+- bump: minor
+  changes:
+    added:
+    - Country-specific social preview cards.
+    - US tax parameters.
