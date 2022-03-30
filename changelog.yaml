@@ -478,9 +478,12 @@
   date: 2022-03-29 10:35:30
 - bump: patch
   changes:
-    fixed:
-    - Population impact breakdown correctly handles baseline-editing simulations.
+    changed:
+    - Bump OpenFisca US to update SNAP logic.
+    removed:
+    - Unused elderly/disabled SNAP gross income limit parameter.
+  date: 2022-03-30 09:44:07
 - bump: patch
   changes:
     fixed:
-    - Population impact breakdown functions correctly when a baseline reform is provided.
+    - Population impact breakdown correctly handles baseline-editing simulations.
