@@ -67,11 +67,9 @@ export class US extends Country {
                 "Child tax credit": {
                     "Eligibility": [
                         "ctc_child_age",
-                        "ctc_child_young_age",
                     ],
                     "Amount": [
                         "ctc_child",
-                        "ctc_child_young_bonus",
                         "ctc_adult_dependent",
                     ],
                     "Phaseout": [
@@ -119,55 +117,49 @@ export class US extends Country {
                     ],
                 },
             },
-            "Payroll taxes": {
-                "Medicare": [
-                    "medicare_rate",
-                    "additional_medicare_rate",
+        },
+        "USDA": {
+            "SNAP": {
+                "Eligibility": [
+                    "snap_gross_income_limit",
+                    "snap_net_income_limit",
                 ],
-                "Social Security": [
-                    "social_security_tax_threshold",
-                    "social_security_tax_rate",
+                "Deductions": [
+                    "snap_earned_income_deduction",
+                    "snap_medical_expense_disregard",
+                    "snap_homeless_shelter_deduction",
+                    "snap_shelter_deduction_income_share_disregard",
+                ],
+                "Allotment": [
+                    "snap_max_allotment_main",
+                ],
+            },
+            "School meals": {
+                "Eligibility": [
+                    "school_meal_free_fpg_limit",
+                    "school_meal_reduced_fpg_limit",
+                ]
+            },
+        },
+        "FCC": {
+            "Lifeline": {
+                "Eligibility": [
+                    "lifeline_income_fpl_limit",
+                ],
+                "Benefit": [
+                    "lifeline_amount",
+                    "lifeline_rural_tribal_supplement",
+                ]
+            },
+            "Affordable Connectivity Program": {
+                "Eligibility": [
+                    "acp_income_fpl_limit",
                 ],
             },
         },
-        "SNAP": {
-            "Eligibility": [
-                "snap_gross_income_limit",
-                "snap_net_income_limit",
-            ],
-            "Deductions": [
-                "snap_earned_income_deduction",
-                "snap_medical_expense_disregard",
-                "snap_homeless_shelter_deduction",
-                "snap_shelter_deduction_income_share_disregard",
-            ],
-            "Allotment": [
-                "snap_max_allotment_main",
-            ],
-        },
-        "School meals": {
-            "Eligibility": [
-                "school_meal_free_fpg_limit",
-                "school_meal_reduced_fpg_limit",
-            ]
-        },
-        "Lifeline": {
-            "Eligibility": [
-                "lifeline_income_fpl_limit",
-            ],
-            "Benefit": [
-                "lifeline_amount",
-                "lifeline_rural_tribal_supplement",
-            ]
-        },
-        "Affordable Connectivity Program": {
-            "Eligibility": [
-                "acp_income_fpl_limit",
-            ],
-        }
     }
-    defaultOpenParameterGroups = ["/SNAP"];
-    defaultSelectedParameterGroup = "/SNAP/Eligibility"
+    defaultOpenParameterGroups = ["/USDA", "/USDA/SNAP"];
+    defaultSelectedParameterGroup = "/USDA/SNAP/Eligibility"
     showSnapShot = false
     organisations = {}
     // OpenFisca data
