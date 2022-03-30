@@ -64,6 +64,26 @@ export class US extends Country {
                 "irs_income_bracket_thresholds",
             ],
             "Credits": {
+                "Child tax credit": {
+                    "Eligibility": [
+                        "ctc_child_age",
+                        "ctc_child_young_age",
+                    ],
+                    "Amount": [
+                        "ctc_child",
+                        "ctc_child_young_bonus",
+                        "ctc_adult_dependent",
+                    ],
+                    "Phaseout": [
+                        "ctc_phaseout_rate",
+                        "ctc_phaseout_threshold",
+                    ],
+                    "Refundability": [
+                        "ctc_refundable_child_max",
+                        "ctc_refundable_phase_in_rate",
+                        "ctc_refundable_phase_in_threshold",
+                    ],
+                },
                 "Child and dependent care": {
                     "General": [
                         "abolish_cdcc",
@@ -80,6 +100,22 @@ export class US extends Country {
                         "cdcc_phaseout_rate",
                         "cdcc_phaseout_start",
                         "cdcc_min_rate",
+                    ],
+                },
+                "Education": {
+                    "Phaseout": [
+                        "education_credit_phaseout_start_single",
+                        "education_credit_phaseout_start_joint",
+                        "education_credit_phaseout_length_single",
+                        "education_credit_phaseout_length_joint",
+                    ],
+                    "Lifetime Learning Credit": [
+                        "abolish_llc",
+                        "llc_max_expense",
+                    ],
+                    "American Opportunity Credit": [
+                        "abolish_aoc",
+                        "aoc_refundable_percentage",
                     ],
                 },
             },
@@ -128,7 +164,12 @@ export class US extends Country {
     entities = null
     variables = null
     // Adjustments to OpenFisca data
-    extraParameterMetadata = {}
+    extraParameterMetadata = {
+        ctc_child_age: {max: 21},
+        ctc_child: {max: 10_000},
+        ctc_child_young_bonus: {max: 10_000},
+        ctc_adult_dependent: {max: 10_000},
+    }
     extraVariableMetadata = {}
     situation = {
         "people": {
@@ -180,6 +221,8 @@ export class US extends Country {
         "is_breastfeeding",
         "is_wic_at_nutritional_risk",
         "ca_cvrp_vehicle_rebate_amount",
+        "qualified_tuition_expenses",
+        "is_eligible_for_american_opportunity_credit",
         // SPM unit.
         "housing_cost",
         "childcare_expenses",
@@ -259,6 +302,9 @@ export class US extends Country {
             ],
             "Demographics": [
                 "age",
+                "is_in_k12_school",
+                "is_full_time_student",
+                "is_eligible_for_american_opportunity_credit",
                 "is_ssi_disabled",
                 "is_permanently_disabled_veteran",
                 "is_surviving_spouse_of_disabled_veteran",
@@ -270,6 +316,7 @@ export class US extends Country {
             ],
             "Expenses": [
                 "medical_out_of_pocket_expenses",
+                "qualified_tuition_expenses",
                 "ca_cvrp_vehicle_rebate_amount",
             ],
         }
