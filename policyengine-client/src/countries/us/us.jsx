@@ -218,7 +218,7 @@ export class US extends Country {
         "is_surviving_spouse_of_disabled_veteran",
         "is_surviving_child_of_disabled_veteran",
         "is_in_k12_school",
-        "is_full_time_student",
+        "is_full_time_college_student",
         "is_mother",
         "is_pregnant",
         "is_breastfeeding",
@@ -306,7 +306,7 @@ export class US extends Country {
             "Demographics": [
                 "age",
                 "is_in_k12_school",
-                "is_full_time_student",
+                "is_full_time_college_student",
                 "is_eligible_for_american_opportunity_credit",
                 "is_ssi_disabled",
                 "is_permanently_disabled_veteran",
