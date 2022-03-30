@@ -62,7 +62,27 @@ export class US extends Country {
             "Income tax schedule": [
                 "irs_income_bracket_rates",
                 "irs_income_bracket_thresholds",
-            ]
+            ],
+            "Credits": {
+                "Child and dependent care": {
+                    "General": [
+                        "abolish_cdcc",
+                    ],
+                    "Maximum rate": [
+                        "cdcc_max_expense",
+                        "cdcc_max_rate",
+                        "cdcc_refundable",
+                    ],
+                    "Eligibility": [
+                        "cdcc_dependent_child_age",
+                    ],
+                    "Phaseout": [
+                        "cdcc_phaseout_rate",
+                        "cdcc_phaseout_start",
+                        "cdcc_min_rate",
+                    ],
+                },
+            },
         },
         "SNAP": {
             "Eligibility": [
@@ -153,7 +173,8 @@ export class US extends Country {
         "is_permanently_disabled_veteran",
         "is_surviving_spouse_of_disabled_veteran",
         "is_surviving_child_of_disabled_veteran",
-        "is_in_school",
+        "is_in_k12_school",
+        "is_full_time_student",
         "is_mother",
         "is_pregnant",
         "is_breastfeeding",
@@ -342,7 +363,7 @@ export class US extends Country {
         const childName = childNamer[this.getNumChildren() + 1];
         situation.people[childName] = {
             "age": { "2022": 10 },
-            "is_in_school": { "2022": true },
+            "is_in_k12_school": { "2022": true },
         };
         situation.families["Your family"].members.push(childName);
         situation.tax_units["Your tax unit"].members.push(childName);
