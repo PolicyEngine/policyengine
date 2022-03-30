@@ -343,7 +343,11 @@ def create_reform(
     )
     baseline_reform_passed = False
     policy_date_reform = None
-    for param, value in params.items():
+    pairs = sorted(
+        list(params.items()),
+        key=lambda pair: 0 if "baseline_" in pair[0] else 1,
+    )
+    for param, value in pairs:
         if param == "policy_date":
             str_value = str(value)
             baseline_reform_passed = True
@@ -383,6 +387,9 @@ def create_reform(
                 result["baseline"]["reform"] += [reform]
                 result["baseline"]["names"] += [name]
                 result["baseline"]["descriptions"] += [description]
+                result["reform"]["reform"] += [reform]
+                result["reform"]["names"] += [name]
+                result["reform"]["descriptions"] += [description]
                 baseline_reform_passed = True
             else:
                 result["reform"]["reform"] += [reform]

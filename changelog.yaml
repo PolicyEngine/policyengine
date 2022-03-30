@@ -483,3 +483,7 @@
     removed:
     - Unused elderly/disabled SNAP gross income limit parameter.
   date: 2022-03-30 09:44:07
+- bump: patch
+  changes:
+    fixed:
+    - Population impact breakdown correctly handles baseline-editing simulations.
