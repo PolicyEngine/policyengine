@@ -493,3 +493,8 @@
     added:
     - CDCC parameters.
   date: 2022-03-30 11:59:14
+- bump: minor
+  changes:
+    added:
+    - Country-specific social preview cards.
+    - US tax parameters.
