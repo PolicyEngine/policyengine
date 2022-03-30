@@ -17,7 +17,7 @@ function validatePolicy(policy, defaultPolicy) {
     if (defaultPolicy) {
         for (let parameter in policy) {
             policy[parameter].defaultValue = defaultPolicy[parameter].value;
-            if(policy[parameter].baselineValue === undefined) {
+            if (policy[parameter].baselineValue === undefined) {
                 policy[parameter].baselineValue = defaultPolicy[parameter].value;
             }
         }
@@ -66,9 +66,8 @@ export class US extends Country {
         },
         "SNAP": {
             "Eligibility": [
-                "snap_gross_income_limit_standard",
-                "snap_gross_income_limit_elderly_disabled",
-                "snap_net_income_limit_standard",
+                "snap_gross_income_limit",
+                "snap_net_income_limit",
             ],
             "Deductions": [
                 "snap_earned_income_deduction",
@@ -360,7 +359,7 @@ export class US extends Country {
                 }
             }
         }
-        if(name === "Your spouse") {
+        if (name === "Your spouse") {
             situation["families"]["Your family"]["is_married"]["2022"] = false;
         }
         delete situation.people[name];
