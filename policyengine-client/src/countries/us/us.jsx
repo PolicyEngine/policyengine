@@ -119,6 +119,16 @@ export class US extends Country {
                     ],
                 },
             },
+            "Payroll taxes": {
+                "Medicare": [
+                    "medicare_rate",
+                    "additional_medicare_rate",
+                ],
+                "Social Security": [
+                    "social_security_tax_threshold",
+                    "social_security_tax_rate",
+                ],
+            },
         },
         "SNAP": {
             "Eligibility": [
