@@ -9,9 +9,8 @@ export default function TimeTravel(props) {
     let [date, setDate] = React.useState(moment());
     const country = useContext(CountryContext);
     let [isLoading, setIsLoading] = React.useState(false);
-    return (
-        <>
-            <h6 style={{marginTop: 20}}>Snapshot</h6>
+    const snapShot = 
+        <><h6 style={{marginTop: 20}}>Snapshot</h6>
             <p>Select a date below to set all parameters to their legislative value as of that date.</p>
             <DatePicker
                 allowClear={false}
@@ -46,7 +45,10 @@ export default function TimeTravel(props) {
                 style={{marginLeft: 20, marginRight: 20}}
             >Set policy</Button>
             {isLoading && <Spinner />}
-            <div style={{paddingBottom: 20}} />
+            <div style={{paddingBottom: 20}} /></>;
+    return (
+        <>
+            {country.showSnapShot && snapShot}
             <h6 style={{marginTop: 20}}>Reset</h6>
             <p>Reset all reform parameters to their values in the baseline.</p>
             <Button onClick={

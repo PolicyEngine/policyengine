@@ -168,6 +168,7 @@ export class US extends Country {
     }
     defaultOpenParameterGroups = ["/SNAP"];
     defaultSelectedParameterGroup = "/SNAP/Eligibility"
+    showSnapShot = false
     organisations = {}
     // OpenFisca data
     parameters = null

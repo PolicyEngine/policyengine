@@ -118,6 +118,7 @@ export default class Country {
     waitingOnAccountingTableReform = false;
     waitingOnEarningsCharts = false;
     waitingOnPopulationBreakdown = false;
+    showSnapShot = true
 }
 
 export const CountryContext = createContext({ name: "uk" });
