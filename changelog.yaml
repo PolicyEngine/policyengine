@@ -480,3 +480,7 @@
   changes:
     fixed:
     - Population impact breakdown correctly handles baseline-editing simulations.
+- bump: patch
+  changes:
+    fixed:
+    - Population impact breakdown functions correctly when a baseline reform is provided.
