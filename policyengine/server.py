@@ -14,6 +14,7 @@ from policyengine.utils.general import (
 )
 from policyengine.countries import UK, US, PolicyEngineCountry
 from policyengine import VERSION
+from policyengine.utils.social_card import add_social_card_metadata
 
 
 class PolicyEngine:
@@ -26,9 +27,19 @@ class PolicyEngine:
 
     def _init_forwarding(self):
         def static_site(e):
-            return send_from_directory(
-                str(Path(__file__).parent / "static"), "index.html"
+            with open(
+                str(Path(__file__).parent / "static" / "index.html")
+            ) as f:
+                text = f.read()
+                modified = add_social_card_metadata(request.path, text)
+            with open(
+                str(Path(__file__).parent / "static" / "index_mod.html"), "w"
+            ) as f:
+                f.write(modified)
+            response = send_from_directory(
+                str(Path(__file__).parent / "static"), "index_mod.html"
             )
+            return response
 
         self.static_site = self.app.errorhandler(404)(static_site)
 
