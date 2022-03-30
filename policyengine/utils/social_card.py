@@ -34,9 +34,9 @@ def add_social_card_metadata(path: str, html: str) -> str:
     }[country]
 
     description = {
-        "UK": "See how changes to tax-benefit policy affect the UK and your household",
-        "US": "See how changes to tax-benefit policy affect your household",
-        None: "See how changes to tax-benefit policy affect you.",
+        "UK": "Compute the impacts of public policy for the UK and your household",
+        "US": "Compute the impacts of public policy for your household.",
+        None: "Compute the impacts of public policy.",
     }[country]
 
     placeholder = "<title>PolicyEngine</title>"
