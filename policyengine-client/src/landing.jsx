@@ -37,12 +37,11 @@ function UsageBox(props) {
 
     // Displays the title anchored to the left (and big) and the description anchored to the right (and small)
 
-    return <center><Row style={{ marginTop: 20, marginBottom: 20 }}>
+    return <Row style={{ marginTop: 20, marginBottom: 20 }}>
         <h3 style={{ marginBottom: 0 }}>{props.title}</h3>
         <br /><br />
         <h5 style={{ marginTop: 0 }}>{props.description}</h5>
     </Row>
-    </center>
 
 
 }
