@@ -57,27 +57,30 @@ function UsageExplanations(props) {
 }
 
 function LandingPageContent() {
-    const in_uk = window.navigator.language === "en-GB";
-    const in_us = window.navigator.language === "en-US";
-    const outside_uk_us = !in_uk && !in_us;
-    const ukIcon = <img onClick={() => window.location.href = "/uk/policy"} className="img-fluid" style={{ borderRadius: 35, cursor: "pointer" }} alt="UK" src={UKFadedBlue} />;
-    const usIcon = <img onClick={() => window.location.href = "/us/household"} className="img-fluid" style={{ borderRadius: 35, cursor: "pointer" }} alt="US" src={USFadedBlue} />;
-    const ukLink = <h5><a href="/uk">Or enter PolicyEngine UK</a></h5>
-    const usLink = <h5><a href="/us">Or enter PolicyEngine US (beta)</a></h5>
+    const inUk = window.navigator.language === "en-GB";
+    const inUs = window.navigator.language === "en-US";
+    const ukLink = "uk/policy"
+    const usLink = "us/household"
+    const outsideUkUs = !inUk && !inUs;
+    const ukIcon = <img onClick={() => window.location.href = ukLink} className="img-fluid" style={{ borderRadius: 35, cursor: "pointer" }} alt="UK" src={UKFadedBlue} />;
+    const usIcon = <img onClick={() => window.location.href = usLink} className="img-fluid" style={{ borderRadius: 35, cursor: "pointer" }} alt="US" src={USFadedBlue} />;
+    const ukLinkText = <h5><a href={ukLink}>Or enter PolicyEngine UK</a></h5>
+    const usLinkText = <h5><a href={usLink}>Or enter PolicyEngine US (beta)</a></h5>
     return <>
         <center>
             <br /><br /><br />
             <Row>
                 <h1>Compute the impact of public policy</h1><br /><h4>Estimate your taxes and benefits<br />Imagine reforms to the tax and benefit system<br />Calculate the impact on society and your own household</h4>
             </Row>
-            <Subheader><a href={(in_uk ? "/uk/policy" : (in_us ? "/us/household" : "/uk/policy"))}>Use the free app→</a></Subheader>
+            {/* Main link goes to the US if the user is in the US, otherwise UK. */}
+            <Subheader><a href={(inUs ? usLink : ukLink)}>Use the free app→</a></Subheader>
             <Row>
                 {
-                    outside_uk_us ?
+                    outsideUkUs ?
                         [ukIcon, usIcon] :
-                        in_uk ?
-                            [ukIcon, usLink] :
-                            [usIcon, ukLink]
+                        inUk ?
+                            [ukIcon, usLinkText] :
+                            [usIcon, ukLinkText]
                 }
             </Row>
             <Subheader>Who we help</Subheader>
