@@ -3,8 +3,8 @@ import { PolicyEngineWrapper } from "./policyengine/layout/general";
 import { Row, Col, Container } from "react-bootstrap";
 import { Card, Divider as DefaultDivider } from "antd";
 
-import UKFadedBlue from "./images/uk_faded_blue.png";
-import USFadedBlue from "./images/us_faded_blue.png";
+import UKFadedBlue from "./images/entry/uk-blue.png";
+import USFadedBlue from "./images/entry/us-blue.png";
 import { Footer } from "./policyengine/footer";
 import { Header } from "./policyengine/header";
 
