@@ -2,12 +2,12 @@
  * Parameters for the UK app.
 */
 
-import UBICenterLogo from "../../images/ubicenter.png"
-import UKLogo from "../../images/uk.png";
-import GreenPartyLogo from "../../images/green.png";
-import SMFLogo from "../../images/smf.png";
-import ClockLogo from "../../images/clock.png";
-import MiscLogo from "../../images/misc.png";
+import UBICenterLogo from "../../images/parameter-icons/ubi-center.png"
+import UKLogo from "../../images/parameter-icons/uk.png";
+import GreenPartyLogo from "../../images/parameter-icons/green-party.png";
+import SMFLogo from "../../images/parameter-icons/smf.png";
+import ClockLogo from "../../images/parameter-icons/clock.png";
+import MiscLogo from "../../images/parameter-icons/misc.png";
 import Country from "../country";
 import AutoUBI from "./components/autoUBI";
 import ExtraBand from "./components/extraBand";
@@ -25,7 +25,7 @@ function validatePolicy(policy, defaultPolicy) {
     if (defaultPolicy) {
         for (let parameter in policy) {
             policy[parameter].defaultValue = defaultPolicy[parameter].value;
-            if(policy[parameter].baselineValue === undefined) {
+            if (policy[parameter].baselineValue === undefined) {
                 policy[parameter].baselineValue = defaultPolicy[parameter].value;
             }
         }
@@ -308,11 +308,11 @@ export class UK extends Country {
         timeTravel: <TimeTravel />,
     }
     extraVariableMetadata = {
-        owned_land: {max: 1_000_000},
-        main_residence_value: {max: 1_000_000},
-        other_residential_property_value: {max: 1_000_000},
-        non_residential_property_value: {max: 1_000_000},
-        corporate_wealth: {max: 1_000_000},
+        owned_land: { max: 1_000_000 },
+        main_residence_value: { max: 1_000_000 },
+        other_residential_property_value: { max: 1_000_000 },
+        non_residential_property_value: { max: 1_000_000 },
+        corporate_wealth: { max: 1_000_000 },
     }
     validatePolicy = validatePolicy
     situation = {
@@ -567,7 +567,7 @@ export class UK extends Country {
         if (situation.households["Your household"].children.includes(name)) {
             situation.households["Your household"].children.pop(name);
         }
-        if(name === "Your spouse") {
+        if (name === "Your spouse") {
             situation.benunits["Your family"]["is_married"]["2022"] = false;
         }
         delete situation.people[name];
