@@ -11,7 +11,7 @@ import { Footer } from "./policyengine/footer";
 import { Header } from "./policyengine/header";
 
 function Divider(props) {
-    return <DefaultDivider {...props} style={{ marginTop: 50, marginBottom: 50 }} />
+    return <DefaultDivider {...props} style={{ marginTop: 25, marginBottom: 25 }} />
 }
 
 export default function LandingPage() {
@@ -49,7 +49,7 @@ function UsageBox(props) {
 
 function UsageExplanations(props) {
     return <>
-        <UsageBox title="The public" description="Estimate your taxes and eligibility for government benefits, under current law and potential policy changes" />
+        <UsageBox title="The public" description="Estimate your taxes and government benefits, under current law and potential policy changes" />
         <UsageBox title="Policy organizations" description="Design reforms and calculate the impacts on society and individual households" />
         <UsageBox title="Developers" description={<>Allow your users to check their benefits eligibility with <a href="https://docs.google.com/document/d/1y-kRDOssYyRwEVTsntqGxoBtvFS4HKMQD-U0Ga9YzJE/preview">our API</a>, and contribute to our work <a href="https://github.com/PolicyEngine">on GitHub</a></>} />
     </>
