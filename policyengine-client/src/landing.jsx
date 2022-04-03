@@ -49,10 +49,9 @@ function UsageBox(props) {
 
 function UsageExplanations(props) {
     return <>
-        <UsageBox title="The public" description="Check your eligibility for government benefits and programs. Simulate how a change in requirements could affect your household." />
-        <UsageBox title="Think tanks" description="Simulate tax-benefit reforms on the UK economy and individual households to better understand and recommend policy changes." />
-        <UsageBox title="Parties and campaigns" description="Estimate the results of your policy proposals. Produce evidence-based talking points and refute speculative criticism of your platform." />
-        <UsageBox title="Developers" description={<>Allow your users to check their benefits eligibility with <a href="https://docs.google.com/document/d/1y-kRDOssYyRwEVTsntqGxoBtvFS4HKMQD-U0Ga9YzJE/preview">our API</a>. <a href="https://github.com/PolicyEngine">Contribute to our work on GitHub.</a></>} />
+        <UsageBox title="The public" description="Estimate your taxes and eligibility for government benefits, under current law and potential policy changes" />
+        <UsageBox title="Policy organizations" description="Design reforms and calculate the impacts on society and individual households" />
+        <UsageBox title="Developers" description={<>Allow your users to check their benefits eligibility with <a href="https://docs.google.com/document/d/1y-kRDOssYyRwEVTsntqGxoBtvFS4HKMQD-U0Ga9YzJE/preview">our API</a>, and contribute to our work <a href="https://github.com/PolicyEngine">on GitHub</a></>} />
     </>
 }
 
