@@ -499,6 +499,11 @@
       - Country-specific social preview cards.
       - US tax parameters.
   date: 2022-03-30 19:43:38
+- bump: minor
+  changes:
+    changed:
+      - OpenFisca-UK bumped to 0.18.0
+  date: 2022-04-03 20:15:37
 - bump: patch
   changes:
     changed:
