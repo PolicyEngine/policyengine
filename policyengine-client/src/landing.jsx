@@ -64,8 +64,8 @@ function LandingPageContent() {
     const outsideUkUs = !inUk && !inUs;
     const ukIcon = <img onClick={() => window.location.href = ukLink} className="img-fluid" style={{ borderRadius: 35, cursor: "pointer" }} alt="UK" src={UKGray} onMouseOver={e => e.currentTarget.src = UKFadedBlue} onMouseOut={e => e.currentTarget.src = UKGray} />
     const usIcon = <img onClick={() => window.location.href = usLink} className="img-fluid" style={{ borderRadius: 35, cursor: "pointer" }} alt="US" src={USGray} onMouseOver={e => e.currentTarget.src = USFadedBlue} onMouseOut={e => e.currentTarget.src = USGray} />
-    const ukLinkText = <h5><a href={ukLink}>Or enter PolicyEngine UK</a></h5>
-    const usLinkText = <h5><a href={usLink}>Or enter PolicyEngine US (beta)</a></h5>
+    const ukLinkText = <h4><a href={ukLink}>Or enter PolicyEngine UK</a></h4>
+    const usLinkText = <h4><a href={usLink}>Or enter PolicyEngine US (beta)</a></h4>
     return <>
         <center>
             <br /><br /><br />
