@@ -132,7 +132,7 @@ function BreakdownParameterControl(props) {
 		});
 		let possibleKeys = [...new Set(possibleValues.map(value => value[0]))];
 		dropDowns.push(
-			<Select key={i} defaultValue={possibleKeys[0]} onChange={target => {
+			<Select key={i} defaultValue={possibleKeys[0]} style={{marginRight: 10}} onChange={target => {
 				let selectedCopy = [...selected];
 				selectedCopy[i] = target;
 				setSelected(selectedCopy);

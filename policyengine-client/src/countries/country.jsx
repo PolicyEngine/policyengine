@@ -19,6 +19,7 @@ export default class Country {
             policy: policy,
             policyValid: policyValid,
             populationImpactIsOutdated: true,
+            populationBreakdownIsOutdated: true,
             reformSituationImpactIsOutdated: true,
             situationVariationImpactIsOutdated: true
         });
@@ -28,6 +29,7 @@ export default class Country {
         this.stateHolder.setCountryState({
             policy: policy,
             populationImpactIsOutdated: true,
+            populationBreakdownIsOutdated: true,
             reformSituationImpactIsOutdated: true,
             situationVariationImpactIsOutdated: true
         });
@@ -36,7 +38,7 @@ export default class Country {
     getPolicyJSONPayload() {
         const submission = {};
         for (const key in this.policy) {
-            if (this.policy[key].value !== this.policy[key].defaultValue) {
+            if (this.policy[key].value !== this.policy[key].baselineValue) {
                 submission[key] = this.policy[key].value;
             }
             if (this.policy[key].baselineValue !== this.policy[key].defaultValue) {
@@ -89,6 +91,7 @@ export default class Country {
     policyIsOutdated = true;
     situationIsOutdated = true;
     populationImpactIsOutdated = true;
+    populationBreakdownIsOutdated = true;
     baselineSituationImpactIsOutdated = true;
     reformSituationImpactIsOutdated = true;
     situationVariationImpactIsOutdated = true;
@@ -114,6 +117,8 @@ export default class Country {
     waitingOnAccountingTableBaseline = false;
     waitingOnAccountingTableReform = false;
     waitingOnEarningsCharts = false;
+    waitingOnPopulationBreakdown = false;
+    showSnapShot = true
 }
 
 export const CountryContext = createContext({ name: "uk" });

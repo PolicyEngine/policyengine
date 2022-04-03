@@ -17,7 +17,7 @@ function validatePolicy(policy, defaultPolicy) {
     if (defaultPolicy) {
         for (let parameter in policy) {
             policy[parameter].defaultValue = defaultPolicy[parameter].value;
-            if(policy[parameter].baselineValue === undefined) {
+            if (policy[parameter].baselineValue === undefined) {
                 policy[parameter].baselineValue = defaultPolicy[parameter].value;
             }
         }
@@ -62,54 +62,117 @@ export class US extends Country {
             "Income tax schedule": [
                 "irs_income_bracket_rates",
                 "irs_income_bracket_thresholds",
-            ]
+            ],
+            "Credits": {
+                "Child tax credit": {
+                    "Eligibility": [
+                        "ctc_child_age",
+                    ],
+                    "Amount": [
+                        "ctc_child",
+                        "ctc_adult_dependent",
+                    ],
+                    "Phaseout": [
+                        "ctc_phaseout_rate",
+                        "ctc_phaseout_threshold",
+                    ],
+                    "Refundability": [
+                        "ctc_refundable_child_max",
+                        "ctc_refundable_phase_in_rate",
+                        "ctc_refundable_phase_in_threshold",
+                    ],
+                },
+                "Child and dependent care": {
+                    "General": [
+                        "abolish_cdcc",
+                    ],
+                    "Maximum rate": [
+                        "cdcc_max_expense",
+                        "cdcc_max_rate",
+                        "cdcc_refundable",
+                    ],
+                    "Eligibility": [
+                        "cdcc_dependent_child_age",
+                    ],
+                    "Phaseout": [
+                        "cdcc_phaseout_rate",
+                        "cdcc_phaseout_start",
+                        "cdcc_min_rate",
+                    ],
+                },
+                "Education": {
+                    "Phaseout": [
+                        "education_credit_phaseout_start_single",
+                        "education_credit_phaseout_start_joint",
+                        "education_credit_phaseout_length_single",
+                        "education_credit_phaseout_length_joint",
+                    ],
+                    "Lifetime Learning Credit": [
+                        "abolish_llc",
+                        "llc_max_expense",
+                    ],
+                    "American Opportunity Credit": [
+                        "abolish_aoc",
+                        "aoc_refundable_percentage",
+                    ],
+                },
+            },
         },
-        "SNAP": {
-            "Eligibility": [
-                "snap_gross_income_limit_standard",
-                "snap_gross_income_limit_elderly_disabled",
-                "snap_net_income_limit_standard",
-            ],
-            "Deductions": [
-                "snap_earned_income_deduction",
-                "snap_medical_expense_disregard",
-                "snap_homeless_shelter_deduction",
-                "snap_shelter_deduction_income_share_disregard",
-            ],
-            "Allotment": [
-                "snap_max_allotment_main",
-            ],
+        "USDA": {
+            "SNAP": {
+                "Eligibility": [
+                    "snap_gross_income_limit",
+                    "snap_net_income_limit",
+                ],
+                "Deductions": [
+                    "snap_earned_income_deduction",
+                    "snap_medical_expense_disregard",
+                    "snap_homeless_shelter_deduction",
+                    "snap_shelter_deduction_income_share_disregard",
+                ],
+                "Allotment": [
+                    "snap_max_allotment_main",
+                ],
+            },
+            "School meals": {
+                "Eligibility": [
+                    "school_meal_free_fpg_limit",
+                    "school_meal_reduced_fpg_limit",
+                ]
+            },
         },
-        "School meals": {
-            "Eligibility": [
-                "school_meal_free_fpg_limit",
-                "school_meal_reduced_fpg_limit",
-            ]
+        "FCC": {
+            "Lifeline": {
+                "Eligibility": [
+                    "lifeline_income_fpl_limit",
+                ],
+                "Benefit": [
+                    "lifeline_amount",
+                    "lifeline_rural_tribal_supplement",
+                ]
+            },
+            "Affordable Connectivity Program": {
+                "Eligibility": [
+                    "acp_income_fpl_limit",
+                ],
+            },
         },
-        "Lifeline": {
-            "Eligibility": [
-                "lifeline_income_fpl_limit",
-            ],
-            "Benefit": [
-                "lifeline_amount",
-                "lifeline_rural_tribal_supplement",
-            ]
-        },
-        "Affordable Connectivity Program": {
-            "Eligibility": [
-                "acp_income_fpl_limit",
-            ],
-        }
     }
-    defaultOpenParameterGroups = ["/SNAP"];
-    defaultSelectedParameterGroup = "/SNAP/Eligibility"
+    defaultOpenParameterGroups = ["/USDA", "/USDA/SNAP"];
+    defaultSelectedParameterGroup = "/USDA/SNAP/Eligibility"
+    showSnapShot = false
     organisations = {}
     // OpenFisca data
     parameters = null
     entities = null
     variables = null
     // Adjustments to OpenFisca data
-    extraParameterMetadata = {}
+    extraParameterMetadata = {
+        ctc_child_age: {max: 21},
+        ctc_child: {max: 10_000},
+        ctc_child_young_bonus: {max: 10_000},
+        ctc_adult_dependent: {max: 10_000},
+    }
     extraVariableMetadata = {}
     situation = {
         "people": {
@@ -154,12 +217,15 @@ export class US extends Country {
         "is_permanently_disabled_veteran",
         "is_surviving_spouse_of_disabled_veteran",
         "is_surviving_child_of_disabled_veteran",
-        "is_in_school",
+        "is_in_k12_school",
+        "is_full_time_college_student",
         "is_mother",
         "is_pregnant",
         "is_breastfeeding",
         "is_wic_at_nutritional_risk",
         "ca_cvrp_vehicle_rebate_amount",
+        "qualified_tuition_expenses",
+        "is_eligible_for_american_opportunity_credit",
         // SPM unit.
         "housing_cost",
         "childcare_expenses",
@@ -239,6 +305,9 @@ export class US extends Country {
             ],
             "Demographics": [
                 "age",
+                "is_in_k12_school",
+                "is_full_time_college_student",
+                "is_eligible_for_american_opportunity_credit",
                 "is_ssi_disabled",
                 "is_permanently_disabled_veteran",
                 "is_surviving_spouse_of_disabled_veteran",
@@ -250,6 +319,7 @@ export class US extends Country {
             ],
             "Expenses": [
                 "medical_out_of_pocket_expenses",
+                "qualified_tuition_expenses",
                 "ca_cvrp_vehicle_rebate_amount",
             ],
         }
@@ -343,7 +413,7 @@ export class US extends Country {
         const childName = childNamer[this.getNumChildren() + 1];
         situation.people[childName] = {
             "age": { "2022": 10 },
-            "is_in_school": { "2022": true },
+            "is_in_k12_school": { "2022": true },
         };
         situation.families["Your family"].members.push(childName);
         situation.tax_units["Your tax unit"].members.push(childName);
@@ -360,7 +430,7 @@ export class US extends Country {
                 }
             }
         }
-        if(name === "Your spouse") {
+        if (name === "Your spouse") {
             situation["families"]["Your family"]["is_married"]["2022"] = false;
         }
         delete situation.people[name];
