@@ -70,7 +70,7 @@ function LandingPageContent() {
         <center>
             <br /><br /><br />
             <Row>
-                <h1>Compute the impact of public policy</h1><br /><h4>Estimate your taxes and benefits<br />Imagine reforms to economic policies<br />Calculate the effects on society and your own household</h4>
+                <h1>Compute the impact of public policy</h1><br /><h4>Estimate your taxes and benefits<br />Imagine custom economic policy reforms<br />Calculate the effects on society and your own household</h4>
             </Row>
             {/* Main link goes to the US if the user is in the US, otherwise UK. */}
             <Subheader><a href={(inUs ? usLink : ukLink)}>Use the app→</a></Subheader>
