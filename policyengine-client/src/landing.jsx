@@ -5,9 +5,10 @@ import { Card, Divider as DefaultDivider } from "antd";
 
 import UKFadedBlue from "./images/entry/uk-blue.png";
 import USFadedBlue from "./images/entry/us-blue.png";
+import UKGray from "./images/entry/uk-gray.png";
+import USGray from "./images/entry/us-gray.png";
 import { Footer } from "./policyengine/footer";
 import { Header } from "./policyengine/header";
-
 
 function Divider(props) {
     return <DefaultDivider {...props} style={{ marginTop: 50, marginBottom: 50 }} />
@@ -61,18 +62,18 @@ function LandingPageContent() {
     const ukLink = "uk/policy"
     const usLink = "us/household"
     const outsideUkUs = !inUk && !inUs;
-    const ukIcon = <img onClick={() => window.location.href = ukLink} className="img-fluid" style={{ borderRadius: 35, cursor: "pointer" }} alt="UK" src={UKFadedBlue} />;
-    const usIcon = <img onClick={() => window.location.href = usLink} className="img-fluid" style={{ borderRadius: 35, cursor: "pointer" }} alt="US" src={USFadedBlue} />;
+    const ukIcon = <img onClick={() => window.location.href = ukLink} className="img-fluid" style={{ borderRadius: 35, cursor: "pointer" }} alt="UK" src={UKGray} onMouseOver={e => e.currentTarget.src = UKFadedBlue} onMouseOut={e => e.currentTarget.src = UKGray} />
+    const usIcon = <img onClick={() => window.location.href = usLink} className="img-fluid" style={{ borderRadius: 35, cursor: "pointer" }} alt="US" src={USGray} onMouseOver={e => e.currentTarget.src = USFadedBlue} onMouseOut={e => e.currentTarget.src = USGray} />
     const ukLinkText = <h5><a href={ukLink}>Or enter PolicyEngine UK</a></h5>
     const usLinkText = <h5><a href={usLink}>Or enter PolicyEngine US (beta)</a></h5>
     return <>
         <center>
             <br /><br /><br />
             <Row>
-                <h1>Compute the impact of public policy</h1><br /><h4>Estimate your taxes and benefits<br />Imagine reforms to the tax and benefit system<br />Calculate the impact on society and your own household</h4>
+                <h1>Compute the impact of public policy</h1><br /><h4>Estimate your taxes and benefits<br />Imagine reforms to economic policies<br />Calculate the effects on society and your own household</h4>
             </Row>
             {/* Main link goes to the US if the user is in the US, otherwise UK. */}
-            <Subheader><a href={(inUs ? usLink : ukLink)}>Use the free app→</a></Subheader>
+            <Subheader><a href={(inUs ? usLink : ukLink)}>Use the app→</a></Subheader>
             <Row>
                 {
                     outsideUkUs ?
