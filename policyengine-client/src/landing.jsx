@@ -3,12 +3,10 @@ import { PolicyEngineWrapper } from "./policyengine/layout/general";
 import { Row, Col, Container } from "react-bootstrap";
 import { Card, Divider as DefaultDivider } from "antd";
 
-import UKFadedBlue from "./images/entry/uk-blue.png";
-import USFadedBlue from "./images/entry/us-blue.png";
-import UKGray from "./images/entry/uk-gray.png";
-import USGray from "./images/entry/us-gray.png";
 import { Footer } from "./policyengine/footer";
 import { Header } from "./policyengine/header";
+
+import { POLICYENGINE_MEDIUM_BLUE } from "./constants";
 
 function Divider(props) {
     return <DefaultDivider {...props} style={{ marginTop: 25, marginBottom: 25 }} />
@@ -56,31 +54,37 @@ function UsageExplanations(props) {
 }
 
 function LandingPageContent() {
-    const inUk = window.navigator.language === "en-GB";
     const inUs = window.navigator.language === "en-US";
     const ukLink = "uk/policy"
     const usLink = "us/household"
-    const outsideUkUs = !inUk && !inUs;
-    const ukIcon = <img onClick={() => window.location.href = ukLink} className="img-fluid" style={{ borderRadius: 35, cursor: "pointer" }} alt="UK" src={UKGray} onMouseOver={e => e.currentTarget.src = UKFadedBlue} onMouseOut={e => e.currentTarget.src = UKGray} />
-    const usIcon = <img onClick={() => window.location.href = usLink} className="img-fluid" style={{ borderRadius: 35, cursor: "pointer" }} alt="US" src={USGray} onMouseOver={e => e.currentTarget.src = USFadedBlue} onMouseOut={e => e.currentTarget.src = USGray} />
-    const ukLinkText = <h4><a href={ukLink}>Or enter PolicyEngine UK</a></h4>
-    const usLinkText = <h4><a href={usLink}>Or enter PolicyEngine US (beta)</a></h4>
+    /*const ukIcon = <img onClick={() => window.location.href = ukLink} className="img-fluid" style={{ borderRadius: 35, cursor: "pointer" }} alt="UK" src={UKGray} onMouseOver={e => e.currentTarget.src = UKFadedBlue} onMouseOut={e => e.currentTarget.src = UKGray} />
+    const usIcon = <img onClick={() => window.location.href = usLink} className="img-fluid" style={{ borderRadius: 35, cursor: "pointer" }} alt="US" src={USGray} onMouseOver={e => e.currentTarget.src = USFadedBlue} onMouseOut={e => e.currentTarget.src = USGray} />*/
+
     return <>
         <center>
             <br /><br /><br />
             <Row>
-                <h1>Compute the impact of public policy</h1><br /><h4>Estimate your taxes and benefits<br />Imagine custom economic policy reforms<br />Calculate the effects on society and your own household</h4>
+                <h1>Compute the impact of public policy</h1><br />
+                <h4>Estimate your taxes and benefits<br />
+                    Imagine custom economic policy reforms<br />
+                    Calculate the effects on society and your own household</h4>
             </Row>
             {/* Main link goes to the US if the user is in the US, otherwise UK. */}
-            <Subheader><a href={(inUs ? usLink : ukLink)}>Use the app→</a></Subheader>
-            <Row>
-                {
-                    outsideUkUs ?
-                        [ukIcon, usIcon] :
-                        inUk ?
-                            [ukIcon, usLinkText] :
-                            [usIcon, ukLinkText]
-                }
+            <Row style={{ borderWidth: 10, borderColor: POLICYENGINE_MEDIUM_BLUE, borderStyle: "solid" }}
+                classname="d-flex justify-content-center">
+                <a href={inUs ? usLink : ukLink}>
+                    <h1 style={{ color: POLICYENGINE_MEDIUM_BLUE + " !important", justifyContent: "center" }}>
+                        Enter PolicyEngine {inUs ? "US" : "UK"}
+                    </h1>
+                </a>
+            </Row>
+            <Row style={{ marginTop: 25, borderWidth: 5, borderColor: "gray", borderStyle: "solid", alignItems: 'center' }}
+                classname="d-flex justify-content-center">
+                <a href={inUs ? ukLink : usLink}>
+                    <h3>
+                        Enter PolicyEngine {inUs ? "UK" : "US"}
+                    </h3>
+                </a>
             </Row>
             <Subheader>Who we help</Subheader>
             <UsageExplanations />
