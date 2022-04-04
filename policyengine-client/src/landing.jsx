@@ -1,12 +1,10 @@
 import React from "react";
 import { PolicyEngineWrapper } from "./policyengine/layout/general";
 import { Row, Col, Container } from "react-bootstrap";
-import { Card, Divider as DefaultDivider } from "antd";
+import { Button, Card, Divider as DefaultDivider } from "antd";
 
 import { Footer } from "./policyengine/footer";
 import { Header } from "./policyengine/header";
-
-import { POLICYENGINE_MEDIUM_BLUE } from "./constants";
 
 function Divider(props) {
     return <DefaultDivider {...props} style={{ marginTop: 25, marginBottom: 25 }} />
@@ -57,8 +55,6 @@ function LandingPageContent() {
     const inUs = window.navigator.language === "en-US";
     const ukLink = "uk/policy"
     const usLink = "us/household"
-    /*const ukIcon = <img onClick={() => window.location.href = ukLink} className="img-fluid" style={{ borderRadius: 35, cursor: "pointer" }} alt="UK" src={UKGray} onMouseOver={e => e.currentTarget.src = UKFadedBlue} onMouseOut={e => e.currentTarget.src = UKGray} />
-    const usIcon = <img onClick={() => window.location.href = usLink} className="img-fluid" style={{ borderRadius: 35, cursor: "pointer" }} alt="US" src={USGray} onMouseOver={e => e.currentTarget.src = USFadedBlue} onMouseOut={e => e.currentTarget.src = USGray} />*/
 
     return <>
         <center>
@@ -69,23 +65,15 @@ function LandingPageContent() {
                     Imagine custom economic policy reforms<br />
                     Calculate the effects on society and your own household</h4>
             </Row>
-            {/* Main link goes to the US if the user is in the US, otherwise UK. */}
-            <Row style={{ borderWidth: 10, borderColor: POLICYENGINE_MEDIUM_BLUE, borderStyle: "solid" }}
-                classname="d-flex justify-content-center">
-                <a href={inUs ? usLink : ukLink}>
-                    <h1 style={{ color: POLICYENGINE_MEDIUM_BLUE + " !important", justifyContent: "center" }}>
-                        Enter PolicyEngine {inUs ? "US" : "UK"}
-                    </h1>
-                </a>
-            </Row>
-            <Row style={{ marginTop: 25, borderWidth: 5, borderColor: "gray", borderStyle: "solid", alignItems: 'center' }}
-                classname="d-flex justify-content-center">
-                <a href={inUs ? ukLink : usLink}>
-                    <h3>
-                        Enter PolicyEngine {inUs ? "UK" : "US"}
-                    </h3>
-                </a>
-            </Row>
+            {/* Primary link goes to the US if the user is in the US, otherwise UK. */}
+            <Button type="primary" size="large" href={inUs ? usLink : ukLink} block>
+                Enter PolicyEngine {inUs ? "US" : "UK"}
+            </Button>
+            <br /><br />
+            <Button block size="large" href={inUs ? ukLink : usLink}>
+                Enter PolicyEngine {inUs ? "UK" : "US"}
+            </Button>
+            <br /><br />
             <Subheader>Who we help</Subheader>
             <UsageExplanations />
             <Subheader subtitle={<>We're currently seeking funding partners, volunteer developers and policy analysts to expand our work and its impact. Is that you? <a href="mailto:hello@policyengine.org">Get in touch.</a></>}></Subheader>
