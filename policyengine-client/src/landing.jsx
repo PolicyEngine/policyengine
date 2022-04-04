@@ -65,6 +65,7 @@ function LandingPageContent() {
                     Imagine custom economic policy reforms<br />
                     Calculate the effects on society and your own household</h4>
             </Row>
+            <br /><br />
             {/* Primary link goes to the US if the user is in the US, otherwise UK. */}
             <Button type="primary" size="large" href={inUs ? usLink : ukLink} block>
                 Enter PolicyEngine {inUs ? "US" : "UK"}
