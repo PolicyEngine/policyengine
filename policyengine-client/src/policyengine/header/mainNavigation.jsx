@@ -2,7 +2,7 @@
  * Components for the main tab-based navigation.
 */
 
-import { Button, Tabs } from "antd";
+import { Tabs } from "antd";
 import { useHistory } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import { policyToURL } from "../tools/url";
