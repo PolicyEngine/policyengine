@@ -88,8 +88,8 @@ export function PopulationResultsPane(props) {
 			<Row>
 				<div className="justify-content-center d-flex">
 					<Radio.Group defaultValue={false} buttonStyle="solid" onChange={x => setDecileChartIsAbsolute(x.target.value)} >
-						<Radio.Button value={false}>Relative change</Radio.Button>
-						<Radio.Button value={true}>Absolute change</Radio.Button>
+						<Radio.Button value={false}>Relative</Radio.Button>
+						<Radio.Button value={true}>Absolute</Radio.Button>
 					</Radio.Group>
 					<Radio.Group style={{marginLeft: 10}} defaultValue={false} buttonStyle="solid" onChange={x => setDecileChartIsWealth(x.target.value)} >
 						<Radio.Button value={false}>Income</Radio.Button>
