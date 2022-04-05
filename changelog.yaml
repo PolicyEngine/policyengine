@@ -508,5 +508,5 @@
   changes:
     added:
     - Option to see UK-wide effects by wealth decile.
-    changed:
+    removed:
     - About and donate tabs removed.
