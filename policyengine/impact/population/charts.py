@@ -56,6 +56,7 @@ def decile_chart(
     baseline: Microsimulation,
     reformed: Microsimulation,
     config: Type[PolicyEngineResultsConfig],
+    decile_type: str = "income",
 ) -> Tuple[dict, dict]:
     """Chart of average net effect of a reform by income decile.
 
@@ -71,6 +72,8 @@ def decile_chart(
     )
     baseline_household_equiv_income = baseline.calc(
         config.equiv_household_net_income_variable
+        if decile_type == "income"
+        else config.household_wealth_variable
     )
     reform_household_net_income = reformed.calc(
         config.household_net_income_variable
@@ -400,6 +403,7 @@ def intra_decile_graph_data(
     baseline: Microsimulation,
     reformed: Microsimulation,
     config: Type[PolicyEngineResultsConfig],
+    decile_type: str = "income",
 ) -> pd.DataFrame:
     """Data for the distribution of net income changes by decile and overall.
 
@@ -412,7 +416,10 @@ def intra_decile_graph_data(
     """
     l = []
     income = baseline.calc(
-        config.equiv_household_net_income_variable, map_to="person"
+        config.equiv_household_net_income_variable
+        if decile_type == "income"
+        else config.household_wealth_variable,
+        map_to="person",
     )
     decile = income.decile_rank()
     baseline_hh_net_income = baseline.calc(
@@ -514,6 +521,7 @@ def intra_decile_chart(
     baseline: Microsimulation,
     reformed: Microsimulation,
     config: Type[PolicyEngineResultsConfig],
+    decile_type: str = "income",
 ) -> dict:
     """Full intra-decile chart, including a top bar for overall.
 
@@ -524,7 +532,9 @@ def intra_decile_chart(
     :return: JSON representation of Plotly intra-decile chart.
     :rtype: dict
     """
-    df = intra_decile_graph_data(baseline, reformed, config)
+    df = intra_decile_graph_data(
+        baseline, reformed, config, decile_type=decile_type
+    )
     df["hover"] = df.apply(
         lambda x: intra_decile_label(x.fraction, x.decile, x.outcome), axis=1
     )
