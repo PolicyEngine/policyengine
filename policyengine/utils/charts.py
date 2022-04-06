@@ -45,6 +45,7 @@ def formatted_fig_json(fig: go.Figure) -> dict:
         title_font_size=20,
         plot_bgcolor="white",
         paper_bgcolor="white",
+        hoverlabel=dict(font_family="Ubuntu"),
     )
     return json.loads(fig.to_json())
 
