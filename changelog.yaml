@@ -516,3 +516,8 @@
     fixed:
     - Hover cards now have the same font (Ubuntu) as the app itself.
   date: 2022-04-06 15:54:38
+- bump: patch
+  changes:
+    fixed:
+    - Set default US policy selected to IRS income tax rates.
+    - Corrected decile chart axes when using wealth deciles.

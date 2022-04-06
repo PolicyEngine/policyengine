@@ -19,6 +19,7 @@ def individual_decile_chart(
     df: pd.DataFrame,
     metric: str,
     config: Type[PolicyEngineResultsConfig],
+    decile_type: str,
 ) -> dict:
     """Chart of average or relative net effect of a reform by income decile.
 
@@ -32,9 +33,9 @@ def individual_decile_chart(
     fig = (
         px.bar(df, x="Decile", y=metric)
         .update_layout(
-            title="Change to net income by decile",
-            xaxis_title="Equivalised disposable income decile",
-            yaxis_title="Average change to household net income",
+            title=f"Change to net income by {decile_type} decile",
+            xaxis_title=f"{'Equivalised disposable income' if decile_type == 'income' else 'Wealth'} decile",
+            yaxis_title="Change to household net income",
             yaxis_tickformat=",.1%" if metric == "Relative change" else ",",
             yaxis_tickprefix=""
             if metric == "Relative change"
@@ -165,46 +166,9 @@ def decile_chart(
             "label_abs": label_abs,
         }
     )
-    rel_fig = (
-        px.bar(df, x="Decile", y="Relative change", custom_data=["label_rel"])
-        .update_layout(
-            title="Change to net income by decile",
-            xaxis_title="Equivalised disposable income decile",
-            yaxis_title="Percentage change",
-            yaxis_tickformat=",.1%",
-            showlegend=False,
-            xaxis_tickvals=list(range(1, 11)),
-        )
-        .update_traces(
-            marker_color=np.where(
-                df["Relative change"] > 0, charts.DARK_GREEN, charts.GRAY
-            )
-        )
-    )
-    abs_fig = (
-        px.bar(df, x="Decile", y="Average change", custom_data=["label_abs"])
-        .update_layout(
-            title="Change to net income by decile",
-            xaxis_title="Equivalised disposable income decile",
-            yaxis_title="Average change",
-            yaxis_tickprefix=config.currency,
-            yaxis_tickformat=",",
-            showlegend=False,
-            xaxis_tickvals=list(range(1, 11)),
-        )
-        .update_traces(
-            marker_color=np.where(
-                df["Average change"] > 0, charts.DARK_GREEN, charts.GRAY
-            )
-        )
-    )
-    charts.add_zero_line(rel_fig)
-    charts.add_zero_line(abs_fig)
-    charts.add_custom_hovercard(rel_fig)
-    charts.add_custom_hovercard(abs_fig)
     return (
-        individual_decile_chart(df, "Relative change", config),
-        individual_decile_chart(df, "Average change", config),
+        individual_decile_chart(df, "Relative change", config, decile_type),
+        individual_decile_chart(df, "Average change", config, decile_type),
     )
 
 
@@ -473,7 +437,9 @@ INTRA_DECILE_COLORS = (
 )[::-1]
 
 
-def intra_decile_label(fraction: float, decile: str, outcome: str) -> str:
+def intra_decile_label(
+    fraction: float, decile: str, outcome: str, decile_type: str
+) -> str:
     """Label for a data point in the intra-decile chart for hovercards.
 
     :param fraction: Share of the decile experiencing the outcome.
@@ -489,11 +455,15 @@ def intra_decile_label(fraction: float, decile: str, outcome: str) -> str:
     if decile == "All":
         res += "all people "
     else:
-        res += "people in the " + charts.ordinal(int(decile)) + " decile "
+        res += (
+            "people in the "
+            + charts.ordinal(int(decile))
+            + f" {decile_type} decile "
+        )
     if outcome == "No change":
         return res + "experience no change"
     else:
-        return res + outcome.lower()
+        return res + outcome.lower() + " of their income"
 
 
 def single_intra_decile_graph(df: pd.DataFrame) -> go.Figure:
@@ -536,7 +506,10 @@ def intra_decile_chart(
         baseline, reformed, config, decile_type=decile_type
     )
     df["hover"] = df.apply(
-        lambda x: intra_decile_label(x.fraction, x.decile, x.outcome), axis=1
+        lambda x: intra_decile_label(
+            x.fraction, x.decile, x.outcome, decile_type
+        ),
+        axis=1,
     )
     # Create the decile figure first, then the total to go above it.
     decile_fig = single_intra_decile_graph(df[df.decile != "All"])
@@ -548,14 +521,14 @@ def intra_decile_chart(
         row_heights=[1, 10],
         vertical_spacing=0.05,
         x_title="Population share",
-        y_title="Income decile",
+        y_title=f"{'Income' if decile_type == 'income' else 'Wealth'} decile",
     )
     fig.update_xaxes(showgrid=False, tickformat=",.0%")
     fig.add_traces(total_fig.data, 1, 1)
     fig.add_traces(decile_fig.data, 2, 1)
     fig.update_layout(
         barmode="stack",
-        title="Distribution of gains and losses",
+        title=f"Distribution of gains and losses by {decile_type} decile",
     )
     for i in range(5):
         fig.data[i].showlegend = False
