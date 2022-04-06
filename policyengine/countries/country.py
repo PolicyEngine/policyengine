@@ -175,13 +175,21 @@ class PolicyEngineCountry:
 
     def population_reform(self, params: dict = None):
         baseline, reformed = self._get_microsimulations(params)
-        rel_decile_chart, avg_decile_chart = decile_chart(
+        rel_income_decile_chart, avg_income_decile_chart = decile_chart(
             baseline, reformed, self.results_config
+        )
+        rel_wealth_decile_chart, avg_wealth_decile_chart = decile_chart(
+            baseline,
+            reformed,
+            self.results_config,
+            decile_type="wealth",
         )
         return dict(
             **headline_metrics(baseline, reformed, self.results_config),
-            rel_decile_chart=rel_decile_chart,
-            avg_decile_chart=avg_decile_chart,
+            rel_income_decile_chart=rel_income_decile_chart,
+            avg_income_decile_chart=avg_income_decile_chart,
+            rel_wealth_decile_chart=rel_wealth_decile_chart,
+            avg_wealth_decile_chart=avg_wealth_decile_chart,
             poverty_chart=poverty_chart(
                 baseline, reformed, False, self.results_config
             ),
@@ -191,8 +199,14 @@ class PolicyEngineCountry:
             waterfall_chart=population_waterfall_chart(
                 baseline, reformed, self.results_config
             ),
-            intra_decile_chart=intra_decile_chart(
+            intra_income_decile_chart=intra_decile_chart(
                 baseline, reformed, self.results_config
+            ),
+            intra_wealth_decile_chart=intra_decile_chart(
+                baseline,
+                reformed,
+                self.results_config,
+                decile_type="wealth",
             ),
             inequality_chart=inequality_chart(
                 baseline,

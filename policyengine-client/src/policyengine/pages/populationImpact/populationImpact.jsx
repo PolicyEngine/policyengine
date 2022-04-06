@@ -44,7 +44,9 @@ export function PopulationResultsPane(props) {
 	const winnerColor = winners > 0 ? "green" : (winners === 0 ? "grey" : "darkred");
 	const losers = Math.round(+results.loser_share * 100);
 	const loserColor = losers > 0 ? "darkred" : (losers === 0 ? "grey" : "green");
-	const [showAbsDecile, setShowAbsDecile] = React.useState(false);
+	const [decileChartIsAbsolute, setDecileChartIsAbsolute] = React.useState(false);
+	const [decileChartIsWealth, setDecileChartIsWealth] = React.useState(false);
+	const [intraDecileChartIsWealth, setIntraDecileChartIsWealth] = React.useState(false);
 	const [showDeepPoverty, setShowDeepPoverty] = React.useState(false);
 	return (
 		<>
@@ -73,22 +75,42 @@ export function PopulationResultsPane(props) {
 				</div>
 			</Row>
 			<Row>
-				{
-					showAbsDecile ?
-						<Chart plot={results.avg_decile_chart} md={12} /> :
-						<Chart plot={results.rel_decile_chart} md={12} />
-				}
+				<Chart plot={results[
+					decileChartIsAbsolute ?
+						decileChartIsWealth ?
+							"avg_wealth_decile_chart" :
+							"avg_income_decile_chart" :
+						decileChartIsWealth ?
+							"rel_wealth_decile_chart" :
+							"rel_income_decile_chart"
+				]} md={12} />
 			</Row>
 			<Row>
 				<div className="justify-content-center d-flex">
-					<Radio.Group defaultValue={true} buttonStyle="solid" onChange={() => setShowAbsDecile(!showAbsDecile)} >
-						<Radio.Button value={true}>Relative change</Radio.Button>
-						<Radio.Button value={false}>Absolute change</Radio.Button>
+					<Radio.Group defaultValue={false} buttonStyle="solid" onChange={x => setDecileChartIsAbsolute(x.target.value)} >
+						<Radio.Button value={false}>Relative</Radio.Button>
+						<Radio.Button value={true}>Absolute</Radio.Button>
+					</Radio.Group>
+					<Radio.Group style={{marginLeft: 10}} defaultValue={false} buttonStyle="solid" onChange={x => setDecileChartIsWealth(x.target.value)} >
+						<Radio.Button value={false}>Income</Radio.Button>
+						<Radio.Button value={true}>Wealth</Radio.Button>
 					</Radio.Group>
 				</div>
 			</Row>
 			<Row>
-				<Chart plot={results.intra_decile_chart} md={12} />
+				<Chart plot={results[
+					intraDecileChartIsWealth ?
+						"intra_wealth_decile_chart" :
+						"intra_income_decile_chart"
+				]} md={12} />
+			</Row>
+			<Row>
+				<div className="justify-content-center d-flex">
+					<Radio.Group defaultValue={false} buttonStyle="solid" onChange={x => setIntraDecileChartIsWealth(x.target.value)} >
+						<Radio.Button value={false}>Income decile</Radio.Button>
+						<Radio.Button value={true}>Wealth decile</Radio.Button>
+					</Radio.Group>
+				</div>
 			</Row>
 			<Row>
 				<Chart plot={results.inequality_chart} md={12} />
