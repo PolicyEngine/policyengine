@@ -20,6 +20,7 @@ class UKResultsConfig(PolicyEngineResultsConfig):
     in_poverty_variable: str = "in_poverty_bhc"
     in_deep_poverty_variable: str = "in_deep_poverty_bhc"
     household_net_income_variable: str = "household_net_income"
+    household_wealth_variable: str = "total_wealth"
     equiv_household_net_income_variable: str = "equiv_household_net_income"
     child_variable: str = "is_child"
     working_age_variable: str = "is_WA_adult"
