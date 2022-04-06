@@ -437,7 +437,7 @@ INTRA_DECILE_COLORS = (
 )[::-1]
 
 
-def intra_decile_label(fraction: float, decile: str, outcome: str) -> str:
+def intra_decile_label(fraction: float, decile: str, outcome: str, decile_type: str) -> str:
     """Label for a data point in the intra-decile chart for hovercards.
 
     :param fraction: Share of the decile experiencing the outcome.
@@ -453,11 +453,11 @@ def intra_decile_label(fraction: float, decile: str, outcome: str) -> str:
     if decile == "All":
         res += "all people "
     else:
-        res += "people in the " + charts.ordinal(int(decile)) + " decile "
+        res += "people in the " + charts.ordinal(int(decile)) + f" {decile_type} decile "
     if outcome == "No change":
         return res + "experience no change"
     else:
-        return res + outcome.lower()
+        return res + outcome.lower() + " of their income"
 
 
 def single_intra_decile_graph(df: pd.DataFrame) -> go.Figure:
@@ -500,7 +500,7 @@ def intra_decile_chart(
         baseline, reformed, config, decile_type=decile_type
     )
     df["hover"] = df.apply(
-        lambda x: intra_decile_label(x.fraction, x.decile, x.outcome), axis=1
+        lambda x: intra_decile_label(x.fraction, x.decile, x.outcome, decile_type), axis=1
     )
     # Create the decile figure first, then the total to go above it.
     decile_fig = single_intra_decile_graph(df[df.decile != "All"])
