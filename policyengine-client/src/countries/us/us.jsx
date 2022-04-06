@@ -158,8 +158,8 @@ export class US extends Country {
             },
         },
     }
-    defaultOpenParameterGroups = ["/USDA", "/USDA/SNAP"];
-    defaultSelectedParameterGroup = "/USDA/SNAP/Eligibility"
+    defaultOpenParameterGroups = ["/IRS"];
+    defaultSelectedParameterGroup = "/IRS/Income tax schedule"
     showSnapShot = false
     organisations = {}
     // OpenFisca data
