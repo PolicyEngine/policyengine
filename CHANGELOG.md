@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.32.1] - 2022-04-06 21:24:33
+
+### Fixed
+
+- Set default US policy selected to IRS income tax rates.
+- Corrected decile chart axes when using wealth deciles.
+
+## [1.32.0] - 2022-04-06 15:54:38
+
+### Fixed
+
+- Hover cards now have the same font (Ubuntu) as the app itself.
+
 ## [1.31.0] - 2022-04-05 15:40:36
 
 ### Added
@@ -618,6 +631,8 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.32.1]: https://github.com/PolicyEngine/policyengine/compare/1.32.0...1.32.1
+[1.32.0]: https://github.com/PolicyEngine/policyengine/compare/1.31.0...1.32.0
 [1.31.0]: https://github.com/PolicyEngine/policyengine/compare/1.30.0...1.31.0
 [1.30.0]: https://github.com/PolicyEngine/policyengine/compare/1.29.0...1.30.0
 [1.29.0]: https://github.com/PolicyEngine/policyengine/compare/1.28.0...1.29.0
