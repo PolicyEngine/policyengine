@@ -521,3 +521,7 @@
     fixed:
     - Set default US policy selected to IRS income tax rates.
     - Corrected decile chart axes when using wealth deciles.
+- bump: patch
+  changes:
+    fixed:
+    - Counterfactual works for abolition variables.
