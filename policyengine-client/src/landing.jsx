@@ -67,8 +67,8 @@ function LandingPageContent() {
             </Row>
             <br /><br />
             {/* Primary link goes to the US if the user is in the US, otherwise UK. */}
-            <Button type="primary" size="large" href={inUs ? usLink : ukLink} block>
-                Enter PolicyEngine {inUs ? "US" : "UK"}
+            <Button type="primary" size="large" style={{ verticalAlign: 'middle', height: '50px' }} href={inUs ? usLink : ukLink} block>
+                <b>Enter PolicyEngine {inUs ? "US" : "UK"}</b>
             </Button>
             <br /><br />
             <Button block size="large" href={inUs ? ukLink : usLink}>
