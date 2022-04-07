@@ -45,10 +45,10 @@ export default function MainNavigation(props) {
 	return (
 		<>
 			<Row style={{ margin: 0 }}>
-				<Col xl={2} lg={2}>
+				<Col lg={2}>
 					<Title link={props.noTabs && "/"} />
 				</Col>
-				<Col xl={8} lg={4} className="d-flex align-items-center justify-content-center" style={{ paddingLeft: 25, paddingRight: 25, paddingBottom: 5 }}>
+				<Col lg={8} className="d-flex align-items-center justify-content-center" style={{ paddingLeft: 25, paddingRight: 25 }}>
 					{middleColumn}
 				</Col>
 				<Col lg={2} className="d-none d-lg-flex align-items-center justify-content-right">
