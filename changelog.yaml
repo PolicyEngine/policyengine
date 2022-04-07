@@ -521,6 +521,7 @@
     fixed:
     - Set default US policy selected to IRS income tax rates.
     - Corrected decile chart axes when using wealth deciles.
+  date: 2022-04-06 21:24:33
 - bump: patch
   changes:
     fixed:
