@@ -10,6 +10,7 @@ class PolicyEngineResultsConfig:
     in_poverty_variable: str
     in_deep_poverty_variable: str
     household_net_income_variable: str
+    household_wealth_variable: str
     equiv_household_net_income_variable: str
     child_variable: str
     working_age_variable: str
