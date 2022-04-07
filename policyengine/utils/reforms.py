@@ -37,12 +37,25 @@ def structural(variable: Type[Variable]) -> Reform:
     )
 
 
-def abolish(variable: str) -> Reform:
-    return type(
-        f"abolish_{variable}",
-        (Reform,),
-        dict(apply=lambda self: self.neutralize_variable(variable)),
-    )
+def reinstate_variable(system, variable):
+    clone = system.variables[variable].clone()
+    clone.is_neutralized = False
+    system.variables[variable] = clone
+
+
+def abolish(variable: str, neutralize: bool = True) -> Reform:
+    if neutralize:
+        return type(
+            f"abolish_{variable}",
+            (Reform,),
+            dict(apply=lambda self: self.neutralize_variable(variable)),
+        )
+    else:
+        return type(
+            f"reinstate_{variable}",
+            (Reform,),
+            dict(apply=lambda self: reinstate_variable(self, variable)),
+        )
 
 
 def parametric(
@@ -355,6 +368,7 @@ def create_reform(
                 f"{str_value[:4]}-{str_value[4:6]}-{str_value[6:8]}"
             )
         elif param != "household":
+            print(param, value)
             metadata = policyengine_parameters[param.replace("baseline_", "")]
             name = metadata["label"]
             description = get_summary(metadata, value)
@@ -373,12 +387,12 @@ def create_reform(
                     if isinstance(metadata["variable"], list):
                         reform = tuple(
                             [
-                                abolish(variable)
+                                abolish(variable, value)
                                 for variable in metadata["variable"]
                             ]
                         )
                     else:
-                        reform = abolish(metadata["variable"])
+                        reform = abolish(metadata["variable"], value)
                 else:
                     reform = parametric(metadata["parameter"], value)
             else:
