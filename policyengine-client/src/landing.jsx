@@ -58,23 +58,19 @@ function LandingPageContent() {
 
     return <>
         <center>
-            <br /><br /><br />
-            <Row>
-                <h1>Compute the impact of public policy</h1><br />
-                <h4>Estimate your taxes and benefits<br />
-                    Imagine custom economic policy reforms<br />
-                    Calculate the effects on society and your own household</h4>
+            <Row style={{marginTop: 40}}>
+                <h1>Compute the impact of public policy</h1>
+                <h4 style={{marginTop: 10}}>Estimate your taxes and benefits</h4>
+                <h4 style={{marginTop: 10}}>Imagine custom economic policy reforms</h4>
+                <h4 style={{marginTop: 10, marginBottom: 30}}>Calculate the effects on society and your own household</h4>
             </Row>
-            <br /><br />
             {/* Primary link goes to the US if the user is in the US, otherwise UK. */}
-            <Button type="primary" size="large" style={{ verticalAlign: 'middle', height: '50px' }} href={inUs ? usLink : ukLink} block>
-                <b>Enter PolicyEngine {inUs ? "US" : "UK"}</b>
+            <Button type="primary" size="large" className="justify-content-center" style={{ fontSize: 30, height: 80, marginTop: 20, marginBottom: 20, display: "flex"}} href={inUs ? usLink : ukLink} block>
+                <div style={{margin: 20}}><b>Enter PolicyEngine {inUs ? "US" : "UK"}</b></div>
             </Button>
-            <br /><br />
             <Button block size="large" href={inUs ? ukLink : usLink}>
                 Enter PolicyEngine {inUs ? "UK" : "US"}
             </Button>
-            <br /><br />
             <Subheader>Who we help</Subheader>
             <UsageExplanations />
             <Subheader subtitle={<>We're currently seeking funding partners, volunteer developers and policy analysts to expand our work and its impact. Is that you? <a href="mailto:hello@policyengine.org">Get in touch.</a></>}></Subheader>
