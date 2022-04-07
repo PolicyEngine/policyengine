@@ -525,9 +525,10 @@
 - bump: patch
   changes:
     fixed:
-    - Counterfactual works for abolition variables.
+      - Counterfactual works for abolition variables.
   date: 2022-04-07 13:56:07
 - bump: patch
+  changes:
     changed:
       - Center-aligns homepage.
       - Replaces side-by-side flags to enter the app with primary and secondary buttons stacked.
