@@ -540,4 +540,5 @@
   changes:
     changed:
       - Bump OpenFisca US.
+      - Add payroll and self-employment tax parameters.
       - Adjust landing page spacing.
