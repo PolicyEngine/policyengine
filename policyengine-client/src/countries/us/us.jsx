@@ -274,8 +274,10 @@ export class US extends Country {
         "ca_cvrp",
         "wic",
         // Third level - spm_unit_taxes.
-        "spm_unit_fica",
+        "spm_unit_payroll_tax",
+        "spm_unit_self_employment_tax",
         "spm_unit_federal_tax",
+        // Fourth level - SNAP decomposition.
         "snap_normal_allotment",
         "snap_emergency_allotment",
     ]
@@ -384,7 +386,8 @@ export class US extends Country {
         },
         "spm_unit_taxes": {
             "add": [
-                "spm_unit_fica",
+                "spm_unit_payroll_tax",
+                "spm_unit_self_employment_tax",
                 "spm_unit_federal_tax",
             ],
             "subtract": []
