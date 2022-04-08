@@ -117,6 +117,17 @@ export class US extends Country {
                     ],
                 },
             },
+            "Social Security": [
+                "employee_social_security_tax_rate",
+                "social_security_tax_cap",
+                "self_employment_net_earnings_exemption",
+                "self_employment_social_security_tax_rate",
+            ],
+            "Medicare": [
+                "employee_medicare_rate",
+                "self_employment_medicare_rate",
+                "additional_medicare_rate",
+            ]
         },
         "USDA": {
             "SNAP": {
@@ -168,10 +179,11 @@ export class US extends Country {
     variables = null
     // Adjustments to OpenFisca data
     extraParameterMetadata = {
-        ctc_child_age: {max: 21},
-        ctc_child: {max: 10_000},
-        ctc_child_young_bonus: {max: 10_000},
-        ctc_adult_dependent: {max: 10_000},
+        ctc_child_age: { max: 21 },
+        ctc_child: { max: 10_000 },
+        ctc_child_young_bonus: { max: 10_000 },
+        ctc_adult_dependent: { max: 10_000 },
+        snap_net_income_limit: { max: 10 },
     }
     extraVariableMetadata = {}
     situation = {
@@ -262,8 +274,10 @@ export class US extends Country {
         "ca_cvrp",
         "wic",
         // Third level - spm_unit_taxes.
-        "spm_unit_fica",
+        "spm_unit_payroll_tax",
+        "spm_unit_self_employment_tax",
         "spm_unit_federal_tax",
+        // Fourth level - SNAP decomposition.
         "snap_normal_allotment",
         "snap_emergency_allotment",
     ]
@@ -372,7 +386,8 @@ export class US extends Country {
         },
         "spm_unit_taxes": {
             "add": [
-                "spm_unit_fica",
+                "spm_unit_payroll_tax",
+                "spm_unit_self_employment_tax",
                 "spm_unit_federal_tax",
             ],
             "subtract": []

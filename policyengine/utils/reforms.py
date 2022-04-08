@@ -12,13 +12,11 @@ from openfisca_core.reforms.reform import Reform
 from openfisca_core.tracers.tracing_parameter_node_at_instant import (
     ParameterNode,
 )
-from openfisca_core.periods import period as parse_period
 from openfisca_core.variables import Variable
 from datetime import datetime
 from openfisca_core.taxbenefitsystems import TaxBenefitSystem
 from openfisca_tools.model_api import ReformType
 from openfisca_core.model_api import Enum
-from rdbl import gbp
 
 
 def structural(variable: Type[Variable]) -> Reform:
@@ -368,7 +366,6 @@ def create_reform(
                 f"{str_value[:4]}-{str_value[4:6]}-{str_value[6:8]}"
             )
         elif param != "household":
-            print(param, value)
             metadata = policyengine_parameters[param.replace("baseline_", "")]
             name = metadata["label"]
             description = get_summary(metadata, value)

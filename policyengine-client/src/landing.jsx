@@ -34,7 +34,7 @@ function UsageBox(props) {
 
     // Displays the title anchored to the left (and big) and the description anchored to the right (and small)
 
-    return <Row style={{ marginTop: 20, marginBottom: 20 }}>
+    return <Row style={{ marginTop: 15, marginBottom: 20 }}>
         <h3 style={{ marginBottom: 0 }}>{props.title}</h3>
         <br /><br />
         <h5 style={{ marginTop: 0 }}>{props.description}</h5>
@@ -58,15 +58,15 @@ function LandingPageContent() {
 
     return <>
         <center>
-            <Row style={{marginTop: 40}}>
+            <Row style={{ marginTop: 30 }}>
                 <h1>Compute the impact of public policy</h1>
-                <h4 style={{marginTop: 10}}>Estimate your taxes and benefits</h4>
-                <h4 style={{marginTop: 10}}>Imagine custom economic policy reforms</h4>
-                <h4 style={{marginTop: 10, marginBottom: 30}}>Calculate the effects on society and your own household</h4>
+                <h4 style={{ marginTop: 10 }}>Estimate your taxes and benefits</h4>
+                <h4 style={{ marginTop: 5 }}>Imagine custom economic policy reforms</h4>
+                <h4 style={{ marginTop: 5, marginBottom: 30 }}>Calculate the effects on society and your own household</h4>
             </Row>
             {/* Primary link goes to the US if the user is in the US, otherwise UK. */}
-            <Button type="primary" size="large" className="justify-content-center" style={{ fontSize: 30, height: 80, marginTop: 20, marginBottom: 20, display: "flex"}} href={inUs ? usLink : ukLink} block>
-                <div style={{margin: 20}}><b>Enter PolicyEngine {inUs ? "US" : "UK"}</b></div>
+            <Button type="primary" size="large" className="justify-content-center" style={{ fontSize: 30, height: 80, marginTop: 20, marginBottom: 20, display: "flex" }} href={inUs ? usLink : ukLink} block>
+                <div style={{ margin: 20 }}><b>Enter PolicyEngine {inUs ? "US" : "UK"}</b></div>
             </Button>
             <Button block size="large" href={inUs ? ukLink : usLink}>
                 Enter PolicyEngine {inUs ? "UK" : "US"}
