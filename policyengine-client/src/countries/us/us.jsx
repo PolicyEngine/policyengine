@@ -117,6 +117,17 @@ export class US extends Country {
                     ],
                 },
             },
+            "Social Security": [
+                "employee_social_security_tax_rate",
+                "social_security_tax_cap",
+                "self_employment_net_earnings_exemption",
+                "self_employment_social_security_tax_rate",
+            ],
+            "Medicare": [
+                "employee_medicare_rate",
+                "self_employment_medicare_rate",
+                "additional_medicare_rate",
+            ]
         },
         "USDA": {
             "SNAP": {
@@ -168,10 +179,10 @@ export class US extends Country {
     variables = null
     // Adjustments to OpenFisca data
     extraParameterMetadata = {
-        ctc_child_age: {max: 21},
-        ctc_child: {max: 10_000},
-        ctc_child_young_bonus: {max: 10_000},
-        ctc_adult_dependent: {max: 10_000},
+        ctc_child_age: { max: 21 },
+        ctc_child: { max: 10_000 },
+        ctc_child_young_bonus: { max: 10_000 },
+        ctc_adult_dependent: { max: 10_000 },
     }
     extraVariableMetadata = {}
     situation = {
