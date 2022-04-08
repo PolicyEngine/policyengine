@@ -368,7 +368,6 @@ def create_reform(
                 f"{str_value[:4]}-{str_value[4:6]}-{str_value[6:8]}"
             )
         elif param != "household":
-            print(param, value)
             metadata = policyengine_parameters[param.replace("baseline_", "")]
             name = metadata["label"]
             description = get_summary(metadata, value)

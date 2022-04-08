@@ -153,8 +153,6 @@ class PolicyEngineCountry:
         )
         baseline.year = 2022
         reformed.year = 2022
-        print(f"NI in baseline: {baseline.calc('national_insurance')}")
-        print(f"NI in reformed: {reformed.calc('national_insurance')}")
         return baseline, reformed
 
     def _get_individualsims(
