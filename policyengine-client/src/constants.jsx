@@ -1,0 +1,3 @@
+export const POLICYENGINE_LIGHT_BLUE = "#5091cc";
+export const POLICYENGINE_MEDIUM_BLUE = "#2c6496";
+export const POLICYENGINE_DARK_BLUE = "#002766";
