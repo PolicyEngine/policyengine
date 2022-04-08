@@ -215,7 +215,6 @@ export class US extends Country {
         // Person.
         "age",
         "employment_income",
-        "self_employment_income",
         "dividend_income",
         "interest_income",
         "gi_cash_assistance",
@@ -259,7 +258,6 @@ export class US extends Country {
         "spm_unit_taxes",
         // Third level - spm_unit_market_income.
         "employment_income",
-        "self_employment_income",
         "dividend_income",
         "interest_income",
         // Third level - spm_unit_benefits.
@@ -305,7 +303,6 @@ export class US extends Country {
         "People": {
             "Income": [
                 "employment_income",
-                "self_employment_income",
                 "dividend_income",
                 "interest_income",
                 "gi_cash_assistance",
@@ -362,7 +359,6 @@ export class US extends Country {
         "spm_unit_market_income": {
             "add": [
                 "employment_income",
-                "self_employment_income",
                 "dividend_income",
                 "interest_income",
                 "gi_cash_assistance",
