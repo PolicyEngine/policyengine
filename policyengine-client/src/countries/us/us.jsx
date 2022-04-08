@@ -183,6 +183,7 @@ export class US extends Country {
         ctc_child: { max: 10_000 },
         ctc_child_young_bonus: { max: 10_000 },
         ctc_adult_dependent: { max: 10_000 },
+        snap_net_income_limit: { max: 10 },
     }
     extraVariableMetadata = {}
     situation = {
