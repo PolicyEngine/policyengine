@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.32.5] - 2022-04-08 20:05:37
+
+## [1.32.4] - 2022-04-08 15:25:05
+
+### Changed
+
+- Bump OpenFisca US.
+- Add payroll and self-employment tax parameters.
+- Adjust landing page spacing.
+
 ## [1.32.3] - 2022-04-07 17:49:10
 
 ### Changed
@@ -646,6 +656,8 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.32.5]: https://github.com/PolicyEngine/policyengine/compare/1.32.4...1.32.5
+[1.32.4]: https://github.com/PolicyEngine/policyengine/compare/1.32.3...1.32.4
 [1.32.3]: https://github.com/PolicyEngine/policyengine/compare/1.32.2...1.32.3
 [1.32.2]: https://github.com/PolicyEngine/policyengine/compare/1.32.1...1.32.2
 [1.32.1]: https://github.com/PolicyEngine/policyengine/compare/1.32.0...1.32.1
