@@ -83,9 +83,7 @@ def budget_chart(
                 explainer_names[-1] += " (baseline)"
                 variable_values[name + " (baseline)"] = baseline_values
                 del variable_values[name]
-                explainer_names.append(
-                    f"{name} (reform)"
-                )
+                explainer_names.append(f"{name} (reform)")
                 variable_values[name + " (reform)"] = reform_values
     df = pd.DataFrame(
         {
