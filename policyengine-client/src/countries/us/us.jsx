@@ -280,6 +280,11 @@ export class US extends Country {
         // Fourth level - SNAP decomposition.
         "snap_normal_allotment",
         "snap_emergency_allotment",
+        // Taxes
+
+        "income_tax_before_credits",
+        "income_tax_capped_non_refundable_credits",
+        "income_tax_refundable_credits",
     ]
     inputVariableHierarchy = {
         "Household": {
@@ -398,7 +403,16 @@ export class US extends Country {
                 "snap_emergency_allotment",
             ],
             "subtract": []
-        }
+        },
+        "spm_unit_federal_tax": {
+            "add": [
+                "income_tax_before_credits",
+            ],
+            "subtract": [
+                "income_tax_capped_non_refundable_credits",
+                "income_tax_refundable_credits",
+            ]
+        },
     }
 
     householdMaritalOptions = ["Single", "Married"]
