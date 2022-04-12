@@ -25,16 +25,7 @@ LABELS = dict(
 DEBUG_MODE = False
 
 DEBUG_VARIABLES = [
-    "spm_unit_fica",
-    "spm_unit_federal_tax",
-    "adjusted_gross_income",
-    "income_tax_main_rates",
-    "regular_tax_before_credits",
-    "alternative_minimum_tax",
-    "amt_income",
-    "income_tax_before_credits",
-    "income_tax_non_refundable_credits",
-    "income_tax_refundable_credits",
+    "refundable_ctc",
 ]
 
 
@@ -87,6 +78,15 @@ def budget_chart(
             )
             explainer_names += [name]
             variable_values[name] = baseline_values
+            if has_reform:
+                reform_values = reformed.calc(variable).sum(axis=0)
+                explainer_names[-1] += " (baseline)"
+                variable_values[name + " (baseline)"] = baseline_values
+                del variable_values[name]
+                explainer_names.append(
+                    f"{name} (reform)"
+                )
+                variable_values[name + " (reform)"] = reform_values
     df = pd.DataFrame(
         {
             "Total income": baseline.calc(config.total_income_variable).sum(
@@ -125,7 +125,7 @@ def budget_chart(
         y_title = "Household net income difference"
     else:
         y_fig = (
-            ["Baseline", "Reform"]
+            ["Baseline", "Reform"] + (explainer_names)
             if has_reform
             else ["Net income"] + (explainer_names)
         )
