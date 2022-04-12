@@ -542,3 +542,8 @@
       - Bump OpenFisca US.
       - Add payroll and self-employment tax parameters.
       - Adjust landing page spacing.
+- bump: minor
+  changes:
+    changed:
+      - OpenFisca-US bumped.
+      - Federal tax expandable on the US household page.
