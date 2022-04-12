@@ -101,12 +101,17 @@ def budget_chart(
             **variable_values,
         }
     )
+    original_net_income = (
+        original_total_income
+        + df["household_benefits_baseline"][i]
+        - df["household_tax_baseline"][i]
+    )
     df["hover"] = df.apply(
         lambda x: budget_hover_label(
             x["Total income"],
-            x.Baseline,
+            x.Baseline if has_reform else original_net_income,
             x.Reform,
-            x["Total income"],
+            x["Total income"] if has_reform else original_total_income,
             x["Total income"],
             x[config.tax_variable + "_baseline"],
             x[config.tax_variable + "_reform"],
@@ -216,7 +221,7 @@ def budget_hover_label(
     benefits_change = describe_change(
         benefits_baseline, benefits_reform, formatter, formatter, plural=True
     )
-    return f"<b>At {earnings_str} employment income:<br>Your net income {budget_change} </b><br><br>Total income {total_income_change}<br>Tax {tax_change}<br>Benefits {benefits_change}"
+    return f"<b>At {earnings_str} employment income:<br>Your net income {budget_change} </b><br><br>Market income {total_income_change}<br>Tax {tax_change}<br>Benefits {benefits_change}"
 
 
 def mtr_hover_label(
