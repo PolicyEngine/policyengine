@@ -552,3 +552,4 @@
   changes:
     changed:
       - Bump OpenFisca-US to capture CTC bug fix.
+      - Fit navigation buttons to width.
