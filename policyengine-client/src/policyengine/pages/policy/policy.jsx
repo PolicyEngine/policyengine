@@ -54,15 +54,15 @@ export default class Policy extends React.Component {
 				        </Affix>
                         <Affix offsetTop={450}>
                             <SharePolicyLinks page="policy"/>
-                            <div className="d-block align-middle">
-                                <div className="d-flex justify-content-center">
+                            <div className="d-block align-middle mx-5">
+                                <div className="justify-content-center">
                                     {this.context.showPopulationImpact && <NavigationButton 
                                         primary 
                                         target="population-impact" 
                                         text={`Calculate ${this.context.properName} impact`} 
                                     />}
                                 </div>
-                                <div className="d-flex justify-content-center">
+                                <div className="justify-content-center">
                                     {this.context.showHousehold && <NavigationButton
                                         target="household" 
                                         text="Describe your household"
