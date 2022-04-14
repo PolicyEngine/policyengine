@@ -248,6 +248,7 @@ export class US extends Country {
         "is_on_tribal_land",
         "is_rural",
         "is_homeless",
+        "cdcc_qualified_dependent"
     ]
     outputVariables = [
         // Top level.
@@ -332,6 +333,7 @@ export class US extends Country {
                 "is_pregnant",
                 "is_breastfeeding",
                 "is_wic_at_nutritional_risk",
+                "cdcc_qualified_dependent"
             ],
             "Expenses": [
                 "medical_out_of_pocket_expenses",

@@ -98,14 +98,6 @@ def create_default_reform() -> ReformType:
         for name, variable in baseline_system.variables.items()
     }
 
-    class net_financial_wealth(Variable):
-        entity = Household
-        label = "Net financial wealth"
-        documentation = "Total assets minus liabilities"
-        unit = "currency-GBP"
-        definition_period = YEAR
-        value_type = float
-
     class net_financial_wealth_tax(Variable):
         entity = Household
         label = "Wealth tax"
@@ -351,7 +343,6 @@ def create_default_reform() -> ReformType:
             self.add_variables(
                 net_financial_wealth_tax,
                 property_tax,
-                net_financial_wealth,
             )
 
             self.update_variable(meets_marriage_allowance_income_conditions)

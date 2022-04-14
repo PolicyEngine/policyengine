@@ -25,7 +25,8 @@ LABELS = dict(
 DEBUG_MODE = False
 
 DEBUG_VARIABLES = [
-    "refundable_ctc",
+    "c33200",
+    "f2441",
 ]
 
 
