@@ -20,8 +20,8 @@ export default function HelpButton(props) {
 export function UKHelpButton(props) {
     const [helpPaneOpen, setHelpPaneOpen] = useState(false);
     const [currentPane, setCurrentPane] = useState(0);
-    return <>
-        <div style={{position: "fixed", zIndex: 0, left: 20, bottom: 20}}>
+    return <div className="d-none d-lg-block">
+        <div style={{position: "fixed", zIndex: 0, left: 20, bottom: 70}}>
             <QuestionCircleOutlined style={{fontSize: 35, cursor: "pointer"}} onClick={() => {setCurrentPane(0); setHelpPaneOpen(true)}}/>
         </div>
         <Modal visible={helpPaneOpen} centered closable={false} footer={null} width="50%">
@@ -54,7 +54,7 @@ export function UKHelpButton(props) {
                 </>}
             </div>
         </Modal>
-    </>
+    </div>
 }
 
 
@@ -62,8 +62,8 @@ export function UKHelpButton(props) {
 export function USHelpButton(props) {
     const [helpPaneOpen, setHelpPaneOpen] = useState(false);
     const [currentPane, setCurrentPane] = useState(0);
-    return <>
-        <div style={{position: "fixed", zIndex: 0, left: 20, bottom: 20}}>
+    return <div class="d-none d-lg-block">
+        <div style={{position: "fixed", zIndex: 0, left: 20, bottom: 70}}>
             <QuestionCircleOutlined style={{fontSize: 35, cursor: "pointer"}} onClick={() => {setCurrentPane(0); setHelpPaneOpen(true)}}/>
         </div>
         <Modal visible={helpPaneOpen} centered closable={false} footer={null} width="50%">
@@ -87,5 +87,5 @@ export function USHelpButton(props) {
                 </>}
             </div>
         </Modal>
-    </>
+    </div>
 }

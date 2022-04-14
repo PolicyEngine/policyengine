@@ -351,7 +351,6 @@ def create_default_reform() -> ReformType:
             self.add_variables(
                 net_financial_wealth_tax,
                 property_tax,
-                net_financial_wealth,
             )
 
             self.update_variable(meets_marriage_allowance_income_conditions)
