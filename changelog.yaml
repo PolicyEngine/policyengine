@@ -536,3 +536,7 @@
     - Links API documentation from homepage.
     - Changes some text colors.
   date: 2022-04-07 17:49:10
+- bump: patch
+  changes:
+    changed:
+    - Update household budget hovercard for when there is no reform.
