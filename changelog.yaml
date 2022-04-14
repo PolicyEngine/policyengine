@@ -540,3 +540,22 @@
   changes:
     changed:
     - Update household budget hovercard for when there is no reform.
+    - Bump OpenFisca US.
+    - Add payroll and self-employment tax parameters.
+    - Adjust landing page spacing.
+  date: 2022-04-08 15:25:05
+- bump: patch
+  changes:
+    removed:
+    - US self-employment income input.
+  date: 2022-04-08 20:05:37
+- bump: patch
+  changes:
+    changed:
+    - Bump OpenFisca-US to capture CTC bug fix.
+    - Fit navigation buttons to width.
+  date: 2022-04-14 13:39:25
+- bump: patch
+  changes:
+    changed:
+    - Update budget hovercard for when there is no reform.
