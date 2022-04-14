@@ -185,14 +185,14 @@ export default class PopulationImpact extends React.Component {
 						<Affix offsetTop={450}>
 							<SharePolicyLinks page="population-impact" />
 							<div className="d-block align-middle">
-								<div className="d-flex justify-content-center">
+								<div className="justify-content-center">
 									{this.context.showPopulationImpact &&
 										<NavigationButton
 											target="policy"
 											text={<><ArrowLeftOutlined /> Edit your policy</>}
 										/>}
 								</div>
-								<div className="d-flex justify-content-center">
+								<div className="justify-content-center">
 									{this.context.showHousehold && <NavigationButton
 										target="household"
 										text="Describe your household"

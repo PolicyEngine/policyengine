@@ -67,20 +67,20 @@ export class Household extends React.Component {
                         <Affix offsetTop={450}>
                             <SharePolicyLinks page="household"/>
                             <div className="d-block align-middle">
-                                <div className="d-flex justify-content-center">
+                                <div className="justify-content-center">
                                     <NavigationButton
                                         text="Calculate your net income"
                                         onClick={() => this.setState({selected: "results"})}
                                         primary
                                     />
                                 </div>
-                                <div className="d-flex justify-content-center">
+                                <div className="justify-content-center">
                                     <NavigationButton
                                         target="policy" 
                                         text={<><ArrowLeftOutlined /> Edit your policy</>}
                                     />
                                 </div>
-                                <div className="d-flex justify-content-center">
+                                <div className="justify-content-center">
                                     {this.context.showPopulationImpact && <NavigationButton 
                                         target="population-impact" 
                                         text={<><ArrowLeftOutlined /> Return to the {this.context.properName} impact</>}
