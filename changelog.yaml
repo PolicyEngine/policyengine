@@ -554,3 +554,7 @@
     - Bump OpenFisca-US to capture CTC bug fix.
     - Fit navigation buttons to width.
   date: 2022-04-14 13:39:25
+- bump: patch
+  changes:
+    changed:
+    - Update budget hovercard for when there is no reform.
