@@ -559,3 +559,7 @@
     changed:
     - Update budget hovercard for when there is no reform.
   date: 2022-04-16 17:10:04
+- bump: patch
+  changes:
+    fixed:
+    - Blog API failure doesn't crash the site.
