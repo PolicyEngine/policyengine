@@ -539,7 +539,6 @@
 - bump: patch
   changes:
     changed:
-    - Update household budget hovercard for when there is no reform.
     - Bump OpenFisca US.
     - Add payroll and self-employment tax parameters.
     - Adjust landing page spacing.
