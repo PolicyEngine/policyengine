@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.32.9] - 2022-04-17 06:11:37
+
+### Fixed
+
+- Use country-specific tax and benefit variable to fix broken "How earnings affect you" chart in the US.
+
 ## [1.32.8] - 2022-04-17 00:02:39
 
 ### Fixed
@@ -675,6 +681,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.32.9]: https://github.com/PolicyEngine/policyengine/compare/1.32.8...1.32.9
 [1.32.8]: https://github.com/PolicyEngine/policyengine/compare/1.32.7...1.32.8
 [1.32.7]: https://github.com/PolicyEngine/policyengine/compare/1.32.6...1.32.7
 [1.32.6]: https://github.com/PolicyEngine/policyengine/compare/1.32.5...1.32.6
