@@ -103,8 +103,8 @@ def budget_chart(
     )
     original_net_income = (
         original_total_income
-        + df["household_benefits_baseline"][i]
-        - df["household_tax_baseline"][i]
+        + df[config.benefit_variable + "_baseline"][i]
+        - df[config.tax_variable + "_baseline"][i]
     )
     df["hover"] = df.apply(
         lambda x: budget_hover_label(
