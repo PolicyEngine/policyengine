@@ -90,8 +90,12 @@ class MediumFeed extends React.Component {
     }
 
     componentDidMount() {
-        fetch("https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2Fpolicyengine").then(res => res.json()).then(feed => {
-            this.setState({ feed: feed });
+        fetch("https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2Fpolicyengine").then(res => res.json()).then(res => {
+            if(res.status === "error") {
+                this.setState({ feed: { items: [] } });
+            } else {
+                this.setState({ feed: res });
+            }
         });
     }
 
