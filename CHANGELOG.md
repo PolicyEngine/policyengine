@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.32.8] - 2022-04-17 00:02:39
+
+### Fixed
+
+- Blog API failure doesn't crash the site.
+
 ## [1.32.7] - 2022-04-16 17:10:04
 
 ### Changed
@@ -669,6 +675,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.32.8]: https://github.com/PolicyEngine/policyengine/compare/1.32.7...1.32.8
 [1.32.7]: https://github.com/PolicyEngine/policyengine/compare/1.32.6...1.32.7
 [1.32.6]: https://github.com/PolicyEngine/policyengine/compare/1.32.5...1.32.6
 [1.32.5]: https://github.com/PolicyEngine/policyengine/compare/1.32.4...1.32.5
