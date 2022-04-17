@@ -237,10 +237,10 @@ def mtr_hover_label(
     earnings_str = f"{config.currency}{round(earnings):,}"
 
     def pct_formatter(x):
-        return str(round(x * 100)) + "%"
+        return str(round(x * 1000) / 10) + "%"
 
     def pp_formatter(x):
-        return str(round(x * 100)) + "pp"
+        return str(round(x * 1000) / 10) + "pp"
 
     mtr_change = describe_change(
         baseline_mtr, reform_mtr, pct_formatter, pp_formatter
