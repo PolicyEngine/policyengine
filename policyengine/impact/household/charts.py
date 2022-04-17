@@ -395,7 +395,7 @@ def mtr_chart(
         title=d_title,
         xaxis_title="Employment income",
         xaxis_tickprefix=config.currency,
-        yaxis_tickformat=",.1%",
+        yaxis_tickformat=",.0%",
         yaxis_title=y_title,
         yaxis_range=(min(0, np.floor(df["Reform"].min() * 10) / 10), 1),
         legend_title=None,
