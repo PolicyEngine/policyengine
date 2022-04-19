@@ -575,3 +575,7 @@
     fixed:
     - Remove decimal from MTR chart y-axis label.
   date: 2022-04-17 19:33:33
+- bump: patch
+  changes:
+    fixed:
+    - Blog posts now show on the homepage.
