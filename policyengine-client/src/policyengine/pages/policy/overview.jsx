@@ -14,7 +14,7 @@ function generateStepFromParameter(parameter, editingReform, country, page) {
 	const targetKey = editingReform ? "value" : "baselineValue";
 	let populationSimCheckbox = null;
 	let hide = false;
-	if(country.notAllParametersPopulationSimulatable && ((page === "population-impact") | (page === "policy"))) {
+	if(country.showPopulationImpact && country.notAllParametersPopulationSimulatable && ((page === "population-impact") | (page === "policy"))) {
 		populationSimCheckbox = country.populationSimulatableParameters.includes(parameter.name) ?
 			<Tooltip title="This parameter will affect the country-wide simulation" overlayInnerStyle={{padding: 20, paddingRight: 0}}><CheckCircleOutlined /></Tooltip> :
 			null;
