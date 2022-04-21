@@ -1,10 +1,11 @@
 import { getTranslators } from "../../tools/translation";
 import React, { useState } from "react";
-import { CloseCircleFilled, EditOutlined } from "@ant-design/icons";
+import { CheckCircleOutlined, CloseCircleFilled, EditOutlined } from "@ant-design/icons";
 import {
 	Switch, Slider, Select, 
     Alert, Input,
     DatePicker,
+	Tooltip,
 } from "antd";
 import Spinner from "../../general/spinner";
 import { CountryContext } from "../../../countries/country";
@@ -175,12 +176,16 @@ export default class Parameter extends React.Component {
 			"date": <DateParameterControl onChange={onChange} metadata={metadata} />,
 			"parameter_node": <BreakdownParameterControl metadata={metadata} />,
 		}[metadata.valueType] || <NumericParameterControl onChange={onChange} metadata={metadata} />;
+		let populationSimCheckbox = null;
+		if(this.context.notAllParametersPopulationSimulatable) {
+			populationSimCheckbox = this.context.populationSimulatableParameters.includes(metadata.name) && <Tooltip title="This parameter will affect the country-wide simulation" overlayInnerStyle={{padding: 20, paddingRight: 0}}><CheckCircleOutlined /></Tooltip>;
+		}
 		return (
 			<>
 				{
 					!this.props.hideTitle ?
 						<>
-							<h6 style={{marginTop: 20}}>{metadata.label}</h6>
+							<h6 style={{marginTop: 20}}>{metadata.label} {populationSimCheckbox}</h6>
 							{metadata.error ? <Error message={metadata.error} /> : null}
 							<p>{metadata.description}</p>
 						</> :
