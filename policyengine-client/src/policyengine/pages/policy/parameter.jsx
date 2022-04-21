@@ -177,7 +177,7 @@ export default class Parameter extends React.Component {
 			"parameter_node": <BreakdownParameterControl metadata={metadata} />,
 		}[metadata.valueType] || <NumericParameterControl onChange={onChange} metadata={metadata} />;
 		let populationSimCheckbox = null;
-		if(this.context.notAllParametersPopulationSimulatable) {
+		if(this.context.notAllParametersPopulationSimulatable && this.context.showPopulationImpact) {
 			populationSimCheckbox = this.context.populationSimulatableParameters.includes(metadata.name) && <Tooltip title="This parameter will affect the country-wide simulation" overlayInnerStyle={{padding: 20, paddingRight: 0}}><CheckCircleOutlined /></Tooltip>;
 		}
 		return (
