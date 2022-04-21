@@ -34,4 +34,4 @@ class US(PolicyEngineCountry):
     Microsimulation = Microsimulation
     default_dataset = CPS
     default_dataset_year = 2020
-    default_reform = create_default_reform()
+    microsimulation_default_reform = create_default_reform()
