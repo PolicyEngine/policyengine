@@ -50,7 +50,7 @@ export default class Policy extends React.Component {
                 <Col xl={3}>
                     <OverviewHolder>
                         <Affix offsetTop={55}>
-                            <PolicyOverview />
+                            <PolicyOverview page="policy"/>
 				        </Affix>
                         <Affix offsetTop={450}>
                             <SharePolicyLinks page="policy"/>

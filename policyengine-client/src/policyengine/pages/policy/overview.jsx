@@ -13,12 +13,18 @@ function generateStepFromParameter(parameter, editingReform, country, page) {
 	const comparisonKey = editingReform ? "baselineValue" : "defaultValue";
 	const targetKey = editingReform ? "value" : "baselineValue";
 	let populationSimCheckbox = null;
-	if(country.notAllParametersPopulationSimulatable && (page === "population-impact")) {
+	let hide = false;
+	if(country.notAllParametersPopulationSimulatable && ((page === "population-impact") | (page === "policy"))) {
 		populationSimCheckbox = country.populationSimulatableParameters.includes(parameter.name) ?
 			<Tooltip title="This parameter will affect the country-wide simulation" overlayInnerStyle={{padding: 20, paddingRight: 0}}><CheckCircleOutlined /></Tooltip> :
-			<Tooltip title="This parameter will not affect the country-wide simulation" overlayInnerStyle={{padding: 20, paddingRight: 0}}><CloseCircleOutlined /></Tooltip>;
+			null;
+		if(country.populationSimulatableParameters.includes(parameter.name)) {
+			hide = false;
+		} else {
+			hide = true;
+		}
 	}
-	if(parameter[targetKey] !== parameter[comparisonKey]) {
+	if((parameter[targetKey] !== parameter[comparisonKey]) && (!hide | (page !== "population-impact"))) {
 		const formatter = getTranslators(parameter).formatter;
 		const changeLabel = (!isNaN(parameter[targetKey]) && (typeof parameter[targetKey] !== "boolean")) ? 
 			(parameter[targetKey] > parameter[comparisonKey] ? "Increase" : "Decrease") : 
