@@ -14,9 +14,9 @@ from typing import Type, Union
 
 from policyengine.utils.general import PolicyEngineResultsConfig
 
+
 def num(x: float) -> str:
-    """Converts a number to a human-readable string, using the k/m/bn/tr suffixes after rounding to 2 significant figures.
-    """
+    """Converts a number to a human-readable string, using the k/m/bn/tr suffixes after rounding to 2 significant figures."""
 
     # Round to 2sf
     x = round(x, -2)
@@ -203,7 +203,9 @@ def hover_label(
     # Round population estimates, not individual.
     abs_amount = round(abs(amount))
     abs_amount_display = (
-        config.currency + num(abs_amount) if is_pop else f"{config.currency}{abs_amount:,}"
+        config.currency + num(abs_amount)
+        if is_pop
+        else f"{config.currency}{abs_amount:,}"
     )
     # Branch logic, starting with no change.
     # More special handling of the net impact to match the title.
