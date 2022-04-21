@@ -18,20 +18,23 @@ from policyengine.utils.general import PolicyEngineResultsConfig
 def num(x: float) -> str:
     """Converts a number to a human-readable string, using the k/m/bn/tr suffixes after rounding to 2 significant figures."""
 
-    # Round to 2sf
-    x = round(x, -2)
+    # Round to 3 significant figures
+    if x != 0:
+        x = round(x, -int(floor(log10(abs(x))) - 1))
+    else:
+        x = 0
 
     if x < 0:
         return "-" + num(-x)
     if x < 1e3:
         return f"{x:.2f}"
     if x < 1e6:
-        return f"{x / 1000:.2f}k"
+        return f"{x / 1e3:.0f}k"
     if x < 1e9:
-        return f"{x / 1000000:.2f}m"
+        return f"{x / 1e6:.0f}m"
     if x < 1e12:
-        return f"{x / 1000000000:.2f}bn"
-    return f"{x / 1000000000000:.2f}tr"
+        return f"{x / 1e9:.1f}bn"
+    return f"{x / 1e12:.2f}tr"
 
 
 WHITE = "#FFF"

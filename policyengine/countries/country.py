@@ -137,14 +137,20 @@ class PolicyEngineCountry:
             self.baseline
             if not reform_config["baseline"]["has_changed"]
             else self.Microsimulation(
-                (self.microsimulation_default_reform, reform_config["baseline"]["reform"]),
+                (
+                    self.microsimulation_default_reform,
+                    reform_config["baseline"]["reform"],
+                ),
                 dataset=self.default_dataset,
                 year=self.default_dataset_year,
                 post_reform=(),
             )
         )
         reformed = self.Microsimulation(
-            (self.microsimulation_default_reform, reform_config["reform"]["reform"]),
+            (
+                self.microsimulation_default_reform,
+                reform_config["reform"]["reform"],
+            ),
             dataset=self.default_dataset,
             year=self.default_dataset_year,
             post_reform=(),
