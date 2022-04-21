@@ -1,5 +1,5 @@
 import { Pagination, Steps, Divider, Empty, Button, message, Tooltip } from "antd";
-import { CheckCircleOutlined, CloseCircleOutlined, LinkOutlined, TwitterOutlined } from "@ant-design/icons";
+import { CheckCircleOutlined, LinkOutlined, TwitterOutlined } from "@ant-design/icons";
 import { TwitterShareButton } from "react-share";
 import React, { useContext, useState } from "react";
 import { policyToURL } from "../../tools/url";
