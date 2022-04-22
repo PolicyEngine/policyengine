@@ -585,3 +585,7 @@
     added:
     - US population simulations for basic income parameters.
   date: 2022-04-22 09:49:12
+- bump: patch
+  changes:
+    changed:
+    - Increase memory allocation on the server to 8GB (needed for US population impacts).
