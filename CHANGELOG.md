@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.33.1] - 2022-04-22 12:17:10
+
+### Changed
+
+- Increase memory allocation on the server to 8GB (needed for US population impacts).
+
 ## [1.33.0] - 2022-04-22 09:49:12
 
 ### Added
@@ -699,6 +705,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.33.1]: https://github.com/PolicyEngine/policyengine/compare/1.33.0...1.33.1
 [1.33.0]: https://github.com/PolicyEngine/policyengine/compare/1.32.11...1.33.0
 [1.32.11]: https://github.com/PolicyEngine/policyengine/compare/1.32.10...1.32.11
 [1.32.10]: https://github.com/PolicyEngine/policyengine/compare/1.32.9...1.32.10
