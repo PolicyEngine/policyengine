@@ -35,3 +35,7 @@ class US(PolicyEngineCountry):
     default_dataset = CPS
     default_dataset_year = 2020
     microsimulation_default_reform = create_default_reform()
+
+    def __init__(self):
+        self.default_dataset.download(self.default_dataset_year)
+        super().__init__()
