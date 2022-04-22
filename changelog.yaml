@@ -580,3 +580,7 @@
     fixed:
     - Blog posts now show on the homepage.
   date: 2022-04-19 13:22:51
+- bump: minor
+  changes:
+    added:
+    - US population simulations for basic income parameters.

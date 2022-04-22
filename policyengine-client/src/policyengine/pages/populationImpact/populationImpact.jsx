@@ -91,10 +91,15 @@ export function PopulationResultsPane(props) {
 						<Radio.Button value={false}>Relative</Radio.Button>
 						<Radio.Button value={true}>Absolute</Radio.Button>
 					</Radio.Group>
-					<Radio.Group style={{ marginLeft: 10 }} defaultValue={false} buttonStyle="solid" onChange={x => setDecileChartIsWealth(x.target.value)} >
-						<Radio.Button value={false}>Income</Radio.Button>
-						<Radio.Button value={true}>Wealth</Radio.Button>
-					</Radio.Group>
+					{
+						country.showWealth && 
+						(
+							<Radio.Group style={{ marginLeft: 10 }} defaultValue={false} buttonStyle="solid" onChange={x => setDecileChartIsWealth(x.target.value)} >
+								<Radio.Button value={false}>Income</Radio.Button>
+								<Radio.Button value={true}>Wealth</Radio.Button>
+							</Radio.Group>
+						)
+					}
 				</div>
 			</Row>
 			<Row>
@@ -104,14 +109,19 @@ export function PopulationResultsPane(props) {
 						"intra_income_decile_chart"
 				]} md={12} />
 			</Row>
-			<Row>
-				<div className="justify-content-center d-flex">
-					<Radio.Group defaultValue={false} buttonStyle="solid" onChange={x => setIntraDecileChartIsWealth(x.target.value)} >
-						<Radio.Button value={false}>Income decile</Radio.Button>
-						<Radio.Button value={true}>Wealth decile</Radio.Button>
-					</Radio.Group>
-				</div>
-			</Row>
+			{
+				country.showWealth &&
+				(
+					<Row>
+						<div className="justify-content-center d-flex">
+							<Radio.Group defaultValue={false} buttonStyle="solid" onChange={x => setIntraDecileChartIsWealth(x.target.value)} >
+								<Radio.Button value={false}>Income decile</Radio.Button>
+								<Radio.Button value={true}>Wealth decile</Radio.Button>
+							</Radio.Group>
+						</div>
+					</Row>
+				)
+			}
 			<Row>
 				<Chart plot={results.inequality_chart} md={12} />
 			</Row>
@@ -180,7 +190,7 @@ export default class PopulationImpact extends React.Component {
 				<Col xl={3}>
 					<OverviewHolder>
 						<Affix offsetTop={55}>
-							<PolicyOverview />
+							<PolicyOverview page="population-impact" />
 						</Affix>
 						<Affix offsetTop={450}>
 							<SharePolicyLinks page="population-impact" />
