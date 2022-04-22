@@ -539,9 +539,12 @@
 - bump: patch
   changes:
     changed:
-    - Bump OpenFisca US.
-    - Add payroll and self-employment tax parameters.
-    - Adjust landing page spacing.
+      - Bump OpenFisca US.
+      - Add payroll and self-employment tax parameters.
+      - Adjust landing page spacing.
+      - Bump OpenFisca US.
+      - Add payroll and self-employment tax parameters.
+      - Adjust landing page spacing.
   date: 2022-04-08 15:25:05
 - bump: patch
   changes:
@@ -600,3 +603,10 @@
     fixed:
     - Memory allocation reduced back to 6GB (unnecessary given previous PR).
   date: 2022-04-22 15:26:59
+- bump: minor
+  changes:
+    changed:
+      - OpenFisca-US bumped.
+      - Federal tax expandable on the US household page.
+    added:
+      - Debugging tools allowing decomposition of the net income charts when a reform is applied.
