@@ -4,6 +4,9 @@
 
 import Country from "../country"
 import TimeTravel from "../uk/components/timeTravel";
+import UBICenterLogo from "../../images/parameter-icons/ubi-center.png"
+import USLogo from "../../images/parameter-icons/us.png"
+import ClockLogo from "../../images/parameter-icons/clock.png";
 
 const childNamer = {
     1: "Your first child",
@@ -45,6 +48,7 @@ export class US extends Country {
     showPopulationImpact = false
     showHousehold = true
     showEarningsVariation = true
+    showWealth = false;
     showFAQ = true
     // Vanity URLs
     namedPolicies = {}
@@ -168,11 +172,44 @@ export class US extends Country {
                 ],
             },
         },
+        "UBI Center": {
+            "Basic income": [
+                "child_bi",
+                "adult_bi_age",
+                "adult_bi",
+                "senior_bi_age",
+                "senior_bi",
+            ]
+        },
     }
+    organisations = {
+        "Snapshot": {
+            logo: ClockLogo,
+        },
+        "UBI Center": {
+            logo: UBICenterLogo,
+        },
+        "IRS": {
+            logo: USLogo,
+        },
+        "USDA": {
+            logo: USLogo,
+        },
+        "FCC": {
+            logo: USLogo,
+        },
+    }
+    notAllParametersPopulationSimulatable = true;
+    populationSimulatableParameters = [
+        "child_bi",
+        "adult_bi_age",
+        "adult_bi",
+        "senior_bi_age",
+        "senior_bi",
+    ];
     defaultOpenParameterGroups = ["/IRS"];
     defaultSelectedParameterGroup = "/IRS/Income tax schedule"
     showSnapShot = false
-    organisations = {}
     // OpenFisca data
     parameters = null
     entities = null

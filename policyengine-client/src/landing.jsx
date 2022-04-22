@@ -6,6 +6,44 @@ import { Button, Card, Divider as DefaultDivider } from "antd";
 import { Footer } from "./policyengine/footer";
 import { Header } from "./policyengine/header";
 
+const blogPosts = [
+    {
+        title: "Make Everyone a Policymaker",
+        thumbnail: "https://miro.medium.com/max/1400/1*sKPTtD2QzO5FZQNdyRP-YQ.png",
+        link: "https://blog.policyengine.org/make-everyone-a-policymaker-dc7b00bdb143?source=collection_home---------6----------------------------",
+    },
+    {
+        title: "Analysing Autumn Budget Universal Credit reforms with PolicyEngine",
+        thumbnail: "https://miro.medium.com/max/1400/1*JonMF3ME_ufSYKC7aZFXGw.jpeg",
+        link: "https://blog.policyengine.org/analysing-autumn-budget-universal-credit-reforms-with-policyengine-2ce93f177428?source=collection_home---------5----------------------------",
+    },
+    {
+        title: "Income Tax cuts Rishi Sunak is reportedly considering",
+        thumbnail: "https://miro.medium.com/max/1280/1*CXzE044rk2ZMpobYa7stoQ.png",
+        link: "https://blog.policyengine.org/income-tax-cuts-rishi-sunak-is-reportedly-considering-9d75eb529262?source=collection_home---------4----------------------------",
+    },
+    {
+        title: "PolicyEngine’s 2021 year in review",
+        thumbnail: "https://miro.medium.com/max/1400/1*ExOry7bdKhkmUjGedfTR9w.png",
+        link: "https://blog.policyengine.org/policyengines-2021-year-in-review-cfb4893ecf2e",
+    },
+    {
+        title: "The Green Party Manifesto at PolicyFest",
+        thumbnail: "https://miro.medium.com/max/1400/1*twyGvV3aJeT_RXU5Zg-bIw.jpeg",
+        link: "https://blog.policyengine.org/the-green-party-manifesto-at-policyfest-ee05a2d3b06d",
+    },
+    {
+        title: "How machine learning tools make PolicyEngine more accurate",
+        thumbnail: "https://miro.medium.com/max/1400/0*lYp59pEkyRJED81P",
+        link: "https://blog.policyengine.org/how-machine-learning-tools-make-policyengine-more-accurate-17af859cdd97",
+    },
+    {
+        title: "PolicyEngine arrives stateside",
+        thumbnail: "https://miro.medium.com/max/1400/0*h_n21_ZMZ2S66FDL.png",
+        link: "https://blog.policyengine.org/policyengine-comes-stateside-cef88b122e48",
+    }
+].reverse();
+
 function Divider(props) {
     return <DefaultDivider {...props} style={{ marginTop: 25, marginBottom: 25 }} />
 }
@@ -37,7 +75,7 @@ function UsageBox(props) {
     return <Row style={{ marginTop: 15, marginBottom: 20 }}>
         <h3 style={{ marginBottom: 0 }}>{props.title}</h3>
         <br /><br />
-        <h5 style={{ marginTop: 0 }}>{props.description}</h5>
+        <h5 style={{ marginTop: 0, color: "gray" }}>{props.description}</h5>
     </Row>
 
 
@@ -90,8 +128,12 @@ class MediumFeed extends React.Component {
     }
 
     componentDidMount() {
-        fetch("https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2Fpolicyengine").then(res => res.json()).then(feed => {
-            this.setState({ feed: feed });
+        fetch("https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2Fpolicyengine").then(res => res.json()).then(res => {
+            if(res.status === "error") {
+                this.setState({ feed: { items: blogPosts } });
+            } else {
+                this.setState({ feed: res });
+            }
         });
     }
 

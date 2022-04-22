@@ -91,10 +91,15 @@ export function PopulationResultsPane(props) {
 						<Radio.Button value={false}>Relative</Radio.Button>
 						<Radio.Button value={true}>Absolute</Radio.Button>
 					</Radio.Group>
-					<Radio.Group style={{marginLeft: 10}} defaultValue={false} buttonStyle="solid" onChange={x => setDecileChartIsWealth(x.target.value)} >
-						<Radio.Button value={false}>Income</Radio.Button>
-						<Radio.Button value={true}>Wealth</Radio.Button>
-					</Radio.Group>
+					{
+						country.showWealth && 
+						(
+							<Radio.Group style={{ marginLeft: 10 }} defaultValue={false} buttonStyle="solid" onChange={x => setDecileChartIsWealth(x.target.value)} >
+								<Radio.Button value={false}>Income</Radio.Button>
+								<Radio.Button value={true}>Wealth</Radio.Button>
+							</Radio.Group>
+						)
+					}
 				</div>
 			</Row>
 			<Row>
@@ -104,14 +109,19 @@ export function PopulationResultsPane(props) {
 						"intra_income_decile_chart"
 				]} md={12} />
 			</Row>
-			<Row>
-				<div className="justify-content-center d-flex">
-					<Radio.Group defaultValue={false} buttonStyle="solid" onChange={x => setIntraDecileChartIsWealth(x.target.value)} >
-						<Radio.Button value={false}>Income decile</Radio.Button>
-						<Radio.Button value={true}>Wealth decile</Radio.Button>
-					</Radio.Group>
-				</div>
-			</Row>
+			{
+				country.showWealth &&
+				(
+					<Row>
+						<div className="justify-content-center d-flex">
+							<Radio.Group defaultValue={false} buttonStyle="solid" onChange={x => setIntraDecileChartIsWealth(x.target.value)} >
+								<Radio.Button value={false}>Income decile</Radio.Button>
+								<Radio.Button value={true}>Wealth decile</Radio.Button>
+							</Radio.Group>
+						</div>
+					</Row>
+				)
+			}
 			<Row>
 				<Chart plot={results.inequality_chart} md={12} />
 			</Row>
@@ -154,11 +164,11 @@ export default class PopulationImpact extends React.Component {
 				}).then((data) => {
 					this.context.setState({ populationImpactResults: data, populationImpactIsOutdated: false }, () => {
 						this.setState({ error: false });
-						this.context.setState({waitingOnPopulationImpact: false});
+						this.context.setState({ waitingOnPopulationImpact: false });
 					});
 				}).catch(e => {
 					this.setState({ error: true });
-					this.context.setState({waitingOnPopulationImpact: false});
+					this.context.setState({ waitingOnPopulationImpact: false });
 				});
 		});
 	}
@@ -171,8 +181,8 @@ export default class PopulationImpact extends React.Component {
 				<Col xl={8}>
 					{
 						(this.context.waitingOnPopulationImpact || (!this.state.error & (this.context.populationImpactResults === null))) ?
-						<Loading message={`Simulating your results on the ${this.context.properName} population (this usually takes about 10 seconds)`} /> :
-						this.state.error ?
+							<Loading message={`Simulating your results on the ${this.context.properName} population (this usually takes about 10 seconds)`} /> :
+							this.state.error ?
 								<Loading noSpin message="Something went wrong (try navigating back and returning to this page)" /> :
 								<PopulationResultsPane />
 					}
@@ -180,19 +190,19 @@ export default class PopulationImpact extends React.Component {
 				<Col xl={3}>
 					<OverviewHolder>
 						<Affix offsetTop={55}>
-							<PolicyOverview />
-				        </Affix>
+							<PolicyOverview page="population-impact" />
+						</Affix>
 						<Affix offsetTop={450}>
-							<SharePolicyLinks page="population-impact"/>
+							<SharePolicyLinks page="population-impact" />
 							<div className="d-block align-middle">
-								<div className="d-flex justify-content-center">
+								<div className="justify-content-center">
 									{this.context.showPopulationImpact &&
 										<NavigationButton
 											target="policy"
 											text={<><ArrowLeftOutlined /> Edit your policy</>}
 										/>}
 								</div>
-								<div className="d-flex justify-content-center">
+								<div className="justify-content-center">
 									{this.context.showHousehold && <NavigationButton
 										target="household"
 										text="Describe your household"

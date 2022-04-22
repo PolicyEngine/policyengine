@@ -1,5 +1,5 @@
-import { Pagination, Steps, Divider, Empty, Button, message } from "antd";
-import { LinkOutlined, TwitterOutlined } from "@ant-design/icons";
+import { Pagination, Steps, Divider, Empty, Button, message, Tooltip } from "antd";
+import { CheckCircleOutlined, LinkOutlined, TwitterOutlined } from "@ant-design/icons";
 import { TwitterShareButton } from "react-share";
 import React, { useContext, useState } from "react";
 import { policyToURL } from "../../tools/url";
@@ -9,10 +9,27 @@ import RadioButton from "../../general/radioButton";
 
 const { Step } = Steps;
 
-function generateStepFromParameter(parameter, editingReform) {
+function generateStepFromParameter(parameter, editingReform, country, page) {
 	const comparisonKey = editingReform ? "baselineValue" : "defaultValue";
 	const targetKey = editingReform ? "value" : "baselineValue";
-	if(parameter[targetKey] !== parameter[comparisonKey]) {
+	let populationSimCheckbox = null;
+	let hide = false;
+	let shouldShowTags = (
+		(country.showPopulationImpact | (page === "population-impact")) &&
+		country.notAllParametersPopulationSimulatable &&
+		((page === "population-impact") | (page === "policy"))
+	);
+	if(shouldShowTags) {
+		populationSimCheckbox = country.populationSimulatableParameters.includes(parameter.name) ?
+			<Tooltip title="This parameter will affect the country-wide simulation" overlayInnerStyle={{padding: 20, paddingRight: 0}}><CheckCircleOutlined /></Tooltip> :
+			null;
+		if(country.populationSimulatableParameters.includes(parameter.name)) {
+			hide = false;
+		} else {
+			hide = true;
+		}
+	}
+	if((parameter[targetKey] !== parameter[comparisonKey]) && (!hide | (page !== "population-impact"))) {
 		const formatter = getTranslators(parameter).formatter;
 		const changeLabel = (!isNaN(parameter[targetKey]) && (typeof parameter[targetKey] !== "boolean")) ? 
 			(parameter[targetKey] > parameter[comparisonKey] ? "Increase" : "Decrease") : 
@@ -21,7 +38,7 @@ function generateStepFromParameter(parameter, editingReform) {
 		return <Step
 			key={parameter.name}
 			status="finish"
-			title={parameter.label}
+			title={<><>{parameter.label}</> <>{populationSimCheckbox}</></>}
 			description={description}
 		/>
 	} else {
@@ -42,9 +59,9 @@ export function OverviewHolder(props) {
 	);
 }
 
-export function PolicyOverview() {
+export function PolicyOverview(props) {
     const country = useContext(CountryContext);
-	const plan = Object.values(country.policy).map(step => generateStepFromParameter(step, country.editingReform)).filter(step => step != null);
+	const plan = Object.values(country.policy).map(step => generateStepFromParameter(step, country.editingReform, country, props.page)).filter(step => step != null);
 	const isEmpty = plan.length === 0;
 	const pageSize = 4;
 	let [page, setPage] = useState(1);

@@ -100,12 +100,17 @@ def budget_chart(
             **variable_values,
         }
     )
+    original_net_income = (
+        original_total_income
+        + df[config.benefit_variable + "_baseline"][i]
+        - df[config.tax_variable + "_baseline"][i]
+    )
     df["hover"] = df.apply(
         lambda x: budget_hover_label(
             x["Total income"],
-            x.Baseline,
+            x.Baseline if has_reform else original_net_income,
             x.Reform,
-            x["Total income"],
+            x["Total income"] if has_reform else original_total_income,
             x["Total income"],
             x[config.tax_variable + "_baseline"],
             x[config.tax_variable + "_reform"],
@@ -170,6 +175,7 @@ def add_you_are_here(fig: go.Figure, x):
     )
 
 
+# todo: update discription when there is no reform.
 def describe_change(
     x: float,
     y: float,
@@ -214,7 +220,7 @@ def budget_hover_label(
     benefits_change = describe_change(
         benefits_baseline, benefits_reform, formatter, formatter, plural=True
     )
-    return f"<b>At {earnings_str} employment income:<br>Your net income {budget_change} </b><br><br>Total income {total_income_change}<br>Tax {tax_change}<br>Benefits {benefits_change}"
+    return f"<b>At {earnings_str} employment income:<br>Your net income {budget_change} </b><br><br>Market income {total_income_change}<br>Tax {tax_change}<br>Benefits {benefits_change}"
 
 
 def mtr_hover_label(
@@ -230,10 +236,10 @@ def mtr_hover_label(
     earnings_str = f"{config.currency}{round(earnings):,}"
 
     def pct_formatter(x):
-        return str(round(x * 100)) + "%"
+        return str(round(x * 1000) / 10) + "%"
 
     def pp_formatter(x):
-        return str(round(x * 100)) + "pp"
+        return str(round(x * 1000) / 10) + "pp"
 
     mtr_change = describe_change(
         baseline_mtr, reform_mtr, pct_formatter, pp_formatter
@@ -388,7 +394,7 @@ def mtr_chart(
         title=d_title,
         xaxis_title="Employment income",
         xaxis_tickprefix=config.currency,
-        yaxis_tickformat=",.1%",
+        yaxis_tickformat=",.0%",
         yaxis_title=y_title,
         yaxis_range=(min(0, np.floor(df["Reform"].min() * 10) / 10), 1),
         legend_title=None,

@@ -5,7 +5,7 @@ from openfisca_uk import (
     CountryTaxBenefitSystem,
 )
 from openfisca_uk.entities import *
-from openfisca_uk.data import FRSEnhanced, SynthFRS
+from openfisca_uk.data import EnhancedFRS, SynthFRS
 from policyengine.utils.general import PolicyEngineResultsConfig
 from policyengine.countries.country import PolicyEngineCountry
 from policyengine.countries.uk.default_reform import create_default_reform
@@ -39,7 +39,7 @@ class UK(PolicyEngineCountry):
     system = CountryTaxBenefitSystem
     Microsimulation = Microsimulation
     IndividualSim = IndividualSim
-    default_dataset = FRSEnhanced
+    default_dataset = EnhancedFRS
     default_dataset_year = 2022
     default_reform = create_default_reform()
     parameter_file = UK_FOLDER / "reform_parameters.yaml"

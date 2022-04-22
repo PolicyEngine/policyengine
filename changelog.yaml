@@ -551,6 +551,48 @@
     removed:
     - US self-employment income input.
   date: 2022-04-08 20:05:37
+- bump: patch
+  changes:
+    changed:
+    - Bump OpenFisca-US to capture CTC bug fix.
+    - Fit navigation buttons to width.
+  date: 2022-04-14 13:39:25
+- bump: patch
+  changes:
+    changed:
+    - Update budget hovercard for when there is no reform.
+  date: 2022-04-16 17:10:04
+- bump: patch
+  changes:
+    fixed:
+    - Blog API failure doesn't crash the site.
+  date: 2022-04-17 00:02:39
+- bump: patch
+  changes:
+    fixed:
+    - Use country-specific tax and benefit variable to fix broken "How earnings affect
+      you" chart in the US.
+  date: 2022-04-17 06:11:37
+- bump: patch
+  changes:
+    fixed:
+    - Remove decimal from MTR chart y-axis label.
+  date: 2022-04-17 19:33:33
+- bump: patch
+  changes:
+    fixed:
+    - Blog posts now show on the homepage.
+  date: 2022-04-19 13:22:51
+- bump: minor
+  changes:
+    added:
+    - US population simulations for basic income parameters.
+  date: 2022-04-22 09:49:12
+- bump: patch
+  changes:
+    changed:
+    - Increase memory allocation on the server to 8GB (needed for US population impacts).
+  date: 2022-04-22 12:17:10
 - bump: minor
   changes:
     changed:

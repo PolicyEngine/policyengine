@@ -7,6 +7,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.33.1] - 2022-04-22 12:17:10
+
+### Changed
+
+- Increase memory allocation on the server to 8GB (needed for US population impacts).
+
+## [1.33.0] - 2022-04-22 09:49:12
+
+### Added
+
+- US population simulations for basic income parameters.
+
+## [1.32.11] - 2022-04-19 13:22:51
+
+### Fixed
+
+- Blog posts now show on the homepage.
+
+## [1.32.10] - 2022-04-17 19:33:33
+
+### Fixed
+
+- Remove decimal from MTR chart y-axis label.
+
+## [1.32.9] - 2022-04-17 06:11:37
+
+### Fixed
+
+- Use country-specific tax and benefit variable to fix broken "How earnings affect you" chart in the US.
+
+## [1.32.8] - 2022-04-17 00:02:39
+
+### Fixed
+
+- Blog API failure doesn't crash the site.
+
+## [1.32.7] - 2022-04-16 17:10:04
+
+### Changed
+
+- Update budget hovercard for when there is no reform.
+
+## [1.32.6] - 2022-04-14 13:39:25
+
+### Changed
+
+- Bump OpenFisca-US to capture CTC bug fix.
+- Fit navigation buttons to width.
+
 ## [1.32.5] - 2022-04-08 20:05:37
 
 ## [1.32.4] - 2022-04-08 15:25:05
@@ -656,6 +705,14 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.33.1]: https://github.com/PolicyEngine/policyengine/compare/1.33.0...1.33.1
+[1.33.0]: https://github.com/PolicyEngine/policyengine/compare/1.32.11...1.33.0
+[1.32.11]: https://github.com/PolicyEngine/policyengine/compare/1.32.10...1.32.11
+[1.32.10]: https://github.com/PolicyEngine/policyengine/compare/1.32.9...1.32.10
+[1.32.9]: https://github.com/PolicyEngine/policyengine/compare/1.32.8...1.32.9
+[1.32.8]: https://github.com/PolicyEngine/policyengine/compare/1.32.7...1.32.8
+[1.32.7]: https://github.com/PolicyEngine/policyengine/compare/1.32.6...1.32.7
+[1.32.6]: https://github.com/PolicyEngine/policyengine/compare/1.32.5...1.32.6
 [1.32.5]: https://github.com/PolicyEngine/policyengine/compare/1.32.4...1.32.5
 [1.32.4]: https://github.com/PolicyEngine/policyengine/compare/1.32.3...1.32.4
 [1.32.3]: https://github.com/PolicyEngine/policyengine/compare/1.32.2...1.32.3
