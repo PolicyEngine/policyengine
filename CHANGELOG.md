@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.33.2] - 2022-04-22 13:47:44
+
+### Fixed
+
+- Download instead of generate the CPS dataset for the US microsimulation.
+
 ## [1.33.1] - 2022-04-22 12:17:10
 
 ### Changed
@@ -705,6 +711,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.33.2]: https://github.com/PolicyEngine/policyengine/compare/1.33.1...1.33.2
 [1.33.1]: https://github.com/PolicyEngine/policyengine/compare/1.33.0...1.33.1
 [1.33.0]: https://github.com/PolicyEngine/policyengine/compare/1.32.11...1.33.0
 [1.32.11]: https://github.com/PolicyEngine/policyengine/compare/1.32.10...1.32.11
