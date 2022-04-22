@@ -598,3 +598,5 @@
     changed:
       - OpenFisca-US bumped.
       - Federal tax expandable on the US household page.
+    added:
+      - Debugging tools allowing decomposition of the net income charts when a reform is applied.
