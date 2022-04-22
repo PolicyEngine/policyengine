@@ -91,6 +91,11 @@ export class UK extends Country {
         "Snapshot": [
             "timeTravel",
         ],
+        "Simulation": {
+            "Geography": [
+                "country_specific",
+            ],
+        },
         "Tax": {
             "Income Tax": {
                 "Labour income": [

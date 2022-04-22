@@ -595,3 +595,7 @@
     fixed:
     - Download instead of generate the CPS dataset for the US microsimulation.
   date: 2022-04-22 13:47:44
+- bump: minor
+  changes:
+    added:
+    - UK country selector for country-specific analysis.

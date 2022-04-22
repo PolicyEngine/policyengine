@@ -54,6 +54,11 @@ export function getTranslators(parameter) {
 			formatter: value => dateIntToMoment(value).format("LL"),
 			parser: dateIntToMoment,
 		}
+	} else if(parameter.valueType === "Enum") {
+		result = {
+			formatter: value => parameter.possibleValues.filter(x => x.key === value)[0].value,
+			parser: value => parameter.possibleValues.filter(x => x.value === value)[0].key,
+		}
 	} else {
 		result = {
 			formatter: value => +value,

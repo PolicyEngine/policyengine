@@ -1,4 +1,6 @@
 from pathlib import Path
+from typing import Tuple
+import numpy as np
 from openfisca_uk import (
     Microsimulation,
     IndividualSim,
@@ -62,3 +64,30 @@ class UK(PolicyEngineCountry):
             )
             self.default_dataset.download(self.default_dataset_year)
         super().__init__()
+
+    def _get_microsimulations(
+        self, params: dict
+    ) -> Tuple[Microsimulation, Microsimulation]:
+        baseline, reformed = super()._get_microsimulations(params)
+        if "country_specific" in params:
+            filtered_country = params["country_specific"]
+            for simulation in (baseline, reformed):
+                household_weights = simulation.calc("household_weight")
+                country = simulation.calc("country")
+                simulation.set_input(
+                    "household_weight",
+                    simulation.year,
+                    np.where(
+                        country == filtered_country, household_weights, 0
+                    ),
+                )
+                person_weights = simulation.calc("person_weight")
+                person_country = simulation.calc("country", map_to="person")
+                simulation.set_input(
+                    "person_weight",
+                    simulation.year,
+                    np.where(
+                        person_country == filtered_country, person_weights, 0
+                    ),
+                )
+        return baseline, reformed

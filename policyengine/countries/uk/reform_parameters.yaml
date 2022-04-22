@@ -461,3 +461,23 @@ reforms:
         label: Exempt seniors from PA reforms
         name: exempt_seniors_from_PA_reforms
         unit: bool
+  country_specific:
+    description: Simulate reforms on a specific country of the UK.
+    values:
+      2010-01-01: [UNITED_KINGDOM]
+    metadata:
+      label: Country-specific analysis
+      name: country_specific
+      possible_values:
+        - key: UNITED_KINGDOM
+          value: United Kingdom
+        - key: WALES
+          value: Wales
+        - key: SCOTLAND
+          value: Scotland
+        - key: NORTHERN_IRELAND
+          value: Northern Ireland
+        - key: ENGLAND
+          value: England
+      value_type: Enum
+
