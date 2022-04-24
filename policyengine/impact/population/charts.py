@@ -36,7 +36,7 @@ def individual_decile_chart(
             title=f"Change to net income by {decile_type} decile",
             xaxis_title=f"{'Equivalised disposable income' if decile_type == 'income' else 'Wealth'} decile",
             yaxis_title="Change to household net income",
-            yaxis_tickformat=",.1%" if metric == "Relative change" else ",",
+            yaxis_tickformat=",~%" if metric == "Relative change" else ",",
             yaxis_tickprefix=""
             if metric == "Relative change"
             else config.currency,
@@ -623,7 +623,7 @@ def inequality_chart(
             title="Income inequality impact",
             xaxis_title=None,
             yaxis_title="Percent change",
-            yaxis_tickformat=".1%",
+            yaxis_tickformat="~%",
         )
         .update_traces(
             marker_color=np.where(
