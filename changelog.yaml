@@ -612,3 +612,7 @@
     - OpenFisca-US bumped.
     - Federal tax expandable on the US household page.
   date: 2022-04-22 17:56:09
+- bump: minor
+  changes:
+    fixed:
+    - Set decimals on y axis of poverty and decile graphs dynamically.
