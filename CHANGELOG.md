@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.34.1] - 2022-04-24 22:10:24
+
+### Fixed
+
+- Set decimals on y axis of poverty and decile graphs dynamically.
+
 ## [1.34.0] - 2022-04-22 17:56:09
 
 ### Added
@@ -731,6 +737,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.34.1]: https://github.com/PolicyEngine/policyengine/compare/1.34.0...1.34.1
 [1.34.0]: https://github.com/PolicyEngine/policyengine/compare/1.33.3...1.34.0
 [1.33.3]: https://github.com/PolicyEngine/policyengine/compare/1.33.2...1.33.3
 [1.33.2]: https://github.com/PolicyEngine/policyengine/compare/1.33.1...1.33.2
