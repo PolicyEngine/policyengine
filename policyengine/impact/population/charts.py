@@ -307,7 +307,7 @@ def poverty_chart(
     fig.update_layout(
         title=metric_name + " impact by age group",
         xaxis_title=None,
-        yaxis=dict(title="Percent change", tickformat=",.1%"),
+        yaxis=dict(title="Percent change", tickformat=",~%"),
     )
     fig.update_traces(
         marker_color=np.where(df.pov_chg < 0, charts.DARK_GREEN, charts.GRAY)
