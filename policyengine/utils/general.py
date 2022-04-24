@@ -20,6 +20,7 @@ class PolicyEngineResultsConfig:
     tax_variable: str
     benefit_variable: str
     currency: str
+    household_entity: str = "household"
 
 
 def dict_to_string(d: dict) -> str:

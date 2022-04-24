@@ -1,11 +1,11 @@
 """
 Utility functions for formatting charts.
 """
+from math import floor, log10
 import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd
 import json
-from rdbl import gbp
 from openfisca_tools import (
     Microsimulation,
     IndividualSim,
@@ -13,6 +13,28 @@ from openfisca_tools import (
 from typing import Type, Union
 
 from policyengine.utils.general import PolicyEngineResultsConfig
+
+
+def num(x: float) -> str:
+    """Converts a number to a human-readable string, using the k/m/bn/tr suffixes after rounding to 2 significant figures."""
+
+    # Round to 3 significant figures
+    if x != 0:
+        x = round(x, -int(floor(log10(abs(x))) - 1))
+    else:
+        x = 0
+
+    if x < 0:
+        return "-" + num(-x)
+    if x < 1e3:
+        return f"{x:.2f}"
+    if x < 1e6:
+        return f"{x / 1e3:.0f}k"
+    if x < 1e9:
+        return f"{x / 1e6:.0f}m"
+    if x < 1e12:
+        return f"{x / 1e9:.1f}bn"
+    return f"{x / 1e12:.2f}tr"
 
 
 WHITE = "#FFF"
@@ -184,7 +206,9 @@ def hover_label(
     # Round population estimates, not individual.
     abs_amount = round(abs(amount))
     abs_amount_display = (
-        gbp(abs_amount) if is_pop else f"{config.currency}{abs_amount:,}"
+        config.currency + num(abs_amount)
+        if is_pop
+        else f"{config.currency}{abs_amount:,}"
     )
     # Branch logic, starting with no change.
     # More special handling of the net impact to match the title.

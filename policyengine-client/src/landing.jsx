@@ -75,7 +75,7 @@ function UsageBox(props) {
     return <Row style={{ marginTop: 15, marginBottom: 20 }}>
         <h3 style={{ marginBottom: 0 }}>{props.title}</h3>
         <br /><br />
-        <h5 style={{ marginTop: 0 }}>{props.description}</h5>
+        <h5 style={{ marginTop: 0, color: "gray" }}>{props.description}</h5>
     </Row>
 
 

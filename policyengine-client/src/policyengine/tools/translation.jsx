@@ -42,8 +42,9 @@ export function getTranslators(parameter) {
 	} else if (Object.keys(CURRENCY_SYMBOLS).includes(parameter.unit)) {
 		for(let currency in CURRENCY_SYMBOLS) {
 			if(parameter.unit === currency) {
+				const round = value => parseFloat(Number(Math.abs(Math.round(value * (10 ** (parameter.precision || 2))) / (10 ** (parameter.precision || 2)))));
 				result = {
-					formatter: (value, noPeriod) => `${value < 0 ? "- " : ""}${CURRENCY_SYMBOLS[currency]}${parseFloat(Number(Math.abs(Math.round(value * 100) / 100))).toLocaleString()}${period && !noPeriod ? ("/" + period) : ""}`,
+					formatter: (value, noPeriod) => `${value < 0 ? "- " : ""}${CURRENCY_SYMBOLS[currency]}${round(value).toLocaleString(undefined, {maximumFractionDigits: parameter.precision})}${period && !noPeriod ? ("/" + period) : ""}`,
 				}
 				minMax = {year: 100_000, month: 1000, week: 100, null: 100}[period];
 			}

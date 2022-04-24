@@ -82,7 +82,7 @@ def decile_chart(
     household_gain = (
         reform_household_net_income - baseline_household_net_income
     )
-    household_size = baseline.calc("people", map_to="household")
+    household_size = baseline.calc("people", map_to=config.household_entity)
     # Group households in decile such that each decile has the same
     # number of people
     baseline_household_equiv_income.weights *= household_size

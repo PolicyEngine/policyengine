@@ -7,6 +7,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.34.0] - 2022-04-22 17:56:09
+
+### Added
+
+- Debugging tools allowing decomposition of the net income charts when a reform is applied.
+
+### Changed
+
+- OpenFisca-US bumped.
+- Federal tax expandable on the US household page.
+
+## [1.33.3] - 2022-04-22 15:26:59
+
+### Fixed
+
+- Memory allocation reduced back to 6GB (unnecessary given previous PR).
+
+## [1.33.2] - 2022-04-22 13:47:44
+
+### Fixed
+
+- Download instead of generate the CPS dataset for the US microsimulation.
+
+## [1.33.1] - 2022-04-22 12:17:10
+
+### Changed
+
+- Increase memory allocation on the server to 8GB (needed for US population impacts).
+
+## [1.33.0] - 2022-04-22 09:49:12
+
+### Added
+
+- US population simulations for basic income parameters.
+
 ## [1.32.11] - 2022-04-19 13:22:51
 
 ### Fixed
@@ -50,6 +85,9 @@ This repo consists of two packages - the React client and the Python server. A c
 
 ### Changed
 
+- Bump OpenFisca US.
+- Add payroll and self-employment tax parameters.
+- Adjust landing page spacing.
 - Bump OpenFisca US.
 - Add payroll and self-employment tax parameters.
 - Adjust landing page spacing.
@@ -693,6 +731,11 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.34.0]: https://github.com/PolicyEngine/policyengine/compare/1.33.3...1.34.0
+[1.33.3]: https://github.com/PolicyEngine/policyengine/compare/1.33.2...1.33.3
+[1.33.2]: https://github.com/PolicyEngine/policyengine/compare/1.33.1...1.33.2
+[1.33.1]: https://github.com/PolicyEngine/policyengine/compare/1.33.0...1.33.1
+[1.33.0]: https://github.com/PolicyEngine/policyengine/compare/1.32.11...1.33.0
 [1.32.11]: https://github.com/PolicyEngine/policyengine/compare/1.32.10...1.32.11
 [1.32.10]: https://github.com/PolicyEngine/policyengine/compare/1.32.9...1.32.10
 [1.32.9]: https://github.com/PolicyEngine/policyengine/compare/1.32.8...1.32.9

@@ -542,6 +542,9 @@
     - Bump OpenFisca US.
     - Add payroll and self-employment tax parameters.
     - Adjust landing page spacing.
+    - Bump OpenFisca US.
+    - Add payroll and self-employment tax parameters.
+    - Adjust landing page spacing.
   date: 2022-04-08 15:25:05
 - bump: patch
   changes:
@@ -580,3 +583,32 @@
     fixed:
     - Blog posts now show on the homepage.
   date: 2022-04-19 13:22:51
+- bump: minor
+  changes:
+    added:
+    - US population simulations for basic income parameters.
+  date: 2022-04-22 09:49:12
+- bump: patch
+  changes:
+    changed:
+    - Increase memory allocation on the server to 8GB (needed for US population impacts).
+  date: 2022-04-22 12:17:10
+- bump: patch
+  changes:
+    fixed:
+    - Download instead of generate the CPS dataset for the US microsimulation.
+  date: 2022-04-22 13:47:44
+- bump: patch
+  changes:
+    fixed:
+    - Memory allocation reduced back to 6GB (unnecessary given previous PR).
+  date: 2022-04-22 15:26:59
+- bump: minor
+  changes:
+    added:
+    - Debugging tools allowing decomposition of the net income charts when a reform
+      is applied.
+    changed:
+    - OpenFisca-US bumped.
+    - Federal tax expandable on the US household page.
+  date: 2022-04-22 17:56:09
