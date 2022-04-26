@@ -95,7 +95,7 @@ function SelectedParameter(props) {
         description = <>
             {props.description ? <p>{props.description}</p> : null}
             <p>This <b>variable</b> applies to <b>{country.entities[entity].label}s</b> for a given <b>{props.definitionPeriod}</b>.</p>
-            <Statistic title="Default value" value={formatter(props.defaultValue)} />
+            <p style={{color: "gray"}}>Default value: {formatter(props.defaultValue)}</p>
         </>
     }
     return <div style={{margin: 20}}>
