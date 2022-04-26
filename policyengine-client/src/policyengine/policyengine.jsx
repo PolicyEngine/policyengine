@@ -15,6 +15,7 @@ import FAQ from "./pages/markdown";
 import { Household } from "./pages/household";
 import Centered from "./general/centered";
 import Spinner from "./general/spinner";
+import LegislationExplorer from "./pages/legislationExplorer";
 
 
 export default class PolicyEngine extends React.Component {
@@ -110,6 +111,9 @@ export default class PolicyEngine extends React.Component {
                             </Route>
                             <Route path={`/${countryName}/faq`}>
                                 <FAQ />
+                            </Route>
+                            <Route path={`/${countryName}/legislation`}>
+                                <LegislationExplorer />
                             </Route>
                             {/* Redirects from legacy URLs */}
                             <Route path={`/${countryName}/population-results`}>
