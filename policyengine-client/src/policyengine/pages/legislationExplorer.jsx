@@ -1,4 +1,4 @@
-import { Descriptions, Input, Pagination, Statistic, Tag } from "antd";
+import { Input, Pagination, Statistic, Tag } from "antd";
 import React, { useContext, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { CountryContext } from "../../countries";
