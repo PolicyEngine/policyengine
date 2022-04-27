@@ -19,6 +19,7 @@ export default function LegislationExplorer(props) {
     for (let item of items) {
         itemLookup[item.name] = item;
     }
+    items = Object.values(itemLookup);
     // /legislation/name should select name
 
     const regex = new RegExp("/legislation/([^/\\?]*)(\\?)*", "gm")
