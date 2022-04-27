@@ -23,12 +23,15 @@ def get_PE_variables(system: TaxBenefitSystem) -> Dict[str, dict]:
     variable_metadata = {}
     for variable in variables:
         try:
-            if isinstance(variable.reference, Sequence):
-                reference = {v: v for v in variable.reference}
-            elif variable.reference is None:
+            try:
+                if isinstance(variable.reference, Sequence):
+                    reference = {v: v for v in variable.reference}
+                elif variable.reference is None:
+                    reference = {}
+                else:
+                    reference = {variable.reference: variable.reference}
+            except:
                 reference = {}
-            else:
-                reference = {variable.reference: variable.reference}
             variable_metadata[variable.name] = dict(
                 name=variable.name,
                 unit=variable.unit,

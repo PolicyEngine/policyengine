@@ -233,15 +233,20 @@ def get_PE_parameters(
                 )
             else:
                 value_type = "parameter_node"
-            if parameter.metadata.get("reference") is not None:
-                reference = parameter.metadata["reference"]
-                if not isinstance(reference, Sequence):
-                    reference = [reference]
-                for item in reference:
-                    if isinstance(item, str):
-                        item = dict(title=item, href=item)
-                reference = {item["title"]: item["href"] for item in reference}
-            else:
+            try:
+                if parameter.metadata.get("reference") is not None:
+                    reference = parameter.metadata["reference"]
+                    if not isinstance(reference, Sequence):
+                        reference = [reference]
+                    for item in reference:
+                        if isinstance(item, str):
+                            item = dict(title=item, href=item)
+                    reference = {
+                        item["title"]: item["href"] for item in reference
+                    }
+                else:
+                    reference = {}
+            except:
                 reference = {}
             parameter_metadata[name] = dict(
                 name=name,
