@@ -35,7 +35,7 @@ export default function LegislationExplorer(props) {
         fuzzysort.go(defaultSearch.replace(" ", "_"), items.map(x => x.name));
 
     const [searchResults, setSearchResults] = useState(defaultList);
-    const onSearch = term => setSearchResults(term === "" ? searchResults : fuzzysort.go(term.replace(" ", "_"), items.map(x => x.name)));
+    const onSearch = term => setSearchResults(term === "" ? defaultList : fuzzysort.go(term.replace(" ", "_"), items.map(x => x.name)));
     const [selected, setSelected] = useState(defaultSelected);
     const searchResultItems = searchResults.sort(res => -res.score).map(res => itemLookup[res.target]).map(res => <Parameter key={res.name} selected={selected} select={() => setSelected(res.name)} {...res} />);
     const itemsPerPage = 7;
@@ -84,18 +84,32 @@ function SelectedParameter(props) {
     let description;
     const { formatter } = getTranslators(props);
     if(props.type === "parameter") {
+        const references = Object.keys(props.reference);
         description = <>
             {props.description ? <p>{props.description}</p> : null}
             <p>This <b>parameter</b> refers to the parameter node found at <b>{props.parameter}</b> in the OpenFisca-{country.properName} parameter tree.</p>
             <Statistic title="Current value" value={formatter(props.value)} />
+            <h6 style={{paddingTop: 5}}>References</h6>
+            {
+                references.length > 0 ?
+                    references.map(name => <p><a href={props.reference[name]}>{name}</a></p>) :
+                    <p>This parameter has no references.</p>
+            }
         </>
     } else {
         const entity = props.entity;
         // Metadata: defaultValue, definitionPeriod, entity, unit, valueType
+        const references = Object.keys(props.reference);
         description = <>
             {props.description ? <p>{props.description}</p> : null}
             <p>This <b>variable</b> applies to <b>{country.entities[entity].label}s</b> for a given <b>{props.definitionPeriod}</b>.</p>
             <p style={{color: "gray"}}>Default value: {formatter(props.defaultValue)}</p>
+            <h6 style={{paddingTop: 5}}>References</h6>
+            {
+                references.length > 0 ?
+                    references.map(name => <p><a href={props.reference[name]}>{name}</a></p>) :
+                    <p>This parameter has no references.</p>
+            }
         </>
     }
     return <div style={{margin: 20}}>

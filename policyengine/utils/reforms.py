@@ -1,7 +1,7 @@
 """
 Utility functions for writing reforms.
 """
-from collections import OrderedDict
+from collections import OrderedDict, Sequence
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Tuple, Type
 import numpy as np
@@ -233,6 +233,16 @@ def get_PE_parameters(
                 )
             else:
                 value_type = "parameter_node"
+            if parameter.metadata.get("reference") is not None:
+                reference = parameter.metadata["reference"]
+                if not isinstance(reference, Sequence):
+                    reference = [reference]
+                for item in reference:
+                    if isinstance(item, str):
+                        item = dict(title=item, href=item)
+                reference = {item["title"]: item["href"] for item in reference}
+            else:
+                reference = {}
             parameter_metadata[name] = dict(
                 name=name,
                 parameter=parameter.name,
@@ -247,6 +257,7 @@ def get_PE_parameters(
                 variable=None,
                 max=None,
                 min=None,
+                reference=reference,
             )
             if parameter(now) == np.inf:
                 parameter_metadata[name]["value"] = "inf"

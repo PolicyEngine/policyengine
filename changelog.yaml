@@ -622,3 +622,7 @@
     added:
     - Legislation explorer.
   date: 2022-04-26 11:23:09
+- bump: minor
+  changes:
+    added:
+    - References to the legislation explorer
