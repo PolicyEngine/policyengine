@@ -7,6 +7,7 @@ from openfisca_core.taxbenefitsystems import TaxBenefitSystem
 from openfisca_core.model_api import Enum
 from openfisca_tools.model_api import FLOW
 from openfisca_tools import IndividualSim
+from collections import Sequence
 
 
 def get_PE_variables(system: TaxBenefitSystem) -> Dict[str, dict]:
@@ -22,6 +23,15 @@ def get_PE_variables(system: TaxBenefitSystem) -> Dict[str, dict]:
     variable_metadata = {}
     for variable in variables:
         try:
+            try:
+                if isinstance(variable.reference, Sequence):
+                    reference = {v: v for v in variable.reference}
+                elif variable.reference is None:
+                    reference = {}
+                else:
+                    reference = {variable.reference: variable.reference}
+            except:
+                reference = {}
             variable_metadata[variable.name] = dict(
                 name=variable.name,
                 unit=variable.unit,
@@ -33,6 +43,7 @@ def get_PE_variables(system: TaxBenefitSystem) -> Dict[str, dict]:
                 entity=variable.entity.key,
                 possibleValues=None,
                 possibleKeys=None,
+                reference=reference,
                 quantityType=FLOW.lower()
                 if not hasattr(variable, "quantity_type")
                 else variable.quantity_type.lower(),

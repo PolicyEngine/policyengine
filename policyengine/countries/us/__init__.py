@@ -37,5 +37,6 @@ class US(PolicyEngineCountry):
     microsimulation_default_reform = create_default_reform()
 
     def __init__(self):
-        self.default_dataset.download(self.default_dataset_year)
+        if not self.default_dataset_year in self.default_dataset.years:
+            self.default_dataset.download(self.default_dataset_year)
         super().__init__()
