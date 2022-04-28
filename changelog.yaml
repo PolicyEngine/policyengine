@@ -627,3 +627,7 @@
     added:
     - References to the legislation explorer
   date: 2022-04-27 12:49:13
+- bump: minor
+  changes:
+    changed:
+    - Legislation explorer renamed to API explorer (with redirects)

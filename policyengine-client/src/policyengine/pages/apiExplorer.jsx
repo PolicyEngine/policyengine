@@ -5,7 +5,7 @@ import { CountryContext } from "../../countries";
 import fuzzysort from "fuzzysort";
 import { getTranslators } from "../tools/translation";
 
-export default function LegislationExplorer(props) {
+export default function APIExplorer(props) {
     const country = useContext(CountryContext);
     // Add country.parameters to country.variables, but adding a type: "parameter"/"variable" attribute to each.
     let items = [];
@@ -22,7 +22,7 @@ export default function LegislationExplorer(props) {
     items = Object.values(itemLookup);
     // /legislation/name should select name
 
-    const regex = new RegExp("/legislation/([^/\\?]*)(\\?)*", "gm")
+    const regex = new RegExp("/api-explorer/([^/\\?]*)(\\?)*", "gm")
     const str = document.location.pathname;
     const match = regex.exec(str);
     let defaultSearch = match ? match[1] : null;
