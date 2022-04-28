@@ -15,6 +15,7 @@ import FAQ from "./pages/markdown";
 import { Household } from "./pages/household";
 import Centered from "./general/centered";
 import Spinner from "./general/spinner";
+import APIExplorer from "./pages/apiExplorer";
 
 
 export default class PolicyEngine extends React.Component {
@@ -111,6 +112,9 @@ export default class PolicyEngine extends React.Component {
                             <Route path={`/${countryName}/faq`}>
                                 <FAQ />
                             </Route>
+                            <Route path={`/${countryName}/api-explorer`}>
+                                <APIExplorer />
+                            </Route>
                             {/* Redirects from legacy URLs */}
                             <Route path={`/${countryName}/population-results`}>
                                 <Redirect to={policyToURL("population-impact", urlToPolicy(this.state.country.policy))} />
@@ -123,6 +127,9 @@ export default class PolicyEngine extends React.Component {
                             </Route>
                             <Route path={`/${countryName}/situation-results`}>
                                 <Redirect to={policyToURL("household", urlToPolicy(this.state.country.policy))} />
+                            </Route>
+                            <Route path={`/${countryName}/legislation`}>
+                                <Redirect to={`/${countryName}/api-explorer`} />
                             </Route>
                         </Switch>
                     </BodyWrapper>

@@ -90,7 +90,7 @@ function NumericParameterControl(props) {
 				max={max}
 				marks={marks}
 				onChange={props.onChange}
-				step={props.metadata.unit === "/1" ? 0.01 : 1}
+				step={0.01}
 				tooltipVisible={false}
 				disabled={props.disabled}
 			/>

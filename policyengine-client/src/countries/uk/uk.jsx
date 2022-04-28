@@ -86,6 +86,11 @@ export class UK extends Country {
         "ebr_energy_bills_credit": {
             max: 500,
         },
+        "fuel_duty_rate": {
+            min: 0,
+            max: 1,
+            precision: 4,
+        },
     }
     parameterHierarchy = {
         "Snapshot": [
@@ -156,8 +161,11 @@ export class UK extends Country {
                 "abolish_ltt",
                 "abolish_lbtt",
                 "abolish_business_rates",
+            ],
+            "Fuel duties": [
+                "fuel_duty_rate",
             ]
-        },
+,        },
         "Benefit": {
             "Child Benefit": [
                 "abolish_CB",
@@ -382,6 +390,8 @@ export class UK extends Country {
         "claims_legacy_benefits",
         "BRMA",
         "council_tax_band",
+        "petrol_spending",
+        "diesel_spending",
     ]
     outputVariables = [
         "household_tax",
