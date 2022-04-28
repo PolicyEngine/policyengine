@@ -68,26 +68,49 @@ class UK(PolicyEngineCountry):
     def _get_microsimulations(
         self, params: dict
     ) -> Tuple[Microsimulation, Microsimulation]:
-        baseline, reformed = super()._get_microsimulations(params)
         if "country_specific" in params:
+            baseline, reformed = super()._get_microsimulations(
+                params, refresh_baseline=True
+            )
             filtered_country = params["country_specific"]
-            for simulation in (baseline, reformed):
-                household_weights = simulation.calc("household_weight")
-                country = simulation.calc("country")
-                simulation.set_input(
-                    "household_weight",
-                    simulation.year,
-                    np.where(
-                        country == filtered_country, household_weights, 0
-                    ),
-                )
-                person_weights = simulation.calc("person_weight")
-                person_country = simulation.calc("country", map_to="person")
-                simulation.set_input(
-                    "person_weight",
-                    simulation.year,
-                    np.where(
-                        person_country == filtered_country, person_weights, 0
-                    ),
-                )
+            household_weights = baseline.calc("household_weight")
+            country = baseline.calc("country")
+            baseline.set_input(
+                "household_weight",
+                baseline.year,
+                np.where(country == filtered_country, household_weights, 0),
+            )
+            reformed.set_input(
+                "household_weight",
+                reformed.year,
+                np.where(country == filtered_country, household_weights, 0),
+            )
+            person_weights = baseline.calc("person_weight")
+            person_country = baseline.calc("country", map_to="person")
+            baseline.set_input(
+                "person_weight",
+                baseline.year,
+                np.where(
+                    person_country == filtered_country, person_weights, 0
+                ),
+            )
+            reformed.set_input(
+                "person_weight",
+                reformed.year,
+                np.where(
+                    person_country == filtered_country, person_weights, 0
+                ),
+            )
+            baseline_poverty_rate = baseline.calc(
+                "in_poverty_bhc", map_to="person"
+            )[
+                baseline.calc("country", map_to="person") == "NORTHERN_IRELAND"
+            ].mean()
+            reformed_poverty_rate = reformed.calc(
+                "in_poverty_bhc", map_to="person"
+            )[
+                reformed.calc("country", map_to="person") == "NORTHERN_IRELAND"
+            ].mean()
+        else:
+            baseline, reformed = super()._get_microsimulations(params)
         return baseline, reformed

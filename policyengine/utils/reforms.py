@@ -369,7 +369,7 @@ def create_reform(
                 f"{str_value[:4]}-{str_value[4:6]}-{str_value[6:8]}"
             )
         elif param == "country_specific":
-            continue  # Do not attempt to apply the country specifier as a reform
+            pass  # Do not attempt to apply the country specifier as a reform
         elif param != "household":
             metadata = policyengine_parameters[param.replace("baseline_", "")]
             name = metadata["label"]
