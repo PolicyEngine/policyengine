@@ -8,6 +8,7 @@ import GreenPartyLogo from "../../images/parameter-icons/green-party.png";
 import SMFLogo from "../../images/parameter-icons/smf.png";
 import ClockLogo from "../../images/parameter-icons/clock.png";
 import MiscLogo from "../../images/parameter-icons/misc.png";
+import SimulationLogo from "../../images/parameter-icons/simulation.png";
 import Country from "../country";
 import AutoUBI from "./components/autoUBI";
 import ExtraBand from "./components/extraBand";
@@ -94,10 +95,10 @@ export class UK extends Country {
         },
     }
     parameterHierarchy = {
-        "Snapshot": [
-            "timeTravel",
-        ],
         "Simulation": {
+            "Snapshot": [
+                "timeTravel",
+            ],
             "Geography": [
                 "countrySpecific",
             ],
@@ -283,9 +284,6 @@ export class UK extends Country {
     ]
     defaultSelectedParameterGroup = "/Tax/Income Tax/Labour income"
     organisations = {
-        "Snapshot": {
-            logo: ClockLogo,
-        },
         "UBI Center": {
             logo: UBICenterLogo,
         },
@@ -303,6 +301,9 @@ export class UK extends Country {
         },
         "Miscellaneous": {
             logo: MiscLogo,
+        },
+        "Simulation": {
+            logo: SimulationLogo,
         },
     }
     // OpenFisca data
