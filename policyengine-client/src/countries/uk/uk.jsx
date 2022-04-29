@@ -12,6 +12,7 @@ import Country from "../country";
 import AutoUBI from "./components/autoUBI";
 import ExtraBand from "./components/extraBand";
 import TimeTravel from "./components/timeTravel";
+import CountrySpecific from "./components/countrySpecific";
 
 const childNamer = {
     1: "Your first child",
@@ -98,7 +99,7 @@ export class UK extends Country {
         ],
         "Simulation": {
             "Geography": [
-                "country_specific",
+                "countrySpecific",
             ],
         },
         "Tax": {
@@ -320,6 +321,7 @@ export class UK extends Country {
             threshold_parameter="extra_scot_threshold"
         />,
         timeTravel: <TimeTravel />,
+        countrySpecific: <CountrySpecific />,
     }
     extraVariableMetadata = {
         owned_land: { max: 1_000_000 },
