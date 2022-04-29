@@ -101,16 +101,6 @@ class UK(PolicyEngineCountry):
                     person_country == filtered_country, person_weights, 0
                 ),
             )
-            baseline_poverty_rate = baseline.calc(
-                "in_poverty_bhc", map_to="person"
-            )[
-                baseline.calc("country", map_to="person") == "NORTHERN_IRELAND"
-            ].mean()
-            reformed_poverty_rate = reformed.calc(
-                "in_poverty_bhc", map_to="person"
-            )[
-                reformed.calc("country", map_to="person") == "NORTHERN_IRELAND"
-            ].mean()
         else:
             baseline, reformed = super()._get_microsimulations(params)
         return baseline, reformed
