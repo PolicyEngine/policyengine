@@ -1,10 +1,30 @@
 import { Input, Pagination, Statistic, Tag } from "antd";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import { CountryContext } from "../../countries";
 import fuzzysort from "fuzzysort";
 import { getTranslators } from "../tools/translation";
 import { Route, useHistory } from "react-router-dom";
+
+function getSearchResults(items, searchTerm, async) {
+    if(async) {
+        return fuzzysort.goAsync(
+            searchTerm, 
+            items.map(x => {return {key: x.name, text: x.name + " " + x.label}}), 
+            {key: "text"}
+        ).then(results => results.map(
+            res => {return {score: res.score, target: res.obj.key}}
+        ));
+    } else {
+        return fuzzysort.go(
+            searchTerm, 
+            items.map(x => {return {key: x.name, text: x.name + " " + x.label}}), 
+            {key: "text"}
+        ).map(
+            res => {return {score: res.score, target: res.obj.key}}
+        );
+    }
+}
 
 export default function APIExplorer(props) {
     const country = useContext(CountryContext);
@@ -32,12 +52,11 @@ export default function APIExplorer(props) {
     // get query parameter from url, e.g. /legislation?q=term
     const { searchParams } = new URL(document.location);
     defaultSearch = searchParams.get("q") ? searchParams.get("q") : defaultSearch;
-    const getSearchResults = searchTerm => fuzzysort.go(searchTerm, items.map(x => {return {key: x.name, text: x.label}}), {key: "text"}).map(res => {return {score: res.score, target: res.obj.key}});
     const defaultList = !defaultSearch ?
         items.map(x => {return {score: x.name, target: x.name}}) :
-        getSearchResults(defaultSearch);
+        getSearchResults(items, defaultSearch);
     const [searchResults, setSearchResults] = useState(defaultList);
-    const onSearch = term => setSearchResults(!term ? defaultList : getSearchResults(term));
+    const onSearch = term => !term ? setSearchResults(defaultList) : getSearchResults(items, term, true).then(res => setSearchResults(res));
     const [selected, setSelected] = useState(defaultSelected);
 	const history = useHistory();
     const searchResultItems = searchResults.sort(res => -res.score).map(res => itemLookup[res.target]).filter(res => res).map(res => {
@@ -45,6 +64,15 @@ export default function APIExplorer(props) {
     });
     const itemsPerPage = 7;
     const [page, setPage] = useState(0);
+
+    // Listen for page changes
+
+    useEffect(() => {
+        return history.listen((location) => {
+           setSelected(location.pathname.split("/")[3]);
+        }) 
+     },[history]) 
+
     return <>
         <Row>
             <Col md={1}></Col>
@@ -63,9 +91,7 @@ export default function APIExplorer(props) {
             </Col>
             <Col md={4}>
                 {
-                    Object.keys(itemLookup).map(name => (
-                        <Route key={name} path={`/${country.name}/api-explorer/${name}`}><SelectedParameter {...itemLookup[name]} /></Route>
-                    ))
+                    <SelectedParameter {...itemLookup[selected]} />
                 }
             </Col>
             <Col md={1}></Col>
@@ -117,7 +143,7 @@ function SelectedParameter(props) {
             if(props.valueType === "Enum") {
                 formattedValue = props.defaultValue.value;
             } else {
-                formattedValue = formatter(props.value);
+                formattedValue = formatter(props.defaultValue);
             }
         } catch {
             formattedValue = null;
