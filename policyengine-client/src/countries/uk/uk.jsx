@@ -6,7 +6,6 @@ import UBICenterLogo from "../../images/parameter-icons/ubi-center.png"
 import UKLogo from "../../images/parameter-icons/uk.png";
 import GreenPartyLogo from "../../images/parameter-icons/green-party.png";
 import SMFLogo from "../../images/parameter-icons/smf.png";
-import ClockLogo from "../../images/parameter-icons/clock.png";
 import MiscLogo from "../../images/parameter-icons/misc.png";
 import SimulationLogo from "../../images/parameter-icons/simulation.png";
 import Country from "../country";
