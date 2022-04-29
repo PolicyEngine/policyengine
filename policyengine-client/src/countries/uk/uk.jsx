@@ -6,12 +6,13 @@ import UBICenterLogo from "../../images/parameter-icons/ubi-center.png"
 import UKLogo from "../../images/parameter-icons/uk.png";
 import GreenPartyLogo from "../../images/parameter-icons/green-party.png";
 import SMFLogo from "../../images/parameter-icons/smf.png";
-import ClockLogo from "../../images/parameter-icons/clock.png";
 import MiscLogo from "../../images/parameter-icons/misc.png";
+import SimulationLogo from "../../images/parameter-icons/simulation.png";
 import Country from "../country";
 import AutoUBI from "./components/autoUBI";
 import ExtraBand from "./components/extraBand";
 import TimeTravel from "./components/timeTravel";
+import CountrySpecific from "./components/countrySpecific";
 
 const childNamer = {
     1: "Your first child",
@@ -93,12 +94,12 @@ export class UK extends Country {
         },
     }
     parameterHierarchy = {
-        "Snapshot": [
-            "timeTravel",
-        ],
         "Simulation": {
+            "Snapshot": [
+                "timeTravel",
+            ],
             "Geography": [
-                "country_specific",
+                "countrySpecific",
             ],
         },
         "Tax": {
@@ -282,9 +283,6 @@ export class UK extends Country {
     ]
     defaultSelectedParameterGroup = "/Tax/Income Tax/Labour income"
     organisations = {
-        "Snapshot": {
-            logo: ClockLogo,
-        },
         "UBI Center": {
             logo: UBICenterLogo,
         },
@@ -303,6 +301,9 @@ export class UK extends Country {
         "Miscellaneous": {
             logo: MiscLogo,
         },
+        "Simulation": {
+            logo: SimulationLogo,
+        },
     }
     // OpenFisca data
     parameters = null
@@ -320,6 +321,7 @@ export class UK extends Country {
             threshold_parameter="extra_scot_threshold"
         />,
         timeTravel: <TimeTravel />,
+        countrySpecific: <CountrySpecific />,
     }
     extraVariableMetadata = {
         owned_land: { max: 1_000_000 },

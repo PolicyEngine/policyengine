@@ -384,7 +384,9 @@ def create_reform(
             policy_date_reform = use_current_parameters(
                 f"{str_value[:4]}-{str_value[4:6]}-{str_value[6:8]}"
             )
-        elif param == "country_specific":
+        elif (param == "baseline_country_specific") or (
+            param == "country_specific"
+        ):
             pass  # Do not attempt to apply the country specifier as a reform
         elif param != "household":
             metadata = policyengine_parameters[param.replace("baseline_", "")]
