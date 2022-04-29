@@ -642,3 +642,7 @@
     added:
     - API explorer improvements.
   date: 2022-04-29 12:46:58
+- bump: patch
+  changes:
+    fixed:
+    - Fixed a bug causing incorrect descriptions for variables without descriptions.

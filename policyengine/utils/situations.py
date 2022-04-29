@@ -36,6 +36,8 @@ def get_PE_variables(system: TaxBenefitSystem) -> Dict[str, dict]:
                 description = variable.documentation
                 if description[-1] != ".":
                     description += "."
+            else:
+                description = None
             variable_metadata[variable.name] = dict(
                 name=variable.name,
                 unit=variable.unit,
