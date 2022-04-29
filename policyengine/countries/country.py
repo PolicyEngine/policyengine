@@ -9,6 +9,7 @@ from openfisca_core.simulation_builder import SimulationBuilder
 from policyengine.impact.population.breakdown import (
     get_breakdown_and_chart_per_provision,
 )
+from policyengine.utils.computation_trees import get_computation_trees_json
 from policyengine.utils.general import (
     PolicyEngineResultsConfig,
     exclude_from_cache,
@@ -117,7 +118,10 @@ class PolicyEngineCountry:
                 variables=self.variables,
                 population_breakdown=self.population_breakdown,
                 calculate=self.calculate,
+                computation_tree=self.computation_tree,
                 household_variation=self.household_variation,
+                dependencies=self.dependencies,
+                leaf_nodes=self.leaf_nodes,
             )
 
             self.entities = build_entities(
@@ -393,6 +397,89 @@ class PolicyEngineCountry:
         dpath.util.merge(params["household"], computation_results)
 
         return params["household"]
+
+    @exclude_from_cache
+    def computation_tree(self, params=None):
+        reform = create_reform(
+            {x: y for x, y in params.items() if x != "ignoreReform"},
+            self.policyengine_parameters,
+            self.default_reform[:-1],
+        )
+        if "ignoreReform" not in params:
+            system = apply_reform(reform["reform"]["reform"], self.system())
+        else:
+            system = apply_reform(reform["baseline"]["reform"], self.system())
+        simulation = SimulationBuilder().build_from_entities(
+            system, params["household"]
+        )
+
+        return get_computation_trees_json(simulation, params)
+
+    @exclude_from_cache
+    def dependencies(self, params=None):
+        reform = create_reform(
+            {x: y for x, y in params.items() if x != "ignoreReform"},
+            self.policyengine_parameters,
+            self.default_reform[:-1],
+        )
+        if "ignoreReform" not in params:
+            system = apply_reform(reform["reform"]["reform"], self.system())
+        else:
+            system = apply_reform(reform["baseline"]["reform"], self.system())
+
+        simulation = SimulationBuilder().build_from_entities(
+            system, params["household"]
+        )
+
+        trees = get_computation_trees_json(simulation, params)[
+            "computation_trees"
+        ]
+
+        def get_dependencies(node):
+            nodes = [node["name"]]
+            for child in node["children"]:
+                nodes += get_dependencies(child)
+            return list(set(nodes))
+
+        return dict(
+            dependencies=list(
+                set(sum([get_dependencies(tree) for tree in trees], []))
+            )
+        )
+
+    @exclude_from_cache
+    def leaf_nodes(self, params=None):
+        reform = create_reform(
+            {x: y for x, y in params.items() if x != "ignoreReform"},
+            self.policyengine_parameters,
+            self.default_reform[:-1],
+        )
+        if "ignoreReform" not in params:
+            system = apply_reform(reform["reform"]["reform"], self.system())
+        else:
+            system = apply_reform(reform["baseline"]["reform"], self.system())
+
+        simulation = SimulationBuilder().build_from_entities(
+            system, params["household"]
+        )
+
+        trees = get_computation_trees_json(simulation, params)[
+            "computation_trees"
+        ]
+
+        def get_leaf_nodes(node):
+            if len(node["children"]) == 0:
+                return [node["name"]]
+            else:
+                return sum(
+                    [get_leaf_nodes(child) for child in node["children"]], []
+                )
+
+        return dict(
+            leaf_nodes=list(
+                set(sum([get_leaf_nodes(tree) for tree in trees], []))
+            )
+        )
 
     @exclude_from_cache
     def household_variation(self, params=None):
