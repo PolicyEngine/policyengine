@@ -4,7 +4,7 @@ import { Col, Row } from "react-bootstrap";
 import { CountryContext } from "../../countries";
 import fuzzysort from "fuzzysort";
 import { getTranslators } from "../tools/translation";
-import { Route, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 function getSearchResults(items, searchTerm, async) {
     if(async) {
