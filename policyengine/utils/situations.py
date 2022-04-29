@@ -32,11 +32,16 @@ def get_PE_variables(system: TaxBenefitSystem) -> Dict[str, dict]:
                     reference = {variable.reference: variable.reference}
             except:
                 reference = {}
+            if variable.documentation is not None:
+                description = variable.documentation
+                if description[-1] != ".":
+                    description += "."
             variable_metadata[variable.name] = dict(
                 name=variable.name,
                 unit=variable.unit,
                 label=variable.label,
-                documentation=variable.documentation,
+                documentation=description,
+                description=description,
                 valueType=variable.value_type.__name__,
                 defaultValue=variable.default_value,
                 definitionPeriod=variable.definition_period,
