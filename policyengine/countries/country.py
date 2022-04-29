@@ -181,9 +181,7 @@ class PolicyEngineCountry:
         return baseline, reformed
 
     def population_reform(self, params: dict = None):
-        print(f"Getting microsimulations")
         baseline, reformed = self._get_microsimulations(params)
-        print(f"Got microsimulations")
         rel_income_decile_chart, avg_income_decile_chart = decile_chart(
             baseline, reformed, self.results_config
         )
