@@ -33,19 +33,18 @@ function BooleanParameterControl(props) {
 
 function CategoricalParameterControl(props) {
 	const country = useContext(CountryContext);
-	const comparisonKey = country.editingReform ? "baselineValue" : "defaultValue";
 	const targetKey = country.editingReform ? "value" : "baselineValue";
-	return <Select 
+	return <Select
 		style={{minWidth: 200}} 
 		showSearch 
-		placeholder={props.metadata[comparisonKey]} 
+		defaultValue={props.metadata[targetKey]}
 		onSelect={props.onChange}>
 		{props.metadata.possibleValues.map(value => (
 			<Option 
 				key={value.key} 
 				value={value.key}
 			>
-				{value[targetKey]}
+				{value.value}
 			</Option>
 		))}
 	</Select>

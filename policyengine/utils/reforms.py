@@ -226,13 +226,17 @@ def get_PE_parameters(
                 name = parameter.metadata["name"]
             else:
                 name = parameter.name.replace(".", "_")
-            assert parameter(now).__class__ not in (list,)
             if isinstance(parameter, Parameter):
                 value_type = parameter.metadata.get(
                     "value_type", parameter(now).__class__.__name__
                 )
             else:
                 value_type = "parameter_node"
+            assert value_type not in ("list",)
+            if value_type == "Enum":
+                value = parameter(now)[0]
+            else:
+                value = parameter(now)
             try:
                 if parameter.metadata.get("reference") is not None:
                     reference = parameter.metadata["reference"]
@@ -252,16 +256,15 @@ def get_PE_parameters(
                 name=name,
                 parameter=parameter.name,
                 description=parameter.description,
-                label=parameter.metadata["label"],
-                value=parameter(now)
-                if isinstance(parameter, Parameter)
-                else None,
+                label=parameter.metadata.get("label", parameter.name),
+                value=value if isinstance(parameter, Parameter) else None,
                 valueType=value_type,
                 unit=None,
                 period=None,
                 variable=None,
                 max=None,
                 min=None,
+                possibleValues=parameter.metadata.get("possible_values"),
                 reference=reference,
             )
             if parameter(now) == np.inf:
@@ -381,6 +384,8 @@ def create_reform(
             policy_date_reform = use_current_parameters(
                 f"{str_value[:4]}-{str_value[4:6]}-{str_value[6:8]}"
             )
+        elif param == "country_specific":
+            pass  # Do not attempt to apply the country specifier as a reform
         elif param != "household":
             metadata = policyengine_parameters[param.replace("baseline_", "")]
             name = metadata["label"]

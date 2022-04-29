@@ -98,10 +98,7 @@ class PolicyEngineCountry:
             self.baseline_system = apply_reform(
                 self.default_reform[:-1], self.system()
             )
-
-            self.baseline.simulation.trace = True
             self.year = 2022
-            self.baseline.calc("net_income")
 
             self.policyengine_parameters = get_PE_parameters(
                 self.baseline.simulation.tax_benefit_system
@@ -128,7 +125,7 @@ class PolicyEngineCountry:
             )
 
     def _get_microsimulations(
-        self, params: dict
+        self, params: dict, refresh_baseline: bool = False
     ) -> Tuple[Microsimulation, Microsimulation]:
         reform_config = create_reform(
             params, self.policyengine_parameters, self.default_reform[:-1]
@@ -146,6 +143,12 @@ class PolicyEngineCountry:
                 post_reform=(),
             )
         )
+        if refresh_baseline and not reform_config["baseline"]["has_changed"]:
+            baseline = self.Microsimulation(
+                (self.default_reform, self.microsimulation_default_reform),
+                dataset=self.default_dataset,
+                post_reform=(),
+            )
         reformed = self.Microsimulation(
             (
                 self.microsimulation_default_reform,
@@ -178,7 +181,9 @@ class PolicyEngineCountry:
         return baseline, reformed
 
     def population_reform(self, params: dict = None):
+        print(f"Getting microsimulations")
         baseline, reformed = self._get_microsimulations(params)
+        print(f"Got microsimulations")
         rel_income_decile_chart, avg_income_decile_chart = decile_chart(
             baseline, reformed, self.results_config
         )

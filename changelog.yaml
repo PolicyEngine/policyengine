@@ -632,3 +632,7 @@
     changed:
     - Legislation explorer renamed to API explorer (with redirects)
   date: 2022-04-28 14:51:46
+- bump: minor
+  changes:
+    added:
+    - UK country selector for country-specific analysis.

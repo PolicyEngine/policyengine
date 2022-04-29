@@ -12,6 +12,8 @@ export function policyToURL(targetPage, policy) {
 				let value;
 				if(policy[key].unit === "/1") {
 					value = parseFloat((policy[key][targetKey] * 100).toFixed(2)).toString().replace(".", "_");
+				} else if(policy[key].valueType === "Enum") {
+					value = policy[key][targetKey];
 				} else {
 					try {
 						value = +parseFloat(policy[key][targetKey].toFixed(2));
@@ -45,9 +47,13 @@ export function urlToPolicy(defaultPolicy, policyRenames) {
 		const target = key.includes("baseline_") ? "baselineValue" : "value";
 		const parameterName = key.replace("baseline_", "");
 		try {
-			plan[parameterName][target] = +searchParams.get(key).replace("_", ".") / (defaultPolicy[parameterName].unit === "/1" ? 100 : 1);
-			if((target === "baselineValue") && !searchParams.has(parameterName)) {
-				plan[parameterName].value = +searchParams.get(key).replace("_", ".") / (defaultPolicy[parameterName].unit === "/1" ? 100 : 1);
+			if(plan[parameterName].valueType === "Enum") {
+				plan[parameterName][target] = searchParams.get(key);
+			} else {
+				plan[parameterName][target] = +searchParams.get(key).replace("_", ".") / (defaultPolicy[parameterName].unit === "/1" ? 100 : 1);
+				if((target === "baselineValue") && !searchParams.has(parameterName)) {
+					plan[parameterName].value = +searchParams.get(key).replace("_", ".") / (defaultPolicy[parameterName].unit === "/1" ? 100 : 1);
+				}
 			}
 		} catch(e) {
 			// Bad parameter, do nothing
