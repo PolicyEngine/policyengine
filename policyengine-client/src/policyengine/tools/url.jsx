@@ -49,9 +49,12 @@ export function urlToPolicy(defaultPolicy, policyRenames) {
 		try {
 			if(plan[parameterName].valueType === "Enum") {
 				plan[parameterName][target] = searchParams.get(key);
+				if(target === "baselineValue") {
+					plan[parameterName].value = searchParams.get(key);
+				}
 			} else {
 				plan[parameterName][target] = +searchParams.get(key).replace("_", ".") / (defaultPolicy[parameterName].unit === "/1" ? 100 : 1);
-				if((target === "baselineValue") && !searchParams.has(parameterName)) {
+				if(target === "baselineValue") {
 					plan[parameterName].value = +searchParams.get(key).replace("_", ".") / (defaultPolicy[parameterName].unit === "/1" ? 100 : 1);
 				}
 			}
