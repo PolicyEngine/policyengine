@@ -466,6 +466,8 @@ def mtr_chart(
         yaxis_tickformat=",.0%",
         yaxis_title=y_title,
         yaxis_range=(min(0, np.floor(df["Reform"].min() * 10) / 10), 1),
+        xaxis_showgrid=False,
+        yaxis_showgrid=False,
         legend_title=None,
     )
     if show_difference:
