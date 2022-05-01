@@ -1,5 +1,4 @@
 from typing import Callable, Type
-from xmlrpc.client import Boolean
 import numpy as np
 from openfisca_uk import IndividualSim
 from policyengine.utils.general import PolicyEngineResultsConfig
@@ -28,6 +27,68 @@ DEBUG_VARIABLES = [
     "c33200",
     "f2441",
 ]
+
+
+def cliff_gaps(
+    sim: IndividualSim, config: Type[PolicyEngineResultsConfig]
+) -> list:
+    """Identifies the employment income boundaries of net income cliffs.
+
+    :param sim: Simulation.
+    :type baseline: IndividualSim
+    :param config: Configuration.
+    :type config: Type[PolicyEngineResultsConfig]
+    :return: List of lists with each containing the start and end of a cliff.
+    :rtype: list
+    """
+    employment_income = sim.calc(config.total_income_variable)[0]
+    net_income = sim.calc(config.household_net_income_variable)[0]
+    diffs = np.diff(net_income, append=np.inf)
+    cliffs = np.where(diffs < 0)[0]
+    l = []
+    for cliff in cliffs:
+        employment_income_before_cliff = employment_income[cliff]
+        net_income_before_cliff = net_income[cliff]
+        ix_first_exceed_cliff = np.argmax(net_income > net_income_before_cliff)
+        employment_income_after_cliff = employment_income[
+            ix_first_exceed_cliff
+        ]
+        l += [[employment_income_before_cliff, employment_income_after_cliff]]
+    return l
+
+
+def shade_cliffs(
+    sim: IndividualSim,
+    config: Type[PolicyEngineResultsConfig],
+    fig: go.Figure,
+    fillcolor: str,
+) -> None:
+    """Shades the cliffs in a net income or MTR chart.
+
+    :param sim: Simulation.
+    :type baseline: IndividualSim
+    :param config: Configuration.
+    :type config: Type[PolicyEngineResultsConfig]
+    :param fig: Plotly figure.
+    :type fig: go.Figure
+    :param fillcolor: Fill color.
+    :type fillcolor: str
+    :return: None
+    :rtype: None
+    """
+    for cliff in cliff_gaps(sim, config):
+        fig.add_shape(
+            type="rect",
+            xref="x",
+            yref="paper",
+            x0=cliff[0],
+            y0=0,
+            x1=cliff[1],
+            y1=1,
+            fillcolor=fillcolor,
+            opacity=0.1,
+            layer="below",
+        )
 
 
 def budget_chart(
@@ -143,6 +204,9 @@ def budget_chart(
         color_discrete_map=COLOR_MAP,
         custom_data=["hover"],
     )
+    # Shade baseline and reformed net income cliffs.
+    shade_cliffs(baseline, config, fig, charts.GRAY)
+    shade_cliffs(reformed, config, fig, charts.BLUE)
     charts.add_zero_line(fig)
     charts.add_custom_hovercard(fig)
     add_you_are_here(fig, df["Total income"][i])
@@ -175,7 +239,6 @@ def add_you_are_here(fig: go.Figure, x):
     )
 
 
-# todo: update discription when there is no reform.
 def describe_change(
     x: float,
     y: float,
@@ -387,6 +450,9 @@ def mtr_chart(
         custom_data=["hover"],
         line_shape="hv",
     )
+    # Shade baseline and reformed net income cliffs.
+    shade_cliffs(baseline, config, fig, charts.GRAY)
+    shade_cliffs(reformed, config, fig, charts.BLUE)
     add_you_are_here(fig, df.Earnings[i])
     charts.add_zero_line(fig)
     charts.add_custom_hovercard(fig)
