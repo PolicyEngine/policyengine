@@ -86,6 +86,7 @@ def shade_cliffs(
             x1=cliff[1],
             y1=1,
             fillcolor=fillcolor,
+            line_width=0,
             opacity=0.1,
             layer="below",
         )
@@ -214,6 +215,8 @@ def budget_chart(
         title=d_title,
         xaxis_title="Employment income",
         yaxis_title=y_title,
+        xaxis_showgrid=False,
+        yaxis_showgrid=False,
         yaxis_tickprefix=config.currency,
         xaxis_tickprefix=config.currency,
         legend_title=None,
