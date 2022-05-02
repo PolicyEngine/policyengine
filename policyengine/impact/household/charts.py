@@ -45,16 +45,22 @@ def cliff_gaps(
     net_income = sim.calc(config.household_net_income_variable)[0]
     diffs = np.diff(net_income, append=np.inf)
     cliffs = np.where(diffs < 0)[0]
-    l = []
+    start = []
+    end = []
     for cliff in cliffs:
         employment_income_before_cliff = employment_income[cliff]
+        # Skip if embedded in a larger cliff.
+        if len(end) > 0:
+            if employment_income_before_cliff < end[-1]:
+                continue
         net_income_before_cliff = net_income[cliff]
         ix_first_exceed_cliff = np.argmax(net_income > net_income_before_cliff)
         employment_income_after_cliff = employment_income[
             ix_first_exceed_cliff
         ]
-        l += [[employment_income_before_cliff, employment_income_after_cliff]]
-    return l
+        start.append(employment_income_before_cliff)
+        end.append(employment_income_after_cliff)
+    return list(zip(start, end))
 
 
 def shade_cliffs(
