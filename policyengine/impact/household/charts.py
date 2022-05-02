@@ -1,5 +1,4 @@
 from typing import Callable, Type
-from xmlrpc.client import Boolean
 import numpy as np
 from openfisca_uk import IndividualSim
 from policyengine.utils.general import PolicyEngineResultsConfig
@@ -28,6 +27,75 @@ DEBUG_VARIABLES = [
     "c33200",
     "f2441",
 ]
+
+
+def cliff_gaps(
+    sim: IndividualSim, config: Type[PolicyEngineResultsConfig]
+) -> list:
+    """Identifies the employment income boundaries of net income cliffs.
+
+    :param sim: Simulation.
+    :type baseline: IndividualSim
+    :param config: Configuration.
+    :type config: Type[PolicyEngineResultsConfig]
+    :return: List of lists with each containing the start and end of a cliff.
+    :rtype: list
+    """
+    employment_income = sim.calc(config.total_income_variable)[0]
+    net_income = sim.calc(config.household_net_income_variable)[0]
+    diffs = np.diff(net_income, append=np.inf)
+    cliffs = np.where(diffs < 0)[0]
+    start = []
+    end = []
+    for cliff in cliffs:
+        employment_income_before_cliff = employment_income[cliff]
+        # Skip if embedded in a larger cliff.
+        if len(end) > 0:
+            if employment_income_before_cliff < end[-1]:
+                continue
+        net_income_before_cliff = net_income[cliff]
+        ix_first_exceed_cliff = np.argmax(net_income > net_income_before_cliff)
+        employment_income_after_cliff = employment_income[
+            ix_first_exceed_cliff
+        ]
+        start.append(employment_income_before_cliff)
+        end.append(employment_income_after_cliff)
+    return list(zip(start, end))
+
+
+def shade_cliffs(
+    sim: IndividualSim,
+    config: Type[PolicyEngineResultsConfig],
+    fig: go.Figure,
+    fillcolor: str,
+) -> None:
+    """Shades the cliffs in a net income or MTR chart.
+
+    :param sim: Simulation.
+    :type baseline: IndividualSim
+    :param config: Configuration.
+    :type config: Type[PolicyEngineResultsConfig]
+    :param fig: Plotly figure.
+    :type fig: go.Figure
+    :param fillcolor: Fill color.
+    :type fillcolor: str
+    :return: None
+    :rtype: None
+    """
+    for cliff in cliff_gaps(sim, config):
+        fig.add_shape(
+            type="rect",
+            xref="x",
+            yref="paper",
+            x0=cliff[0],
+            y0=0,
+            x1=cliff[1],
+            y1=1,
+            fillcolor=fillcolor,
+            line_width=0,
+            opacity=0.1,
+            layer="below",
+        )
 
 
 def budget_chart(
@@ -143,6 +211,9 @@ def budget_chart(
         color_discrete_map=COLOR_MAP,
         custom_data=["hover"],
     )
+    # Shade baseline and reformed net income cliffs.
+    shade_cliffs(baseline, config, fig, charts.GRAY)
+    shade_cliffs(reformed, config, fig, charts.BLUE)
     charts.add_zero_line(fig)
     charts.add_custom_hovercard(fig)
     add_you_are_here(fig, df["Total income"][i])
@@ -150,8 +221,11 @@ def budget_chart(
         title=d_title,
         xaxis_title="Employment income",
         yaxis_title=y_title,
+        xaxis_showgrid=False,
+        yaxis_showgrid=False,
         yaxis_tickprefix=config.currency,
         xaxis_tickprefix=config.currency,
+        yaxis_rangemode="tozero",
         legend_title=None,
     )
     if show_difference:
@@ -175,7 +249,6 @@ def add_you_are_here(fig: go.Figure, x):
     )
 
 
-# todo: update discription when there is no reform.
 def describe_change(
     x: float,
     y: float,
@@ -387,6 +460,9 @@ def mtr_chart(
         custom_data=["hover"],
         line_shape="hv",
     )
+    # Shade baseline and reformed net income cliffs.
+    shade_cliffs(baseline, config, fig, charts.GRAY)
+    shade_cliffs(reformed, config, fig, charts.BLUE)
     add_you_are_here(fig, df.Earnings[i])
     charts.add_zero_line(fig)
     charts.add_custom_hovercard(fig)
@@ -397,6 +473,8 @@ def mtr_chart(
         yaxis_tickformat=",.0%",
         yaxis_title=y_title,
         yaxis_range=(min(0, np.floor(df["Reform"].min() * 10) / 10), 1),
+        xaxis_showgrid=False,
+        yaxis_showgrid=False,
         legend_title=None,
     )
     if show_difference:
