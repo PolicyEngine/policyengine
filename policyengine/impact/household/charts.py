@@ -219,6 +219,7 @@ def budget_chart(
         yaxis_showgrid=False,
         yaxis_tickprefix=config.currency,
         xaxis_tickprefix=config.currency,
+        yaxis_rangemode="tozero",
         legend_title=None,
     )
     if show_difference:
