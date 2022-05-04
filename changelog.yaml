@@ -659,3 +659,7 @@
   changes:
     fixed:
     - Fixed a bug causing simulations with country selections to not load URLs correctly.
+- bump: patch
+  changes:
+    fixed:
+    - Fixed a bug which prevented the country specifier from applying.
