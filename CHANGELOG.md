@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.40.0] - 2022-05-02 06:25:53
+
+### Added
+
+- Shadings to net income and MTR charts with cliffs.
+
+## [1.39.3] - 2022-04-30 21:30:06
+
+### Fixed
+
+- Fixed a bug causing simulations with country selections to not load URLs correctly.
+
 ## [1.39.2] - 2022-04-29 19:12:18
 
 ### Added
@@ -15,7 +27,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 ### Changed
 
-- UK country selector for country-specific analysis now in the baseline rather than reform.
+- UK country selector for country-specific analysis now in the baseline rather than reform. than reform.
 
 ## [1.39.1] - 2022-04-29 15:09:42
 
@@ -783,6 +795,8 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.40.0]: https://github.com/PolicyEngine/policyengine/compare/1.39.3...1.40.0
+[1.39.3]: https://github.com/PolicyEngine/policyengine/compare/1.39.2...1.39.3
 [1.39.2]: https://github.com/PolicyEngine/policyengine/compare/1.39.1...1.39.2
 [1.39.1]: https://github.com/PolicyEngine/policyengine/compare/1.39.0...1.39.1
 [1.39.0]: https://github.com/PolicyEngine/policyengine/compare/1.38.0...1.39.0

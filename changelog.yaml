@@ -652,13 +652,19 @@
     added:
     - Computation tree, leaf nodes and dependencies endpoints.
     changed:
-    - UK country selector for country-specific analysis now in the baseline rather than reform.
-      than reform.
+    - UK country selector for country-specific analysis now in the baseline rather
+      than reform. than reform.
   date: 2022-04-29 19:12:18
 - bump: patch
   changes:
     fixed:
     - Fixed a bug causing simulations with country selections to not load URLs correctly.
+  date: 2022-04-30 21:30:06
+- bump: minor
+  changes:
+    added:
+    - Shadings to net income and MTR charts with cliffs.
+  date: 2022-05-02 06:25:53
 - bump: patch
   changes:
     fixed:
