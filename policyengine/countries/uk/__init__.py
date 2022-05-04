@@ -68,11 +68,11 @@ class UK(PolicyEngineCountry):
     def _get_microsimulations(
         self, params: dict
     ) -> Tuple[Microsimulation, Microsimulation]:
-        if "country_specific" in params:
+        if "baseline_country_specific" in params:
             baseline, reformed = super()._get_microsimulations(
                 params, refresh_baseline=True
             )
-            filtered_country = params["country_specific"]
+            filtered_country = params["baseline_country_specific"]
             household_weights = baseline.calc("household_weight")
             country = baseline.calc("country")
             baseline.set_input(

@@ -665,3 +665,7 @@
     added:
     - Shadings to net income and MTR charts with cliffs.
   date: 2022-05-02 06:25:53
+- bump: patch
+  changes:
+    fixed:
+    - Fixed a bug which prevented the country specifier from applying.
