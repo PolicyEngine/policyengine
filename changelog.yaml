@@ -670,3 +670,8 @@
     fixed:
     - Fixed a bug which prevented the country specifier from applying.
   date: 2022-05-04 18:41:39
+- bump: minor
+  changes:
+    changed:
+    - Size logo image to actual aspect ratio.
+
