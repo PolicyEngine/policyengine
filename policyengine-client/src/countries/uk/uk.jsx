@@ -3,11 +3,11 @@
 */
 
 import UBICenterLogo from "../../images/parameter-icons/ubi-center.png"
-import UKLogo from "../../images/parameter-icons/uk.png";
-import GreenPartyLogo from "../../images/parameter-icons/green-party.png";
+import UKLogo from "../../images/parameter-icons/uk.webp";
+import GreenPartyLogo from "../../images/parameter-icons/green-party.webp";
 import SMFLogo from "../../images/parameter-icons/smf.png";
-import MiscLogo from "../../images/parameter-icons/misc.png";
-import SimulationLogo from "../../images/parameter-icons/simulation.png";
+import MiscLogo from "../../images/parameter-icons/misc.webp";
+import SimulationLogo from "../../images/parameter-icons/simulation.webp";
 import Country from "../country";
 import AutoUBI from "./components/autoUBI";
 import ExtraBand from "./components/extraBand";
