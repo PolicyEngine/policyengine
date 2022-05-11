@@ -675,3 +675,7 @@
     changed:
     - Converted some icons (green-party, simulation, uk, misc) to webp format.
   date: 2022-05-10 22:39:32
+- bump: minor
+  changes:
+    changed:
+    - Size logo image to actual aspect ratio.
