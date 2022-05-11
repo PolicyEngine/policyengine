@@ -1,4 +1,4 @@
-from openfisca_us.variables.income.spm_unit.spm_unit_net_income import (
+from openfisca_us.variables.household.income.spm_unit.spm_unit_net_income import (
     spm_unit_net_income as original_spm_unit_net_income,
 )
 from openfisca_us.model_api import *
