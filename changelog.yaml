@@ -670,9 +670,16 @@
     fixed:
     - Fixed a bug which prevented the country specifier from applying.
   date: 2022-05-04 18:41:39
+- bump: minor
+  changes:
     changed:
     - Converted some icons (green-party, simulation, uk, misc) to webp format.
   date: 2022-05-10 22:39:32
+- bump: minor
+  changes:
+    changed:
+    - Size logo image to actual aspect ratio.
+  date: 2022-05-11 11:28:42
 - bump: minor
   changes:
     fixed:
