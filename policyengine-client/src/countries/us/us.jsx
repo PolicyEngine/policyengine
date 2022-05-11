@@ -161,7 +161,7 @@ export class US extends Country {
                 "Eligibility": [
                     "lifeline_income_fpl_limit",
                 ],
-                "Benefit": [
+                "Amount": [
                     "lifeline_amount",
                     "lifeline_rural_tribal_supplement",
                 ]
@@ -169,6 +169,10 @@ export class US extends Country {
             "Affordable Connectivity Program": {
                 "Eligibility": [
                     "acp_income_fpl_limit",
+                ],
+                "Amount": [
+                    "acp_standard_amount",
+                    "acp_tribal_amount",
                 ],
             },
         },
@@ -313,14 +317,18 @@ export class US extends Country {
         "spm_unit_payroll_tax",
         "spm_unit_self_employment_tax",
         "spm_unit_federal_tax",
+        "spm_unit_state_tax",
         // Fourth level - SNAP decomposition.
         "snap_normal_allotment",
         "snap_emergency_allotment",
-        // Taxes
-
+        // Federal income tax breakdown
         "income_tax_before_credits",
         "income_tax_capped_non_refundable_credits",
         "income_tax_refundable_credits",
+        // State income tax breakdown
+        "state_income_tax_before_credits",
+        "state_income_tax_non_refundable_credits",
+        "state_income_tax_refundable_credits",
     ]
     inputVariableHierarchy = {
         "Household": {
@@ -379,12 +387,6 @@ export class US extends Country {
             ],
         }
     }
-    extraVariableMetadata = {
-        "state_code": {
-            "disabled": true,
-            "tooltip": "PolicyEngine currently only calculates benefits for California.",
-        }
-    }
     defaultOpenVariableGroups = [
         "/Household",
         "/People"
@@ -429,6 +431,7 @@ export class US extends Country {
                 "spm_unit_payroll_tax",
                 "spm_unit_self_employment_tax",
                 "spm_unit_federal_tax",
+                "spm_unit_state_tax",
             ],
             "subtract": []
         },
@@ -446,6 +449,15 @@ export class US extends Country {
             "subtract": [
                 "income_tax_capped_non_refundable_credits",
                 "income_tax_refundable_credits",
+            ]
+        },
+        "spm_unit_state_tax": {
+            "add": [
+                "state_income_tax_before_credits",
+            ],
+            "subtract": [
+                "state_income_tax_non_refundable_credits",
+                "state_income_tax_refundable_credits",
             ]
         },
     }
