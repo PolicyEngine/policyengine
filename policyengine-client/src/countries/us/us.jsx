@@ -313,6 +313,7 @@ export class US extends Country {
         "spm_unit_payroll_tax",
         "spm_unit_self_employment_tax",
         "spm_unit_federal_tax",
+        "spm_unit_state_tax",
         // Fourth level - SNAP decomposition.
         "snap_normal_allotment",
         "snap_emergency_allotment",
@@ -379,12 +380,6 @@ export class US extends Country {
             ],
         }
     }
-    extraVariableMetadata = {
-        "state_code": {
-            "disabled": true,
-            "tooltip": "PolicyEngine currently only calculates benefits for California.",
-        }
-    }
     defaultOpenVariableGroups = [
         "/Household",
         "/People"
@@ -429,6 +424,7 @@ export class US extends Country {
                 "spm_unit_payroll_tax",
                 "spm_unit_self_employment_tax",
                 "spm_unit_federal_tax",
+                "spm_unit_state_tax",
             ],
             "subtract": []
         },
