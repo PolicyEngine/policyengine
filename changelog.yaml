@@ -680,3 +680,9 @@
     changed:
     - Size logo image to actual aspect ratio.
   date: 2022-05-11 11:28:42
+- bump: minor
+  changes:
+    fixed:
+    - Bug in which some baseline-editing policies would have no net impact.
+    changed:
+    - Bumped OpenFisca-US version to 0.61.0.
