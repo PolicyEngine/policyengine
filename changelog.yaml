@@ -694,3 +694,7 @@
     - Add US state income tax.
     - Add controls for Affordable Connectivity Program amount.
   date: 2022-05-11 18:25:03
+- bump: patch
+  changes:
+    fixed:
+    - Fixed a bug causing deployments to fail.
