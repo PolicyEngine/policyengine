@@ -88,6 +88,14 @@ def shade_cliffs(
     for cliff in cliff_gaps(sim, config):
         start = cliff[0]
         end = cliff[1]
+        text = (
+            "This household is worse off earning between "
+            + config.currency
+            + "{:,}".format(int(start))
+            + " and "
+            + config.currency
+            + "{:,}".format(int(end))
+        )
         fig.add_trace(
             go.Scatter(
                 x=[start, start, end, end, start],
@@ -96,10 +104,8 @@ def shade_cliffs(
                 mode="lines",
                 fillcolor=fillcolor,
                 name="",
-                text="This household is worse off earning between "
-                + "${:,}".format(int(start))
-                + " and ${:,}".format(int(end)),
-                opacity=0.2,
+                text=text,
+                opacity=0.1,
                 line_width=0,
                 showlegend=False,
             )
@@ -220,7 +226,7 @@ def budget_chart(
         custom_data=["hover"],
     )
     # Shade baseline and reformed net income cliffs.
-    ymax = df[y_fig].max() * 1.05  # Add a buffer.
+    ymax = df[y_fig].max().max() * 1.05  # Add a buffer.
     shade_cliffs(baseline, config, fig, charts.GRAY, ymax)
     shade_cliffs(reformed, config, fig, charts.BLUE, ymax)
     charts.add_zero_line(fig)
@@ -470,8 +476,9 @@ def mtr_chart(
         line_shape="hv",
     )
     # Shade baseline and reformed net income cliffs.
-    shade_cliffs(baseline, config, fig, charts.GRAY)
-    shade_cliffs(reformed, config, fig, charts.BLUE)
+    ymax = df[y_fig].max() * 1.05  # Add a buffer.
+    shade_cliffs(baseline, config, fig, charts.GRAY, ymax)
+    shade_cliffs(reformed, config, fig, charts.BLUE, ymax)
     add_you_are_here(fig, df.Earnings[i])
     charts.add_zero_line(fig)
     charts.add_custom_hovercard(fig)
