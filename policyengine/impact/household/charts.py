@@ -68,6 +68,7 @@ def shade_cliffs(
     config: Type[PolicyEngineResultsConfig],
     fig: go.Figure,
     fillcolor: str,
+    ymax: float,
 ) -> None:
     """Shades the cliffs in a net income or MTR chart.
 
@@ -79,22 +80,29 @@ def shade_cliffs(
     :type fig: go.Figure
     :param fillcolor: Fill color.
     :type fillcolor: str
+    :param ymax: Maximum y value.
+    :type ymax: float
     :return: None
     :rtype: None
     """
     for cliff in cliff_gaps(sim, config):
-        fig.add_shape(
-            type="rect",
-            xref="x",
-            yref="paper",
-            x0=cliff[0],
-            y0=0,
-            x1=cliff[1],
-            y1=1,
-            fillcolor=fillcolor,
-            line_width=0,
-            opacity=0.1,
-            layer="below",
+        start = cliff[0]
+        end = cliff[1]
+        fig.add_trace(
+            go.Scatter(
+                x=[start, start, end, end, start],
+                y=[0, ymax, ymax, 0, 0],
+                fill="toself",
+                mode="lines",
+                fillcolor=fillcolor,
+                name="",
+                text="This household is worse off earning between "
+                + "${:,}".format(int(start))
+                + " and ${:,}".format(int(end)),
+                opacity=0.2,
+                line_width=0,
+                showlegend=False,
+            )
         )
 
 
@@ -212,8 +220,9 @@ def budget_chart(
         custom_data=["hover"],
     )
     # Shade baseline and reformed net income cliffs.
-    shade_cliffs(baseline, config, fig, charts.GRAY)
-    shade_cliffs(reformed, config, fig, charts.BLUE)
+    ymax = df[y_fig].max() * 1.05  # Add a buffer.
+    shade_cliffs(baseline, config, fig, charts.GRAY, ymax)
+    shade_cliffs(reformed, config, fig, charts.BLUE, ymax)
     charts.add_zero_line(fig)
     charts.add_custom_hovercard(fig)
     add_you_are_here(fig, df["Total income"][i])
