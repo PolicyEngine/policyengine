@@ -21,11 +21,10 @@ LABELS = dict(
     employment_income="Employment income",
 )
 
-DEBUG_MODE = False
+DEBUG_MODE = True
 
 DEBUG_VARIABLES = [
-    "c33200",
-    "f2441",
+    "ssi",
 ]
 
 

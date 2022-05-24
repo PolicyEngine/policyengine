@@ -265,7 +265,6 @@ export class US extends Country {
         "social_security_retirement",
         "social_security_survivors",
         "is_ssi_disabled",
-        "ssi",
         "is_permanently_disabled_veteran",
         "is_surviving_spouse_of_disabled_veteran",
         "is_surviving_child_of_disabled_veteran",
@@ -363,7 +362,6 @@ export class US extends Country {
                 "social_security_survivors",
                 "social_security_dependents",
                 "social_security_disability",
-                "ssi",
             ],
             "Demographics": [
                 "age",
@@ -378,7 +376,7 @@ export class US extends Country {
                 "is_pregnant",
                 "is_breastfeeding",
                 "is_wic_at_nutritional_risk",
-                "cdcc_qualified_dependent"
+                "cdcc_qualified_dependent",
             ],
             "Expenses": [
                 "medical_out_of_pocket_expenses",
