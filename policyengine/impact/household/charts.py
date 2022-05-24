@@ -217,14 +217,7 @@ def budget_chart(
         )
         d_title = "Net income by employment income"
         y_title = "Household net income"
-    fig = px.line(
-        df.round(0),
-        x="Total income",
-        y=y_fig,
-        labels=dict(LABELS, value="Net income"),
-        color_discrete_map=COLOR_MAP,
-        custom_data=["hover"],
-    )
+    fig = go.Figure()
     # Shade baseline and reformed net income cliffs.
     ymax = df[y_fig].max().max() * 1.05  # Add a buffer.
     shade_cliffs(baseline, config, fig, charts.GRAY, ymax)
@@ -232,6 +225,15 @@ def budget_chart(
     charts.add_zero_line(fig)
     charts.add_custom_hovercard(fig)
     add_you_are_here(fig, df["Total income"][i])
+    line_chart = px.line(
+        df.round(0),
+        x="Total income",
+        y=y_fig,
+        labels=dict(LABELS, value="Net income"),
+        color_discrete_map=COLOR_MAP,
+        custom_data=["hover"],
+    )
+    fig.add_traces(list(line_chart.select_traces()))
     fig.update_layout(
         title=d_title,
         xaxis_title="Employment income",
