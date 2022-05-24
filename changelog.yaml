@@ -704,6 +704,16 @@
     fixed:
       - Fixed NI thresholds in the UK.
   date: 2022-05-19 17:51:44
+- bump: patch
+  changes:
+    changed:
+      - Bumped openfisca-uk to 0.23.2.
+  date: 2022-05-22 16:04:01
+- bump: patch
+  changes:
+    changed:
+      - Bumped openfisca-uk to 0.23.3.
+  date: 2022-05-22 21:13:34
 - bump: minor
   changes:
     added:
