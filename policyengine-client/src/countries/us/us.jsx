@@ -176,6 +176,22 @@ export class US extends Country {
                 ],
             },
         },
+        "SSA": {
+            "SSI": {
+                "Eligibility": [
+                    "ssi_aged_threshold",
+                ],
+                "Amount": [
+                    "ssi_amount_individual",
+                    "ssi_amount_couple",
+                ],
+                "Exclusions": [
+                    "ssi_flat_general_income_exclusion",
+                    "ssi_flat_earned_income_exclusion",
+                    "ssi_earned_income_exclusion_share",
+                ],
+            }
+        },
         "UBI Center": {
             "Basic income": [
                 "child_bi",
@@ -200,6 +216,9 @@ export class US extends Country {
             logo: USLogo,
         },
         "FCC": {
+            logo: USLogo,
+        },
+        "SSA": {
             logo: USLogo,
         },
     }
