@@ -6,7 +6,6 @@ import pandas as pd
 import plotly.express as px
 from policyengine.utils import charts
 from matplotlib import cm
-import yaml
 
 from policyengine.utils.general import PolicyEngineResultsConfig
 

@@ -4,15 +4,12 @@ from openfisca_core.parameters.parameter_scale_bracket import (
 from openfisca_tools.model_api import (
     ReformType,
     Variable,
-    amount_over,
 )
 from openfisca_uk import CountryTaxBenefitSystem
 from openfisca_uk.tools.general import *
-from openfisca_uk.entities import Person, Household
+from openfisca_uk.entities import Household
 from openfisca_core.model_api import YEAR, Reform
 from openfisca_core.parameters import ParameterNode, ParameterScale
-import yaml
-import pandas as pd
 import warnings
 from openfisca_core.model_api import Reform
 
