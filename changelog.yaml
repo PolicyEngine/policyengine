@@ -716,5 +716,5 @@
   date: 2022-05-22 21:13:34
 - bump: minor
   changes:
-    changed:
-      - Display Supplemental Security Income in US model.
+    added:
+      - US Supplemental Security Income amount and parameters.
