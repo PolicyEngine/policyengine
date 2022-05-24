@@ -223,7 +223,6 @@ def budget_chart(
     shade_cliffs(baseline, config, fig, charts.GRAY, ymax)
     shade_cliffs(reformed, config, fig, charts.BLUE, ymax)
     charts.add_zero_line(fig)
-    charts.add_custom_hovercard(fig)
     add_you_are_here(fig, df["Total income"][i])
     line_chart = px.line(
         df.round(0),
@@ -234,6 +233,7 @@ def budget_chart(
         custom_data=["hover"],
     )
     fig.add_traces(list(line_chart.select_traces()))
+    charts.add_custom_hovercard(fig)
     fig.update_layout(
         title=d_title,
         xaxis_title="Employment income",
@@ -468,7 +468,7 @@ def mtr_chart(
         )
         d_title = "Marginal tax rate by employment income"
         y_title = "Marginal tax rate"
-    fig = px.line(
+    line_chart = px.line(
         df,
         x="Earnings",
         y=y_fig,
@@ -479,8 +479,10 @@ def mtr_chart(
     )
     # Shade baseline and reformed net income cliffs.
     ymax = df[y_fig].max() * 1.05  # Add a buffer.
+    fig = go.Figure()
     shade_cliffs(baseline, config, fig, charts.GRAY, ymax)
     shade_cliffs(reformed, config, fig, charts.BLUE, ymax)
+    fig.add_traces(list(line_chart.select_traces()))
     add_you_are_here(fig, df.Earnings[i])
     charts.add_zero_line(fig)
     charts.add_custom_hovercard(fig)
