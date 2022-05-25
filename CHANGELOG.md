@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.45.0] - 2022-05-25 15:45:38
+
+### Added
+
+- Hover label for cliff rectangles.
+
 ## [1.44.4] - 2022-05-22 21:13:34
 
 ### Changed
@@ -855,6 +861,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.45.0]: https://github.com/PolicyEngine/policyengine/compare/1.44.4...1.45.0
 [1.44.4]: https://github.com/PolicyEngine/policyengine/compare/1.44.3...1.44.4
 [1.44.3]: https://github.com/PolicyEngine/policyengine/compare/1.44.2...1.44.3
 [1.44.2]: https://github.com/PolicyEngine/policyengine/compare/1.44.1...1.44.2
