@@ -723,3 +723,7 @@
   changes:
     added:
     - UK payment to households on means tests.
+- bump: minor
+  changes:
+    changed:
+    - Bump OpenFisca-UK.
