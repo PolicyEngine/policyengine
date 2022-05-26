@@ -729,3 +729,7 @@
     changed:
     - Bump OpenFisca-UK.
   date: 2022-05-26 11:24:33
+- bump: minor
+  changes:
+    changed:
+    - Bump OpenFisca-UK to add government cost-of-living support policy.
