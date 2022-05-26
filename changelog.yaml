@@ -744,3 +744,7 @@
     changed:
     - Bump OpenFisca-UK.
   date: 2022-05-26 16:40:31
+- bump: minor
+  changes:
+    fixed:
+    - A rounding bug causing the net cost headline figure to incorrectly show a round (.0) number where there should be a fraction.
