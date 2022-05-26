@@ -719,3 +719,7 @@
     added:
     - Hover label for cliff rectangles.
   date: 2022-05-25 15:45:38
+- bump: minor
+  changes:
+    added:
+    - UK payment to households on means tests.

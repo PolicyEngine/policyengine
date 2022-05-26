@@ -276,7 +276,10 @@ export class UK extends Country {
             "Tax ": [
                 "exempt_seniors_from_PA_reforms",
                 "contrib_ubi_center_basic_income_exempt_pensioners_from_tax_changes",
-            ]
+            ],
+            "Means-tested benefit payment": [
+                "misc_benefit_payment_amount",
+            ],
         }
     }
     defaultOpenParameterGroups = [
