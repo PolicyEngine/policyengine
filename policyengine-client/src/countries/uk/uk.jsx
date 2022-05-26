@@ -233,7 +233,12 @@ export class UK extends Country {
             "Energy bills support": [
                 "ebr_ct_rebate",
                 "ebr_energy_bills_credit",
-            ]
+            ],
+            "Cost-of-living support payment": [
+                "col_benefit_payment_amount",
+                "col_pensioner_payment_amount",
+                "col_disability_payment_amount",
+            ],
         },
         "UBI Center": {
             "Basic Income": [
@@ -276,9 +281,6 @@ export class UK extends Country {
             "Tax ": [
                 "exempt_seniors_from_PA_reforms",
                 "contrib_ubi_center_basic_income_exempt_pensioners_from_tax_changes",
-            ],
-            "Means-tested benefit payment": [
-                "misc_benefit_payment_amount",
             ],
         }
     }
