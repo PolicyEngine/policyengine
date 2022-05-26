@@ -747,4 +747,6 @@
 - bump: minor
   changes:
     fixed:
-    - A rounding bug causing the net cost headline figure to incorrectly show a round (.0) number where there should be a fraction.
+    - A rounding bug causing the net cost headline figure to incorrectly show a round
+      (.0) number where there should be a fraction.
+  date: 2022-05-26 20:33:09
