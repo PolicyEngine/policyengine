@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.48.0] - 2022-05-26 13:26:35
+
+### Changed
+
+- Bump OpenFisca-UK to add government cost-of-living support policy.
+
 ## [1.47.0] - 2022-05-26 11:24:33
 
 ### Changed
@@ -873,6 +879,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.48.0]: https://github.com/PolicyEngine/policyengine/compare/1.47.0...1.48.0
 [1.47.0]: https://github.com/PolicyEngine/policyengine/compare/1.46.0...1.47.0
 [1.46.0]: https://github.com/PolicyEngine/policyengine/compare/1.45.0...1.46.0
 [1.45.0]: https://github.com/PolicyEngine/policyengine/compare/1.44.4...1.45.0
