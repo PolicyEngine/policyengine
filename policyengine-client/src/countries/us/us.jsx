@@ -297,6 +297,8 @@ export class US extends Country {
         "ca_cvrp_vehicle_rebate_amount",
         "qualified_tuition_expenses",
         "is_eligible_for_american_opportunity_credit",
+        // Tax unit.
+        "premium_tax_credit",
         // SPM unit.
         "housing_cost",
         "childcare_expenses",
@@ -369,6 +371,9 @@ export class US extends Country {
             "Benefits": [
                 "fdpir",
             ],
+            "Taxes": [
+                "premium_tax_credit"
+            ]
         },
         "People": {
             "Income": [
