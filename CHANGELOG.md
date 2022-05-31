@@ -7,6 +7,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.51.0] - 2022-05-26 20:33:09
+
+### Fixed
+
+- A rounding bug causing the net cost headline figure to incorrectly show a round (.0) number where there should be a fraction.
+
+## [1.50.0] - 2022-05-26 16:40:31
+
+### Changed
+
+- Bump OpenFisca-UK.
+
+## [1.49.0] - 2022-05-26 14:17:01
+
+### Changed
+
+- Bump OpenFisca-UK.
+
+## [1.48.0] - 2022-05-26 13:26:35
+
+### Changed
+
+- Bump OpenFisca-UK to add government cost-of-living support policy.
+
+## [1.47.0] - 2022-05-26 11:24:33
+
+### Changed
+
+- Bump OpenFisca-UK.
+
+## [1.46.0] - 2022-05-26 11:00:20
+
+### Added
+
+- UK payment to households on means tests.
+
+## [1.45.0] - 2022-05-25 15:45:38
+
+### Added
+
+- Hover label for cliff rectangles.
+
 ## [1.44.4] - 2022-05-22 21:13:34
 
 ### Changed
@@ -855,6 +897,13 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.51.0]: https://github.com/PolicyEngine/policyengine/compare/1.50.0...1.51.0
+[1.50.0]: https://github.com/PolicyEngine/policyengine/compare/1.49.0...1.50.0
+[1.49.0]: https://github.com/PolicyEngine/policyengine/compare/1.48.0...1.49.0
+[1.48.0]: https://github.com/PolicyEngine/policyengine/compare/1.47.0...1.48.0
+[1.47.0]: https://github.com/PolicyEngine/policyengine/compare/1.46.0...1.47.0
+[1.46.0]: https://github.com/PolicyEngine/policyengine/compare/1.45.0...1.46.0
+[1.45.0]: https://github.com/PolicyEngine/policyengine/compare/1.44.4...1.45.0
 [1.44.4]: https://github.com/PolicyEngine/policyengine/compare/1.44.3...1.44.4
 [1.44.3]: https://github.com/PolicyEngine/policyengine/compare/1.44.2...1.44.3
 [1.44.2]: https://github.com/PolicyEngine/policyengine/compare/1.44.1...1.44.2

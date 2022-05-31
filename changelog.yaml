@@ -717,4 +717,40 @@
 - bump: minor
   changes:
     added:
-      - US Supplemental Security Income amount and parameters.
+    - Hover label for cliff rectangles.
+  date: 2022-05-25 15:45:38
+- bump: minor
+  changes:
+    added:
+    - UK payment to households on means tests.
+  date: 2022-05-26 11:00:20
+- bump: minor
+  changes:
+    changed:
+    - Bump OpenFisca-UK.
+  date: 2022-05-26 11:24:33
+- bump: minor
+  changes:
+    changed:
+    - Bump OpenFisca-UK to add government cost-of-living support policy.
+  date: 2022-05-26 13:26:35
+- bump: minor
+  changes:
+    changed:
+    - Bump OpenFisca-UK.
+  date: 2022-05-26 14:17:01
+- bump: minor
+  changes:
+    changed:
+    - Bump OpenFisca-UK.
+  date: 2022-05-26 16:40:31
+- bump: minor
+  changes:
+    fixed:
+    - A rounding bug causing the net cost headline figure to incorrectly show a round
+      (.0) number where there should be a fraction.
+  date: 2022-05-26 20:33:09
+- bump: minor
+  changes:
+    added:
+    - US Supplemental Security Income amount and parameters.
