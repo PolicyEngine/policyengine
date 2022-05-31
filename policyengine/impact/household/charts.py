@@ -21,7 +21,7 @@ LABELS = dict(
     employment_income="Employment income",
 )
 
-DEBUG_MODE = True
+DEBUG_MODE = False
 
 DEBUG_VARIABLES = [
     "ssi",
