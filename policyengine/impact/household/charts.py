@@ -24,8 +24,7 @@ LABELS = dict(
 DEBUG_MODE = False
 
 DEBUG_VARIABLES = [
-    "c33200",
-    "f2441",
+    "ssi",
 ]
 
 

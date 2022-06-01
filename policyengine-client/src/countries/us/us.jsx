@@ -176,6 +176,22 @@ export class US extends Country {
                 ],
             },
         },
+        "SSA": {
+            "SSI": {
+                "Eligibility": [
+                    "ssi_aged_threshold",
+                ],
+                "Amount": [
+                    "ssi_amount_individual",
+                    "ssi_amount_couple",
+                ],
+                "Exclusions": [
+                    "ssi_flat_general_income_exclusion",
+                    "ssi_flat_earned_income_exclusion",
+                    "ssi_earned_income_exclusion_share",
+                ],
+            }
+        },
         "UBI Center": {
             "Basic income": [
                 "child_bi",
@@ -202,6 +218,9 @@ export class US extends Country {
         "FCC": {
             logo: USLogo,
         },
+        "SSA": {
+            logo: USLogo,
+        },
     }
     notAllParametersPopulationSimulatable = true;
     populationSimulatableParameters = [
@@ -225,6 +244,7 @@ export class US extends Country {
         ctc_child_young_bonus: { max: 10_000 },
         ctc_adult_dependent: { max: 10_000 },
         snap_net_income_limit: { max: 10 },
+        ssi_amount_individual: { max: 10_000 },
     }
     extraVariableMetadata = {}
     situation = {
@@ -233,6 +253,11 @@ export class US extends Country {
         },
         "tax_units": {
             "Your tax unit": {
+                "members": ["You"],
+            },
+        },
+        "marital_units": {
+            "Your marital unit": {
                 "members": ["You"],
             },
         },
@@ -265,7 +290,6 @@ export class US extends Country {
         "social_security_retirement",
         "social_security_survivors",
         "is_ssi_disabled",
-        "ssi",
         "is_permanently_disabled_veteran",
         "is_surviving_spouse_of_disabled_veteran",
         "is_surviving_child_of_disabled_veteran",
@@ -278,6 +302,8 @@ export class US extends Country {
         "ca_cvrp_vehicle_rebate_amount",
         "qualified_tuition_expenses",
         "is_eligible_for_american_opportunity_credit",
+        // Tax unit.
+        "premium_tax_credit",
         // SPM unit.
         "housing_cost",
         "childcare_expenses",
@@ -350,6 +376,9 @@ export class US extends Country {
             "Benefits": [
                 "fdpir",
             ],
+            "Taxes": [
+                "premium_tax_credit"
+            ]
         },
         "People": {
             "Income": [
@@ -363,7 +392,6 @@ export class US extends Country {
                 "social_security_survivors",
                 "social_security_dependents",
                 "social_security_disability",
-                "ssi",
             ],
             "Demographics": [
                 "age",
@@ -378,7 +406,7 @@ export class US extends Country {
                 "is_pregnant",
                 "is_breastfeeding",
                 "is_wic_at_nutritional_risk",
-                "cdcc_qualified_dependent"
+                "cdcc_qualified_dependent",
             ],
             "Expenses": [
                 "medical_out_of_pocket_expenses",
@@ -479,6 +507,7 @@ export class US extends Country {
             "age": { "2022": 25 },
         };
         situation.families["Your family"].members.push(name);
+        situation.marital_units["Your marital unit"].members.push(name);
         situation.tax_units["Your tax unit"].members.push(name);
         situation.spm_units["Your SPM unit"].members.push(name);
         situation.households["Your household"].members.push(name);
@@ -508,6 +537,7 @@ export class US extends Country {
         }
         if (name === "Your spouse") {
             situation["families"]["Your family"]["is_married"]["2022"] = false;
+            situation.marital_units["Your marital unit"].members.pop(name)
         }
         delete situation.people[name];
         return this.validateSituation(situation).situation;
