@@ -642,4 +642,12 @@ export class UK extends Country {
     getNumChildren() {
         return this.situation.households["Your household"].children.length;
     }
+
+    // Parameter names not in parameterHierarchy but needed for the app
+    extraParameterListNames = [
+        "extra_UK_rate",
+        "extra_UK_threshold",
+        "extra_scot_rate",
+        "extra_scot_threshold",
+    ]
 };
