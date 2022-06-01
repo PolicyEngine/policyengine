@@ -755,3 +755,7 @@
     added:
     - US Supplemental Security Income amount and parameters.
   date: 2022-06-01 14:09:11
+- bump: patch
+  changes:
+    changed:
+    - Large speed increase by removing unused policy parameters.

@@ -68,11 +68,23 @@ export default class PolicyEngine extends React.Component {
                 this.prepareData();
             }
         }
+        const parameterList = this.state.country.getParameterList();
         const fetchEndpoint = name => {
             let url = this.state.country.apiURL + "/" + name;
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
+                    if(name === "parameters") {
+                        let filteredData = {};
+                        for(let storedParameter of parameterList) {
+                            for(let fetchedParameter in data) {
+                                if(fetchedParameter.includes(storedParameter)) {
+                                    filteredData[fetchedParameter] = data[fetchedParameter];
+                                }
+                            }
+                        }
+                        data = filteredData;
+                    }                    
                     this.setCountryState({ [name]: data }, checkAllFetchesComplete);
                 });
         }
