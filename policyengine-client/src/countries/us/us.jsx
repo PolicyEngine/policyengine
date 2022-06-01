@@ -256,6 +256,11 @@ export class US extends Country {
                 "members": ["You"],
             },
         },
+        "marital_units": {
+            "Your marital unit": {
+                "members": ["You"],
+            },
+        },
         "families": {
             "Your family": {
                 "members": ["You"],
@@ -502,6 +507,7 @@ export class US extends Country {
             "age": { "2022": 25 },
         };
         situation.families["Your family"].members.push(name);
+        situation.marital_units["Your marital unit"].members.push(name);
         situation.tax_units["Your tax unit"].members.push(name);
         situation.spm_units["Your SPM unit"].members.push(name);
         situation.households["Your household"].members.push(name);
@@ -531,6 +537,7 @@ export class US extends Country {
         }
         if (name === "Your spouse") {
             situation["families"]["Your family"]["is_married"]["2022"] = false;
+            situation.marital_units["Your marital unit"].members.pop(name)
         }
         delete situation.people[name];
         return this.validateSituation(situation).situation;
