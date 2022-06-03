@@ -649,5 +649,6 @@ export class UK extends Country {
         "extra_UK_threshold",
         "extra_scot_rate",
         "extra_scot_threshold",
+        "country_specific",
     ]
 };

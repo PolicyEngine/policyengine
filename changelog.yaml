@@ -760,3 +760,7 @@
     changed:
     - Large speed increase by removing unused policy parameters.
   date: 2022-06-01 22:31:54
+- bump: patch
+  changes:
+    fixed:
+    - Bug causing the app to break when selecting a UK region.
