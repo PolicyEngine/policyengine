@@ -240,11 +240,13 @@ def get_PE_parameters(
             try:
                 if parameter.metadata.get("reference") is not None:
                     reference = parameter.metadata["reference"]
-                    if not isinstance(reference, Sequence):
+                    if isinstance(reference, dict):
                         reference = [reference]
                     for item in reference:
                         if isinstance(item, str):
                             item = dict(title=item, href=item)
+                        if "name" in item:
+                            item["title"] = item["name"]
                     reference = {
                         item["title"]: item["href"] for item in reference
                     }

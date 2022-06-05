@@ -59,7 +59,7 @@ export default function APIExplorer(props) {
     const onSearch = term => !term ? setSearchResults(defaultList) : getSearchResults(items, term, true).then(res => setSearchResults(res));
     const [selected, setSelected] = useState(defaultSelected);
 	const history = useHistory();
-    const searchResultItems = searchResults.sort(res => -res.score).map(res => itemLookup[res.target]).filter(res => res).map(res => {
+    const searchResultItems = searchResults.sort(res => -res.score).map(res => itemLookup[res.target]).map(res => {
         return <Parameter key={res.name} selected={selected} select={() => {history.push(`/${country.name}/api-explorer/${res.name}`); setSelected(res.name);}} {...res} />
     });
     const itemsPerPage = 7;
@@ -159,7 +159,7 @@ function SelectedParameter(props) {
             {
                 references.length > 0 ?
                     references.map(name => <p><a href={props.reference[name]}>{name}</a></p>) :
-                    <p>This parameter has no references.</p>
+                    <p>This variable has no references.</p>
             }
         </>
     }
