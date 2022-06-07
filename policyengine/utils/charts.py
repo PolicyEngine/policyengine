@@ -15,6 +15,7 @@ from typing import Type, Union
 from policyengine.utils.general import PolicyEngineResultsConfig
 from io import StringIO
 
+
 def plotly_json_to_fig(json):
     """Converts a JSON dict to a plotly figure.
 

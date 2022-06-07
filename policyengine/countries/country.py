@@ -138,7 +138,11 @@ class PolicyEngineCountry:
                     has_changed=False,
                 ),
                 reform=dict(
-                    reform=(self.default_reform[:-1], params, self.default_reform[-1]),
+                    reform=(
+                        self.default_reform[:-1],
+                        params,
+                        self.default_reform[-1],
+                    ),
                 ),
             )
         else:
@@ -186,7 +190,11 @@ class PolicyEngineCountry:
                     has_changed=False,
                 ),
                 reform=dict(
-                    reform=(self.default_reform[:-1], params, self.default_reform[-1]),
+                    reform=(
+                        self.default_reform[:-1],
+                        params,
+                        self.default_reform[-1],
+                    ),
                 ),
             )
         else:
