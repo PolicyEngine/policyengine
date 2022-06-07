@@ -1,6 +1,7 @@
 from pathlib import Path
 from typing import Tuple, Type
 from openfisca_core.indexed_enums.enum import Enum
+from openfisca_core.model_api import Reform
 import dpath.util
 from openfisca_core.taxbenefitsystems.tax_benefit_system import (
     TaxBenefitSystem,
@@ -131,9 +132,19 @@ class PolicyEngineCountry:
     def _get_microsimulations(
         self, params: dict, refresh_baseline: bool = False
     ) -> Tuple[Microsimulation, Microsimulation]:
-        reform_config = create_reform(
-            params, self.policyengine_parameters, self.default_reform[:-1]
-        )
+        if isinstance(params, type) or isinstance(params, tuple):
+            reform_config = dict(
+                baseline=dict(
+                    has_changed=False,
+                ),
+                reform=dict(
+                    reform=(self.default_reform[:-1], params, self.default_reform[-1]),
+                ),
+            )
+        else:
+            reform_config = create_reform(
+                params, self.policyengine_parameters, self.default_reform[:-1]
+            )
         baseline = (
             self.baseline
             if not reform_config["baseline"]["has_changed"]
@@ -169,9 +180,19 @@ class PolicyEngineCountry:
     def _get_individualsims(
         self, params: dict
     ) -> Tuple[IndividualSim, IndividualSim]:
-        reform_config = create_reform(
-            params, self.policyengine_parameters, self.default_reform[:-1]
-        )
+        if isinstance(params, type) or isinstance(params, tuple):
+            reform_config = dict(
+                baseline=dict(
+                    has_changed=False,
+                ),
+                reform=dict(
+                    reform=(self.default_reform[:-1], params, self.default_reform[-1]),
+                ),
+            )
+        else:
+            reform_config = create_reform(
+                params, self.policyengine_parameters, self.default_reform[:-1]
+            )
         situation = create_situation(params["household"])
         baseline = situation(
             self.IndividualSim(reform_config["baseline"]["reform"], 2022)
