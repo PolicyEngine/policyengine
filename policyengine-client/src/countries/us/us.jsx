@@ -351,10 +351,6 @@ export class US extends Country {
         "income_tax_before_credits",
         "income_tax_capped_non_refundable_credits",
         "income_tax_refundable_credits",
-        // State income tax breakdown
-        "state_income_tax_before_credits",
-        "state_income_tax_non_refundable_credits",
-        "state_income_tax_refundable_credits",
     ]
     inputVariableHierarchy = {
         "Household": {
@@ -481,12 +477,8 @@ export class US extends Country {
         },
         "spm_unit_state_tax": {
             "add": [
-                "state_income_tax_before_credits",
+                "state_income_tax",
             ],
-            "subtract": [
-                "state_income_tax_non_refundable_credits",
-                "state_income_tax_refundable_credits",
-            ]
         },
     }
 
