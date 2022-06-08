@@ -781,3 +781,7 @@
     - OpenFisca-US bumped to 0.72.2.
     - Breakdown parameters are now borderless.
   date: 2022-06-08 10:44:44
+- bump: patch
+  changes:
+    changed:
+    - OpenFisca-US bumped to 0.72.3
