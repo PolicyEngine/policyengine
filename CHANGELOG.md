@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.55.0] - 2022-06-08 10:44:44
+
+### Changed
+
+- OpenFisca-US bumped to 0.72.2.
+- Breakdown parameters are now borderless.
+
 ## [1.54.0] - 2022-06-08 06:51:11
 
 ### Added
@@ -927,6 +934,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.55.0]: https://github.com/PolicyEngine/policyengine/compare/1.54.0...1.55.0
 [1.54.0]: https://github.com/PolicyEngine/policyengine/compare/1.53.0...1.54.0
 [1.53.0]: https://github.com/PolicyEngine/policyengine/compare/1.52.2...1.53.0
 [1.52.2]: https://github.com/PolicyEngine/policyengine/compare/1.52.1...1.52.2
