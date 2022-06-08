@@ -775,3 +775,8 @@
     added:
     - Massachusetts State income tax policy parameters.
   date: 2022-06-08 06:51:11
+- bump: minor
+  changes:
+    changed:
+    - OpenFisca-US bumped to 0.72.2.
+    - Breakdown parameters are now borderless.
