@@ -770,3 +770,7 @@
     changed:
     - More references shown in parameters for country models.
   date: 2022-06-06 08:42:24
+- bump: minor
+  changes:
+    added:
+    - Massachusetts State income tax policy parameters.

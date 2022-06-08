@@ -7,6 +7,7 @@ import TimeTravel from "../uk/components/timeTravel";
 import UBICenterLogo from "../../images/parameter-icons/ubi-center.png"
 import USLogo from "../../images/parameter-icons/us.png"
 import ClockLogo from "../../images/parameter-icons/clock.png";
+import MALogo from "../../images/parameter-icons/ma.png";
 
 const childNamer = {
     1: "Your first child",
@@ -192,6 +193,48 @@ export class US extends Country {
                 ],
             }
         },
+        "States": {
+            "Massachusetts": {
+                "State income tax": {
+                    "Rates": [
+                        "ma_part_a_int_div_rate",
+                        "ma_part_a_stcg_rate",
+                        "ma_part_b_rate",
+                        "ma_part_c_rate",
+                    ],
+                    "Exemptions": [
+                        "ma_income_tax_personal_exemption",
+                        "ma_interest_exemption",
+                        "ma_income_tax_dependent_exemption",
+                        "ma_income_tax_blind_exemption",
+                        "ma_income_tax_aged_exemption_age_threshold",
+                        "ma_income_tax_aged_exemption",
+                    ],
+                    "Deductions": [
+                        "ma_income_tax_pension_contributions_max",
+                        "ma_income_tax_rent_deduction_cap",
+                        "ma_income_tax_rent_deduction_share",
+                        "ma_income_tax_max_capital_gains_deductible_against_interest_dividends",
+                        "ma_ltcg_deduction_rate",
+                    ],
+                    "Credits": {
+                        "Limited Income Credit": [
+                            "ma_limited_income_tax_credit_percent",
+                            "ma_limited_income_tax_credit_income_limit",
+                        ],
+                        "EITC": [
+                            "ma_eitc_percent",
+                        ],
+                        "Dependent credit": [
+                            "ma_dependent_credit",
+                            "ma_dependent_credit_cap",
+                            "ma_dependent_credit_child_age_limit",
+                            "ma_dependent_credit_elderly_age_limit",
+                        ],
+                    }
+                }
+            },
+        },
         "UBI Center": {
             "Basic income": [
                 "child_bi",
@@ -221,6 +264,12 @@ export class US extends Country {
         "SSA": {
             logo: USLogo,
         },
+        "States": {
+            logo: USLogo,
+        },
+        "Massachusetts": {
+            logo: MALogo,
+        }
     }
     notAllParametersPopulationSimulatable = true;
     populationSimulatableParameters = [
@@ -351,10 +400,6 @@ export class US extends Country {
         "income_tax_before_credits",
         "income_tax_capped_non_refundable_credits",
         "income_tax_refundable_credits",
-        // State income tax breakdown
-        "state_income_tax_before_credits",
-        "state_income_tax_non_refundable_credits",
-        "state_income_tax_refundable_credits",
     ]
     inputVariableHierarchy = {
         "Household": {
@@ -481,12 +526,8 @@ export class US extends Country {
         },
         "spm_unit_state_tax": {
             "add": [
-                "state_income_tax_before_credits",
+                "state_income_tax",
             ],
-            "subtract": [
-                "state_income_tax_non_refundable_credits",
-                "state_income_tax_refundable_credits",
-            ]
         },
     }
 

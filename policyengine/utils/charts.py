@@ -13,6 +13,18 @@ from openfisca_tools import (
 from typing import Type, Union
 
 from policyengine.utils.general import PolicyEngineResultsConfig
+from io import StringIO
+
+
+def plotly_json_to_fig(json):
+    """Converts a JSON dict to a plotly figure.
+
+    :param json: JSON dict.
+    :type json: dict
+    :return: Plotly figure.
+    :rtype: go.Figure
+    """
+    return go.Figure(data=json["data"], layout=json["layout"])
 
 
 def num(x: float) -> str:
