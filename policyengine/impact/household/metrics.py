@@ -20,7 +20,7 @@ def headline_figures(
     """
 
     def get_value(sim, name):
-        return float(np.array(sim.calc(name)).sum())
+        return float(np.array(sim.calc(name, map_to="household")).sum())
 
     def get_values(name):
         return {

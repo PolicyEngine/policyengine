@@ -6,8 +6,9 @@ import Country from "../country"
 import TimeTravel from "../uk/components/timeTravel";
 import UBICenterLogo from "../../images/parameter-icons/ubi-center.png"
 import USLogo from "../../images/parameter-icons/us.png"
-import ClockLogo from "../../images/parameter-icons/clock.png";
+import SimulationLogo from "../../images/parameter-icons/simulation.webp";
 import MALogo from "../../images/parameter-icons/ma.png";
+import StateSpecific from "./components/stateSpecific";
 
 const childNamer = {
     1: "Your first child",
@@ -46,7 +47,7 @@ export class US extends Country {
     beta = true
     // Pages to show
     showPolicy = true
-    showPopulationImpact = false
+    showPopulationImpact = true
     showHousehold = true
     showEarningsVariation = true
     showWealth = false;
@@ -57,12 +58,18 @@ export class US extends Country {
 
     parameterComponentOverrides = {
         timeTravel: <TimeTravel />,
+        stateSpecific: <StateSpecific />,
     }
     // Policy page metadata
     parameterHierarchy = {
-        "Snapshot": [
-            "timeTravel",
-        ],
+        "Simulation": {
+            "Snapshot": [
+                "timeTravel",
+            ],
+            "Geography": [
+                "stateSpecific",
+            ],
+        },
         "IRS": {
             "Income tax schedule": [
                 "irs_income_bracket_rates",
@@ -246,8 +253,8 @@ export class US extends Country {
         },
     }
     organisations = {
-        "Snapshot": {
-            logo: ClockLogo,
+        "Simulation": {
+            logo: SimulationLogo,
         },
         "UBI Center": {
             logo: UBICenterLogo,
@@ -271,14 +278,6 @@ export class US extends Country {
             logo: MALogo,
         }
     }
-    notAllParametersPopulationSimulatable = true;
-    populationSimulatableParameters = [
-        "child_bi",
-        "adult_bi_age",
-        "adult_bi",
-        "senior_bi_age",
-        "senior_bi",
-    ];
     defaultOpenParameterGroups = ["/IRS"];
     defaultSelectedParameterGroup = "/IRS/Income tax schedule"
     showSnapShot = false
@@ -633,4 +632,10 @@ export class US extends Country {
             name => this.situation.people[name].age["2022"] < 18
         ).length;
     }
+
+
+    // Parameter names not in parameterHierarchy but needed for the app
+    extraParameterListNames = [
+        "state_specific",
+    ]
 };

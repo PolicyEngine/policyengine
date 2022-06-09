@@ -1,0 +1,26 @@
+reforms:
+  abolition:
+    abolish_federal_income_tax:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish federal income tax
+        name: abolish_income_tax
+        unit: abolition
+        variable: income_tax
+        tests:
+          - increases_net_income: true
+  state_specific:
+    description: Simulate reforms on a specific state of the US.
+    values:
+      2010-01-01: [UNITED_STATES]
+    metadata:
+      label: State-specific analysis
+      name: state_specific
+      possible_values:
+        - key: UNITED_STATES
+          value: United States
+        - key: MA
+          value: Massachusetts
+      value_type: Enum
+

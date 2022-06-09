@@ -4,9 +4,9 @@ import { CountryContext } from "../../country";
 
 const { Option } = Select;
 
-export default function CountrySpecific(props) {
+export default function StateSpecific(props) {
 	const country = useContext(CountryContext);
-    const parameter = country.policy.country_specific;
+    const parameter = country.policy.state_specific;
 	return <>
         <h6 style={{marginTop: 20}}>{parameter.label}</h6>
         <p>{parameter.description}</p>
@@ -17,8 +17,8 @@ export default function CountrySpecific(props) {
             bordered={false}
             onSelect={value => {
                 let policy = country.policy;
-                policy.country_specific.baselineValue = value;
-                policy.country_specific.value = value;
+                policy.state_specific.baselineValue = value;
+                policy.state_specific.value = value;
                 country.updateEntirePolicy(policy);
             }}>
             {parameter.possibleValues.map(value => (
