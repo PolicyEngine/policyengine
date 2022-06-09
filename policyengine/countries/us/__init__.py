@@ -10,6 +10,7 @@ from openfisca_us import IndividualSim, Microsimulation, CPS
 
 US_FOLDER = Path(__file__).parent
 
+
 class USResultsConfig(PolicyEngineResultsConfig):
     household_net_income_variable: str = "spm_unit_net_income"
     tax_variable: str = "spm_unit_taxes"
@@ -45,7 +46,7 @@ class US(PolicyEngineCountry):
         if not self.default_dataset_year in self.default_dataset.years:
             self.default_dataset.download(self.default_dataset_year)
         super().__init__()
-    
+
     def _get_microsimulations(
         self, params: dict
     ) -> Tuple[Microsimulation, Microsimulation]:
@@ -71,34 +72,31 @@ class US(PolicyEngineCountry):
             baseline.set_input(
                 "person_weight",
                 baseline.year,
-                np.where(
-                    person_state == filtered_state, person_weights, 0
-                ),
+                np.where(person_state == filtered_state, person_weights, 0),
             )
             reformed.set_input(
                 "person_weight",
                 reformed.year,
-                np.where(
-                    person_state == filtered_state, person_weights, 0
-                ),
+                np.where(person_state == filtered_state, person_weights, 0),
             )
 
             for subgroup in ("tax_unit", "family", "spm_unit"):
-                subgroup_in_state = baseline.simulation.populations[subgroup].household("state_code_str", baseline.year) == filtered_state
+                subgroup_in_state = (
+                    baseline.simulation.populations[subgroup].household(
+                        "state_code_str", baseline.year
+                    )
+                    == filtered_state
+                )
                 weight = baseline.calc(f"{subgroup}_weight")
                 baseline.set_input(
                     f"{subgroup}_weight",
                     baseline.year,
-                    np.where(
-                        subgroup_in_state, weight, 0
-                    ),
+                    np.where(subgroup_in_state, weight, 0),
                 )
                 reformed.set_input(
                     f"{subgroup}_weight",
                     baseline.year,
-                    np.where(
-                        subgroup_in_state, weight, 0
-                    ),
+                    np.where(subgroup_in_state, weight, 0),
                 )
         else:
             baseline, reformed = super()._get_microsimulations(params)
