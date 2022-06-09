@@ -62,7 +62,7 @@ export function UKHelpButton(props) {
 export function USHelpButton(props) {
     const [helpPaneOpen, setHelpPaneOpen] = useState(false);
     const [currentPane, setCurrentPane] = useState(0);
-    return <div class="d-none d-lg-block">
+    return <div className="d-none d-lg-block">
         <div style={{position: "fixed", zIndex: 0, left: 20, bottom: 70}}>
             <QuestionCircleOutlined style={{fontSize: 35, cursor: "pointer"}} onClick={() => {setCurrentPane(0); setHelpPaneOpen(true)}}/>
         </div>
