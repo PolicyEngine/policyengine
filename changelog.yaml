@@ -786,3 +786,8 @@
     changed:
     - OpenFisca-US bumped to 0.72.3
   date: 2022-06-08 10:52:07
+- bump: minor
+  changes:
+    added:
+    - US population impact page now fully visible.
+    - US state selector includes US and MA.

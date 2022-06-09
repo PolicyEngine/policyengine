@@ -239,7 +239,7 @@ export class US extends Country {
                             "ma_dependent_credit_elderly_age_limit",
                         ],
                     }
-                }
+                },
             },
         },
         "UBI Center": {
