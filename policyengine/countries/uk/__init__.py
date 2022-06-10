@@ -68,7 +68,7 @@ class UK(PolicyEngineCountry):
     def _get_microsimulations(
         self, params: dict
     ) -> Tuple[Microsimulation, Microsimulation]:
-        if "baseline_country_specific" in params:
+        if isinstance(params, dict) and "baseline_country_specific" in params:
             baseline, reformed = super()._get_microsimulations(
                 params, refresh_baseline=True
             )
