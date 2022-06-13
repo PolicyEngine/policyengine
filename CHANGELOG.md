@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.58.0] - 2022-06-13 10:44:10
+
+### Added
+
+- All country reform endpoints now support the "reform" parameter, which takes an OpenFisca Python reform.
+
 ## [1.57.1] - 2022-06-10 14:33:04
 
 ### Fixed
@@ -955,6 +961,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.58.0]: https://github.com/PolicyEngine/policyengine/compare/1.57.1...1.58.0
 [1.57.1]: https://github.com/PolicyEngine/policyengine/compare/1.57.0...1.57.1
 [1.57.0]: https://github.com/PolicyEngine/policyengine/compare/1.56.0...1.57.0
 [1.56.0]: https://github.com/PolicyEngine/policyengine/compare/1.55.1...1.56.0
