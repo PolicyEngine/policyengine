@@ -394,34 +394,45 @@ def create_reform(
         ]:
             pass  # Do not attempt to apply the country specifier as a reform
         elif param != "household":
-            metadata = policyengine_parameters[param.replace("baseline_", "")]
-            name = metadata["label"]
-            description = get_summary(metadata, value)
-            if metadata["valueType"] == "bool":
-                # Extra safety checks
-                value = {
-                    "true": True,
-                    "false": False,
-                    1: True,
-                    0: False,
-                    True: True,
-                    False: False,
-                }[value]
-            if metadata["unit"] == "abolition":
-                if metadata["variable"] is not None:
-                    if isinstance(metadata["variable"], list):
-                        reform = tuple(
-                            [
-                                abolish(variable, value)
-                                for variable in metadata["variable"]
-                            ]
-                        )
+            if (
+                (param == "reform")
+                and isinstance(value, type)
+                or isinstance(value, tuple)
+            ):
+                name = "Structural reform"
+                reform = value
+                description = "Custom-defined structural reform"
+            else:
+                metadata = policyengine_parameters[
+                    param.replace("baseline_", "")
+                ]
+                name = metadata["label"]
+                description = get_summary(metadata, value)
+                if metadata["valueType"] == "bool":
+                    # Extra safety checks
+                    value = {
+                        "true": True,
+                        "false": False,
+                        1: True,
+                        0: False,
+                        True: True,
+                        False: False,
+                    }[value]
+                if metadata["unit"] == "abolition":
+                    if metadata["variable"] is not None:
+                        if isinstance(metadata["variable"], list):
+                            reform = tuple(
+                                [
+                                    abolish(variable, value)
+                                    for variable in metadata["variable"]
+                                ]
+                            )
+                        else:
+                            reform = abolish(metadata["variable"], value)
                     else:
-                        reform = abolish(metadata["variable"], value)
+                        reform = parametric(metadata["parameter"], value)
                 else:
                     reform = parametric(metadata["parameter"], value)
-            else:
-                reform = parametric(metadata["parameter"], value)
             if "baseline" in param:
                 result["baseline"]["reform"] += [reform]
                 result["baseline"]["names"] += [name]

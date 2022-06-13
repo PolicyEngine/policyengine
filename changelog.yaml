@@ -802,3 +802,7 @@
     fixed:
     - Fixed bugs causing the US and UK packages to not handle structural reforms.
   date: 2022-06-10 14:33:04
+- bump: minor
+  changes:
+    added:
+    - All country reform endpoints now support the "reform" parameter, which takes an OpenFisca Python reform.
