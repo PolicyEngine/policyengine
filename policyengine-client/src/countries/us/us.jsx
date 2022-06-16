@@ -71,6 +71,11 @@ export class US extends Country {
             ],
         },
         "IRS": {
+            "General": [
+                "abolish_income_tax",
+                "abolish_emp_payroll_tax",
+                "abolish_self_emp_tax",
+            ],
             "Income tax schedule": [
                 "irs_income_bracket_rates",
                 "irs_income_bracket_thresholds",
@@ -147,6 +152,10 @@ export class US extends Country {
         },
         "USDA": {
             "SNAP": {
+                "General": [
+                    "abolish_snap",
+                    "abolish_snap_ea",
+                ],
                 "Eligibility": [
                     "snap_gross_income_limit",
                     "snap_net_income_limit",
@@ -167,6 +176,11 @@ export class US extends Country {
                     "school_meal_reduced_fpg_limit",
                 ]
             },
+            "WIC": {
+                "General": [
+                    "abolish_wic",
+                ]
+            }
         },
         "FCC": {
             "Lifeline": {
@@ -190,6 +204,9 @@ export class US extends Country {
         },
         "SSA": {
             "SSI": {
+                "General": [
+                    "abolish_ssi",
+                ],
                 "Eligibility": [
                     "ssi_aged_threshold",
                 ],
@@ -203,6 +220,16 @@ export class US extends Country {
                     "ssi_earned_income_exclusion_share",
                 ],
             }
+        },
+        "HUD": {
+            "General": [
+                "abolish_housing_subsidies",
+            ],
+        },
+        "HHS": {
+            "General": [
+                "abolish_tanf",
+            ],
         },
         "States": {
             "Massachusetts": {
@@ -248,12 +275,19 @@ export class US extends Country {
         },
         "UBI Center": {
             "Basic income": [
-                "child_bi",
-                "adult_bi_age",
-                "adult_bi",
+                "young_child_bi",
+                "older_child_bi_age",
+                "older_child_bi",
+                "young_adult_bi_age",
+                "young_adult_bi",
+                "older_adult_bi_age",
+                "older_adult_bi",
                 "senior_bi_age",
                 "senior_bi",
-            ]
+            ],
+            "Flat tax": [
+                "flat_tax",
+            ],
         },
     }
     organisations = {

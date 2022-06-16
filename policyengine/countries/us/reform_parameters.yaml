@@ -10,6 +10,26 @@ reforms:
         variable: income_tax
         tests:
           - increases_net_income: true
+    abolish_emp_payroll_tax:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish employee-side payroll tax
+        name: abolish_emp_payroll_tax
+        unit: abolition
+        variable: employee_payroll_tax
+        tests:
+          - increases_net_income: true
+    abolish_self_emp_tax:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish self-employment tax
+        name: abolish_self_emp_tax
+        unit: abolition
+        variable: self_employment_tax
+        tests:
+          - increases_net_income: true
     abolish_non_refundable_ctc:
       values:
         2010-01-01: false
@@ -38,6 +58,66 @@ reforms:
         name: abolish_cdcc
         unit: abolition
         variable: cdcc
+        tests:
+          - increases_net_income: false
+    abolish_snap_emergency_allotment:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish SNAP emergency allotments
+        name: abolish_snap_ea
+        unit: abolition
+        variable: snap_emergency_allotment
+        tests:
+          - increases_net_income: false
+    abolish_snap:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish SNAP
+        name: abolish_snap
+        unit: abolition
+        variable: snap
+        tests:
+          - increases_net_income: false
+    abolish_housing_subsidies:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish housing subsidies
+        name: abolish_housing_subsidies
+        unit: abolition
+        variable: spm_unit_capped_housing_subsidy
+        tests:
+          - increases_net_income: false
+    abolish_tanf:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish TANF cash benefits
+        name: abolish_tanf
+        unit: abolition
+        variable: tanf
+        tests:
+          - increases_net_income: false
+    abolish_wic:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish WIC
+        name: abolish_wic
+        unit: abolition
+        variable: wic
+        tests:
+          - increases_net_income: false
+    abolish_ssi:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish SSI
+        name: abolish_ssi
+        unit: abolition
+        variable: ssi
         tests:
           - increases_net_income: false
   state_specific:
