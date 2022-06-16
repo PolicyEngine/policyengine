@@ -808,3 +808,8 @@
     - All country reform endpoints now support the "reform" parameter, which takes
       an OpenFisca Python reform.
   date: 2022-06-13 10:44:10
+- bump: minor
+  changes:
+    added:
+    - Abolish switches for main taxes and benefits in the US.
+    - Basic income parameters and flat taxes for the US.
