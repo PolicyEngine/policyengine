@@ -10,6 +10,36 @@ reforms:
         variable: income_tax
         tests:
           - increases_net_income: true
+    abolish_non_refundable_ctc:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish non-refundable CTC
+        name: abolish_non_refundable_ctc
+        unit: abolition
+        variable: non_refundable_ctc
+        tests:
+          - increases_net_income: false
+    abolish_refundable_ctc:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish refundable CTC
+        name: abolish_refundable_ctc
+        unit: abolition
+        variable: refundable_ctc
+        tests:
+          - increases_net_income: false
+    abolish_cdcc:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish CDCC
+        name: abolish_cdcc
+        unit: abolition
+        variable: cdcc
+        tests:
+          - increases_net_income: false
   state_specific:
     description: Simulate reforms on a specific state of the US.
     values:

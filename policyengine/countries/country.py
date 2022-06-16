@@ -52,7 +52,6 @@ class PolicyEngineCountry:
     calculate_only: bool = False
     version: str
     results_config: Type[PolicyEngineResultsConfig]
-    microsimulation_default_reform = ()
 
     def __init__(self):
         if self.calculate_only:
@@ -92,7 +91,7 @@ class PolicyEngineCountry:
             )
 
             self.baseline = self.Microsimulation(
-                (self.default_reform, self.microsimulation_default_reform),
+                self.default_reform,
                 dataset=self.default_dataset,
                 post_reform=(),
             )
@@ -154,8 +153,8 @@ class PolicyEngineCountry:
             if not reform_config["baseline"]["has_changed"]
             else self.Microsimulation(
                 (
-                    self.microsimulation_default_reform,
                     reform_config["baseline"]["reform"],
+                    self.default_reform[-1],
                 ),
                 dataset=self.default_dataset,
                 year=self.default_dataset_year,
@@ -164,14 +163,14 @@ class PolicyEngineCountry:
         )
         if refresh_baseline and not reform_config["baseline"]["has_changed"]:
             baseline = self.Microsimulation(
-                (self.default_reform, self.microsimulation_default_reform),
+                self.default_reform,
                 dataset=self.default_dataset,
                 post_reform=(),
             )
         reformed = self.Microsimulation(
             (
-                self.microsimulation_default_reform,
                 reform_config["reform"]["reform"],
+                self.default_reform[-1],
             ),
             dataset=self.default_dataset,
             year=self.default_dataset_year,

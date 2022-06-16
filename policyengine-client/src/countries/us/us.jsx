@@ -47,7 +47,7 @@ export class US extends Country {
     beta = true
     // Pages to show
     showPolicy = true
-    showPopulationImpact = false
+    showPopulationImpact = true
     showHousehold = true
     showEarningsVariation = true
     showWealth = false;
@@ -77,6 +77,10 @@ export class US extends Country {
             ],
             "Credits": {
                 "Child tax credit": {
+                    "General": [
+                        "abolish_non_refundable_ctc",
+                        "abolish_refundable_ctc",
+                    ],
                     "Eligibility": [
                         "ctc_child_age",
                     ],
