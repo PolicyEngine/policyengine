@@ -150,6 +150,55 @@ export class US extends Country {
                 "additional_medicare_rate",
             ]
         },
+        "FCC": {
+            "Lifeline": {
+                "Eligibility": [
+                    "lifeline_income_fpl_limit",
+                ],
+                "Amount": [
+                    "lifeline_amount",
+                    "lifeline_rural_tribal_supplement",
+                ]
+            },
+            "Affordable Connectivity Program": {
+                "Eligibility": [
+                    "acp_income_fpl_limit",
+                ],
+                "Amount": [
+                    "acp_standard_amount",
+                    "acp_tribal_amount",
+                ],
+            },
+        },
+        "HUD": {
+            "General": [
+                "abolish_housing_subsidies",
+            ],
+        },
+        "HHS": {
+            "General": [
+                "abolish_tanf",
+            ],
+        },
+        "SSA": {
+            "SSI": {
+                "General": [
+                    "abolish_ssi",
+                ],
+                "Eligibility": [
+                    "ssi_aged_threshold",
+                ],
+                "Amount": [
+                    "ssi_amount_individual",
+                    "ssi_amount_couple",
+                ],
+                "Exclusions": [
+                    "ssi_flat_general_income_exclusion",
+                    "ssi_flat_earned_income_exclusion",
+                    "ssi_earned_income_exclusion_share",
+                ],
+            }
+        },
         "USDA": {
             "SNAP": {
                 "General": [
@@ -181,55 +230,6 @@ export class US extends Country {
                     "abolish_wic",
                 ]
             }
-        },
-        "FCC": {
-            "Lifeline": {
-                "Eligibility": [
-                    "lifeline_income_fpl_limit",
-                ],
-                "Amount": [
-                    "lifeline_amount",
-                    "lifeline_rural_tribal_supplement",
-                ]
-            },
-            "Affordable Connectivity Program": {
-                "Eligibility": [
-                    "acp_income_fpl_limit",
-                ],
-                "Amount": [
-                    "acp_standard_amount",
-                    "acp_tribal_amount",
-                ],
-            },
-        },
-        "SSA": {
-            "SSI": {
-                "General": [
-                    "abolish_ssi",
-                ],
-                "Eligibility": [
-                    "ssi_aged_threshold",
-                ],
-                "Amount": [
-                    "ssi_amount_individual",
-                    "ssi_amount_couple",
-                ],
-                "Exclusions": [
-                    "ssi_flat_general_income_exclusion",
-                    "ssi_flat_earned_income_exclusion",
-                    "ssi_earned_income_exclusion_share",
-                ],
-            }
-        },
-        "HUD": {
-            "General": [
-                "abolish_housing_subsidies",
-            ],
-        },
-        "HHS": {
-            "General": [
-                "abolish_tanf",
-            ],
         },
         "States": {
             "Massachusetts": {
@@ -294,16 +294,19 @@ export class US extends Country {
         "Simulation": {
             logo: SimulationLogo,
         },
-        "UBI Center": {
-            logo: UBICenterLogo,
-        },
         "IRS": {
             logo: USLogo,
         },
-        "USDA": {
+        "FCC": {
             logo: USLogo,
         },
-        "FCC": {
+        "HHS": {
+            logo: USLogo,
+        },
+        "HUD": {
+            logo: USLogo,
+        },
+        "USDA": {
             logo: USLogo,
         },
         "SSA": {
@@ -314,7 +317,10 @@ export class US extends Country {
         },
         "Massachusetts": {
             logo: MALogo,
-        }
+        },
+        "UBI Center": {
+            logo: UBICenterLogo,
+        },
     }
     defaultOpenParameterGroups = ["/IRS"];
     defaultSelectedParameterGroup = "/IRS/Income tax schedule"
