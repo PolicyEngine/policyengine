@@ -3,9 +3,10 @@
 */
 
 import UBICenterLogo from "../../images/parameter-icons/ubi-center.png"
-import UKLogo from "../../images/parameter-icons/uk.webp";
-import GreenPartyLogo from "../../images/parameter-icons/green-party.webp";
-import SMFLogo from "../../images/parameter-icons/smf.png";
+import UKGovernmentLogo from "../../images/parameter-icons/uk/uk.webp";
+import ThirdPartyLogo from "../../images/parameter-icons/third-party.png";
+import GreenPartyLogo from "../../images/parameter-icons/uk/third-party/green-party.png";
+import SMFLogo from "../../images/parameter-icons/uk/third-party/smf.png";
 import MiscLogo from "../../images/parameter-icons/misc.webp";
 import SimulationLogo from "../../images/parameter-icons/simulation.webp";
 import Country from "../country";
@@ -102,180 +103,185 @@ export class UK extends Country {
                 "countrySpecific",
             ],
         },
-        "Tax": {
-            "Income Tax": {
-                "Labour income": [
-                    "basic_rate",
-                    "higher_rate",
-                    "higher_threshold",
-                    "add_rate",
-                    "add_threshold",
-                    "extra_UK_band",
+        "UK government": {
+            "Tax": {
+                "Income Tax": {
+                    "Labour income": [
+                        "basic_rate",
+                        "higher_rate",
+                        "higher_threshold",
+                        "add_rate",
+                        "add_threshold",
+                        "extra_UK_band",
+                    ],
+                    "Scottish rates": [
+                        "scottish_starter_rate",
+                        "scottish_starter_threshold",
+                        "scottish_basic_rate",
+                        "scottish_basic_threshold",
+                        "scottish_intermediate_rate",
+                        "scottish_intermediate_threshold",
+                        "scottish_higher_rate",
+                        "scottish_higher_threshold",
+                        "scottish_additional_rate",
+                        "scottish_add_threshold",
+                        "extra_scot_band",
+                    ],
+                    "Allowances": [
+                        "personal_allowance",
+                        "PA_reduction_threshold",
+                        "PA_reduction_rate",
+                        "marriage_allowance_cap",
+                        "abolish_marriage_allowance_income_condition",
+                        "dividend_allowance",
+                        "property_allowance",
+                        "trading_allowance",
+                    ],
+                    "Structural": [
+                        "abolish_income_tax"
+                    ]
+                },
+                "National Insurance": {
+                    "Employee": [
+                        "NI_main_rate",
+                        "NI_PT",
+                        "NI_add_rate",
+                        "NI_UEL",
+                    ],
+                    "Self-employed": [
+                        "NI_LPL",
+                        "NI_class_4_main_rate",
+                        "NI_UPL",
+                        "NI_class_4_add_rate"
+                    ],
+                    "Structural": [
+                        "abolish_NI"
+                    ]
+                },
+                "Property taxes": [
+                    "abolish_CT",
+                    "abolish_sdlt",
+                    "abolish_ltt",
+                    "abolish_lbtt",
+                    "abolish_business_rates",
                 ],
-                "Scottish rates": [
-                    "scottish_starter_rate",
-                    "scottish_starter_threshold",
-                    "scottish_basic_rate",
-                    "scottish_basic_threshold",
-                    "scottish_intermediate_rate",
-                    "scottish_intermediate_threshold",
-                    "scottish_higher_rate",
-                    "scottish_higher_threshold",
-                    "scottish_additional_rate",
-                    "scottish_add_threshold",
-                    "extra_scot_band",
-                ],
-                "Allowances": [
-                    "personal_allowance",
-                    "PA_reduction_threshold",
-                    "PA_reduction_rate",
-                    "marriage_allowance_cap",
-                    "abolish_marriage_allowance_income_condition",
-                    "dividend_allowance",
-                    "property_allowance",
-                    "trading_allowance",
-                ],
-                "Structural": [
-                    "abolish_income_tax"
+                "Fuel duties": [
+                    "fuel_duty_rate",
                 ]
+                ,
             },
-            "National Insurance": {
-                "Employee": [
-                    "NI_main_rate",
-                    "NI_PT",
-                    "NI_add_rate",
-                    "NI_UEL",
+            "Benefit": {
+                "Child Benefit": [
+                    "abolish_CB",
+                    "CB_eldest",
+                    "CB_additional",
+                    "CB_HITC_reduction_threshold",
+                    "CB_HITC_reduction_rate",
                 ],
-                "Self-employed": [
-                    "NI_LPL",
-                    "NI_class_4_main_rate",
-                    "NI_UPL",
-                    "NI_class_4_add_rate"
+                "Legacy benefits": [
+                    "abolish_CTC",
+                    "abolish_WTC",
+                    "abolish_HB",
+                    "abolish_IS",
+                    "abolish_JSA_income",
+                    "abolish_ESA_income",
                 ],
-                "Structural": [
-                    "abolish_NI"
-                ]
-            },
-            "Property taxes": [
-                "abolish_CT",
-                "abolish_sdlt",
-                "abolish_ltt",
-                "abolish_lbtt",
-                "abolish_business_rates",
-            ],
-            "Fuel duties": [
-                "fuel_duty_rate",
-            ]
-,        },
-        "Benefit": {
-            "Child Benefit": [
-                "abolish_CB",
-                "CB_eldest",
-                "CB_additional",
-                "CB_HITC_reduction_threshold",
-                "CB_HITC_reduction_rate",
-            ],
-            "Legacy benefits": [
-                "abolish_CTC",
-                "abolish_WTC",
-                "abolish_HB",
-                "abolish_IS",
-                "abolish_JSA_income",
-                "abolish_ESA_income",
-            ],
-            "State Pension": [
-                "abolish_SP",
-                "abolish_PC",
-            ],
-            "Universal Credit": {
-                "Structural": [
-                    "abolish_UC",
+                "State Pension": [
+                    "abolish_SP",
+                    "abolish_PC",
                 ],
-                "Elements": {
-                    "Standard allowance": [
-                        "abolish_UC_standard",
-                        "UC_single_young",
-                        "UC_single_old",
-                        "UC_couple_young",
-                        "UC_couple_old",
+                "Universal Credit": {
+                    "Structural": [
+                        "abolish_UC",
                     ],
-                    "Child": [
-                        "abolish_UC_child",
-                        "UC_first_child_element",
-                        "UC_child_element",
-                        "UC_child_limit",
-                        "UC_disabled_element",
-                        "UC_severely_disabled_element",
-                    ],
-                    "Disability": [
-                        "abolish_UC_disability",
-                        "UC_lcwra_element",
-                    ],
-                    "Housing": [
-                        "abolish_UC_housing_costs",
-                        "UC_non_dep_deduction",
-                    ],
-                    "Care": [
-                        "abolish_UC_carer",
-                        "UC_carer_element",
-                    ],
-                    "Childcare": [
-                        "abolish_UC_childcare",
-                        "UC_childcare_coverage_rate",
+                    "Elements": {
+                        "Standard allowance": [
+                            "abolish_UC_standard",
+                            "UC_single_young",
+                            "UC_single_old",
+                            "UC_couple_young",
+                            "UC_couple_old",
+                        ],
+                        "Child": [
+                            "abolish_UC_child",
+                            "UC_first_child_element",
+                            "UC_child_element",
+                            "UC_child_limit",
+                            "UC_disabled_element",
+                            "UC_severely_disabled_element",
+                        ],
+                        "Disability": [
+                            "abolish_UC_disability",
+                            "UC_lcwra_element",
+                        ],
+                        "Housing": [
+                            "abolish_UC_housing_costs",
+                            "UC_non_dep_deduction",
+                        ],
+                        "Care": [
+                            "abolish_UC_carer",
+                            "UC_carer_element",
+                        ],
+                        "Childcare": [
+                            "abolish_UC_childcare",
+                            "UC_childcare_coverage_rate",
+                        ],
+                    },
+                    "Means test": [
+                        "UC_work_allowance_without_housing",
+                        "UC_work_allowance_with_housing",
+                        "UC_reduction_rate",
                     ],
                 },
-                "Means test": [
-                    "UC_work_allowance_without_housing",
-                    "UC_work_allowance_with_housing",
-                    "UC_reduction_rate",
+                "Energy bills support": [
+                    "ebr_ct_rebate",
+                    "ebr_energy_bills_credit",
+                ],
+                "Cost-of-living support payment": [
+                    "col_benefit_payment_amount",
+                    "col_pensioner_payment_amount",
+                    "col_disability_payment_amount",
                 ],
             },
-            "Energy bills support": [
-                "ebr_ct_rebate",
-                "ebr_energy_bills_credit",
-            ],
-            "Cost-of-living support payment": [
-                "col_benefit_payment_amount",
-                "col_pensioner_payment_amount",
-                "col_disability_payment_amount",
-            ],
         },
-        "UBI Center": {
-            "Basic Income": [
-                "child_bi",
-                "adult_bi",
-                "senior_bi",
-                "bi_adult_age",
-                "include_bi_in_taxable_income",
-                "include_bi_in_means_tests",
-                "bi_withdraw_cb",
-                "bi_phase_out_threshold",
-                "bi_phase_out_rate",
-                "autoUBI",
-            ],
-            "Land Value Tax": [
-                "LVT",
-                "household_lvt",
-                "corporate_lvt",
-            ],
-            "Carbon Tax": [
-                "carbon_tax",
-                "carbon_tax_consumer_incidence",
-            ]
-        },
-        "Green Party": {
-            "Single pensioner supplement": [
-                "SPS_amount",
-                "SPS_reduction_threshold",
-                "SPS_reduction_rate",
-                "SPS_takeup_rate",
-            ],
-        },
-        "Social Market Foundation": {
-            "Cash payments": [
-                "benefit_based_cash_payment",
-                "tax_bracket_based_cash_payment",
-            ],
+        "Third party": {
+            "UBI Center": {
+                "Basic Income": [
+                    "child_bi",
+                    "adult_bi",
+                    "senior_bi",
+                    "bi_adult_age",
+                    "include_bi_in_taxable_income",
+                    "include_bi_in_means_tests",
+                    "bi_withdraw_cb",
+                    "bi_phase_out_threshold",
+                    "bi_phase_out_rate",
+                    "autoUBI",
+                ],
+                "Land Value Tax": [
+                    "LVT",
+                    "household_lvt",
+                    "corporate_lvt",
+                ],
+                "Carbon Tax": [
+                    "carbon_tax",
+                    "carbon_tax_consumer_incidence",
+                ]
+            },
+            "Green Party": {
+                "Single pensioner supplement": [
+                    "SPS_amount",
+                    "SPS_reduction_threshold",
+                    "SPS_reduction_rate",
+                    "SPS_takeup_rate",
+                ],
+            },
+            "Social Market Foundation": {
+                "Cash payments": [
+                    "benefit_based_cash_payment",
+                    "tax_bracket_based_cash_payment",
+                ],
+            },
         },
         "Miscellaneous": {
             "Tax ": [
@@ -286,16 +292,16 @@ export class UK extends Country {
     }
     defaultOpenParameterGroups = [
     ]
-    defaultSelectedParameterGroup = "/Tax/Income Tax/Labour income"
+    defaultSelectedParameterGroup = "/UK government/Tax/Income Tax/Labour income"
     organisations = {
         "UBI Center": {
             logo: UBICenterLogo,
         },
-        "Tax": {
-            logo: UKLogo,
+        "UK government": {
+            logo: UKGovernmentLogo,
         },
-        "Benefit": {
-            logo: UKLogo,
+        "Third party": {
+            logo: ThirdPartyLogo,
         },
         "Green Party": {
             logo: GreenPartyLogo,
