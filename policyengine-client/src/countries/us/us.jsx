@@ -7,7 +7,7 @@ import TimeTravel from "../uk/components/timeTravel";
 /* Icons/logos */
 import USGovernmentLogo from "../../images/parameter-icons/us/us.webp"
 import FCCLogo from "../../images/parameter-icons/us/us-government/fcc.png"
-import IRSLogo from "../../images/parameter-icons/us/us-government/irs.gif"
+import IRSLogo from "../../images/parameter-icons/us/us-government/irs.png"
 import HHSLogo from "../../images/parameter-icons/us/us-government/hhs.webp"
 import HUDLogo from "../../images/parameter-icons/us/us-government/hud.svg"
 import SSALogo from "../../images/parameter-icons/us/us-government/ssa.png"
