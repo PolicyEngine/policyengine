@@ -122,11 +122,11 @@ export default class Country {
 
     getParameterList() {
         function getLeafList(node) {
-            if(Array.isArray(node)) {
+            if (Array.isArray(node)) {
                 return node;
             } else {
                 let list = [];
-                for(let key in node) {
+                for (let key in node) {
                     list = list.concat(getLeafList(node[key]));
                 }
                 return list;

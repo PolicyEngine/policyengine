@@ -395,7 +395,7 @@ def create_reform(
             pass  # Do not attempt to apply the country specifier as a reform
         elif param != "household":
             if (
-                (param == "reform")
+                (param in ("reform", "baseline_reform"))
                 and isinstance(value, type)
                 or isinstance(value, tuple)
             ):

@@ -161,7 +161,7 @@ export default class Parameter extends React.Component {
 		}
 		const metadata = this.context.policy[this.props.name];
 		if (!metadata) {
-			return null;
+			return <h2>Failed: {this.props.name}</h2>;
 		}
 		const onChange = value => {
 			if(value !== "") {

@@ -39,7 +39,7 @@ class US(PolicyEngineCountry):
     Microsimulation = Microsimulation
     default_dataset = CPS
     default_dataset_year = 2020
-    microsimulation_default_reform = create_default_reform()
+    default_reform = create_default_reform()
     parameter_file = US_FOLDER / "reform_parameters.yaml"
 
     def __init__(self):

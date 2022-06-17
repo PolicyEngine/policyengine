@@ -4,10 +4,19 @@
 
 import Country from "../country"
 import TimeTravel from "../uk/components/timeTravel";
+/* Icons/logos */
+import USGovernmentLogo from "../../images/parameter-icons/us/us.webp"
+import FCCLogo from "../../images/parameter-icons/us/us-government/fcc.png"
+import IRSLogo from "../../images/parameter-icons/us/us-government/irs.png"
+import HHSLogo from "../../images/parameter-icons/us/us-government/hhs.webp"
+import HUDLogo from "../../images/parameter-icons/us/us-government/hud.svg"
+import SSALogo from "../../images/parameter-icons/us/us-government/ssa.png"
+import USDALogo from "../../images/parameter-icons/us/us-government/usda.png"
+import StateGovernmentsLogo from "../../images/parameter-icons/us/state-governments.png"
 import UBICenterLogo from "../../images/parameter-icons/ubi-center.png"
-import USLogo from "../../images/parameter-icons/us.png"
+import ThirdPartyLogo from "../../images/parameter-icons/third-party.png";
 import SimulationLogo from "../../images/parameter-icons/simulation.webp";
-import MALogo from "../../images/parameter-icons/ma.png";
+import MALogo from "../../images/parameter-icons/us/state-governments/ma.png";
 import StateSpecific from "./components/stateSpecific";
 
 const childNamer = {
@@ -70,137 +79,170 @@ export class US extends Country {
                 "stateSpecific",
             ],
         },
-        "IRS": {
-            "Income tax schedule": [
-                "irs_income_bracket_rates",
-                "irs_income_bracket_thresholds",
-            ],
-            "Credits": {
-                "Child tax credit": {
+        "US government": {
+            "IRS": {
+                "General": [
+                    "abolish_income_tax",
+                    "abolish_emp_payroll_tax",
+                    "abolish_self_emp_tax",
+                ],
+                "Income tax schedule": [
+                    "irs_income_bracket_rates",
+                    "irs_income_bracket_thresholds",
+                ],
+                "Credits": {
+                    "Child tax credit": {
+                        "General": [
+                            "abolish_non_refundable_ctc",
+                            "abolish_refundable_ctc",
+                        ],
+                        "Eligibility": [
+                            "ctc_child_age",
+                        ],
+                        "Amount": [
+                            "ctc_child",
+                            "ctc_adult_dependent",
+                        ],
+                        "Phase-out": [
+                            "ctc_phase_out_rate",
+                            "ctc_phase_out_threshold",
+                        ],
+                        "Refundability": [
+                            "ctc_refundable_child_max",
+                            "ctc_refundable_phase_in_rate",
+                            "ctc_refundable_phase_in_threshold",
+                        ],
+                    },
+                    "Child and dependent care": {
+                        "General": [
+                            "abolish_cdcc",
+                        ],
+                        "Maximum rate": [
+                            "cdcc_max_expense",
+                            "cdcc_max_rate",
+                            "cdcc_refundable",
+                        ],
+                        "Eligibility": [
+                            "cdcc_dependent_child_age",
+                        ],
+                        "Phase-out": [
+                            "cdcc_phase_out_rate",
+                            "cdcc_phase_out_start",
+                            "cdcc_min_rate",
+                        ],
+                    },
+                    "Education": {
+                        "Phase-out": [
+                            "education_credit_phase_out_start_single",
+                            "education_credit_phase_out_start_joint",
+                            "education_credit_phase_out_length_single",
+                            "education_credit_phase_out_length_joint",
+                        ],
+                        "Lifetime Learning Credit": [
+                            "abolish_llc",
+                            "llc_max_expense",
+                        ],
+                        "American Opportunity Credit": [
+                            "abolish_aoc",
+                            "aoc_refundable_percentage",
+                        ],
+                    },
+                },
+                "Social Security": [
+                    "employee_social_security_tax_rate",
+                    "social_security_tax_cap",
+                    "self_employment_net_earnings_exemption",
+                    "self_employment_social_security_tax_rate",
+                ],
+                "Medicare": [
+                    "employee_medicare_rate",
+                    "self_employment_medicare_rate",
+                    "additional_medicare_rate",
+                ]
+            },
+            "FCC": {
+                "Lifeline": {
                     "Eligibility": [
-                        "ctc_child_age",
+                        "lifeline_income_fpl_limit",
                     ],
                     "Amount": [
-                        "ctc_child",
-                        "ctc_adult_dependent",
+                        "lifeline_amount",
+                        "lifeline_rural_tribal_supplement",
+                    ]
+                },
+                "Affordable Connectivity Program": {
+                    "Eligibility": [
+                        "acp_income_fpl_limit",
                     ],
-                    "Phaseout": [
-                        "ctc_phaseout_rate",
-                        "ctc_phaseout_threshold",
-                    ],
-                    "Refundability": [
-                        "ctc_refundable_child_max",
-                        "ctc_refundable_phase_in_rate",
-                        "ctc_refundable_phase_in_threshold",
+                    "Amount": [
+                        "acp_standard_amount",
+                        "acp_tribal_amount",
                     ],
                 },
-                "Child and dependent care": {
+            },
+            "HUD": {
+                "General": [
+                    "abolish_housing_subsidies",
+                ],
+            },
+            "HHS": {
+                "General": [
+                    "abolish_tanf",
+                ],
+            },
+            "SSA": {
+                "SSI": {
                     "General": [
-                        "abolish_cdcc",
-                    ],
-                    "Maximum rate": [
-                        "cdcc_max_expense",
-                        "cdcc_max_rate",
-                        "cdcc_refundable",
+                        "abolish_ssi",
                     ],
                     "Eligibility": [
-                        "cdcc_dependent_child_age",
+                        "ssi_aged_threshold",
                     ],
-                    "Phaseout": [
-                        "cdcc_phaseout_rate",
-                        "cdcc_phaseout_start",
-                        "cdcc_min_rate",
+                    "Amount": [
+                        "ssi_amount_individual",
+                        "ssi_amount_couple",
+                    ],
+                    "Exclusions": [
+                        "ssi_flat_general_income_exclusion",
+                        "ssi_flat_earned_income_exclusion",
+                        "ssi_earned_income_exclusion_share",
+                    ],
+                }
+            },
+            "USDA": {
+                "SNAP": {
+                    "General": [
+                        "abolish_snap",
+                        "abolish_snap_ea",
+                    ],
+                    "Eligibility": [
+                        "snap_gross_income_limit",
+                        "snap_net_income_limit",
+                    ],
+                    "Deductions": [
+                        "snap_earned_income_deduction",
+                        "snap_medical_expense_disregard",
+                        "snap_homeless_shelter_deduction",
+                        "snap_shelter_deduction_income_share_disregard",
+                    ],
+                    "Allotment": [
+                        "snap_max_allotment_main",
                     ],
                 },
-                "Education": {
-                    "Phaseout": [
-                        "education_credit_phaseout_start_single",
-                        "education_credit_phaseout_start_joint",
-                        "education_credit_phaseout_length_single",
-                        "education_credit_phaseout_length_joint",
-                    ],
-                    "Lifetime Learning Credit": [
-                        "abolish_llc",
-                        "llc_max_expense",
-                    ],
-                    "American Opportunity Credit": [
-                        "abolish_aoc",
-                        "aoc_refundable_percentage",
-                    ],
+                "School meals": {
+                    "Eligibility": [
+                        "school_meal_free_fpg_limit",
+                        "school_meal_reduced_fpg_limit",
+                    ]
                 },
-            },
-            "Social Security": [
-                "employee_social_security_tax_rate",
-                "social_security_tax_cap",
-                "self_employment_net_earnings_exemption",
-                "self_employment_social_security_tax_rate",
-            ],
-            "Medicare": [
-                "employee_medicare_rate",
-                "self_employment_medicare_rate",
-                "additional_medicare_rate",
-            ]
-        },
-        "USDA": {
-            "SNAP": {
-                "Eligibility": [
-                    "snap_gross_income_limit",
-                    "snap_net_income_limit",
-                ],
-                "Deductions": [
-                    "snap_earned_income_deduction",
-                    "snap_medical_expense_disregard",
-                    "snap_homeless_shelter_deduction",
-                    "snap_shelter_deduction_income_share_disregard",
-                ],
-                "Allotment": [
-                    "snap_max_allotment_main",
-                ],
-            },
-            "School meals": {
-                "Eligibility": [
-                    "school_meal_free_fpg_limit",
-                    "school_meal_reduced_fpg_limit",
-                ]
+                "WIC": {
+                    "General": [
+                        "abolish_wic",
+                    ]
+                }
             },
         },
-        "FCC": {
-            "Lifeline": {
-                "Eligibility": [
-                    "lifeline_income_fpl_limit",
-                ],
-                "Amount": [
-                    "lifeline_amount",
-                    "lifeline_rural_tribal_supplement",
-                ]
-            },
-            "Affordable Connectivity Program": {
-                "Eligibility": [
-                    "acp_income_fpl_limit",
-                ],
-                "Amount": [
-                    "acp_standard_amount",
-                    "acp_tribal_amount",
-                ],
-            },
-        },
-        "SSA": {
-            "SSI": {
-                "Eligibility": [
-                    "ssi_aged_threshold",
-                ],
-                "Amount": [
-                    "ssi_amount_individual",
-                    "ssi_amount_couple",
-                ],
-                "Exclusions": [
-                    "ssi_flat_general_income_exclusion",
-                    "ssi_flat_earned_income_exclusion",
-                    "ssi_earned_income_exclusion_share",
-                ],
-            }
-        },
-        "States": {
+        "State governments": {
             "Massachusetts": {
                 "State income tax": {
                     "Rates": [
@@ -242,44 +284,65 @@ export class US extends Country {
                 },
             },
         },
-        "UBI Center": {
-            "Basic income": [
-                "child_bi",
-                "adult_bi_age",
-                "adult_bi",
-                "senior_bi_age",
-                "senior_bi",
-            ]
-        },
+        "Third party": {
+            "UBI Center": {
+                "Basic income": [
+                    "young_child_bi",
+                    "older_child_bi_age",
+                    "older_child_bi",
+                    "young_adult_bi_age",
+                    "young_adult_bi",
+                    "older_adult_bi_age",
+                    "older_adult_bi",
+                    "senior_bi_age",
+                    "senior_bi",
+                ],
+                "Flat tax": [
+                    "flat_tax",
+                ],
+            },
+        }
     }
     organisations = {
         "Simulation": {
             logo: SimulationLogo,
         },
-        "UBI Center": {
-            logo: UBICenterLogo,
-        },
-        "IRS": {
-            logo: USLogo,
-        },
-        "USDA": {
-            logo: USLogo,
+        "US government": {
+            logo: USGovernmentLogo,
         },
         "FCC": {
-            logo: USLogo,
+            logo: FCCLogo,
+        },
+        "IRS": {
+            logo: IRSLogo,
+        },
+        "HHS": {
+            logo: HHSLogo,
+        },
+        "HUD": {
+            logo: HUDLogo,
+        },
+        "USDA": {
+            logo: USDALogo,
         },
         "SSA": {
-            logo: USLogo,
+            logo: SSALogo,
         },
-        "States": {
-            logo: USLogo,
+        "State governments": {
+            logo: StateGovernmentsLogo,
         },
         "Massachusetts": {
             logo: MALogo,
-        }
+        },
+        "Third party": {
+            logo: ThirdPartyLogo,
+        },
+        "UBI Center": {
+            logo: UBICenterLogo,
+        },
     }
-    defaultOpenParameterGroups = ["/IRS"];
-    defaultSelectedParameterGroup = "/IRS/Income tax schedule"
+    defaultOpenParameterGroups = [];
+    defaultSelectedParameterGroup = "/US government/IRS/Income tax schedule"
     showSnapShot = false
     // OpenFisca data
     parameters = null
