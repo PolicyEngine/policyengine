@@ -103,9 +103,9 @@ export class US extends Country {
                             "ctc_child",
                             "ctc_adult_dependent",
                         ],
-                        "Phaseout": [
-                            "ctc_phaseout_rate",
-                            "ctc_phaseout_threshold",
+                        "Phase-out": [
+                            "ctc_phase_out_rate",
+                            "ctc_phase_out_threshold",
                         ],
                         "Refundability": [
                             "ctc_refundable_child_max",
@@ -125,18 +125,18 @@ export class US extends Country {
                         "Eligibility": [
                             "cdcc_dependent_child_age",
                         ],
-                        "Phaseout": [
-                            "cdcc_phaseout_rate",
-                            "cdcc_phaseout_start",
+                        "Phase-out": [
+                            "cdcc_phase_out_rate",
+                            "cdcc_phase_out_start",
                             "cdcc_min_rate",
                         ],
                     },
                     "Education": {
-                        "Phaseout": [
-                            "education_credit_phaseout_start_single",
-                            "education_credit_phaseout_start_joint",
-                            "education_credit_phaseout_length_single",
-                            "education_credit_phaseout_length_joint",
+                        "Phase-out": [
+                            "education_credit_phase_out_start_single",
+                            "education_credit_phase_out_start_joint",
+                            "education_credit_phase_out_length_single",
+                            "education_credit_phase_out_length_joint",
                         ],
                         "Lifetime Learning Credit": [
                             "abolish_llc",
