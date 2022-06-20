@@ -815,3 +815,9 @@
     - Basic income parameters and flat taxes for the US.
     - More icons and organization to the policy parameter menus.
   date: 2022-06-17 14:42:52
+- bump: minor
+  changes:
+    added:
+    - MA income tax breakdown.
+    fixed:
+    - Bugs causing the household impact page to crash when removing people.
