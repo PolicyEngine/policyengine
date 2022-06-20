@@ -462,6 +462,12 @@ export class US extends Country {
         "income_tax_before_credits",
         "income_tax_capped_non_refundable_credits",
         "income_tax_refundable_credits",
+        // State income taxes
+        "ma_income_tax",
+        "ma_limited_income_tax_credit",
+        "ma_eitc",
+        "ma_dependent_credit",
+        "ma_income_tax_before_credits",
     ]
     inputVariableHierarchy = {
         "Household": {
@@ -566,7 +572,7 @@ export class US extends Country {
                 "spm_unit_payroll_tax",
                 "spm_unit_self_employment_tax",
                 "spm_unit_federal_tax",
-                "spm_unit_state_tax",
+                "ma_income_tax",
             ],
             "subtract": []
         },
@@ -586,11 +592,16 @@ export class US extends Country {
                 "income_tax_refundable_credits",
             ]
         },
-        "spm_unit_state_tax": {
+        "ma_income_tax": {
             "add": [
-                "state_income_tax",
+                "ma_income_tax_before_credits",
             ],
-        },
+            "subtract": [
+                "ma_limited_income_tax_credit",
+                "ma_eitc",
+                "ma_dependent_credit",
+            ]
+        }
     }
 
     householdMaritalOptions = ["Single", "Married"]
@@ -631,16 +642,19 @@ export class US extends Country {
     }
 
     removePerson(situation, name) {
-        for (let entityPlural of ["tax_units", "families", "spm_units", "households"]) {
+        for (let entityPlural of ["marital_units", "tax_units", "families", "spm_units", "households"]) {
             for (let entity of Object.keys(situation[entityPlural])) {
-                if (situation[entityPlural][entity].members.includes(name)) {
-                    situation[entityPlural][entity].members.pop(name);
-                }
+                situation[entityPlural][entity].members = situation[entityPlural][entity].members.filter(
+                    member => member !== name
+                )
             }
         }
         if (name === "Your spouse") {
+            if(!situation["families"]["Your family"]["is_married"]) {
+                situation["families"]["Your family"]["is_married"] = {"2022": false}
+            }
             situation["families"]["Your family"]["is_married"]["2022"] = false;
-            situation.marital_units["Your marital unit"].members.pop(name)
+            situation.marital_units["Your marital unit"].members.pop()
         }
         delete situation.people[name];
         return this.validateSituation(situation).situation;
@@ -664,6 +678,7 @@ export class US extends Country {
     }
 
     getNumAdults() {
+        console.log(this.situation.households["Your household"].members)
         return this.situation.households["Your household"].members.filter(
             name => this.situation.people[name].age["2022"] >= 18
         ).length;
