@@ -124,6 +124,7 @@ function getValues(variable, country) {
     const reform = reformExists ? country.computedReformSituation : baseline;
     const entity = country.entities[country.variables[variable].entity];
     const entities = Object.keys(baseline[entity.plural]);
+    console.log(variable)
     const baselineValue = entities.length > 1 ?
         entities.map(name => baseline[entity.plural][name][variable]["2022"]).reduce((a, b) => a + b, 0) :
         baseline[entity.plural][entities[0]][variable]["2022"];
