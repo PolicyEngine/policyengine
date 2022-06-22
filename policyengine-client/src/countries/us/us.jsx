@@ -310,18 +310,18 @@ export class US extends Country {
             "Rep Tlaib": {
                 "End Child Poverty Act": {
                     "Adult dependent credit": [
-                        "contrib_tlaib_end_child_poverty_act_adult_dependent_credit_amount",
-                        "contrib_tlaib_end_child_poverty_act_adult_dependent_credit_min_age",
+                        "end_child_poverty_act_adult_dependent_credit_amount",
+                        "end_child_poverty_act_adult_dependent_credit_min_age",
                     ],
                     "Filer credit": {
                         "Amount": [
-                            "contrib_tlaib_end_child_poverty_act_filer_credit_amount",
-                            "contrib_tlaib_end_child_poverty_act_filer_credit_phase_out_start",
-                            "contrib_tlaib_end_child_poverty_act_filer_credit_phase_out_rate",
+                            "end_child_poverty_act_filer_credit_amount",
+                            "end_child_poverty_act_filer_credit_phase_out_start",
+                            "end_child_poverty_act_filer_credit_phase_out_rate",
                         ],
                         "Eligibility": [
-                            "contrib_tlaib_end_child_poverty_act_filer_credit_min_age",
-                            "contrib_tlaib_end_child_poverty_act_filer_credit_max_age",
+                            "end_child_poverty_act_filer_credit_min_age",
+                            "end_child_poverty_act_filer_credit_max_age",
                         ]
                     }
                 }
