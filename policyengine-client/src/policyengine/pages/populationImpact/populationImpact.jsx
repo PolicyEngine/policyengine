@@ -16,6 +16,10 @@ function PopulationResultsCaveats() {
 	return <p style={{ color: "grey" }}><ExclamationCircleOutlined />  &nbsp; &nbsp;PolicyEngine results assume no behavioural or macroeconomic effects</p>;
 }
 
+function USPopulationResultsCaveats() {
+	return <p style={{ color: "grey", marginTop: 20 }}><ExclamationCircleOutlined />  &nbsp; &nbsp;Results are simulated using the OpenFisca-US microsimulation model on the Current Population Survey dataset. This dataset under-reports high incomes and benefit totals, so may over- or under-estimate impacts.</p>;
+}
+
 function Loading(props) {
 	const country = useContext(CountryContext);
 	const message = `Simulating your results on the ${country.properName} population (this usually takes about 10 seconds)`;
@@ -50,6 +54,11 @@ export function PopulationResultsPane(props) {
 	const [showDeepPoverty, setShowDeepPoverty] = React.useState(false);
 	return (
 		<>
+			{
+				country.name === "us" ?
+					<USPopulationResultsCaveats /> :
+					null
+			}
 			<Row style={{ padding: 30 }}>
 				<TakeAway><p style={{ textAlign: "center" }}>Reform produces <br /><span style={{ color: costColor }}>{cost}</span> net {isSurplus ? "surplus" : "cost"}</p></TakeAway>
 				<TakeAway><p style={{ textAlign: "center" }}>Poverty <br />{isPovRise ? "rises" : "falls"} <span style={{ color: povColor }}>{pov}%</span></p></TakeAway>
