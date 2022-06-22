@@ -839,7 +839,9 @@
     added:
     - US End Child Poverty Act parameters.
   date: 2022-06-22 20:55:08
-- bump: patch
+- bump: minor
   changes:
     fixed:
     - Bug causing baseline reforms to not show in the household impact page.
+    added:
+    - Basic income phase-out parameters.
