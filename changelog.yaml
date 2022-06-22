@@ -841,5 +841,10 @@
   date: 2022-06-22 20:55:08
 - bump: patch
   changes:
+    changed:
+    - Use shorter End Child Poverty Act parameter names.
+  date: 2022-06-22 22:14:06
+- bump: patch
+  changes:
     fixed:
     - Bug causing baseline reforms to not show in the household impact page.
