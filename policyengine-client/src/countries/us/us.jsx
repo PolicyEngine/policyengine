@@ -13,8 +13,9 @@ import HUDLogo from "../../images/parameter-icons/us/us-government/hud.svg"
 import SSALogo from "../../images/parameter-icons/us/us-government/ssa.png"
 import USDALogo from "../../images/parameter-icons/us/us-government/usda.png"
 import StateGovernmentsLogo from "../../images/parameter-icons/us/state-governments.png"
-import UBICenterLogo from "../../images/parameter-icons/ubi-center.png"
 import ThirdPartyLogo from "../../images/parameter-icons/third-party.png";
+import UBICenterLogo from "../../images/parameter-icons/ubi-center.png"
+import RepTlaibLogo from "../../images/parameter-icons/us/third-party/tlaib.png"
 import SimulationLogo from "../../images/parameter-icons/simulation.webp";
 import MALogo from "../../images/parameter-icons/us/state-governments/ma.png";
 import StateSpecific from "./components/stateSpecific";
@@ -129,6 +130,11 @@ export class US extends Country {
                             "cdcc_phase_out_rate",
                             "cdcc_phase_out_start",
                             "cdcc_min_rate",
+                        ],
+                    },
+                    "EITC": {
+                        "General": [
+                            "abolish_eitc",
                         ],
                     },
                     "Education": {
@@ -301,6 +307,21 @@ export class US extends Country {
                     "flat_tax",
                 ],
             },
+            "Rep Tlaib": {
+                "End Child Poverty Act": {
+                    "Adult dependent credit": [
+                        "contrib_tlaib_end_child_poverty_act_adult_dependent_credit_amount",
+                        "contrib_tlaib_end_child_poverty_act_adult_dependent_credit_min_age",
+                    ],
+                    "Filer credit": [
+                        "contrib_tlaib_end_child_poverty_act_filer_credit_amount",
+                        "contrib_tlaib_end_child_poverty_act_filer_credit_min_age",
+                        "contrib_tlaib_end_child_poverty_act_filer_credit_max_age",
+                        "contrib_tlaib_end_child_poverty_act_filer_credit_phase_out_start",
+                        "contrib_tlaib_end_child_poverty_act_filer_credit_phase_out_rate",
+                    ]
+                }
+            }
         }
     }
     organisations = {
@@ -340,6 +361,9 @@ export class US extends Country {
         "UBI Center": {
             logo: UBICenterLogo,
         },
+        "Rep Tlaib": {
+            logo: RepTlaibLogo,
+        },
     }
     defaultOpenParameterGroups = [];
     defaultSelectedParameterGroup = "/US government/IRS/Income tax schedule"
@@ -356,6 +380,13 @@ export class US extends Country {
         ctc_adult_dependent: { max: 10_000 },
         snap_net_income_limit: { max: 10 },
         ssi_amount_individual: { max: 10_000 },
+        contrib_tlaib_end_child_poverty_act_adult_dependent_credit_amount: { max: 10_000 },
+        // Each parameter breakdown requires separate treatment.
+        contrib_tlaib_end_child_poverty_act_filer_credit_amount_SINGLE: { max: 10_000 },
+        contrib_tlaib_end_child_poverty_act_filer_credit_amount_JOINT: { max: 10_000 },
+        contrib_tlaib_end_child_poverty_act_filer_credit_amount_SEPARATE: { max: 10_000 },
+        contrib_tlaib_end_child_poverty_act_filer_credit_amount_HEAD_OF_HOUSEHOLD: { max: 10_000 },
+        contrib_tlaib_end_child_poverty_act_filer_credit_amount_WIDOW: { max: 10_000 },
     }
     extraVariableMetadata = {}
     situation = {
@@ -650,8 +681,8 @@ export class US extends Country {
             }
         }
         if (name === "Your spouse") {
-            if(!situation["families"]["Your family"]["is_married"]) {
-                situation["families"]["Your family"]["is_married"] = {"2022": false}
+            if (!situation["families"]["Your family"]["is_married"]) {
+                situation["families"]["Your family"]["is_married"] = { "2022": false }
             }
             situation["families"]["Your family"]["is_married"]["2022"] = false;
             situation.marital_units["Your marital unit"].members.pop()

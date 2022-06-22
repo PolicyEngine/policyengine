@@ -287,6 +287,8 @@ def get_PE_parameters(
                         attribute
                     ]
         except Exception as e:
+            if parameter.metadata["name"] == "abolish_eitc":
+                print(e)
             pass
     return parameter_metadata
 
