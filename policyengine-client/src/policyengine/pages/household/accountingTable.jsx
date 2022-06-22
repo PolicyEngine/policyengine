@@ -27,6 +27,15 @@ export default class AccountingTable extends React.Component {
     updateBaselineSituation() {
         this.context.setState({ waitingOnAccountingTableBaseline: true }, () => {
             let url = new URL(this.context.apiURL + "/calculate");
+            const submission = this.context.getPolicyJSONPayload();
+            // We just want the keys beginning with baseline_
+            const baselineSubmission = {};
+            for (const key in submission) {
+                if (key.startsWith("baseline_")) {
+                    baselineSubmission[key.substring(9)] = submission[key];
+                }
+            }
+            url.search = new URLSearchParams(baselineSubmission).toString();
             fetch(url, {
                 method: 'POST',
                 headers: {
@@ -124,7 +133,6 @@ function getValues(variable, country) {
     const reform = reformExists ? country.computedReformSituation : baseline;
     const entity = country.entities[country.variables[variable].entity];
     const entities = Object.keys(baseline[entity.plural]);
-    console.log(variable)
     const baselineValue = entities.length > 1 ?
         entities.map(name => baseline[entity.plural][name][variable]["2022"]).reduce((a, b) => a + b, 0) :
         baseline[entity.plural][entities[0]][variable]["2022"];

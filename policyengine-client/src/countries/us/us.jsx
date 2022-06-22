@@ -292,17 +292,23 @@ export class US extends Country {
         },
         "Third party": {
             "UBI Center": {
-                "Basic income": [
-                    "young_child_bi",
-                    "older_child_bi_age",
-                    "older_child_bi",
-                    "young_adult_bi_age",
-                    "young_adult_bi",
-                    "older_adult_bi_age",
-                    "older_adult_bi",
-                    "senior_bi_age",
-                    "senior_bi",
-                ],
+                "Basic income": {
+                    "Amounts": [
+                        "young_child_bi",
+                        "older_child_bi_age",
+                        "older_child_bi",
+                        "young_adult_bi_age",
+                        "young_adult_bi",
+                        "older_adult_bi_age",
+                        "older_adult_bi",
+                        "senior_bi_age",
+                        "senior_bi",
+                    ],
+                    "Phase-outs": [
+                        "bi_phase_out_rate",
+                        "bi_phase_out_threshold",
+                    ],
+                },
                 "Flat tax": [
                     "flat_tax",
                 ],
@@ -503,6 +509,8 @@ export class US extends Country {
         "ma_eitc",
         "ma_dependent_credit",
         "ma_income_tax_before_credits",
+        // Contributed.
+        "basic_income",
     ]
     inputVariableHierarchy = {
         "Household": {
@@ -599,6 +607,7 @@ export class US extends Country {
                 "ssi",
                 "social_security",
                 "wic",
+                "basic_income",
             ],
             "subtract": []
         },
