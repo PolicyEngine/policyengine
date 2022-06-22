@@ -839,3 +839,7 @@
     added:
     - US End Child Poverty Act parameters.
   date: 2022-06-22 20:55:08
+- bump: patch
+  changes:
+    fixed:
+    - Bug causing baseline reforms to not show in the household impact page.
