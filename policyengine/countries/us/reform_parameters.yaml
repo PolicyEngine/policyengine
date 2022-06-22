@@ -60,6 +60,16 @@ reforms:
         variable: cdcc
         tests:
           - increases_net_income: false
+    abolish_eitc:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish EITC
+        name: abolish_eitc
+        unit: abolition
+        variable: earned_income_tax_credit
+        tests:
+          - increases_net_income: false
     abolish_snap:
       values:
         2010-01-01: false
