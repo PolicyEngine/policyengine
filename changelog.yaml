@@ -839,3 +839,7 @@
     added:
     - US End Child Poverty Act parameters.
   date: 2022-06-22 20:55:08
+- bump: patch
+  changes:
+    changed:
+    - Use shorter End Child Poverty Act parameter names.
