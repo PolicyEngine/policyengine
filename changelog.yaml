@@ -834,3 +834,7 @@
     changed:
     - OpenFisca-US bumped to 0.83.0.
   date: 2022-06-22 20:39:33
+- bump: minor
+  changes:
+    added:
+    - US End Child Poverty Act parameters.

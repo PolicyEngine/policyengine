@@ -313,13 +313,17 @@ export class US extends Country {
                         "contrib_tlaib_end_child_poverty_act_adult_dependent_credit_amount",
                         "contrib_tlaib_end_child_poverty_act_adult_dependent_credit_min_age",
                     ],
-                    "Filer credit": [
-                        "contrib_tlaib_end_child_poverty_act_filer_credit_amount",
-                        "contrib_tlaib_end_child_poverty_act_filer_credit_min_age",
-                        "contrib_tlaib_end_child_poverty_act_filer_credit_max_age",
-                        "contrib_tlaib_end_child_poverty_act_filer_credit_phase_out_start",
-                        "contrib_tlaib_end_child_poverty_act_filer_credit_phase_out_rate",
-                    ]
+                    "Filer credit": {
+                        "Amount": [
+                            "contrib_tlaib_end_child_poverty_act_filer_credit_amount",
+                            "contrib_tlaib_end_child_poverty_act_filer_credit_phase_out_start",
+                            "contrib_tlaib_end_child_poverty_act_filer_credit_phase_out_rate",
+                        ],
+                        "Eligibility": [
+                            "contrib_tlaib_end_child_poverty_act_filer_credit_min_age",
+                            "contrib_tlaib_end_child_poverty_act_filer_credit_max_age",
+                        ]
+                    }
                 }
             }
         }
