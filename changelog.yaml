@@ -829,7 +829,8 @@
   date: 2022-06-22 02:47:19
 - bump: minor
   changes:
-    changed:
-    - OpenFisca-US bumped to 0.83.0.
     added:
     - US impact page with a disclaimer.
+    changed:
+    - OpenFisca-US bumped to 0.83.0.
+  date: 2022-06-22 20:39:33
