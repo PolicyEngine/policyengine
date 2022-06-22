@@ -87,8 +87,8 @@ export class US extends Country {
                     "abolish_self_emp_tax",
                 ],
                 "Income tax schedule": [
-                    "irs_income_bracket_rates",
-                    "irs_income_bracket_thresholds",
+                    "gov_irs_income_bracket_rates",
+                    "gov_irs_income_bracket_thresholds",
                 ],
                 "Credits": {
                     "Child tax credit": {
