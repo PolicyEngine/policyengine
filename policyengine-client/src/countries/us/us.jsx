@@ -509,6 +509,8 @@ export class US extends Country {
         "ma_eitc",
         "ma_dependent_credit",
         "ma_income_tax_before_credits",
+        // Contributed.
+        "basic_income",
     ]
     inputVariableHierarchy = {
         "Household": {
@@ -605,6 +607,7 @@ export class US extends Country {
                 "ssi",
                 "social_security",
                 "wic",
+                "basic_income",
             ],
             "subtract": []
         },
