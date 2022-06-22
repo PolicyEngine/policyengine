@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.63.0] - 2022-06-22 20:55:08
+
+### Added
+
+- US End Child Poverty Act parameters.
+
 ## [1.62.0] - 2022-06-22 20:39:33
 
 ### Added
@@ -995,6 +1001,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.63.0]: https://github.com/PolicyEngine/policyengine/compare/1.62.0...1.63.0
 [1.62.0]: https://github.com/PolicyEngine/policyengine/compare/1.61.0...1.62.0
 [1.61.0]: https://github.com/PolicyEngine/policyengine/compare/1.60.0...1.61.0
 [1.60.0]: https://github.com/PolicyEngine/policyengine/compare/1.59.0...1.60.0
