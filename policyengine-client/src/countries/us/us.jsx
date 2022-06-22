@@ -57,7 +57,7 @@ export class US extends Country {
     beta = true
     // Pages to show
     showPolicy = true
-    showPopulationImpact = false
+    showPopulationImpact = true
     showHousehold = true
     showEarningsVariation = true
     showWealth = false;
