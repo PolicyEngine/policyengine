@@ -822,3 +822,7 @@
     fixed:
     - Bugs causing the household impact page to crash when removing people.
   date: 2022-06-20 04:40:27
+- bump: minor
+  changes:
+    changed:
+    - OpenFisca-US bumped to 0.81.1.
