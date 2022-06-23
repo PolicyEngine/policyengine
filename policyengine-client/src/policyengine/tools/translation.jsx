@@ -7,7 +7,7 @@ import moment from "moment";
 
 export function getTranslators(parameter) {
 	let period = parameter.period || parameter.definitionPeriod;
-	if(parameter.quantityType === "stock") {
+	if (parameter.quantityType === "stock") {
 		period = null;
 	}
 	const CURRENCY_SYMBOLS = {
@@ -34,28 +34,28 @@ export function getTranslators(parameter) {
 		result = {
 			formatter: value => value ? "true" : "false",
 		}
-	}  else if (parameter.unit === "hour") {
+	} else if (parameter.unit === "hour") {
 		result = {
 			formatter: value => `${value} hour${value !== 1 ? "s" : ""}`,
 		}
 		minMax = 80;
 	} else if (Object.keys(CURRENCY_SYMBOLS).includes(parameter.unit)) {
-		for(let currency in CURRENCY_SYMBOLS) {
-			if(parameter.unit === currency) {
-				const round = value => parseFloat(Number(Math.abs(Math.round(value * (10 ** (parameter.precision || 2))) / (10 ** (parameter.precision || 2)))));
+		for (let currency in CURRENCY_SYMBOLS) {
+			if (parameter.unit === currency) {
+				const round = value => parseFloat(Number(Math.abs(Math.round(value * (10 ** (parameter.precision || 0))) / (10 ** (parameter.precision || 0)))));
 				result = {
-					formatter: (value, noPeriod) => `${value < 0 ? "- " : ""}${CURRENCY_SYMBOLS[currency]}${round(value).toLocaleString(undefined, {maximumFractionDigits: parameter.precision})}${period && !noPeriod ? ("/" + period) : ""}`,
+					formatter: (value, noPeriod) => `${value < 0 ? "- " : ""}${CURRENCY_SYMBOLS[currency]}${round(value).toLocaleString(undefined, { maximumFractionDigits: parameter.precision })}${period && !noPeriod ? ("/" + period) : ""}`,
 				}
-				minMax = {year: 100_000, month: 1000, week: 100, null: 100}[period];
+				minMax = { year: 100_000, month: 1000, week: 100, null: 100 }[period];
 			}
 		}
-	} else if(parameter.valueType === "date") {
+	} else if (parameter.valueType === "date") {
 		const dateIntToMoment = value => moment(value.toString().slice(0, 4) + "-" + value.toString().slice(4, 6) + "-" + value.toString().slice(6, 8), "YYYY-MM-DD");
 		result = {
 			formatter: value => dateIntToMoment(value).format("LL"),
 			parser: dateIntToMoment,
 		}
-	} else if(parameter.valueType === "Enum") {
+	} else if (parameter.valueType === "Enum") {
 		result = {
 			formatter: value => parameter.possibleValues.filter(x => x.key === value)[0].value,
 			parser: value => parameter.possibleValues.filter(x => x.value === value)[0].key,
