@@ -852,3 +852,9 @@
     fixed:
     - A bug causing household baseline reforms to not calculate.
   date: 2022-06-22 23:29:25
+- bump: minor
+  changes:
+    added:
+    - SNAP dependent care deduction repeal switch.
+    changed:
+    - Rounding in household table.
