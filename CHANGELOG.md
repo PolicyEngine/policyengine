@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.65.0] - 2022-06-23 06:32:47
+
+### Added
+
+- SNAP dependent care deduction repeal switch.
+
+### Changed
+
+- Rounding in household table.
+
 ## [1.64.0] - 2022-06-22 23:29:25
 
 ### Added
@@ -1018,6 +1028,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.65.0]: https://github.com/PolicyEngine/policyengine/compare/1.64.0...1.65.0
 [1.64.0]: https://github.com/PolicyEngine/policyengine/compare/1.63.1...1.64.0
 [1.63.1]: https://github.com/PolicyEngine/policyengine/compare/1.63.0...1.63.1
 [1.63.0]: https://github.com/PolicyEngine/policyengine/compare/1.62.0...1.63.0
