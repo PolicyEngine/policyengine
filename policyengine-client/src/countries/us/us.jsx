@@ -230,6 +230,7 @@ export class US extends Country {
                         "snap_medical_expense_disregard",
                         "snap_homeless_shelter_deduction",
                         "snap_shelter_deduction_income_share_disregard",
+                        "abolish_snap_dependent_care_deduction",
                     ],
                     "Allotment": [
                         "snap_max_allotment_main",

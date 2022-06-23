@@ -130,6 +130,16 @@ reforms:
         variable: wic
         tests:
           - increases_net_income: false
+    abolish_snap_dependent_care_deduction:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish SNAP dependent care deduction
+        name: abolish_snap_dependent_care_deduction
+        unit: abolition
+        variable: snap_dependent_care_deduction
+        tests:
+          - increases_net_income: false
   state_specific:
     description: Simulate reforms on a specific state of the US.
     values:

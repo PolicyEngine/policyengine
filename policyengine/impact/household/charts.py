@@ -456,7 +456,7 @@ def mtr_chart(
     df["Difference"] = df["Reform"] - df["Baseline"]
     if show_difference:
         y_fig = "Difference"
-        d_title = "Difference in Marginal tax rate by employment income"
+        d_title = "Difference in marginal tax rate by employment income"
         y_title = "Difference in marginal tax rate"
     else:
         y_fig = (
