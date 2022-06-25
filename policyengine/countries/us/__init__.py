@@ -100,4 +100,14 @@ class US(PolicyEngineCountry):
                 )
         else:
             baseline, reformed = super()._get_microsimulations(params)
+            # US-wide, take State tax as reported
+            for sim in baseline, reformed:
+                reported_state_tax = sim.calc(
+                    "spm_unit_state_tax_reported"
+                ).values
+                sim.set_input(
+                    "spm_unit_state_tax",
+                    2022,
+                    reported_state_tax,
+                )
         return baseline, reformed

@@ -859,3 +859,7 @@
     changed:
     - Rounding in household table.
   date: 2022-06-23 06:32:47
+- bump: minor
+  changes:
+    changed:
+    - State taxes no longer simulated on US-wide impacts.
