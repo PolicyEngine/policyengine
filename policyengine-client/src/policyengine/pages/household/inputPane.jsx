@@ -14,7 +14,11 @@ function HouseholdSetup(props) {
 			{country.householdMaritalOptions.map(i => <Radio.Button key={i} value={i}>{i}</Radio.Button>)}
 		</Radio.Group>
 		<Spacing />
-		<h5>Children</h5>
+		<h5>{
+            country.name === "us" ?
+                "Dependents" :
+                "Children"
+            }</h5>
 		<Spacing />
 		<Radio.Group defaultValue={country.getNumChildren()} onChange={e => country.setNumChildren(e.target.value)}>
 			{[...Array(6).keys()].map(i => <Radio.Button key={i} value={i}>{i}</Radio.Button>)}

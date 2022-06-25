@@ -868,4 +868,5 @@
   changes:
     fixed:
     - Spacing issues on the policy overview.
-    
+    added:
+    - Adult dependents can now be added to the household page.

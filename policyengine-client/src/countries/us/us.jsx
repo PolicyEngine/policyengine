@@ -651,12 +651,23 @@ export class US extends Country {
 
     householdMaritalOptions = ["Single", "Married"]
 
+    householdMaritalStatus = "Single"
+
     getHouseholdMaritalStatus() {
-        return this.getNumAdults() > 1 ? "Married" : "Single";
+        return this.householdMaritalStatus;
     }
 
     setHouseholdMaritalStatus(status) {
-        this.setNumAdults(status === "Single" ? 1 : 2);
+        let situation = this.situation;
+        if(status === "Married" & !situation.people.includes("Your spouse")) {
+            this.addPartner(situation);
+        } else if(status === "Single" & situation.people.includes("Your spouse")) {
+            this.removePerson(situation, "Your spouse");
+        }
+        this.setState({
+            situation: situation,
+            householdMaritalStatus: status,
+        });
     }
 
 
@@ -723,7 +734,6 @@ export class US extends Country {
     }
 
     getNumAdults() {
-        console.log(this.situation.households["Your household"].members)
         return this.situation.households["Your household"].members.filter(
             name => this.situation.people[name].age["2022"] >= 18
         ).length;
@@ -751,9 +761,10 @@ export class US extends Country {
     }
 
     getNumChildren() {
-        return this.situation.households["Your household"].members.filter(
-            name => this.situation.people[name].age["2022"] < 18
-        ).length;
+        const numPeople = Object.keys(this.situation.people).length;
+        const maritalStatus = this.householdMaritalStatus;
+        const mainAdults = maritalStatus === "Married" ? 2 : 1;
+        return numPeople - mainAdults;
     }
 
 
