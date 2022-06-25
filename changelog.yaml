@@ -864,3 +864,9 @@
     changed:
     - State taxes no longer simulated on US-wide impacts.
   date: 2022-06-25 05:49:55
+- bump: minor
+  changes:
+    fixed:
+    - Spacing issues on the policy overview.
+    added:
+    - Adult dependents can now be added to the household page.

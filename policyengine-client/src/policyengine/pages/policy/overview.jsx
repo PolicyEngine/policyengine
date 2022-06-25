@@ -38,7 +38,7 @@ function generateStepFromParameter(parameter, editingReform, country, page) {
 		return <Step
 			key={parameter.name}
 			status="finish"
-			title={<><>{parameter.label}</> <>{populationSimCheckbox}</></>}
+			title={<><h6>{parameter.label}</h6> <>{populationSimCheckbox}</></>}
 			description={description}
 		/>
 	} else {
