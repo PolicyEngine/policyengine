@@ -58,6 +58,7 @@ export class VariableControlPane extends React.Component {
             entitySelector = <>
                 <Spacing />
                 <Select 
+                    bordered={false} 
                     defaultValue={selectedName}
                     style={{ width: 200, float: "right" }}
                     onChange={e => this.setState({selectedName: e})}>

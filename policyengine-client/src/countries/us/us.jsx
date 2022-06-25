@@ -21,11 +21,11 @@ import MALogo from "../../images/parameter-icons/us/state-governments/ma.png";
 import StateSpecific from "./components/stateSpecific";
 
 const childNamer = {
-    1: "Your first child",
-    2: "Your second child",
-    3: "Your third child",
-    4: "Your fourth child",
-    5: "Your fifth child",
+    1: "Your first dependent",
+    2: "Your second dependent",
+    3: "Your third dependent",
+    4: "Your fourth dependent",
+    5: "Your fifth dependent",
 }
 
 function validatePolicy(policy, defaultPolicy) {
@@ -402,7 +402,12 @@ export class US extends Country {
     extraVariableMetadata = {}
     situation = {
         "people": {
-            "You": {},
+            "You": {
+                "age": {2022: 25},
+                "is_tax_unit_head": {2022: true},
+                "is_tax_unit_dependent": {2022: false},
+                "is_tax_unit_spouse": {2022: false},
+            },
         },
         "tax_units": {
             "Your tax unit": {
@@ -442,6 +447,7 @@ export class US extends Country {
         "social_security_disability",
         "social_security_retirement",
         "social_security_survivors",
+        "is_tax_unit_dependent",
         "is_ssi_disabled",
         "is_permanently_disabled_veteran",
         "is_surviving_spouse_of_disabled_veteran",
@@ -468,7 +474,7 @@ export class US extends Country {
         "is_on_tribal_land",
         "is_rural",
         "is_homeless",
-        "cdcc_qualified_dependent"
+        "cdcc_qualified_dependent",
     ]
     outputVariables = [
         // Top level.
@@ -497,6 +503,8 @@ export class US extends Country {
         "spm_unit_self_employment_tax",
         "spm_unit_federal_tax",
         "spm_unit_state_tax",
+        "refundable_ctc",
+        "eitc",
         // Fourth level - SNAP decomposition.
         "snap_normal_allotment",
         "snap_emergency_allotment",
@@ -512,6 +520,14 @@ export class US extends Country {
         "ma_income_tax_before_credits",
         // Contributed.
         "basic_income",
+        "ecpa_filer_credit",
+        "ecpa_adult_dependent_credit",
+        "filing_status",
+        "is_tax_unit_dependent",
+        "is_tax_unit_head",
+        "is_tax_unit_spouse",
+        "income_tax",
+        "adjusted_gross_income",
     ]
     inputVariableHierarchy = {
         "Household": {
@@ -581,6 +597,7 @@ export class US extends Country {
         "spm_unit_net_income": {
             "add": [
                 "spm_unit_market_income",
+                "adjusted_gross_income",
                 "spm_unit_benefits",
             ],
             "subtract": [
@@ -616,7 +633,7 @@ export class US extends Country {
             "add": [
                 "spm_unit_payroll_tax",
                 "spm_unit_self_employment_tax",
-                "spm_unit_federal_tax",
+                "income_tax",
                 "ma_income_tax",
             ],
             "subtract": []
@@ -628,13 +645,21 @@ export class US extends Country {
             ],
             "subtract": []
         },
-        "spm_unit_federal_tax": {
+        "income_tax": {
             "add": [
                 "income_tax_before_credits",
             ],
             "subtract": [
                 "income_tax_capped_non_refundable_credits",
                 "income_tax_refundable_credits",
+            ]
+        },
+        "income_tax_refundable_credits": {
+            "add": [
+                "ecpa_adult_dependent_credit",
+                "ecpa_filer_credit",
+                "refundable_ctc",
+                "eitc",
             ]
         },
         "ma_income_tax": {
@@ -675,6 +700,9 @@ export class US extends Country {
         const name = "Your spouse"
         situation.people[name] = {
             "age": { "2022": 25 },
+            "is_tax_unit_dependent": { "2022": false },
+            "is_tax_unit_spouse": { "2022": true },
+            "is_tax_unit_head": { "2022": false },
         };
         situation.families["Your family"].members.push(name);
         situation.marital_units["Your marital unit"].members.push(name);
@@ -689,6 +717,9 @@ export class US extends Country {
         situation.people[childName] = {
             "age": { "2022": 10 },
             "is_in_k12_school": { "2022": true },
+            "is_tax_unit_dependent": { "2022": true },
+            "is_tax_unit_spouse": { "2022": false },
+            "is_tax_unit_head": { "2022": false },
         };
         situation.families["Your family"].members.push(childName);
         situation.tax_units["Your tax unit"].members.push(childName);

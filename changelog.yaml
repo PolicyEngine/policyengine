@@ -871,3 +871,7 @@
     fixed:
     - Spacing issues on the policy overview.
   date: 2022-06-25 18:34:05
+- bump: patch
+  changes:
+    fixed:
+    - Bugs with adult dependents.
