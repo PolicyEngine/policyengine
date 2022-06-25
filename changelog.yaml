@@ -866,7 +866,8 @@
   date: 2022-06-25 05:49:55
 - bump: minor
   changes:
-    fixed:
-    - Spacing issues on the policy overview.
     added:
     - Adult dependents can now be added to the household page.
+    fixed:
+    - Spacing issues on the policy overview.
+  date: 2022-06-25 18:34:05
