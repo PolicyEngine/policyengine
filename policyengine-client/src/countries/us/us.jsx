@@ -761,10 +761,10 @@ export class US extends Country {
     }
 
     getNumChildren() {
-        const numPeople = Object.keys(this.situation.people).length;
+        const countPeople = Object.keys(this.situation.people).length;
         const maritalStatus = this.householdMaritalStatus;
         const mainAdults = maritalStatus === "Married" ? 2 : 1;
-        return numPeople - mainAdults;
+        return countPeople - mainAdults;
     }
 
 
