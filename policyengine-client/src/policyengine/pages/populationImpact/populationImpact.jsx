@@ -186,9 +186,10 @@ export default class PopulationImpact extends React.Component {
 			<Row>
 				<Col xl={1} />
 				<Col xl={8} style={{
-					height: "calc(100vh - 100px)",
+					height: "calc(100vh - 60px)",
 					overflow: "scroll",
 					paddingRight: 40,
+					paddingLeft: 40,
 				}}>
 					{
 						(this.context.waitingOnPopulationImpact || (!this.state.error & (this.context.populationImpactResults === null))) ?
