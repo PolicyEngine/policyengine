@@ -880,3 +880,6 @@
   changes:
     fixed:
     - AGI removed from the household accounting table.
+    removed:
+    - Help button, temporarily.
+
