@@ -63,7 +63,7 @@ export function PolicyOverview(props) {
     const country = useContext(CountryContext);
 	const plan = Object.values(country.policy).map(step => generateStepFromParameter(step, country.editingReform, country, props.page)).filter(step => step != null);
 	const isEmpty = plan.length === 0;
-	const pageSize = 4;
+	const pageSize = props.pageSize || 4;
 	let [page, setPage] = useState(1);
 	return (
 		<>

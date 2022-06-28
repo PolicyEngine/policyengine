@@ -37,7 +37,7 @@ export default function MainNavigation(props) {
 				centered
 				onChange={onTabClick}>
 				{country.showPolicy && <TabPane tab="Policy" key="policy" />}
-				{country.showPopulationImpact && <TabPane tab={country.properName + " impact"} key="population-impact" />}
+				{country.showPopulationImpact && <TabPane tab={"Population impact"} key="population-impact" />}
 				{country.showHousehold && <TabPane tab="Your household" key="household" />}
 			</Tabs>
 		);

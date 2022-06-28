@@ -5,7 +5,7 @@ import Menu from "./menu";
 import { OverviewHolder, PolicyOverview, SharePolicyLinks } from "./overview";
 import Parameter from "./parameter";
 import NavigationButton from "../../general/navigationButton";
-import { Affix, Divider } from "antd";
+import { Affix, Breadcrumb, Divider, PageHeader } from "antd";
 import RadioButton from "../../general/radioButton";
 
 
@@ -40,6 +40,8 @@ export default class Policy extends React.Component {
         />;
         const parameterControls = <ParameterControlPane
             parameters={this.getParameters()}
+            selected={this.state.selected}
+            onBack={() => this.setState({ selectedMobilePage: "Menu" })}
         />;
         const overview = <OverviewHolder>
             <PolicyOverview page="policy"/>
@@ -79,8 +81,8 @@ export default class Policy extends React.Component {
                 {overview}
             </Col>
         </Row>
-        const mobileView = <>
-            <Row style={{maxHeight: 400, marginBottom: 10, overflowY: "scroll"}}>
+        const mobileView = <div style={{paddingLeft: 15, paddingRight: 15}}>
+            <Row style={{height: "50vh", marginBottom: 5, overflowY: "scroll"}}>
                 <Col>
                 {
                     this.state.selectedMobilePage === "Menu" ?
@@ -90,9 +92,15 @@ export default class Policy extends React.Component {
                             overview
                 }
                 </Col>
-                <Divider>Your policy</Divider>
             </Row>
-        </>
+            <Row>
+                <Col>
+                
+                <Divider>Your policy</Divider>
+                <PolicyOverview page="policy" pageSize={1}/>
+                </Col>
+            </Row>
+        </div>
         return <>
             <div className="d-none d-lg-block">
                 {desktopView}
@@ -123,5 +131,30 @@ function ParameterControlPane(props) {
             />)
         }
     }
-    return parameterControls;
+    const selectedTree = props.selected.split("/");
+    const selectedName = selectedTree.slice(-1)[0];
+    const breadcrumbs = <Breadcrumb>
+        {
+            selectedTree.map((item, index) => {
+                return <Breadcrumb.Item key={index}>
+                    {item}
+                </Breadcrumb.Item>
+            })
+        }
+    </Breadcrumb>
+    return <>
+        <div className="d-block d-lg-none">
+            <PageHeader
+                onBack={props.onBack}
+                title={<h5>{selectedName}</h5>}
+                breadcrumb={breadcrumbs}
+            />
+        </div>
+        <div className="d-none d-lg-block">
+            <PageHeader
+                breadcrumb={breadcrumbs}
+            />
+        </div>
+        {parameterControls}
+    </>;
 }

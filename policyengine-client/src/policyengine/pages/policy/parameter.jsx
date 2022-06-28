@@ -93,6 +93,7 @@ function NumericParameterControl(props) {
 				step={0.01}
 				tooltipVisible={false}
 				disabled={props.disabled}
+				paddingRight={15}
 			/>
 			{
 				focused ?
@@ -161,7 +162,7 @@ export default class Parameter extends React.Component {
 		}
 		const metadata = this.context.policy[this.props.name];
 		if (!metadata) {
-			return <h2>Failed: {this.props.name}</h2>;
+			return <></>;
 		}
 		const onChange = value => {
 			if(value !== "") {
@@ -195,7 +196,7 @@ export default class Parameter extends React.Component {
 				}
 				{this.props.prefix}
 				{control}
-				<div style={{paddingBottom: 20}} />
+				<div style={{paddingBottom: 10}} />
 			</>
 		);
 	}
