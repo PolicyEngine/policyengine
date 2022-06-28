@@ -28,10 +28,8 @@ export function Header(props) {
 		);
 	}
 	return (
-		<Affix offsetTop={0}>
-			<div style={{backgroundColor: "#2c6496"}}>
-				{navigation}
-			</div>
-		</Affix>
+		<div style={{backgroundColor: "#2c6496", position: "fixed", top: 0, width: "100vw"}}>
+			{navigation}
+		</div>
 	);
 }

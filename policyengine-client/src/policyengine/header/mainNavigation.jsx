@@ -52,7 +52,7 @@ export default function MainNavigation(props) {
 					{middleColumn}
 				</Col>
 				<Col lg={2} className="d-none d-lg-flex align-items-center justify-content-right">
-					<SocialLinks />
+					<SocialLinks color="white" />
 				</Col>
 			</Row>
 		</>
