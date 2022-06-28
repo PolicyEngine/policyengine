@@ -11,7 +11,6 @@ import Spinner from "../../general/spinner";
 import { useContext } from "react";
 import NavigationButton from "../../general/navigationButton";
 import { OverviewHolder, PolicyOverview, SharePolicyLinks } from "../policy/overview";
-import HelpButton from "../../general/help";
 function PopulationResultsCaveats() {
 	return <p style={{ color: "grey" }}><ExclamationCircleOutlined />  &nbsp; &nbsp;PolicyEngine results assume no behavioural or macroeconomic effects</p>;
 }
@@ -184,7 +183,6 @@ export default class PopulationImpact extends React.Component {
 
 	render() {
 		return <>
-			<HelpButton />
 			<Row>
 				<Col xl={1} />
 				<Col xl={8}>
