@@ -9,7 +9,6 @@ import { OverviewHolder, PolicyOverview, SharePolicyLinks } from "../policy/over
 import NavigationButton from "../../general/navigationButton";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Affix } from "antd";
-import HelpButton from "../../general/help";
 
 export class Household extends React.Component {
     static contextType = CountryContext;
@@ -51,7 +50,6 @@ export class Household extends React.Component {
             middlePane = <EarningsChartsPane />;
         }
         return <>
-            <HelpButton />
             <Row>
                 <Col xl={3}>
                     <Menu selectVariableGroup={group => this.setState({selected: group})} />
