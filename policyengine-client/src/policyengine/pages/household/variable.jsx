@@ -4,7 +4,7 @@ import { CloseCircleFilled, EditOutlined } from "@ant-design/icons";
 import {
 	Switch, Slider, Select, 
     Alert, Input,
-    DatePicker, Tooltip
+    DatePicker
 } from "antd";
 import Spinner from "../../general/spinner";
 import { CountryContext } from "../../../countries/country";
