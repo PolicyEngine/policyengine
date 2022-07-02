@@ -28,23 +28,22 @@ function BooleanParameterControl(props) {
 }
 
 function CategoricalParameterControl(props) {
-	return <Tooltip placement="bottom" title={<span>{props.metadata.tooltip}</span>}>
-		<Select 
-			style={{minWidth: 200}} 
-			showSearch 
-			placeholder={props.metadata.defaultValue.value} 
-			disabled={props.metadata.disabled}
-			onSelect={props.onChange}>
-			{props.metadata.possibleValues.map(value => (
-				<Option 
-					key={value.key} 
-					value={value.key}
-				>
-					{value.value}
-				</Option>
-			))}
-		</Select>
-	</Tooltip>
+	return <Select 
+		style={{minWidth: 200, marginLeft: 0, paddingLeft: 0}} 
+		showSearch 
+		placeholder={props.metadata.defaultValue.value} 
+		disabled={props.metadata.disabled}
+		bordered={false}
+		onSelect={props.onChange}>
+		{props.metadata.possibleValues.map(value => (
+			<Option 
+				key={value.key} 
+				value={value.key}
+			>
+				{value.value}
+			</Option>
+		))}
+	</Select>
 }
 
 function StringParameterControl(props) {
