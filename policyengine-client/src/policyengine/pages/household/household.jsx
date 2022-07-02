@@ -8,7 +8,7 @@ import EarningsChartsPane from "./earningsCharts";
 import { OverviewHolder, PolicyOverview, SharePolicyLinks } from "../policy/overview";
 import NavigationButton from "../../general/navigationButton";
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import { Affix, Breadcrumb, Divider, PageHeader } from "antd";
+import { Breadcrumb, Divider, PageHeader } from "antd";
 
 export class Household extends React.Component {
     static contextType = CountryContext;

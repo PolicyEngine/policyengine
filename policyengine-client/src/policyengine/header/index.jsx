@@ -1,4 +1,3 @@
-import { Affix } from "antd";
 import { useContext } from "react";
 import { Route, Switch } from "react-router-dom";
 import { CountryContext } from "../../countries";

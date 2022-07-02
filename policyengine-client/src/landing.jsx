@@ -1,6 +1,6 @@
 import React from "react";
 import { BodyWrapper, PolicyEngineWrapper } from "./policyengine/layout/general";
-import { Row, Col, Container } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { Button, Card, Divider as DefaultDivider } from "antd";
 
 import { Footer } from "./policyengine/footer";

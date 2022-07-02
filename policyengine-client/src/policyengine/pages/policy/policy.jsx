@@ -1,12 +1,11 @@
-import React, { useContext, useState } from "react"
+import React, { useContext } from "react"
 import { Col, Row } from "react-bootstrap";
 import { CountryContext } from "../../../countries"
 import Menu from "./menu";
 import { OverviewHolder, PolicyOverview, SharePolicyLinks } from "./overview";
 import Parameter from "./parameter";
 import NavigationButton from "../../general/navigationButton";
-import { Affix, Breadcrumb, Divider, PageHeader } from "antd";
-import RadioButton from "../../general/radioButton";
+import { Breadcrumb, Divider, PageHeader } from "antd";
 
 
 export default class Policy extends React.Component {
