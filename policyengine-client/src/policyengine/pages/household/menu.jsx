@@ -34,9 +34,9 @@ export default function Menu(props) {
 		>
             <Divider orientation="left" onClick={() => props.selectVariableGroup(country.defaultSelectedVariableGroup)}>About your household</Divider>
 			{addMenuEntry(country.inputVariableHierarchy, "")}
-            <Divider orientation="left" onClick={() => props.selectVariableGroup("results")}>Your results</Divider>
-            <AntMenu.Item key="results">Net income</AntMenu.Item>
-            {country.showEarningsVariation && <AntMenu.Item key="earnings">How earnings affect you</AntMenu.Item>}
+            <Divider orientation="left" onClick={() => props.selectVariableGroup("Your net income")}>Your results</Divider>
+            <AntMenu.Item key="Your net income">Net income</AntMenu.Item>
+            {country.showEarningsVariation && <AntMenu.Item key="How earnings affect you">How earnings affect you</AntMenu.Item>}
 
 		</AntMenu>
 	);

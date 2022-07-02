@@ -8,7 +8,7 @@ import EarningsChartsPane from "./earningsCharts";
 import { OverviewHolder, PolicyOverview, SharePolicyLinks } from "../policy/overview";
 import NavigationButton from "../../general/navigationButton";
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import { Affix, Divider } from "antd";
+import { Affix, Breadcrumb, Divider, PageHeader } from "antd";
 
 export class Household extends React.Component {
     static contextType = CountryContext;
@@ -45,11 +45,38 @@ export class Household extends React.Component {
                 selected={this.state.selected} 
                 variables={this.getVariables()} 
             />;
-        } else if(this.state.selected === "results") {
+        } else if(this.state.selected === "Your net income") {
             middlePane = <AccountingTable />;
-        } else if(this.state.selected === "earnings") {
+        } else if(this.state.selected === "How earnings affect you") {
             middlePane = <EarningsChartsPane />;
         }
+        let navigateBack = () => this.setState({ selectedMobilePage: "Menu" });
+        const selectedTree = this.state.selected.split("/");
+        const selectedName = selectedTree.slice(-1)[0];
+        const breadcrumbs = <Breadcrumb>
+            {
+                selectedTree.map((item, index) => {
+                    return <Breadcrumb.Item key={index}>
+                        {item}
+                    </Breadcrumb.Item>
+                })
+            }
+        </Breadcrumb>
+        middlePane = <>
+            <div className="d-block d-lg-none">
+                <PageHeader
+                    onBack={navigateBack}
+                    title={<h5>{selectedName}</h5>}
+                    breadcrumb={breadcrumbs}
+                />
+            </div>
+            <div className="d-none d-lg-block">
+                <PageHeader
+                    breadcrumb={breadcrumbs}
+                />
+            </div>
+            {middlePane}
+        </>;
         const menu = <Menu selectVariableGroup={group => this.setState({selected: group, selectedMobilePage: "Edit"})} />;
         const overview = <OverviewHolder>
             <PolicyOverview />
@@ -58,7 +85,7 @@ export class Household extends React.Component {
                 <div className="justify-content-center">
                     <NavigationButton
                         text="Calculate your net income"
-                        onClick={() => this.setState({selected: "results"})}
+                        onClick={() => this.setState({selected: "Your net income"})}
                         primary
                     />
                 </div>
