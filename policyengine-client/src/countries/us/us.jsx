@@ -597,7 +597,6 @@ export class US extends Country {
         "spm_unit_net_income": {
             "add": [
                 "spm_unit_market_income",
-                "adjusted_gross_income",
                 "spm_unit_benefits",
             ],
             "subtract": [
