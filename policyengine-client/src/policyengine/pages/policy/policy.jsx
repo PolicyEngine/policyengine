@@ -80,7 +80,7 @@ export default class Policy extends React.Component {
             <Col xl={3}>
                 {overview}
             </Col>
-        </Row>
+        </Row>;
         const mobileView = <div style={{paddingLeft: 15, paddingRight: 15}}>
             <Row style={{height: "50vh", marginBottom: 5, overflowY: "scroll"}}>
                 <Col>
@@ -95,7 +95,6 @@ export default class Policy extends React.Component {
             </Row>
             <Row>
                 <Col>
-                
                 <Divider>Your policy</Divider>
                 <PolicyOverview page="policy" pageSize={1}/>
                 </Col>

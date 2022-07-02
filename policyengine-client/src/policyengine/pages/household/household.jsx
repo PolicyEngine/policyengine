@@ -8,14 +8,15 @@ import EarningsChartsPane from "./earningsCharts";
 import { OverviewHolder, PolicyOverview, SharePolicyLinks } from "../policy/overview";
 import NavigationButton from "../../general/navigationButton";
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import { Affix } from "antd";
+import { Affix, Divider } from "antd";
 
 export class Household extends React.Component {
     static contextType = CountryContext;
     constructor(props, context) {
         super(props);
         this.state = {
-            selected: context.defaultSelectedVariableGroup
+            selected: context.defaultSelectedVariableGroup,
+            selectedMobilePage: "Menu",
         }
     }
 
@@ -49,54 +50,77 @@ export class Household extends React.Component {
         } else if(this.state.selected === "earnings") {
             middlePane = <EarningsChartsPane />;
         }
-        return <>
-            <Row>
-                <Col xl={3} style={{
-                    height: "calc(100vh - 100px)",
-                    overflow: "scroll",
-                    paddingRight: 40,
-                }}>
-                    <Menu selectVariableGroup={group => this.setState({selected: group})} />
-                </Col>
-                <Col xl={6} style={{
-                    height: "calc(100vh - 100px)",
-                    overflow: "scroll",
-                    paddingRight: 40,
-                }}>
-                    {middlePane}
-                </Col>
+        const menu = <Menu selectVariableGroup={group => this.setState({selected: group, selectedMobilePage: "Edit"})} />;
+        const overview = <OverviewHolder>
+            <PolicyOverview />
+            <SharePolicyLinks page="household"/>
+            <div className="d-block align-middle">
+                <div className="justify-content-center">
+                    <NavigationButton
+                        text="Calculate your net income"
+                        onClick={() => this.setState({selected: "results"})}
+                        primary
+                    />
+                </div>
+                <div className="justify-content-center">
+                    <NavigationButton
+                        target="policy" 
+                        text={<><ArrowLeftOutlined /> Edit your policy</>}
+                    />
+                </div>
+                <div className="justify-content-center">
+                    {this.context.showPopulationImpact && <NavigationButton 
+                        target="population-impact" 
+                        text={<><ArrowLeftOutlined /> Return to the {this.context.properName} impact</>}
+                    />}
+                </div>
+            </div>
+        </OverviewHolder>;
+        
+        const desktopView = <Row>
+            <Col xl={3} style={{
+                height: "calc(100vh - 100px)",
+                overflowY: "scroll",
+            }}>
+                {menu}
+            </Col>
+            <Col xl={6} style={{
+                height: "calc(100vh - 100px)",
+                overflow: "scroll",
+                paddingRight: 40,
+            }}>
+                {middlePane}
+            </Col>
+            <Col xl={3}>
+                {overview}
+            </Col>
+        </Row>;
+        const mobileView = <div style={{paddingLeft: 15, paddingRight: 15}}>
+            <Row style={{height: "50vh", marginBottom: 5, overflowY: "scroll"}}>
                 <Col>
-                    <OverviewHolder>
-                        <Affix offsetTop={55}>
-                            <PolicyOverview />
-				        </Affix>
-                        <Affix offsetTop={450}>
-                            <SharePolicyLinks page="household"/>
-                            <div className="d-block align-middle">
-                                <div className="justify-content-center">
-                                    <NavigationButton
-                                        text="Calculate your net income"
-                                        onClick={() => this.setState({selected: "results"})}
-                                        primary
-                                    />
-                                </div>
-                                <div className="justify-content-center">
-                                    <NavigationButton
-                                        target="policy" 
-                                        text={<><ArrowLeftOutlined /> Edit your policy</>}
-                                    />
-                                </div>
-                                <div className="justify-content-center">
-                                    {this.context.showPopulationImpact && <NavigationButton 
-                                        target="population-impact" 
-                                        text={<><ArrowLeftOutlined /> Return to the {this.context.properName} impact</>}
-                                    />}
-                                </div>
-                            </div>
-                        </Affix>
-                    </OverviewHolder>
+                {
+                    this.state.selectedMobilePage === "Menu" ?
+                        menu :
+                        this.state.selectedMobilePage === "Edit" ?
+                            middlePane :
+                            overview
+                }
                 </Col>
             </Row>
+            <Row>
+                <Col>
+                <Divider>Your policy</Divider>
+                <PolicyOverview page="policy" pageSize={1}/>
+                </Col>
+            </Row>
+        </div>
+        return <>
+            <div className="d-none d-lg-block">
+                {desktopView}
+            </div>
+            <div className="d-block d-lg-none">
+                {mobileView}
+            </div>
         </>
     }
 }

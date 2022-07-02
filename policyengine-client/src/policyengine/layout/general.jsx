@@ -15,7 +15,7 @@ export function BodyWrapper(props) {
 				<Container fluid style={{height: "calc(80vh - 25px)", overflow: props.scroll && "scroll", position: "fixed", top: 60}}>{props.children}</Container>
 			</div>
 			<div className="d-block d-lg-none">
-				<Container style={{maxHeight: "calc(100vh - 100px)", position: "fixed", overflow: props.scroll && "scroll", top: 95}}>{props.children}</Container>
+				<Container style={{maxHeight: "calc(100vh - 100px)", position: "fixed", overflow: props.scroll && "scroll", top: 120}}>{props.children}</Container>
 			</div>
 		</>
 	);
