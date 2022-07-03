@@ -157,7 +157,7 @@ function VariableTable(props) {
             title: "",
             dataIndex: "variable",
             key: "variable",
-            width: 70,
+            width: 150,
         }, {
             title: "Baseline",
             dataIndex: "baseline",
@@ -224,7 +224,7 @@ function generateTableData(variable, country, depth, isPositive) {
         childElements = null;
     }
     const data = [{
-        variable: <div className="d-flex">{country.variables[variable].label}</div>,
+        variable: <div style={{display: "inline-block"}}>{country.variables[variable].label}</div>,
         key: variable,
         baseline: applyColorLogic(baselineValue * multiplier, colorZerosGrey),
         reform: applyColorLogic(reformValue * multiplier, colorZerosGrey),

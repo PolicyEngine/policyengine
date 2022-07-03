@@ -49,7 +49,7 @@ export default function App(props) {
                     <Redirect to="/uk/policy" />
                 </Route>
                 <Route exact path="/us">
-                    <Redirect to="/us/household" />
+                    <Redirect to="/us/policy" />
                 </Route>
                 <Route path="/uk">
                     {createRedirects(uk.namedPolicies, "uk")}

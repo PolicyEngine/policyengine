@@ -93,7 +93,7 @@ function UsageExplanations(props) {
 function LandingPageContent() {
     const inUs = window.navigator.language === "en-US";
     const ukLink = "uk/policy"
-    const usLink = "us/household"
+    const usLink = "us/policy"
 
     return <div>
         <center>

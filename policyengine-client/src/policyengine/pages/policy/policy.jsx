@@ -5,7 +5,7 @@ import Menu from "./menu";
 import { OverviewHolder, PolicyOverview, SharePolicyLinks } from "./overview";
 import Parameter from "./parameter";
 import NavigationButton from "../../general/navigationButton";
-import { Breadcrumb, Divider, PageHeader } from "antd";
+import { Breadcrumb, Button, Divider, PageHeader } from "antd";
 
 
 export default class Policy extends React.Component {
@@ -81,7 +81,7 @@ export default class Policy extends React.Component {
             </Col>
         </Row>;
         const mobileView = <div style={{paddingLeft: 15, paddingRight: 15}}>
-            <Row style={{height: "50vh", marginBottom: 5, overflowY: "scroll"}}>
+            <Row style={{height: "45vh", marginBottom: 5, overflowY: "scroll"}}>
                 <Col>
                 {
                     this.state.selectedMobilePage === "Menu" ?
@@ -92,12 +92,29 @@ export default class Policy extends React.Component {
                 }
                 </Col>
             </Row>
-            <Row>
+            <Row style={{height: "20vh"}}>
                 <Col>
                 <Divider>Your policy</Divider>
                 <PolicyOverview page="policy" pageSize={1}/>
                 </Col>
             </Row>
+            <div style={{position: "fixed", top: "calc(90vh)", left: 0, width: "100%", padding: 10}}>
+                <Row>
+                    <Col>
+                        <NavigationButton
+                            text={`Simulate ${this.context.properName}-wide`}
+                            target="population-impact"
+                            primary
+                        />
+                    </Col>
+                    <Col>
+                        <NavigationButton
+                            text={`Simulate on a household`}
+                            target="household"
+                        />
+                    </Col>
+                </Row>
+            </div>
         </div>
         return <>
             <div className="d-none d-lg-block">

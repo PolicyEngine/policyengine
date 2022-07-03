@@ -88,6 +88,10 @@ export class Household extends React.Component {
                         onClick={() => this.setState({selected: "Your net income"})}
                         primary
                     />
+                    <NavigationButton
+                        text="See how earnings affect you"
+                        onClick={() => this.setState({selected: "How earnings affect you"})}
+                    />
                 </div>
                 <div className="justify-content-center">
                     <NavigationButton
@@ -134,12 +138,29 @@ export class Household extends React.Component {
                 }
                 </Col>
             </Row>
-            <Row>
+            <Row style={{height: "20vh"}}>
                 <Col>
                 <Divider>Your policy</Divider>
                 <PolicyOverview page="policy" pageSize={1}/>
                 </Col>
             </Row>
+            <div style={{position: "fixed", top: "calc(90vh)", left: 0, width: "100%", padding: 10}}>
+                <Row>
+                    <Col>
+                        <NavigationButton
+                            text="Calculate your net income"
+                            onClick={() => this.setState({selected: "Your net income"})}
+                            primary
+                        />
+                    </Col>
+                    <Col>
+                        <NavigationButton
+                            text="See how earnings affect you"
+                            onClick={() => this.setState({selected: "How earnings affect you"})}
+                        />
+                    </Col>
+                </Row>
+            </div>
         </div>
         return <>
             <div className="d-none d-lg-block">
