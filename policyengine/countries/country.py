@@ -10,6 +10,7 @@ from openfisca_core.simulation_builder import SimulationBuilder
 from policyengine.impact.population.breakdown import (
     get_breakdown_and_chart_per_provision,
 )
+from policyengine.impact.population.charts import age_chart
 from policyengine.utils.computation_trees import get_computation_trees_json
 from policyengine.utils.general import (
     PolicyEngineResultsConfig,
@@ -122,6 +123,7 @@ class PolicyEngineCountry:
                 household_variation=self.household_variation,
                 dependencies=self.dependencies,
                 leaf_nodes=self.leaf_nodes,
+                age_chart=self.age_chart,
             )
 
             self.entities = build_entities(
@@ -577,4 +579,11 @@ class PolicyEngineCountry:
             budget_difference_chart=budget_difference,
             mtr_chart=mtr,
             mtr_difference_chart=mtr_difference,
+        )
+
+    def age_chart(self, params: dict = None):
+        baseline, reformed = self._get_microsimulations(params)
+        chart = age_chart(baseline, reformed, self.results_config)
+        return dict(
+            age_chart=chart,
         )

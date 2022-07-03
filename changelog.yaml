@@ -888,3 +888,7 @@
     fixed:
     - Parameters silent fail rather than show a message.
   date: 2022-07-03 04:26:48
+- bump: minor
+  changes:
+    added:
+    - Optional age impact chart for population impacts.

@@ -634,3 +634,66 @@ def inequality_chart(
     charts.add_zero_line(fig)
     charts.add_custom_hovercard(fig)
     return charts.formatted_fig_json(fig)
+
+
+def age_chart(
+    baseline: Microsimulation,
+    reformed: Microsimulation,
+    config: Type[PolicyEngineResultsConfig],
+) -> dict:
+    """Generates a bar chart showing the impact of a reform by age.
+
+    Args:
+        baseline (Microsimulation): The baseline simulation.
+        reformed (Microsimulation): The reformed simulation.
+        config (Type[PolicyEngineResultsConfig]): The country metadata.
+
+    Returns:
+        dict: The Plotly JSON.
+    """
+
+    baseline_household_net_income = baseline.calc(
+        config.household_net_income_variable,
+        map_to="person",
+    )
+    reform_household_net_income = reformed.calc(
+        config.household_net_income_variable,
+        map_to="person",
+    )
+    age = baseline.calc("age")
+    gain = reform_household_net_income - baseline_household_net_income
+    gain_by_age = gain.groupby(age).sum() / gain.groupby(age).count()
+    df = pd.DataFrame(
+        {
+            "Age": gain_by_age.index,
+            "Average increase": gain_by_age.values,
+        }
+    )
+    hover_labels = []
+    for age, gain in zip(df.Age, df["Average increase"]):
+        hover_labels += [
+            f"<b>{age}-year olds</b> see their household's net income <br>{'rise' if gain >= 0 else 'fall '} by <b>{config.currency}{gain:,.0f}</b> on average."
+        ]
+    df["Label"] = hover_labels
+    fig = (
+        px.bar(
+            df,
+            x="Age",
+            y="Average increase",
+            custom_data=["Label"],
+        )
+        .update_layout(
+            title="Average net income increase by age",
+            yaxis_tickformat=f",.0f",
+            yaxis_tickprefix=config.currency,
+            xaxis_tickvals=list(range(0, 100, 10)),
+        )
+        .update_traces(
+            marker_color=np.where(
+                df["Average increase"] > 0, charts.DARK_GREEN, charts.GRAY
+            ),
+            hovertemplate="%{customdata[0]}",
+        )
+    )
+    charts.add_zero_line(fig)
+    return charts.formatted_fig_json(fig)
