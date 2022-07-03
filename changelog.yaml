@@ -883,3 +883,7 @@
     removed:
     - Help button, temporarily.
   date: 2022-06-28 17:35:16
+- bump: patch
+  changes:
+    fixed:
+    - Parameters silent fail rather than show a message.
