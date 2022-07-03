@@ -55,6 +55,7 @@ export class UK extends Country {
             `http://127.0.0.1:5000`;
         this.apiURL = `${this.baseApiUrl}/${this.name}/api`;
     }
+    apiURL = null
     name = "uk"
     properName = "UK"
     beta = false
