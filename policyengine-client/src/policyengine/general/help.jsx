@@ -1,4 +1,3 @@
-import { QuestionCircleOutlined } from "@ant-design/icons";
 import { Button, Modal, Steps } from "antd";
 import { useContext, useState } from "react";
 import UKPolicyHelper from "../../images/help/uk/policyHelper.gif";
@@ -7,23 +6,25 @@ import UKHouseholdHelper from "../../images/help/uk/householdHelper.gif";
 import USHouseholdHelper from "../../images/help/us/householdHelper.gif";
 import USPolicyHelper from "../../images/help/us/policyHelper.gif";
 import { CountryContext } from "../../countries";
+import { Link } from "react-router-dom";
 
 const { Step } = Steps;
 
 export default function HelpButton(props) {
     const country = useContext(CountryContext);
-    return country.name === "uk" ?
+    const button = country.name === "uk" ?
         <UKHelpButton /> :
         <USHelpButton />;
+    return <div style={{display: "inline", paddingLeft: 5}}>
+        {button}
+    </div>
 }
 
 export function UKHelpButton(props) {
     const [helpPaneOpen, setHelpPaneOpen] = useState(false);
     const [currentPane, setCurrentPane] = useState(0);
     return <div className="d-none d-lg-block">
-        <div style={{position: "fixed", zIndex: 0, left: 20, bottom: 70}}>
-            <QuestionCircleOutlined style={{fontSize: 35, cursor: "pointer"}} onClick={() => {setCurrentPane(0); setHelpPaneOpen(true)}}/>
-        </div>
+        <Link to="#" style={{display: "inline"}} onClick={() => {setCurrentPane(0); setHelpPaneOpen(true)}}>Help</Link>
         <Modal visible={helpPaneOpen} centered closable={false} footer={null} width="50%">
             <h4>How to use PolicyEngine</h4>
             <Steps current={currentPane} style={{marginTop: 20}}>
@@ -62,10 +63,8 @@ export function UKHelpButton(props) {
 export function USHelpButton(props) {
     const [helpPaneOpen, setHelpPaneOpen] = useState(false);
     const [currentPane, setCurrentPane] = useState(0);
-    return <div className="d-none d-lg-block">
-        <div style={{position: "fixed", zIndex: 0, left: 20, bottom: 70}}>
-            <QuestionCircleOutlined style={{fontSize: 35, cursor: "pointer"}} onClick={() => {setCurrentPane(0); setHelpPaneOpen(true)}}/>
-        </div>
+    return <>
+        <Link to="#" style={{display: "inline"}} onClick={() => {setCurrentPane(0); setHelpPaneOpen(true)}}>Help</Link>
         <Modal visible={helpPaneOpen} centered closable={false} footer={null} width="50%">
             <h4>How to use PolicyEngine</h4>
             <Steps current={currentPane} style={{marginTop: 20}}>
@@ -87,5 +86,5 @@ export function USHelpButton(props) {
                 </>}
             </div>
         </Modal>
-    </div>
+    </>
 }

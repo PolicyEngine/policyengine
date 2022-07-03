@@ -37,7 +37,7 @@ export default function MainNavigation(props) {
 				centered
 				onChange={onTabClick}>
 				{country.showPolicy && <TabPane tab="Policy" key="policy" />}
-				{country.showPopulationImpact && <TabPane tab={country.properName + " impact"} key="population-impact" />}
+				{country.showPopulationImpact && <TabPane tab={"Population impact"} key="population-impact" />}
 				{country.showHousehold && <TabPane tab="Your household" key="household" />}
 			</Tabs>
 		);
@@ -52,7 +52,7 @@ export default function MainNavigation(props) {
 					{middleColumn}
 				</Col>
 				<Col lg={2} className="d-none d-lg-flex align-items-center justify-content-right">
-					<SocialLinks />
+					<SocialLinks color="white" />
 				</Col>
 			</Row>
 		</>

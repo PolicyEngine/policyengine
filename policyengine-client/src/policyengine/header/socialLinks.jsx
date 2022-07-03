@@ -12,7 +12,7 @@ import {
 
 
 export default function SocialLinks(props) {
-    const iconStyle = { marginLeft: 15, fontSize: 15, color: "white" };
+    const iconStyle = { marginLeft: 15, fontSize: 15, color: props.color };
     return (
         <div className="d-flex justify-content-center">
             <a href="https://twitter.com/thepolicyengine">

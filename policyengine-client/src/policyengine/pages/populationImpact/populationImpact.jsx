@@ -189,7 +189,12 @@ export default class PopulationImpact extends React.Component {
 		return <>
 			<Row>
 				<Col xl={1} />
-				<Col xl={8}>
+				<Col xl={8} style={{
+					height: "calc(100vh - 60px)",
+					overflow: "scroll",
+					paddingRight: 40,
+					paddingLeft: 40,
+				}}>
 					{
 						(this.context.waitingOnPopulationImpact || (!this.state.error & (this.context.populationImpactResults === null))) ?
 							<Loading message={`Simulating your results on the ${this.context.properName} population (this usually takes about 10 seconds)`} /> :

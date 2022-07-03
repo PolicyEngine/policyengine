@@ -1,6 +1,6 @@
 import React from "react";
-import { PolicyEngineWrapper } from "./policyengine/layout/general";
-import { Row, Col, Container } from "react-bootstrap";
+import { BodyWrapper, PolicyEngineWrapper } from "./policyengine/layout/general";
+import { Row, Col } from "react-bootstrap";
 import { Button, Card, Divider as DefaultDivider } from "antd";
 
 import { Footer } from "./policyengine/footer";
@@ -52,9 +52,10 @@ export default function LandingPage() {
     return (
         <PolicyEngineWrapper>
             <Header noTabs />
-            <Container>
+            <BodyWrapper scroll>
                 <LandingPageContent />
-            </Container>
+            </BodyWrapper>
+            <Footer />
         </PolicyEngineWrapper>
     );
 }
@@ -92,9 +93,9 @@ function UsageExplanations(props) {
 function LandingPageContent() {
     const inUs = window.navigator.language === "en-US";
     const ukLink = "uk/policy"
-    const usLink = "us/household"
+    const usLink = "us/policy"
 
-    return <>
+    return <div>
         <center>
             <Row style={{ marginTop: 30 }}>
                 <h1>Compute the impact of public policy</h1>
@@ -114,9 +115,8 @@ function LandingPageContent() {
             <Subheader subtitle={<>We're currently seeking funding partners, volunteer developers and policy analysts to expand our work and its impact. Is that you? <a href="mailto:hello@policyengine.org">Get in touch.</a></>}></Subheader>
             <Subheader><a href="https://blog.policyengine.org">Blog</a></Subheader>
             <MediumFeed />
-            <Footer />
         </center>
-    </>
+    </div>
 }
 
 class MediumFeed extends React.Component {
