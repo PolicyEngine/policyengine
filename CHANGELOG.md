@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.68.0] - 2022-07-03 18:13:33
+
+### Added
+
+- Optional age impact chart for population impacts.
+
+## [1.67.3] - 2022-07-03 04:26:48
+
+### Fixed
+
+- Parameters silent fail rather than show a message.
+
 ## [1.67.2] - 2022-06-28 17:35:16
 
 ### Fixed
@@ -1056,6 +1068,8 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.68.0]: https://github.com/PolicyEngine/policyengine/compare/1.67.3...1.68.0
+[1.67.3]: https://github.com/PolicyEngine/policyengine/compare/1.67.2...1.67.3
 [1.67.2]: https://github.com/PolicyEngine/policyengine/compare/1.67.1...1.67.2
 [1.67.1]: https://github.com/PolicyEngine/policyengine/compare/1.67.0...1.67.1
 [1.67.0]: https://github.com/PolicyEngine/policyengine/compare/1.66.0...1.67.0

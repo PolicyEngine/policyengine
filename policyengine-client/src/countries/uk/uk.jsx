@@ -55,6 +55,7 @@ export class UK extends Country {
             `http://127.0.0.1:5000`;
         this.apiURL = `${this.baseApiUrl}/${this.name}/api`;
     }
+    apiURL = null
     name = "uk"
     properName = "UK"
     beta = false
@@ -286,7 +287,7 @@ export class UK extends Country {
         "Miscellaneous": {
             "Tax ": [
                 "exempt_seniors_from_PA_reforms",
-                "contrib_ubi_center_basic_income_exempt_pensioners_from_tax_changes",
+                "contrib_ubi_center_exempt_pensioners_from_tax_changes",
             ],
         }
     }

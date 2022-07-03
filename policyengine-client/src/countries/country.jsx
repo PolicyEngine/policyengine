@@ -7,6 +7,7 @@ export default class Country {
     stateHolder = null
     populationImpactResults = null
     populationImpactBreakdownResults = null
+    ageChartResult = null;
     editingReform = true;
 
     updatePolicy(name, value) {
@@ -21,7 +22,8 @@ export default class Country {
             populationImpactIsOutdated: true,
             populationBreakdownIsOutdated: true,
             reformSituationImpactIsOutdated: true,
-            situationVariationImpactIsOutdated: true
+            situationVariationImpactIsOutdated: true,
+            ageChartIsOutdated: true,
         });
     }
 
@@ -30,6 +32,7 @@ export default class Country {
             policy: policy,
             populationImpactIsOutdated: true,
             populationBreakdownIsOutdated: true,
+            ageChartIsOutdated: true,
             reformSituationImpactIsOutdated: true,
             situationVariationImpactIsOutdated: true
         });
@@ -92,6 +95,7 @@ export default class Country {
     situationIsOutdated = true;
     populationImpactIsOutdated = true;
     populationBreakdownIsOutdated = true;
+    ageChartIsOutdated = true;
     baselineSituationImpactIsOutdated = true;
     reformSituationImpactIsOutdated = true;
     situationVariationImpactIsOutdated = true;
@@ -114,6 +118,7 @@ export default class Country {
     usePolicyEngineOrgServer = false;
 
     waitingOnPopulationImpact = false;
+    waitingOnAgeChart = false;
     waitingOnAccountingTableBaseline = false;
     waitingOnAccountingTableReform = false;
     waitingOnEarningsCharts = false;

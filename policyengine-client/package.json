@@ -1,6 +1,6 @@
 {
   "name": "policyengine-client",
-  "version": "1.67.2",
+  "version": "1.68.0",
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@emotion/react": "^11.5.0",
@@ -42,14 +42,6 @@
     "test": "craco test",
     "eject": "react-scripts eject",
     "analyze": "source-map-explorer 'build/static/js/*.js'"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest",
-      "eslint:recommended",
-      "jest"
-    ]
   },
   "browserslist": {
     "production": [
