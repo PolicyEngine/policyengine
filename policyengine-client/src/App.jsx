@@ -1,12 +1,17 @@
 /*
-    * This file contains the top-level logic: directing as per the URL
-    * up to the /country page.
-*/
+ * This file contains the top-level logic: directing as per the URL
+ * up to the /country page.
+ */
 
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import "./style/policyengine.less";
+import "bootstrap/dist/css/bootstrap.min.css";
 import PolicyEngine from "./policyengine/policyengine";
 import createRedirects from "./policyengine/tools/namedPolicies";
 import { UK, US } from "./countries";
@@ -15,51 +20,60 @@ import LandingPage from "./landing";
 
 // Markdown files
 
-import UK_FAQ from "./markdown/uk/faq.md";
-import ABOUT from "./markdown/about.md";
-import CONTACT from "./markdown/contact.md";
+import { ReactComponent as UK_FAQ } from "./markdown/uk/faq.md";
+import { ReactComponent as ABOUT } from "./markdown/about.md";
+import { ReactComponent as CONTACT } from "./markdown/contact.md";
 // Import other markdown files here
 
 const markdownPages = [
-    { content: UK_FAQ, path: "/uk/faq", title: "FAQ" },
-    { content: ABOUT, path: "/about", title: "About" },
-    { content: CONTACT, path: "/contact", title: "Contact" },
-    // Add other pages here
+  { content: UK_FAQ, path: "/uk/faq", title: "FAQ" },
+  { content: ABOUT, path: "/about", title: "About" },
+  { content: CONTACT, path: "/contact", title: "Contact" },
+  // Add other pages here
 ];
 
 export default function App(props) {
-    // Redirect http to https
-    if (!(window.location.hostname.includes("localhost")) && (window.location.protocol !== "https:")) {
-        window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
-    }
-    const uk = new UK();
-    const us = new US();
-    return (
-        <Router>
-            <Switch>
-                {markdownPages.map(page => (
-                    <Route key={page.path} exact path={page.path}>
-                        <MarkdownPage title={page.title} content={page.content} path={page.path} />
-                    </Route>
-                ))}
-                <Route exact path="/">
-                    <LandingPage />
-                </Route>
-                <Route exact path="/uk">
-                    <Redirect to="/uk/policy" />
-                </Route>
-                <Route exact path="/us">
-                    <Redirect to="/us/policy" />
-                </Route>
-                <Route path="/uk">
-                    {createRedirects(uk.namedPolicies, "uk")}
-                    <PolicyEngine country="uk" analytics={props.analytics} />
-                </Route>
-                <Route path="/us">
-                    {createRedirects(us.namedPolicies, "us")}
-                    <PolicyEngine country="us" analytics={props.analytics} />
-                </Route>
-            </Switch>
-        </Router>
-    );
+  // Redirect http to https
+  if (
+    !window.location.hostname.includes("localhost") &&
+    window.location.protocol !== "https:"
+  ) {
+    window.location.href =
+      "https:" +
+      window.location.href.substring(window.location.protocol.length);
+  }
+  const uk = new UK();
+  const us = new US();
+  return (
+    <Router>
+      <Switch>
+        {markdownPages.map((page) => (
+          <Route key={page.path} exact path={page.path}>
+            <MarkdownPage
+              title={page.title}
+              content={page.content}
+              path={page.path}
+            />
+          </Route>
+        ))}
+        <Route exact path="/">
+          <LandingPage />
+        </Route>
+        <Route exact path="/uk">
+          <Redirect to="/uk/policy" />
+        </Route>
+        <Route exact path="/us">
+          <Redirect to="/us/policy" />
+        </Route>
+        <Route path="/uk">
+          {createRedirects(uk.namedPolicies, "uk")}
+          <PolicyEngine country="uk" analytics={props.analytics} />
+        </Route>
+        <Route path="/us">
+          {createRedirects(us.namedPolicies, "us")}
+          <PolicyEngine country="us" analytics={props.analytics} />
+        </Route>
+      </Switch>
+    </Router>
+  );
 }

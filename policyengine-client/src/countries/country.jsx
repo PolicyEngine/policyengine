@@ -115,7 +115,7 @@ export default class Country {
     }
 
     useLocalServer = false;
-    usePolicyEngineOrgServer = false;
+    usePolicyEngineOrgServer = true;
 
     waitingOnPopulationImpact = false;
     waitingOnAgeChart = false;
