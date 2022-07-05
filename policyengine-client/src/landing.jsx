@@ -223,6 +223,7 @@ class MediumFeed extends React.Component {
               />
             }
             onClick={() => window.open(post.link, "_blank")}
+            key={post.link}
           >
             <h5>{post.title}</h5>
           </Card>
