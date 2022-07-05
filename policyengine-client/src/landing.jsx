@@ -128,7 +128,7 @@ function LandingPageContent() {
   return (
     <div className="mx-auto flex flex-col text-center lg:px-8 bg-white isolate -z-10">
       <div className="my-4 lg:pt-8 flex flex-col gap-4">
-        <h1 className="mb-6 text-slate-700 font-bold text-4xl text-center">
+        <h1 className="text-slate-700 font-bold text-3xl md:text-4xl text-center">
           Compute the impact of public policy
         </h1>
         <div className="text-[#0b5394] text-xl md:text-2xl">

@@ -69,7 +69,7 @@ export default function MainNavigation(props) {
           lg={2}
           className="d-none d-lg-flex align-items-center justify-content-right"
         >
-          <SocialLinks color="black" />
+          <SocialLinks color="white" />
         </Col>
       </Row>
     </div>
