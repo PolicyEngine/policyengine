@@ -1,34 +1,42 @@
 import { useContext } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { CountryContext } from "../../countries";
 import MainNavigation from "./mainNavigation";
 
 export function Header(props) {
-    const country = useContext(CountryContext);
-	let navigation;
-	if(props.title || props.noTabs) {
-		navigation = <MainNavigation title={props.title} noTabs={props.noTabs}/>;
-	} else {
-		navigation = (
-			<Switch>
-				<Route path={`/${country.name}/policy`}>
-					<MainNavigation selected="policy"/>
-				</Route>
-				<Route path={`/${country.name}/population-impact`}>
-					<MainNavigation selected="population-impact"/>
-				</Route>
-				<Route path={`/${country.name}/household`}>
-					<MainNavigation selected="household"/>
-				</Route>
-				<Route path={"/"}>
-					<MainNavigation selected={window.location.pathname}/>
-				</Route>
-			</Switch>
-		);
-	}
-	return (
-		<div style={{backgroundColor: "#2c6496", position: "fixed", top: 0, width: "100vw"}}>
-			{navigation}
-		</div>
-	);
+  const country = useContext(CountryContext);
+  let navigation;
+  if (props.title || props.noTabs) {
+    navigation = <MainNavigation title={props.title} noTabs={props.noTabs} />;
+  } else {
+    navigation = (
+      <Routes>
+        <Route path={`policy`} element={<MainNavigation selected="policy" />} />
+        <Route
+          path={`population-impact`}
+          element={<MainNavigation selected="population-impact" />}
+        />
+        <Route
+          path={`household`}
+          element={<MainNavigation selected="household" />}
+        />
+        <Route
+          path={"/"}
+          element={<MainNavigation selected={window.location.pathname} />}
+        />
+      </Routes>
+    );
+  }
+  return (
+    <div
+      style={{
+        backgroundColor: "#2c6496",
+        position: "fixed",
+        top: 0,
+        width: "100vw",
+      }}
+    >
+      {navigation}
+    </div>
+  );
 }

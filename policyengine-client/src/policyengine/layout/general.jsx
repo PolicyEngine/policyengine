@@ -5,7 +5,7 @@
 import React from "react";
 import { useContext } from "react";
 import { Container } from "react-bootstrap";
-import { Redirect } from "react-router";
+import { Navigate } from "react-router";
 import { CountryContext } from "../../countries";
 
 export function BodyWrapper(props) {
@@ -32,7 +32,7 @@ export function PolicyEngineWrapper(props) {
 export function NamedPolicyRedirects(props) {
     const country = useContext(CountryContext);
 	return Object.keys(country.namedPolicies).map(name => (
-		<Redirect from={`/${country.name}${name}`} to={`/${country.name}${props.page}?${country.namedPolicies[name]}`} />
+		<Navigate from={`/${country.name}${name}`} to={`/${country.name}${props.page}?${country.namedPolicies[name]}`} />
 	));
 }
 

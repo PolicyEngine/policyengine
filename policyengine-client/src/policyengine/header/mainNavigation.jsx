@@ -3,7 +3,7 @@
 */
 
 import { Tabs } from "antd";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import { policyToURL } from "../tools/url";
 import SocialLinks from "./socialLinks";
@@ -14,7 +14,7 @@ import { CountryContext } from "../../countries";
 const { TabPane } = Tabs;
 
 export default function MainNavigation(props) {
-	const history = useHistory();
+	const navigate = useNavigate();
 	const country = useContext(CountryContext);
 	let middleColumn;
 	if (props.title || props.noTabs) {
@@ -27,7 +27,7 @@ export default function MainNavigation(props) {
 		);
 	} else {
 		const onTabClick = key => {
-			history.push(policyToURL(`/${country.name}/${key}`, country.policy))
+			navigate(policyToURL(`/${country.name}/${key}`, country.policy))
 		}
 		middleColumn = (
 			<Tabs

@@ -6,9 +6,9 @@
 import React from "react";
 import {
   BrowserRouter as Router,
-  Switch,
+  Routes,
   Route,
-  Redirect,
+  Navigate,
 } from "react-router-dom";
 import "./style/policyengine.less";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -46,34 +46,43 @@ export default function App(props) {
   const us = new US();
   return (
     <Router>
-      <Switch>
+      <Routes>
         {markdownPages.map((page) => (
-          <Route key={page.path} exact path={page.path}>
-            <MarkdownPage
-              title={page.title}
-              content={page.content}
-              path={page.path}
-            />
-          </Route>
+          <Route
+            key={page.path}
+            exact
+            path={page.path}
+            element={
+              <MarkdownPage
+                title={page.title}
+                content={page.content}
+                path={page.path}
+              />
+            }
+          />
         ))}
-        <Route exact path="/">
-          <LandingPage />
-        </Route>
-        <Route exact path="/uk">
-          <Redirect to="/uk/policy" />
-        </Route>
-        <Route exact path="/us">
-          <Redirect to="/us/policy" />
-        </Route>
-        <Route path="/uk">
-          {createRedirects(uk.namedPolicies, "uk")}
-          <PolicyEngine country="uk" analytics={props.analytics} />
-        </Route>
-        <Route path="/us">
-          {createRedirects(us.namedPolicies, "us")}
-          <PolicyEngine country="us" analytics={props.analytics} />
-        </Route>
-      </Switch>
+        <Route exact path="/" element={<LandingPage />} />
+        <Route exact path="/uk" element={<Navigate to="/uk/policy" />} />
+        <Route exact path="/us" element={<Navigate to="/us/policy" />} />
+        <Route
+          path="/uk/*"
+          element={
+            <>
+              <Routes>{createRedirects(uk.namedPolicies, "uk")}</Routes>
+              <PolicyEngine country="uk" analytics={props.analytics} />
+            </>
+          }
+        />
+        <Route
+          path="/us/*"
+          element={
+            <>
+              <Routes>{createRedirects(us.namedPolicies, "us")}</Routes>
+              <PolicyEngine country="us" analytics={props.analytics} />
+            </>
+          }
+        />
+      </Routes>
     </Router>
   );
 }

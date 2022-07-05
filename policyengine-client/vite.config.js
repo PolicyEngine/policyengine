@@ -1,5 +1,4 @@
 import { defineConfig } from "vite";
-import reactRefresh from "@vitejs/plugin-react-refresh";
 import svgrPlugin from "vite-plugin-svgr";
 import mdPlugin from "vite-plugin-markdown";
 import react from "@vitejs/plugin-react";
@@ -20,7 +19,6 @@ export default defineConfig({
     },
   },
   plugins: [
-    reactRefresh(),
     mdPlugin({
       mode: "react",
       markdown: (body) => body,
