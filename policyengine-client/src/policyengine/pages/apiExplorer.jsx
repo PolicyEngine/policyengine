@@ -100,7 +100,6 @@ export default function APIExplorer(props) {
 
   const location = useLocation();
   useEffect(() => {
-    console.log("location changed!", location);
     setSelected(location.pathname.split("/")[3]);
   }, [location]);
 

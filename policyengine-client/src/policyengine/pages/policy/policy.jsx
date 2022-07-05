@@ -32,7 +32,6 @@ export default class Policy extends React.Component {
   }
 
   render() {
-    console.log("sdfsdfsdf");
     const menu = (
       <Menu
         selected={this.state.selected}
