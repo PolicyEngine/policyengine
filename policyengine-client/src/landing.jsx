@@ -126,18 +126,18 @@ function LandingPageContent() {
   const usLink = "us/policy";
 
   return (
-    <div className="mx-auto flex flex-col text-center lg:px-8">
+    <div className="mx-auto flex flex-col text-center lg:px-8 bg-white isolate -z-10">
       <div className="my-4 lg:pt-8 flex flex-col gap-4">
         <h1 className="mb-6 text-slate-700 font-bold text-4xl text-center">
           Compute the impact of public policy
         </h1>
-        <div className="text-blue-800 text-xl md:text-2xl">
+        <div className="text-[#0b5394] text-xl md:text-2xl">
           Estimate your taxes and benefits
         </div>
-        <div className="text-blue-800 text-xl md:text-2xl">
+        <div className="text-[#0b5394] text-xl md:text-2xl">
           Imagine custom economic policy reforms
         </div>
-        <div className="text-blue-800 text-xl md:text-2xl">
+        <div className="text-[#0b5394] text-xl md:text-2xl">
           Calculate the effects on society and your own household
         </div>
         {/* Primary link goes to the US if the user is in the US, otherwise UK. */}
@@ -162,23 +162,21 @@ function LandingPageContent() {
           </Button>
         </div>
       </div>
-      <div className="isolate -z-10">
-        <Subheader>Who we help</Subheader>
-        <UsageExplanations />
-        <Subheader
-          subtitle={
-            <>
-              We're currently seeking funding partners, volunteer developers and
-              policy analysts to expand our work and its impact. Is that you?{" "}
-              <a href="mailto:hello@policyengine.org">Get in touch.</a>
-            </>
-          }
-        ></Subheader>
-        <Subheader>
-          <a href="https://blog.policyengine.org">Blog</a>
-        </Subheader>
-        <MediumFeed />
-      </div>
+      <Subheader>Who we help</Subheader>
+      <UsageExplanations />
+      <Subheader
+        subtitle={
+          <>
+            We're currently seeking funding partners, volunteer developers and
+            policy analysts to expand our work and its impact. Is that you?{" "}
+            <a href="mailto:hello@policyengine.org">Get in touch.</a>
+          </>
+        }
+      ></Subheader>
+      <Subheader>
+        <a href="https://blog.policyengine.org">Blog</a>
+      </Subheader>
+      <MediumFeed />
     </div>
   );
 }

@@ -7,7 +7,6 @@ export default function Footer(props) {
   const country = useContext(CountryContext);
   return (
     <div
-      className="d-none d-lg-block"
       style={{
         position: "fixed",
         height: "4.2em",

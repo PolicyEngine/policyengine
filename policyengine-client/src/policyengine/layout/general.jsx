@@ -27,7 +27,7 @@ export function BodyWrapper(props) {
       <div className="d-block d-lg-none">
         <Container
           style={{
-            maxHeight: "calc(100vh - 100px)",
+            maxHeight: "calc(100vh - 4.2em)",
             overflow: props.scroll && "scroll",
             paddingTop: 120,
           }}

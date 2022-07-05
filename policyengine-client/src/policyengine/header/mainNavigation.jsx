@@ -53,7 +53,6 @@ export default function MainNavigation(props) {
         top: 0,
         width: "100vw",
       }}
-      className="isolate z-30"
     >
       <Row style={{ margin: 0 }}>
         <Col lg={2}>
@@ -70,7 +69,7 @@ export default function MainNavigation(props) {
           lg={2}
           className="d-none d-lg-flex align-items-center justify-content-right"
         >
-          <SocialLinks color="white" />
+          <SocialLinks color="black" />
         </Col>
       </Row>
     </div>

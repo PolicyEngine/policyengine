@@ -31,6 +31,7 @@ export function Header(props) {
         position: "sticky",
         top: 0,
         width: "100vw",
+        zIndex: 10
       }}
     >
       {navigation}
