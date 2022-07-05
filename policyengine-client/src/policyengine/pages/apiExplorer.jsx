@@ -7,34 +7,10 @@ import { getTranslators } from "../tools/translation";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
-function getSearchResults(items, searchTerm, async) {
-  if (async) {
-    return fuzzysort
-      .goAsync(
-        searchTerm,
-        items.map((x) => {
-          return { key: x.name, text: x.name + " " + x.label };
-        }),
-        { key: "text" }
-      )
-      .then((results) =>
-        results.map((res) => {
-          return { score: res.score, target: res.obj.key };
-        })
-      );
-  } else {
-    return fuzzysort
-      .go(
-        searchTerm,
-        items.map((x) => {
-          return { key: x.name, text: x.name + " " + x.label };
-        }),
-        { key: "text" }
-      )
-      .map((res) => {
-        return { score: res.score, target: res.obj.key };
-      });
-  }
+function getSearchResults(items, searchTerm) {
+  return fuzzysort
+    .go(searchTerm, items, { keys: ["name", "label"] })
+    .map((r) => r.obj);
 }
 
 export default function APIExplorer(props) {
@@ -64,35 +40,28 @@ export default function APIExplorer(props) {
   const { searchParams } = new URL(document.location);
   defaultSearch = searchParams.get("q") ? searchParams.get("q") : defaultSearch;
   const defaultList = !defaultSearch
-    ? items.map((x) => {
-        return { score: x.name, target: x.name };
-      })
+    ? items
     : getSearchResults(items, defaultSearch);
   const [searchResults, setSearchResults] = useState(defaultList);
   const onSearch = (term) =>
     !term
       ? setSearchResults(defaultList)
-      : getSearchResults(items, term, true).then((res) =>
-          setSearchResults(res)
-        );
+      : setSearchResults(getSearchResults(items, term));
   const [selected, setSelected] = useState(defaultSelected);
   const navigate = useNavigate();
-  const searchResultItems = searchResults
-    .sort((res) => -res.score)
-    .map((res) => itemLookup[res.target])
-    .map((res) => {
-      return (
-        <Parameter
-          key={res.name}
-          selected={selected}
-          select={() => {
-            navigate(`/${country.name}/api-explorer/${res.name}`);
-            setSelected(res.name);
-          }}
-          {...res}
-        />
-      );
-    });
+  const searchResultItems = searchResults.map((res) => {
+    return (
+      <Parameter
+        key={res.name}
+        selected={selected}
+        select={() => {
+          navigate(`/${country.name}/api-explorer/${res.name}`);
+          setSelected(res.name);
+        }}
+        {...res}
+      />
+    );
+  });
   const itemsPerPage = 7;
   const [page, setPage] = useState(0);
 

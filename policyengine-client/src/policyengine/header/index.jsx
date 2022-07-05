@@ -17,6 +17,7 @@ export function Header(props) {
           path={`household`}
           element={<MainNavigation selected="household" />}
         />
+        <Route path={`api-explorer/*`} element={<MainNavigation noTabs />} />
         <Route
           path={"/"}
           element={<MainNavigation selected={window.location.pathname} />}
@@ -31,7 +32,7 @@ export function Header(props) {
         position: "sticky",
         top: 0,
         width: "100vw",
-        zIndex: 10
+        zIndex: 10,
       }}
     >
       {navigation}

@@ -120,8 +120,12 @@ export default class PolicyEngine extends React.Component {
       <Route path={from} element={<Navigate to={to} />} />
     );
 
-    const redirectToPolicy = (from, to) =>
-      redirect(from, policyToURL(to, urlToPolicy(this.state.country.policy)));
+    const redirectToPolicy = (from, to) => {
+      return redirect(
+        from,
+        policyToURL(to, urlToPolicy(this.state.country.policy))
+      );
+    };
 
     // Once fully loaded, direct onto individual pages
     if (!this.state.country.fullyLoaded) {
@@ -154,13 +158,22 @@ export default class PolicyEngine extends React.Component {
               />
               <Route path={`household`} element={<Household />} />
               <Route path={`faq`} element={<FAQ />} />
-              <Route path={`api-explorer`} element={<APIExplorer />} />
+              <Route path={`api-explorer/*`} element={<APIExplorer />} />
               {/* Redirects from legacy URLs */}
-              {redirectToPolicy(`population-results`, "population-impact")}
-              {redirectToPolicy(`household-impact`, "household")}
-              {redirectToPolicy(`situation`, "household")}
-              {redirectToPolicy(`situation-results`, "household")}
-              {redirect(`legislation`, `api-explorer`)}
+              {redirectToPolicy(
+                `population-results`,
+                `/${countryName}/population-impact`
+              )}
+              {redirectToPolicy(
+                `household-impact`,
+                `/${countryName}/household`
+              )}
+              {redirectToPolicy(`situation`, `/${countryName}/household`)}
+              {redirectToPolicy(
+                `situation-results`,
+                `/${countryName}/household`
+              )}
+              {redirect(`legislation`, `/${countryName}/api-explorer`)}
             </Routes>
           </BodyWrapper>
           <Footer />
