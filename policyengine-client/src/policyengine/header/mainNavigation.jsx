@@ -53,6 +53,7 @@ export default function MainNavigation(props) {
         top: 0,
         width: "100vw",
       }}
+      className="isolate z-30"
     >
       <Row style={{ margin: 0 }}>
         <Col lg={2}>
