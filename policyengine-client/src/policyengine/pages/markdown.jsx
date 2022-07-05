@@ -53,7 +53,7 @@ export class MarkdownPage extends React.Component {
           }
         />
         <BodyWrapper scroll>
-          <Row style={{ paddingTop: 30 }}>
+          <Row style={{ paddingTop: 30, paddingBottom: '5em' }}>
             <Col md={3}></Col>
             <Col>
               <ReactMarkdown

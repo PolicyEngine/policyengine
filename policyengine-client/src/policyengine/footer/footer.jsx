@@ -10,6 +10,7 @@ export default function Footer(props) {
       className="d-none d-lg-block"
       style={{
         position: "fixed",
+        height: "4.2em",
         width: "100%",
         bottom: 0,
         backgroundColor: "white",

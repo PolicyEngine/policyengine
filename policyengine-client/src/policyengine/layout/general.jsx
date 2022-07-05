@@ -15,7 +15,7 @@ export function BodyWrapper(props) {
         <Container
           fluid
           style={{
-            height: "calc(80vh - 25px)",
+            height: "calc(100vh - 4.2em)",
             overflow: props.scroll && "scroll",
             position: "fixed",
             top: 60,
