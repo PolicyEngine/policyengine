@@ -16,17 +16,16 @@ export default function Footer(props) {
         borderTop: "1px solid",
         borderColor: "#EEE",
         paddingTop: 20,
+        paddingBottom: 20
       }}
     >
-      <div className="d-none d-lg-flex justify-content-center">
-        <div style={{ textAlign: "center", marginBottom: "16px" }}>
+      <div className="d-none d-lg-flex footer">
           <a href="https://policyengine.org">PolicyEngine © 2022</a> |{" "}
           <a href={`/about`}>About</a> | <HelpButton /> |{" "}
           <a href={`/${country.name}/faq`}>FAQ</a> |{" "}
           <a href="https://blog.policyengine.org">Blog</a> |{" "}
           <a href="https://zej8fnylwn9.typeform.com/to/XFFu15Xq">Feedback</a> |{" "}
           <a href="https://opencollective.com/psl">Donate</a>
-        </div>
       </div>
       <div
         className="d-flex d-lg-none justify-content-center"
@@ -35,7 +34,9 @@ export default function Footer(props) {
         <SocialLinks color="black" />
       </div>
       <div className="d-block d-lg-none">
-        <div style={{ textAlign: "center", marginBottom: "16px" }}>
+        <div
+          style={{ textAlign: "center", marginBottom: "16px", width: "100%" }}
+        >
           <a href="https://policyengine.org">PolicyEngine © 2022</a> |
           <a href={`/about`}> About</a> |
           <HelpButton /> |<a href={`/${country.name}/faq`}> FAQ</a> |

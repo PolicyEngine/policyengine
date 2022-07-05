@@ -20,7 +20,7 @@ export default defineConfig({
   },
   plugins: [
     mdPlugin({
-      mode: "react",
+      mode: "html",
       markdown: (body) => body,
     }),
     react(),

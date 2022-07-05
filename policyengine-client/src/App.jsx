@@ -20,9 +20,9 @@ import LandingPage from "./landing";
 
 // Markdown files
 
-import { ReactComponent as UK_FAQ } from "./markdown/uk/faq.md";
-import { ReactComponent as ABOUT } from "./markdown/about.md";
-import { ReactComponent as CONTACT } from "./markdown/contact.md";
+import { html as UK_FAQ } from "./markdown/uk/faq.md";
+import { html as ABOUT } from "./markdown/about.md";
+import { html as CONTACT } from "./markdown/contact.md";
 // Import other markdown files here
 
 const markdownPages = [
@@ -44,6 +44,7 @@ export default function App(props) {
   }
   const uk = new UK();
   const us = new US();
+
   return (
     <Router>
       <Routes>
