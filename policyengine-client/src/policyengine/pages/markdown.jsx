@@ -52,20 +52,11 @@ export class MarkdownPage extends React.Component {
             this.props.title
           }
         />
-        <BodyWrapper scroll>
-          <Row style={{ paddingTop: 30, paddingBottom: '5em' }}>
-            <Col md={3}></Col>
-            <Col>
-              <ReactMarkdown
-                rehypePlugins={[rehypeRaw]}
-                components={components}
-              >
-                {this.state.text}
-              </ReactMarkdown>
-            </Col>
-            <Col md={3}></Col>
-          </Row>
-        </BodyWrapper>
+        <div className="mx-auto max-w-screen-md pt-24 py-16">
+          <ReactMarkdown rehypePlugins={[rehypeRaw]} components={components}>
+            {this.state.text}
+          </ReactMarkdown>
+        </div>
         <Footer />
       </>
     );
