@@ -898,3 +898,7 @@
     changed:
     - Mobile responsiveness and usability improved.
   date: 2022-07-03 21:51:22
+- bump: minor
+  changes:
+    added:
+    - EITC eligibility parameters.
