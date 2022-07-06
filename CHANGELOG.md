@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.70.0] - 2022-07-06 06:19:51
+
+### Added
+
+- EITC eligibility parameters.
+
 ## [1.69.0] - 2022-07-03 21:51:22
 
 ### Changed
@@ -1074,6 +1080,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.70.0]: https://github.com/PolicyEngine/policyengine/compare/1.69.0...1.70.0
 [1.69.0]: https://github.com/PolicyEngine/policyengine/compare/1.68.0...1.69.0
 [1.68.0]: https://github.com/PolicyEngine/policyengine/compare/1.67.3...1.68.0
 [1.67.3]: https://github.com/PolicyEngine/policyengine/compare/1.67.2...1.67.3
