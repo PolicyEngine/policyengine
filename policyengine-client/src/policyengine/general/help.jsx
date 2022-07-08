@@ -23,7 +23,7 @@ export default function HelpButton(props) {
 export function UKHelpButton(props) {
     const [helpPaneOpen, setHelpPaneOpen] = useState(false);
     const [currentPane, setCurrentPane] = useState(0);
-    return <div className="d-none d-lg-block">
+    return <>
         <Link to="#" style={{display: "inline"}} onClick={() => {setCurrentPane(0); setHelpPaneOpen(true)}}>Help</Link>
         <Modal visible={helpPaneOpen} centered closable={false} footer={null} width="50%">
             <h4>How to use PolicyEngine</h4>
@@ -55,7 +55,7 @@ export function UKHelpButton(props) {
                 </>}
             </div>
         </Modal>
-    </div>
+    </>
 }
 
 
