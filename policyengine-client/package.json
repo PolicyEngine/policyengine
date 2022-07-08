@@ -25,6 +25,7 @@
     "react-dom": "^17.0.2",
     "react-markdown": "^7.0.1",
     "react-plotly.js": "^2.5.1",
+    "react-refresh": "^0.14.0",
     "react-router-dom": "^5.3.0",
     "react-router-ga": "^1.2.3",
     "react-scripts": "4.0.3",
