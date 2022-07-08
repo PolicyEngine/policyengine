@@ -898,3 +898,13 @@
     changed:
     - Mobile responsiveness and usability improved.
   date: 2022-07-03 21:51:22
+- bump: minor
+  changes:
+    added:
+    - EITC eligibility parameters.
+  date: 2022-07-06 06:19:51
+- bump: patch
+  changes:
+    fixed:
+    - Style issues with the footer.
+  date: 2022-07-08 13:32:22

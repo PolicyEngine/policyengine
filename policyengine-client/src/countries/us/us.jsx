@@ -136,6 +136,13 @@ export class US extends Country {
                         "General": [
                             "abolish_eitc",
                         ],
+                        "Eligibility": [
+                            "eitc_min_age_childless",
+                            "eitc_max_age_childless",
+                            "eitc_qualifying_child_max_age_student",
+                            "eitc_qualifying_child_max_age_non_student",
+                            "eitc_max_inv_income",
+                        ],
                     },
                     "Education": {
                         "Phase-out": [
@@ -403,10 +410,10 @@ export class US extends Country {
     situation = {
         "people": {
             "You": {
-                "age": {2022: 25},
-                "is_tax_unit_head": {2022: true},
-                "is_tax_unit_dependent": {2022: false},
-                "is_tax_unit_spouse": {2022: false},
+                "age": { 2022: 25 },
+                "is_tax_unit_head": { 2022: true },
+                "is_tax_unit_dependent": { 2022: false },
+                "is_tax_unit_spouse": { 2022: false },
             },
         },
         "tax_units": {
@@ -683,9 +690,9 @@ export class US extends Country {
 
     setHouseholdMaritalStatus(status) {
         let situation = this.situation;
-        if(status === "Married" & !situation.people.includes("Your spouse")) {
+        if (status === "Married" & !situation.people.includes("Your spouse")) {
             this.addPartner(situation);
-        } else if(status === "Single" & situation.people.includes("Your spouse")) {
+        } else if (status === "Single" & situation.people.includes("Your spouse")) {
             this.removePerson(situation, "Your spouse");
         }
         this.setState({
