@@ -209,7 +209,7 @@ class MediumFeed extends React.Component {
     }
 
     return (
-      <div className="grid lg:grid-cols-4 gap-4 items-start py-16">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 items-start py-16">
         {this.state.feed.items.map((post) => (
           <Card
             hoverable
