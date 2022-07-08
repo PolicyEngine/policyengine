@@ -40,7 +40,7 @@
   },
   "scripts": {
     "start": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "serve": "vite preview",
     "test": "craco test",
     "eject": "react-scripts eject",
