@@ -8,6 +8,9 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import GA4React from "ga-4-react";
 
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./style/policyengine.less";
+
 const ga4react = new GA4React("G-QL2XFHB7B4");
 (async (_) => {
   await ga4react
