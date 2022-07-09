@@ -17,158 +17,167 @@ export class Household extends React.Component {
         this.state = {
             selected: context.defaultSelectedVariableGroup,
             selectedMobilePage: "Menu",
-        }
+        };
     }
 
-	getVariables() {
+    getVariables() {
         try {
             const parts = this.state.selected.split("/").slice(1);
             let node = this.context.inputVariableHierarchy;
-            for(const item of parts) {
+            for (const item of parts) {
                 try {
                     node = node[item];
-                } catch(e) {
+                } catch (e) {
                     node = this.context.outputVariableHierarchy[item];
                 }
             }
             return node;
-        } catch(e) {
+        } catch (e) {
             return [];
         }
-	}
+    }
     render() {
         const parts = this.state.selected.split("/").slice(1);
         const inputSelected = Object.keys(this.context.inputVariableHierarchy).includes(parts[0]);
         let middlePane;
-        if(inputSelected) {
-            middlePane = <VariableControlPane 
-                selected={this.state.selected} 
-                variables={this.getVariables()} 
-            />;
-        } else if(this.state.selected === "Your net income") {
+        if (inputSelected) {
+            middlePane = <VariableControlPane selected={this.state.selected} variables={this.getVariables()} />;
+        } else if (this.state.selected === "Your net income") {
             middlePane = <AccountingTable />;
-        } else if(this.state.selected === "How earnings affect you") {
+        } else if (this.state.selected === "How earnings affect you") {
             middlePane = <EarningsChartsPane />;
         }
         let navigateBack = () => this.setState({ selectedMobilePage: "Menu" });
         const selectedTree = this.state.selected.split("/");
         const selectedName = selectedTree.slice(-1)[0];
-        const breadcrumbs = <Breadcrumb>
-            {
-                selectedTree.map((item, index) => {
-                    return <Breadcrumb.Item key={index}>
-                        {item}
-                    </Breadcrumb.Item>
-                })
-            }
-        </Breadcrumb>
-        middlePane = <>
-            <div className="d-block d-lg-none">
-                <PageHeader
-                    onBack={navigateBack}
-                    title={<h5>{selectedName}</h5>}
-                    breadcrumb={breadcrumbs}
-                />
-            </div>
-            <div className="d-none d-lg-block">
-                <PageHeader
-                    breadcrumb={breadcrumbs}
-                />
-            </div>
-            {middlePane}
-        </>;
-        const menu = <Menu selectVariableGroup={group => this.setState({selected: group, selectedMobilePage: "Edit"})} />;
-        const overview = <OverviewHolder>
-            <PolicyOverview />
-            <SharePolicyLinks page="household"/>
-            <div className="d-block align-middle">
-                <div className="justify-content-center">
-                    <NavigationButton
-                        text="Calculate your net income"
-                        onClick={() => this.setState({selected: "Your net income"})}
-                        primary
-                    />
-                    <NavigationButton
-                        text="See how earnings affect you"
-                        onClick={() => this.setState({selected: "How earnings affect you"})}
-                    />
+        const breadcrumbs = (
+            <Breadcrumb>
+                {selectedTree.map((item, index) => {
+                    return <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>;
+                })}
+            </Breadcrumb>
+        );
+        middlePane = (
+            <>
+                <div className="d-block d-lg-none">
+                    <PageHeader onBack={navigateBack} title={<h5>{selectedName}</h5>} breadcrumb={breadcrumbs} />
                 </div>
-                <div className="justify-content-center">
-                    <NavigationButton
-                        target="policy" 
-                        text={<><ArrowLeftOutlined /> Edit your policy</>}
-                    />
+                <div className="d-none d-lg-block">
+                    <PageHeader breadcrumb={breadcrumbs} />
                 </div>
-                <div className="justify-content-center">
-                    {this.context.showPopulationImpact && <NavigationButton 
-                        target="population-impact" 
-                        text={<><ArrowLeftOutlined /> Return to the {this.context.properName} impact</>}
-                    />}
-                </div>
-            </div>
-        </OverviewHolder>;
-        
-        const desktopView = <Row>
-            <Col xl={3} style={{
-                height: "calc(100vh - 100px)",
-                overflowY: "scroll",
-            }}>
-                {menu}
-            </Col>
-            <Col xl={6} style={{
-                height: "calc(100vh - 100px)",
-                overflow: "scroll",
-                paddingRight: 40,
-            }}>
                 {middlePane}
-            </Col>
-            <Col xl={3}>
-                {overview}
-            </Col>
-        </Row>;
-        const mobileView = <div style={{paddingLeft: 15, paddingRight: 15}}>
-            <Row style={{height: "50vh", marginBottom: 5, overflowY: "scroll"}}>
-                <Col>
-                {
-                    this.state.selectedMobilePage === "Menu" ?
-                        menu :
-                        this.state.selectedMobilePage === "Edit" ?
-                            middlePane :
-                            overview
-                }
-                </Col>
-            </Row>
-            <Row style={{height: "20vh"}}>
-                <Col>
-                <Divider>Your policy</Divider>
-                <PolicyOverview page="policy" pageSize={1}/>
-                </Col>
-            </Row>
-            <div style={{position: "fixed", top: "calc(90vh)", left: 0, width: "100%", padding: 10}}>
-                <Row>
-                    <Col>
+            </>
+        );
+        const menu = (
+            <Menu selectVariableGroup={(group) => this.setState({ selected: group, selectedMobilePage: "Edit" })} />
+        );
+        const overview = (
+            <OverviewHolder>
+                <PolicyOverview />
+                <SharePolicyLinks page="household" />
+                <div className="d-block align-middle">
+                    <div className="justify-content-center">
                         <NavigationButton
-                            text="Calculate your net income"
-                            onClick={() => this.setState({selected: "Your net income"})}
+                            text="Calculate earnings impact"
+                            onClick={() => this.setState({ selected: "Your net income" })}
                             primary
                         />
-                    </Col>
-                    <Col>
                         <NavigationButton
                             text="See how earnings affect you"
-                            onClick={() => this.setState({selected: "How earnings affect you"})}
+                            onClick={() => this.setState({ selected: "How earnings affect you" })}
                         />
+                    </div>
+                    <div className="justify-content-center">
+                        <NavigationButton
+                            target="policy"
+                            text={
+                                <>
+                                    <ArrowLeftOutlined /> Edit your policy
+                                </>
+                            }
+                        />
+                    </div>
+                    <div className="justify-content-center">
+                        {this.context.showPopulationImpact && (
+                            <NavigationButton
+                                target="population-impact"
+                                text={
+                                    <>
+                                        <ArrowLeftOutlined /> Return to the {this.context.properName} impact
+                                    </>
+                                }
+                            />
+                        )}
+                    </div>
+                </div>
+            </OverviewHolder>
+        );
+
+        const desktopView = (
+            <Row>
+                <Col
+                    xl={3}
+                    style={{
+                        height: "calc(100vh - 100px)",
+                        overflowY: "scroll",
+                    }}
+                >
+                    {menu}
+                </Col>
+                <Col
+                    xl={6}
+                    style={{
+                        height: "calc(100vh - 100px)",
+                        overflow: "scroll",
+                        paddingRight: 40,
+                    }}
+                >
+                    {middlePane}
+                </Col>
+                <Col xl={3}>{overview}</Col>
+            </Row>
+        );
+        const mobileView = (
+            <div style={{ paddingLeft: 15, paddingRight: 15 }}>
+                <Row style={{ height: "50vh", marginBottom: 5, overflowY: "scroll" }}>
+                    <Col>
+                        {this.state.selectedMobilePage === "Menu"
+                            ? menu
+                            : this.state.selectedMobilePage === "Edit"
+                            ? middlePane
+                            : overview}
                     </Col>
                 </Row>
+                <Row style={{ height: "20vh" }}>
+                    <Col>
+                        <Divider>Your policy</Divider>
+                        <PolicyOverview page="policy" pageSize={1} />
+                    </Col>
+                </Row>
+                <div style={{ position: "fixed", top: "calc(90vh)", left: 0, width: "100%", padding: 10 }}>
+                    <Row>
+                        <Col>
+                            <NavigationButton
+                                text="Calculate earnings impact"
+                                onClick={() => this.setState({ selected: "Your net income" })}
+                                primary
+                            />
+                        </Col>
+                        <Col>
+                            <NavigationButton
+                                text="See how earnings affect you"
+                                onClick={() => this.setState({ selected: "How earnings affect you" })}
+                            />
+                        </Col>
+                    </Row>
+                </div>
             </div>
-        </div>
-        return <>
-            <div className="d-none d-lg-block">
-                {desktopView}
-            </div>
-            <div className="d-block d-lg-none">
-                {mobileView}
-            </div>
-        </>
+        );
+        return (
+            <>
+                <div className="d-none d-lg-block">{desktopView}</div>
+                <div className="d-block d-lg-none">{mobileView}</div>
+            </>
+        );
     }
 }
