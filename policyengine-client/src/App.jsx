@@ -10,8 +10,6 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./style/policyengine.less";
 import PolicyEngine from "./policyengine/policyengine";
 import createRedirects from "./policyengine/tools/namedPolicies";
 import { UK, US } from "./countries";
