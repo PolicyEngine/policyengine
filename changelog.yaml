@@ -914,3 +914,7 @@
     - Frontend tooling & dependencies updated! These include react-router and vite.
       Minor stylistic changes (scrolling on about/FAQ page).
   date: 2022-07-08 18:32:22
+- bump: patch
+  changes:
+    fixed:
+    - Styling issues with Tailwind.
