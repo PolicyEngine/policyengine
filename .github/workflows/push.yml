@@ -45,6 +45,7 @@ jobs:
         with:
           node-version: 14
           cache: 'pnpm'
+          cache-dependency-path: '**/pnpm-lock.yaml'
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v0
         with:
@@ -112,6 +113,7 @@ jobs:
         with:
           node-version: 14
           cache: 'pnpm'
+          cache-dependency-path: '**/pnpm-lock.yaml'
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v0
         with:
