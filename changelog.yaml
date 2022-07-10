@@ -924,3 +924,8 @@
     fixed:
     - Styling issues with Tailwind.
   date: 2022-07-09 21:02:41
+- bump: minor
+  changes:
+    added:
+    - Massachusetts parameters for Senior Circuit Breaker and Dependent Care Credits.
+    - Washington capital gains and Working Families Tax Credit parameters and population impact drop-down.
