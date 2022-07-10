@@ -150,6 +150,16 @@ reforms:
         variable: ma_dependent_care_credit_amount
         tests:
           - increases_net_income: false
+    abolish_wa_wftc:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish WA Working Families Tax Credit
+        name: abolish_wa_wftc
+        unit: abolition
+        variable: wa_wftc_max_amount
+        tests:
+          - increases_net_income: false
   state_specific:
     description: Simulate reforms on a specific state of the US.
     values:

@@ -18,6 +18,7 @@ import UBICenterLogo from "../../images/parameter-icons/ubi-center.png"
 import RepTlaibLogo from "../../images/parameter-icons/us/third-party/tlaib.png"
 import SimulationLogo from "../../images/parameter-icons/simulation.webp";
 import MALogo from "../../images/parameter-icons/us/state-governments/ma.png";
+import WALogo from "../../images/parameter-icons/us/state-governments/wa.png";
 import StateSpecific from "./components/stateSpecific";
 
 const childNamer = {
@@ -312,6 +313,21 @@ export class US extends Country {
                     },
                 },
             },
+            "Washington": {
+                "Capital gains tax": {
+                    "Rate": [
+                        "wa_ltcg_rate",
+                    ],
+                    "Deductions": [
+                        "wa_ltcg_standard_deduction",
+                        "wa_ltcg_charitable_contributions_exemption",
+                        "wa_ltcg_charitable_contributions_cap",
+                    ],
+                },
+                "Working Families Tax Credit": [
+                    "abolish_wa_wftc",
+                ]
+            }
         },
         "Third party": {
             "UBI Center": {
@@ -387,6 +403,9 @@ export class US extends Country {
         },
         "Massachusetts": {
             logo: MALogo,
+        },
+        "Washington": {
+            logo: WALogo,
         },
         "Third party": {
             logo: ThirdPartyLogo,
