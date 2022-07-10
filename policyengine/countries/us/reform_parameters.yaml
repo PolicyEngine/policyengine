@@ -172,5 +172,7 @@ reforms:
           value: United States
         - key: MA
           value: Massachusetts
+        - key: WA
+          value: Washington
       value_type: Enum
 
