@@ -1,0 +1,11 @@
+# If you have written a fully working setup.py for your package already, 
+# and your dependencies are mostly external, you could consider having a simple 
+# requirements.txt with only the following:
+#  -e .
+
+# This means that running
+#    pip install -r requirements.txt
+# will be the same as
+#    pip install -e .
+# 
+-e .
