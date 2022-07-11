@@ -147,7 +147,7 @@ reforms:
         label: Abolish MA dependent care credit
         name: abolish_ma_dependent_care_credit
         unit: abolition
-        variable: ma_dependent_care_credit_amount
+        variable: ma_dependent_care_credit
         tests:
           - increases_net_income: false
     abolish_wa_wftc:
@@ -157,7 +157,7 @@ reforms:
         label: Abolish WA Working Families Tax Credit
         name: abolish_wa_wftc
         unit: abolition
-        variable: wa_wftc_max_amount
+        variable: wa_working_families_tax_credit
         tests:
           - increases_net_income: false
   state_specific:
