@@ -150,12 +150,12 @@ reforms:
         variable: ma_dependent_care_credit
         tests:
           - increases_net_income: false
-    abolish_wa_wftc:
+    abolish_wa_working_families_tax_credit:
       values:
         2010-01-01: false
       metadata:
         label: Abolish WA Working Families Tax Credit
-        name: abolish_wa_wftc
+        name: abolish_wa_working_families_tax_credit
         unit: abolition
         variable: wa_working_families_tax_credit
         tests:

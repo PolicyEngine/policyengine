@@ -338,7 +338,7 @@ export class US extends Country {
                     ],
                 },
                 "Working Families Tax Credit": [
-                    "abolish_wa_wftc",
+                    "abolish_wa_working_families_tax_credit",
                 ]
             }
         },
