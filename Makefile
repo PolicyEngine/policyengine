@@ -1,12 +1,12 @@
 all: install build format test
 install: install-client install-server
 install-client:
-	cd policyengine-client; npm install
+	cd policyengine-client; pnpm install
 install-server:
 	pip install -e .
 build: build-client build-server
 build-client:
-	cd policyengine-client; npm run build
+	cd policyengine-client; pnpm run build
 	rm -rf policyengine/static
 	cp -r policyengine-client/build policyengine/static
 build-server:
@@ -15,11 +15,11 @@ publish: publish-client publish-server
 publish-server: policyengine
 	twine upload policyengine/dist/* --skip-existing
 publish-client:
-	cd policyengine-client; npm publish
+	cd policyengine-client; pnpm publish
 debug-server:
 	POLICYENGINE_DEBUG=1 FLASK_APP=policyengine/server.py FLASK_DEBUG=1 flask run
 debug-client:
-	cd policyengine-client; npm start
+	cd policyengine-client; pnpm start
 format:
 	autopep8 policyengine -r -i
 	autopep8 setup.py -i

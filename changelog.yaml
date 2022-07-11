@@ -924,3 +924,8 @@
     fixed:
     - Styling issues with Tailwind.
   date: 2022-07-09 21:02:41
+- bump: patch
+  changes:
+    fixed:
+    - Default package manager (npm -> pnpm).
+  date: 2022-07-10 14:02:41
