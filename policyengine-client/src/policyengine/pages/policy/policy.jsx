@@ -5,8 +5,8 @@ import Menu from "./menu";
 import { OverviewHolder, PolicyOverview, SharePolicyLinks } from "./overview";
 import Parameter from "./parameter";
 import NavigationButton from "../../general/navigationButton";
-import { Breadcrumb, Button, Divider, PageHeader } from "antd";
-
+import { Breadcrumb, Image, Divider, PageHeader } from "antd";
+import CGOWide from "../../../images/logos/cgo_wide.png";
 export default class Policy extends React.Component {
   static contextType = CountryContext;
 
@@ -174,6 +174,9 @@ function ParameterControlPane(props) {
       })}
     </Breadcrumb>
   );
+  const cgoCredit = <div style={{height: 40}}>
+      <h6 style={{float: "left", color: "grey"}}>Sponsored by <Image src={CGOWide} height={40} style={{display: "inline"}} /></h6>
+  </div>
   return (
     <>
       <div className="d-block d-lg-none">
@@ -186,6 +189,11 @@ function ParameterControlPane(props) {
       <div className="d-none d-lg-block">
         <PageHeader breadcrumb={breadcrumbs} />
       </div>
+      {
+        selectedTree[1] === "State governments" ?
+          cgoCredit :
+          null
+      }
       {parameterControls}
     </>
   );
