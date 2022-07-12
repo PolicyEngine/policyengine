@@ -5,8 +5,8 @@ import Menu from "./menu";
 import { OverviewHolder, PolicyOverview, SharePolicyLinks } from "./overview";
 import Parameter from "./parameter";
 import NavigationButton from "../../general/navigationButton";
-import { Breadcrumb, Image, Divider, PageHeader } from "antd";
-import CGOWide from "../../../images/logos/cgo_wide.png";
+import { Breadcrumb, Image, Divider, PageHeader, Tooltip } from "antd";
+import SponsorshipLogo from "../../../images/logos/sponsorship_logo.png";
 export default class Policy extends React.Component {
   static contextType = CountryContext;
 
@@ -174,9 +174,17 @@ function ParameterControlPane(props) {
       })}
     </Breadcrumb>
   );
-  const cgoCredit = <div style={{height: 40}}>
-      <h6 style={{float: "left", color: "grey"}}>Sponsored by <Image src={CGOWide} height={40} style={{display: "inline"}} /></h6>
-  </div>
+  let cgoCredit = <Tooltip 
+      title={<div style={{padding: 10, paddingBottom: 0}} ><p style={{textAlign: "center", maxWidth: 200, color: "black"}}>State tax-benefit policies sponsored by <a href="https://thecgo.org">the Center for Growth and Opportunity</a></p></div>}
+      color="white"
+    >
+      <h6 style={{float: "right", color: "grey"}} className="ant-breadcrumb-link">
+        <Image preview={false} src={SponsorshipLogo} height={20} width={25} style={{display: "inline", paddingLeft: 5}} />
+      </h6>
+    </Tooltip>
+  cgoCredit = selectedTree[1] === "State governments" ?
+      cgoCredit :
+      null;
   return (
     <>
       <div className="d-block d-lg-none">
@@ -185,15 +193,12 @@ function ParameterControlPane(props) {
           title={<h5>{selectedName}</h5>}
           breadcrumb={breadcrumbs}
         />
+        <div style={{ marginTop: -55, marginBottom: 30, paddingRight: 30, paddingBottom: 10 }}>{cgoCredit}</div>
       </div>
       <div className="d-none d-lg-block">
         <PageHeader breadcrumb={breadcrumbs} />
+        <div style={{ marginTop: -38, marginBottom: 30, paddingRight: 30 }}>{cgoCredit}</div>
       </div>
-      {
-        selectedTree[1] === "State governments" ?
-          cgoCredit :
-          null
-      }
       {parameterControls}
     </>
   );
