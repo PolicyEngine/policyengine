@@ -929,3 +929,7 @@
     fixed:
     - Default package manager (npm -> pnpm).
   date: 2022-07-10 14:02:41
+- bump: patch
+  changes:
+    fixed:
+    - Persist marital status in US household page.
