@@ -92,19 +92,6 @@ export class US extends Country {
                     "gov_irs_income_bracket_rates",
                     "gov_irs_income_bracket_thresholds",
                 ],
-                "Deductions": {
-                    "Standard": [
-                        "standard_deduction",
-                        "aged_blind_std",
-                        "aged_blind_std_age",
-                    ],
-                    "Itemized": [
-                        "salt_cap",
-                        "irs_medical_expense_deduction_floor",
-                        "charitable_deduction_limit",
-                        "charitable_non_cash_deduction_agi_limit",
-                    ],
-                },
                 "Credits": {
                     "Child tax credit": {
                         "General": [
