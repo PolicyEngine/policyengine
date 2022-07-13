@@ -929,6 +929,16 @@
     fixed:
     - Default package manager (npm -> pnpm).
   date: 2022-07-10 14:02:41
+- bump: patch
+  changes:
+    fixed:
+    - Persist marital status in US household page.
+  date: 2022-07-13 01:36:55
+- bump: patch
+  changes:
+    added:
+    - CGO sponsorship labels to the policy page.
+  date: 2022-07-13 17:41:12
 - bump: minor
   changes:
     added:

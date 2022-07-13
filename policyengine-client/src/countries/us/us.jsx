@@ -724,9 +724,9 @@ export class US extends Country {
 
     setHouseholdMaritalStatus(status) {
         let situation = this.situation;
-        if ((status === "Married") & !situation.people.includes("Your spouse")) {
+        if ((status === "Married") && !situation.people.hasOwnProperty("Your spouse")) {
             this.addPartner(situation);
-        } else if ((status === "Single") & situation.people.includes("Your spouse")) {
+        } else if ((status === "Single") && situation.people.hasOwnProperty("Your spouse")) {
             this.removePerson(situation, "Your spouse");
         }
         this.setState({
