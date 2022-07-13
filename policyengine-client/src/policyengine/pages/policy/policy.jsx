@@ -6,7 +6,7 @@ import { OverviewHolder, PolicyOverview, SharePolicyLinks } from "./overview";
 import Parameter from "./parameter";
 import NavigationButton from "../../general/navigationButton";
 import { Breadcrumb, Image, Divider, PageHeader, Tooltip } from "antd";
-import SponsorshipLogo from "../../../images/logos/sponsorship_logo.png";
+import SponsorshipLogo from "../../../images/logos/partnership_icon.png";
 export default class Policy extends React.Component {
   static contextType = CountryContext;
 
@@ -104,8 +104,8 @@ export default class Policy extends React.Component {
             {this.state.selectedMobilePage === "Menu"
               ? menu
               : this.state.selectedMobilePage === "Edit"
-              ? parameterControls
-              : overview}
+                ? parameterControls
+                : overview}
           </Col>
         </Row>
         <Row style={{ height: "20vh" }}>
@@ -174,17 +174,18 @@ function ParameterControlPane(props) {
       })}
     </Breadcrumb>
   );
-  let cgoCredit = <Tooltip 
-      title={<div style={{padding: 10, paddingBottom: 0}} ><p style={{textAlign: "center", maxWidth: 200, color: "black"}}>State tax-benefit policies sponsored by <a href="https://thecgo.org">the Center for Growth and Opportunity</a></p></div>}
-      color="white"
-    >
-      <h6 style={{float: "right", color: "grey"}} className="ant-breadcrumb-link">
-        <Image preview={false} src={SponsorshipLogo} height={20} width={25} style={{display: "inline", paddingLeft: 5}} />
-      </h6>
-    </Tooltip>
+  let cgoCredit = <Tooltip
+    trigger="click"
+    title={<div style={{ padding: 10, paddingBottom: 0 }} ><p style={{ textAlign: "center", maxWidth: 200, color: "black" }}>State tax policies sponsored by <a href="https://thecgo.org">the Center for Growth and Opportunity</a></p></div>}
+    color="white"
+  >
+    <h6 style={{ float: "right", color: "grey" }} className="ant-breadcrumb-link">
+      <Image preview={false} src={SponsorshipLogo} height={20} width={25} style={{ display: "inline", paddingLeft: 5 }} />
+    </h6>
+  </Tooltip>
   cgoCredit = selectedTree[1] === "State governments" ?
-      cgoCredit :
-      null;
+    cgoCredit :
+    null;
   return (
     <>
       <div className="d-block d-lg-none">
