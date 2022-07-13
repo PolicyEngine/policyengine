@@ -22,7 +22,7 @@ function USPopulationResultsCaveats() {
 
 function Loading(props) {
 	const country = useContext(CountryContext);
-	const message = `Simulating your results on the ${country.properName} population (this usually takes about 10 seconds)`;
+	const message = `Simulating your results on the ${country.properName} population (this usually takes about 20 seconds)`;
 	return (
 		<Centered><Empty description={message}>
 			{!props.noSpin && <Spinner />}
@@ -101,7 +101,7 @@ export function PopulationResultsPane(props) {
 						<Radio.Button value={true}>Absolute</Radio.Button>
 					</Radio.Group>
 					{
-						country.showWealth && 
+						country.showWealth &&
 						(
 							<Radio.Group style={{ marginLeft: 10 }} defaultValue={false} buttonStyle="solid" onChange={x => setDecileChartIsWealth(x.target.value)} >
 								<Radio.Button value={false}>Income</Radio.Button>
@@ -197,7 +197,7 @@ export default class PopulationImpact extends React.Component {
 				}}>
 					{
 						(this.context.waitingOnPopulationImpact || (!this.state.error & (this.context.populationImpactResults === null))) ?
-							<Loading message={`Simulating your results on the ${this.context.properName} population (this usually takes about 10 seconds)`} /> :
+							<Loading message={`Simulating your results on the ${this.context.properName} population (this usually takes about 20 seconds)`} /> :
 							this.state.error ?
 								<Loading noSpin message="Something went wrong (try navigating back and returning to this page)" /> :
 								<PopulationResultsPane />
