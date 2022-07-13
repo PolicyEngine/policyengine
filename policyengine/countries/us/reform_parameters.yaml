@@ -140,6 +140,26 @@ reforms:
         variable: snap_dependent_care_deduction
         tests:
           - increases_net_income: false
+    abolish_ma_dependent_care_credit:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish MA dependent care credit
+        name: abolish_ma_dependent_care_credit
+        unit: abolition
+        variable: ma_dependent_care_credit
+        tests:
+          - increases_net_income: false
+    abolish_wa_working_families_tax_credit:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish WA Working Families Tax Credit
+        name: abolish_wa_working_families_tax_credit
+        unit: abolition
+        variable: wa_working_families_tax_credit
+        tests:
+          - increases_net_income: false
   state_specific:
     description: Simulate reforms on a specific state of the US.
     values:
@@ -152,5 +172,7 @@ reforms:
           value: United States
         - key: MA
           value: Massachusetts
+        - key: WA
+          value: Washington
       value_type: Enum
 

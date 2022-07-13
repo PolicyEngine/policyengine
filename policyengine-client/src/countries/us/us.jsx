@@ -18,6 +18,7 @@ import UBICenterLogo from "../../images/parameter-icons/ubi-center.png"
 import RepTlaibLogo from "../../images/parameter-icons/us/third-party/tlaib.png"
 import SimulationLogo from "../../images/parameter-icons/simulation.webp";
 import MALogo from "../../images/parameter-icons/us/state-governments/ma.png";
+import WALogo from "../../images/parameter-icons/us/state-governments/wa.png";
 import StateSpecific from "./components/stateSpecific";
 
 const childNamer = {
@@ -281,22 +282,52 @@ export class US extends Country {
                         "ma_ltcg_deduction_rate",
                     ],
                     "Credits": {
-                        "Limited Income Credit": [
-                            "ma_limited_income_tax_credit_percent",
-                            "ma_limited_income_tax_credit_income_limit",
-                        ],
-                        "EITC": [
-                            "ma_eitc_percent",
-                        ],
                         "Dependent credit": [
                             "ma_dependent_credit",
                             "ma_dependent_credit_cap",
                             "ma_dependent_credit_child_age_limit",
                             "ma_dependent_credit_elderly_age_limit",
                         ],
-                    }
+                        "Dependent care credit": [
+                            "abolish_ma_dependent_care_credit",
+                        ],
+                        "EITC": [
+                            "ma_eitc_percent",
+                        ],
+                        "Limited Income Credit": [
+                            "ma_limited_income_tax_credit_percent",
+                            "ma_limited_income_tax_credit_income_limit",
+                        ],
+                        "Senior Circuit Breaker": {
+                            "Amount": [
+                                "ma_scb_max_payment",
+                                "ma_scb_ret_threshold",
+                                "ma_scb_rent_tax_share",
+                            ],
+                            "Eligibility": [
+                                "ma_scb_min_age",
+                                "ma_scb_max_income",
+                                "ma_scb_max_property_value",
+                            ]
+                        },
+                    },
                 },
             },
+            "Washington": {
+                "Capital gains tax": {
+                    "Rate": [
+                        "wa_ltcg_rate",
+                    ],
+                    "Deductions": [
+                        "wa_ltcg_standard_deduction",
+                        "wa_ltcg_charitable_contributions_exemption",
+                        "wa_ltcg_charitable_contributions_cap",
+                    ],
+                },
+                "Working Families Tax Credit": [
+                    "abolish_wa_working_families_tax_credit",
+                ]
+            }
         },
         "Third party": {
             "UBI Center": {
@@ -372,6 +403,9 @@ export class US extends Country {
         },
         "Massachusetts": {
             logo: MALogo,
+        },
+        "Washington": {
+            logo: WALogo,
         },
         "Third party": {
             logo: ThirdPartyLogo,
