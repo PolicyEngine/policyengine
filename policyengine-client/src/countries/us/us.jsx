@@ -128,8 +128,9 @@ export class US extends Country {
                             "cdcc_dependent_child_age",
                         ],
                         "Phase-out": [
-                            "cdcc_phase_out_rate",
                             "cdcc_phase_out_start",
+                            "cdcc_phase_out_increment",
+                            "cdcc_phase_out_rate",
                             "cdcc_min_rate",
                         ],
                     },
@@ -258,6 +259,55 @@ export class US extends Country {
             },
         },
         "State governments": {
+            "Maryland": {
+                "State income tax": {
+                    "Deductions": {
+                        "Standard deduction": [
+                            "md_standard_deduction_rate",
+                            "md_single_separate_standard_deduction_min",
+                            "md_single_separate_standard_deduction_max",
+                        ]
+                    },
+                    "Exemptions": {
+                        "Aged": [
+                            "md_income_tax_aged_exemption_age_threshold",
+                            "md_income_tax_aged_exemption",
+                            "md_income_tax_aged_dependent_exemption",
+                        ],
+                        "Blind": [
+                            "md_income_tax_blind_exemption",
+                        ]
+                    },
+                    "Credits": {
+                        "Earned income tax credit": [
+                            "md_eitc_refundable_match",
+                            "md_non_refundable_eitc_match",
+                            "md_eitc_childless_max",
+                        ],
+                        // "Child tax credit": [
+
+                        // ],
+                        "Child and dependent care credit": {
+                            "Amount": [
+                                "md_cdcc_percent",
+                            ],
+                            "Eligibility": [
+                                "md_cdcc_agi_cap",
+                                "md_cdcc_refundable_agi_cap"
+                            ],
+                            "Phase-out": [
+                                "md_cdcc_phase_out_start",
+                                "md_cdcc_phase_out_increment",
+                                "md_cdcc_phase_out_percent"
+                            ],
+                        },
+                        "Poverty line credit": [
+                            "md_poverty_line_credit_rate",
+                        ]
+                    }
+                },
+
+            },
             "Massachusetts": {
                 "State income tax": {
                     "Rates": [
