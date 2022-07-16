@@ -140,6 +140,16 @@ reforms:
         variable: snap_dependent_care_deduction
         tests:
           - increases_net_income: false
+    abolish_ma_dependent_care_credit:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish MA dependent care credit
+        name: abolish_ma_dependent_care_credit
+        unit: abolition
+        variable: ma_dependent_care_credit
+        tests:
+          - increases_net_income: false
     abolish_wa_working_families_tax_credit:
       values:
         2010-01-01: false
