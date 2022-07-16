@@ -946,3 +946,7 @@
     - Washington capital gains and Working Families Tax Credit parameters and population
       impact drop-down.
   date: 2022-07-13 20:27:44
+- bump: minor
+  changes:
+    added:
+    - Massachusetts dependent care credit parameters.

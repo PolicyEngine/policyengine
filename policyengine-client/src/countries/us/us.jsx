@@ -284,12 +284,13 @@ export class US extends Country {
                     "Credits": {
                         "Dependent credit": [
                             "ma_dependent_credit",
-                            "ma_dependent_credit_cap",
+                            "ma_dependent_credit_dependent_cap",
                             "ma_dependent_credit_child_age_limit",
                             "ma_dependent_credit_elderly_age_limit",
                         ],
                         "Dependent care credit": [
-                            "abolish_ma_dependent_care_credit",
+                            "ma_dependent_care_credit_amount",
+                            "ma_dependent_care_credit_dependent_cap",
                         ],
                         "EITC": [
                             "ma_eitc_percent",
