@@ -951,3 +951,7 @@
     added:
     - Massachusetts dependent care credit parameters.
   date: 2022-07-16 05:56:49
+- bump: patch
+  changes:
+    fixed:
+    - Undo openfisca-us update, which caused performance issues.
