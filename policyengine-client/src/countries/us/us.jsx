@@ -284,12 +284,13 @@ export class US extends Country {
                     "Credits": {
                         "Dependent credit": [
                             "ma_dependent_credit",
-                            "ma_dependent_credit_cap",
+                            "ma_dependent_credit_dependent_cap",
                             "ma_dependent_credit_child_age_limit",
                             "ma_dependent_credit_elderly_age_limit",
                         ],
                         "Dependent care credit": [
-                            "abolish_ma_dependent_care_credit",
+                            "ma_dependent_care_credit_amount",
+                            "ma_dependent_care_credit_dependent_cap",
                         ],
                         "EITC": [
                             "ma_eitc_percent",
@@ -432,6 +433,8 @@ export class US extends Country {
         ctc_adult_dependent: { max: 10_000 },
         snap_net_income_limit: { max: 10 },
         ssi_amount_individual: { max: 10_000 },
+        ma_dependent_care_credit_amount: { max: 1_000 },
+        ma_dependent_credit: { max: 1_000 },
         contrib_tlaib_end_child_poverty_act_adult_dependent_credit_amount: { max: 10_000 },
         // Each parameter breakdown requires separate treatment.
         contrib_tlaib_end_child_poverty_act_filer_credit_amount_SINGLE: { max: 10_000 },
