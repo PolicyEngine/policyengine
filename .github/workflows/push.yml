@@ -146,4 +146,4 @@ jobs:
         with:
           token: ${{ secrets.NPM_TOKEN }}
           package: policyengine-client/package.json
-          greaterVersionOnly: true
+          greater-version-only: true
