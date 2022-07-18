@@ -28,7 +28,7 @@ setup(
         "rdbl",
         "tables",
         "wheel",
-        "yaml-changelog>=0.1.5",
+        "yaml-changelog>=0.2.0",
     ],
     packages=find_packages(),
 )
