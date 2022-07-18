@@ -956,3 +956,8 @@
     fixed:
     - Undo openfisca-us update, which caused performance issues.
   date: 2022-07-16 19:37:53
+- bump: patch
+  changes:
+    fixed:
+    - Removed large parameters and variables causing slowdowns.
+  date: 2022-07-18 15:40:47

@@ -1,4 +1,0 @@
-- bump: patch
-  changes:
-    fixed:
-    - Removed large parameters and variables causing slowdowns.
