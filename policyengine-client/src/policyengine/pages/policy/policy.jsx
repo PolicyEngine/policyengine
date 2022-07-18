@@ -57,7 +57,7 @@ export default class Policy extends React.Component {
               <NavigationButton
                 primary
                 target="population-impact"
-                text={`Calculate ${this.context.properName} impact`}
+                text={`Compute population impact`}
               />
             )}
           </div>
@@ -65,7 +65,7 @@ export default class Policy extends React.Component {
             {this.context.showHousehold && (
               <NavigationButton
                 target="household"
-                text="Describe your household"
+                text="Compute household impact"
                 primary={!this.context.showPopulationImpact}
               />
             )}
@@ -126,14 +126,14 @@ export default class Policy extends React.Component {
           <Row>
             <Col>
               <NavigationButton
-                text={`Simulate ${this.context.properName}-wide`}
+                text={`Compute population impact`}
                 target="population-impact"
                 primary
               />
             </Col>
             <Col>
               <NavigationButton
-                text={`Simulate on a household`}
+                text={`Compute household impact`}
                 target="household"
               />
             </Col>
