@@ -221,7 +221,7 @@ export default class PopulationImpact extends React.Component {
 								<div className="justify-content-center">
 									{this.context.showHousehold && <NavigationButton
 										target="household"
-										text="Describe your household"
+										text="Compute household impact"
 										primary={!this.context.showPopulationImpact}
 									/>}
 								</div>

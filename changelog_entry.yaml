@@ -1,0 +1,4 @@
+- bump: minor
+  changes:
+    added:
+    - Massachusetts dependent care credit parameters.
