@@ -961,3 +961,8 @@
     fixed:
     - Removed large parameters and variables causing slowdowns.
   date: 2022-07-18 15:40:47
+- bump: minor
+  changes:
+    added:
+    - Massachusetts dependent care credit parameters.
+  date: 2022-07-18 21:04:48
