@@ -188,9 +188,11 @@ def flow_breakdown_parameter_metadata_down(
 
     return parameters
 
+
 EXCLUDED_PARAMETERS = [
     "gov_hhs_medicaid_geography",
-] # Temporary fix: skip parameters with very large subtrees.
+]  # Temporary fix: skip parameters with very large subtrees.
+
 
 def get_PE_parameters(
     system: TaxBenefitSystem, date: str = None
@@ -229,7 +231,12 @@ def get_PE_parameters(
                 name = parameter.metadata["name"]
             else:
                 name = parameter.name.replace(".", "_")
-            if any([excluded_parameter in name for excluded_parameter in EXCLUDED_PARAMETERS]):
+            if any(
+                [
+                    excluded_parameter in name
+                    for excluded_parameter in EXCLUDED_PARAMETERS
+                ]
+            ):
                 continue
             if isinstance(parameter, Parameter):
                 value_type = parameter.metadata.get(

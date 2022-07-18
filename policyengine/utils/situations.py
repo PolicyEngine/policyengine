@@ -58,7 +58,9 @@ def get_PE_variables(system: TaxBenefitSystem) -> Dict[str, dict]:
             if variable_metadata[variable.name]["valueType"] == "Enum":
                 if len(variable.possible_values) > 100:
                     del variable_metadata[variable.name]
-                    raise ValueError(f"Enums with more than 100 values are not supported ({variable.name} has {len(variable.possible_values)}).")
+                    raise ValueError(
+                        f"Enums with more than 100 values are not supported ({variable.name} has {len(variable.possible_values)})."
+                    )
                 variable_metadata[variable.name]["possibleValues"] = [
                     dict(key=enum.name, value=enum.value)
                     for enum in variable.possible_values
