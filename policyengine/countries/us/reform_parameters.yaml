@@ -160,6 +160,8 @@ reforms:
       possible_values:
         - key: UNITED_STATES
           value: United States
+        - key: MD
+          value: Maryland
         - key: MA
           value: Massachusetts
         - key: WA

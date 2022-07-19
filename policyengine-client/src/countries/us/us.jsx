@@ -258,6 +258,48 @@ export class US extends Country {
             },
         },
         "State governments": {
+            "Maryland": {
+                "State income tax": {
+                    "Rates": [
+                        "md_income_tax_rate_single_separate",
+                        "md_income_tax_rate_joint_head_widow",
+                    ],
+                    "Deductions": {
+                        "Standard": [
+                            "md_standard_deduction_rate",
+                            "md_single_separate_standard_deduction_min",
+                            "md_single_separate_standard_deduction_max",
+                            "md_joint_head_widow_standard_deduction_min",
+                            "md_joint_head_widow_standard_deduction_max",
+                        ]
+                    },
+                    "Exemptions": [
+                        "md_income_tax_aged_exemption",
+                        "md_income_tax_aged_dependent_exemption",
+                        "md_income_tax_aged_exemption_age_threshold",
+                        "md_income_tax_blind_exemption",
+                    ],
+                    "Credits": {
+                        "Child and Dependent Care Credit": [
+                            "md_cdcc_eligibility_agi_cap",
+                            "md_cdcc_eligibility_refundable_agi_cap",
+                            "md_cdcc_phase_out_increment",
+                            "md_cdcc_phase_out_percent",
+                            "md_cdcc_phase_out_start",
+                            "md_cdcc_percent",
+                        ],
+                        "Earned Income Tax Credit": [
+                            "md_non_single_childless_non_refundable_eitc_match",
+                            "md_eitc_refundable_match",
+                            "md_eitc_childless_match",
+                            "md_eitc_childless_max",
+                        ],
+                        "Poverty Line Credit": [
+                            "md_poverty_line_credit_rate",
+                        ]
+                    }
+                }
+            },
             "Massachusetts": {
                 "State income tax": {
                     "Rates": [
