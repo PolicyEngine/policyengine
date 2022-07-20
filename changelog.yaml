@@ -966,7 +966,3 @@
     added:
     - Massachusetts dependent care credit parameters.
   date: 2022-07-18 21:04:48
-- bump: minor
-  changes:
-    added:
-      - Maryland parameters.
