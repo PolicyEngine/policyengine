@@ -140,6 +140,16 @@ reforms:
         variable: snap_dependent_care_deduction
         tests:
           - increases_net_income: false
+    abolish_md_dependent_care_subtraction:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish Maryland dependent care subtraction
+        name: abolish_md_dependent_care_subtraction
+        unit: abolition
+        variable: md_dependent_care_subtraction
+        tests:
+          - increases_net_income: false
     abolish_wa_working_families_tax_credit:
       values:
         2010-01-01: false
@@ -160,6 +170,8 @@ reforms:
       possible_values:
         - key: UNITED_STATES
           value: United States
+        - key: MD
+          value: Maryland
         - key: MA
           value: Massachusetts
         - key: WA
