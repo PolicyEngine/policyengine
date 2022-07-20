@@ -19,6 +19,7 @@ import RepTlaibLogo from "../../images/parameter-icons/us/third-party/tlaib.png"
 import SimulationLogo from "../../images/parameter-icons/simulation.webp";
 import MALogo from "../../images/parameter-icons/us/state-governments/ma.png";
 import WALogo from "../../images/parameter-icons/us/state-governments/wa.png";
+import MDLogo from "../../images/parameter-icons/us/state-governments/md.jpeg";
 import StateSpecific from "./components/stateSpecific";
 
 const childNamer = {
@@ -260,17 +261,14 @@ export class US extends Country {
         "State governments": {
             "Maryland": {
                 "State income tax": {
-                    "Rates": [
-                        "md_income_tax_rate_single_separate",
-                        "md_income_tax_rate_joint_head_widow",
+                    "Subtractions": [
+                        "abolish_md_dependent_care_subtraction",
                     ],
                     "Deductions": {
                         "Standard": [
                             "md_standard_deduction_rate",
-                            "md_single_separate_standard_deduction_min",
-                            "md_single_separate_standard_deduction_max",
-                            "md_joint_head_widow_standard_deduction_min",
-                            "md_joint_head_widow_standard_deduction_max",
+                            "md_min_standard_deduction",
+                            "md_max_standard_deduction",
                         ]
                     },
                     "Exemptions": [
@@ -280,14 +278,20 @@ export class US extends Country {
                         "md_income_tax_blind_exemption",
                     ],
                     "Credits": {
-                        "Child and Dependent Care Credit": [
-                            "md_cdcc_eligibility_agi_cap",
-                            "md_cdcc_eligibility_refundable_agi_cap",
-                            "md_cdcc_phase_out_increment",
-                            "md_cdcc_phase_out_percent",
-                            "md_cdcc_phase_out_start",
-                            "md_cdcc_percent",
-                        ],
+                        "Child and Dependent Care Credit": {
+                            "Amount": [
+                                "md_cdcc_percent",
+                            ],
+                            "Eligibility": [
+                                "md_cdcc_agi_cap",
+                                "md_cdcc_refundable_agi_cap",
+                            ],
+                            "Phase-out": [
+                                "md_cdcc_phase_out_start",
+                                "md_cdcc_phase_out_increment",
+                                "md_cdcc_phase_out_percent",
+                            ],
+                        },
                         "Earned Income Tax Credit": [
                             "md_non_single_childless_non_refundable_eitc_match",
                             "md_eitc_refundable_match",
@@ -443,6 +447,9 @@ export class US extends Country {
         "State governments": {
             logo: StateGovernmentsLogo,
         },
+        "Maryland": {
+            logo: MDLogo,
+        },
         "Massachusetts": {
             logo: MALogo,
         },
@@ -475,8 +482,17 @@ export class US extends Country {
         snap_net_income_limit: { max: 10 },
         ssi_amount_individual: { max: 10_000 },
         contrib_tlaib_end_child_poverty_act_adult_dependent_credit_amount: { max: 10_000 },
+        // Massachusetts.
         ma_dependent_care_credit_amount: { max: 1_000 },
         ma_dependent_credit: { max: 1_000 },
+        // Maryland.
+        md_min_standard_deduction: { max: 1_000 },
+        md_max_standard_deduction: { max: 1_000 },
+        md_income_tax_aged_exemption: { max: 10_000 },
+        md_income_tax_aged_dependent_exemption: { max: 10_000 },
+        md_income_tax_blind_exemption: { max: 10_000 },
+        md_eitc_childless_max: { max: 1_000 },
+
         // Each parameter breakdown requires separate treatment.
         contrib_tlaib_end_child_poverty_act_filer_credit_amount_SINGLE: { max: 10_000 },
         contrib_tlaib_end_child_poverty_act_filer_credit_amount_JOINT: { max: 10_000 },
