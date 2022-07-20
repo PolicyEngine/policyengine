@@ -471,6 +471,11 @@ def create_reform(
     return result
 
 
+EXCLUDED_CURRENT_PARAMETER_NODES = [
+    "gov.hhs.medicaid.geography",
+]
+
+
 def use_current_parameters(date: str = None) -> Reform:
     """Backdates parameters at a given instant to the start of the year.
 
@@ -490,6 +495,10 @@ def use_current_parameters(date: str = None) -> Reform:
 
     def modify_parameters(parameters: ParameterNode):
         for child in parameters.get_descendants():
+            if any(
+                name in child.name for name in EXCLUDED_CURRENT_PARAMETER_NODES
+            ):
+                continue
             if isinstance(child, Parameter):
                 current_value = child(date)
                 child.update(period=f"year:{year-10}:20", value=current_value)
