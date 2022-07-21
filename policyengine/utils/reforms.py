@@ -219,16 +219,14 @@ def get_PE_parameter_scale(parameter: ParameterNode, name: str, reference: dict,
         brackets=[],
         scaleType=parameter.metadata.get("type"),
     )
-    i = 0
     for bracket in parameter.brackets:
-        i += 1
         for key, component in bracket.items():
-            metadata = component.get("metadata", {})
             if key == "threshold":
                 name = "threshold"
             else:
                 name = "rate" # Cast rates and amounts to the same name
-            data["brackets"][name] = 
+            data["brackets"][name] = component(now)
+    return bracket
 
 
 def get_PE_parameters(
@@ -303,21 +301,26 @@ def get_PE_parameters(
                     reference = {}
             except:
                 reference = {}
-            parameter_metadata[name] = dict(
-                name=name,
-                parameter=parameter.name,
-                description=parameter.description,
-                label=parameter.metadata.get("label", parameter.name),
-                value=value if isinstance(parameter, Parameter) else None,
-                valueType=value_type,
-                unit=None,
-                period=None,
-                variable=None,
-                max=None,
-                min=None,
-                possibleValues=parameter.metadata.get("possible_values"),
-                reference=reference,
-            )
+            if isinstance(parameter, ParameterScale):
+                parameter_metadata[name] = get_PE_parameter_scale(
+                    parameter, name, reference, now
+                )
+            else:
+                parameter_metadata[name] = dict(
+                    name=name,
+                    parameter=parameter.name,
+                    description=parameter.description,
+                    label=parameter.metadata.get("label", parameter.name),
+                    value=value if isinstance(parameter, Parameter) else None,
+                    valueType=value_type,
+                    unit=None,
+                    period=None,
+                    variable=None,
+                    max=None,
+                    min=None,
+                    possibleValues=parameter.metadata.get("possible_values"),
+                    reference=reference,
+                )
             if parameter(now) == np.inf:
                 parameter_metadata[name]["value"] = "inf"
             if parameter(now) == -np.inf:
