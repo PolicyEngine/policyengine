@@ -746,6 +746,7 @@ export class US extends Country {
                 "spm_unit_self_employment_tax",
                 "income_tax",
                 "ma_income_tax",
+                "md_income_tax",
             ],
             "subtract": []
         },
