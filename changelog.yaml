@@ -978,3 +978,8 @@
     fixed:
     - State code switch stays selected.
   date: 2022-07-21 09:50:20
+- bump: patch
+  changes:
+    fixed:
+    - A bug causing baseline-editing policies to show as no-reform.
+  date: 2022-07-21 18:09:44
