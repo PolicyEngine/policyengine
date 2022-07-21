@@ -38,6 +38,7 @@ function CategoricalParameterControl(props) {
 		style={{minWidth: 200}} 
 		showSearch 
 		defaultValue={props.metadata[targetKey]}
+		value={props.metadata[targetKey]}
 		onSelect={props.onChange}>
 		{props.metadata.possibleValues.map(value => (
 			<Option 

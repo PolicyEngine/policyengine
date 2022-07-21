@@ -614,11 +614,22 @@ export class US extends Country {
         "income_tax_capped_non_refundable_credits",
         "income_tax_refundable_credits",
         // State income taxes
+        // MA
         "ma_income_tax",
         "ma_limited_income_tax_credit",
         "ma_eitc",
         "ma_dependent_credit",
         "ma_income_tax_before_credits",
+        // MD
+        "md_income_tax",
+        "md_income_tax_after_non_refundable_credits",
+        "md_refundable_credits",
+        "md_income_tax_before_credits",
+        "md_non_refundable_credits",
+        "md_refundable_cdcc",
+        "md_non_single_childless_refundable_eitc",
+        "md_single_childless_eitc",
+        "md_ctc",
         // Contributed.
         "basic_income",
         "ecpa_filer_credit",
@@ -735,6 +746,7 @@ export class US extends Country {
                 "spm_unit_self_employment_tax",
                 "income_tax",
                 "ma_income_tax",
+                "md_income_tax",
             ],
             "subtract": []
         },
@@ -771,7 +783,25 @@ export class US extends Country {
                 "ma_eitc",
                 "ma_dependent_credit",
             ]
-        }
+        },
+        "md_income_tax": {
+            "add": [
+                "md_income_tax_after_non_refundable_credits"
+            ],
+            "subtract": [
+                "md_refundable_credits"
+            ]
+        },
+        "md_income_tax_after_non_refundable_credits": [
+            "md_income_tax_before_credits",
+            "md_non_refundable_credits"
+        ],
+        "md_refundable_credits": [
+            "md_refundable_cdcc",
+            "md_non_single_childless_refundable_eitc",
+            "md_single_childless_eitc",
+            "md_ctc",
+        ],
     }
 
     householdMaritalOptions = ["Single", "Married"]

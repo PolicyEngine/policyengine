@@ -379,15 +379,25 @@ class PolicyEngineCountry:
 
     @exclude_from_cache
     def calculate(self, params=None):
-        reform = create_reform(
-            {x: y for x, y in params.items() if x != "ignoreReform"},
-            self.policyengine_parameters,
-            self.default_reform[:-1],
-        )
-        if "ignoreReform" not in params:
-            system = apply_reform(reform["reform"]["reform"], self.system())
+        if (len(params) == 1) and hasattr(self, "baseline_tax_benefit_system"):
+            # Cache the tax-benefit system for no-reform simulations
+            system = self.baseline_tax_benefit_system
         else:
-            system = apply_reform(reform["baseline"]["reform"], self.system())
+            reform = create_reform(
+                {x: y for x, y in params.items() if x != "ignoreReform"},
+                self.policyengine_parameters,
+                self.default_reform[:-1],
+            )
+            if "ignoreReform" not in params:
+                system = apply_reform(
+                    reform["reform"]["reform"], self.system()
+                )
+            else:
+                system = apply_reform(
+                    reform["baseline"]["reform"], self.system()
+                )
+            if len(params) == 1:
+                self.baseline_tax_benefit_system = system
         simulation = SimulationBuilder().build_from_entities(
             system, params["household"]
         )
