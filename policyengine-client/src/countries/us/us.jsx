@@ -389,6 +389,9 @@ export class US extends Country {
                         "senior_bi_age",
                         "senior_bi",
                     ],
+                    "Amount scale": [
+                        "bi_amounts",
+                    ],
                     "Phase-outs": [
                         "bi_phase_out_rate",
                         "bi_phase_out_threshold",

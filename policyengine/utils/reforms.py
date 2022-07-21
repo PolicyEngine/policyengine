@@ -220,12 +220,16 @@ def get_PE_parameter_scale(parameter: ParameterNode, name: str, reference: dict,
         scaleType=parameter.metadata.get("type"),
     )
     for bracket in parameter.brackets:
-        for key, component in bracket.items():
-            if key == "threshold":
-                name = "threshold"
-            else:
-                name = "rate" # Cast rates and amounts to the same name
-            data["brackets"][name] = component(now)
+        bracket_data = {}
+        for key in ["rate", "threshold", "amount"]:
+            if hasattr(bracket, key):
+                if key == "threshold":
+                    name = "threshold"
+                else:
+                    name = "rate" # Cast rates and amounts to the same name
+                bracket_data[name] = getattr(bracket, key)(now)
+                print(bracket_data)
+        data["brackets"].append(bracket_data)
     return bracket
 
 
@@ -257,6 +261,7 @@ def get_PE_parameters(
                 for attribute in ("rate", "amount", "threshold"):
                     if hasattr(bracket, attribute):
                         parameters += [getattr(bracket, attribute)]
+            parameters += [parameter]
         else:
             parameters += [parameter]
     parameter_metadata = OrderedDict()
@@ -321,10 +326,10 @@ def get_PE_parameters(
                     possibleValues=parameter.metadata.get("possible_values"),
                     reference=reference,
                 )
-            if parameter(now) == np.inf:
-                parameter_metadata[name]["value"] = "inf"
-            if parameter(now) == -np.inf:
-                parameter_metadata[name]["value"] = "-inf"
+                if parameter(now) == np.inf:
+                    parameter_metadata[name]["value"] = "inf"
+                if parameter(now) == -np.inf:
+                    parameter_metadata[name]["value"] = "-inf"
             OPTIONAL_ATTRIBUTES = (
                 "period",
                 "variable",
@@ -339,6 +344,8 @@ def get_PE_parameters(
                         attribute
                     ]
         except Exception as e:
+            if "basic_income" in parameter.name:
+                raise e
             pass
     return parameter_metadata
 
