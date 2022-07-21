@@ -32,6 +32,7 @@ function CategoricalParameterControl(props) {
 		style={{minWidth: 200, marginLeft: 0, paddingLeft: 0}} 
 		showSearch 
 		placeholder={props.metadata.defaultValue.value} 
+		value={props.metadata.value}
 		disabled={props.metadata.disabled}
 		bordered={false}
 		onSelect={props.onChange}>
