@@ -971,3 +971,10 @@
     added:
     - Maryland parameters.
   date: 2022-07-20 21:49:14
+- bump: minor
+  changes:
+    added:
+    - MD income tax breakdowns.
+    fixed:
+    - State code switch stays selected.
+  date: 2022-07-21 09:50:20
