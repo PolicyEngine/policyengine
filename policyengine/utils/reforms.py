@@ -193,6 +193,43 @@ EXCLUDED_PARAMETERS = [
     "gov_hhs_medicaid_geography",
 ]  # Temporary fix: skip parameters with very large subtrees.
 
+def get_PE_parameter_scale(parameter: ParameterNode, name: str, reference: dict, now: datetime) -> dict:
+    """Transforms an OpenFisca ParameterScale into metadata served over the PolicyEngine API.
+
+    Args:
+        parameter (ParameterNode): The ParameterScale.
+        name (str): The name of the parameter.
+        reference (dict): The reference of the parameter.
+        now (datetime): The current date.
+
+    Returns:
+        dict: The resulting metadata.
+    """
+
+    data = dict(
+        name=name,
+        parameter=parameter.name,
+        description=parameter.description,
+        label=parameter.metadata.get("label", parameter.name),
+        value_type="parameter_scale",
+        threshold_unit=parameter.metadata.get("threshold_unit"),
+        rate_unit=parameter.metadata.get("rate_unit"),
+        possibleValues=parameter.metadata.get("possible_values"),
+        reference=reference,
+        brackets=[],
+        scaleType=parameter.metadata.get("type"),
+    )
+    i = 0
+    for bracket in parameter.brackets:
+        i += 1
+        for key, component in bracket.items():
+            metadata = component.get("metadata", {})
+            if key == "threshold":
+                name = "threshold"
+            else:
+                name = "rate" # Cast rates and amounts to the same name
+            data["brackets"][name] = 
+
 
 def get_PE_parameters(
     system: TaxBenefitSystem, date: str = None
