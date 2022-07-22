@@ -983,3 +983,8 @@
     fixed:
     - A bug causing baseline-editing policies to show as no-reform.
   date: 2022-07-21 18:09:44
+- bump: minor
+  changes:
+    changed:
+    - OpenFisca-US bumped to 0.111.0.
+  date: 2022-07-22 18:22:23
