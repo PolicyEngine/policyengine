@@ -147,6 +147,11 @@ function BreakdownParameterControl(props) {
 	return <Parameter hideTitle name={selectedParameter.name} prefix={dropDowns} onChange={props.onChange} />;
 }
 
+function ParameterScaleControl(props) {
+	const country = useContext(CountryContext);
+	return <h3>This</h3>
+}
+
 export default class Parameter extends React.Component {
 	static contextType = CountryContext;
 
@@ -163,8 +168,10 @@ export default class Parameter extends React.Component {
 		}
 		const metadata = this.context.policy[this.props.name];
 		if (!metadata) {
-			return <></>;
-			// Uncomment this line to debug: return <h2>Failed: {this.props.name}</h2>;
+			//return <></>;
+			// Uncomment this line to debug: 
+			console.log(this.context.policy)
+			return <h2>Failed: {this.props.name}</h2>;
 		}
 		const onChange = value => {
 			if(value !== "") {
@@ -177,6 +184,7 @@ export default class Parameter extends React.Component {
 			"string": <StringParameterControl onChange={onChange} metadata={metadata} />,
 			"date": <DateParameterControl onChange={onChange} metadata={metadata} />,
 			"parameter_node": <BreakdownParameterControl metadata={metadata} />,
+			"parameter_scale": <ParameterScaleControl metadata={metadata} />,
 		}[metadata.valueType] || <NumericParameterControl onChange={onChange} metadata={metadata} />;
 		let populationSimCheckbox = null;
 		if(this.context.notAllParametersPopulationSimulatable && this.context.showPopulationImpact) {

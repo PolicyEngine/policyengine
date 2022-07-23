@@ -193,6 +193,45 @@ EXCLUDED_PARAMETERS = [
     "gov_hhs_medicaid_geography",
 ]  # Temporary fix: skip parameters with very large subtrees.
 
+def get_PE_parameter_scale(parameter: ParameterNode, name: str, reference: dict, now: datetime) -> dict:
+    """Transforms an OpenFisca ParameterScale into metadata served over the PolicyEngine API.
+
+    Args:
+        parameter (ParameterNode): The ParameterScale.
+        name (str): The name of the parameter.
+        reference (dict): The reference of the parameter.
+        now (datetime): The current date.
+
+    Returns:
+        dict: The resulting metadata.
+    """
+
+    data = dict(
+        name=name,
+        parameter=parameter.name,
+        description=parameter.description,
+        label=parameter.metadata.get("label", parameter.name),
+        value_type="parameter_scale",
+        threshold_unit=parameter.metadata.get("threshold_unit"),
+        rate_unit=parameter.metadata.get("rate_unit"),
+        possibleValues=parameter.metadata.get("possible_values"),
+        reference=reference,
+        brackets=[],
+        scaleType=parameter.metadata.get("type"),
+    )
+    for bracket in parameter.brackets:
+        bracket_data = {}
+        for key in ["rate", "threshold", "amount"]:
+            if hasattr(bracket, key):
+                if key == "threshold":
+                    name = "threshold"
+                else:
+                    name = "rate" # Cast rates and amounts to the same name
+                bracket_data[name] = getattr(bracket, key)(now)
+                print(bracket_data)
+        data["brackets"].append(bracket_data)
+    return bracket
+
 
 def get_PE_parameters(
     system: TaxBenefitSystem, date: str = None
@@ -222,6 +261,7 @@ def get_PE_parameters(
                 for attribute in ("rate", "amount", "threshold"):
                     if hasattr(bracket, attribute):
                         parameters += [getattr(bracket, attribute)]
+            parameters += [parameter]
         else:
             parameters += [parameter]
     parameter_metadata = OrderedDict()
@@ -266,25 +306,30 @@ def get_PE_parameters(
                     reference = {}
             except:
                 reference = {}
-            parameter_metadata[name] = dict(
-                name=name,
-                parameter=parameter.name,
-                description=parameter.description,
-                label=parameter.metadata.get("label", parameter.name),
-                value=value if isinstance(parameter, Parameter) else None,
-                valueType=value_type,
-                unit=None,
-                period=None,
-                variable=None,
-                max=None,
-                min=None,
-                possibleValues=parameter.metadata.get("possible_values"),
-                reference=reference,
-            )
-            if parameter(now) == np.inf:
-                parameter_metadata[name]["value"] = "inf"
-            if parameter(now) == -np.inf:
-                parameter_metadata[name]["value"] = "-inf"
+            if isinstance(parameter, ParameterScale):
+                parameter_metadata[name] = get_PE_parameter_scale(
+                    parameter, name, reference, now
+                )
+            else:
+                parameter_metadata[name] = dict(
+                    name=name,
+                    parameter=parameter.name,
+                    description=parameter.description,
+                    label=parameter.metadata.get("label", parameter.name),
+                    value=value if isinstance(parameter, Parameter) else None,
+                    valueType=value_type,
+                    unit=None,
+                    period=None,
+                    variable=None,
+                    max=None,
+                    min=None,
+                    possibleValues=parameter.metadata.get("possible_values"),
+                    reference=reference,
+                )
+                if parameter(now) == np.inf:
+                    parameter_metadata[name]["value"] = "inf"
+                if parameter(now) == -np.inf:
+                    parameter_metadata[name]["value"] = "-inf"
             OPTIONAL_ATTRIBUTES = (
                 "period",
                 "variable",
@@ -299,6 +344,8 @@ def get_PE_parameters(
                         attribute
                     ]
         except Exception as e:
+            if "basic_income" in parameter.name:
+                raise e
             pass
     return parameter_metadata
 

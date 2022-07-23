@@ -313,6 +313,8 @@ class PolicyEngineCountry:
             return get_PE_parameters(
                 self.baseline_system, date=params.get("policy_date")
             )
+        with open("output.txt", "w") as f:
+            print(self.policyengine_parameters, file=f)
         return self.policyengine_parameters
 
     @exclude_from_cache
