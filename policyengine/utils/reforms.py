@@ -227,10 +227,14 @@ def get_PE_parameter_scale(parameter: ParameterNode, name: str, reference: dict,
                     name = "threshold"
                 else:
                     name = "rate" # Cast rates and amounts to the same name
-                bracket_data[name] = getattr(bracket, key)(now)
-                print(bracket_data)
+                value = getattr(bracket, key)(now)
+                if value == np.inf:
+                    value = "inf"
+                if value == -np.inf:
+                    value = "-inf"
+                bracket_data[name] = value
         data["brackets"].append(bracket_data)
-    return bracket
+    return data
 
 
 def get_PE_parameters(
