@@ -145,6 +145,9 @@ export class US extends Country {
                             "eitc_qualifying_child_max_age_non_student",
                             "eitc_max_inv_income",
                         ],
+                        "Phase-in": [
+                            "eitc_phase_in_rate",
+                        ]
                     },
                     "Education": {
                         "Phase-out": [
@@ -388,9 +391,6 @@ export class US extends Country {
                         "older_adult_bi",
                         "senior_bi_age",
                         "senior_bi",
-                    ],
-                    "Amount scale": [
-                        "bi_amounts",
                     ],
                     "Phase-outs": [
                         "bi_phase_out_rate",
