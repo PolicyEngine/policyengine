@@ -127,7 +127,7 @@ export class Household extends React.Component {
             </Col>
         </Row>;
         const mobileView = <div style={{ paddingLeft: 15, paddingRight: 15 }}>
-            <Row style={{ height: "50vh", marginBottom: 5, overflowY: "scroll" }}>
+            <Row style={{ height: "40vh", marginBottom: 5, overflowY: "scroll" }}>
                 <Col>
                     {
                         this.state.selectedMobilePage === "Menu" ?
@@ -144,7 +144,7 @@ export class Household extends React.Component {
                     <PolicyOverview page="policy" pageSize={1} />
                 </Col>
             </Row>
-            <div style={{ position: "fixed", top: "calc(90vh)", left: 0, width: "100%", padding: 10 }}>
+            <div style={{ position: "fixed", top: "calc(80vh)", left: 0, width: "100%", padding: 10 }}>
                 <Row>
                     <Col>
                         <NavigationButton
