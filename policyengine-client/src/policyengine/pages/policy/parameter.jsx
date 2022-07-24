@@ -1,6 +1,6 @@
 import { getTranslators } from "../../tools/translation";
 import React, { useState } from "react";
-import { CheckCircleOutlined, CloseCircleFilled, EditOutlined } from "@ant-design/icons";
+import { CheckCircleOutlined, CloseCircleFilled, EditOutlined, TrophyOutlined } from "@ant-design/icons";
 import {
 	Switch, Slider, Select, 
     Alert, Input,
@@ -179,7 +179,7 @@ function BreakdownParameterControl(props) {
 function ParameterScaleControl(props) {
 	const country = useContext(CountryContext);
 	const brackets = [...Array(props.metadata.brackets).keys()];
-	const parentName = props.metadata.parameter.replaceAll(".", "_");
+	const parentName = props.metadata.name;
 	let upperThresholds = brackets.slice(0, props.metadata.brackets - 1).map(bracket => (
 		country.policy[`${parentName}_${bracket + 1}_threshold`].value
 	));
@@ -188,13 +188,17 @@ function ParameterScaleControl(props) {
 		country.policy[`${parentName}_${bracket - 1}_threshold`].value
 	));
 	lowerThresholds.unshift(-Infinity);
+	let thresholdMetadata = {exclusiveMin: true, exclusiveMax: true};
+	if(props.metadata.thresholdPeriod !== null) {
+		thresholdMetadata.period = props.metadata.thresholdPeriod;
+	}
 	return <>
 		<Row style={{width: "100%"}}>
 			<Col style={{paddingRight: 20}}>
 				<Steps direction="vertical" progressDot current={props.metadata.brackets - 1}>
 					{
 						brackets.map(i => (
-							<Step key={i} title={<Parameter noSlider extraMetadata={{exclusiveMin: true, exclusiveMax: true, min: lowerThresholds[i], max: upperThresholds[i]}} hideTitle name={`${parentName}_${i}_threshold`} />} />
+							<Step key={i} title={<Parameter noSlider extraMetadata={{...thresholdMetadata, min: lowerThresholds[i], max: upperThresholds[i]}} hideTitle name={`${parentName}_${i}_threshold`} />} />
 						))
 					}
 				</Steps>
@@ -229,7 +233,7 @@ export default class Parameter extends React.Component {
 		}
 		const metadata = Object.assign(this.context.policy[this.props.name], this.props.extraMetadata || {});
 		if (!metadata) {
-			//return <></>;
+			return <></>;
 			// Uncomment this line to debug: 
 			console.log(this.context.policy)
 			return <h2>Failed: {this.props.name}</h2>;

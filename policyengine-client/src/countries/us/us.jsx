@@ -145,9 +145,6 @@ export class US extends Country {
                             "eitc_qualifying_child_max_age_non_student",
                             "eitc_max_inv_income",
                         ],
-                        "Phase-in": [
-                            "eitc_phase_in_rate",
-                        ]
                     },
                     "Education": {
                         "Phase-out": [
@@ -304,7 +301,11 @@ export class US extends Country {
                         "Poverty Line Credit": [
                             "md_poverty_line_credit_rate",
                         ]
-                    }
+                    },
+                    "Rates": [
+                        "md_income_tax_rate_single_separate",
+                        "md_income_tax_rate_joint_head_widow",
+                    ]
                 }
             },
             "Massachusetts": {

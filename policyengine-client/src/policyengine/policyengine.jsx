@@ -78,7 +78,6 @@ export default class PolicyEngine extends React.Component {
       policy: JSON.parse(JSON.stringify(policy)),
       fullyLoaded: true,
     });
-    console.log(policy)
   }
 
   componentDidMount() {

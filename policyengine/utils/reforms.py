@@ -216,7 +216,7 @@ def get_PE_parameter_scale(
         label=parameter.metadata.get("label", parameter.name),
         valueType="parameter_scale",
         thresholdUnit=parameter.metadata.get("threshold_unit"),
-        thresholdPeriod=parameter.metadata.get("threshold_period"),
+        thresholdPeriod=parameter.metadata.get("threshold_period", "year"),
         rateUnit=parameter.metadata.get("rate_unit"),
         ratePeriod=parameter.metadata.get("rate_period"),
         possibleValues=parameter.metadata.get("possible_values"),
@@ -251,6 +251,7 @@ def get_PE_parameters(
         if isinstance(parameter, Parameter):
             parameters += [parameter]
         elif isinstance(parameter, ParameterScale):
+            print(parameter.name)
             for bracket in parameter.brackets:
                 for attribute in ("rate", "amount", "threshold"):
                     if hasattr(bracket, attribute):
@@ -274,6 +275,10 @@ def get_PE_parameters(
             if "[" in name:
                 # Parameter scale component
                 main_name = name.split("[")[0]
+                if parent is not None:
+                    main_name = parent.metadata.get(
+                        "name", parent.name.replace(".", "_")
+                    )
                 index = int(name.split("[")[1].split("]")[0])
                 suffix = name.split("]")[-1].replace("_", "")
                 if suffix == "amount":
@@ -355,8 +360,17 @@ def get_PE_parameters(
                     parameter_metadata[name][attribute] = parameter.metadata[
                         attribute
                     ]
+            if parent is not None:
+                if "rate" in parameter.name:
+                    parameter_metadata[name]["unit"] = parent.metadata.get(
+                        "rate_unit", parameter.metadata.get("unit")
+                    )
+                if "threshold" in parameter.name:
+                    parameter_metadata[name]["unit"] = parent.metadata.get(
+                        "threshold_unit", parameter.metadata.get("unit")
+                    )
         except Exception as e:
-            if "phase_in_rate" in parameter.name:
+            if "rate_schedule" in parameter.name:
                 raise e
             pass
     return parameter_metadata
