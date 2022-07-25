@@ -65,6 +65,17 @@ export function PolicyOverview(props) {
 	const isEmpty = plan.length === 0;
 	const pageSize = props.pageSize || 4;
 	let [page, setPage] = useState(1);
+	const emptyMessage = country.editingReform ?
+		"You haven't created a reform yet." :
+		"Your reform will be compared against current policy."
+	const emptyComponent = <>
+		<div className="d-flex d-lg-none justify-content-center">
+			<p>{emptyMessage}</p>
+		</div>
+		<div className="d-none d-lg-block">
+			<Empty description={emptyMessage} />
+		</div>
+	</>
 	return (
 		<>
 		<RadioButton style={{marginTop: 15}} options={["Baseline", "Reform"]} selected={country.editingReform ? "Reform" : "Baseline"} onChange={option => {country.setState({editingReform: option === "Reform"})}} />
@@ -84,11 +95,7 @@ export function PolicyOverview(props) {
 								/>
 							}
 					</> :
-					<Empty description={
-						country.editingReform ?
-							"You haven't created a reform yet." :
-							"Your reform will be compared against current policy."
-					 } />
+					emptyComponent
 			}		</>
 	);
 }
