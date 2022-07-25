@@ -194,6 +194,39 @@ EXCLUDED_PARAMETERS = [
 ]  # Temporary fix: skip parameters with very large subtrees.
 
 
+def get_PE_parameter_scale(
+    parameter: ParameterNode, name: str, reference: dict, now: datetime
+) -> dict:
+    """Transforms an OpenFisca ParameterScale into metadata served over the PolicyEngine API.
+
+    Args:
+        parameter (ParameterNode): The ParameterScale.
+        name (str): The name of the parameter.
+        reference (dict): The reference of the parameter.
+        now (datetime): The current date.
+
+    Returns:
+        dict: The resulting metadata.
+    """
+
+    data = dict(
+        name=name,
+        parameter=parameter.name,
+        description=parameter.description,
+        label=parameter.metadata.get("label", parameter.name),
+        valueType="parameter_scale",
+        thresholdUnit=parameter.metadata.get("threshold_unit"),
+        thresholdPeriod=parameter.metadata.get("threshold_period", "year"),
+        rateUnit=parameter.metadata.get("rate_unit"),
+        ratePeriod=parameter.metadata.get("rate_period"),
+        possibleValues=parameter.metadata.get("possible_values"),
+        reference=reference,
+        brackets=len(parameter.brackets),
+        scaleType=parameter.metadata.get("type"),
+    )
+    return data
+
+
 def get_PE_parameters(
     system: TaxBenefitSystem, date: str = None
 ) -> Dict[str, dict]:
@@ -218,19 +251,39 @@ def get_PE_parameters(
         if isinstance(parameter, Parameter):
             parameters += [parameter]
         elif isinstance(parameter, ParameterScale):
+            print(parameter.name)
             for bracket in parameter.brackets:
                 for attribute in ("rate", "amount", "threshold"):
                     if hasattr(bracket, attribute):
-                        parameters += [getattr(bracket, attribute)]
+                        parameters += [
+                            (getattr(bracket, attribute), parameter)
+                        ]
+            parameters += [parameter]
         else:
             parameters += [parameter]
     parameter_metadata = OrderedDict()
     for parameter in parameters:
         try:
+            if isinstance(parameter, tuple):
+                parameter, parent = parameter
+            else:
+                parent = None
             if "name" in parameter.metadata:
                 name = parameter.metadata["name"]
             else:
                 name = parameter.name.replace(".", "_")
+            if "[" in name:
+                # Parameter scale component
+                main_name = name.split("[")[0]
+                if parent is not None:
+                    main_name = parent.metadata.get(
+                        "name", parent.name.replace(".", "_")
+                    )
+                index = int(name.split("[")[1].split("]")[0])
+                suffix = name.split("]")[-1].replace("_", "")
+                if suffix == "amount":
+                    suffix = "rate"
+                name = f"{main_name}_{index}_{suffix}"
             if any(
                 [
                     excluded_parameter in name
@@ -266,25 +319,34 @@ def get_PE_parameters(
                     reference = {}
             except:
                 reference = {}
-            parameter_metadata[name] = dict(
-                name=name,
-                parameter=parameter.name,
-                description=parameter.description,
-                label=parameter.metadata.get("label", parameter.name),
-                value=value if isinstance(parameter, Parameter) else None,
-                valueType=value_type,
-                unit=None,
-                period=None,
-                variable=None,
-                max=None,
-                min=None,
-                possibleValues=parameter.metadata.get("possible_values"),
-                reference=reference,
-            )
-            if parameter(now) == np.inf:
-                parameter_metadata[name]["value"] = "inf"
-            if parameter(now) == -np.inf:
-                parameter_metadata[name]["value"] = "-inf"
+            if isinstance(parameter, ParameterScale):
+                parameter_metadata[name] = get_PE_parameter_scale(
+                    parameter, name, reference, now
+                )
+            else:
+                if parent is not None:
+                    label = f"{parent.metadata.get('label', parent.name)} ({suffix} {index + 1})"
+                else:
+                    label = parameter.metadata.get("label", parameter.name)
+                parameter_metadata[name] = dict(
+                    name=name,
+                    parameter=parameter.name,
+                    description=parameter.description,
+                    label=label,
+                    value=value if isinstance(parameter, Parameter) else None,
+                    valueType=value_type,
+                    unit=None,
+                    period=None,
+                    variable=None,
+                    max=None,
+                    min=None,
+                    possibleValues=parameter.metadata.get("possible_values"),
+                    reference=reference,
+                )
+                if parameter(now) == np.inf:
+                    parameter_metadata[name]["value"] = "inf"
+                if parameter(now) == -np.inf:
+                    parameter_metadata[name]["value"] = "-inf"
             OPTIONAL_ATTRIBUTES = (
                 "period",
                 "variable",
@@ -298,7 +360,18 @@ def get_PE_parameters(
                     parameter_metadata[name][attribute] = parameter.metadata[
                         attribute
                     ]
+            if parent is not None:
+                if "rate" in parameter.name:
+                    parameter_metadata[name]["unit"] = parent.metadata.get(
+                        "rate_unit", parameter.metadata.get("unit")
+                    )
+                if "threshold" in parameter.name:
+                    parameter_metadata[name]["unit"] = parent.metadata.get(
+                        "threshold_unit", parameter.metadata.get("unit")
+                    )
         except Exception as e:
+            if "rate_schedule" in parameter.name:
+                raise e
             pass
     return parameter_metadata
 
