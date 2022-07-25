@@ -99,7 +99,7 @@ export default class Policy extends React.Component {
     );
     const mobileView = (
       <div style={{ paddingLeft: 15, paddingRight: 15 }}>
-        <Row style={{ height: "45vh", marginBottom: 5, overflowY: "scroll" }}>
+        <Row style={{ height: "40vh", marginBottom: 5, overflowY: "scroll" }}>
           <Col>
             {this.state.selectedMobilePage === "Menu"
               ? menu
@@ -117,7 +117,7 @@ export default class Policy extends React.Component {
         <div
           style={{
             position: "fixed",
-            top: "calc(90vh)",
+            top: "calc(80vh)",
             left: 0,
             width: "100%",
             padding: 10,

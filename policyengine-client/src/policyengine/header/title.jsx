@@ -16,6 +16,7 @@ export default function Title(props) {
 				src={MainLogo}
 				preview={false}
 				height={50}
+				width={100}
 				style={{ padding: 0, margin: 0 }}
 			/>
 		</a>

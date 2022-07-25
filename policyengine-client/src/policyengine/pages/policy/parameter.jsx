@@ -1,17 +1,21 @@
 import { getTranslators } from "../../tools/translation";
 import React, { useState } from "react";
-import { CheckCircleOutlined, CloseCircleFilled, EditOutlined } from "@ant-design/icons";
+import { CheckCircleOutlined, CloseCircleFilled, EditOutlined, TrophyOutlined } from "@ant-design/icons";
 import {
 	Switch, Slider, Select, 
     Alert, Input,
     DatePicker,
 	Tooltip,
+	Steps,
+	Row,
+	Col,
 } from "antd";
 import Spinner from "../../general/spinner";
 import { CountryContext } from "../../../countries/country";
 import { useContext } from "react";
 
 const { Option } = Select;
+const { Step } = Steps;
 
 function Error(props) {
 	return <Alert 
@@ -38,6 +42,7 @@ function CategoricalParameterControl(props) {
 		style={{minWidth: 200}} 
 		showSearch 
 		defaultValue={props.metadata[targetKey]}
+		value={props.metadata[targetKey]}
 		onSelect={props.onChange}>
 		{props.metadata.possibleValues.map(value => (
 			<Option 
@@ -73,7 +78,10 @@ function NumericParameterControl(props) {
 	const country = useContext(CountryContext);
 	const targetKey = country.editingReform ? "value" : "baselineValue";
 	let [focused, setFocused] = useState(false);
+	let [errorMessage, setErrorMessage] = useState(null);
 	let { formatter, min, max } = getTranslators(props.metadata);
+	min = props.metadata.min || min;
+	max = props.metadata.max || max;
 	let marks = {[max]: formatter(max)};
 	if(min) {
 		marks[min] = formatter(min);
@@ -81,20 +89,37 @@ function NumericParameterControl(props) {
 	const multiplier = props.metadata.unit === "/1" ? 100 : 1;
 	let formattedValue = formatter(props.metadata[targetKey]);
 	formattedValue = props.metadata[targetKey] === null ? <Spinner /> : formattedValue;
+	const slider = <Slider
+		value={props.metadata[targetKey]}
+		style={{marginLeft: min ? 30 : 0, marginRight: 30}}
+		min={min}
+		max={max}
+		marks={marks}
+		onChange={props.onChange}
+		step={0.01}
+		tooltipVisible={false}
+		disabled={props.disabled}
+		paddingRight={15}
+	/>
+	let minimumCheck = () => true;
+	let maximumCheck = () => true;
+	if((min != null) && props.metadata.exclusiveMin) {
+		minimumCheck = (value) => value > min;
+	} else if(!props.exclusiveMin) {
+		minimumCheck = (value) => value >= min;
+	}
+	if((max != null) && props.metadata.exclusiveMax) {
+		maximumCheck = (value) => value < max;
+	} else if(!props.exclusiveMax) {
+		maximumCheck = (value) => value <= max;
+	}
+	let boundaryCheck = (value) => minimumCheck(value) && maximumCheck(value);
 	return (
 		<>
-			<Slider
-				value={props.metadata[targetKey]}
-				style={{marginLeft: min ? 30 : 0, marginRight: 30}}
-				min={min}
-				max={max}
-				marks={marks}
-				onChange={props.onChange}
-				step={0.01}
-				tooltipVisible={false}
-				disabled={props.disabled}
-				paddingRight={15}
-			/>
+			{!props.noSlider && slider}
+			{
+				errorMessage && <Alert style={{marginBottom: 5}} message={errorMessage} type="error" showIcon />
+			}
 			{
 				focused ?
 					<Input.Search 
@@ -102,8 +127,13 @@ function NumericParameterControl(props) {
 						style={{maxWidth: 300}} 
 						placeholder={multiplier * props.metadata[targetKey]} 
 						onSearch={value => {
-							setFocused(false); 
-							props.onChange(value / multiplier);
+							if(boundaryCheck(value / multiplier)) {
+								setFocused(false); 
+								props.onChange(value / multiplier);
+								setErrorMessage(null);
+							} else {
+								setErrorMessage(`Value must be between ${min} and ${max}`);
+							}
 						}} /> :
 					<div>
 						{formattedValue} 
@@ -146,6 +176,47 @@ function BreakdownParameterControl(props) {
 	return <Parameter hideTitle name={selectedParameter.name} prefix={dropDowns} onChange={props.onChange} />;
 }
 
+function ParameterScaleControl(props) {
+	const country = useContext(CountryContext);
+	const brackets = [...Array(props.metadata.brackets).keys()];
+	const parentName = props.metadata.name;
+	let upperThresholds = brackets.slice(0, props.metadata.brackets - 1).map(bracket => (
+		country.policy[`${parentName}_${bracket + 1}_threshold`].value
+	));
+	upperThresholds.push(Infinity);
+	let lowerThresholds = brackets.slice(1).map(bracket => (
+		country.policy[`${parentName}_${bracket - 1}_threshold`].value
+	));
+	lowerThresholds.unshift(-Infinity);
+	let thresholdMetadata = {exclusiveMin: true, exclusiveMax: true};
+	if(props.metadata.thresholdPeriod !== null) {
+		thresholdMetadata.period = props.metadata.thresholdPeriod;
+	}
+	return <>
+		<Row style={{width: "100%"}}>
+			<Col style={{paddingRight: 20}}>
+				<Steps direction="vertical" progressDot current={props.metadata.brackets - 1}>
+					{
+						brackets.map(i => (
+							<Step key={i} title={<Parameter noSlider extraMetadata={{...thresholdMetadata, min: lowerThresholds[i], max: upperThresholds[i]}} hideTitle name={`${parentName}_${i}_threshold`} />} />
+						))
+					}
+				</Steps>
+			</Col>
+			<Col>
+				<Steps direction="vertical" progressDot style={{paddingTop: 25}} current={props.metadata.brackets - 1}>
+					{
+						brackets.map(i => (
+							<Step key={i} title={<Parameter noSlider hideTitle name={`${parentName}_${i}_rate`} />} />
+						))
+					}
+				</Steps>
+			</Col>
+		</Row>
+		
+	</>
+}
+
 export default class Parameter extends React.Component {
 	static contextType = CountryContext;
 
@@ -160,10 +231,12 @@ export default class Parameter extends React.Component {
 		if(!this.context.fullyLoaded) {
 			return <></>;
 		}
-		const metadata = this.context.policy[this.props.name];
+		const metadata = Object.assign(this.context.policy[this.props.name], this.props.extraMetadata || {});
 		if (!metadata) {
 			return <></>;
-			// Uncomment this line to debug: return <h2>Failed: {this.props.name}</h2>;
+			// Uncomment this line to debug: 
+			console.log(this.context.policy)
+			return <h2>Failed: {this.props.name}</h2>;
 		}
 		const onChange = value => {
 			if(value !== "") {
@@ -171,12 +244,13 @@ export default class Parameter extends React.Component {
 			}
 		};
 		const control = {
-			"bool": <BooleanParameterControl onChange={onChange} metadata={metadata} />,
+			"bool": <BooleanParameterControl onChange={onChange} metadata={metadata}/>,
 			"Enum": <CategoricalParameterControl onChange={onChange} metadata={metadata} />,
 			"string": <StringParameterControl onChange={onChange} metadata={metadata} />,
 			"date": <DateParameterControl onChange={onChange} metadata={metadata} />,
 			"parameter_node": <BreakdownParameterControl metadata={metadata} />,
-		}[metadata.valueType] || <NumericParameterControl onChange={onChange} metadata={metadata} />;
+			"parameter_scale": <ParameterScaleControl metadata={metadata} />,
+		}[metadata.valueType] || <NumericParameterControl onChange={onChange} noSlider={this.props.noSlider} metadata={metadata} />;
 		let populationSimCheckbox = null;
 		if(this.context.notAllParametersPopulationSimulatable && this.context.showPopulationImpact) {
 			populationSimCheckbox = this.context.populationSimulatableParameters.includes(metadata.name) &&

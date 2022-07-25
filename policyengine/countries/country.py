@@ -55,84 +55,57 @@ class PolicyEngineCountry:
     results_config: Type[PolicyEngineResultsConfig]
 
     def __init__(self):
-        if self.calculate_only:
-            self.default_reform = (
-                add_parameter_file(self.parameter_file.absolute())
-                if self.parameter_file is not None
-                else (),
-                self.default_reform,
-                use_current_parameters(),
-            )
-            self.baseline_system = self.system()
-            self.policyengine_parameters = get_PE_parameters(
-                self.baseline_system
-            )
+        self.default_reform = (
+            add_parameter_file(self.parameter_file.absolute())
+            if self.parameter_file is not None
+            else (),
+            self.default_reform,
+            self.Microsimulation.post_reform,
+            use_current_parameters(),
+        )
 
-            self.policyengine_variables = get_PE_variables(
-                self.baseline_system
-            )
+        self.baseline_system = apply_reform(
+            self.default_reform[:-1], self.system()
+        )
 
-            self.api_endpoints = dict(
-                parameters=self.parameters,
-                entities=self.entities,
-                variables=self.variables,
-                calculate=self.calculate,
-                household_variation=self.household_variation,
-            )
+        self.baseline = None
 
-            self.entities = build_entities(self.baseline_system)
-        else:
-            self.default_reform = (
-                add_parameter_file(self.parameter_file.absolute())
-                if self.parameter_file is not None
-                else (),
-                self.default_reform,
-                self.Microsimulation.post_reform,
-                use_current_parameters(),
-            )
+        self.year = 2022
 
-            self.baseline = self.Microsimulation(
-                self.default_reform,
-                dataset=self.default_dataset,
-                post_reform=(),
-            )
+        self.policyengine_parameters = get_PE_parameters(self.baseline_system)
 
-            self.baseline_system = apply_reform(
-                self.default_reform[:-1], self.system()
-            )
-            self.year = 2022
+        self.policyengine_variables = get_PE_variables(self.baseline_system)
 
-            self.policyengine_parameters = get_PE_parameters(
-                self.baseline.simulation.tax_benefit_system
-            )
+        self.api_endpoints = dict(
+            household_reform=self.household_reform,
+            population_reform=self.population_reform,
+            ubi=self.ubi,
+            parameters=self.parameters,
+            entities=self.entities,
+            variables=self.variables,
+            population_breakdown=self.population_breakdown,
+            calculate=self.calculate,
+            computation_tree=self.computation_tree,
+            household_variation=self.household_variation,
+            dependencies=self.dependencies,
+            leaf_nodes=self.leaf_nodes,
+            age_chart=self.age_chart,
+        )
 
-            self.policyengine_variables = get_PE_variables(
-                self.baseline.simulation.tax_benefit_system
-            )
+        self.entities = build_entities(self.baseline_system)
 
-            self.api_endpoints = dict(
-                household_reform=self.household_reform,
-                population_reform=self.population_reform,
-                ubi=self.ubi,
-                parameters=self.parameters,
-                entities=self.entities,
-                variables=self.variables,
-                population_breakdown=self.population_breakdown,
-                calculate=self.calculate,
-                computation_tree=self.computation_tree,
-                household_variation=self.household_variation,
-                dependencies=self.dependencies,
-                leaf_nodes=self.leaf_nodes,
-                age_chart=self.age_chart,
-            )
-
-            self.entities = build_entities(
-                self.baseline.simulation.tax_benefit_system
-            )
+    def initialise_baseline_microsimulation(self):
+        self.baseline = self.Microsimulation(
+            self.default_reform,
+            dataset=self.default_dataset,
+            post_reform=(),
+        )
 
     def _get_microsimulations(
         self, params: dict, refresh_baseline: bool = False
     ) -> Tuple[Microsimulation, Microsimulation]:
+        if self.baseline is None:
+            self.initialise_baseline_microsimulation()
         if isinstance(params, type) or isinstance(params, tuple):
             reform_config = dict(
                 baseline=dict(
@@ -379,15 +352,25 @@ class PolicyEngineCountry:
 
     @exclude_from_cache
     def calculate(self, params=None):
-        reform = create_reform(
-            {x: y for x, y in params.items() if x != "ignoreReform"},
-            self.policyengine_parameters,
-            self.default_reform[:-1],
-        )
-        if "ignoreReform" not in params:
-            system = apply_reform(reform["reform"]["reform"], self.system())
+        if (len(params) == 1) and hasattr(self, "baseline_tax_benefit_system"):
+            # Cache the tax-benefit system for no-reform simulations
+            system = self.baseline_tax_benefit_system
         else:
-            system = apply_reform(reform["baseline"]["reform"], self.system())
+            reform = create_reform(
+                {x: y for x, y in params.items() if x != "ignoreReform"},
+                self.policyengine_parameters,
+                self.default_reform[:-1],
+            )
+            if "ignoreReform" not in params:
+                system = apply_reform(
+                    reform["reform"]["reform"], self.system()
+                )
+            else:
+                system = apply_reform(
+                    reform["baseline"]["reform"], self.system()
+                )
+            if len(params) == 1:
+                self.baseline_tax_benefit_system = system
         simulation = SimulationBuilder().build_from_entities(
             system, params["household"]
         )

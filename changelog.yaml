@@ -969,4 +969,27 @@
 - bump: minor
   changes:
     added:
-      - Maryland parameters.
+    - Maryland parameters.
+  date: 2022-07-20 21:49:14
+- bump: minor
+  changes:
+    added:
+    - MD income tax breakdowns.
+    fixed:
+    - State code switch stays selected.
+  date: 2022-07-21 09:50:20
+- bump: patch
+  changes:
+    fixed:
+    - A bug causing baseline-editing policies to show as no-reform.
+  date: 2022-07-21 18:09:44
+- bump: minor
+  changes:
+    changed:
+    - OpenFisca-US bumped to 0.111.0.
+  date: 2022-07-22 18:22:23
+- bump: minor
+  changes:
+    added:
+    - Scale parameter component.
+  date: 2022-07-25 11:16:32

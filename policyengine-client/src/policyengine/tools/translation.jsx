@@ -25,6 +25,10 @@ export function getTranslators(parameter) {
 			formatter: value => value + " year" + (value !== 1 ? "s" : ""),
 		}
 		minMax = 100;
+	} else if (parameter.unit === "child") {
+		result = {
+			formatter: value => value + " child" + (value !== 1 ? "ren" : ""),
+		}
 	} else if (parameter.unit === "tonne CO2") {
 		result = {
 			formatter: value => `${value} tonnes CO2`,

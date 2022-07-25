@@ -35,6 +35,15 @@ export function policyToURL(targetPage, policy) {
 export function urlToPolicy(defaultPolicy, policyRenames) {
 	let plan = JSON.parse(JSON.stringify(defaultPolicy));
 	const { searchParams } = new URL(document.location);
+	// Sort search params keys so `baseline_` keys are processed first
+	const searchParamsKeys = Array.from(searchParams.keys()).sort((a, b) => {
+		if (a.startsWith("baseline_")) {
+			return -1;
+		} else if (b.startsWith("baseline_")) {
+			return 1;
+		} else {
+			return 0;
+		}});
 	if(policyRenames) {
 		for (const key in policyRenames) {
 			if (searchParams.has(key)) {
@@ -43,7 +52,7 @@ export function urlToPolicy(defaultPolicy, policyRenames) {
 			}
 		}
 	}
-	for (const key of searchParams.keys()) {
+	for (const key of searchParamsKeys) {
 		const target = key.includes("baseline_") ? "baselineValue" : "value";
 		const parameterName = key.replace("baseline_", "");
 		try {
