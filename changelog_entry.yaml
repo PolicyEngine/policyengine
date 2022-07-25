@@ -1,0 +1,4 @@
+- bump: minor
+  changes:
+    fixed:
+    - Bugs causing the mobile UI to not space items correctly.
