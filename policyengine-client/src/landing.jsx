@@ -147,14 +147,13 @@ function LandingPageContent() {
             size="large"
             className="flex justify-center my-4"
             style={{
-              fontSize: 30,
               height: 80,
             }}
             href={inUs ? usLink : ukLink}
             block
           >
             <div style={{ margin: 20 }}>
-              <b>Enter PolicyEngine {inUs ? "US" : "UK"}</b>
+              <h1 style={{color: "white"}}>Enter PolicyEngine {inUs ? "US" : "UK"}</h1>
             </div>
           </Button>
           <Button block size="large" href={inUs ? ukLink : usLink}>
