@@ -251,7 +251,6 @@ def get_PE_parameters(
         if isinstance(parameter, Parameter):
             parameters += [parameter]
         elif isinstance(parameter, ParameterScale):
-            print(parameter.name)
             for bracket in parameter.brackets:
                 for attribute in ("rate", "amount", "threshold"):
                     if hasattr(bracket, attribute):
