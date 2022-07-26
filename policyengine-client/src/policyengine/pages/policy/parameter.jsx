@@ -121,7 +121,7 @@ function NumericParameterControl(props) {
 				errorMessage && <Alert style={{marginBottom: 5}} message={errorMessage} type="error" showIcon />
 			}
 			{
-				focused ?
+				focused & !props.displayOnly ?
 					<Input.Search 
 						enterButton="Enter" 
 						style={{maxWidth: 300}} 
@@ -136,11 +136,13 @@ function NumericParameterControl(props) {
 							}
 						}} /> :
 					<div>
-						{formattedValue} 
-						<EditOutlined 
-							style={{marginLeft: 5}} 
-							onClick={() => setFocused(true)} 
-						/>
+						{props.displayOnly || formattedValue} 
+						{
+							!props.displayOnly && <EditOutlined 
+								style={{marginLeft: 5}} 
+								onClick={() => setFocused(true)} 
+							/>
+						}
 					</div>
 			}
 		</>
@@ -192,13 +194,32 @@ function ParameterScaleControl(props) {
 	if(props.metadata.thresholdPeriod !== null) {
 		thresholdMetadata.period = props.metadata.thresholdPeriod;
 	}
+	let displayOnly = [];
+	for(let i = 0; i < props.metadata.brackets; i++) {
+		let value = country.policy[`${parentName}_${i}_threshold`].value;
+		if(value.toString().includes("inf")) {
+			const isPositive = !value.toString().startsWith("-");
+			const nextParameter = country.policy[`${parentName}_${isPositive ? i - 1 : i + 1}_threshold`];
+			const relevantValue = getTranslators(nextParameter).formatter(nextParameter.value);
+			displayOnly.push(isPositive ? `Above ${relevantValue}` : `Below ${relevantValue}`);
+		} else {
+			displayOnly.push(null);
+		}
+	}
 	return <>
 		<Row style={{width: "100%"}}>
 			<Col style={{paddingRight: 20}}>
 				<Steps direction="vertical" progressDot current={props.metadata.brackets - 1}>
 					{
 						brackets.map(i => (
-							<Step key={i} title={<Parameter noSlider extraMetadata={{...thresholdMetadata, min: lowerThresholds[i], max: upperThresholds[i]}} hideTitle name={`${parentName}_${i}_threshold`} />} />
+							<Step key={i} title={<Parameter 
+								noSlider 
+								extraMetadata={{...thresholdMetadata, min: lowerThresholds[i], max: upperThresholds[i]}} 
+								hideTitle 
+								name={`${parentName}_${i}_threshold`}
+								displayOnly={displayOnly[i]}
+								/>
+							} />
 						))
 					}
 				</Steps>
@@ -250,7 +271,7 @@ export default class Parameter extends React.Component {
 			"date": <DateParameterControl onChange={onChange} metadata={metadata} />,
 			"parameter_node": <BreakdownParameterControl metadata={metadata} />,
 			"parameter_scale": <ParameterScaleControl metadata={metadata} />,
-		}[metadata.valueType] || <NumericParameterControl onChange={onChange} noSlider={this.props.noSlider} metadata={metadata} />;
+		}[metadata.valueType] || <NumericParameterControl displayOnly={this.props.displayOnly} onChange={onChange} noSlider={this.props.noSlider} metadata={metadata} />;
 		let populationSimCheckbox = null;
 		if(this.context.notAllParametersPopulationSimulatable && this.context.showPopulationImpact) {
 			populationSimCheckbox = this.context.populationSimulatableParameters.includes(metadata.name) &&
