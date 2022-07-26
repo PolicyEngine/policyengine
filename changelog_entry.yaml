@@ -1,4 +1,0 @@
-- bump: patch
-  changes:
-    changed:
-      - Update Maryland tax and personal exemption parameters to use per-filing-status values.
