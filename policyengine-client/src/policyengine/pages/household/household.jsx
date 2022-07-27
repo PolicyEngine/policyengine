@@ -144,19 +144,19 @@ export class Household extends React.Component {
                     <PolicyOverview page="policy" pageSize={1} />
                 </Col>
             </Row>
-            <div style={{ position: "fixed", top: "calc(80vh)", left: 0, width: "100%", padding: 10 }}>
+            <div style={{ position: "fixed", top: "calc(60vh + 120px)", left: 0, width: "100%", padding: 10 }}>
                 <Row>
                     <Col>
                         <NavigationButton
                             text="Compute your net income"
-                            onClick={() => this.setState({ selected: "Your net income" })}
+                            onClick={() => this.setState({ selected: "Your net income", selectedMobilePage: "Edit" })}
                             primary
                         />
                     </Col>
                     <Col>
                         <NavigationButton
                             text="Compute how earnings affect you"
-                            onClick={() => this.setState({ selected: "How earnings affect you" })}
+                            onClick={() => this.setState({ selected: "How earnings affect you", selectedMobilePage: "Edit" })}
                         />
                     </Col>
                 </Row>

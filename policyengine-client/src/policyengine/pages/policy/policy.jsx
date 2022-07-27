@@ -117,7 +117,7 @@ export default class Policy extends React.Component {
         <div
           style={{
             position: "fixed",
-            top: "calc(80vh)",
+            top: "calc(60vh + 120px)",
             left: 0,
             width: "100%",
             padding: 10,
