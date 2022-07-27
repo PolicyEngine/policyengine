@@ -18,9 +18,14 @@ export class BreakdownTable extends React.Component {
 
     fetchResults() {
         let url = new URL(`${this.context.apiURL}/population-breakdown`);
-		url.search = new URLSearchParams(this.context.getPolicyJSONPayload()).toString();
 		this.context.setState({ waitingOnPopulationBreakdown: true }, () => {
-			fetch(url)
+			fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(submission)
+            })
 				.then((res) => {
 					if (res.ok) {
 						return res.json();

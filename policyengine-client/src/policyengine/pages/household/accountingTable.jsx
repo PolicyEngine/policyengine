@@ -35,14 +35,13 @@ export default class AccountingTable extends React.Component {
                     baselineSubmission[key.substring(9)] = submission[key];
                 }
             }
-            url.search = new URLSearchParams(baselineSubmission).toString();
             fetch(url, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ "household": this.context.situation })
+                body: JSON.stringify({ "household": this.context.situation, baselineSubmission })
             }).then((res) => {
                 if (res.ok) {
                     return res.json();
