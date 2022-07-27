@@ -271,12 +271,21 @@ export class US extends Country {
                             "md_max_standard_deduction",
                         ]
                     },
-                    "Exemptions": [
-                        "md_income_tax_aged_exemption",
-                        "md_income_tax_aged_dependent_exemption",
-                        "md_income_tax_aged_exemption_age_threshold",
-                        "md_income_tax_blind_exemption",
-                    ],
+                    "Exemptions": {
+                        "Personal": [
+                            "md_personal_exemption_single",
+                            "md_personal_exemption_separate",
+                            "md_personal_exemption_joint",
+                            "md_personal_exemption_head",
+                            "md_personal_exemption_widow",
+                        ],
+                        "Aged and blind": [
+                            "md_income_tax_aged_exemption",
+                            "md_income_tax_aged_dependent_exemption",
+                            "md_income_tax_aged_exemption_age_threshold",
+                            "md_income_tax_blind_exemption",
+                        ]
+                    },
                     "Credits": {
                         "Child and Dependent Care Credit": {
                             "Amount": [
@@ -303,8 +312,11 @@ export class US extends Country {
                         ]
                     },
                     "Rates": [
-                        "md_income_tax_rate_single_separate",
-                        "md_income_tax_rate_joint_head_widow",
+                        "md_income_tax_rate_single",
+                        "md_income_tax_rate_separate",
+                        "md_income_tax_rate_joint",
+                        "md_income_tax_rate_head",
+                        "md_income_tax_rate_widow",
                     ]
                 }
             },

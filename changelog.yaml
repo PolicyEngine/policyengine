@@ -993,3 +993,9 @@
     added:
     - Scale parameter component.
   date: 2022-07-25 11:16:32
+- bump: patch
+  changes:
+    changed:
+    - Update Maryland tax and personal exemption parameters to use per-filing-status
+      values.
+  date: 2022-07-26 16:08:38
