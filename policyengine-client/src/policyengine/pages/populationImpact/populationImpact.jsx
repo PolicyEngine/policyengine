@@ -164,9 +164,17 @@ export default class PopulationImpact extends React.Component {
 	simulate() {
 		const submission = this.context.getPolicyJSONPayload();
 		let url = new URL(`${this.context.apiURL}/population-reform`);
-		url.search = new URLSearchParams(submission).toString();
 		this.context.setState({ waitingOnPopulationImpact: true }, () => {
-			fetch(url)
+			fetch(
+				url, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						"Accept": "application/json"
+					},
+					body: JSON.stringify(submission)
+				}
+				)
 				.then((res) => {
 					if (res.ok) {
 						return res.json();
