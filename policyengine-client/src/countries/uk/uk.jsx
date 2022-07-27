@@ -98,6 +98,9 @@ export class UK extends Country {
       max: 1,
       precision: 4,
     },
+    tv_licence_fee: {
+      max: 250,
+    }
   };
   parameterHierarchy = {
     Simulation: {
@@ -158,6 +161,15 @@ export class UK extends Country {
           "abolish_business_rates",
         ],
         "Fuel duties": ["fuel_duty_rate"],
+        "TV licence": {
+          "Fee": ["tv_licence_fee"],
+          "Discounts": [
+            "tv_licence_aged_discount",
+            "tv_licence_aged_min_age",
+            "tv_licence_aged_must_claim_pc",
+          ],
+          "Evasion": ["tv_licence_evasion_rate"],
+        }
       },
       Benefit: {
         "Child Benefit": [
