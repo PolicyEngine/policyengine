@@ -323,8 +323,8 @@ def get_PE_parameters(
                     parameter, name, reference, now
                 )
             else:
-                if parent is not None:
-                    label = f"{parent.metadata.get('label', parent.name)} ({suffix} {index + 1})"
+                if parent is not None and "label" not in parameter.metadata:
+                    label = f"{parameter.metadata.get('label', parent.name)} ({suffix} {index + 1})"
                 else:
                     label = parameter.metadata.get("label", parameter.name)
                 parameter_metadata[name] = dict(
