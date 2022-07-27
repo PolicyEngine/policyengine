@@ -1,6 +1,0 @@
-- bump: minor
-  changes:
-    added:
-    - UK TV licence fee parameters.
-    fixed:
-    - Bug preventing labels for scale components being shown.

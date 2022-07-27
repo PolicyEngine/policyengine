@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.80.0] - 2022-07-27 12:18:39
+
+### Added
+
+- UK TV licence fee parameters.
+
+### Fixed
+
+- Bug preventing labels for scale components being shown.
+
 ## [1.79.1] - 2022-07-27 11:42:49
 
 ### Fixed
@@ -1205,6 +1215,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.80.0]: https://github.com/PolicyEngine/policyengine/compare/1.79.1...1.80.0
 [1.79.1]: https://github.com/PolicyEngine/policyengine/compare/1.79.0...1.79.1
 [1.79.0]: https://github.com/PolicyEngine/policyengine/compare/1.78.1...1.79.0
 [1.78.1]: https://github.com/PolicyEngine/policyengine/compare/1.78.0...1.78.1
