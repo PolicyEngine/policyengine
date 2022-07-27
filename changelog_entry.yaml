@@ -1,0 +1,4 @@
+- bump: patch
+  changes:
+    fixed:
+    - Fixes a bug which caused long reforms to breach character URL limits.
