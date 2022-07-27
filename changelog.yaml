@@ -1016,3 +1016,8 @@
     fixed:
     - Bug preventing labels for scale components being shown.
   date: 2022-07-27 12:18:39
+- bump: patch
+  changes:
+    fixed:
+    - Fixes a bug which caused long reforms to breach character URL limits.
+  date: 2022-07-27 15:12:53
