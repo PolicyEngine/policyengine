@@ -82,6 +82,16 @@ function NumericParameterControl(props) {
 	let { formatter, min, max } = getTranslators(props.metadata);
 	min = props.metadata.min || min;
 	max = props.metadata.max || max;
+	if(min == "inf") {
+		min = Infinity;
+	} else if (min == "-inf") {
+		min = -Infinity;
+	}
+	if(max == "inf") {
+		max = Infinity;
+	} else if (max == "-inf") {
+		max = -Infinity;
+	}
 	let marks = {[max]: formatter(max)};
 	if(min) {
 		marks[min] = formatter(min);
@@ -180,14 +190,15 @@ function BreakdownParameterControl(props) {
 
 function ParameterScaleControl(props) {
 	const country = useContext(CountryContext);
+	const target = country.editingReform ? "value" : "baselineValue";
 	const brackets = [...Array(props.metadata.brackets).keys()];
 	const parentName = props.metadata.name;
 	let upperThresholds = brackets.slice(0, props.metadata.brackets - 1).map(bracket => (
-		country.policy[`${parentName}_${bracket + 1}_threshold`].value
+		country.policy[`${parentName}_${bracket + 1}_threshold`][target]
 	));
 	upperThresholds.push(Infinity);
 	let lowerThresholds = brackets.slice(1).map(bracket => (
-		country.policy[`${parentName}_${bracket - 1}_threshold`].value
+		country.policy[`${parentName}_${bracket - 1}_threshold`][target]
 	));
 	lowerThresholds.unshift(-Infinity);
 	let thresholdMetadata = {exclusiveMin: true, exclusiveMax: true};
@@ -196,7 +207,7 @@ function ParameterScaleControl(props) {
 	}
 	let displayOnly = [];
 	for(let i = 0; i < props.metadata.brackets; i++) {
-		let value = country.policy[`${parentName}_${i}_threshold`].value;
+		let value = country.policy[`${parentName}_${i}_threshold`][target];
 		if(value.toString().includes("inf")) {
 			const isPositive = !value.toString().startsWith("-");
 			const nextParameter = country.policy[`${parentName}_${isPositive ? i - 1 : i + 1}_threshold`];
