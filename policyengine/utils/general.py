@@ -24,7 +24,7 @@ class PolicyEngineResultsConfig:
 
 
 def dict_to_string(d: dict) -> str:
-    return "_".join(["_".join((x, y)) for x, y in d.items()])
+    return "_".join(["_".join((str(x), str(y))) for x, y in d.items()])
 
 
 def exclude_from_cache(f: Callable) -> Callable:
