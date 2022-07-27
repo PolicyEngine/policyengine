@@ -999,3 +999,8 @@
     - Update Maryland tax and personal exemption parameters to use per-filing-status
       values.
   date: 2022-07-26 16:08:38
+- bump: minor
+  changes:
+    fixed:
+    - Bugs causing the mobile UI to not space items correctly.
+  date: 2022-07-27 09:06:13
