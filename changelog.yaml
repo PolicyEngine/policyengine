@@ -1004,3 +1004,8 @@
     fixed:
     - Bugs causing the mobile UI to not space items correctly.
   date: 2022-07-27 09:06:13
+- bump: patch
+  changes:
+    fixed:
+    - Bug causing scale parameters to mishandle infinities.
+  date: 2022-07-27 11:42:49
