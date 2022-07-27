@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.79.0] - 2022-07-27 09:06:13
+
+### Fixed
+
+- Bugs causing the mobile UI to not space items correctly.
+
 ## [1.78.1] - 2022-07-26 16:08:38
 
 ### Changed
@@ -1193,6 +1199,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.79.0]: https://github.com/PolicyEngine/policyengine/compare/1.78.1...1.79.0
 [1.78.1]: https://github.com/PolicyEngine/policyengine/compare/1.78.0...1.78.1
 [1.78.0]: https://github.com/PolicyEngine/policyengine/compare/1.77.0...1.78.0
 [1.77.0]: https://github.com/PolicyEngine/policyengine/compare/1.76.1...1.77.0
