@@ -386,9 +386,16 @@ export class US extends Country {
                         "wa_ltcg_charitable_contributions_cap",
                     ],
                 },
-                "Working Families Tax Credit": [
-                    "abolish_wa_working_families_tax_credit",
-                ]
+                "Working Families Tax Credit": {
+                    "Amount": [
+                        "wa_wftc_max_amount",
+                        "wa_wftc_min_amount"
+                    ],
+                    "Phase-out": [
+                        "wa_wftc_phase_out_start_below_eitc_income_limit",
+                        "wa_wftc_phase_out_rate",
+                    ]
+                }
             }
         },
         "Third party": {
