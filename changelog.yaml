@@ -1021,3 +1021,8 @@
     fixed:
     - Fixes a bug which caused long reforms to breach character URL limits.
   date: 2022-07-27 15:12:53
+- bump: minor
+  changes:
+    added:
+    - Washington Working Families Tax Credit parameters.
+  date: 2022-07-28 04:06:21
