@@ -1,4 +1,4 @@
-import { getTranslators } from "../../tools/translation";
+import { getTranslators } from "../../../tools/translation";
 import React, { useState } from "react";
 import { CheckCircleOutlined, CloseCircleFilled, EditOutlined, TrophyOutlined } from "@ant-design/icons";
 import {
@@ -10,9 +10,10 @@ import {
 	Row,
 	Col,
 } from "antd";
-import Spinner from "../../general/spinner";
-import { CountryContext } from "../../../countries/country";
+import Spinner from "../../../general/spinner";
+import { CountryContext } from "../../../../countries/country";
 import { useContext } from "react";
+import NumericParameterControl from "./numericParameterControl";
 
 const { Option } = Select;
 const { Step } = Steps;
@@ -74,90 +75,6 @@ function DateParameterControl(props) {
 	/>
 }
 
-function NumericParameterControl(props) {
-	const country = useContext(CountryContext);
-	const targetKey = country.editingReform ? "value" : "baselineValue";
-	let [focused, setFocused] = useState(false);
-	let [errorMessage, setErrorMessage] = useState(null);
-	let { formatter, min, max } = getTranslators(props.metadata);
-	min = props.metadata.min || min;
-	max = props.metadata.max || max;
-	if(min == "inf") {
-		min = Infinity;
-	} else if (min == "-inf") {
-		min = -Infinity;
-	}
-	if(max == "inf") {
-		max = Infinity;
-	} else if (max == "-inf") {
-		max = -Infinity;
-	}
-	let marks = {[max]: formatter(max)};
-	if(min) {
-		marks[min] = formatter(min);
-	}
-	const multiplier = props.metadata.unit === "/1" ? 100 : 1;
-	let formattedValue = formatter(props.metadata[targetKey]);
-	formattedValue = props.metadata[targetKey] === null ? <Spinner /> : formattedValue;
-	const slider = <Slider
-		value={props.metadata[targetKey]}
-		style={{marginLeft: min ? 30 : 0, marginRight: 30}}
-		min={min}
-		max={max}
-		marks={marks}
-		onChange={props.onChange}
-		step={0.01}
-		tooltipVisible={false}
-		disabled={props.disabled}
-		paddingRight={15}
-	/>
-	let minimumCheck = () => true;
-	let maximumCheck = () => true;
-	if((min != null) && props.metadata.exclusiveMin) {
-		minimumCheck = (value) => value > min;
-	} else if(!props.exclusiveMin) {
-		minimumCheck = (value) => value >= min;
-	}
-	if((max != null) && props.metadata.exclusiveMax) {
-		maximumCheck = (value) => value < max;
-	} else if(!props.exclusiveMax) {
-		maximumCheck = (value) => value <= max;
-	}
-	let boundaryCheck = (value) => minimumCheck(value) && maximumCheck(value);
-	return (
-		<>
-			{!props.noSlider && slider}
-			{
-				errorMessage && <Alert style={{marginBottom: 5}} message={errorMessage} type="error" showIcon />
-			}
-			{
-				focused & !props.displayOnly ?
-					<Input.Search 
-						enterButton="Enter" 
-						style={{maxWidth: 300}} 
-						placeholder={multiplier * props.metadata[targetKey]} 
-						onSearch={value => {
-							if(boundaryCheck(value / multiplier)) {
-								setFocused(false); 
-								props.onChange(value / multiplier);
-								setErrorMessage(null);
-							} else {
-								setErrorMessage(`Value must be between ${min} and ${max}`);
-							}
-						}} /> :
-					<div>
-						{props.displayOnly || formattedValue} 
-						{
-							!props.displayOnly && <EditOutlined 
-								style={{marginLeft: 5}} 
-								onClick={() => setFocused(true)} 
-							/>
-						}
-					</div>
-			}
-		</>
-	);
-}
 
 function BreakdownParameterControl(props) {
 	const country = useContext(CountryContext);
@@ -225,7 +142,7 @@ function ParameterScaleControl(props) {
 						brackets.map(i => (
 							<Step key={i} title={<Parameter 
 								noSlider 
-								extraMetadata={{...thresholdMetadata, min: lowerThresholds[i], max: upperThresholds[i]}} 
+								extraMetadata={{...thresholdMetadata, hardMin: lowerThresholds[i], hardMax: upperThresholds[i]}} 
 								hideTitle 
 								name={`${parentName}_${i}_threshold`}
 								displayOnly={displayOnly[i]}
