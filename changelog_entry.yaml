@@ -1,4 +1,0 @@
-- bump: patch
-  changes:
-    fixed:
-    - A bug causing parameter scales to be uneditable above $1k.
