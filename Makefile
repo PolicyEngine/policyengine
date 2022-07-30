@@ -17,7 +17,7 @@ publish-server: policyengine
 publish-client:
 	cd policyengine-client; pnpm publish
 debug-server:
-	POLICYENGINE_DEBUG=1 FLASK_APP=policyengine/server.py FLASK_DEBUG=1 flask run
+	POLICYENGINE_DEBUG=1 FLASK_APP=policyengine.server:app FLASK_DEBUG=1 flask run
 debug-client:
 	cd policyengine-client; pnpm start
 format:

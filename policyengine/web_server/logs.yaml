@@ -1,0 +1,126 @@
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T20:24:54.950145'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T20:25:10.336724'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T20:25:15.373168'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T20:25:40.667176'
+- event: general_server_message
+  message: Initialisation complete.
+  time: '2022-07-30T20:25:40.671909'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T20:26:26.422389'
+- event: general_server_message
+  message: Initialisation complete.
+  time: '2022-07-30T20:26:26.430381'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T20:27:33.343102'
+- event: general_server_message
+  message: Initialisation complete.
+  time: '2022-07-30T20:27:33.345622'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T20:27:44.245689'
+- event: general_server_message
+  message: Initialisation complete.
+  time: '2022-07-30T20:27:44.248564'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T20:29:17.672987'
+- event: general_server_message
+  message: Initialisation complete.
+  time: '2022-07-30T20:29:17.676059'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T20:29:23.615667'
+- event: general_server_message
+  message: Initialisation complete.
+  time: '2022-07-30T20:29:23.618231'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T20:30:01.611564'
+- event: general_server_message
+  message: Initialisation complete.
+  time: '2022-07-30T20:30:01.615132'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T20:30:57.600209'
+- event: general_server_message
+  message: Initialisation complete.
+  time: '2022-07-30T20:30:57.602850'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T20:32:17.788382'
+- event: general_server_message
+  message: Initialisation complete.
+  time: '2022-07-30T20:32:17.792039'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T20:32:48.699360'
+- event: general_server_message
+  message: Initialisation complete.
+  time: '2022-07-30T20:32:48.702899'
+- endpoint: variables
+  event: endpoint_call
+  time: 0.0
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T20:33:02.628989'
+- event: general_server_message
+  message: Initialisation complete.
+  time: '2022-07-30T20:33:02.636495'
+- endpoint: variables
+  event: endpoint_call
+  time: 0.0
+- endpoint: variables
+  event: endpoint_call
+  time: 0.0
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T20:34:22.580359'
+- event: general_server_message
+  message: Initialisation complete.
+  time: '2022-07-30T20:34:22.585513'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T20:34:22.889295'
+- event: general_server_message
+  message: Initialisation complete.
+  time: '2022-07-30T20:34:22.894616'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T20:34:32.886997'
+- event: general_server_message
+  message: Initialisation complete.
+  time: '2022-07-30T20:34:32.892531'
+- endpoint: variables
+  event: endpoint_call
+  time: 0.0
+- endpoint: variables
+  event: endpoint_call
+  time: 0.0
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T20:34:47.193467'
+- event: general_server_message
+  message: Initialisation complete.
+  time: '2022-07-30T20:34:47.201847'
+- endpoint: variables
+  event: endpoint_call
+  time: 0.0
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T20:35:26.565347'
+- event: general_server_message
+  message: Initialisation complete.
+  time: '2022-07-30T20:35:26.571835'
+- endpoint: variables
+  event: endpoint_call
+  time: 8.058547973632812e-05
