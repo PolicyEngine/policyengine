@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-from policyengine import VERSION
+from policyengine_old import VERSION
 
 setup(
     name="PolicyEngine",

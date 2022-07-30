@@ -49,3 +49,5 @@ changelog:
 	bump-version changelog.yaml policyengine-client/package.json policyengine/__init__.py
 	rm changelog_entry.yaml || true
 	touch changelog_entry.yaml
+documentation:
+	jb build docs
