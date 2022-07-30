@@ -39,7 +39,10 @@ from policyengine_old.utils.reforms import (
     get_PE_parameters,
     use_current_parameters,
 )
-from policyengine_old.utils.situations import create_situation, get_PE_variables
+from policyengine_old.utils.situations import (
+    create_situation,
+    get_PE_variables,
+)
 
 
 class PolicyEngineCountry:

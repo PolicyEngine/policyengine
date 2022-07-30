@@ -1,4 +1,3 @@
-
 from datetime import datetime
 from pathlib import Path
 from time import time
@@ -21,7 +20,7 @@ class PolicyEngineLogger:
     def __init__(self, local: bool = True, print_to_console: bool = True):
         self.local = local
         self.print_to_console = print_to_console
-    
+
     def log(self, **data: dict):
         """Log a message to the PolicyEngine server logs.
 
@@ -32,29 +31,37 @@ class PolicyEngineLogger:
 
             with open(Path(__file__).parent / "logs.yaml", "a") as f:
                 yaml.dump(
-                    [{
-                        "time": datetime.now().isoformat(),
-                        **data,
-                    }],
+                    [
+                        {
+                            "time": datetime.now().isoformat(),
+                            **data,
+                        }
+                    ],
                     f,
                 )
         else:
-            raise NotImplementedError("Logging to Google Cloud is not yet implemented.")
-        
+            raise NotImplementedError(
+                "Logging to Google Cloud is not yet implemented."
+            )
+
         if self.print_to_console:
-            print(f"[{datetime.now().isoformat()}]" + "".join([f" {k}: {v}" for k, v in data.items()]))
+            print(
+                f"[{datetime.now().isoformat()}]"
+                + "".join([f" {k}: {v}" for k, v in data.items()])
+            )
 
 
 def logged_endpoint(fn: Callable, logger: PolicyEngineLogger) -> Callable:
     """Decorator for logging the start and end of an endpoint.
-    
+
     Args:
         fn (Callable): The endpoint function.
         logger (PolicyEngineLogger): The logger to use.
-    
+
     Returns:
         Callable: The decorated function.
     """
+
     def new_fn(*args, **kwargs):
         start_time = time()
         result = fn(*args, **kwargs, logger=logger)

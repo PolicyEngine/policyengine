@@ -1,19 +1,21 @@
-
-
 import os
 from typing import Tuple, Type
 from flask import Flask
 from flask_cors import CORS
-from policyengine.web_server.cache import DisabledCache, PolicyEngineCache, add_params_and_caching
+from policyengine.web_server.cache import (
+    DisabledCache,
+    PolicyEngineCache,
+    add_params_and_caching,
+)
 from policyengine.web_server.logging import PolicyEngineLogger, logged_endpoint
 from policyengine.web_server.cors import after_request_func
 from policyengine.web_server.static_site import add_static_site_handling
 from policyengine.package import POLICYENGINE_PACKAGE_PATH
 from .country import PolicyEngineCountry, UK, US
 
+
 class PolicyEngine:
-    """Class initialising and running the PolicyEngine API.
-    """
+    """Class initialising and running the PolicyEngine API."""
 
     version: str = "1.81.1"
     """The version of the PolicyEngine API, used to identify the API version in the cache.
@@ -32,13 +34,11 @@ class PolicyEngine:
 
     @property
     def debug_mode(self):
-        """Whether the PolicyEngine API is running in debug mode.
-        """
+        """Whether the PolicyEngine API is running in debug mode."""
         return bool(os.environ.get("POLICYENGINE_DEBUG"))
-    
+
     def log(self, message: str):
-        """Log a message to the PolicyEngine API logger as a general server message.
-        """
+        """Log a message to the PolicyEngine API logger as a general server message."""
         self.logger.log(event="general_server_message", message=message)
 
     def __init__(self):
@@ -51,32 +51,29 @@ class PolicyEngine:
         self.log("Initialisation complete.")
 
     def _init_countries(self):
-        """Initialise the country models.
-        """
+        """Initialise the country models."""
         self.countries = tuple(map(lambda country: country(), self.countries))
-    
+
     def _init_cache(self):
-        """Initialise the cache for load-intensive endpoint results.
-        """
+        """Initialise the cache for load-intensive endpoint results."""
         if self.cache_bucket_name is not None and not self.debug_mode:
             self.cache = PolicyEngineCache(self.cache_bucket_name)
         else:
             self.cache = DisabledCache()
-    
+
     def _init_flask(self):
-        """Initialise the Flask application.
-        """
+        """Initialise the Flask application."""
         self.app = Flask(
             type(self).__name__,
             static_url_path="",
-            static_folder=str((POLICYENGINE_PACKAGE_PATH / "static").absolute()),
+            static_folder=str(
+                (POLICYENGINE_PACKAGE_PATH / "static").absolute()
+            ),
         )
         CORS(self.app)
 
-    
     def _init_routes(self):
-        """Initialise Flask routing to direct non-API requests to a static assets folder.
-        """
+        """Initialise Flask routing to direct non-API requests to a static assets folder."""
         add_static_site_handling(self.app)
         for country in self.countries:
             for endpoint, endpoint_fn in country.api_endpoints.items():
@@ -89,9 +86,7 @@ class PolicyEngine:
                 )(endpoint_fn)
                 setattr(self, endpoint_fn.__name__, endpoint_fn)
         self.after_request_func = self.app.after_request(after_request_func)
-    
+
     def _init_logger(self):
-        """Initialise the logger for the PolicyEngine API.
-        """
+        """Initialise the logger for the PolicyEngine API."""
         self.logger = PolicyEngineLogger(local=self.debug_mode)
-    

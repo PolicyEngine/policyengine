@@ -2,8 +2,7 @@ from flask import request, make_response
 
 
 def after_request_func(response):
-    """Adds CORS headers to the API response.
-    """
+    """Adds CORS headers to the API response."""
     origin = request.headers.get("Origin")
     if request.method == "OPTIONS":
         response = make_response()

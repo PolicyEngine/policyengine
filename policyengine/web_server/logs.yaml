@@ -124,3 +124,111 @@
 - endpoint: variables
   event: endpoint_call
   time: 8.058547973632812e-05
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T21:18:54.422828'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T21:18:54.894882'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T21:19:26.132682'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T21:19:26.134309'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T21:19:44.582847'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T21:19:44.585110'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T21:20:07.964461'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T21:21:12.169342'
+- event: general_server_message
+  message: Initialisation complete.
+  time: '2022-07-30T21:21:15.937185'
+- endpoint: entities
+  event: endpoint_call
+  time: 0.00019812583923339844
+- endpoint: entities
+  event: endpoint_call
+  time: 6.961822509765625e-05
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T21:22:19.347864'
+- event: general_server_message
+  message: Initialisation complete.
+  time: '2022-07-30T21:22:22.955612'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T21:22:31.802310'
+- event: general_server_message
+  message: Initialisation complete.
+  time: '2022-07-30T21:22:35.683114'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T21:22:47.584490'
+- event: general_server_message
+  message: Initialisation complete.
+  time: '2022-07-30T21:22:51.446573'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T21:23:18.127468'
+- event: general_server_message
+  message: Initialisation complete.
+  time: '2022-07-30T21:23:22.367793'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T21:44:03.087979'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T21:44:03.830022'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T21:44:04.697413'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T21:45:11.417256'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T21:45:29.464140'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T21:46:11.383206'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T21:46:12.172170'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T21:47:28.782545'
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T21:48:41.119789'
+- event: general_server_message
+  message: Initialisation complete.
+  time: '2022-07-30T21:48:44.934193'
+- endpoint: entities
+  event: endpoint_call
+  time: 5.841255187988281e-05
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T21:48:54.606806'
+- event: general_server_message
+  message: Initialisation complete.
+  time: '2022-07-30T21:48:58.336105'
+- endpoint: entities
+  event: endpoint_call
+  time: 6.914138793945312e-05
+- endpoint: variables
+  event: endpoint_call
+  time: 7.700920104980469e-05
+- endpoint: variables
+  event: endpoint_call
+  time: 9.655952453613281e-05
+- event: general_server_message
+  message: Initialising server.
+  time: '2022-07-30T21:49:42.949461'

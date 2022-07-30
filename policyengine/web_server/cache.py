@@ -2,6 +2,7 @@ import json
 from typing import Callable
 from flask import request, make_response
 
+
 def dict_to_string(d: dict) -> str:
     """Converts a dictionary to a file-name-safe string.
 
@@ -27,11 +28,6 @@ def cached_endpoint(f: Callable) -> Callable:
     return f
 
 
-
-
-
-
-
 class PolicyEngineCache:
     def __init__(self, version, bucket_name: str = None):
         """Initialises the cache.
@@ -44,10 +40,8 @@ class PolicyEngineCache:
 
         self.bucket = storage.Client().get_bucket(bucket_name)
         self.version = version
-    
-    def get(
-        self, params: dict, endpoint: str
-    ) -> dict:
+
+    def get(self, params: dict, endpoint: str) -> dict:
         """Looks up an API request in the cache, returning a result if it exists.
 
         Args:
@@ -61,10 +55,8 @@ class PolicyEngineCache:
         blob = self.bucket.blob(request_id + ".json")
         if blob.exists():
             return json.loads(blob.download_as_string())
-    
-    def set(
-        self, params: dict, endpoint: str, result: dict
-    ) -> None:
+
+    def set(self, params: dict, endpoint: str, result: dict) -> None:
         """Sets a result in the cache.
 
         Args:
@@ -76,10 +68,12 @@ class PolicyEngineCache:
         blob = self.bucket.blob(request_id + ".json")
         blob.upload_from_string(json.dumps(result))
 
+
 class DisabledCache(PolicyEngineCache):
     __init__ = lambda *args, **kwargs: None
     get = lambda *args, **kwargs: None
     set = lambda *args, **kwargs: None
+
 
 def add_params_and_caching(fn: Callable, cache: PolicyEngineCache) -> Callable:
     """Adds request parameters to a function call under the variable `params` and caches the result if the caching decorator is present.
@@ -93,6 +87,7 @@ def add_params_and_caching(fn: Callable, cache: PolicyEngineCache) -> Callable:
     """
     should_cache = hasattr(fn, "_cached_endpoint")
     cache = cache if should_cache else DisabledCache()
+
     def new_fn(*args, **kwargs):
         params = {**request.args, **(request.json or {})}
         if should_cache:
@@ -109,4 +104,3 @@ def add_params_and_caching(fn: Callable, cache: PolicyEngineCache) -> Callable:
 
     new_fn.__name__ = fn.__name__
     return new_fn
-

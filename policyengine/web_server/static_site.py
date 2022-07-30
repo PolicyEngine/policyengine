@@ -3,12 +3,14 @@ from .social_card import add_social_card_metadata
 from pathlib import Path
 from policyengine.package import POLICYENGINE_PACKAGE_PATH
 
+
 def add_static_site_handling(app: Flask):
     """Add a handling route to a Flask app, directing 404 results to index.html, adding country-specific social card metadata.
 
     Args:
         app (Flask): A Flask application.
     """
+
     def static_site(e):
         with open(
             str(POLICYENGINE_PACKAGE_PATH / "static" / "index.html")
