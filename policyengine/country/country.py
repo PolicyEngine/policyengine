@@ -3,6 +3,7 @@ from typing import Callable, Dict, Type
 from openfisca_core.taxbenefitsystems import TaxBenefitSystem
 from openfisca_core.reforms import Reform
 from policyengine.country.openfisca.entities import build_entities
+from policyengine.country.openfisca.parameters import build_parameters
 from policyengine.country.openfisca.variables import build_variables
 from policyengine.web_server.logging import PolicyEngineLogger
 import importlib
@@ -31,6 +32,7 @@ class PolicyEngineCountry:
         self.api_endpoints = dict(
             entities=self.entities,
             variables=self.variables,
+            parameters=self.parameters,
         )
         if self.name is None:
             self.name = self.__class__.__name__.lower()
@@ -48,6 +50,7 @@ class PolicyEngineCountry:
 
         self.entity_data = build_entities(self.tax_benefit_system)
         self.variable_data = build_variables(self.tax_benefit_system)
+        self.parameter_data = build_parameters(self.tax_benefit_system)
 
     def entities(self, params: dict, logger: PolicyEngineLogger) -> dict:
         """Get the available entities for the OpenFisca country model."""
@@ -56,3 +59,7 @@ class PolicyEngineCountry:
     def variables(self, params: dict, logger: PolicyEngineLogger) -> dict:
         """Get the available entities for the OpenFisca country model."""
         return self.variable_data
+
+    def parameters(self, params: dict, logger: PolicyEngineLogger) -> dict:
+        """Get the available entities for the OpenFisca country model."""
+        return self.parameter_data

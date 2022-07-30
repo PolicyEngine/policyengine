@@ -111,8 +111,6 @@ class PolicyEngineVariable:
             try:
                 if hasattr(self, prop):
                     data[prop] = getattr(self, prop)
-                elif hasattr(self.openfisca_variable, prop):
-                    data[prop] = getattr(self.openfisca_variable, prop)
                 else:
                     raise ValueError(f"Property {prop} not found.")
             except:
