@@ -1,4 +1,0 @@
-- bump: patch
-  changes:
-    fixed:
-    - A bug causing baseline household calculations to fail.
