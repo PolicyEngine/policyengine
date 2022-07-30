@@ -4,6 +4,7 @@ from openfisca_core.taxbenefitsystems import TaxBenefitSystem
 from openfisca_core.reforms import Reform
 from policyengine.country.openfisca.entities import build_entities
 from policyengine.country.openfisca.parameters import build_parameters
+from policyengine.country.openfisca.reforms import apply_reform
 from policyengine.country.openfisca.variables import build_variables
 from policyengine.web_server.logging import PolicyEngineLogger
 import importlib
@@ -47,6 +48,9 @@ class PolicyEngineCountry:
             ("CountryTaxBenefitSystem", "Microsimulation", "IndividualSim"),
         )
         self.tax_benefit_system = self.tax_benefit_system_type()
+        self.baseline_tax_benefit_system = self.tax_benefit_system_type()
+        if self.default_reform is not None:
+            apply_reform(self.default_reform, self.tax_benefit_system)
 
         self.entity_data = build_entities(self.tax_benefit_system)
         self.variable_data = build_variables(self.tax_benefit_system)
@@ -62,4 +66,9 @@ class PolicyEngineCountry:
 
     def parameters(self, params: dict, logger: PolicyEngineLogger) -> dict:
         """Get the available entities for the OpenFisca country model."""
+        if "policy_date" in params:
+            return build_parameters(
+                self.baseline_tax_benefit_system,
+                date=params.get("policy_date"),
+            )
         return self.parameter_data

@@ -1,0 +1,483 @@
+reforms:
+  policy_date:
+    description: Simulate the baseline and reformed systems on this date
+    values:
+      2010-01-01: 20210101
+    metadata:
+      label: Policy snapshot
+      name: policy_date
+      type: date
+  LVT:
+    rate:
+      description: Tax rate on the unimproved value of land
+      values:
+        2010-01-01: 0.00
+      metadata:
+        label: Land value tax
+        name: LVT
+        unit: /1
+        max: 0.1
+        tests:
+          - decreases_net_income: true
+    household_rate:
+      description: Tax rate on the unimproved value of land owned by households
+      values:
+        2010-01-01: 0.00
+      metadata:
+        label: Land value tax (households)
+        name: household_lvt
+        unit: /1
+        max: 0.1
+        tests:
+          - decreases_net_income: true
+    corporate_rate:
+      description: Tax rate on the unimproved value of land owned by corporations
+      values:
+        2010-01-01: 0.00
+      metadata:
+        label: Land value tax (corporations)
+        name: corporate_lvt
+        unit: /1
+        max: 0.1
+        tests:
+          - decreases_net_income: true
+  carbon_tax:
+    rate:
+      description: Price per tonne of carbon emissions
+      values:
+        2010-01-01: 0.00
+      metadata:
+        label: Carbon tax
+        name: carbon_tax
+        max: 200
+        unit: currency-GBP
+        tests:
+          - decreases_net_income: true
+    consumer_incidence:
+      description: Proportion of corporate carbon taxes which is passed on to consumers in the form of higher prices (as opposed to shareholders in the form of reduced profitability)
+      values:
+        2010-01-01: 1.00
+      metadata:
+        label: Carbon tax consumer incidence
+        name: carbon_tax_consumer_incidence
+        max: 1
+        unit: /1
+  wealth_tax:
+    rate:
+      description: A yearly flat tax on net financial wealth
+      values:
+        2010-01-01: 0.00
+      metadata:
+        label: Wealth Tax
+        name: wealth_tax
+        unit: /1
+        max: 0.1
+        tests:
+          - decreases_net_income: true
+  property_tax:
+    rate:
+      description: A yearly flat tax on property wealth
+      values:
+        2010-01-01: 0.00
+      metadata:
+        label: Property Tax
+        name: property_tax
+        unit: /1
+        max: 0.1
+        tests:
+          - decreases_net_income: true
+  UBI:
+    adult:
+      description: Flat payment given to each person at or above the adult universal basic income age threshold, but under State Pension age
+      values: 
+        2010-01-01: 0.00
+      metadata:
+        label: Working-age adult universal basic income
+        name: adult_UBI
+        unit: currency-GBP
+        period: week
+        max: 250
+        tests:
+          - increases_net_income: true
+    child:
+      description: Flat payment given to each person below the adult universal basic income age threshold
+      values: 
+        2010-01-01: 0.00
+      metadata:
+        label: Child universal basic income
+        name: child_UBI
+        unit: currency-GBP
+        period: week
+        max: 250
+        tests:
+          - increases_net_income: true
+    senior:
+      description: Flat payment given to each person at or above State Pension age
+      values: 
+        2010-01-01: 0.00
+      metadata:
+        label: Senior universal basic income
+        name: senior_UBI
+        max: 250
+        unit: currency-GBP
+        period: week
+        tests:
+          - increases_net_income: true
+    WA_adult_UBI_age:
+      description: Age at which a person receives the working-age adult universal basic income payment
+      values: 
+        2010-01-01: 18
+      metadata:
+        label: Adult universal basic income age threshold
+        name: WA_adult_UBI_age
+        unit: year
+        max: 65
+    taxable:
+      description: Include universal basic income as countable income for Income Tax
+      values:
+        2010-01-01: false
+      metadata:
+        label: Make universal basic income taxable
+        name: taxable_UBI
+    in_means_tests:
+      description: Include universal basic income as countable income for means tested benefits
+      values: 
+        2010-01-01: false
+      metadata:
+        label: Count universal basic income in means tests
+        name: means_test_UBI
+  smf_cash_payment:
+    benefit:
+      description: A cash payment made to all households receiving Universal Credit or legacy benefits.
+      values:
+        2010-01-01: 0.00
+      metadata:
+        label: Cash payment to benefit recipients
+        name: benefit_based_cash_payment
+        unit: currency-GBP
+        period: year
+        max: 1_000
+        tests:
+          - increases_net_income: true
+    tax:
+      description: A cash payment made to all non-benefit-receiving households not paying the higher or additional rates of Income Tax.
+      values:
+        2010-01-01: 0.00
+      metadata:
+        label: Cash payment to basic-rate taxpayers.
+        name: tax_bracket_based_cash_payment
+        unit: currency-GBP
+        period: year
+        max: 1_000
+        tests:
+          - increases_net_income: true
+  abolition:
+    abolish_income_tax:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish Income Tax
+        name: abolish_income_tax
+        unit: abolition
+        variable: income_tax
+        tests:
+          - increases_net_income: true
+    abolish_NI:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish National Insurance
+        name: abolish_NI
+        unit: abolition
+        variable: national_insurance
+        tests:
+          - increases_net_income: true
+    abolish_UC:
+      description: This does not trigger migration back to legacy benefits
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish Universal Credit
+        name: abolish_UC
+        unit: abolition
+        variable: universal_credit
+        tests:
+          - decreases_net_income: true
+    abolish_CB:
+      description: End all Child Benefit payments
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish Child Benefit
+        name: abolish_CB
+        unit: abolition
+        variable: child_benefit
+        tests:
+          - decreases_net_income: true
+    abolish_HB:
+      description: This does not trigger migration to Universal Credit
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish Housing Benefit
+        name: abolish_HB
+        unit: abolition
+        variable: housing_benefit
+        tests:
+          - decreases_net_income: true
+    abolish_CTC:
+      description: This does not trigger migration to Universal Credit
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish Child Tax Credit
+        name: abolish_CTC
+        unit: abolition
+        variable: child_tax_credit
+        tests:
+          - decreases_net_income: true
+    abolish_WTC:
+      description: This does not trigger migration to Universal Credit
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish Working Tax Credit
+        name: abolish_WTC
+        unit: abolition
+        variable: working_tax_credit
+        tests:
+          - decreases_net_income: true
+    abolish_SP:
+      description:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish State Pension
+        name: abolish_SP
+        variable: state_pension
+        unit: abolition
+        tests:
+          - decreases_net_income: true
+    abolish_PC:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish Pension Credit
+        name: abolish_PC
+        unit: abolition
+        variable: pension_credit
+        tests:
+          - decreases_net_income: true
+    abolish_IS:
+      description: This does not trigger migration to Universal Credit
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish Income Support
+        name: abolish_IS
+        unit: abolition
+        variable: income_support
+        tests:
+          - decreases_net_income: true
+    abolish_JSA_income:
+      description: This does not trigger migration to Universal Credit
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish income-based Jobseeker's Allowance
+        name: abolish_JSA_income
+        unit: abolition
+        variable: JSA_income
+        tests:
+          - decreases_net_income: true
+    abolish_UC_standard_allowance:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish Universal Credit standard allowance
+        name: abolish_UC_standard
+        variable: UC_standard_allowance
+        unit: abolition
+        tests:
+          - decreases_net_income: true
+    abolish_UC_child_element:
+      description:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish Universal Credit child element
+        name: abolish_UC_child
+        variable: UC_child_element
+        unit: abolition
+        tests:
+          - decreases_net_income: true
+    abolish_UC_disability_element:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish Universal Credit disability element
+        name: abolish_UC_disability
+        variable: UC_disability_elements
+        unit: abolition
+        tests:
+          - decreases_net_income: true
+    abolish_UC_carer_element:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish Universal Credit carer element
+        unit: abolition
+        variable: UC_carer_element
+        name: abolish_UC_carer
+        tests:
+          - decreases_net_income: true
+    abolish_UC_childcare_element:
+      description:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish Universal Credit childcare element
+        name: abolish_UC_childcare
+        variable: UC_childcare_element
+        unit: abolition
+        tests:
+          - decreases_net_income: true
+    abolish_UC_housing_costs_element:
+      description:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish Universal Credit housing costs element
+        name: abolish_UC_housing_costs
+        variable: UC_housing_costs_element
+        unit: abolition
+    abolish_ESA_income:
+      description:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish income-based Employment and Support Allowance
+        variable: ESA_income
+        name: abolish_ESA_income
+        unit: abolition
+        tests:
+          - decreases_net_income: true
+    abolish_CT:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish Council Tax
+        name: abolish_CT
+        unit: abolition
+        variable: council_tax
+        tests:
+          - increases_net_income: true
+          - value: true
+            revenue: -38.9e9
+    abolish_sdlt:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish Stamp Duty Land Tax
+        name: abolish_sdlt
+        unit: abolition
+        variable: 
+          - sdlt_on_transactions
+          - corporate_sdlt
+    abolish_ltt:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish Land Transaction Tax (Wales)
+        name: abolish_ltt
+        unit: abolition
+        variable: ltt_on_transactions
+    abolish_lbtt:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish Land and Buildings Transaction Tax (Scotland)
+        name: abolish_lbtt
+        unit: abolition
+        variable: lbtt_on_transactions
+  abolish_marriage_allowance_income_condition:
+    description: The Marriage Allowance is currently withheld from higher and additional rate taxpayers. This switch allows them to receive it.
+    values:
+      2010-01-01: false
+    metadata:
+      label: Abolish the Marriage Allowance income condition
+      name: abolish_marriage_allowance_income_condition
+      unit: abolition
+  abolish_business_rates:
+    values:
+      2010-01-01: false
+    metadata:
+      label: Abolish business rates
+      name: abolish_business_rates
+      unit: abolition
+      variable: business_rates
+  green_party:
+    single_pensioner_supplement:
+      amount:
+        description: The single pensioner supplement is paid to people over State Pension age who live alone.
+        values:
+          2010-01-01: 0
+        metadata:
+          name: SPS_amount
+          label: Single pensioner supplement amount
+          unit: currency-GBP
+          period: week
+      reduction_rate:
+        description: The rate at which the single pensioner supplement is reduced with non-benefit income.
+        values:
+          2010-01-01: 0
+        metadata:
+          name: SPS_reduction_rate
+          label: Single pensioner supplement reduction rate
+          unit: /1
+      reduction_threshold:
+        description: The threshold for market (non-benefit) income to reduce the single pensioner supplement.
+        values:
+          2010-01-01: 0
+        metadata:
+          name: SPS_reduction_threshold
+          label: Single pensioner supplement reduction threshold
+          unit: currency-GBP
+          period: year
+      takeup_rate:
+        description: The percentage of eligible recepients that claim the single pensioner supplement. By default, this is the same take-up rate as Pension Credit, the main means-tested benefit for pensioners.
+        values:
+          2010-01-01: 0.63
+        metadata:
+          name: SPS_takeup_rate
+          label: Single pensioner supplement take-up rate
+          unit: /1
+  misc:
+    exempt_seniors_from_PA_changes:
+      description: Exempt individuals over State Pension Age from reforms to the Personal Allowance.
+      values: 
+        2010-01-01: false
+      metadata:
+        label: Exempt seniors from PA reforms
+        name: exempt_seniors_from_PA_reforms
+        unit: bool
+  country_specific:
+    description: Simulate reforms on a specific country of the UK.
+    values:
+      2010-01-01: [UNITED_KINGDOM]
+    metadata:
+      label: Country-specific analysis
+      name: country_specific
+      possible_values:
+        - key: UNITED_KINGDOM
+          value: United Kingdom
+        - key: WALES
+          value: Wales
+        - key: SCOTLAND
+          value: Scotland
+        - key: NORTHERN_IRELAND
+          value: Northern Ireland
+        - key: ENGLAND
+          value: England
+      value_type: Enum
+
