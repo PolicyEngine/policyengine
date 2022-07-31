@@ -130,6 +130,10 @@ class PolicyEngineScaleParameter(PolicyEngineParameter):
     @property
     def scaleType(self):
         return self.openfisca_parameter.metadata.get("type")
+    
+    @property
+    def valueType(self):
+        return "parameter_scale"
 
 
 class PolicyEngineScaleComponentParameter(PolicyEngineParameter):
@@ -138,6 +142,7 @@ class PolicyEngineScaleComponentParameter(PolicyEngineParameter):
         openfisca_parameter: Parameter,
         parent: ParameterScale,
         is_threshold: bool,
+        value_type: str,
         index: int,
         date: str = NOW,
     ):
@@ -146,6 +151,7 @@ class PolicyEngineScaleComponentParameter(PolicyEngineParameter):
         self.is_threshold = is_threshold
         self.type = "threshold" if is_threshold else "rate"
         self.index = index
+        self.value_type = value_type
 
     @property
     def label(self):
@@ -167,14 +173,14 @@ class PolicyEngineScaleComponentParameter(PolicyEngineParameter):
             "name", self.parent.name.replace(".", "_")
         )
         if self.is_threshold:
-            return f"{stem}_threshold_{self.index}"
+            return f"{stem}_{self.index}_threshold"
         else:
-            return f"{stem}_rate_{self.index}"
+            return f"{stem}_{self.index}_rate"
 
     @property
     def unit(self):
         return self.metadata.get(
-            "unit", self.parent.metadata.get(f"{self.type}_unit")
+            "unit", self.parent.metadata.get(f"{self.value_type}_unit")
         )
 
     @property
@@ -290,6 +296,7 @@ def build_parameters(
                                 component,
                                 parameter,
                                 attribute == "threshold",
+                                attribute,
                                 i,
                             )
                         )

@@ -22,9 +22,9 @@ function USPopulationResultsCaveats() {
 
 function Loading(props) {
 	const country = useContext(CountryContext);
-	const message = `Simulating your results on the ${country.properName} population (this usually takes about 20 seconds)`;
 	return (
-		<Centered><Empty description={message}>
+		<Centered><Empty description={props.message}>
+			{props.children}
 			{!props.noSpin && <Spinner />}
 		</Empty>
 		</Centered>
@@ -201,6 +201,8 @@ export default class PopulationImpact extends React.Component {
 	}
 
 	render() {
+		const editsBaseline = Object.keys(this.context.getPolicyJSONPayload()).some(key => key.includes("baseline_"));
+		const eta = this.context["population-reform-runtime"][editsBaseline ? "reform_and_baseline" : "reform_only"];
 		const overview = (
 		  <OverviewHolder>
 			<PolicyOverview page="policy" />
@@ -238,7 +240,7 @@ export default class PopulationImpact extends React.Component {
 				}}>
 					{
 						(this.context.waitingOnPopulationImpact || (!this.state.error & (this.context.populationImpactResults === null))) ?
-							<Loading message={`Simulating your results on the ${this.context.properName} population (this usually takes about 20 seconds)`} /> :
+							<Loading message={`Simulating your results on the ${this.context.properName} population (this usually takes about ${Math.round(eta)} seconds)`} /> :
 							this.state.error ?
 								<Loading noSpin message="Something went wrong (try navigating back and returning to this page)" /> :
 								<PopulationResultsPane />
@@ -249,17 +251,19 @@ export default class PopulationImpact extends React.Component {
 		  );
 		  const mobileView = (
 			<div style={{ paddingLeft: 15, paddingRight: 15 }}>
-			  <Row style={{ height: "20vh" }}>
-				<Col>
-					{
-						(this.context.waitingOnPopulationImpact || (!this.state.error & (this.context.populationImpactResults === null))) ?
-							<Loading message={`Simulating your results on the ${this.context.properName} population (this usually takes about 20 seconds)`} /> :
-							this.state.error ?
-								<Loading noSpin message="Something went wrong (try navigating back and returning to this page)" /> :
-								<PopulationResultsPane />
-					}
-				</Col>
-			  </Row>
+			<div style={{ position: "fixed", top: 120, height: "60vh", overflowY: "scroll"}}>
+				<Row>
+					<Col>
+						{
+							(this.context.waitingOnPopulationImpact || (!this.state.error & (this.context.populationImpactResults === null))) ?
+								<Loading message={`Simulating your results on the ${this.context.properName} population (this usually takes about ${Math.round(eta)} seconds)`} /> :
+								this.state.error ?
+									<Loading noSpin message="Something went wrong (try navigating back and returning to this page)" /> :
+									<PopulationResultsPane />
+						}
+					</Col>
+				</Row>
+			</div>
 			  <div
 				style={{
 				  position: "fixed",
