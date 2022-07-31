@@ -13,7 +13,10 @@ from openfisca_core.parameters import ParameterNode, ParameterScale
 import warnings
 from openfisca_core.model_api import Reform
 
-from policyengine.country.openfisca.reforms import add_parameter_file
+from policyengine.country.openfisca.reforms import (
+    add_parameter_file,
+    use_current_parameters,
+)
 
 
 warnings.filterwarnings("ignore")
@@ -356,5 +359,6 @@ def create_default_reform() -> ReformType:
             add_parameter_file(
                 Path(__file__).parent / "additional_parameters.yaml"
             ).apply(self)
+            use_current_parameters().apply(self)
 
     return default_reform

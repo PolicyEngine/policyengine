@@ -4,6 +4,7 @@ from flask import Flask
 from flask_cors import CORS
 from policyengine.web_server.cache import (
     DisabledCache,
+    LocalCache,
     PolicyEngineCache,
     add_params_and_caching,
 )
@@ -57,9 +58,12 @@ class PolicyEngine:
     def _init_cache(self):
         """Initialise the cache for load-intensive endpoint results."""
         if self.cache_bucket_name is not None and not self.debug_mode:
-            self.cache = PolicyEngineCache(self.cache_bucket_name)
+            self.cache = PolicyEngineCache(
+                self.version, self.cache_bucket_name
+            )
         else:
-            self.cache = DisabledCache()
+            # self.cache = DisabledCache() # Un-comment to turn off caching completely for debugging.
+            self.cache = LocalCache(self.version)
 
     def _init_flask(self):
         """Initialise the Flask application."""
@@ -77,7 +81,9 @@ class PolicyEngine:
         add_static_site_handling(self.app)
         for country in self.countries:
             for endpoint, endpoint_fn in country.api_endpoints.items():
-                endpoint_fn = add_params_and_caching(endpoint_fn, self.cache)
+                endpoint_fn = add_params_and_caching(
+                    endpoint_fn, self.cache, self.logger
+                )
                 endpoint_fn = logged_endpoint(endpoint_fn, self.logger)
                 self.app.route(
                     f"/api/{country.name}/{endpoint.replace('_', '-')}",

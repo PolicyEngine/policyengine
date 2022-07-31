@@ -1,8 +1,9 @@
+from datetime import datetime
 from pathlib import Path
 from tkinter import Variable
 from typing import Type
 from openfisca_core.parameters.helpers import load_parameter_file
-from openfisca_core.parameters import ParameterNode
+from openfisca_core.parameters import ParameterNode, Parameter, ParameterScale
 from openfisca_core.reforms.reform import Reform
 from openfisca_core.taxbenefitsystems import TaxBenefitSystem
 from openfisca_core.tracers.tracing_parameter_node_at_instant import (
@@ -135,3 +136,154 @@ def apply_reform(reform: tuple, system: TaxBenefitSystem) -> TaxBenefitSystem:
     else:
         reform.apply(system)
     return system
+
+
+IGNORED_POLICY_PARAMETERS = [
+    "household",
+    "baseline_country_specific",
+    "country_specific",
+    "baseline_state_specific",
+    "state_specific",
+    "policy_date",
+]
+
+
+class PolicyReform:
+    """A PolicyReform is a complete specification of two policies: a baseline and a reformed policy."""
+
+    def __init__(self, parameters: dict, policyengine_parameters: dict):
+        self.parameters = {
+            key: value
+            for key, value in parameters.items()
+            if key not in IGNORED_POLICY_PARAMETERS
+        }
+        self.policyengine_parameters = policyengine_parameters
+        self._sanitise_parameters()
+
+    def _sanitise_parameters(self):
+        """Sanitises the parameters to ensure they are in the correct format."""
+        for key in self.parameters:
+            if isinstance(self.parameters[key], list):
+                self.parameters[key] = self.parameters[key][0]
+            metadata = self.policyengine_parameters[key]
+            if metadata["valueType"] == "bool":
+                # Extra safety checks
+                self.parameters[key] = {
+                    "true": True,
+                    "false": False,
+                    1: True,
+                    0: False,
+                    True: True,
+                    False: False,
+                }[self.parameters[key]]
+            try:
+                self.parameters[key] = float(self.parameters[key])
+            except:
+                pass
+
+    @property
+    def edits_baseline(self) -> bool:
+        """Returns whether the reform edits the baseline policy."""
+        return any(["baseline_" in key for key in self.parameters])
+
+    @property
+    def baseline(self) -> Reform:
+        """Returns the baseline policy."""
+        if not self.edits_baseline:
+            return Policy({}, self.policyengine_parameters)
+        relevant_parameters = {
+            key.replace("baseline_", ""): value
+            for key, value in self.parameters.items()
+            if "baseline_" in key
+        }
+        return Policy(relevant_parameters, self.policyengine_parameters)
+
+    @property
+    def reform(self) -> Reform:
+        """Returns the reform policy."""
+        relevant_parameters = self.baseline.parameters.copy()
+        relevant_parameters.update(
+            {
+                key: value
+                for key, value in self.parameters.items()
+                if "baseline_" not in key
+            }
+        )
+        return Policy(relevant_parameters, self.policyengine_parameters)
+
+
+class Policy:
+    def __init__(self, parameters: dict, policyengine_parameters: dict):
+        self.parameters = parameters
+        self.policyengine_parameters = policyengine_parameters
+
+    def apply(self, system: TaxBenefitSystem) -> TaxBenefitSystem:
+        """Applies the policy to a system. This essentially does the same as any `Reform.apply` method.
+
+        Args:
+            system (TaxBenefitSystem): The system to apply it to.
+        """
+        for key, value in self.parameters.items():
+            metadata = self.policyengine_parameters[key]
+            if metadata["unit"] == "abolition":
+                variables_to_neutralise = metadata["variable"]
+                if not isinstance(variables_to_neutralise, list):
+                    variables_to_neutralise = [variables_to_neutralise]
+                for variable in variables_to_neutralise:
+                    if system.variables[variable].is_neutralized:
+                        reinstate_variable(system, variable)
+                    else:
+                        system.neutralize_variable(variable)
+            else:
+                parametric(metadata["parameter"], value).apply(system)
+
+
+def use_current_parameters(date: str = None) -> Reform:
+    """Backdates parameters at a given instant to the start of the year.
+
+    Args:
+        date (str, optional): The given instant. Defaults to now.
+
+    Returns:
+        Reform: The reform backdating parameters.
+    """
+    if date is None:
+        date = datetime.now()
+    else:
+        date = datetime.strptime(date, "%Y-%m-%d")
+
+    year = date.year
+    date = datetime.strftime(date, "%Y-%m-%d")
+
+    def modify_parameters(parameters: ParameterNode):
+        for child in parameters.get_descendants():
+            if isinstance(child, Parameter):
+                current_value = child(date)
+                child.update(period=f"year:{year-10}:20", value=current_value)
+            elif isinstance(child, ParameterScale):
+                for bracket in child.brackets:
+                    if "rate" in bracket.children:
+                        current_rate = bracket.rate(date)
+                        bracket.rate.update(
+                            period=f"year:{year-10}:20", value=current_rate
+                        )
+                    if "threshold" in bracket.children:
+                        current_threshold = bracket.threshold(date)
+                        bracket.threshold.update(
+                            period=f"year:{year-10}:20",
+                            value=current_threshold,
+                        )
+        try:
+            parameters.reforms.policy_date.update(
+                value=int(datetime.now().strftime("%Y%m%d")),
+                period=f"year:{year-10}:20",
+            )
+        except:
+            pass
+        return parameters
+
+    class reform(Reform):
+        def apply(self):
+            self.modify_parameters(modify_parameters)
+
+    return reform

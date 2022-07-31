@@ -4,10 +4,10 @@ from openfisca_core.taxbenefitsystems import TaxBenefitSystem
 from openfisca_core.reforms import Reform
 from policyengine.country.openfisca.entities import build_entities
 from policyengine.country.openfisca.parameters import build_parameters
-from policyengine.country.openfisca.reforms import apply_reform
+from policyengine.country.openfisca.reforms import apply_reform, PolicyReform
 from policyengine.country.openfisca.variables import build_variables
+from policyengine.web_server.cache import PolicyEngineCache, cached_endpoint
 from policyengine.web_server.logging import PolicyEngineLogger
-import importlib
 
 
 class PolicyEngineCountry:
@@ -34,6 +34,8 @@ class PolicyEngineCountry:
             entities=self.entities,
             variables=self.variables,
             parameters=self.parameters,
+            parameter=self.parameter,
+            budgetary_impact=self.budgetary_impact,
         )
         if self.name is None:
             self.name = self.__class__.__name__.lower()
@@ -56,6 +58,36 @@ class PolicyEngineCountry:
         self.variable_data = build_variables(self.tax_benefit_system)
         self.parameter_data = build_parameters(self.tax_benefit_system)
 
+        self.baseline_microsimulation = None
+
+    def create_microsimulations(self, parameters: dict) -> Reform:
+        """Generate an OpenFisca reform from PolicyEngine parameters.
+
+        Args:
+            parameters (dict): The PolicyEngine parameters.
+
+        Returns:
+            Reform: The OpenFisca reform.
+        """
+        policy_reform = PolicyReform(parameters, self.parameter_data)
+        if (
+            not policy_reform.edits_baseline
+            and self.baseline_microsimulation is None
+        ):
+            baseline = (
+                self.baseline_microsimulation
+            ) = self.microsimulation_type(self.default_reform)
+        elif policy_reform.edits_baseline:
+            baseline = self.microsimulation_type(
+                (self.default_reform, policy_reform.baseline)
+            )
+        else:
+            baseline = self.baseline_microsimulation
+        reformed = self.microsimulation_type(
+            (self.default_reform, policy_reform.reform)
+        )
+        return baseline, reformed
+
     def entities(self, params: dict, logger: PolicyEngineLogger) -> dict:
         """Get the available entities for the OpenFisca country model."""
         return self.entity_data
@@ -72,3 +104,20 @@ class PolicyEngineCountry:
                 date=params.get("policy_date"),
             )
         return self.parameter_data
+
+    def parameter(self, params: dict, logger: PolicyEngineLogger) -> dict:
+        """Get a specific parameter."""
+        return self.parameter_data[params["q"]]
+
+    @cached_endpoint
+    def budgetary_impact(
+        self, params: dict, logger: PolicyEngineLogger
+    ) -> dict:
+        """Get the budgetary impact of a reform."""
+        baseline, reformed = self.create_microsimulations(params)
+        baseline_net_income = baseline.calc("spm_unit_net_income").sum()
+        reformed_net_income = reformed.calc("spm_unit_net_income").sum()
+        difference = reformed_net_income - baseline_net_income
+        return {
+            "billions": round(difference / 1e9, 1),
+        }

@@ -21,14 +21,15 @@ class PolicyEngineLogger:
         self.local = local
         self.print_to_console = print_to_console
 
-    def log(self, **data: dict):
+    def log(self, *messages, **data: dict):
         """Log a message to the PolicyEngine server logs.
 
         Args:
             data (dict): The data to log.
         """
+        if len(messages) > 0:
+            data["message"] = "\n".join([str(x) for x in messages])
         if self.local:
-
             with open(Path(__file__).parent / "logs.yaml", "a") as f:
                 yaml.dump(
                     [

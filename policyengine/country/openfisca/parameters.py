@@ -54,9 +54,11 @@ class PolicyEngineParameter:
 
     @property
     def name(self):
-        return self.openfisca_parameter.metadata.get(
+        name = self.openfisca_parameter.metadata.get(
             "name", self.openfisca_parameter.name.replace(".", "_")
         )
+        assert name != "__pycache__", "Parameter name cannot be __pycache__."
+        return name
 
     @property
     def parameter(self):
