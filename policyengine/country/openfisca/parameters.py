@@ -65,6 +65,10 @@ class PolicyEngineParameter:
         return self.openfisca_parameter.name
 
     @property
+    def breakdownParts(self):
+        return self.openfisca_parameter.metadata.get("breakdown_parts")
+
+    @property
     def reference(self):
         try:
             if self.openfisca_parameter.metadata.get("reference") is not None:
@@ -84,6 +88,8 @@ class PolicyEngineParameter:
 
     @property
     def valueType(self):
+        if isinstance(self.openfisca_parameter, ParameterNode):
+            return "parameter_node"
         return self.openfisca_parameter.metadata.get(
             "value_type",
             self.value.__class__.__name__,
@@ -114,6 +120,7 @@ class PolicyEngineParameter:
 class PolicyEngineScaleParameter(PolicyEngineParameter):
     PROPERTIES = PolicyEngineParameter.PROPERTIES + [
         "brackets",
+        "scaleType",
     ]
 
     @property

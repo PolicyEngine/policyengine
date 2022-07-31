@@ -1,6 +1,8 @@
 from types import ModuleType
 from typing import Callable, Dict, Type
 from openfisca_core.taxbenefitsystems import TaxBenefitSystem
+from openfisca_core.simulation_builder import SimulationBuilder
+from openfisca_core.model_api import Enum
 from openfisca_core.reforms import Reform
 from policyengine.country.openfisca.entities import build_entities
 from policyengine.country.openfisca.parameters import build_parameters
@@ -9,6 +11,7 @@ from policyengine.country.openfisca.variables import build_variables
 from policyengine.country.results_config import PolicyEngineResultsConfig
 from policyengine.web_server.cache import PolicyEngineCache, cached_endpoint
 from policyengine.web_server.logging import PolicyEngineLogger
+import dpath
 
 
 class PolicyEngineCountry:
@@ -41,6 +44,7 @@ class PolicyEngineCountry:
             parameters=self.parameters,
             parameter=self.parameter,
             budgetary_impact=self.budgetary_impact,
+            calculate=self.calculate,
         )
         if self.name is None:
             self.name = self.__class__.__name__.lower()
@@ -65,6 +69,19 @@ class PolicyEngineCountry:
 
         self.baseline_microsimulation = None
 
+    def create_reform(self, parameters: dict) -> PolicyReform:
+        """Generate an OpenFisca reform from PolicyEngine parameters.
+
+        Args:
+            parameters (dict): The PolicyEngine parameters.
+
+        Returns:
+            Reform: The OpenFisca reform.
+        """
+        return PolicyReform(
+            parameters, self.parameter_data, default_reform=self.default_reform
+        )
+
     def create_microsimulations(self, parameters: dict) -> Reform:
         """Generate an OpenFisca reform from PolicyEngine parameters.
 
@@ -74,7 +91,7 @@ class PolicyEngineCountry:
         Returns:
             Reform: The OpenFisca reform.
         """
-        policy_reform = PolicyReform(parameters, self.parameter_data)
+        policy_reform = self.create_reform(parameters)
         if (
             not policy_reform.edits_baseline
             and self.baseline_microsimulation is None
@@ -130,3 +147,57 @@ class PolicyEngineCountry:
         return {
             "budgetary_impact": difference,
         }
+
+    def calculate(
+        self,
+        params: dict,
+        logger: PolicyEngineLogger,
+    ) -> dict:
+        """Calculate variables for a given household and policy reform."""
+        if len(params) == 1:
+            # Cache the tax-benefit system for no-reform simulations
+            system = self.tax_benefit_system
+        else:
+            reform = self.create_reform(params)
+            system = apply_reform(
+                reform.reform, self.tax_benefit_system_type()
+            )
+        simulation = SimulationBuilder().build_from_entities(
+            system, params["household"]
+        )
+
+        requested_computations = dpath.util.search(
+            params["household"],
+            "*/*/*/*",
+            afilter=lambda t: t is None,
+            yielded=True,
+        )
+        computation_results = {}
+
+        for computation in requested_computations:
+            path = computation[0]
+            entity_plural, entity_id, variable_name, period = path.split("/")
+            variable = system.get_variable(variable_name)
+            result = simulation.calculate(variable_name, period)
+            population = simulation.get_population(entity_plural)
+            entity_index = population.get_index(entity_id)
+
+            if variable.value_type == Enum:
+                entity_result = result.decode()[entity_index].name
+            elif variable.value_type == float:
+                entity_result = float(str(result[entity_index]))
+            elif variable.value_type == str:
+                entity_result = str(result[entity_index])
+            else:
+                entity_result = result.tolist()[entity_index]
+
+            # Bug fix, unclear of the root cause
+
+            if isinstance(entity_result, list) and len(entity_result) > 2_000:
+                entity_result = {period: entity_result[-1]}
+
+            dpath.util.new(computation_results, path, entity_result)
+
+        dpath.util.merge(params["household"], computation_results)
+
+        return params["household"]

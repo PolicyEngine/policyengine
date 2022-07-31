@@ -151,13 +151,19 @@ IGNORED_POLICY_PARAMETERS = [
 class PolicyReform:
     """A PolicyReform is a complete specification of two policies: a baseline and a reformed policy."""
 
-    def __init__(self, parameters: dict, policyengine_parameters: dict):
+    def __init__(
+        self,
+        parameters: dict,
+        policyengine_parameters: dict,
+        default_reform: Reform = None,
+    ):
         self.parameters = {
             key: value
             for key, value in parameters.items()
             if key not in IGNORED_POLICY_PARAMETERS
         }
         self.policyengine_parameters = policyengine_parameters
+        self.default_reform = default_reform
         self._sanitise_parameters()
 
     def _sanitise_parameters(self):
@@ -196,7 +202,11 @@ class PolicyReform:
             for key, value in self.parameters.items()
             if "baseline_" in key
         }
-        return Policy(relevant_parameters, self.policyengine_parameters)
+        return Policy(
+            relevant_parameters,
+            self.policyengine_parameters,
+            default_reform=self.default_reform,
+        )
 
     @property
     def reform(self) -> Reform:
@@ -209,13 +219,23 @@ class PolicyReform:
                 if "baseline_" not in key
             }
         )
-        return Policy(relevant_parameters, self.policyengine_parameters)
+        return Policy(
+            relevant_parameters,
+            self.policyengine_parameters,
+            default_reform=self.default_reform,
+        )
 
 
 class Policy:
-    def __init__(self, parameters: dict, policyengine_parameters: dict):
+    def __init__(
+        self,
+        parameters: dict,
+        policyengine_parameters: dict,
+        default_reform: Reform = None,
+    ):
         self.parameters = parameters
         self.policyengine_parameters = policyengine_parameters
+        self.default_reform = default_reform
 
     def apply(self, system: TaxBenefitSystem) -> TaxBenefitSystem:
         """Applies the policy to a system. This essentially does the same as any `Reform.apply` method.
@@ -223,6 +243,8 @@ class Policy:
         Args:
             system (TaxBenefitSystem): The system to apply it to.
         """
+        if self.default_reform is not None:
+            system = apply_reform(self.default_reform, system)
         for key, value in self.parameters.items():
             metadata = self.policyengine_parameters[key]
             if metadata["unit"] == "abolition":
