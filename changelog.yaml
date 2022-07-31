@@ -1036,3 +1036,8 @@
     fixed:
     - A bug causing baseline household calculations to fail.
   date: 2022-07-30 08:43:01
+- bump: patch
+  changes:
+    fixed:
+    - TV licence evasion and TV ownership are fixed in household variation analyses.
+  date: 2022-07-31 23:01:19
