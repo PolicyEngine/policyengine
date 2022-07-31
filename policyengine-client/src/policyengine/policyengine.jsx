@@ -39,6 +39,7 @@ export default class PolicyEngine extends React.Component {
     // Once data is fetched, apply some adjustments to the OpenFisca data
     // (that we don't want to apply in OpenFisca-[Country] because they're not
     // legislative)
+    console.log("parameters default", this.state.country.parameters.basic_rate)
     let { policy } = this.state.country.validatePolicy(
       urlToPolicy(
         this.state.country.parameters,
@@ -72,9 +73,13 @@ export default class PolicyEngine extends React.Component {
     const situation = this.state.country.validateSituation(
       this.state.country.situation
     ).situation;
+    let parameters = JSON.parse(JSON.stringify(policy));
+    for(let parameter in parameters) {
+      parameters[parameter].value = parameters[parameter].defaultValue;
+    }
     this.setCountryState({
       situation: situation,
-      parameters: policy,
+      parameters: parameters,
       policy: JSON.parse(JSON.stringify(policy)),
       fullyLoaded: true,
     });
@@ -112,7 +117,7 @@ export default class PolicyEngine extends React.Component {
           this.setCountryState({ [name]: data }, checkAllFetchesComplete);
         });
     };
-    ["parameters", "variables", "entities"].forEach(fetchEndpoint);
+    ["parameters", "variables", "entities", "population-reform-runtime"].forEach(fetchEndpoint);
   }
 
   render() {
@@ -126,6 +131,7 @@ export default class PolicyEngine extends React.Component {
         policyToURL(to, urlToPolicy(this.state.country.policy))
       );
     };
+
 
     // Once fully loaded, direct onto individual pages
     if (!this.state.country.fullyLoaded) {

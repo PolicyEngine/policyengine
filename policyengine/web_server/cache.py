@@ -170,7 +170,11 @@ class PolicyEngineTask:
             time=duration,
             params=self.params,
         )
-        self.cache.set(self.params, self.endpoint, result)
+        self.cache.set(
+            self.params,
+            self.endpoint,
+            {**result, "status": TaskStatus.COMPLETED},
+        )
         self.mark_completed()
 
 

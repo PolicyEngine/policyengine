@@ -100,30 +100,6 @@ def create_default_reform() -> ReformType:
         for name, variable in baseline_system.variables.items()
     }
 
-    class net_financial_wealth_tax(Variable):
-        entity = Household
-        label = "Wealth tax"
-        documentation = "Flat tax on net financial wealth"
-        unit = "currency-GBP"
-        definition_period = YEAR
-        value_type = float
-
-        def formula(household, period, parameters):
-            rate = parameters(period).reforms.wealth_tax.rate
-            return max_(0, household("net_financial_wealth", period)) * rate
-
-    class property_tax(Variable):
-        entity = Household
-        label = "Property tax"
-        documentation = "Flat tax on property values"
-        unit = "currency-GBP"
-        definition_period = YEAR
-        value_type = float
-
-        def formula(household, period, parameters):
-            rate = parameters(period).reforms.property_tax.rate
-            return household("property_wealth", period) * rate
-
     class LVT(Variable):
         entity = Household
         label = "Land value tax"
@@ -178,8 +154,6 @@ def create_default_reform() -> ReformType:
             return (
                 original_tax
                 + household("LVT", period)
-                + household("net_financial_wealth_tax", period)
-                + household("property_tax", period)
                 + household("carbon_tax", period)
             )
 
@@ -342,10 +316,6 @@ def create_default_reform() -> ReformType:
             self.update_variable(carbon_tax)
             self.update_variable(household_tax)
             self.modify_parameters(add_extra_band)
-            self.add_variables(
-                net_financial_wealth_tax,
-                property_tax,
-            )
 
             self.update_variable(meets_marriage_allowance_income_conditions)
 

@@ -26,7 +26,6 @@ const childNamer = {
 function validatePolicy(policy, defaultPolicy) {
   if (defaultPolicy) {
     for (let parameter in policy) {
-      policy[parameter].defaultValue = defaultPolicy[parameter].value;
       if (policy[parameter].baselineValue === undefined) {
         policy[parameter].baselineValue = defaultPolicy[parameter].value;
       }

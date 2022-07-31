@@ -171,7 +171,11 @@ class PolicyReform:
         for key in self.parameters:
             if isinstance(self.parameters[key], list):
                 self.parameters[key] = self.parameters[key][0]
-            metadata = self.policyengine_parameters[key]
+            metadata = self.policyengine_parameters.get(
+                key.replace("baseline_", "")
+            )
+            if metadata is None:
+                continue
             if metadata["valueType"] == "bool":
                 # Extra safety checks
                 self.parameters[key] = {

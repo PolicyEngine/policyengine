@@ -60,8 +60,9 @@ def headline_metrics(
     winner_share = (gain > 0).mean()
     loser_share = (gain < 0).mean()
     return dict(
-        budgetaryImpact=float(net_cost),
-        povertyChange=float(poverty_change),
-        winnerShare=float(winner_share),
-        loserShare=float(loser_share),
+        budgetary_impact_str=f'{"-" if net_cost < 0 else ""}{config.currency}{num(abs(net_cost))}',
+        budgetary_impact=float(net_cost),
+        poverty_change=float(poverty_change),
+        winner_share=float(winner_share),
+        loser_share=float(loser_share),
     )

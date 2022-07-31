@@ -1,5 +1,7 @@
+from time import time
 from types import ModuleType
 from typing import Callable, Dict, Type
+import numpy as np
 from openfisca_core.taxbenefitsystems import TaxBenefitSystem
 from openfisca_core.simulation_builder import SimulationBuilder
 from openfisca_core.model_api import Enum
@@ -53,6 +55,8 @@ class PolicyEngineCountry:
             parameter=self.parameter,
             budgetary_impact=self.budgetary_impact,
             calculate=self.calculate,
+            population_reform=self.population_reform,
+            population_reform_runtime=self.population_reform_runtime,
         )
         if self.name is None:
             self.name = self.__class__.__name__.lower()
@@ -76,6 +80,11 @@ class PolicyEngineCountry:
         self.parameter_data = build_parameters(self.tax_benefit_system)
 
         self.baseline_microsimulation = None
+
+        self.population_reform_recent_calls = dict(
+            reform_only=[10],
+            reform_and_baseline=[10],
+        )
 
     def create_reform(self, parameters: dict) -> PolicyReform:
         """Generate an OpenFisca reform from PolicyEngine parameters.
@@ -108,14 +117,10 @@ class PolicyEngineCountry:
                 self.baseline_microsimulation
             ) = self.microsimulation_type(self.default_reform)
         elif policy_reform.edits_baseline:
-            baseline = self.microsimulation_type(
-                (self.default_reform, policy_reform.baseline)
-            )
+            baseline = self.microsimulation_type(policy_reform.baseline)
         else:
             baseline = self.baseline_microsimulation
-        reformed = self.microsimulation_type(
-            (self.default_reform, policy_reform.reform)
-        )
+        reformed = self.microsimulation_type(policy_reform.reform)
         return baseline, reformed
 
     def entities(self, params: dict, logger: PolicyEngineLogger) -> dict:
@@ -210,10 +215,26 @@ class PolicyEngineCountry:
 
         return params["household"]
 
+    def population_reform_runtime(
+        self, params: dict, logger: PolicyEngineLogger
+    ) -> dict:
+        """Get the average runtime of a population reform."""
+        return {
+            "reform_only": np.average(
+                self.population_reform_recent_calls["reform_only"]
+            ),
+            "reform_and_baseline": np.average(
+                self.population_reform_recent_calls["reform_and_baseline"]
+            ),
+        }
+
+    @cached_endpoint
     def population_reform(
         self, params: dict, logger: PolicyEngineLogger
     ) -> dict:
         """Compute the population-level impact of a reform."""
+        start_time = time()
+        edits_baseline = any(["baseline_" in param for param in params])
         baseline, reformed = self.create_microsimulations(params)
         rel_income_decile_chart, avg_income_decile_chart = decile_chart(
             baseline, reformed, self.results_config
@@ -224,7 +245,7 @@ class PolicyEngineCountry:
             self.results_config,
             decile_type="wealth",
         )
-        return dict(
+        result = dict(
             **headline_metrics(baseline, reformed, self.results_config),
             rel_income_decile_chart=rel_income_decile_chart,
             avg_income_decile_chart=avg_income_decile_chart,
@@ -254,3 +275,19 @@ class PolicyEngineCountry:
                 self.results_config,
             ),
         )
+        if len(self.population_reform_recent_calls["reform_only"]) > 10:
+            self.population_reform_recent_calls["reform_only"].pop(0)
+        if (
+            len(self.population_reform_recent_calls["reform_and_baseline"])
+            > 10
+        ):
+            self.population_reform_recent_calls["reform_and_baseline"].pop(0)
+        if edits_baseline:
+            self.population_reform_recent_calls["reform_and_baseline"].append(
+                time() - start_time
+            )
+        else:
+            self.population_reform_recent_calls["reform_only"].append(
+                time() - start_time
+            )
+        return result
