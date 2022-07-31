@@ -201,7 +201,7 @@ class PolicyReform:
         """Returns the baseline policy."""
         if not self.edits_baseline:
             return Policy(
-                {}, 
+                {},
                 self.policyengine_parameters,
                 default_reform=self.default_reform,
             )

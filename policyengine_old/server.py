@@ -43,19 +43,6 @@ class PolicyEngine:
 
         self.static_site = self.app.errorhandler(404)(static_site)
 
-        def timed_endpoint(fn):
-            def new_fn(*args, **kwargs):
-                start_time = time()
-                result = fn(*args, **kwargs)
-                duration = time() - start_time
-                self.app.logger.info(
-                    f"{fn.__name__} completed in {round(duration, 1)}s."
-                )
-                return result
-
-            new_fn.__name__ = "timed_" + fn.__name__
-            return new_fn
-
         def pass_params_and_cache(fn):
             def new_fn(*args, **kwargs):
                 params = {**request.args, **(request.json or {})}
@@ -88,16 +75,11 @@ class PolicyEngine:
             ) + fn.__name__
             return new_fn
 
-        self.api_decorators = (
-            pass_params_and_cache,
-            timed_endpoint,
-        )
-
         for country in self.countries:
             for route, handler in country.api_endpoints.items():
                 fn = handler
                 for decorator in (
-                    *self.api_decorators,
+                    pass_params_and_cache,
                     self.app.route(
                         f"/{country.name}/api/{route.replace('_', '-')}",
                         methods=["GET", "POST"],

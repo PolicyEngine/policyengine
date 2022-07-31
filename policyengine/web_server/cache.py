@@ -5,18 +5,19 @@ from flask import request, make_response
 from threading import Thread
 
 from policyengine.web_server.logging import PolicyEngineLogger
+from typing import Dict, Any
+import hashlib
+import json
 
 
-def dict_to_string(d: dict) -> str:
-    """Converts a dictionary to a file-name-safe string.
-
-    Args:
-        d (dict): The input dictionary.
-
-    Returns:
-        str: The resultant string
-    """
-    return "_".join(["_".join((str(x), str(y))) for x, y in d.items()])
+def dict_hash(dictionary: Dict[str, Any]) -> str:
+    """MD5 hash of a dictionary."""
+    dhash = hashlib.md5()
+    # We need to sort arguments so {'a': 1, 'b': 2} is
+    # the same as {'b': 2, 'a': 1}
+    encoded = json.dumps(dictionary, sort_keys=True).encode()
+    dhash.update(encoded)
+    return dhash.hexdigest()
 
 
 def cached_endpoint(f: Callable) -> Callable:
@@ -61,7 +62,7 @@ class PolicyEngineCache:
         Returns:
             str: The key.
         """
-        return f"{endpoint}-{dict_to_string(params)}-{self.version}"
+        return f"{endpoint}-{dict_hash(params)}-{self.version}"
 
     def get(self, params: dict, endpoint: str) -> dict:
         """Looks up an API request in the cache, returning a result if it exists.
@@ -73,7 +74,7 @@ class PolicyEngineCache:
         Returns:
             dict: _description_
         """
-        request_id = f"{endpoint}-{dict_to_string(params)}-{self.version}"
+        request_id = self.get_name(params, endpoint)
         blob = self.bucket.blob(request_id + ".json")
         if blob.exists():
             return json.loads(blob.download_as_string())
@@ -86,7 +87,7 @@ class PolicyEngineCache:
             endpoint (str): The endpoint name.
             result (dict): The API result.
         """
-        request_id = f"{endpoint}-{dict_to_string(params)}-{self.version}"
+        request_id = self.get_name(params, endpoint)
         blob = self.bucket.blob(request_id + ".json")
         blob.upload_from_string(json.dumps(result))
 
@@ -97,11 +98,11 @@ class LocalCache(PolicyEngineCache):
         self.version = version
 
     def get(self, params: dict, endpoint: str) -> dict:
-        request_id = f"{endpoint}-{dict_to_string(params)}-{self.version}"
+        request_id = self.get_name(params, endpoint)
         return self.cache.get(request_id)
 
     def set(self, params: dict, endpoint: str, result: dict) -> None:
-        request_id = f"{endpoint}-{dict_to_string(params)}-{self.version}"
+        request_id = self.get_name(params, endpoint)
         self.cache[request_id] = result
 
 
@@ -132,7 +133,6 @@ class PolicyEngineTask:
         params: dict,
         endpoint: str,
         kwargs: dict,
-        key: str,
         cache: PolicyEngineCache,
         logger: PolicyEngineLogger,
     ):
@@ -143,7 +143,6 @@ class PolicyEngineTask:
             params (dict): The parameters of the request.
             endpoint (str): The endpoint name.
             kwargs (dict): The keyword arguments of the request.
-            key (str): The key to use for the task.
             cache (PolicyEngineCache): The cache.
             logger (PolicyEngineLogger): The logger.
         """
@@ -151,27 +150,36 @@ class PolicyEngineTask:
         self.params = params
         self.endpoint = endpoint
         self.kwargs = kwargs
-        self.key = key
         self.cache = cache
         self.logger = logger
 
     def execute(self):
         """Executes the task."""
-        existing_cached_result = self.cache.get(self.params, self.endpoint)
-        if existing_cached_result is not None:
-            return existing_cached_result
         self.mark_in_progress()
+        # Ensure that if an endpoint modifies the params, it doesn't affect the cache key.
+        params_copy = json.loads(json.dumps(self.params))
+        self.cache.set(
+            params_copy,
+            self.endpoint,
+            {"status": TaskStatus.IN_PROGRESS},
+        )
         start_time = time()
-        result = self.task(params=self.params, **self.kwargs)
+        try:
+            result = self.task(params=self.params, **self.kwargs)
+        except Exception as e:
+            self.logger.log(
+                event="task_error", endpoint=self.endpoint, error=str(e)
+            )
+            result = {"status": "error", "error": str(e)}
         duration = time() - start_time
         self.logger.log(
             event="endpoint_thread_completion",
             endpoint=self.endpoint,
             time=duration,
-            params=self.params,
+            cache_key=self.cache.get_name(params_copy, self.endpoint),
         )
         self.cache.set(
-            self.params,
+            params_copy,
             self.endpoint,
             {**result, "status": TaskStatus.COMPLETED},
         )
@@ -203,15 +211,14 @@ def add_params_and_caching(
         if cached_result is not None:
             return cached_result
         else:
-            key = cache.get_name(params, fn.__name__)
+            result = {"status": TaskStatus.QUEUED}
+            cache.set(params, fn.__name__, result)
             thread = Thread(
                 target=PolicyEngineTask(
-                    fn, params, fn.__name__, kwargs, key, cache, logger
+                    fn, params, fn.__name__, kwargs, cache, logger
                 ).execute
             )
             thread.start()
-            result = {"status": TaskStatus.QUEUED}
-            cache.set(params, fn.__name__, result)
             return result
 
     new_fn.__name__ = fn.__name__

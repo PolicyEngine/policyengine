@@ -14,6 +14,7 @@ DEBUG_VARIABLES = [
     "ssi",
 ]
 
+
 def mtr_hover_label(
     earnings: float,
     baseline_mtr: float,
@@ -101,7 +102,11 @@ def mtr_chart(
         ),
     ):
         baseline_values = baseline.calc(explaining_variable).sum(axis=0)
-        reform_values = reformed.calc(explaining_variable).sum(axis=0) if has_reform else baseline_values
+        reform_values = (
+            reformed.calc(explaining_variable).sum(axis=0)
+            if has_reform
+            else baseline_values
+        )
         multiplier = 1 if inverted else -1
         addition = -1 if inverted else 1
         if has_reform:

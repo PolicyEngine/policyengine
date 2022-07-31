@@ -39,7 +39,6 @@ export default class PolicyEngine extends React.Component {
     // Once data is fetched, apply some adjustments to the OpenFisca data
     // (that we don't want to apply in OpenFisca-[Country] because they're not
     // legislative)
-    console.log("parameters default", this.state.country.parameters.basic_rate)
     let { policy } = this.state.country.validatePolicy(
       urlToPolicy(
         this.state.country.parameters,
@@ -117,7 +116,7 @@ export default class PolicyEngine extends React.Component {
           this.setCountryState({ [name]: data }, checkAllFetchesComplete);
         });
     };
-    ["parameters", "variables", "entities", "population-reform-runtime"].forEach(fetchEndpoint);
+    ["parameters", "variables", "entities", "endpoint-runtimes"].forEach(fetchEndpoint);
   }
 
   render() {

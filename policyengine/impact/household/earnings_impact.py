@@ -3,6 +3,7 @@ from policyengine.country.results_config import PolicyEngineResultsConfig
 from policyengine.impact.household.charts.budget import budget_chart
 from policyengine.impact.household.charts.marginal_tax_rate import mtr_chart
 
+
 def earnings_impact(
     baseline: IndividualSim,
     reformed: IndividualSim,
@@ -15,9 +16,7 @@ def earnings_impact(
         reformed (IndividualSim): The reformed simulation.
         config (PolicyEngineResultsConfig): The results configuration.
     """
-    employment_income = baseline.calc(
-        config.employment_income_variable
-    ).sum()
+    employment_income = baseline.calc(config.employment_income_variable).sum()
     self_employment_income = baseline.calc(
         config.self_employment_income_variable
     ).sum()
@@ -27,15 +26,9 @@ def earnings_impact(
         else config.self_employment_income_variable
     )
     earnings = max(employment_income, self_employment_income)
-    total_income = baseline.calc(
-        config.total_income_variable
-    ).sum()
-    benefits = baseline.calc(
-        config.benefit_variable
-    ).sum()
-    tax = baseline.calc(
-        config.tax_variable
-    )
+    total_income = baseline.calc(config.total_income_variable).sum()
+    benefits = baseline.calc(config.benefit_variable).sum()
+    tax = baseline.calc(config.tax_variable).sum()
     vary_max = max(200_000, earnings * 1.5)
     baseline.vary(
         earnings_variable,

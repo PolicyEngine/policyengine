@@ -130,7 +130,7 @@ class PolicyEngineScaleParameter(PolicyEngineParameter):
     @property
     def scaleType(self):
         return self.openfisca_parameter.metadata.get("type")
-    
+
     @property
     def valueType(self):
         return "parameter_scale"

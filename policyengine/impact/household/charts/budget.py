@@ -150,7 +150,7 @@ def budget_chart(
             variable_values[explaining_variable + "_baseline"] = [
                 baseline.calc(explaining_variable).sum(axis=0)[i]
             ] * len(total_income)
-        
+
     explainer_names = []
     if DEBUG_MODE:
         for variable in DEBUG_VARIABLES:
@@ -202,7 +202,9 @@ def budget_chart(
             x[config.tax_variable + "_baseline"],
             x[config.tax_variable + "_reform"] if has_reform else original_tax,
             x[config.benefit_variable + "_baseline"],
-            x[config.benefit_variable + "_reform"] if has_reform else original_benefits,
+            x[config.benefit_variable + "_reform"]
+            if has_reform
+            else original_benefits,
             config,
         ),
         axis=1,
@@ -270,7 +272,6 @@ def add_you_are_here(fig: go.Figure, x):
         y1=1,
         line=dict(color="grey", width=1, dash="dash"),
     )
-
 
 
 def budget_hover_label(

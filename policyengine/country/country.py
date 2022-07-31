@@ -57,7 +57,7 @@ class PolicyEngineCountry:
             budgetary_impact=self.budgetary_impact,
             calculate=self.calculate,
             population_reform=self.population_reform,
-            population_reform_runtime=self.population_reform_runtime,
+            endpoint_runtimes=self.endpoint_runtimes,
             household_variation=self.household_variation,
         )
         if self.name is None:
@@ -83,9 +83,11 @@ class PolicyEngineCountry:
 
         self.baseline_microsimulation = None
 
-        self.population_reform_recent_calls = dict(
-            reform_only=[10],
-            reform_and_baseline=[10],
+        self.endpoint_runtimes = dict(
+            population_impact_reform_only=[10],
+            population_impact_reform_and_baseline=[20],
+            household_variation_baseline_only=[10],
+            household_variation_reform_and_baseline=[20],
         )
 
     def create_reform(self, parameters: dict) -> PolicyReform:
@@ -121,7 +123,7 @@ class PolicyEngineCountry:
             baseline = self.baseline_microsimulation
         reformed = self.microsimulation_type(policy_reform.reform)
         return baseline, reformed
-    
+
     def create_individualsims(self, parameters: dict, situation: dict):
         """Generate a individual simulations from PolicyEngine parameters.
 
@@ -130,7 +132,6 @@ class PolicyEngineCountry:
             situation (dict): The OpenFisca situation JSON.
         """
         policy_reform = self.create_reform(parameters)
-        print(policy_reform.baseline.default_reform)
         baseline = self.individualsim_type(policy_reform.baseline)
         baseline.situation_data = situation
         baseline.build()
@@ -234,18 +235,16 @@ class PolicyEngineCountry:
 
         return params["household"]
 
-    def population_reform_runtime(
+    def endpoint_runtimes(
         self, params: dict, logger: PolicyEngineLogger
     ) -> dict:
         """Get the average runtime of a population reform."""
-        return {
-            "reform_only": np.average(
-                self.population_reform_recent_calls["reform_only"]
-            ),
-            "reform_and_baseline": np.average(
-                self.population_reform_recent_calls["reform_and_baseline"]
-            ),
-        }
+        average_runtimes = {}
+        for key in self.endpoint_runtimes:
+            while len(self.endpoint_runtimes[key]) > 10:
+                self.endpoint_runtimes[key].pop(0)
+            average_runtimes[key] = np.average(self.endpoint_runtimes[key])
+        return average_runtimes
 
     @cached_endpoint
     def population_reform(
@@ -294,27 +293,17 @@ class PolicyEngineCountry:
                 self.results_config,
             ),
         )
-        if len(self.population_reform_recent_calls["reform_only"]) > 10:
-            self.population_reform_recent_calls["reform_only"].pop(0)
-        if (
-            len(self.population_reform_recent_calls["reform_and_baseline"])
-            > 10
-        ):
-            self.population_reform_recent_calls["reform_and_baseline"].pop(0)
-        if edits_baseline:
-            self.population_reform_recent_calls["reform_and_baseline"].append(
-                time() - start_time
-            )
-        else:
-            self.population_reform_recent_calls["reform_only"].append(
-                time() - start_time
-            )
+        classification = (
+            "reform_and_baseline" if edits_baseline else "reform_only"
+        )
+        self.endpoint_runtimes[f"population_impact_{classification}"].append(
+            time() - start_time
+        )
         return result
 
     @cached_endpoint
     def auto_ubi(self, params=None, logger=None):
-        """Compute the size of a UBI which makes a given policy reform budget-neutral.
-        """
+        """Compute the size of a UBI which makes a given policy reform budget-neutral."""
         baseline, reformed = self.create_microsimulations(params)
         revenue = (
             baseline.calc(
@@ -329,10 +318,20 @@ class PolicyEngineCountry:
             revenue / baseline.calc(self.results_config.person_variable).sum(),
         )
         return {"UBI": float(UBI_amount)}
-    
+
     @cached_endpoint
     def household_variation(self, params=None, logger=None):
-        """Compute how changes in earnings affect household income.
-        """
-        baseline, reformed = self.create_individualsims(params, params["household"])
-        return earnings_impact(baseline, reformed, self.results_config)
+        """Compute how changes in earnings affect household income."""
+        start_time = time()
+        baseline, reformed = self.create_individualsims(
+            params, params["household"]
+        )
+        result = earnings_impact(baseline, reformed, self.results_config)
+        has_reform = len(params) > 1
+        classification = (
+            "reform_and_baseline" if has_reform else "baseline_only"
+        )
+        self.endpoint_runtimes[f"household_variation_{classification}"].append(
+            time() - start_time
+        )
+        return result

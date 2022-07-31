@@ -335,6 +335,7 @@ export class UK extends Country {
       "Your household": {
         adults: ["You"],
         children: [],
+        household_owns_tv: { 2022: true },
       },
     },
     states: {
@@ -381,6 +382,8 @@ export class UK extends Country {
     "council_tax_band",
     "petrol_spending",
     "diesel_spending",
+    "household_owns_tv",
+    "would_evade_tv_licence_fee",
   ];
   outputVariables = [
     "household_tax",
@@ -411,6 +414,7 @@ export class UK extends Country {
     "single_pensioner_supplement",
     "smf_benefit_cash_payment",
     "smf_tax_cash_payment",
+    "tv_licence",
   ];
   inputVariableHierarchy = {
     Household: {
@@ -418,6 +422,7 @@ export class UK extends Country {
       Location: ["region", "BRMA", "council_tax_band"],
       Relationships: ["is_married"],
       Benefits: ["claims_legacy_benefits"],
+      Taxes: ["would_evade_tv_licence_fee"],
       Consumption: [
         "council_tax",
         "rent",
@@ -440,6 +445,7 @@ export class UK extends Country {
         "other_residential_property_value",
         "non_residential_property_value",
         "corporate_wealth",
+        "household_owns_tv",
       ],
     },
     People: {
@@ -505,6 +511,7 @@ export class UK extends Country {
         "business_rates",
         "carbon_tax",
         "LVT",
+        "tv_licence",
       ],
     },
   };
