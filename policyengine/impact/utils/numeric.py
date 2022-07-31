@@ -3,6 +3,10 @@ Utility functions for handling numeric operations.
 """
 
 
+def pct_change(x: float, y: float) -> float:
+    return (y - x) / x
+
+
 def num(x: float) -> str:
     """Converts a number to a human-readable string, using the k/m/bn/tr suffixes after rounding to 2 significant figures."""
 

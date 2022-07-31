@@ -3,12 +3,8 @@ Functions generating aggregates and other numerical outputs from microsimulation
 """
 from typing import Type
 from policyengine.country.results_config import PolicyEngineResultsConfig
-from policyengine.impact.utils import num
 from openfisca_tools import Microsimulation
-
-
-def pct_change(x: float, y: float) -> float:
-    return (y - x) / x
+from policyengine.impact.utils import *
 
 
 def poverty_rate(
@@ -61,16 +57,11 @@ def headline_metrics(
         baseline.calc(config.in_poverty_variable, map_to="person").mean(),
         reformed.calc(config.in_poverty_variable, map_to="person").mean(),
     )
-    winner_share = (gain > 1).mean()
-    loser_share = (gain < -1).mean()
-    gini_change = pct_change(old_income.gini(), new_income.gini())
+    winner_share = (gain > 0).mean()
+    loser_share = (gain < 0).mean()
     return dict(
-        net_cost=("-" if net_cost < 0 else "")
-        + config.currency
-        + num(abs(net_cost)),
-        net_cost_numeric=float(net_cost),
-        poverty_change=float(poverty_change),
-        winner_share=float(winner_share),
-        loser_share=float(loser_share),
-        gini_change=float(gini_change),
+        budgetaryImpact=float(net_cost),
+        povertyChange=float(poverty_change),
+        winnerShare=float(winner_share),
+        loserShare=float(loser_share),
     )

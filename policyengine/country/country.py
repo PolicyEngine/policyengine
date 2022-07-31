@@ -12,6 +12,14 @@ from policyengine.country.results_config import PolicyEngineResultsConfig
 from policyengine.web_server.cache import PolicyEngineCache, cached_endpoint
 from policyengine.web_server.logging import PolicyEngineLogger
 import dpath
+from policyengine.impact.population.charts import (
+    decile_chart,
+    inequality_chart,
+    intra_decile_chart,
+    poverty_chart,
+    waterfall_chart,
+)
+from policyengine.impact.population.metrics import headline_metrics
 
 
 class PolicyEngineCountry:
@@ -201,3 +209,48 @@ class PolicyEngineCountry:
         dpath.util.merge(params["household"], computation_results)
 
         return params["household"]
+
+    def population_reform(
+        self, params: dict, logger: PolicyEngineLogger
+    ) -> dict:
+        """Compute the population-level impact of a reform."""
+        baseline, reformed = self.create_microsimulations(params)
+        rel_income_decile_chart, avg_income_decile_chart = decile_chart(
+            baseline, reformed, self.results_config
+        )
+        rel_wealth_decile_chart, avg_wealth_decile_chart = decile_chart(
+            baseline,
+            reformed,
+            self.results_config,
+            decile_type="wealth",
+        )
+        return dict(
+            **headline_metrics(baseline, reformed, self.results_config),
+            rel_income_decile_chart=rel_income_decile_chart,
+            avg_income_decile_chart=avg_income_decile_chart,
+            rel_wealth_decile_chart=rel_wealth_decile_chart,
+            avg_wealth_decile_chart=avg_wealth_decile_chart,
+            poverty_chart=poverty_chart(
+                baseline, reformed, False, self.results_config
+            ),
+            deep_poverty_chart=poverty_chart(
+                baseline, reformed, True, self.results_config
+            ),
+            waterfall_chart=waterfall_chart(
+                baseline, reformed, self.results_config
+            ),
+            intra_income_decile_chart=intra_decile_chart(
+                baseline, reformed, self.results_config
+            ),
+            intra_wealth_decile_chart=intra_decile_chart(
+                baseline,
+                reformed,
+                self.results_config,
+                decile_type="wealth",
+            ),
+            inequality_chart=inequality_chart(
+                baseline,
+                reformed,
+                self.results_config,
+            ),
+        )
