@@ -70,7 +70,7 @@ export default class AccountingTable extends React.Component {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ "household": this.context.situation })
+                body: JSON.stringify(Object.assign({ "household": this.context.situation }, submission))
             }).then((res) => {
                 if (res.ok) {
                     return res.json();
