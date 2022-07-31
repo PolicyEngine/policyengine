@@ -200,7 +200,11 @@ class PolicyReform:
     def baseline(self) -> Reform:
         """Returns the baseline policy."""
         if not self.edits_baseline:
-            return Policy({}, self.policyengine_parameters)
+            return Policy(
+                {}, 
+                self.policyengine_parameters,
+                default_reform=self.default_reform,
+            )
         relevant_parameters = {
             key.replace("baseline_", ""): value
             for key, value in self.parameters.items()
@@ -240,6 +244,12 @@ class Policy:
         self.parameters = parameters
         self.policyengine_parameters = policyengine_parameters
         self.default_reform = default_reform
+
+    def __repr__(self):
+        items = list(self.parameters.items())
+        if len(items) == 0:
+            return "<Policy (empty)>"
+        return f"<Policy {' '.join([f'{key}={value}' for key, value in items[:4]])}{f' ...+{len(items)-4}' if len(items) > 4 else ''}>"
 
     def apply(self, system: TaxBenefitSystem) -> TaxBenefitSystem:
         """Applies the policy to a system. This essentially does the same as any `Reform.apply` method.

@@ -1,4 +1,4 @@
-from .numeric import num, ordinal, pct_change
+from .numeric import num, ordinal, pct_change, describe_change
 from .plotly import (
     plotly_json_to_fig,
     WHITE,

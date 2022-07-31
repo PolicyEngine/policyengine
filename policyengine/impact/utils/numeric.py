@@ -3,6 +3,9 @@ Utility functions for handling numeric operations.
 """
 
 
+from typing import Callable
+
+
 def pct_change(x: float, y: float) -> float:
     return (y - x) / x
 
@@ -39,3 +42,19 @@ def ordinal(n: int) -> str:
         n,
         "tsnrhtdd"[(n // 10 % 10 != 1) * (n % 10 < 4) * n % 10 :: 4],
     )
+
+
+def describe_change(
+    x: float,
+    y: float,
+    formatter: Callable = lambda x: x,
+    change_formatter=lambda x: x,
+    plural: bool = False,
+) -> str:
+    s = "" if plural else "s"
+    if y > x:
+        return f"rise{s} from {formatter(x)} to {formatter(y)} (+{change_formatter(y - x)})"
+    elif y == x:
+        return f"remain{s} at {formatter(x)}"
+    else:
+        return f"fall{s} from {formatter(x)} to {formatter(y)} (-{change_formatter(x - y)})"

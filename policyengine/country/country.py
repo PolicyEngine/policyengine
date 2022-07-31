@@ -11,6 +11,7 @@ from policyengine.country.openfisca.parameters import build_parameters
 from policyengine.country.openfisca.reforms import apply_reform, PolicyReform
 from policyengine.country.openfisca.variables import build_variables
 from policyengine.country.results_config import PolicyEngineResultsConfig
+from policyengine.impact.household.earnings_impact import earnings_impact
 from policyengine.web_server.cache import PolicyEngineCache, cached_endpoint
 from policyengine.web_server.logging import PolicyEngineLogger
 import dpath
@@ -57,6 +58,7 @@ class PolicyEngineCountry:
             calculate=self.calculate,
             population_reform=self.population_reform,
             population_reform_runtime=self.population_reform_runtime,
+            household_variation=self.household_variation,
         )
         if self.name is None:
             self.name = self.__class__.__name__.lower()
@@ -99,14 +101,11 @@ class PolicyEngineCountry:
             parameters, self.parameter_data, default_reform=self.default_reform
         )
 
-    def create_microsimulations(self, parameters: dict) -> Reform:
-        """Generate an OpenFisca reform from PolicyEngine parameters.
+    def create_microsimulations(self, parameters: dict):
+        """Generate a microsimulations from PolicyEngine parameters.
 
         Args:
             parameters (dict): The PolicyEngine parameters.
-
-        Returns:
-            Reform: The OpenFisca reform.
         """
         policy_reform = self.create_reform(parameters)
         if (
@@ -121,6 +120,26 @@ class PolicyEngineCountry:
         else:
             baseline = self.baseline_microsimulation
         reformed = self.microsimulation_type(policy_reform.reform)
+        return baseline, reformed
+    
+    def create_individualsims(self, parameters: dict, situation: dict):
+        """Generate a individual simulations from PolicyEngine parameters.
+
+        Args:
+            parameters (dict): The PolicyEngine parameters.
+            situation (dict): The OpenFisca situation JSON.
+        """
+        policy_reform = self.create_reform(parameters)
+        print(policy_reform.baseline.default_reform)
+        baseline = self.individualsim_type(policy_reform.baseline)
+        baseline.situation_data = situation
+        baseline.build()
+        if len(parameters) > 1:
+            reformed = self.individualsim_type(policy_reform.reform)
+            reformed.situation_data = situation
+            reformed.build()
+        else:
+            reformed = None
         return baseline, reformed
 
     def entities(self, params: dict, logger: PolicyEngineLogger) -> dict:
@@ -291,3 +310,29 @@ class PolicyEngineCountry:
                 time() - start_time
             )
         return result
+
+    @cached_endpoint
+    def auto_ubi(self, params=None, logger=None):
+        """Compute the size of a UBI which makes a given policy reform budget-neutral.
+        """
+        baseline, reformed = self.create_microsimulations(params)
+        revenue = (
+            baseline.calc(
+                self.results_config.household_net_income_variable
+            ).sum()
+            - reformed.calc(
+                self.results_config.household_net_income_variable
+            ).sum()
+        )
+        UBI_amount = max(
+            0,
+            revenue / baseline.calc(self.results_config.person_variable).sum(),
+        )
+        return {"UBI": float(UBI_amount)}
+    
+    @cached_endpoint
+    def household_variation(self, params=None, logger=None):
+        """Compute how changes in earnings affect household income.
+        """
+        baseline, reformed = self.create_individualsims(params, params["household"])
+        return earnings_impact(baseline, reformed, self.results_config)
