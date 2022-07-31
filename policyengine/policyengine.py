@@ -86,7 +86,7 @@ class PolicyEngine:
                 )
                 endpoint_fn = logged_endpoint(endpoint_fn, self.logger)
                 self.app.route(
-                    f"/api/{country.name}/{endpoint.replace('_', '-')}",
+                    f"/{country.name}/api/{endpoint.replace('_', '-')}",
                     methods=["GET", "POST"],
                     endpoint=f"{country.name}_{endpoint}",
                 )(endpoint_fn)

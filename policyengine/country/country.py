@@ -6,6 +6,7 @@ from policyengine.country.openfisca.entities import build_entities
 from policyengine.country.openfisca.parameters import build_parameters
 from policyengine.country.openfisca.reforms import apply_reform, PolicyReform
 from policyengine.country.openfisca.variables import build_variables
+from policyengine.country.results_config import PolicyEngineResultsConfig
 from policyengine.web_server.cache import PolicyEngineCache, cached_endpoint
 from policyengine.web_server.logging import PolicyEngineLogger
 
@@ -27,6 +28,10 @@ class PolicyEngineCountry:
 
     default_reform: Reform = None
     """An OpenFisca reform to apply to the country model before use.
+    """
+
+    results_config: Type[PolicyEngineResultsConfig] = None
+    """The results configuration for this country. Used to interface with the OpenFisca country model.
     """
 
     def __init__(self):
@@ -115,9 +120,13 @@ class PolicyEngineCountry:
     ) -> dict:
         """Get the budgetary impact of a reform."""
         baseline, reformed = self.create_microsimulations(params)
-        baseline_net_income = baseline.calc("spm_unit_net_income").sum()
-        reformed_net_income = reformed.calc("spm_unit_net_income").sum()
+        baseline_net_income = baseline.calc(
+            self.results_config.household_net_income_variable
+        ).sum()
+        reformed_net_income = reformed.calc(
+            self.results_config.household_net_income_variable
+        ).sum()
         difference = reformed_net_income - baseline_net_income
         return {
-            "billions": round(difference / 1e9, 1),
+            "budgetary_impact": difference,
         }

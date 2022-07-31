@@ -36,7 +36,7 @@ class PolicyEngineParameter:
 
     @property
     def value(self):
-        if not isinstance(self, Parameter):
+        if not isinstance(self.openfisca_parameter, Parameter):
             return None
         current_value = self.openfisca_parameter(self.date)
         value_type = type(current_value).__name__
@@ -153,6 +153,9 @@ class PolicyEngineScaleComponentParameter(PolicyEngineParameter):
 
     @property
     def name(self):
+        defined_name = self.openfisca_parameter.metadata.get("name")
+        if defined_name is not None:
+            return defined_name
         stem = self.parent.metadata.get(
             "name", self.parent.name.replace(".", "_")
         )
