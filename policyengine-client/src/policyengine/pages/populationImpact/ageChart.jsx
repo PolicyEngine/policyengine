@@ -23,26 +23,32 @@ export default class AgeChart extends React.Component {
 
     fetchResults() {
         let url = new URL(`${this.context.apiURL}/age-chart`);
+        const eta = this.context["endpoint-runtimes"]["age_chart"];
+        const submission = this.context.getPolicyJSONPayload();
+        const requestOptions = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(submission)
+        };
 		this.context.setState({ waitingOnAgeChart: true }, () => {
-			fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(submission)
-            })
+			fetch(url, requestOptions)
 				.then((res) => {
-					if (res.ok) {
-						return res.json();
-					} else {
-						throw res;
-					}
-				}).then((data) => {
-					this.setState({ error: false });
-                    this.context.setState({ageChartResult: data, waitingOnAgeChart: false, ageChartIsOutdated: false});
-				}).catch(e => {
-                    this.context.setState({ waitingOnAgeChart: false});
-					this.setState({ error: true });
+                    if(res.ok) {
+                        let checker = setInterval(() => {
+                            fetch(url, requestOptions).then(res => res.json()).then(data => {
+                                if(data.status === "completed") {
+                                    clearInterval(checker);
+                                    this.setState({ error: false });
+                                    this.context.setState({ageChartResult: data, waitingOnAgeChart: false, ageChartIsOutdated: false});
+                                }
+                            }).catch(e => {
+                                this.context.setState({ waitingOnAgeChart: false});
+                                this.setState({ error: true });
+                            });
+                        }, 1000 * eta * 0.5);
+                    }
 				});
 		});
     }

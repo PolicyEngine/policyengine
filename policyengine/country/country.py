@@ -96,6 +96,8 @@ class PolicyEngineCountry:
             population_impact_reform_and_baseline=[20],
             household_variation_baseline_only=[10],
             household_variation_reform_and_baseline=[20],
+            auto_ubi=[10],
+            age_chart=[10],
         )
 
     def create_reform(self, parameters: dict) -> PolicyReform:
@@ -324,6 +326,7 @@ class PolicyEngineCountry:
     @cached_endpoint
     def auto_ubi(self, params=None, logger=None):
         """Compute the size of a UBI which makes a given policy reform budget-neutral."""
+        start_time = time()
         baseline, reformed = self.create_microsimulations(params)
         revenue = (
             baseline.calc(
@@ -337,6 +340,7 @@ class PolicyEngineCountry:
             0,
             revenue / baseline.calc(self.results_config.person_variable).sum(),
         )
+        self.endpoint_runtimes["auto_ubi"].append(time() - start_time)
         return {"UBI": float(UBI_amount)}
 
     @cached_endpoint
@@ -403,9 +407,13 @@ class PolicyEngineCountry:
         )
 
     @cached_endpoint
-    def age_chart(self, params: dict = None):
-        baseline, reformed = self._get_microsimulations(params)
+    def age_chart(self, params: dict = None, logger = None):
+        """Generate a chart showing the average change to income by age.
+        """
+        start_time = time()
+        baseline, reformed = self.create_microsimulations(params)
         chart = age_chart(baseline, reformed, self.results_config)
+        self.endpoint_runtimes["age_chart"].append(time() - start_time)
         return dict(
             age_chart=chart,
         )

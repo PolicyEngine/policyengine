@@ -43,7 +43,7 @@ def age_chart(
     hover_labels = []
     for age, gain in zip(df.Age, df["Average increase"]):
         hover_labels += [
-            f"<b>{int(age)}-year olds</b> see their household's net income <br>{'rise' if gain >= 0 else 'fall '} by <b>{config.currency}{gain:,.0f}</b> on average."
+            f"<b>{int(age)}-year olds</b> see their household's net income <br>{'rise' if gain >= 0 else 'fall '} by <b>{config.currency}{abs(gain):,.0f}</b> on average."
         ]
     df["Label"] = hover_labels
     fig = (
