@@ -3,15 +3,19 @@ from types import ModuleType
 from typing import Callable, Dict, Type
 import numpy as np
 from openfisca_core.taxbenefitsystems import TaxBenefitSystem
-from openfisca_core.simulation_builder import SimulationBuilder
+from openfisca_core.simulation_builder import SimulationBuilder, Simulation
 from openfisca_core.model_api import Enum
 from openfisca_core.reforms import Reform
+from policyengine.country.openfisca.computation_trees import (
+    get_computation_trees_json,
+)
 from policyengine.country.openfisca.entities import build_entities
 from policyengine.country.openfisca.parameters import build_parameters
 from policyengine.country.openfisca.reforms import apply_reform, PolicyReform
 from policyengine.country.openfisca.variables import build_variables
 from policyengine.country.results_config import PolicyEngineResultsConfig
 from policyengine.impact.household.earnings_impact import earnings_impact
+from policyengine.impact.population.charts.age import age_chart
 from policyengine.web_server.cache import PolicyEngineCache, cached_endpoint
 from policyengine.web_server.logging import PolicyEngineLogger
 import dpath
@@ -59,6 +63,10 @@ class PolicyEngineCountry:
             population_reform=self.population_reform,
             endpoint_runtimes=self.endpoint_runtimes,
             household_variation=self.household_variation,
+            computation_tree=self.computation_tree,
+            dependencies=self.dependencies,
+            leaf_nodes=self.leaf_nodes,
+            age_chart=self.age_chart,
         )
         if self.name is None:
             self.name = self.__class__.__name__.lower()
@@ -143,6 +151,27 @@ class PolicyEngineCountry:
             reformed = None
         return baseline, reformed
 
+    def create_openfisca_simulation(self, parameters: dict) -> Simulation:
+        """Initialises an OpenFisca simulation from given household or reform parameters (optimised for performance by skipping no-reform applications).
+
+        Args:
+            parameters (dict): Policy reform parameters, and a 'household' entry.
+
+        Returns:
+            Simulation: The OpenFisca Simulation object.
+        """
+        if len(parameters) == 1:
+            # Cache the tax-benefit system for no-reform simulations
+            system = self.tax_benefit_system
+        else:
+            reform = self.create_reform(parameters)
+            system = apply_reform(
+                reform.reform, self.tax_benefit_system_type()
+            )
+        return SimulationBuilder().build_from_entities(
+            system, parameters["household"]
+        )
+
     def entities(self, params: dict, logger: PolicyEngineLogger) -> dict:
         """Get the available entities for the OpenFisca country model."""
         return self.entity_data
@@ -187,17 +216,8 @@ class PolicyEngineCountry:
         logger: PolicyEngineLogger,
     ) -> dict:
         """Calculate variables for a given household and policy reform."""
-        if len(params) == 1:
-            # Cache the tax-benefit system for no-reform simulations
-            system = self.tax_benefit_system
-        else:
-            reform = self.create_reform(params)
-            system = apply_reform(
-                reform.reform, self.tax_benefit_system_type()
-            )
-        simulation = SimulationBuilder().build_from_entities(
-            system, params["household"]
-        )
+        simulation = self.create_openfisca_simulation(params)
+        system = simulation.tax_benefit_system
 
         requested_computations = dpath.util.search(
             params["household"],
@@ -335,3 +355,57 @@ class PolicyEngineCountry:
             time() - start_time
         )
         return result
+
+    def computation_tree(self, params=None):
+        """Get the computation tree for a given household (with any policy reforms applied)."""
+        simulation = self.create_openfisca_simulation(params)
+        return get_computation_trees_json(simulation, params)
+
+    def dependencies(self, params=None):
+        """Get a list of all variables needed to compute a given household simulation."""
+        simulation = self.create_openfisca_simulation(params)
+        trees = get_computation_trees_json(simulation, params)[
+            "computation_trees"
+        ]
+
+        def get_dependencies(node):
+            nodes = [node["name"]]
+            for child in node["children"]:
+                nodes += get_dependencies(child)
+            return list(set(nodes))
+
+        return dict(
+            dependencies=list(
+                set(sum([get_dependencies(tree) for tree in trees], []))
+            )
+        )
+
+    def leaf_nodes(self, params=None):
+        """Get a list of the input variables involved in a given household simulation."""
+        simulation = self.create_openfisca_simulation(params)
+
+        trees = get_computation_trees_json(simulation, params)[
+            "computation_trees"
+        ]
+
+        def get_leaf_nodes(node):
+            if len(node["children"]) == 0:
+                return [node["name"]]
+            else:
+                return sum(
+                    [get_leaf_nodes(child) for child in node["children"]], []
+                )
+
+        return dict(
+            leaf_nodes=list(
+                set(sum([get_leaf_nodes(tree) for tree in trees], []))
+            )
+        )
+
+    @cached_endpoint
+    def age_chart(self, params: dict = None):
+        baseline, reformed = self._get_microsimulations(params)
+        chart = age_chart(baseline, reformed, self.results_config)
+        return dict(
+            age_chart=chart,
+        )
