@@ -15,7 +15,6 @@ import USDALogo from "../../images/parameter-icons/us/us-government/usda.png"
 import StateGovernmentsLogo from "../../images/parameter-icons/us/state-governments.png"
 import ThirdPartyLogo from "../../images/parameter-icons/third-party.png";
 import UBICenterLogo from "../../images/parameter-icons/ubi-center.png"
-import RepTlaibLogo from "../../images/parameter-icons/us/third-party/tlaib.png"
 import CongressLogo from "../../images/parameter-icons/us/third-party/congress.svg.png"
 import SimulationLogo from "../../images/parameter-icons/simulation.webp";
 import MALogo from "../../images/parameter-icons/us/state-governments/ma.png";
@@ -407,28 +406,6 @@ export class US extends Country {
             }
         },
         "Third party": {
-            "UBI Center": {
-                "Basic income": {
-                    "Amounts": [
-                        "young_child_bi",
-                        "older_child_bi_age",
-                        "older_child_bi",
-                        "young_adult_bi_age",
-                        "young_adult_bi",
-                        "older_adult_bi_age",
-                        "older_adult_bi",
-                        "senior_bi_age",
-                        "senior_bi",
-                    ],
-                    "Phase-outs": [
-                        "bi_phase_out_rate",
-                        "bi_phase_out_threshold",
-                    ],
-                },
-                "Flat tax": [
-                    "flat_tax",
-                ],
-            },
             "Congress": {
                 "Senate": {
                     "Democrats": {
@@ -484,7 +461,29 @@ export class US extends Country {
                         }
                     }
                 },
-            }
+            },
+            "UBI Center": {
+                "Basic income": {
+                    "Amounts": [
+                        "young_child_bi",
+                        "older_child_bi_age",
+                        "older_child_bi",
+                        "young_adult_bi_age",
+                        "young_adult_bi",
+                        "older_adult_bi_age",
+                        "older_adult_bi",
+                        "senior_bi_age",
+                        "senior_bi",
+                    ],
+                    "Phase-outs": [
+                        "bi_phase_out_rate",
+                        "bi_phase_out_threshold",
+                    ],
+                },
+                "Flat tax": [
+                    "flat_tax",
+                ],
+            },
         }
     }
     organisations = {
@@ -527,11 +526,11 @@ export class US extends Country {
         "Third party": {
             logo: ThirdPartyLogo,
         },
-        "UBI Center": {
-            logo: UBICenterLogo,
-        },
         "Congress": {
             logo: CongressLogo,
+        },
+        "UBI Center": {
+            logo: UBICenterLogo,
         },
     }
     defaultOpenParameterGroups = [];
