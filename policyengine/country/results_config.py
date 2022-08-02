@@ -21,4 +21,4 @@ class PolicyEngineResultsConfig:
 
     currency: str
     household_entity: str
-    region_name: str
+    region_variable: str

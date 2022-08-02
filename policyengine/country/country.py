@@ -407,9 +407,8 @@ class PolicyEngineCountry:
         )
 
     @cached_endpoint
-    def age_chart(self, params: dict = None, logger = None):
-        """Generate a chart showing the average change to income by age.
-        """
+    def age_chart(self, params: dict = None, logger=None):
+        """Generate a chart showing the average change to income by age."""
         start_time = time()
         baseline, reformed = self.create_microsimulations(params)
         chart = age_chart(baseline, reformed, self.results_config)
@@ -417,3 +416,8 @@ class PolicyEngineCountry:
         return dict(
             age_chart=chart,
         )
+
+    @cached_endpoint
+    def population_breakdown(self, params, logger):
+        """Score a policy reform with a breakdown by provision."""
+        return
