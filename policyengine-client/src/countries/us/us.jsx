@@ -442,24 +442,26 @@ export class US extends Country {
                         }
                     }
                 },
-                "Rep Tlaib": {
-                    "End Child Poverty Act": {
-                        "Adult dependent credit": [
-                            "end_child_poverty_act_adult_dependent_credit_amount",
-                            "end_child_poverty_act_adult_dependent_credit_min_age",
-                        ],
-                        "Filer credit": {
-                            "Amount": [
-                                "end_child_poverty_act_filer_credit_amount",
-                                "end_child_poverty_act_filer_credit_phase_out_start",
-                                "end_child_poverty_act_filer_credit_phase_out_rate",
+                "House": {
+                    "Rep Tlaib": {
+                        "End Child Poverty Act": {
+                            "Adult dependent credit": [
+                                "end_child_poverty_act_adult_dependent_credit_amount",
+                                "end_child_poverty_act_adult_dependent_credit_min_age",
                             ],
-                            "Eligibility": [
-                                "end_child_poverty_act_filer_credit_min_age",
-                                "end_child_poverty_act_filer_credit_max_age",
-                            ]
+                            "Filer credit": {
+                                "Amount": [
+                                    "end_child_poverty_act_filer_credit_amount",
+                                    "end_child_poverty_act_filer_credit_phase_out_start",
+                                    "end_child_poverty_act_filer_credit_phase_out_rate",
+                                ],
+                                "Eligibility": [
+                                    "end_child_poverty_act_filer_credit_min_age",
+                                    "end_child_poverty_act_filer_credit_max_age",
+                                ]
+                            }
                         }
-                    }
+                    },
                 },
             },
             "UBI Center": {
