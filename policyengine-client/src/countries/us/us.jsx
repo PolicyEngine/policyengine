@@ -16,6 +16,7 @@ import StateGovernmentsLogo from "../../images/parameter-icons/us/state-governme
 import ThirdPartyLogo from "../../images/parameter-icons/third-party.png";
 import UBICenterLogo from "../../images/parameter-icons/ubi-center.png"
 import RepTlaibLogo from "../../images/parameter-icons/us/third-party/tlaib.png"
+import CongressLogo from "../../images/parameter-icons/us/third-party/congress.svg.png"
 import SimulationLogo from "../../images/parameter-icons/simulation.webp";
 import MALogo from "../../images/parameter-icons/us/state-governments/ma.png";
 import WALogo from "../../images/parameter-icons/us/state-governments/wa.png";
@@ -162,6 +163,13 @@ export class US extends Country {
                             "aoc_refundable_percentage",
                         ],
                     },
+                    "Electric vehicle": [
+                        "new_ev_credit_base_amount",
+                        "new_ev_credit_amount_per_kwh",
+                        "new_ev_credit_kwh_threshold",
+                        "new_ev_credit_max_amount_for_capacity_bonus",
+                        "new_ev_credit_min_kwh",
+                    ]
                 },
                 "Social Security": [
                     "employee_social_security_tax_rate",
@@ -421,24 +429,61 @@ export class US extends Country {
                     "flat_tax",
                 ],
             },
-            "Rep Tlaib": {
-                "End Child Poverty Act": {
-                    "Adult dependent credit": [
-                        "end_child_poverty_act_adult_dependent_credit_amount",
-                        "end_child_poverty_act_adult_dependent_credit_min_age",
-                    ],
-                    "Filer credit": {
-                        "Amount": [
-                            "end_child_poverty_act_filer_credit_amount",
-                            "end_child_poverty_act_filer_credit_phase_out_start",
-                            "end_child_poverty_act_filer_credit_phase_out_rate",
-                        ],
-                        "Eligibility": [
-                            "end_child_poverty_act_filer_credit_min_age",
-                            "end_child_poverty_act_filer_credit_max_age",
-                        ]
+            "Congress": {
+                "Senate": {
+                    "Democrats": {
+                        "Inflation Reduction Act": {
+                            "General": [
+                                "inflation_reduction_act_in_effect"
+                            ],
+                            "Electric vehicle credit": {
+                                "New": {
+                                    "Battery components": [
+                                        "inflation_reduction_act_ev_battery_components_amount",
+                                        "inflation_reduction_act_ev_battery_components_threshold",
+                                    ],
+                                    "Critical minerals": [
+                                        "inflation_reduction_act_ev_critical_minerals_amount",
+                                        "inflation_reduction_act_ev_critical_minerals_threshold",
+                                    ],
+                                    "Eligibility": [
+                                        "inflation_reduction_act_ev_new_income_limit",
+                                        "inflation_reduction_act_ev_new_msrp_limit",
+                                    ]
+                                },
+                                "Used": {
+                                    "Amount": [
+                                        "inflation_reduction_act_ev_used_max_amount",
+                                        "inflation_reduction_act_ev_used_sale_price_percent",
+                                    ],
+                                    "Eligibility": [
+                                        "inflation_reduction_act_ev_used_income_limit",
+                                        "inflation_reduction_act_ev_used_sale_price_limit",
+                                    ]
+                                }
+                            }
+                        }
                     }
-                }
+                },
+                "Rep Tlaib": {
+                    "End Child Poverty Act": {
+                        "Adult dependent credit": [
+                            "end_child_poverty_act_adult_dependent_credit_amount",
+                            "end_child_poverty_act_adult_dependent_credit_min_age",
+                        ],
+                        "Filer credit": {
+                            "Amount": [
+                                "end_child_poverty_act_filer_credit_amount",
+                                "end_child_poverty_act_filer_credit_phase_out_start",
+                                "end_child_poverty_act_filer_credit_phase_out_rate",
+                            ],
+                            "Eligibility": [
+                                "end_child_poverty_act_filer_credit_min_age",
+                                "end_child_poverty_act_filer_credit_max_age",
+                            ]
+                        }
+                    }
+                },
             }
         }
     }
@@ -485,8 +530,8 @@ export class US extends Country {
         "UBI Center": {
             logo: UBICenterLogo,
         },
-        "Rep Tlaib": {
-            logo: RepTlaibLogo,
+        "Congress": {
+            logo: CongressLogo,
         },
     }
     defaultOpenParameterGroups = [];
