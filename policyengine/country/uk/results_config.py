@@ -22,4 +22,4 @@ class UKResultsConfig(PolicyEngineResultsConfig):
 
     currency = "£"
     household_entity = "household"
-    region_name = "region"
+    region_variable = "region"

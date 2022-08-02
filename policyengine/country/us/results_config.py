@@ -23,4 +23,4 @@ class USResultsConfig(PolicyEngineResultsConfig):
 
     currency = "$"
     household_entity = "spm_unit"
-    region_name = "state"
+    region_variable = "state"

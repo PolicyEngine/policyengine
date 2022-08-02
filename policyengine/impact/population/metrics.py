@@ -66,3 +66,23 @@ def headline_metrics(
         winner_share=float(winner_share),
         loser_share=float(loser_share),
     )
+
+
+def spending(
+    baseline: Microsimulation,
+    reformed: Microsimulation,
+    config: Type[PolicyEngineResultsConfig],
+) -> float:
+    """Budgetary impact of a reform (difference in net income).
+
+    :param baseline: Baseline microsimulation.
+    :type baseline: Microsimulation
+    :param reformed: Reform microsimulation.
+    :type reformed: Microsimulation
+    :return: Reform net income minus baseline net income.
+    :rtype: float
+    """
+    return (
+        reformed.calc(config.household_net_income_variable).sum()
+        - baseline.calc(config.household_net_income_variable).sum()
+    )

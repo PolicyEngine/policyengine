@@ -183,6 +183,9 @@ export default class PopulationImpact extends React.Component {
 							fetch(url, requestOptions).then(res => res.json()).then(data => {
 								if(data.status === "completed") {
 									clearInterval(checker);
+									if(data.error) {
+										throw new Error(data.error);
+									}
 									this.context.setState({ populationImpactResults: data, populationImpactIsOutdated: false }, () => {
 										this.setState({ error: false });
 										this.context.setState({ waitingOnPopulationImpact: false });
@@ -202,7 +205,12 @@ export default class PopulationImpact extends React.Component {
 
 	render() {
 		const editsBaseline = Object.keys(this.context.getPolicyJSONPayload()).some(key => key.includes("baseline_"));
-		const eta = this.context["endpoint-runtimes"][editsBaseline ? "population_impact_reform_and_baseline" : "population_impact_reform_only"];
+		let eta;
+		try {
+			eta = this.context["endpoint-runtimes"][editsBaseline ? "population_impact_reform_and_baseline" : "population_impact_reform_only"];
+		} catch {
+			eta = 10;
+		}
 		const overview = (
 		  <OverviewHolder>
 			<PolicyOverview page="policy" />

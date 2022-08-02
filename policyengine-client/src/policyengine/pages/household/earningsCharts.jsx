@@ -39,6 +39,9 @@ export default class AccountingTable extends React.Component {
                         fetch(url, requestOptions).then(res => res.json()).then((data) => {
                             if(data.status === "completed") {
                                 clearInterval(checker);
+                                if(data.error) {
+                                    throw new Error(data.error);
+                                }
                                 this.context.setState({ computedSituationVariationCharts: data, situationVariationImpactIsOutdated: false, waitingOnEarningsCharts: false }, () => {
                                     this.setState({ error: false });
                                 });

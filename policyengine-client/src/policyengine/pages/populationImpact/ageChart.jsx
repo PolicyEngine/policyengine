@@ -40,6 +40,9 @@ export default class AgeChart extends React.Component {
                             fetch(url, requestOptions).then(res => res.json()).then(data => {
                                 if(data.status === "completed") {
                                     clearInterval(checker);
+                                    if(data.error) {
+                                        throw new Error(data.error);
+                                    }
                                     this.setState({ error: false });
                                     this.context.setState({ageChartResult: data, waitingOnAgeChart: false, ageChartIsOutdated: false});
                                 }

@@ -26,6 +26,9 @@ from policyengine.impact.population.charts import (
     poverty_chart,
     waterfall_chart,
 )
+from policyengine.impact.population.by_provision import (
+    get_breakdown_and_chart_per_provision,
+)
 from policyengine.impact.population.metrics import headline_metrics
 
 
@@ -67,6 +70,7 @@ class PolicyEngineCountry:
             dependencies=self.dependencies,
             leaf_nodes=self.leaf_nodes,
             age_chart=self.age_chart,
+            population_breakdown=self.population_breakdown,
         )
         if self.name is None:
             self.name = self.__class__.__name__.lower()
@@ -418,6 +422,13 @@ class PolicyEngineCountry:
         )
 
     @cached_endpoint
-    def population_breakdown(self, params, logger):
+    def population_breakdown(self, params=None, logger=None):
         """Score a policy reform with a breakdown by provision."""
-        return
+        baseline, reformed = self.create_microsimulations(params)
+        return get_breakdown_and_chart_per_provision(
+            self,
+            params,
+            baseline,
+            reformed,
+            self.results_config,
+        )
