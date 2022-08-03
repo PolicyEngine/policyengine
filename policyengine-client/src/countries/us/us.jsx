@@ -564,7 +564,9 @@ export class US extends Country {
         // Washington.
         wa_wftc_max_amount: { max: 10_000 },
         wa_wftc_min_amount: { max: 1_000 },
-
+        // Inflation Reduction Act.
+        inflation_reduction_act_ev_battery_components_amount: { max: 10_000 },
+        inflation_reduction_act_ev_critical_minerals_amount: { max: 10_000 },
         // Each parameter breakdown requires separate treatment.
         contrib_tlaib_end_child_poverty_act_filer_credit_amount_SINGLE: { max: 10_000 },
         contrib_tlaib_end_child_poverty_act_filer_credit_amount_JOINT: { max: 10_000 },
@@ -572,7 +574,11 @@ export class US extends Country {
         contrib_tlaib_end_child_poverty_act_filer_credit_amount_HEAD_OF_HOUSEHOLD: { max: 10_000 },
         contrib_tlaib_end_child_poverty_act_filer_credit_amount_WIDOW: { max: 10_000 },
     }
-    extraVariableMetadata = {}
+    extraVariableMetadata = {
+        new_electric_vehicle_msrp: { max: 100_000 },
+        new_electric_vehicle_battery_capacity: { max: 100 },
+        used_electric_vehicle_sale_price: { max: 100_000 },
+    }
     situation = {
         "people": {
             "You": {
@@ -636,6 +642,14 @@ export class US extends Country {
         "is_eligible_for_american_opportunity_credit",
         // Tax unit.
         "premium_tax_credit",
+        "new_electric_vehicle_battery_capacity",
+        "new_electric_vehicle_battery_components_made_in_north_america",
+        "new_electric_vehicle_battery_critical_minerals_extracted_in_trading_partner_country",
+        "new_electric_vehicle_classification",
+        "new_electric_vehicle_msrp",
+        "purchased_qualifying_new_electric_vehicle",
+        "purchased_qualifying_used_electric_vehicle",
+        "used_electric_vehicle_sale_price",
         // SPM unit.
         "housing_cost",
         "childcare_expenses",
@@ -685,14 +699,16 @@ export class US extends Country {
         "income_tax_before_credits",
         "income_tax_capped_non_refundable_credits",
         "income_tax_refundable_credits",
-        // State income taxes
-        // MA
+        "new_electric_vehicle_credit",
+        "used_electric_vehicle_credit",  // Inflation Reduction Act.
+        // State income taxes.
+        // Massachusetts.
         "ma_income_tax",
         "ma_limited_income_tax_credit",
         "ma_eitc",
         "ma_dependent_credit",
         "ma_income_tax_before_credits",
-        // MD
+        // Maryland.
         "md_income_tax",
         "md_income_tax_after_non_refundable_credits",
         "md_refundable_credits",
@@ -702,6 +718,10 @@ export class US extends Country {
         "md_non_single_childless_refundable_eitc",
         "md_single_childless_eitc",
         "md_ctc",
+        // Washington.
+        "wa_income_tax",
+        "wa_working_families_tax_credit",
+        "wa_capital_gains_tax",
         // Contributed.
         "basic_income",
         "ecpa_filer_credit",
@@ -724,12 +744,24 @@ export class US extends Country {
                 "is_rural",
                 "is_homeless",
             ],
-            "Expenses": [
-                "housing_cost",
-                "childcare_expenses",
-                "phone_cost",
-                "broadband_cost",
-            ],
+            "Expenses": {
+                "Household": [
+                    "housing_cost",
+                    "childcare_expenses",
+                    "phone_cost",
+                    "broadband_cost",
+                ],
+                "Vehicle": [
+                    "purchased_qualifying_new_electric_vehicle",
+                    "new_electric_vehicle_classification",
+                    "new_electric_vehicle_msrp",
+                    "new_electric_vehicle_battery_capacity",
+                    "new_electric_vehicle_battery_components_made_in_north_america",
+                    "new_electric_vehicle_battery_critical_minerals_extracted_in_trading_partner_country",
+                    "purchased_qualifying_used_electric_vehicle",
+                    "used_electric_vehicle_sale_price",
+                ],
+            },
             "Benefits": [
                 "fdpir",
             ],
@@ -819,6 +851,7 @@ export class US extends Country {
                 "income_tax",
                 "ma_income_tax",
                 "md_income_tax",
+                "wa_income_tax",
             ],
             "subtract": []
         },
@@ -840,10 +873,10 @@ export class US extends Country {
         },
         "income_tax_refundable_credits": {
             "add": [
-                "ecpa_adult_dependent_credit",
-                "ecpa_filer_credit",
-                "refundable_ctc",
                 "eitc",
+                "refundable_ctc",
+                "ecpa_filer_credit",
+                "ecpa_adult_dependent_credit",
             ]
         },
         "ma_income_tax": {
@@ -874,6 +907,14 @@ export class US extends Country {
             "md_single_childless_eitc",
             "md_ctc",
         ],
+        "wa_income_tax": {
+            "add": [
+                "wa_capital_gains_tax"
+            ],
+            "subtract": [
+                "wa_working_families_tax_credit"
+            ]
+        },
     }
 
     householdMaritalOptions = ["Single", "Married"]
