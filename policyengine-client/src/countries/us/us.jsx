@@ -699,8 +699,6 @@ export class US extends Country {
         "income_tax_before_credits",
         "income_tax_capped_non_refundable_credits",
         "income_tax_refundable_credits",
-        "new_electric_vehicle_credit",
-        "used_electric_vehicle_credit",  // Inflation Reduction Act.
         // State income taxes.
         // Massachusetts.
         "ma_income_tax",
