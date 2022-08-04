@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.82.0] - 2022-08-04 14:23:39
+
+### Added
+
+- Electric vehicle credit parameters and inputs under current law and the Inflation Reduction Act.
+
 ## [1.81.3] - 2022-07-31 23:01:19
 
 ### Fixed
@@ -1245,6 +1251,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.82.0]: https://github.com/PolicyEngine/policyengine/compare/1.81.3...1.82.0
 [1.81.3]: https://github.com/PolicyEngine/policyengine/compare/1.81.2...1.81.3
 [1.81.2]: https://github.com/PolicyEngine/policyengine/compare/1.81.1...1.81.2
 [1.81.1]: https://github.com/PolicyEngine/policyengine/compare/1.81.0...1.81.1
