@@ -16,7 +16,12 @@ export function getTranslators(parameter) {
 	}
 	let result;
 	let minMax = 1;
-	if (parameter.unit === "/1") {
+	if (parameter.unit === "kWh") {
+		result = {
+			formatter: value => `${value} kWh`,
+			parser: value => value.replace("kWh", "").trim(),
+		};
+	} else if (parameter.unit === "/1") {
 		result = {
 			formatter: value => `${parseFloat((value * 100).toFixed(2))}%`,
 		}
