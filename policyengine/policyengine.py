@@ -33,16 +33,18 @@ class PolicyEngine:
     app: Flask
     """The Flask application handling the web server."""
 
+
     @property
     def debug_mode(self):
         """Whether the PolicyEngine API is running in debug mode."""
-        return bool(os.environ.get("POLICYENGINE_DEBUG"))
+        return bool(os.environ.get("POLICYENGINE_DEBUG")) or self._debug
 
     def log(self, message: str):
         """Log a message to the PolicyEngine API logger as a general server message."""
         self.logger.log(event="general_server_message", message=message)
 
-    def __init__(self):
+    def __init__(self, debug: bool = False):
+        self._debug = debug
         self._init_logger()
         self.log("Initialising server.")
         self._init_countries()

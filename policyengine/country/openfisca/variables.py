@@ -31,6 +31,8 @@ class PolicyEngineVariable:
                 return {v: v for v in self.openfisca_variable.reference}
             elif self.openfisca_variable.reference is None:
                 return {}
+            elif isinstance(reference, dict):
+                reference = [reference]
             else:
                 return {
                     self.openfisca_variable.reference: self.openfisca_variable.reference
