@@ -1062,3 +1062,8 @@
     fixed:
     - Minor bugs from the refactor.
   date: 2022-08-07 20:18:53
+- bump: patch
+  changes:
+    fixed:
+    - Erroneous import from tkinter that breaks GCP machines, but not GH machines.
+  date: 2022-08-07 20:32:35
