@@ -1,0 +1,4 @@
+- bump: minor
+  changed:
+    added:
+      - US blindness input.
