@@ -1,9 +1,10 @@
 import json
+from multiprocessing import Process
 from time import time
 from typing import Callable
 from flask import request, make_response
 from threading import Thread
-
+import traceback
 from policyengine.web_server.logging import PolicyEngineLogger
 from typing import Dict, Any
 import hashlib
@@ -168,7 +169,10 @@ class PolicyEngineTask:
             result = self.task(params=self.params, **self.kwargs)
         except Exception as e:
             self.logger.log(
-                event="task_error", endpoint=self.endpoint, error=str(e)
+                event="task_error",
+                endpoint=self.endpoint,
+                error=str(e),
+                full_trace=traceback.format_exc(),
             )
             result = {"status": "error", "error": str(e)}
         duration = time() - start_time
@@ -213,12 +217,12 @@ def add_params_and_caching(
         else:
             result = {"status": TaskStatus.QUEUED}
             cache.set(params, fn.__name__, result)
-            thread = Thread(
+            task = Thread(
                 target=PolicyEngineTask(
                     fn, params, fn.__name__, kwargs, cache, logger
                 ).execute
             )
-            thread.start()
+            task.start()
             return result
 
     new_fn.__name__ = fn.__name__

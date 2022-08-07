@@ -26,8 +26,7 @@ format:
 	black policyengine -l 79
 	black . -l 79
 test:
-	pytest policyengine/tests -vv
-	python policyengine/monitoring/api_monitoring.py
+	pytest policyengine/tests -vv --disable-warnings
 deploy: build-client
 	cat $(GOOGLE_APPLICATION_CREDENTIALS) > .gac.json
 	gcloud config set app/cloud_build_timeout 3000

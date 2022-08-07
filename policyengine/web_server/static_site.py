@@ -18,7 +18,7 @@ def add_static_site_handling(app: Flask):
             text = f.read()
             modified = add_social_card_metadata(request.path, text)
         with open(
-            str(Path(__file__).parent / "static" / "index_mod.html"), "w"
+            str(POLICYENGINE_PACKAGE_PATH / "static" / "index_mod.html"), "w"
         ) as f:
             f.write(modified)
         response = send_from_directory(

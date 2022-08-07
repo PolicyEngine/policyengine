@@ -69,4 +69,5 @@ class US(PolicyEngineCountry):
                     baseline.year,
                     np.where(subgroup_in_state, weight, 0),
                 )
-            return baseline, reformed
+
+        return baseline, reformed

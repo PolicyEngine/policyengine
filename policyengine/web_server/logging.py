@@ -5,6 +5,19 @@ from typing import Callable
 import yaml
 from policyengine.package import POLICYENGINE_PACKAGE_PATH
 
+# Imports the Cloud Logging client library
+import logging
+import google.cloud.logging
+
+# Instantiates a client
+client = google.cloud.logging.Client()
+
+# Retrieves a Cloud Logging handler based on the environment
+# you're running in and integrates the handler with the
+# Python logging module. By default this captures all logs
+# at INFO level and higher
+client.setup_logging()
+
 
 class PolicyEngineLogger:
     """Class managing PolicyEngine server logs."""
@@ -18,6 +31,7 @@ class PolicyEngineLogger:
     """
 
     def __init__(self, local: bool = True, print_to_console: bool = True):
+        local = False
         self.local = local
         self.print_to_console = print_to_console
 
@@ -41,8 +55,13 @@ class PolicyEngineLogger:
                     f,
                 )
         else:
-            raise NotImplementedError(
-                "Logging to Google Cloud is not yet implemented."
+            if data.get("status") == "error":
+                log = logging.error
+            else:
+                log = logging.info
+            log(
+                data.get("message"),
+                extra={k: v for k, v in data.items() if k != "message"},
             )
 
         if self.print_to_console:

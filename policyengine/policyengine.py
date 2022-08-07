@@ -18,7 +18,7 @@ from .country import PolicyEngineCountry, UK, US
 class PolicyEngine:
     """Class initialising and running the PolicyEngine API."""
 
-    version: str = "1.81.3"
+    version: str = "1.81.3vA"
     """The version of the PolicyEngine API, used to identify the API version in the cache.
     """
 
@@ -32,7 +32,6 @@ class PolicyEngine:
 
     app: Flask
     """The Flask application handling the web server."""
-
 
     @property
     def debug_mode(self):
@@ -60,11 +59,11 @@ class PolicyEngine:
     def _init_cache(self):
         """Initialise the cache for load-intensive endpoint results."""
         if self.cache_bucket_name is not None and not self.debug_mode:
+            print("Initialising cache.")
             self.cache = PolicyEngineCache(
                 self.version, self.cache_bucket_name
             )
         else:
-            # self.cache = DisabledCache() # Un-comment to turn off caching completely for debugging.
             self.cache = LocalCache(self.version)
 
     def _init_flask(self):
