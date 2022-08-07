@@ -31,7 +31,6 @@ class PolicyEngineLogger:
     """
 
     def __init__(self, local: bool = True, print_to_console: bool = True):
-        local = False
         self.local = local
         self.print_to_console = print_to_console
 

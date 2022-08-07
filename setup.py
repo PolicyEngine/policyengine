@@ -12,6 +12,7 @@ setup(
         "flask",
         "flask_cors",
         "google-cloud-storage>=1.42.0",
+        "google-cloud-logging",
         "gunicorn",
         "itsdangerous==2.0.1",
         "Jinja2==3.0.3",
