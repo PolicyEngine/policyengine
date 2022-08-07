@@ -1057,3 +1057,8 @@
     changed:
     - Refactored server package, adding documentation, stability and organisation.
   date: 2022-08-07 19:58:17
+- bump: minor
+  changes:
+    fixed:
+    - Minor bugs from the refactor.
+  date: 2022-08-07 20:18:53
