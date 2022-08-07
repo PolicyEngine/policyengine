@@ -1,11 +1,11 @@
 from datetime import datetime
 from pathlib import Path
-from tkinter import Variable
 from typing import Type
 from openfisca_core.parameters.helpers import load_parameter_file
 from openfisca_core.parameters import ParameterNode, Parameter, ParameterScale
 from openfisca_core.reforms.reform import Reform
 from openfisca_core.taxbenefitsystems import TaxBenefitSystem
+from openfisca_core.variables import Variable
 from openfisca_core.tracers.tracing_parameter_node_at_instant import (
     ParameterNode,
 )
