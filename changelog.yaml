@@ -1041,3 +1041,9 @@
     fixed:
     - TV licence evasion and TV ownership are fixed in household variation analyses.
   date: 2022-07-31 23:01:19
+- bump: minor
+  changes:
+    added:
+    - Electric vehicle credit parameters and inputs under current law and the Inflation
+      Reduction Act.
+  date: 2022-08-04 14:23:39
