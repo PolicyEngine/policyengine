@@ -152,8 +152,8 @@ function LandingPageContent() {
             href={inUs ? usLink : ukLink}
             block
           >
-            <div style={{ margin: 20 }}>
-              <h1 style={{color: "white"}}>Enter PolicyEngine {inUs ? "US" : "UK"}</h1>
+            <div style={{ margin: 20, marginBottom: 50 }}>
+              <h2 style={{color: "white"}}>Enter PolicyEngine {inUs ? "US" : "UK"}</h2>
             </div>
           </Button>
           <Button block size="large" href={inUs ? ukLink : usLink}>

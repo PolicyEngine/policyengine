@@ -8,6 +8,7 @@ export function policyToURL(targetPage, policy) {
 		const targetKey = editingReform ? "value" : "baselineValue";
 		const comparisonKey = editingReform ? "baselineValue" : "defaultValue";
 		for (const key in policy) {
+
 			if (policy[key][targetKey] !== policy[key][comparisonKey]) {
 				let value;
 				if(policy[key].unit === "/1") {
@@ -44,6 +45,12 @@ export function urlToPolicy(defaultPolicy, policyRenames) {
 		} else {
 			return 0;
 		}});
+	for (const parameter in plan) {
+		plan[parameter].defaultValue = defaultPolicy[parameter].value;
+		if (plan[parameter].baselineValue === undefined) {
+			plan[parameter].baselineValue = defaultPolicy[parameter].value;
+		}
+	}
 	if(policyRenames) {
 		for (const key in policyRenames) {
 			if (searchParams.has(key)) {

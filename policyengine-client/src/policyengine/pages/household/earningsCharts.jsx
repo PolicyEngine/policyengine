@@ -21,29 +21,40 @@ export default class AccountingTable extends React.Component {
     updateCharts() {
         this.context.setState({ waitingOnEarningsCharts: true, }, () => {
             const submission = this.context.getPolicyJSONPayload();
+            const reformExists = Object.keys(submission).length > 1;
+            const eta = this.context["endpoint-runtimes"][reformExists ? "household_variation_reform_and_baseline" : "household_variation_baseline_only"];
             let url = new URL(this.context.apiURL + "/household-variation");
             url.search = new URLSearchParams(submission).toString();
-            fetch(url, {
+            const requestOptions = {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ "household": this.context.situation })
-            }).then((res) => {
+            };
+            fetch(url, requestOptions).then((res) => {
                 if (res.ok) {
-                    return res.json();
+                    let checker = setInterval(() => {
+                        fetch(url, requestOptions).then(res => res.json()).then((data) => {
+                            if(data.status === "completed") {
+                                clearInterval(checker);
+                                if(data.error) {
+                                    throw new Error(data.error);
+                                }
+                                this.context.setState({ computedSituationVariationCharts: data, situationVariationImpactIsOutdated: false, waitingOnEarningsCharts: false }, () => {
+                                    this.setState({ error: false });
+                                });
+                            }
+                        }).catch(e => {
+                            this.context.setState({ waitingOnEarningsCharts: false });
+                            this.setState({ error: true, });
+                        });
+                    }, 1000 * eta * 0.5);
                 } else {
                     throw res;
                 }
-            }).then((data) => {
-                this.context.setState({ computedSituationVariationCharts: data, situationVariationImpactIsOutdated: false, waitingOnEarningsCharts: false }, () => {
-                    this.setState({ error: false });
-                });
-            }).catch(e => {
-                this.context.setState({ waitingOnEarningsCharts: false });
-                this.setState({ error: true, });
-            });
+            })
         });
     }
 
@@ -57,13 +68,14 @@ export default class AccountingTable extends React.Component {
         // Update situations where necessary (re-using where not)
         // If the policy changes, we need to update only the reform 
         // situation. If the situation changes, we need to update both.
+        const reformExists = Object.keys(this.context.getPolicyJSONPayload()).length > 0;
+		const eta = this.context["endpoint-runtimes"][reformExists ? "household_variation_reform_and_baseline" : "household_variation_baseline_only"];
         if (!this.context.computedSituationVariationCharts || this.context.waitingOnEarningsCharts) {
-            const message = "Calculating tax-benefit responses to your income...";
+            const message = <><p>{`Calculating tax-benefit responses to your income...`}</p><p>{`(this usually takes around ${eta} seconds)`}</p></>;
             return <Centered><Spinner rightSpacing={10} />{message}</Centered>
         } else if (this.state.error) {
             return <Centered>Something went wrong.</Centered>
         }
-        const reformExists = Object.keys(this.context.getPolicyJSONPayload()).length > 0;
         if (reformExists) {
             return (
                 <>

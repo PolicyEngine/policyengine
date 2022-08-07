@@ -12,3 +12,5 @@
 openfisca_uk/
 openfisca_uk_data/
 policyengine-client/src/countries/debug.jsx
+docs/_build/
+policyengine/web_server/logs.yaml

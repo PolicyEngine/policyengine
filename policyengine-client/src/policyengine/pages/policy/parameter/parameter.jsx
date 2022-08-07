@@ -85,7 +85,7 @@ function BreakdownParameterControl(props) {
 	let dropDowns = [];
 	let possibleValues;
 	for(let i = 0; i < numBreakdowns; i++) {
-		possibleValues = childParameters.map(p => p.breakdown_parts[i]);
+		possibleValues = childParameters.map(p => p.breakdownParts[i]);
 		let keyToValueMap = {};
 		possibleValues.forEach(value => {
 			keyToValueMap[value[0]] = value[1];

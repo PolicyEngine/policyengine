@@ -18,27 +18,35 @@ export class BreakdownTable extends React.Component {
 
     fetchResults() {
         let url = new URL(`${this.context.apiURL}/population-breakdown`);
+        const requestOptions = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(this.context.getPolicyJSONPayload())
+        };
 		this.context.setState({ waitingOnPopulationBreakdown: true }, () => {
-			fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(submission)
-            })
-				.then((res) => {
-					if (res.ok) {
-						return res.json();
-					} else {
-						throw res;
-					}
-				}).then((data) => {
-					this.setState({ error: false });
-                    this.context.setState({populationImpactBreakdownResults: data, waitingOnPopulationBreakdown: false});
-				}).catch(e => {
-                    this.context.setState({ waitingOnPopulationBreakdown: false});
-					this.setState({ error: true });
-				});
+			fetch(url, requestOptions).then((res) => {
+                if (res.ok) {
+                    let checker = setInterval(() => {
+                        fetch(url, requestOptions).then(res => res.json()).then(data => {
+                            if(data.status === "completed") {
+                                clearInterval(checker);
+                                if(data.error) {
+                                    throw new Error(data.error);
+                                }
+                                this.setState({ error: false });
+                                this.context.setState({populationImpactBreakdownResults: data, waitingOnPopulationBreakdown: false});
+                            }
+                        }).catch(e => {
+                            this.context.setState({ waitingOnPopulationBreakdown: false});
+                            this.setState({ error: true });
+                        });
+                    }, 5000);
+                } else {
+                    throw res;
+                }
+            });
 		});
     }
 

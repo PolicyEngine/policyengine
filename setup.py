@@ -1,9 +1,8 @@
 from setuptools import setup, find_packages
-from policyengine import VERSION
 
 setup(
     name="PolicyEngine",
-    version=VERSION,
+    version="1.83.0",
     author="PolicyEngine",
     license="http://www.fsf.org/licensing/licenses/agpl-3.0.html",
     url="https://github.com/policyengine/policyengine",
@@ -12,6 +11,7 @@ setup(
         "flask",
         "flask_cors",
         "google-cloud-storage>=1.42.0",
+        "google-cloud-logging",
         "gunicorn",
         "itsdangerous==2.0.1",
         "Jinja2==3.0.3",

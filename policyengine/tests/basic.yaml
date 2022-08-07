@@ -1,0 +1,48 @@
+- label: Basic UK calculation endpoint
+  endpoint: /uk/api/calculate
+  input:
+    household:
+      people:
+        adult:
+          age: 
+            "2022": 45
+          is_WA_adult:
+            "2022": null
+  output:
+    people:
+      adult:
+        is_WA_adult:
+          "2022": true
+
+- label: Basic US calculation endpoint
+  endpoint: /us/api/calculate
+  input:
+    household:
+      people:
+        adult:
+          age: 
+            "2022": 45
+          is_adult:
+            "2022": null
+  output:
+    people:
+      adult:
+        is_adult:
+          "2022": true
+
+- label: Basic UK tax reform (basic rate rise)
+  endpoint: /uk/api/population-reform
+  async: true
+  input:
+    basic_rate: 0.22
+  output:
+    budgetary_impact: -10e9 < x < -8e9
+
+- label: Basic US tax reform (CTC abolition)
+  endpoint: /us/api/population-reform
+  async: true
+  time: t < 90
+  input:
+    abolish_refundable_ctc: 1
+  output:
+    budgetary_impact: -30e9 < x < 15e9

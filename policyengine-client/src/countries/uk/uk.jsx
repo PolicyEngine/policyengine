@@ -26,7 +26,6 @@ const childNamer = {
 function validatePolicy(policy, defaultPolicy) {
   if (defaultPolicy) {
     for (let parameter in policy) {
-      policy[parameter].defaultValue = defaultPolicy[parameter].value;
       if (policy[parameter].baselineValue === undefined) {
         policy[parameter].baselineValue = defaultPolicy[parameter].value;
       }
@@ -423,6 +422,7 @@ export class UK extends Country {
       Location: ["region", "BRMA", "council_tax_band"],
       Relationships: ["is_married"],
       Benefits: ["claims_legacy_benefits"],
+      Taxes: ["would_evade_tv_licence_fee"],
       Consumption: [
         "council_tax",
         "rent",

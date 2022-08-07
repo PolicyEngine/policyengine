@@ -22,7 +22,7 @@ export default function Title(props) {
 		</a>
 	);
 	return (
-		<div style={{ minWidth: 300 }}>
+		<div style={{ minWidth: 200 }}>
 			<div className="d-none d-lg-flex align-items-center ">
 				<PageHeader
 					title={title}

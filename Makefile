@@ -17,7 +17,7 @@ publish-server: policyengine
 publish-client:
 	cd policyengine-client; pnpm publish
 debug-server:
-	POLICYENGINE_DEBUG=1 FLASK_APP=policyengine/server.py FLASK_DEBUG=1 flask run
+	POLICYENGINE_DEBUG=1 FLASK_APP=policyengine.server:app FLASK_DEBUG=1 flask run
 debug-client:
 	cd policyengine-client; pnpm start
 format:
@@ -26,8 +26,7 @@ format:
 	black policyengine -l 79
 	black . -l 79
 test:
-	pytest policyengine/tests -vv
-	python policyengine/monitoring/api_monitoring.py
+	pytest policyengine/tests -vv --disable-warnings
 deploy: build-client
 	cat $(GOOGLE_APPLICATION_CREDENTIALS) > .gac.json
 	gcloud config set app/cloud_build_timeout 3000
@@ -46,6 +45,8 @@ server: install-server test-server
 changelog:
 	build-changelog changelog.yaml --output changelog.yaml --update-last-date --start-from 1.4.1 --append-file changelog_entry.yaml
 	build-changelog changelog.yaml --org PolicyEngine --repo policyengine --output CHANGELOG.md --template .github/changelog_template.md
-	bump-version changelog.yaml policyengine-client/package.json policyengine/__init__.py
+	bump-version changelog.yaml policyengine-client/package.json setup.py policyengine/policyengine.py
 	rm changelog_entry.yaml || true
 	touch changelog_entry.yaml
+documentation:
+	jb build docs
