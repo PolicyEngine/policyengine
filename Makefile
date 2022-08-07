@@ -38,9 +38,7 @@ deploy-beta:
 	y | gcloud app deploy --version beta --no-promote
 	rm .gac.json
 test-server:
-	pytest policyengine/tests/server/
-monitor:
-	python policyengine/monitoring/api_monitoring.py
+	pytest policyengine/tests
 server: install-server test-server
 changelog:
 	build-changelog changelog.yaml --output changelog.yaml --update-last-date --start-from 1.4.1 --append-file changelog_entry.yaml
