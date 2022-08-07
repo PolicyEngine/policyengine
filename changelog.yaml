@@ -1047,3 +1047,8 @@
     - Electric vehicle credit parameters and inputs under current law and the Inflation
       Reduction Act.
   date: 2022-08-04 14:23:39
+- bump: minor
+  changes:
+    added:
+    - US blindness input.
+  date: 2022-08-07 15:23:43
