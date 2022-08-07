@@ -1,4 +1,0 @@
-- bump: minor
-  changes:
-    changed:
-    - Refactored server package, adding documentation, stability and organisation.
