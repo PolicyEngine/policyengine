@@ -13,12 +13,12 @@ from policyengine.web_server.cors import after_request_func
 from policyengine.web_server.static_site import add_static_site_handling
 from policyengine.package import POLICYENGINE_PACKAGE_PATH
 from .country import PolicyEngineCountry, UK, US
-
+from .version import VERSION
 
 class PolicyEngine:
     """Class initialising and running the PolicyEngine API."""
 
-    version: str = "1.82.0"
+    version: str = VERSION
     """The version of the PolicyEngine API, used to identify the API version in the cache.
     """
 
