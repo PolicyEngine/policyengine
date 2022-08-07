@@ -1067,3 +1067,8 @@
     fixed:
     - Erroneous import from tkinter that breaks GCP machines, but not GH machines.
   date: 2022-08-07 20:32:35
+- bump: patch
+  changes:
+    changed:
+    - GCP memory size bumped.
+  date: 2022-08-07 21:11:03
