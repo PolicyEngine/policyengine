@@ -41,7 +41,7 @@
 - label: Basic US tax reform (CTC abolition)
   endpoint: /us/api/population-reform
   async: true
-  time: t < 15
+  time: t < 90
   input:
     abolish_refundable_ctc: 1
   output:

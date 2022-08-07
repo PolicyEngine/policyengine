@@ -82,11 +82,12 @@ def test_endpoint(label, asynchronous, endpoint, input, output, time_limit):
             sleep(5)
             response = test_client.post(endpoint, json=input)
     match_object(response.json, output)
+    t = time() - start_time
     if time_limit is not None:
         if isinstance(time_limit, str):
             assert eval(
                 time_limit,
-                dict(t=time() - start_time, s=1, m=60, h=60 * 60, ms=1 / 1000),
+                dict(t=t, s=1, m=60, h=60 * 60, ms=1 / 1000),
             )
         else:
-            assert time() - start_time < time_limit
+            assert t < time_limit
