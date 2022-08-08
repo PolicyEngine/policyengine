@@ -1072,3 +1072,8 @@
     changed:
     - GCP memory size bumped.
   date: 2022-08-07 21:11:03
+- bump: patch
+  changes:
+    fixed:
+    - Deployment issues.
+  date: 2022-08-08 13:00:04
