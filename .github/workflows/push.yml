@@ -140,10 +140,3 @@ jobs:
           password: ${{ secrets.PYPI }}
           skip_existing: true
           packages_dir: dist/
-      - name: Build client package
-        run: make build-client
-      - uses: JS-DevTools/npm-publish@v1
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
-          package: policyengine-client/package.json
-          greater-version-only: true
