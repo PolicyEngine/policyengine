@@ -3,12 +3,18 @@ from policyengine.country.us.default_reform import create_default_reform
 from policyengine.country.us.results_config import USResultsConfig
 from .. import PolicyEngineCountry
 import openfisca_us
+from openfisca_us.data import CPS
 
 
 class US(PolicyEngineCountry):
     openfisca_country_model = openfisca_us
     default_reform = create_default_reform()
     results_config = USResultsConfig
+
+    def __init__(self, *args, **kwargs):
+        if 2020 not in CPS.years:
+            CPS.download(2020)
+        super().__init__(*args, **kwargs)
 
     def create_microsimulations(self, parameters):
         baseline, reformed = super().create_microsimulations(parameters)

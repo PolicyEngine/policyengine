@@ -26,20 +26,18 @@ format:
 	black policyengine -l 79
 	black . -l 79
 test:
-	pytest policyengine/tests -vv --disable-warnings
+	pytest policyengine/tests -vv
 deploy: build-client
 	cat $(GOOGLE_APPLICATION_CREDENTIALS) > .gac.json
-	gcloud config set app/cloud_build_timeout 3000
+	gcloud config set app/cloud_build_timeout 6000
 	y | gcloud app deploy
 	rm .gac.json
 deploy-beta:
 	cat $(GOOGLE_APPLICATION_CREDENTIALS) > .gac.json
-	gcloud config set app/cloud_build_timeout 3000
+	gcloud config set app/cloud_build_timeout 6000
 	y | gcloud app deploy --version beta --no-promote
 	rm .gac.json
-test-server:
-	pytest policyengine/tests
-server: install-server test-server
+server: install-server test
 changelog:
 	build-changelog changelog.yaml --output changelog.yaml --update-last-date --start-from 1.4.1 --append-file changelog_entry.yaml
 	build-changelog changelog.yaml --org PolicyEngine --repo policyengine --output CHANGELOG.md --template .github/changelog_template.md
