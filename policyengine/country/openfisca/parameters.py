@@ -23,6 +23,7 @@ class PolicyEngineParameter:
         "period",
         "value",
         "breakdownParts",
+        "possibleValues",
     ]
 
     def __init__(self, openfisca_parameter: Parameter, date: str = NOW):
@@ -39,11 +40,7 @@ class PolicyEngineParameter:
         if not isinstance(self.openfisca_parameter, Parameter):
             return None
         current_value = self.openfisca_parameter(self.date)
-        value_type = type(current_value).__name__
-        if value_type == "list":
-            raise NotImplementedError(
-                "List parameters are not currently supported."
-            )
+        value_type = self.openfisca_parameter.metadata.get("value_type", type(current_value).__name__)
         if value_type == "Enum":
             return current_value[0]
         if current_value == np.inf:
@@ -67,6 +64,10 @@ class PolicyEngineParameter:
     @property
     def breakdownParts(self):
         return self.openfisca_parameter.metadata.get("breakdown_parts")
+
+    @property
+    def possibleValues(self):
+        return self.openfisca_parameter.metadata.get("possible_values")
 
     @property
     def reference(self):
@@ -111,7 +112,10 @@ class PolicyEngineParameter:
                     data[prop] = getattr(self, prop)
                 else:
                     raise ValueError(f"Property {prop} not found.")
-            except:
+            except Exception as e:
+                PARAMETER_TO_DEBUG = "state_specific" # Replace with the parameter name you want to debug here.
+                if PARAMETER_TO_DEBUG in self.openfisca_parameter.name:
+                    raise e
                 # In the case of an exception, abandon the entire variable.
                 return None
         return data
@@ -310,6 +314,6 @@ def build_parameters(
             data = parameter.to_dict()
             if data is not None:
                 parameter_metadata[data["name"]] = data
-        except:
+        except Exception as e:
             pass
     return parameter_metadata
