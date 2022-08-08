@@ -1,4 +1,0 @@
-- bump: patch
-  changes:
-    changed:
-    - App memory usage to 6GB.
