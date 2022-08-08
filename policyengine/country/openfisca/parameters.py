@@ -40,7 +40,9 @@ class PolicyEngineParameter:
         if not isinstance(self.openfisca_parameter, Parameter):
             return None
         current_value = self.openfisca_parameter(self.date)
-        value_type = self.openfisca_parameter.metadata.get("value_type", type(current_value).__name__)
+        value_type = self.openfisca_parameter.metadata.get(
+            "value_type", type(current_value).__name__
+        )
         if value_type == "Enum":
             return current_value[0]
         if current_value == np.inf:
@@ -113,7 +115,8 @@ class PolicyEngineParameter:
                 else:
                     raise ValueError(f"Property {prop} not found.")
             except Exception as e:
-                PARAMETER_TO_DEBUG = "state_specific" # Replace with the parameter name you want to debug here.
+                # Replace with the parameter name you want to debug here.
+                PARAMETER_TO_DEBUG = "state_specific"
                 if PARAMETER_TO_DEBUG in self.openfisca_parameter.name:
                     raise e
                 # In the case of an exception, abandon the entire variable.
