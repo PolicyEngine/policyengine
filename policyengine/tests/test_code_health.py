@@ -1,6 +1,6 @@
 from pathlib import Path
 
-REPO = Path(__file__).parents[2]
+REPO = Path(__file__).parents[1]
 
 
 def in_text_files(folder: Path, text: str):
@@ -19,6 +19,7 @@ def in_text_files(folder: Path, text: str):
 
 
 def test_localhost_included():
-    assert not in_text_files(
-        REPO / "policyengine-client" / "src", "useLocalServer = true"
-    )
+    if (REPO / "policyengine-client" / "src").exists():
+        assert not in_text_files(
+            REPO / "policyengine-client" / "src", "useLocalServer = true"
+        )

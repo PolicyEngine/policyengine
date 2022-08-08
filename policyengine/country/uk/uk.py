@@ -3,12 +3,18 @@ from policyengine.country.uk.default_reform import create_default_reform
 from policyengine.country.uk.results_config import UKResultsConfig
 from .. import PolicyEngineCountry
 import openfisca_uk
+from openfisca_uk import EnhancedFRS
 
 
 class UK(PolicyEngineCountry):
     openfisca_country_model = openfisca_uk
     default_reform = create_default_reform()
     results_config = UKResultsConfig
+
+    def __init__(self, *args, **kwargs):
+        if 2022 not in EnhancedFRS.years:
+            EnhancedFRS.download(2022)
+        super().__init__(*args, **kwargs)
 
     def create_microsimulations(self, parameters):
         baseline, reformed = super().create_microsimulations(parameters)
