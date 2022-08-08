@@ -1082,3 +1082,8 @@
     changed:
     - App memory usage to 6GB.
   date: 2022-08-08 14:50:10
+- bump: patch
+  changes:
+    fixed:
+    - Enum parameters now function.
+  date: 2022-08-08 16:07:45
