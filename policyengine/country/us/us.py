@@ -10,6 +10,8 @@ class US(PolicyEngineCountry):
     openfisca_country_model = openfisca_us
     default_reform = create_default_reform()
     results_config = USResultsConfig
+    dataset = CPS
+    dataset_year = 2020
 
     def __init__(self, *args, **kwargs):
         if 2020 not in CPS.years:
