@@ -10,6 +10,8 @@ class UK(PolicyEngineCountry):
     openfisca_country_model = openfisca_uk
     default_reform = create_default_reform()
     results_config = UKResultsConfig
+    dataset = EnhancedFRS
+    dataset_year = 2022
 
     def __init__(self, *args, **kwargs):
         if 2022 not in EnhancedFRS.years:

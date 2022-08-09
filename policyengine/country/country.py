@@ -1,3 +1,4 @@
+import logging
 from time import time
 from types import ModuleType
 from typing import Callable, Dict, Type
@@ -30,6 +31,7 @@ from policyengine.impact.population.by_provision import (
     get_breakdown_and_chart_per_provision,
 )
 from policyengine.impact.population.metrics import headline_metrics
+from openfisca_tools.data import Dataset
 
 
 class PolicyEngineCountry:
@@ -54,6 +56,9 @@ class PolicyEngineCountry:
     results_config: Type[PolicyEngineResultsConfig] = None
     """The results configuration for this country. Used to interface with the OpenFisca country model.
     """
+
+    dataset: Dataset = None
+    dataset_year: int = None
 
     def __init__(self):
         self.api_endpoints = dict(
@@ -131,9 +136,21 @@ class PolicyEngineCountry:
             not policy_reform.edits_baseline
             and self.baseline_microsimulation is None
         ):
-            baseline = (
-                self.baseline_microsimulation
-            ) = self.microsimulation_type(self.default_reform)
+            try:
+                baseline = (
+                    self.baseline_microsimulation
+                ) = self.microsimulation_type(
+                    self.default_reform, dataset=self.dataset
+                )
+            except OSError:
+                logging.warning("Dataset corrupted, re-downloading.")
+                self.dataset.download(self.dataset_year)
+                baseline = (
+                    self.baseline_microsimulation
+                ) = self.microsimulation_type(
+                    self.default_reform, dataset=self.dataset
+                )
+
         elif policy_reform.edits_baseline or force_refresh_baseline:
             baseline = self.microsimulation_type(policy_reform.baseline)
         else:
