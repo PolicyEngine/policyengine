@@ -10,6 +10,8 @@ class UK(PolicyEngineCountry):
     openfisca_country_model = openfisca_uk
     default_reform = create_default_reform()
     results_config = UKResultsConfig
+    dataset = EnhancedFRS
+    dataset_year = 2022
 
     def __init__(self, *args, **kwargs):
         if 2022 not in EnhancedFRS.years:
@@ -17,9 +19,11 @@ class UK(PolicyEngineCountry):
         super().__init__(*args, **kwargs)
 
     def create_microsimulations(self, parameters):
-        baseline, reformed = super().create_microsimulations(parameters)
         filtered_country = parameters.get("baseline_country_specific")
         if filtered_country is not None:
+            baseline, reformed = super().create_microsimulations(
+                parameters, force_refresh_baseline=True
+            )
             # Specific country selected: filter out other countries.
             household_weights = baseline.calc("household_weight")
             country = baseline.calc("country")
@@ -49,4 +53,6 @@ class UK(PolicyEngineCountry):
                     person_country == filtered_country, person_weights, 0
                 ),
             )
+        else:
+            baseline, reformed = super().create_microsimulations(parameters)
         return baseline, reformed

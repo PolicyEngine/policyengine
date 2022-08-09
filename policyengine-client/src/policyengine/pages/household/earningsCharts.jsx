@@ -50,7 +50,7 @@ export default class AccountingTable extends React.Component {
                             this.context.setState({ waitingOnEarningsCharts: false });
                             this.setState({ error: true, });
                         });
-                    }, 1000 * eta * 0.5);
+                    }, 1000 * eta * 0.2);
                 } else {
                     throw res;
                 }
