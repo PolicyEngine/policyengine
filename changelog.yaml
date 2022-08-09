@@ -1087,3 +1087,8 @@
     fixed:
     - Enum parameters now function.
   date: 2022-08-08 16:07:45
+- bump: patch
+  changes:
+    fixed:
+    - Bug causing state-specific analysis to have extra budgetary impacts.
+  date: 2022-08-09 22:47:18
