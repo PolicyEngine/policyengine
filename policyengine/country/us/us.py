@@ -17,9 +17,9 @@ class US(PolicyEngineCountry):
         super().__init__(*args, **kwargs)
 
     def create_microsimulations(self, parameters):
-        baseline, reformed = super().create_microsimulations(parameters)
         filtered_state = parameters.get("baseline_state_specific")
         if filtered_state is None:
+            baseline, reformed = super().create_microsimulations(parameters)
             # US-wide analyses hold State tax policy fixed.
             for sim in baseline, reformed:
                 reported_state_tax = sim.calc(
@@ -31,6 +31,9 @@ class US(PolicyEngineCountry):
                     reported_state_tax,
                 )
         else:
+            baseline, reformed = super().create_microsimulations(
+                parameters, force_refresh_baseline=True
+            )
             # Specific State selected: filter out other States.
             household_weights = baseline.calc("household_weight")
             state = baseline.calc("state_code")

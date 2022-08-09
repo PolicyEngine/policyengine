@@ -50,7 +50,7 @@ export default class AgeChart extends React.Component {
                                 this.context.setState({ waitingOnAgeChart: false});
                                 this.setState({ error: true });
                             });
-                        }, 1000 * eta * 0.5);
+                        }, 1000 * eta * 0.2);
                     }
 				});
 		});

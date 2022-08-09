@@ -176,9 +176,14 @@ export default class PopulationImpact extends React.Component {
 		const eta = this.context["endpoint-runtimes"][editsBaseline ? "population_impact_reform_and_baseline" : "population_impact_reform_only"];
 		this.context.setState({ waitingOnPopulationImpact: true }, () => {
 			fetch(url, requestOptions)
-				.then((res) => {
-					if (res.ok) {
-						// Got a receipt of submission.
+				.then(res => res.json()).then(data => {
+					// Got a receipt of submission.
+					if(data.status === "completed") {
+						this.context.setState({ populationImpactResults: data, populationImpactIsOutdated: false }, () => {
+							this.setState({ error: false });
+							this.context.setState({ waitingOnPopulationImpact: false });
+						});
+					} else {
 						let checker = setInterval(() => {
 							fetch(url, requestOptions).then(res => res.json()).then(data => {
 								if(data.status === "completed") {
@@ -195,9 +200,7 @@ export default class PopulationImpact extends React.Component {
 								this.setState({ error: true });
 								this.context.setState({ waitingOnPopulationImpact: false });
 							});
-						}, 1000 * eta * 0.5);
-					} else {
-						throw res;
+						}, 1000 * eta * 0.2);
 					}
 				});
 		});
