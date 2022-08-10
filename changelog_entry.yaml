@@ -1,0 +1,4 @@
+- bump: minor
+  changes:
+    fixed:
+    - Bug causing marital status changes in the US to not refresh the net income table.

@@ -934,6 +934,9 @@ export class US extends Country {
         this.setState({
             situation: situation,
             householdMaritalStatus: status,
+            baselineSituationImpactIsOutdated: true,
+            reformSituationImpactIsOutdated: false,
+            situationVariationImpactIsOutdated: true,
         });
     }
 
