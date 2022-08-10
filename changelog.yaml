@@ -1092,3 +1092,8 @@
     fixed:
     - Bug causing state-specific analysis to have extra budgetary impacts.
   date: 2022-08-09 22:47:18
+- bump: minor
+  changes:
+    fixed:
+    - Bug causing marital status changes in the US to not refresh the net income table.
+  date: 2022-08-10 15:26:27
