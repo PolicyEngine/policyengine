@@ -1,4 +1,0 @@
-- bump: patch
-  changes:
-    fixed:
-    - ETA for long endpoints rounded to the nearest 15 seconds.

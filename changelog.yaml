@@ -1097,3 +1097,8 @@
     fixed:
     - Bug causing marital status changes in the US to not refresh the net income table.
   date: 2022-08-10 15:26:27
+- bump: patch
+  changes:
+    fixed:
+    - ETA for long endpoints rounded to the nearest 15 seconds.
+  date: 2022-08-11 08:30:02
