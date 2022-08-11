@@ -19,7 +19,7 @@ export default function SimulateButton(props) {
 		button = <Link to={url}>{button}</Link>;
 	}
 	return (
-		<div style={{ marginBottom: 20 }}>
+		<div style={{ marginBottom: 20, width: "90%", paddingLeft: "10%"}}>
 			{button}
 		</div>
 	);
