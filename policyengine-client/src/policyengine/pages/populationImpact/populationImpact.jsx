@@ -251,7 +251,7 @@ export default class PopulationImpact extends React.Component {
 				}}>
 					{
 						(this.context.waitingOnPopulationImpact || (!this.state.error & (this.context.populationImpactResults === null))) ?
-							<Loading message={`Simulating your results on the ${this.context.properName} population (this usually takes about ${Math.round(eta)} seconds)`} /> :
+							<Loading message={`Simulating your results on the ${this.context.properName} population (this usually takes about ${Math.round(eta / 15) / 15} seconds)`} /> :
 							this.state.error ?
 								<Loading noSpin message="Something went wrong (try navigating back and returning to this page)" /> :
 								<PopulationResultsPane />
@@ -267,7 +267,7 @@ export default class PopulationImpact extends React.Component {
 					<Col>
 						{
 							(this.context.waitingOnPopulationImpact || (!this.state.error & (this.context.populationImpactResults === null))) ?
-								<Loading message={`Simulating your results on the ${this.context.properName} population (this usually takes about ${Math.round(eta)} seconds)`} /> :
+								<Loading message={`Simulating your results on the ${this.context.properName} population (this usually takes about ${Math.round(eta / 15) / 15} seconds)`} /> :
 								this.state.error ?
 									<Loading noSpin message="Something went wrong (try navigating back and returning to this page)" /> :
 									<PopulationResultsPane />
