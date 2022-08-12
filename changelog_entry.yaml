@@ -1,0 +1,4 @@
+- bump: patch
+  changes:
+    changed:
+      - Bump OpenFisca US to capture updates to Washington's Working Families Tax Credit.
