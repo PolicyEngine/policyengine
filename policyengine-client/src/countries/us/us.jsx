@@ -399,7 +399,6 @@ export class US extends Country {
                     ],
                     "Phase-out": [
                         "wa_wftc_phase_out_start_below_eitc_income_limit",
-                        "wa_wftc_phase_out_rate",
                     ]
                 }
             }
