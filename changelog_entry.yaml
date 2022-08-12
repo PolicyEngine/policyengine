@@ -1,0 +1,4 @@
+- bump: patch
+  changes:
+    fixed:
+      - Incorrect ETA rounding on population impact page.
