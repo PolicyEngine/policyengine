@@ -170,10 +170,22 @@ reforms:
       possible_values:
         - key: UNITED_STATES
           value: United States
+        - key: AK
+          value: Alaska
+        - key: FL
+          value: Florida
         - key: MD
           value: Maryland
         - key: MA
           value: Massachusetts
+        - key: NV
+          value: Nevada
+        - key: SD
+          value: South Dakota
+        - key: TN
+          value: Tennessee
+        - key: TX
+          value: Texas
         - key: WA
           value: Washington
       value_type: Enum
