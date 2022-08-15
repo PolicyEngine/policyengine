@@ -34,7 +34,7 @@ export default function Title(props) {
 				<div className="d-flex align-items-center justify-content-center">
 					<PageHeader
 						title={title}
-						style={{ paddingBottom: 8 }}
+						style={{ paddingBottom: 8, padding: 10}}
 						tags={betaTag}
 					/>
 				</div>
