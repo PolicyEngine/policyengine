@@ -50,7 +50,7 @@ export default class AccountingTable extends React.Component {
                             this.context.setState({ waitingOnEarningsCharts: false });
                             this.setState({ error: true, });
                         });
-                    }, 1000 * eta * 0.5);
+                    }, 1000 * eta * 0.2);
                 } else {
                     throw res;
                 }
@@ -71,7 +71,7 @@ export default class AccountingTable extends React.Component {
         const reformExists = Object.keys(this.context.getPolicyJSONPayload()).length > 0;
 		const eta = this.context["endpoint-runtimes"][reformExists ? "household_variation_reform_and_baseline" : "household_variation_baseline_only"];
         if (!this.context.computedSituationVariationCharts || this.context.waitingOnEarningsCharts) {
-            const message = <><p>{`Calculating tax-benefit responses to your income...`}</p><p>{`(this usually takes around ${eta} seconds)`}</p></>;
+            const message = <><p>{`Calculating tax-benefit responses to your income...`}</p><p>{`(this usually takes around ${Math.round(eta / 15) * 15} seconds)`}</p></>;
             return <Centered><Spinner rightSpacing={10} />{message}</Centered>
         } else if (this.state.error) {
             return <Centered>Something went wrong.</Centered>

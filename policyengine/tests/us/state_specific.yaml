@@ -1,0 +1,7 @@
+- label: Changing US State doesn't cause budgetary impacts.
+  endpoint: /us/api/population-reform
+  async: true
+  input:
+    baseline_state_specific: MD
+  output:
+    budgetary_impact: 0

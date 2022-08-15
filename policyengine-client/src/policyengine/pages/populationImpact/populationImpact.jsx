@@ -176,14 +176,19 @@ export default class PopulationImpact extends React.Component {
 		const eta = this.context["endpoint-runtimes"][editsBaseline ? "population_impact_reform_and_baseline" : "population_impact_reform_only"];
 		this.context.setState({ waitingOnPopulationImpact: true }, () => {
 			fetch(url, requestOptions)
-				.then((res) => {
-					if (res.ok) {
-						// Got a receipt of submission.
+				.then(res => res.json()).then(data => {
+					// Got a receipt of submission.
+					if (data.status === "completed") {
+						this.context.setState({ populationImpactResults: data, populationImpactIsOutdated: false }, () => {
+							this.setState({ error: false });
+							this.context.setState({ waitingOnPopulationImpact: false });
+						});
+					} else {
 						let checker = setInterval(() => {
 							fetch(url, requestOptions).then(res => res.json()).then(data => {
-								if(data.status === "completed") {
+								if (data.status === "completed") {
 									clearInterval(checker);
-									if(data.error) {
+									if (data.error) {
 										throw new Error(data.error);
 									}
 									this.context.setState({ populationImpactResults: data, populationImpactIsOutdated: false }, () => {
@@ -195,9 +200,7 @@ export default class PopulationImpact extends React.Component {
 								this.setState({ error: true });
 								this.context.setState({ waitingOnPopulationImpact: false });
 							});
-						}, 1000 * eta * 0.5);
-					} else {
-						throw res;
+						}, 1000 * eta * 0.2);
 					}
 				});
 		});
@@ -212,30 +215,30 @@ export default class PopulationImpact extends React.Component {
 			eta = 10;
 		}
 		const overview = (
-		  <OverviewHolder>
-			<PolicyOverview page="policy" />
-			<SharePolicyLinks page="policy" />
-			<div className="d-block align-middle">
-			  <div className="justify-content-center">
-				{this.context.showPopulationImpact && (
-				  <NavigationButton
-					primary
-					target="population-impact"
-					text={`Compute population impact`}
-				  />
-				)}
-			  </div>
-			  <div className="justify-content-center">
-				{this.context.showHousehold && (
-				  <NavigationButton
-					target="household"
-					text="Compute household impact"
-					primary={!this.context.showPopulationImpact}
-				  />
-				)}
-			  </div>
-			</div>
-		  </OverviewHolder>
+			<OverviewHolder>
+				<PolicyOverview page="policy" />
+				<SharePolicyLinks page="policy" />
+				<div className="d-block align-middle">
+					<div className="justify-content-center">
+						{this.context.showPopulationImpact && (
+							<NavigationButton
+								primary
+								target="population-impact"
+								text={`Compute population impact`}
+							/>
+						)}
+					</div>
+					<div className="justify-content-center">
+						{this.context.showHousehold && (
+							<NavigationButton
+								target="household"
+								text="Compute household impact"
+								primary={!this.context.showPopulationImpact}
+							/>
+						)}
+					</div>
+				</div>
+			</OverviewHolder>
 		);
 		const desktopView = (
 			<Row>
@@ -248,67 +251,67 @@ export default class PopulationImpact extends React.Component {
 				}}>
 					{
 						(this.context.waitingOnPopulationImpact || (!this.state.error & (this.context.populationImpactResults === null))) ?
-							<Loading message={`Simulating your results on the ${this.context.properName} population (this usually takes about ${Math.round(eta)} seconds)`} /> :
+							<Loading message={`Simulating your results on the ${this.context.properName} population (this usually takes about ${Math.round(eta / 15) * 15} seconds)`} /> :
 							this.state.error ?
 								<Loading noSpin message="Something went wrong (try navigating back and returning to this page)" /> :
 								<PopulationResultsPane />
 					}
 				</Col>
-			  	<Col xl={3}>{overview}</Col>
+				<Col xl={3}>{overview}</Col>
 			</Row>
-		  );
-		  const mobileView = (
+		);
+		const mobileView = (
 			<div style={{ paddingLeft: 15, paddingRight: 15 }}>
-			<div style={{ position: "fixed", top: 120, height: "60vh", overflowY: "scroll"}}>
-				<Row>
-					<Col>
-						{
-							(this.context.waitingOnPopulationImpact || (!this.state.error & (this.context.populationImpactResults === null))) ?
-								<Loading message={`Simulating your results on the ${this.context.properName} population (this usually takes about ${Math.round(eta)} seconds)`} /> :
-								this.state.error ?
-									<Loading noSpin message="Something went wrong (try navigating back and returning to this page)" /> :
-									<PopulationResultsPane />
-						}
-					</Col>
-				</Row>
+				<div style={{ position: "fixed", top: 120, height: "60vh", overflowY: "scroll" }}>
+					<Row>
+						<Col>
+							{
+								(this.context.waitingOnPopulationImpact || (!this.state.error & (this.context.populationImpactResults === null))) ?
+									<Loading message={`Simulating your results on the ${this.context.properName} population (this usually takes about ${Math.round(eta / 15) / 15} seconds)`} /> :
+									this.state.error ?
+										<Loading noSpin message="Something went wrong (try navigating back and returning to this page)" /> :
+										<PopulationResultsPane />
+							}
+						</Col>
+					</Row>
+				</div>
+				<div
+					style={{
+						position: "fixed",
+						top: "calc(60vh + 120px)",
+						left: 0,
+						width: "100%",
+						padding: 10,
+					}}
+				>
+					<Row>
+						<Col>
+							<SharePolicyLinks page="population-impact" />
+							<div className="d-block align-middle">
+								<div className="justify-content-center">
+									<NavigationButton
+										target="policy"
+										text={<><ArrowLeftOutlined /> Edit your policy</>}
+									/>
+								</div>
+								<div className="justify-content-center">
+									<NavigationButton
+										target="household"
+										text="Compute household impact"
+										primary={!this.context.showPopulationImpact}
+									/>
+								</div>
+							</div>
+						</Col>
+					</Row>
+				</div>
 			</div>
-			  <div
-				style={{
-				  position: "fixed",
-				  top: "calc(60vh + 120px)",
-				  left: 0,
-				  width: "100%",
-				  padding: 10,
-				}}
-			  >
-				<Row>
-				  <Col>
-				  	<SharePolicyLinks page="population-impact" />
-					<div className="d-block align-middle">
-						<div className="justify-content-center">
-							<NavigationButton
-								target="policy"
-								text={<><ArrowLeftOutlined /> Edit your policy</>}
-							/>
-						</div>
-						<div className="justify-content-center">
-							<NavigationButton
-								target="household"
-								text="Compute household impact"
-								primary={!this.context.showPopulationImpact}
-							/>
-						</div>
-					</div>
-					</Col>
-				</Row>
-			  </div>
-			</div>
-		  );
-		  return (
+		);
+		return (
 			<>
-			  <div className="d-none d-lg-block">{desktopView}</div>
-			  <div className="d-block d-lg-none">{mobileView}</div>
+				<div className="d-none d-lg-block">{desktopView}</div>
+				<div className="d-block d-lg-none">{mobileView}</div>
 			</>
-		  );
+		);
 	}
 }

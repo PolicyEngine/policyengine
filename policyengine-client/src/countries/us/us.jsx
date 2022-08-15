@@ -399,7 +399,6 @@ export class US extends Country {
                     ],
                     "Phase-out": [
                         "wa_wftc_phase_out_start_below_eitc_income_limit",
-                        "wa_wftc_phase_out_rate",
                     ]
                 }
             }
@@ -934,6 +933,9 @@ export class US extends Country {
         this.setState({
             situation: situation,
             householdMaritalStatus: status,
+            baselineSituationImpactIsOutdated: true,
+            reformSituationImpactIsOutdated: false,
+            situationVariationImpactIsOutdated: true,
         });
     }
 

@@ -7,6 +7,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.87.0] - 2022-08-14 04:44:51
+
+### Added
+
+- US states without income taxes.
+
+## [1.86.3] - 2022-08-12 15:22:27
+
+### Fixed
+
+- Incorrect ETA rounding on population impact page.
+
+## [1.86.2] - 2022-08-12 14:28:56
+
+### Changed
+
+- Bump OpenFisca US to capture updates to Washington's Working Families Tax Credit.
+
+## [1.86.1] - 2022-08-11 08:30:02
+
+### Fixed
+
+- ETA for long endpoints rounded to the nearest 15 seconds.
+
+## [1.86.0] - 2022-08-10 15:26:27
+
+### Fixed
+
+- Bug causing marital status changes in the US to not refresh the net income table.
+
+## [1.85.6] - 2022-08-09 22:47:18
+
+### Fixed
+
+- Bug causing state-specific analysis to have extra budgetary impacts.
+
 ## [1.85.5] - 2022-08-08 16:07:45
 
 ### Fixed
@@ -1299,6 +1335,12 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.87.0]: https://github.com/PolicyEngine/policyengine/compare/1.86.3...1.87.0
+[1.86.3]: https://github.com/PolicyEngine/policyengine/compare/1.86.2...1.86.3
+[1.86.2]: https://github.com/PolicyEngine/policyengine/compare/1.86.1...1.86.2
+[1.86.1]: https://github.com/PolicyEngine/policyengine/compare/1.86.0...1.86.1
+[1.86.0]: https://github.com/PolicyEngine/policyengine/compare/1.85.6...1.86.0
+[1.85.6]: https://github.com/PolicyEngine/policyengine/compare/1.85.5...1.85.6
 [1.85.5]: https://github.com/PolicyEngine/policyengine/compare/1.85.4...1.85.5
 [1.85.4]: https://github.com/PolicyEngine/policyengine/compare/1.85.3...1.85.4
 [1.85.3]: https://github.com/PolicyEngine/policyengine/compare/1.85.2...1.85.3
