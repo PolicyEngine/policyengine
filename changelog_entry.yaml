@@ -1,0 +1,4 @@
+- bump: minor
+  changes:
+    added:
+      - Light Gray shading and button spacing for Desktop view in policy overview.
