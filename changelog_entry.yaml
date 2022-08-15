@@ -1,4 +1,4 @@
 - bump: minor
   changes:
     added:
-      - Light Gray shading and button spacing for Desktop view in policy overview.
+      - Policy logo and Beta block are now centered.
