@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.88.0] - 2022-08-18 18:38:09
+
+### Added
+
+- Policy logo and Beta block are now centered.
+
 ## [1.87.0] - 2022-08-14 04:44:51
 
 ### Added
@@ -1335,6 +1341,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.88.0]: https://github.com/PolicyEngine/policyengine/compare/1.87.0...1.88.0
 [1.87.0]: https://github.com/PolicyEngine/policyengine/compare/1.86.3...1.87.0
 [1.86.3]: https://github.com/PolicyEngine/policyengine/compare/1.86.2...1.86.3
 [1.86.2]: https://github.com/PolicyEngine/policyengine/compare/1.86.1...1.86.2
