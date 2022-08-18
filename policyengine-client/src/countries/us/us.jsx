@@ -55,12 +55,12 @@ export class US extends Country {
     }
     name = "us"
     properName = "US"
-    beta = true
+    beta = true;
     // Pages to show
-    showPolicy = true
-    showPopulationImpact = true
-    showHousehold = true
-    showEarningsVariation = true
+    showPolicy = true;
+    showPopulationImpact = true;
+    showHousehold = true;
+    showEarningsVariation = true;
     showWealth = false;
     showFAQ = true
     // Vanity URLs

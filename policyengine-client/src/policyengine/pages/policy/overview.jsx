@@ -49,10 +49,10 @@ function generateStepFromParameter(parameter, editingReform, country, page) {
 export function OverviewHolder(props) {
 	return (
 		<>
-			<div className="d-block d-lg-none">
+			<div className="d-block d-lg-none" style={{backgroundColor: "rgb(245, 245, 245)", borderRadius: "16px"}}>
 				{props.children}
 			</div>
-			<div className="d-none d-lg-block">
+			<div className="d-none d-lg-block" style={{backgroundColor: "rgb(245, 245, 245)", borderRadius: "16px", height: "100%"}}>
 				{props.children}
 			</div>
 		</>
@@ -105,7 +105,7 @@ export function SharePolicyLinks(props) {
 	const url = policyToURL(`https://policyengine.org/${country.name}/${props.page}`, country.policy);
 	return (
 		<>
-			<Divider><Button style={{marginRight: 20, border: 0}} onClick={() => {navigator.clipboard.writeText(url); message.info("Link copied!");}}><LinkOutlined /></Button><TwitterShareButton style={{marginRight: 20, border: 0}} title="I just simulated a reform to the UK tax and benefit system with @ThePolicyEngine. Check it out or make your own!" url={url}><TwitterOutlined /></TwitterShareButton></Divider>
+			<Divider><Button style={{marginRight: 20, border: 0}} onClick={() => {navigator.clipboard.writeText(url); message.info("Link copied!");}}><LinkOutlined /></Button><TwitterShareButton style={{width: "44px", height: "32px", border: 0, backgroundColor: "white", borderRadius: "16px"}} title="I just simulated a reform to the UK tax and benefit system with @ThePolicyEngine. Check it out or make your own!" url={url}><TwitterOutlined /></TwitterShareButton></Divider>
 		</>
 	);
 }
