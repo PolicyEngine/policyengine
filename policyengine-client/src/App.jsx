@@ -81,6 +81,14 @@ export default function App(props) {
             </>
           }
         />
+        <Route
+          path="/*"
+          element={
+            <>
+              <p>This is a 404 message</p>
+            </>
+          }
+        />
       </Routes>
     </Router>
   );
