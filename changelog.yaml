@@ -1122,3 +1122,8 @@
     added:
     - Policy logo and Beta block are now centered.
   date: 2022-08-18 18:38:09
+- bump: minor
+  changes:
+    added:
+    - Overview shading was shifted up and to the right.
+  date: 2022-08-19 17:31:37
