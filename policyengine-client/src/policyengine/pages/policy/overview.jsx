@@ -1,5 +1,5 @@
 import { Pagination, Steps, Divider, Empty, Button, message, Tooltip } from "antd";
-import { CheckCircleOutlined, LinkOutlined, TwitterOutlined } from "@ant-design/icons";
+import { CheckCircleOutlined, LinkOutlined, TranslationOutlined, TwitterOutlined } from "@ant-design/icons";
 import { TwitterShareButton } from "react-share";
 import React, { useContext, useState } from "react";
 import { policyToURL } from "../../tools/url";
@@ -49,10 +49,10 @@ function generateStepFromParameter(parameter, editingReform, country, page) {
 export function OverviewHolder(props) {
 	return (
 		<>
-			<div className="d-block d-lg-none" style={{backgroundColor: "rgb(245, 245, 245)", borderRadius: "16px"}}>
+			<div className="d-block d-lg-none" style={{backgroundColor: "rgb(245, 245, 245)"}}>
 				{props.children}
 			</div>
-			<div className="d-none d-lg-block" style={{backgroundColor: "rgb(245, 245, 245)", borderRadius: "16px", height: "100%"}}>
+			<div className="d-none d-lg-block" style={{backgroundColor: "rgb(245, 245, 245)", height: "100%"}}>
 				{props.children}
 			</div>
 		</>
@@ -78,7 +78,7 @@ export function PolicyOverview(props) {
 	</>
 	return (
 		<>
-		<RadioButton style={{marginTop: 15}} options={["Baseline", "Reform"]} selected={country.editingReform ? "Reform" : "Baseline"} onChange={option => {country.setState({editingReform: option === "Reform"})}} />
+		<RadioButton style={{paddingTop: 15}} options={["Baseline", "Reform"]} selected={country.editingReform ? "Reform" : "Baseline"} onChange={option => {country.setState({editingReform: option === "Reform"})}} />
 			<div style={{paddingTop: 20}}></div>
 				{!isEmpty ?
 					<>

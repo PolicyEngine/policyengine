@@ -122,7 +122,11 @@ export class Household extends React.Component {
             }}>
                 {middlePane}
             </Col>
-            <Col xl={3}>
+            <Col xl={3} style={{
+                position: "relative",
+                top: -2,
+                padding: 0,
+            }}>
                 {overview}
             </Col>
         </Row>;

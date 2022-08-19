@@ -94,7 +94,16 @@ export default class Policy extends React.Component {
         >
           {parameterControls}
         </Col>
-        <Col xl={3}>{overview}</Col>
+        <Col 
+          xl={3} 
+          style={{
+            position: "relative",
+            top: -2,
+            padding: 0,
+          }}
+        >
+          {overview}
+        </Col>
       </Row>
     );
     const mobileView = (
