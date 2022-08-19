@@ -257,7 +257,13 @@ export default class PopulationImpact extends React.Component {
 								<PopulationResultsPane />
 					}
 				</Col>
-				<Col xl={3}>{overview}</Col>
+				<Col xl={3} style={{
+					position: "relative",
+					top: -2,
+					padding: 0,
+				}}>
+					{overview}
+				</Col>
 			</Row>
 		);
 		const mobileView = (
