@@ -18,16 +18,16 @@ export default function SocialLinks(props) {
             <a href="https://twitter.com/ThePolicyEngine">
                 <TwitterOutlined style={iconStyle} />
             </a>
-            <a href="https://www.facebook.com/PolicyEngine">
+            <a href="https://facebook.com/PolicyEngine">
                 <FacebookOutlined style={iconStyle} />
             </a>
-            <a href="https://www.linkedin.com/company/ThePolicyEngine/about/">
+            <a href="https://linkedin.com/company/ThePolicyEngine">
                 <LinkedinOutlined style={iconStyle} />
             </a>
-            <a href="https://www.instagram.com/PolicyEngine/">
+            <a href="https://instagram.com/PolicyEngine">
                 <InstagramOutlined style={iconStyle} />
             </a>
-            <a href="https://www.github.com/PolicyEngine/">
+            <a href="https://github.com/PolicyEngine">
                 <GithubOutlined style={iconStyle} />
             </a>
         </div>
