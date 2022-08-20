@@ -15,19 +15,19 @@ export default function SocialLinks(props) {
     const iconStyle = { marginLeft: 15, fontSize: 15, color: props.color };
     return (
         <div className="d-flex justify-content-center">
-            <a href="https://twitter.com/thepolicyengine">
+            <a href="https://twitter.com/ThePolicyEngine">
                 <TwitterOutlined style={iconStyle} />
             </a>
-            <a href="https://www.facebook.com/ThePolicyEngine">
+            <a href="https://facebook.com/PolicyEngine">
                 <FacebookOutlined style={iconStyle} />
             </a>
-            <a href="https://www.linkedin.com/company/thepolicyengine/about/">
+            <a href="https://linkedin.com/company/ThePolicyEngine">
                 <LinkedinOutlined style={iconStyle} />
             </a>
-            <a href="https://www.instagram.com/policyengine/">
+            <a href="https://instagram.com/PolicyEngine">
                 <InstagramOutlined style={iconStyle} />
             </a>
-            <a href="https://www.github.com/policyengine/">
+            <a href="https://github.com/PolicyEngine">
                 <GithubOutlined style={iconStyle} />
             </a>
         </div>
