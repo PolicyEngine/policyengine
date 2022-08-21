@@ -15,6 +15,8 @@ import createRedirects from "./policyengine/tools/namedPolicies";
 import { UK, US } from "./countries";
 import MarkdownPage from "./policyengine/pages/markdown";
 import LandingPage from "./landing";
+import { Header } from "./policyengine/header";
+import SocialLinks from "./policyengine/header/socialLinks";
 
 // Markdown files
 
