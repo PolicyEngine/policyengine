@@ -86,11 +86,23 @@ export default function App(props) {
         <Route
           path="/*"
           element={
-            <>
+            <div style={{ height: "100%" }}>
               <Header noTabs />
-              <p>This page does not exist, please navigate home.</p>
-              <SocialLinks color="black" />
-            </>
+              <p style={{ marginTop: 180, fontSize: "2em", textAlign: "center" }}>This page does not exist, please navigate home.</p>
+              <div style={{
+                position: "fixed",
+                height: "4.2em",
+                width: "100%",
+                bottom: 0,
+                backgroundColor: "white",
+                borderTop: "1px solid",
+                borderColor: "#EEE",
+                paddingTop: 20,
+                paddingBottom: 20
+              }}>
+                <SocialLinks color={"black"}/>
+              </div>
+            </div>
           }
         />
       </Routes>
