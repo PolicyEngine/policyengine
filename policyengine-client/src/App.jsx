@@ -15,6 +15,8 @@ import createRedirects from "./policyengine/tools/namedPolicies";
 import { UK, US } from "./countries";
 import MarkdownPage from "./policyengine/pages/markdown";
 import LandingPage from "./landing";
+import { Header } from "./policyengine/header";
+
 
 // Markdown files
 
@@ -85,7 +87,8 @@ export default function App(props) {
           path="/*"
           element={
             <>
-              <p>This is a 404 message</p>
+              <Header noTabs />
+              <p>This page does not exist, please navigate home.</p>
             </>
           }
         />
