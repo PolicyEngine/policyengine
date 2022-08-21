@@ -1,0 +1,4 @@
+- bump: patch
+  changes:
+    changed:
+      - Add a 404 redirect to the main landing page.
