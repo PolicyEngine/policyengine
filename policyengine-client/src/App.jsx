@@ -16,7 +16,7 @@ import { UK, US } from "./countries";
 import MarkdownPage from "./policyengine/pages/markdown";
 import LandingPage from "./landing";
 import { Header } from "./policyengine/header";
-
+import SocialLinks from "./policyengine/header/socialLinks";
 
 // Markdown files
 
@@ -89,6 +89,7 @@ export default function App(props) {
             <>
               <Header noTabs />
               <p>This page does not exist, please navigate home.</p>
+              <SocialLinks color="black" />
             </>
           }
         />
