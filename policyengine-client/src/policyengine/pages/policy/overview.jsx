@@ -35,12 +35,15 @@ function generateStepFromParameter(parameter, editingReform, country, page) {
 			(parameter[targetKey] > parameter[comparisonKey] ? "Increase" : "Decrease") : 
 			"Change";
 		const description = `${changeLabel} from ${formatter(parameter[comparisonKey])} to ${formatter(parameter[targetKey])}`
-		return <Step
-			key={parameter.name}
-			status="finish"
-			title={<><h6>{parameter.label}</h6> <>{populationSimCheckbox}</></>}
-			description={description}
-		/>
+		return <>
+			<Step
+				key={parameter.name}
+				status="finish"
+				title={ <><h6><b>{parameter.label}</b></h6><> {populationSimCheckbox}</></>}
+				description={description}
+			/>
+			<br/>
+		</>
 	} else {
         return null;
     }
@@ -78,13 +81,12 @@ export function PolicyOverview(props) {
 	</>
 	return (
 		<>
-		<RadioButton style={{paddingTop: 15}} options={["Baseline", "Reform"]} selected={country.editingReform ? "Reform" : "Baseline"} onChange={option => {country.setState({editingReform: option === "Reform"})}} />
-			<div style={{paddingTop: 20}}></div>
+		<RadioButton style={{paddingTop: 15, paddingBottom: 20}} options={["Baseline", "Reform"]} selected={country.editingReform ? "Reform" : "Baseline"} onChange={option => {country.setState({editingReform: option === "Reform"})}} />
 				{!isEmpty ?
 					<>
-						<Steps progressDot direction="vertical">
+						<div style={{ padding: "0 10%" }}>
 							{plan.slice((page - 1) * pageSize, page * pageSize)}
-						</Steps> 
+						</div>
 							{
 								(plan.length > pageSize) && <Pagination 
 									pageSize={pageSize} 
