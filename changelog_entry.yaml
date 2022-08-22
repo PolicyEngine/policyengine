@@ -1,0 +1,4 @@
+- bump: minor
+  changes:
+    added:
+      - removes bullet graphic in policy cart.
