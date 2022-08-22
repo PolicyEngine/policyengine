@@ -1,0 +1,4 @@
+- bump: minor
+  changes:
+    added:
+      - Increased font size for headings in the "Your Household" page.
