@@ -29,12 +29,13 @@ function BooleanParameterControl(props) {
 
 function CategoricalParameterControl(props) {
 	return <Select 
-		style={{minWidth: 200, marginLeft: 0, paddingLeft: 0}} 
+		style={{minWidth: 200, marginLeft: 0, paddingLeft: 10, border: "1px solid black", borderRadius: 20}} 
 		showSearch 
 		placeholder={props.metadata.defaultValue.value} 
 		value={props.metadata.value}
 		disabled={props.metadata.disabled}
 		bordered={false}
+		dropdownStyle={{borderRadius:20}}
 		onSelect={props.onChange}>
 		{props.metadata.possibleValues.map(value => (
 			<Option 
