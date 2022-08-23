@@ -33,9 +33,7 @@ export default function Menu(props) {
 			defaultSelectedKeys={[country.defaultSelectedVariableGroup]}
 			style={{fontSize: 18}}
 		>
-            <Divider orientation="left" style={{fontSize: 20}} onClick={() => props.selectVariableGroup(country.defaultSelectedVariableGroup)}>About your household</Divider>
 			{addMenuEntry(country.inputVariableHierarchy, "")}
-
 		</AntMenu>
 	);
 }
