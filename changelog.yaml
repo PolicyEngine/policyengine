@@ -1137,3 +1137,8 @@
     removed:
     - Bullet graphic in policy cart.
   date: 2022-08-23 05:08:10
+- bump: minor
+  changes:
+    added:
+    - Removed the About Your Household header.
+  date: 2022-08-23 18:49:45

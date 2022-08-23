@@ -1,6 +1,6 @@
 {
   "name": "policyengine-client",
-  "version": "1.90.0",
+  "version": "1.91.0",
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@emotion/react": "^11.9.3",
