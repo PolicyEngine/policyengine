@@ -35,5 +35,5 @@ export default function Menu(props) {
 		>
 			{addMenuEntry(country.inputVariableHierarchy, "")}
 		</AntMenu>
-	);
+	)
 }
