@@ -1142,3 +1142,8 @@
     added:
     - Removed the About Your Household header.
   date: 2022-08-23 18:49:45
+- bump: minor
+  changes:
+    added:
+    - Adjusted spacing in state code drop-down.
+  date: 2022-08-23 21:56:21
