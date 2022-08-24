@@ -16,7 +16,7 @@ import { UK, US } from "./countries";
 import MarkdownPage from "./policyengine/pages/markdown";
 import LandingPage from "./landing";
 import { Header } from "./policyengine/header";
-import SocialLinks from "./policyengine/header/socialLinks";
+import FOF from "./fof";
 
 // Markdown files
 
@@ -88,20 +88,7 @@ export default function App(props) {
           element={
             <div style={{ height: "100%" }}>
               <Header noTabs />
-              <p style={{ marginTop: 180, fontSize: "2em", textAlign: "center" }}>This page does not exist, please navigate home.</p>
-              <div style={{
-                position: "fixed",
-                height: "4.2em",
-                width: "100%",
-                bottom: 0,
-                backgroundColor: "white",
-                borderTop: "1px solid",
-                borderColor: "#EEE",
-                paddingTop: 20,
-                paddingBottom: 20
-              }}>
-                <SocialLinks color={"black"}/>
-              </div>
+              <FOF />
             </div>
           }
         />
