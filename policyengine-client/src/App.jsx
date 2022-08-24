@@ -15,7 +15,6 @@ import createRedirects from "./policyengine/tools/namedPolicies";
 import { UK, US } from "./countries";
 import MarkdownPage from "./policyengine/pages/markdown";
 import LandingPage from "./landing";
-import { Header } from "./policyengine/header";
 import FOF from "./fof";
 
 // Markdown files
@@ -85,12 +84,7 @@ export default function App(props) {
         />
         <Route
           path="/*"
-          element={
-            <div style={{ height: "100%" }}>
-              <Header noTabs />
-              <FOF />
-            </div>
-          }
+          element={<FOF />}
         />
       </Routes>
     </Router>
