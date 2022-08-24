@@ -1147,3 +1147,8 @@
     added:
     - Adjusted spacing in state code drop-down.
   date: 2022-08-23 21:56:21
+- bump: minor
+  changes:
+    added:
+    - Added bottom padding to the Policy and Your Household menu.
+  date: 2022-08-24 21:32:36
