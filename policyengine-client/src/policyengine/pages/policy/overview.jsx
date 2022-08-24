@@ -52,10 +52,10 @@ function generateStepFromParameter(parameter, editingReform, country, page) {
 export function OverviewHolder(props) {
 	return (
 		<>
-			<div className="d-block d-lg-none" style={{backgroundColor: "rgb(245, 245, 245)"}}>
+			<div className="d-block d-lg-none" style={{backgroundColor: "#fafafa"}}>
 				{props.children}
 			</div>
-			<div className="d-none d-lg-block" style={{backgroundColor: "rgb(245, 245, 245)", height: "100%"}}>
+			<div className="d-none d-lg-block" style={{backgroundColor: "#fafafa", height: "100%"}}>
 				{props.children}
 			</div>
 		</>
