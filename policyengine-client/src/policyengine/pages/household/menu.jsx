@@ -31,7 +31,7 @@ export default function Menu(props) {
 			mode="inline"
 			defaultOpenKeys={country.defaultOpenVariableGroups}
 			defaultSelectedKeys={[country.defaultSelectedVariableGroup]}
-			style={{fontSize: 18}}
+			style={{fontSize: 18, paddingBottom: 20}}
 		>
 			{addMenuEntry(country.inputVariableHierarchy, "")}
 		</AntMenu>

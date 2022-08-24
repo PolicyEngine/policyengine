@@ -60,6 +60,7 @@ export default function Menu(props) {
       mode="inline"
       defaultOpenKeys={country.defaultOpenParameterGroups}
       defaultSelectedKeys={[country.defaultSelectedParameterGroup]}
+      style={{ paddingBottom: 20 }}
     >
       {addMenuEntry(country.parameterHierarchy, "")}
     </AntMenu>
