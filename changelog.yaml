@@ -1152,3 +1152,8 @@
     added:
     - Added bottom padding to the Policy and Your Household menu.
   date: 2022-08-24 21:32:36
+- bump: patch
+  changes:
+    changed:
+    - Bump OpenFisca UK for personal allowance fix.
+  date: 2022-08-25 17:57:00
