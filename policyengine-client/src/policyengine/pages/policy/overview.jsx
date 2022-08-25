@@ -91,9 +91,10 @@ export function PolicyOverview(props) {
 								(plan.length > pageSize) && <Pagination 
 									pageSize={pageSize} 
 									defaultCurrent={page} 
-									simple 
+									controlled
 									onChange={setPage} 
 									total={plan.length} 
+									style={{ textAlign: "center" }}
 								/>
 							}
 					</> :
