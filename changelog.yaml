@@ -1162,3 +1162,9 @@
     added:
     - Centering pagination in policy cart.
   date: 2022-08-26 03:48:57
+- bump: patch
+  changes:
+    fixed:
+    - Bug where abolishing the UK marriage allowance income condition crashed the
+      app.
+  date: 2022-08-26 06:43:45
