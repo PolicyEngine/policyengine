@@ -407,7 +407,6 @@ reforms:
     metadata:
       label: Abolish the Marriage Allowance income condition
       name: abolish_marriage_allowance_income_condition
-      unit: abolition
   abolish_business_rates:
     values:
       2010-01-01: false
