@@ -130,16 +130,22 @@ export class UK extends Country {
             "scottish_add_threshold",
             "extra_scot_band",
           ],
-          Allowances: [
-            "personal_allowance",
-            "PA_reduction_threshold",
-            "PA_reduction_rate",
-            "marriage_allowance_cap",
-            "abolish_marriage_allowance_income_condition",
-            "dividend_allowance",
-            "property_allowance",
-            "trading_allowance",
-          ],
+          Allowances: {
+            "Personal allowance": [
+              "personal_allowance",
+              "PA_reduction_threshold",
+              "PA_reduction_rate",
+            ],
+            "Marriage allowance": [
+              "marriage_allowance_cap",
+              "abolish_marriage_allowance_income_condition",
+            ],
+            "Other allowances": [
+              "dividend_allowance",
+              "property_allowance",
+              "trading_allowance",
+            ],
+          },
           Structural: ["abolish_income_tax"],
         },
         "National Insurance": {
