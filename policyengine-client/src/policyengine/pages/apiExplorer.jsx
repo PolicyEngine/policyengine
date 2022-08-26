@@ -87,7 +87,7 @@ export default function APIExplorer(props) {
       </Row>
       <Row>
         <Col md={1}></Col>
-        <Col md={6}>
+        <Col md={6} style={{height: "70vh", overflow: "scroll"}}>
           {searchResultItems.slice(
             page * itemsPerPage,
             (page + 1) * itemsPerPage
@@ -214,7 +214,7 @@ function SelectedParameter(props) {
     );
   }
   return (
-    <div style={{ margin: 20 }}>
+    <div style={{ margin: 20, paddingBottom: 50 }}>
       <h4>{props.name}</h4>
       <h3>{props.label}</h3>
       {description}
