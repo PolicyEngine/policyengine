@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.94.2] - 2022-08-26 22:20:58
+
+### Fixed
+
+- Scottish rates menu broke.
+
 ## [1.94.1] - 2022-08-26 06:43:45
 
 ### Fixed
@@ -1391,6 +1397,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.94.2]: https://github.com/PolicyEngine/policyengine/compare/1.94.1...1.94.2
 [1.94.1]: https://github.com/PolicyEngine/policyengine/compare/1.94.0...1.94.1
 [1.94.0]: https://github.com/PolicyEngine/policyengine/compare/1.93.1...1.94.0
 [1.93.1]: https://github.com/PolicyEngine/policyengine/compare/1.93.0...1.93.1

@@ -1168,3 +1168,8 @@
     - Bug where abolishing the UK marriage allowance income condition crashed the
       app.
   date: 2022-08-26 06:43:45
+- bump: patch
+  changes:
+    fixed:
+    - Scottish rates menu broke.
+  date: 2022-08-26 22:20:58
