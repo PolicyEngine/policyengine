@@ -1157,3 +1157,8 @@
     changed:
     - Bump OpenFisca UK for personal allowance fix.
   date: 2022-08-25 17:57:00
+- bump: minor
+  changes:
+    added:
+    - Centering pagination in policy cart.
+  date: 2022-08-26 03:48:57
