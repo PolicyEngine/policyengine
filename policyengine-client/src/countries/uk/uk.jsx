@@ -119,7 +119,6 @@ export class UK extends Country {
           ],
           "Scottish rates": [
             "scottish_starter_rate",
-            "scottish_starter_threshold",
             "scottish_basic_rate",
             "scottish_basic_threshold",
             "scottish_intermediate_rate",
