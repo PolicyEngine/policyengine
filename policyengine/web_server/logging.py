@@ -9,15 +9,6 @@ from policyengine.package import POLICYENGINE_PACKAGE_PATH
 import logging
 import google.cloud.logging
 
-# Instantiates a client
-client = google.cloud.logging.Client()
-
-# Retrieves a Cloud Logging handler based on the environment
-# you're running in and integrates the handler with the
-# Python logging module. By default this captures all logs
-# at INFO level and higher
-client.setup_logging()
-
 
 class PolicyEngineLogger:
     """Class managing PolicyEngine server logs."""
@@ -32,6 +23,15 @@ class PolicyEngineLogger:
 
     def __init__(self, local: bool = True, print_to_console: bool = True):
         self.local = local
+        if not local:
+            # Instantiates a client
+            client = google.cloud.logging.Client()
+
+            # Retrieves a Cloud Logging handler based on the environment
+            # you're running in and integrates the handler with the
+            # Python logging module. By default this captures all logs
+            # at INFO level and higher
+            client.setup_logging()
         self.print_to_console = print_to_console
 
     def log(self, *messages, **data: dict):

@@ -1,0 +1,5 @@
+- bump: minor
+  changes:
+    added:
+    - __init__ Python files.
+    - GH pages/JB documentation starter.
