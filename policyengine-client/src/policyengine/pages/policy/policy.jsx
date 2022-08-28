@@ -87,7 +87,7 @@ export default class Policy extends React.Component {
         <Col
           xl={6}
           style={{
-            height: "calc(100vh - 100px)",
+            height: "calc(100vh - 150px)",
             overflow: "scroll",
             paddingRight: 40,
           }}
