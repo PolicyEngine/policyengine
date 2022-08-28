@@ -24,7 +24,7 @@ baseline_parameters = CountryTaxBenefitSystem().parameters
 
 
 def add_extra_band(parameters: ParameterNode) -> ParameterNode:
-    rates = parameters.tax.income_tax.rates
+    rates = parameters.gov.hmrc.income_tax.rates
     uk_rates: ParameterScale = rates.uk
     extra_uk_bracket = ParameterScaleBracket(
         data={
