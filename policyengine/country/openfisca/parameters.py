@@ -186,14 +186,14 @@ class PolicyEngineScaleComponentParameter(PolicyEngineParameter):
 
     @property
     def unit(self):
-        return self.metadata.get(
+        return self.openfisca_parameter.metadata.get(
             "unit", self.parent.metadata.get(f"{self.value_type}_unit")
         )
 
     @property
     def period(self):
         default_period = "year" if self.is_threshold else None
-        return self.metadata.get(
+        return self.openfisca_parameter.metadata.get(
             "period",
             self.parent.metadata.get(f"{self.type}_period", default_period),
         )

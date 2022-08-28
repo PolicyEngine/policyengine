@@ -110,24 +110,40 @@ function ParameterScaleControl(props) {
 	const target = country.editingReform ? "value" : "baselineValue";
 	const brackets = [...Array(props.metadata.brackets).keys()];
 	const parentName = props.metadata.name;
+	let thresholdParameters = {};
+	let rateParameters = {};
+	for(let i = 0; i < props.metadata.brackets; i++) {
+		if(`${parentName}_${i + 1}_threshold` in country.policy) {
+			thresholdParameters[i] = country.policy[`${parentName}_${i + 1}_threshold`];
+		} else {
+			// The threshold parameter for the i-th bracket might have a custom name, but will still have
+			// the 'parameter' attribute which we can use to identify it.
+			thresholdParameters[i] = Object.values(country.policy).find(p => p.parameter === `${props.metadata.parameter}[${i}].threshold`);
+		}
+		if(`${parentName}_${i + 1}_rate` in country.policy) {
+			rateParameters[i] = country.policy[`${parentName}_${i + 1}_rate`];
+		} else {
+			rateParameters[i] = Object.values(country.policy).find(p => p.parameter === `${props.metadata.parameter}[${i}].rate`);
+		}
+	}
 	let upperThresholds = brackets.slice(0, props.metadata.brackets - 1).map(bracket => (
-		country.policy[`${parentName}_${bracket + 1}_threshold`][target]
+		thresholdParameters[bracket][target]
 	));
 	upperThresholds.push(Infinity);
 	let lowerThresholds = brackets.slice(1).map(bracket => (
-		country.policy[`${parentName}_${bracket - 1}_threshold`][target]
+		thresholdParameters[bracket][target]
 	));
 	lowerThresholds.unshift(-Infinity);
 	let thresholdMetadata = {exclusiveMin: true, exclusiveMax: true};
-	if(props.metadata.thresholdPeriod !== null) {
+	if(props.metadata.thresholdPeriod) {
 		thresholdMetadata.period = props.metadata.thresholdPeriod;
 	}
 	let displayOnly = [];
 	for(let i = 0; i < props.metadata.brackets; i++) {
-		let value = country.policy[`${parentName}_${i}_threshold`][target];
+		let value = thresholdParameters[i][target];
 		if(value.toString().includes("inf")) {
 			const isPositive = !value.toString().startsWith("-");
-			const nextParameter = country.policy[`${parentName}_${isPositive ? i - 1 : i + 1}_threshold`];
+			const nextParameter = thresholdParameters[isPositive ? i - 1 : i + 1];
 			const relevantValue = getTranslators(nextParameter).formatter(nextParameter.value);
 			displayOnly.push(isPositive ? `Above ${relevantValue}` : `Below ${relevantValue}`);
 		} else {
@@ -144,7 +160,7 @@ function ParameterScaleControl(props) {
 								noSlider 
 								extraMetadata={{...thresholdMetadata, hardMin: lowerThresholds[i], hardMax: upperThresholds[i]}} 
 								hideTitle 
-								name={`${parentName}_${i}_threshold`}
+								name={thresholdParameters[i].name}
 								displayOnly={displayOnly[i]}
 								/>
 							} />
@@ -156,7 +172,7 @@ function ParameterScaleControl(props) {
 				<Steps direction="vertical" progressDot style={{paddingTop: 25}} current={props.metadata.brackets - 1}>
 					{
 						brackets.map(i => (
-							<Step key={i} title={<Parameter noSlider hideTitle name={`${parentName}_${i}_rate`} />} />
+							<Step key={i} title={<Parameter noSlider hideTitle name={rateParameters[i].name} />} />
 						))
 					}
 				</Steps>
