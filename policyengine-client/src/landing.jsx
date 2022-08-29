@@ -45,6 +45,51 @@ const blogPosts = [
     thumbnail: "https://miro.medium.com/max/1400/0*h_n21_ZMZ2S66FDL.png",
     link: "https://blog.policyengine.org/policyengine-comes-stateside-cef88b122e48",
   },
+  {
+    title: "How PolicyEngine estimates the effects of UK carbon taxes",
+    thumbnail: "https://miro.medium.com/max/700/0*mqJzs0Oc0Q53LaRM",
+    link: "https://blog.policyengine.org/how-policyengine-estimates-the-effects-of-uk-carbon-taxes-260ccfc5d97c",
+  },
+  {
+    title: "How developers can explore the PolicyEngine API",
+    thumbnail: "https://miro.medium.com/fit/c/140/140/0*Z4p3pNn8Lt08PIXd",
+    link: "https://blog.policyengine.org/how-developers-can-explore-the-policyengine-api-647bd3968db",
+  },
+  {
+    title: "Impact of the Chancellor’s Cost of Living Support package",
+    thumbnail: "https://miro.medium.com/max/875/0*kNAJvbiWYIkVklP6",
+    link: "https://blog.policyengine.org/impact-of-the-chancellors-cost-of-living-support-package-5c4557b84696",
+  },
+  {
+    title: "PolicyEngine at the Basic Income Guarantee Conference and the Beeck Center’s Rules as Code Demo Day",
+    thumbnail: "https://miro.medium.com/max/875/1*xoeD4BOchH5kN9Ajt3ODOQ.png",
+    link: "https://blog.policyengine.org/policyengine-at-the-basic-income-guarantee-conference-and-the-beeck-centers-rules-as-code-demo-day-a667ef4f1516",
+  },
+  {
+    title: "The new PolicyEngine US Population Impact page",
+    thumbnail: "https://miro.medium.com/fit/c/140/140/0*U1_M0nGig_uxktg7",
+    link: "https://blog.policyengine.org/the-new-policyengine-us-population-impact-page-de68cb4ba71a",
+  },
+  {
+    title: "Rishi Sunak’s proposal to cut the basic rate to 16 percent",
+    thumbnail: "https://miro.medium.com/fit/c/140/140/0*Zne_4Z0ooBO2rZQJ",
+    link: "https://blog.policyengine.org/rishi-sunaks-proposal-to-cut-the-basic-rate-to-16-percent-cd70851fef09",
+  },
+  {
+    title: "Electric vehicle tax credits under current law and the Inflation Reduction Act",
+    thumbnail: "https://miro.medium.com/max/875/0*u9BoRkwb11WE-WS_",
+    link: "https://blog.policyengine.org/electric-vehicle-tax-credits-under-current-law-and-the-inflation-reduction-act-ef305718bcc3",
+  },
+  {
+    title: "PolicyEngine launches in Washington state",
+    thumbnail: "https://miro.medium.com/max/875/1*-oK7a26InFYZMfSs9QSbhQ.png",
+    link: "https://blog.policyengine.org/policyengine-launches-in-washington-state-863487751f9a",
+  },
+  {
+    title: "Raising the marriage allowance from 10% to 100%",
+    thumbnail: "https://miro.medium.com/max/875/0*fc3BRBJv8D_8kk2v",
+    link: "https://blog.policyengine.org/raising-the-marriage-allowance-from-10-to-100-9c7380ecac13",
+  }
 ].reverse();
 
 function Divider(props) {
