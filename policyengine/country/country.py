@@ -76,6 +76,7 @@ class PolicyEngineCountry:
             leaf_nodes=self.leaf_nodes,
             age_chart=self.age_chart,
             population_breakdown=self.population_breakdown,
+            auto_ubi=self.auto_ubi,
         )
         if self.name is None:
             self.name = self.__class__.__name__.lower()
