@@ -180,9 +180,9 @@ class PolicyEngineScaleComponentParameter(PolicyEngineParameter):
             "name", self.parent.name.replace(".", "_")
         )
         if self.is_threshold:
-            return f"{stem}_{self.index}_threshold"
+            return f"{stem}_{self.index + 1}_threshold"
         else:
-            return f"{stem}_{self.index}_rate"
+            return f"{stem}_{self.index + 1}_rate"
 
     @property
     def unit(self):
