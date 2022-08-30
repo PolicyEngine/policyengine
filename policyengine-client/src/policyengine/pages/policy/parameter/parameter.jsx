@@ -150,6 +150,15 @@ function ParameterScaleControl(props) {
 			displayOnly.push(null);
 		}
 	}
+	let rateBrackets = [];
+	for(let i in brackets) {
+		try {
+			rateBrackets.push(<Step key={i} title={<Parameter noSlider hideTitle name={rateParameters[i].name} />} />);
+		} catch(e) {
+			// Something went wrong when looking up one of the rate parameters.
+			rateBrackets.push(<></>);
+		}
+	}
 	return <>
 		<Row style={{width: "100%"}}>
 			<Col style={{paddingRight: 20}}>
@@ -171,9 +180,7 @@ function ParameterScaleControl(props) {
 			<Col>
 				<Steps direction="vertical" progressDot style={{paddingTop: 25}} current={props.metadata.brackets - 1}>
 					{
-						brackets.map(i => (
-							<Step key={i} title={<Parameter noSlider hideTitle name={rateParameters[i].name} />} />
-						))
+						rateBrackets
 					}
 				</Steps>
 			</Col>
