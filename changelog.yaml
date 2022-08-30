@@ -1187,3 +1187,8 @@
     fixed:
     - AutoUBI in the UK.
   date: 2022-08-30 09:32:44
+- bump: patch
+  changes:
+    fixed:
+    - Bug causing scale parameters to fail.
+  date: 2022-08-30 10:39:22
