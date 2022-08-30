@@ -33,7 +33,7 @@ def format_summary_of_parameter_value(metadata: dict, value: Any) -> str:
     if unit == "abolition":
         return f"Abolish {metadata.get('variable')}"
     elif (unit == "bool") and value:
-        return metadata.label
+        return metadata.get("label")
     elif unit == "bool":
         return f"Revoke {uncapitalised_label}"
     elif unit == "Enum":

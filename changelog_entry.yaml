@@ -1,0 +1,6 @@
+- bump: minor
+  changes:
+    fixed:
+    - AutoUBI in the UK.
+    added:
+    - Recent blog posts to the home page.

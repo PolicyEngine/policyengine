@@ -13,7 +13,7 @@ export default class AutoUBI extends React.Component {
 
 	applyAutoUBI() {
 		const submission = this.context.getPolicyJSONPayload();
-		let url = new URL(this.context.apiURL + "/ubi");
+		let url = new URL(this.context.apiURL + "/auto-ubi");
 		url.search = new URLSearchParams(submission).toString();
 		this.setState({waiting: true}, () => {
 			fetch(url)
