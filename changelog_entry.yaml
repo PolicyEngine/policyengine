@@ -1,0 +1,4 @@
+- bump: minor
+  changes:
+    fixed:
+    - A bug causing region-specific simulations to be erroneously cached as the general baseline.
