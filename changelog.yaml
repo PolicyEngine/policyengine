@@ -1192,3 +1192,9 @@
     fixed:
     - Bug causing scale parameters to fail.
   date: 2022-08-30 10:39:22
+- bump: minor
+  changes:
+    fixed:
+    - A bug causing region-specific simulations to be erroneously cached as the general
+      baseline.
+  date: 2022-08-31 13:46:35
