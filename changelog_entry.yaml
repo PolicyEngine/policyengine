@@ -1,4 +1,0 @@
-- bump: patch
-  changes:
-    fixed:
-    - Baseline policy changes now force recomputation of household situations.

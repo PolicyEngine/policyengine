@@ -1203,3 +1203,8 @@
     added:
     - Basic income parameters for AGI limit and dollar-defined phase-out range.
   date: 2022-09-01 02:41:30
+- bump: patch
+  changes:
+    fixed:
+    - Baseline policy changes now force recomputation of household situations.
+  date: 2022-09-01 11:45:43
