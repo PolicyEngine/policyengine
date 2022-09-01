@@ -21,7 +21,8 @@ export default class Country {
             policyValid: policyValid,
             populationImpactIsOutdated: true,
             populationBreakdownIsOutdated: true,
-            reformSituationImpactIsOutdated: true,
+            baselineSituationImpactIsOutdated: !this.editingReform,
+            reformSituationImpactIsOutdated: this.editingReform,
             situationVariationImpactIsOutdated: true,
             ageChartIsOutdated: true,
         });
