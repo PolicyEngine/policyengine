@@ -1208,3 +1208,8 @@
     fixed:
     - Baseline policy changes now force recomputation of household situations.
   date: 2022-09-01 11:45:43
+- bump: patch
+  changes:
+    fixed:
+    - Handling of boolean switches in household earnings charts.
+  date: 2022-09-01 15:43:52

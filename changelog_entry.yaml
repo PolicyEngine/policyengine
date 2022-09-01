@@ -1,4 +1,0 @@
-- bump: patch
-  changes:
-    fixed:
-    - Handling of boolean switches in household earnings charts.
