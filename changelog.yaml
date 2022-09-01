@@ -1198,3 +1198,8 @@
     - A bug causing region-specific simulations to be erroneously cached as the general
       baseline.
   date: 2022-08-31 13:46:35
+- bump: minor
+  changes:
+    added:
+    - Basic income parameters for AGI limit and dollar-defined phase-out range.
+  date: 2022-09-01 02:41:30

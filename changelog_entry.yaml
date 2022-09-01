@@ -1,4 +1,0 @@
-- bump: minor
-  changes:
-    added:
-      - Basic income parameters for AGI limit and dollar-defined phase-out range.
