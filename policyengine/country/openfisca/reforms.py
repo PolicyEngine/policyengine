@@ -183,6 +183,8 @@ class PolicyReform:
                     "false": False,
                     1: True,
                     0: False,
+                    "1": True,
+                    "0": False,
                     True: True,
                     False: False,
                 }[self.parameters[key]]
