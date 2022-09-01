@@ -34,7 +34,7 @@ class US(PolicyEngineCountry):
                 )
         else:
             baseline, reformed = super().create_microsimulations(
-                parameters, force_refresh_baseline=True
+                parameters, force_refresh_baseline=True, do_not_cache=True
             )
             # Specific State selected: filter out other States.
             household_weights = baseline.calc("household_weight")
