@@ -19,7 +19,7 @@ setup(
         "microdf_python",
         "numpy",
         "OpenFisca-Core",
-        "OpenFisca-Tools>=0.12.0",
+        "OpenFisca-Tools>=0.13.3",
         "OpenFisca-UK==0.29.0",
         "OpenFisca-US==0.135.1",
         "pandas",
