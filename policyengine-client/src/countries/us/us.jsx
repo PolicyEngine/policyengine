@@ -6,6 +6,7 @@ import Country from "../country"
 import TimeTravel from "../uk/components/timeTravel";
 /* Icons/logos */
 import USGovernmentLogo from "../../images/parameter-icons/us/us.webp"
+import DOELogo from "../../images/parameter-icons/us/us-government/doe.png"
 import FCCLogo from "../../images/parameter-icons/us/us-government/fcc.png"
 import IRSLogo from "../../images/parameter-icons/us/us-government/irs.png"
 import HHSLogo from "../../images/parameter-icons/us/us-government/hhs.webp"
@@ -161,13 +162,39 @@ export class US extends Country {
                             "aoc_refundable_percentage",
                         ],
                     },
-                    "Electric vehicle": [
-                        "new_ev_credit_base_amount",
-                        "new_ev_credit_amount_per_kwh",
-                        "new_ev_credit_kwh_threshold",
-                        "new_ev_credit_max_amount_for_capacity_bonus",
-                        "new_ev_credit_min_kwh",
-                    ]
+                    "Electric vehicle": {
+                        "New": {
+                            "Battery components": [
+                                "inflation_reduction_act_ev_battery_components_amount",
+                                "inflation_reduction_act_ev_battery_components_threshold",
+                            ],
+                            "Critical minerals": [
+                                "inflation_reduction_act_ev_critical_minerals_amount",
+                                "inflation_reduction_act_ev_critical_minerals_threshold",
+                            ],
+                            "Eligibility": [
+                                "inflation_reduction_act_ev_new_income_limit",
+                                "inflation_reduction_act_ev_new_msrp_limit",
+                            ],
+                            "kWh-based amount": [
+                                "new_ev_credit_base_amount",
+                                "new_ev_credit_amount_per_kwh",
+                                "new_ev_credit_kwh_threshold",
+                                "new_ev_credit_max_amount_for_capacity_bonus",
+                                "new_ev_credit_min_kwh",
+                            ]
+                        },
+                        "Used": {
+                            "Amount": [
+                                "inflation_reduction_act_ev_used_max_amount",
+                                "inflation_reduction_act_ev_used_sale_price_percent",
+                            ],
+                            "Eligibility": [
+                                "inflation_reduction_act_ev_used_income_limit",
+                                "inflation_reduction_act_ev_used_sale_price_limit",
+                            ]
+                        }
+                    }
                 },
                 "Social Security": [
                     "employee_social_security_tax_rate",
@@ -180,6 +207,24 @@ export class US extends Country {
                     "self_employment_medicare_rate",
                     "additional_medicare_rate",
                 ]
+            },
+            "DOE": {
+                "Residential Efficiency and Electrification Rebates": {
+                    "Cap": [
+                        "residential_efficiency_electrification_rebate_cap_low_amount",
+                        "residential_efficiency_and_electrification_rebate_cap_low_percent",
+                        "residential_efficiency_electrification_rebate_cap_medium",
+                        "residential_efficiency_electrification_rebate_cap_high",
+                    ],
+                    "Percent": [
+                        "residential_efficiency_electrification_rebate_percent",
+                    ],
+                    "Threshold": [
+                        "residential_efficiency_and_electrification_rebate_threshold_low",
+                        "residential_efficiency_and_electrification_rebate_threshold_medium",
+                        "residential_efficiency_and_electrification_rebate_threshold_high",
+                    ]
+                },
             },
             "FCC": {
                 "Lifeline": {
@@ -405,41 +450,6 @@ export class US extends Country {
         },
         "Third party": {
             "Congress": {
-                "Senate": {
-                    "Democrats": {
-                        "Inflation Reduction Act": {
-                            "General": [
-                                "inflation_reduction_act_in_effect"
-                            ],
-                            "Electric vehicle credit": {
-                                "New": {
-                                    "Battery components": [
-                                        "inflation_reduction_act_ev_battery_components_amount",
-                                        "inflation_reduction_act_ev_battery_components_threshold",
-                                    ],
-                                    "Critical minerals": [
-                                        "inflation_reduction_act_ev_critical_minerals_amount",
-                                        "inflation_reduction_act_ev_critical_minerals_threshold",
-                                    ],
-                                    "Eligibility": [
-                                        "inflation_reduction_act_ev_new_income_limit",
-                                        "inflation_reduction_act_ev_new_msrp_limit",
-                                    ]
-                                },
-                                "Used": {
-                                    "Amount": [
-                                        "inflation_reduction_act_ev_used_max_amount",
-                                        "inflation_reduction_act_ev_used_sale_price_percent",
-                                    ],
-                                    "Eligibility": [
-                                        "inflation_reduction_act_ev_used_income_limit",
-                                        "inflation_reduction_act_ev_used_sale_price_limit",
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                },
                 "House": {
                     "Rep Tlaib": {
                         "End Child Poverty Act": {
@@ -492,6 +502,9 @@ export class US extends Country {
         },
         "US government": {
             logo: USGovernmentLogo,
+        },
+        "DOE": {
+            logo: DOELogo,
         },
         "FCC": {
             logo: FCCLogo,
@@ -639,6 +652,7 @@ export class US extends Country {
         "ca_cvrp_vehicle_rebate_amount",
         "qualified_tuition_expenses",
         "is_eligible_for_american_opportunity_credit",
+        "cdcc_qualified_dependent",
         // Tax unit.
         "premium_tax_credit",
         "new_electric_vehicle_battery_capacity",
@@ -649,6 +663,8 @@ export class US extends Country {
         "purchased_qualifying_new_electric_vehicle",
         "purchased_qualifying_used_electric_vehicle",
         "used_electric_vehicle_sale_price",
+        "residential_efficiency_electrification_retrofit_expenditures",
+        "residential_efficiency_electrification_retrofit_energy_savings",
         // SPM unit.
         "housing_cost",
         "childcare_expenses",
@@ -660,7 +676,8 @@ export class US extends Country {
         "is_on_tribal_land",
         "is_rural",
         "is_homeless",
-        "cdcc_qualified_dependent",
+        "current_home_energy_use",
+        "average_home_energy_use_in_state",
     ]
     outputVariables = [
         // Top level.
@@ -684,6 +701,7 @@ export class US extends Country {
         "acp",
         "ca_cvrp",
         "wic",
+        "residential_efficiency_and_electrification_rebate",
         // Third level - spm_unit_taxes.
         "spm_unit_payroll_tax",
         "spm_unit_self_employment_tax",
@@ -739,7 +757,11 @@ export class US extends Country {
                 "state_code",
                 "is_on_tribal_land",
                 "is_rural",
+                "average_home_energy_use_in_state",
+            ],
+            "Home": [
                 "is_homeless",
+                "current_home_energy_use",
             ],
             "Expenses": {
                 "Household": [
@@ -748,16 +770,24 @@ export class US extends Country {
                     "phone_cost",
                     "broadband_cost",
                 ],
-                "Vehicle": [
-                    "purchased_qualifying_new_electric_vehicle",
-                    "new_electric_vehicle_classification",
-                    "new_electric_vehicle_msrp",
-                    "new_electric_vehicle_battery_capacity",
-                    "new_electric_vehicle_battery_components_made_in_north_america",
-                    "new_electric_vehicle_battery_critical_minerals_extracted_in_trading_partner_country",
-                    "purchased_qualifying_used_electric_vehicle",
-                    "used_electric_vehicle_sale_price",
+                "Retrofits": [
+                    "residential_efficiency_electrification_retrofit_expenditures",
+                    "residential_efficiency_electrification_retrofit_energy_savings",
                 ],
+                "Electric vehicle": {
+                    "New": [
+                        "purchased_qualifying_new_electric_vehicle",
+                        "new_electric_vehicle_classification",
+                        "new_electric_vehicle_msrp",
+                        "new_electric_vehicle_battery_capacity",
+                        "new_electric_vehicle_battery_components_made_in_north_america",
+                        "new_electric_vehicle_battery_critical_minerals_extracted_in_trading_partner_country",
+                    ],
+                    "Used": [
+                        "purchased_qualifying_used_electric_vehicle",
+                        "used_electric_vehicle_sale_price",
+                    ],
+                },
             },
             "Benefits": [
                 "fdpir",
@@ -838,6 +868,9 @@ export class US extends Country {
                 "ssi",
                 "social_security",
                 "wic",
+                "high_efficiency_electric_home_rebate",
+                "residential_efficiency_and_electrification_rebate",
+                // Contributed.
                 "basic_income",
             ],
             "subtract": []
