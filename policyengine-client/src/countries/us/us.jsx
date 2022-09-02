@@ -209,7 +209,7 @@ export class US extends Country {
                 ]
             },
             "DOE": {
-                "Residential Efficiency and Electrification Rebates": {
+                "Residential efficiency and electrification rebate": {
                     "Cap": [
                         "residential_efficiency_electrification_rebate_cap_low_amount",
                         "residential_efficiency_and_electrification_rebate_cap_low_percent",
@@ -225,6 +225,24 @@ export class US extends Country {
                         "residential_efficiency_and_electrification_rebate_threshold_high",
                     ]
                 },
+                "High efficiency electric home rebate": {
+                    "Percent covered": [
+                        "high_efficiency_electric_home_rebate_percent_covered",
+                    ],
+                    "Cap": [
+                        "high_efficiency_electric_home_rebate_annual_cap_electric_heat_pump_clothes_dryer",
+                        "high_efficiency_electric_home_rebate_annual_cap_electric_load_service_center_upgrade",
+                        "high_efficiency_electric_home_rebate_annual_cap_electric_stove_cooktop_range_or_oven",
+                        "high_efficiency_electric_home_rebate_annual_cap_electric_wiring",
+                        "high_efficiency_electric_home_rebate_annual_cap_heat_pump",
+                        "high_efficiency_electric_home_rebate_annual_cap_heat_pump_water_heater",
+                        "high_efficiency_electric_home_rebate_annual_cap_insulation_air_sealing_and_ventilation",
+                        "high_efficiency_electric_home_rebate_annual_cap_total",
+
+
+
+                    ]
+                }
             },
             "FCC": {
                 "Lifeline": {
@@ -670,6 +688,29 @@ export class US extends Country {
         "used_electric_vehicle_sale_price",
         "residential_efficiency_electrification_retrofit_expenditures",
         "residential_efficiency_electrification_retrofit_energy_savings",
+        "home_energy_audit_expenditures",
+        "energy_efficient_door_expenditures",
+        "energy_efficient_insulation_expenditures",
+        "energy_efficient_roof_expenditures",
+        "energy_efficient_window_expenditures",
+        "advanced_main_air_circulating_fan_expenditures",
+        "air_sealing_and_ventilation_expenditures",
+        "biomass_stove_boiler_expenditures",
+        "electric_heat_pump_clothes_dryer_expenditures",
+        "electric_load_service_center_upgrade_expenditures",
+        "electric_stove_cooktop_range_or_oven_expenditures",
+        "electric_wiring_expenditures",
+        "energy_efficient_central_air_conditioner_expenditures",
+        "heat_pump_expenditures",
+        "heat_pump_water_heater_expenditures",
+        "qualified_furnace_or_hot_water_boiler_expenditures",
+        "fuel_cell_property_capacity",
+        "fuel_cell_property_expenditures",
+        "geothermal_heat_pump_property_expenditures",
+        "qualified_battery_storage_technology_expenditures",
+        "small_wind_energy_property_expenditures",
+        "solar_electric_property_expenditures",
+        "solar_water_heating_property_expenditures",
         // SPM unit.
         "housing_cost",
         "childcare_expenses",
@@ -776,8 +817,37 @@ export class US extends Country {
                     "broadband_cost",
                 ],
                 "Retrofits": [
+                    "home_energy_audit_expenditures",
                     "residential_efficiency_electrification_retrofit_expenditures",
                     "residential_efficiency_electrification_retrofit_energy_savings",
+                ],
+                "Energy efficiency improvements": [
+                    "energy_efficient_door_expenditures",
+                    "energy_efficient_insulation_expenditures",
+                    "energy_efficient_roof_expenditures",
+                    "energy_efficient_window_expenditures",
+                ],
+                "Energy efficient property": [
+                    "fuel_cell_property_capacity",
+                    "fuel_cell_property_expenditures",
+                    "geothermal_heat_pump_property_expenditures",
+                    "qualified_battery_storage_technology_expenditures",
+                    "small_wind_energy_property_expenditures",
+                    "solar_electric_property_expenditures",
+                    "solar_water_heating_property_expenditures",
+                ],
+                "Energy property": [
+                    "advanced_main_air_circulating_fan_expenditures",
+                    "air_sealing_and_ventilation_expenditures",
+                    "biomass_stove_boiler_expenditures",
+                    "electric_heat_pump_clothes_dryer_expenditures",
+                    "electric_load_service_center_upgrade_expenditures",
+                    "electric_stove_cooktop_range_or_oven_expenditures",
+                    "electric_wiring_expenditures",
+                    "energy_efficient_central_air_conditioner_expenditures",
+                    "heat_pump_expenditures",
+                    "heat_pump_water_heater_expenditures",
+                    "qualified_furnace_or_hot_water_boiler_expenditures",
                 ],
                 "Electric vehicle": {
                     "New": [
