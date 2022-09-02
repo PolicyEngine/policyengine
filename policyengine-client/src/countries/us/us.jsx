@@ -485,9 +485,15 @@ export class US extends Country {
                         "senior_bi_age",
                         "senior_bi",
                     ],
-                    "Phase-outs": [
-                        "bi_phase_out_rate",
+                    "Phase-out": [
                         "bi_phase_out_threshold",
+                        "bi_phase_out_by_rate",
+                        "bi_phase_out_rate",
+                        "bi_phase_out_end",
+                    ],
+                    "Eligibility": [
+                        "bi_agi_limit_in_effect",
+                        "bi_agi_limit_amount",
                     ],
                 },
                 "Flat tax": [
