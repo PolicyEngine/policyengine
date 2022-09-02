@@ -658,7 +658,6 @@ export class US extends Country {
         "ca_cvrp_vehicle_rebate_amount",
         "qualified_tuition_expenses",
         "is_eligible_for_american_opportunity_credit",
-        "cdcc_qualified_dependent",
         // Tax unit.
         "premium_tax_credit",
         "new_electric_vehicle_battery_capacity",
@@ -829,7 +828,6 @@ export class US extends Country {
                 "is_pregnant",
                 "is_breastfeeding",
                 "is_wic_at_nutritional_risk",
-                "cdcc_qualified_dependent",
             ],
             "Expenses": [
                 "medical_out_of_pocket_expenses",
