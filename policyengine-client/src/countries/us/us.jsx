@@ -541,7 +541,7 @@ export class US extends Country {
     }
     defaultOpenParameterGroups = [];
     defaultSelectedParameterGroup = "/US government/IRS/Income tax schedule"
-    showSnapShot = false
+    showSnapShot = true
     // OpenFisca data
     parameters = null
     entities = null
@@ -579,9 +579,9 @@ export class US extends Country {
         contrib_tlaib_end_child_poverty_act_filer_credit_amount_WIDOW: { max: 10_000 },
     }
     extraVariableMetadata = {
-        new_electric_vehicle_msrp: { max: 100_000 },
-        new_electric_vehicle_battery_capacity: { max: 100 },
-        used_electric_vehicle_sale_price: { max: 100_000 },
+        new_clean_vehicle_msrp: { max: 100_000 },
+        new_clean_vehicle_battery_capacity: { max: 100 },
+        used_clean_vehicle_sale_price: { max: 100_000 },
     }
     situation = {
         "people": {
@@ -647,14 +647,14 @@ export class US extends Country {
         "is_eligible_for_american_opportunity_credit",
         // Tax unit.
         "premium_tax_credit",
-        "new_electric_vehicle_battery_capacity",
-        "new_electric_vehicle_battery_components_made_in_north_america",
-        "new_electric_vehicle_battery_critical_minerals_extracted_in_trading_partner_country",
-        "new_electric_vehicle_classification",
-        "new_electric_vehicle_msrp",
-        "purchased_qualifying_new_electric_vehicle",
-        "purchased_qualifying_used_electric_vehicle",
-        "used_electric_vehicle_sale_price",
+        "new_clean_vehicle_battery_capacity",
+        "new_clean_vehicle_battery_components_made_in_north_america",
+        "new_clean_vehicle_battery_critical_minerals_extracted_in_trading_partner_country",
+        "new_clean_vehicle_classification",
+        "new_clean_vehicle_msrp",
+        "purchased_qualifying_new_clean_vehicle",
+        "purchased_qualifying_used_clean_vehicle",
+        "used_clean_vehicle_sale_price",
         // SPM unit.
         "housing_cost",
         "childcare_expenses",
@@ -755,14 +755,14 @@ export class US extends Country {
                     "broadband_cost",
                 ],
                 "Vehicle": [
-                    "purchased_qualifying_new_electric_vehicle",
-                    "new_electric_vehicle_classification",
-                    "new_electric_vehicle_msrp",
-                    "new_electric_vehicle_battery_capacity",
-                    "new_electric_vehicle_battery_components_made_in_north_america",
-                    "new_electric_vehicle_battery_critical_minerals_extracted_in_trading_partner_country",
-                    "purchased_qualifying_used_electric_vehicle",
-                    "used_electric_vehicle_sale_price",
+                    "purchased_qualifying_new_clean_vehicle",
+                    "new_clean_vehicle_classification",
+                    "new_clean_vehicle_msrp",
+                    "new_clean_vehicle_battery_capacity",
+                    "new_clean_vehicle_battery_components_made_in_north_america",
+                    "new_clean_vehicle_battery_critical_minerals_extracted_in_trading_partner_country",
+                    "purchased_qualifying_used_clean_vehicle",
+                    "used_clean_vehicle_sale_price",
                 ],
             },
             "Benefits": [
