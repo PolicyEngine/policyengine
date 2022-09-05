@@ -2,3 +2,5 @@
   changes:
     added:
     - Time travel feature to PolicyEngine US.
+    fixed:
+    - Issue causing failures on basic income policies.
