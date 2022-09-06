@@ -824,6 +824,18 @@ export class US extends Country {
         "md_non_single_childless_refundable_eitc",
         "md_single_childless_eitc",
         "md_ctc",
+        // New York.
+        "ny_income_tax",
+        "ny_income_tax_before_credits",
+        "ny_main_income_tax",
+        "ny_non_refundable_credits",
+        "ny_supplemental_tax",
+        "ny_ctc",
+        "ny_cdcc",
+        "ny_eitc",
+        "ny_household_credit",
+        "ny_college_tuition_credit",
+        "ny_real_property_tax_credit",
         // Washington.
         "wa_income_tax",
         "wa_working_families_tax_credit",
@@ -958,6 +970,7 @@ export class US extends Country {
                 "income_tax",
                 "ma_income_tax",
                 "md_income_tax",
+                "ny_income_tax",
                 "wa_income_tax",
             ],
             "subtract": []
@@ -1022,6 +1035,26 @@ export class US extends Country {
                 "wa_working_families_tax_credit"
             ]
         },
+        "ny_income_tax": {
+            "add": [
+                "ny_income_tax_before_credits"
+            ],
+            "subtract": [
+                "ny_non_refundable_credits",
+                "ny_ctc",
+                "ny_cdcc",
+                "ny_eitc",
+                "ny_household_credit",
+                "ny_college_tuition_credit",
+                "ny_real_property_tax_credit",
+            ],
+        },
+        "ny_income_tax_before_credits": {
+            "add": [
+                "ny_main_income_tax",
+                "ny_supplemental_tax",
+            ],
+        }
     }
 
     householdMaritalOptions = ["Single", "Married"]
