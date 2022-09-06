@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="PolicyEngine",
-    version="1.99.2",
+    version="1.100.1",
     author="PolicyEngine",
     license="http://www.fsf.org/licensing/licenses/agpl-3.0.html",
     url="https://github.com/policyengine/policyengine",
@@ -21,7 +21,7 @@ setup(
         "OpenFisca-Core",
         "OpenFisca-Tools>=0.13.3",
         "OpenFisca-UK==0.29.0",
-        "OpenFisca-US==0.147.2",
+        "OpenFisca-US==0.147.3",
         "pandas",
         "plotly",
         "pytest",

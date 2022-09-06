@@ -180,6 +180,8 @@ reforms:
           value: Massachusetts
         - key: NV
           value: Nevada
+        - key: NY
+          value: New York
         - key: SD
           value: South Dakota
         - key: TN
