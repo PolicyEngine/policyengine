@@ -291,7 +291,7 @@ def build_parameters(
     )
     for parameter in system.parameters.get_descendants():
         if isinstance(parameter, Parameter):
-            parameters.append(PolicyEngineParameter(parameter))
+            parameters.append(PolicyEngineParameter(parameter, date=date))
         elif isinstance(parameter, ParameterScale):
             i = 0
             for bracket in parameter.brackets:
@@ -305,12 +305,13 @@ def build_parameters(
                                 attribute == "threshold",
                                 attribute,
                                 i,
+                                date=date,
                             )
                         )
                 i += 1
-            parameters.append(PolicyEngineScaleParameter(parameter))
+            parameters.append(PolicyEngineScaleParameter(parameter, date=date))
         else:
-            parameters += [PolicyEngineParameter(parameter)]
+            parameters += [PolicyEngineParameter(parameter, date=date)]
     parameter_metadata = OrderedDict()
     for parameter in parameters:
         try:
