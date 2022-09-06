@@ -1225,3 +1225,8 @@
     added:
     - NY parameters to PolicyEngine US.
   date: 2022-09-06 12:33:28
+- bump: patch
+  changes:
+    added:
+    - NY logo.
+  date: 2022-09-06 13:35:42
