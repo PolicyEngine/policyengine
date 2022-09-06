@@ -644,7 +644,7 @@ export class US extends Country {
     }
     defaultOpenParameterGroups = [];
     defaultSelectedParameterGroup = "/US government/IRS/Income tax schedule"
-    showSnapShot = false
+    showSnapShot = true
     // OpenFisca data
     parameters = null
     entities = null

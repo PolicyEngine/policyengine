@@ -1213,3 +1213,10 @@
     fixed:
     - Handling of boolean switches in household earnings charts.
   date: 2022-09-01 15:43:52
+- bump: patch
+  changes:
+    added:
+    - Time travel feature to PolicyEngine US.
+    fixed:
+    - Issue causing failures on basic income policies.
+  date: 2022-09-05 18:32:19
