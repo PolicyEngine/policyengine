@@ -183,6 +183,8 @@ class PolicyReform:
                     "false": False,
                     1: True,
                     0: False,
+                    "1": True,
+                    "0": False,
                     True: True,
                     False: False,
                 }[self.parameters[key]]
@@ -312,7 +314,7 @@ def use_current_parameters(date: str = None) -> Reform:
         try:
             parameters.reforms.policy_date.update(
                 value=int(datetime.now().strftime("%Y%m%d")),
-                period=f"year:{year-10}:20",
+                period=f"year:{year}:1",
             )
         except:
             pass

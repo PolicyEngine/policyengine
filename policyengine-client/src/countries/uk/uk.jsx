@@ -117,9 +117,11 @@ export class UK extends Country {
             "add_threshold",
             "extra_UK_band",
           ],
+          "Dividend income": [
+            "gov_hmrc_income_tax_rates_dividends",
+          ],
           "Scottish rates": [
             "scottish_starter_rate",
-            "scottish_starter_threshold",
             "scottish_basic_rate",
             "scottish_basic_threshold",
             "scottish_intermediate_rate",
@@ -630,5 +632,11 @@ export class UK extends Country {
     "extra_scot_rate",
     "extra_scot_threshold",
     "country_specific",
+    "dividend_basic_rate",
+    "dividend_basic_threshold",
+    "dividend_higher_rate",
+    "dividend_higher_threshold",
+    "dividend_additional_rate",
+    "dividend_additional_threshold",
   ];
 }

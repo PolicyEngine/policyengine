@@ -76,6 +76,7 @@ class PolicyEngineCountry:
             leaf_nodes=self.leaf_nodes,
             age_chart=self.age_chart,
             population_breakdown=self.population_breakdown,
+            auto_ubi=self.auto_ubi,
         )
         if self.name is None:
             self.name = self.__class__.__name__.lower()
@@ -123,18 +124,23 @@ class PolicyEngineCountry:
         )
 
     def create_microsimulations(
-        self, parameters: dict, force_refresh_baseline: bool = False
+        self,
+        parameters: dict,
+        force_refresh_baseline: bool = False,
+        do_not_cache: bool = False,
     ):
         """Generate a microsimulations from PolicyEngine parameters.
 
         Args:
             parameters (dict): The PolicyEngine parameters.
             force_refresh_baseline (bool): If True, force a refresh of the baseline microsimulation.
+            do_not_cache (bool): If True, do not cache the microsimulation.
         """
         policy_reform = self.create_reform(parameters)
         if (
             not policy_reform.edits_baseline
             and self.baseline_microsimulation is None
+            and not do_not_cache
         ):
             try:
                 baseline = (

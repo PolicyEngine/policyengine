@@ -7,6 +7,88 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.99.2] - 2022-09-06 14:03:45
+
+### Fixed
+
+- A bug causing history-dependent parameters (NY CTC, pre-TCJA) to fail.
+
+## [1.99.1] - 2022-09-06 13:35:42
+
+### Added
+
+- NY logo.
+
+## [1.99.0] - 2022-09-06 12:33:28
+
+### Added
+
+- NY parameters to PolicyEngine US.
+
+## [1.98.3] - 2022-09-05 18:32:19
+
+### Added
+
+- Time travel feature to PolicyEngine US.
+
+### Fixed
+
+- Issue causing failures on basic income policies.
+
+## [1.98.2] - 2022-09-01 15:43:52
+
+### Fixed
+
+- Handling of boolean switches in household earnings charts.
+
+## [1.98.1] - 2022-09-01 11:45:43
+
+### Fixed
+
+- Baseline policy changes now force recomputation of household situations.
+
+## [1.98.0] - 2022-09-01 02:41:30
+
+### Added
+
+- Basic income parameters for AGI limit and dollar-defined phase-out range.
+
+## [1.97.0] - 2022-08-31 13:46:35
+
+### Fixed
+
+- A bug causing region-specific simulations to be erroneously cached as the general baseline.
+
+## [1.96.1] - 2022-08-30 10:39:22
+
+### Fixed
+
+- Bug causing scale parameters to fail.
+
+## [1.96.0] - 2022-08-30 09:32:44
+
+### Added
+
+- Recent blog posts to the home page.
+
+### Fixed
+
+- AutoUBI in the UK.
+
+## [1.95.0] - 2022-08-28 16:13:08
+
+### Added
+
+- __init__ Python files.
+- GH pages/JB documentation starter.
+- Logic to handle custom-named parameters in scales.
+
+## [1.94.2] - 2022-08-26 22:20:58
+
+### Fixed
+
+- Scottish rates menu broke.
+
 ## [1.94.1] - 2022-08-26 06:43:45
 
 ### Fixed
@@ -1391,6 +1473,18 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.99.2]: https://github.com/PolicyEngine/policyengine/compare/1.99.1...1.99.2
+[1.99.1]: https://github.com/PolicyEngine/policyengine/compare/1.99.0...1.99.1
+[1.99.0]: https://github.com/PolicyEngine/policyengine/compare/1.98.3...1.99.0
+[1.98.3]: https://github.com/PolicyEngine/policyengine/compare/1.98.2...1.98.3
+[1.98.2]: https://github.com/PolicyEngine/policyengine/compare/1.98.1...1.98.2
+[1.98.1]: https://github.com/PolicyEngine/policyengine/compare/1.98.0...1.98.1
+[1.98.0]: https://github.com/PolicyEngine/policyengine/compare/1.97.0...1.98.0
+[1.97.0]: https://github.com/PolicyEngine/policyengine/compare/1.96.1...1.97.0
+[1.96.1]: https://github.com/PolicyEngine/policyengine/compare/1.96.0...1.96.1
+[1.96.0]: https://github.com/PolicyEngine/policyengine/compare/1.95.0...1.96.0
+[1.95.0]: https://github.com/PolicyEngine/policyengine/compare/1.94.2...1.95.0
+[1.94.2]: https://github.com/PolicyEngine/policyengine/compare/1.94.1...1.94.2
 [1.94.1]: https://github.com/PolicyEngine/policyengine/compare/1.94.0...1.94.1
 [1.94.0]: https://github.com/PolicyEngine/policyengine/compare/1.93.1...1.94.0
 [1.93.1]: https://github.com/PolicyEngine/policyengine/compare/1.93.0...1.93.1

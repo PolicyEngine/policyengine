@@ -1168,3 +1168,70 @@
     - Bug where abolishing the UK marriage allowance income condition crashed the
       app.
   date: 2022-08-26 06:43:45
+- bump: patch
+  changes:
+    fixed:
+    - Scottish rates menu broke.
+  date: 2022-08-26 22:20:58
+- bump: minor
+  changes:
+    added:
+    - __init__ Python files.
+    - GH pages/JB documentation starter.
+    - Logic to handle custom-named parameters in scales.
+  date: 2022-08-28 16:13:08
+- bump: minor
+  changes:
+    added:
+    - Recent blog posts to the home page.
+    fixed:
+    - AutoUBI in the UK.
+  date: 2022-08-30 09:32:44
+- bump: patch
+  changes:
+    fixed:
+    - Bug causing scale parameters to fail.
+  date: 2022-08-30 10:39:22
+- bump: minor
+  changes:
+    fixed:
+    - A bug causing region-specific simulations to be erroneously cached as the general
+      baseline.
+  date: 2022-08-31 13:46:35
+- bump: minor
+  changes:
+    added:
+    - Basic income parameters for AGI limit and dollar-defined phase-out range.
+  date: 2022-09-01 02:41:30
+- bump: patch
+  changes:
+    fixed:
+    - Baseline policy changes now force recomputation of household situations.
+  date: 2022-09-01 11:45:43
+- bump: patch
+  changes:
+    fixed:
+    - Handling of boolean switches in household earnings charts.
+  date: 2022-09-01 15:43:52
+- bump: patch
+  changes:
+    added:
+    - Time travel feature to PolicyEngine US.
+    fixed:
+    - Issue causing failures on basic income policies.
+  date: 2022-09-05 18:32:19
+- bump: minor
+  changes:
+    added:
+    - NY parameters to PolicyEngine US.
+  date: 2022-09-06 12:33:28
+- bump: patch
+  changes:
+    added:
+    - NY logo.
+  date: 2022-09-06 13:35:42
+- bump: patch
+  changes:
+    fixed:
+    - A bug causing history-dependent parameters (NY CTC, pre-TCJA) to fail.
+  date: 2022-09-06 14:03:45

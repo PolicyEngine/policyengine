@@ -180,20 +180,20 @@ class PolicyEngineScaleComponentParameter(PolicyEngineParameter):
             "name", self.parent.name.replace(".", "_")
         )
         if self.is_threshold:
-            return f"{stem}_{self.index}_threshold"
+            return f"{stem}_{self.index + 1}_threshold"
         else:
-            return f"{stem}_{self.index}_rate"
+            return f"{stem}_{self.index + 1}_rate"
 
     @property
     def unit(self):
-        return self.metadata.get(
+        return self.openfisca_parameter.metadata.get(
             "unit", self.parent.metadata.get(f"{self.value_type}_unit")
         )
 
     @property
     def period(self):
         default_period = "year" if self.is_threshold else None
-        return self.metadata.get(
+        return self.openfisca_parameter.metadata.get(
             "period",
             self.parent.metadata.get(f"{self.type}_period", default_period),
         )
@@ -291,7 +291,7 @@ def build_parameters(
     )
     for parameter in system.parameters.get_descendants():
         if isinstance(parameter, Parameter):
-            parameters.append(PolicyEngineParameter(parameter))
+            parameters.append(PolicyEngineParameter(parameter, date=date))
         elif isinstance(parameter, ParameterScale):
             i = 0
             for bracket in parameter.brackets:
@@ -305,12 +305,13 @@ def build_parameters(
                                 attribute == "threshold",
                                 attribute,
                                 i,
+                                date=date,
                             )
                         )
                 i += 1
-            parameters.append(PolicyEngineScaleParameter(parameter))
+            parameters.append(PolicyEngineScaleParameter(parameter, date=date))
         else:
-            parameters += [PolicyEngineParameter(parameter)]
+            parameters += [PolicyEngineParameter(parameter, date=date)]
     parameter_metadata = OrderedDict()
     for parameter in parameters:
         try:

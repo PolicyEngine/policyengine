@@ -32,8 +32,10 @@ export default function TimeTravel(props) {
                             }
                         }).then((policy) => {
                             let previous_policy = country.policy;
-                            for(let key in policy) {
-                                previous_policy[key][country.editingReform ? "value" : "baselineValue"] = policy[key].value;
+                            for(let key of Object.keys(policy)) {
+                                if(Object.keys(previous_policy).includes(key)) {
+                                    previous_policy[key][country.editingReform ? "value" : "baselineValue"] = policy[key].value;
+                                }
                             }
                             country.updateEntirePolicy(previous_policy);
                             setIsLoading(false);
