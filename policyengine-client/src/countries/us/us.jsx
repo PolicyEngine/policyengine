@@ -19,6 +19,7 @@ import CongressLogo from "../../images/parameter-icons/us/third-party/congress.s
 import SimulationLogo from "../../images/parameter-icons/simulation.webp";
 import MALogo from "../../images/parameter-icons/us/state-governments/ma.png";
 import WALogo from "../../images/parameter-icons/us/state-governments/wa.png";
+import NYLogo from "../../images/parameter-icons/us/state-governments/ny.webp";
 import MDLogo from "../../images/parameter-icons/us/state-governments/md.jpeg";
 import StateSpecific from "./components/stateSpecific";
 
@@ -628,6 +629,9 @@ export class US extends Country {
         },
         "Massachusetts": {
             logo: MALogo,
+        },
+        "New York": {
+            logo: NYLogo,
         },
         "Washington": {
             logo: WALogo,
