@@ -205,7 +205,7 @@ export default class Parameter extends React.Component {
 		}
 		const metadata = Object.assign(this.context.policy[this.props.name], this.props.extraMetadata || {});
 		if (!metadata) {
-			return <></>;
+			//return <></>;
 			// Uncomment this line to debug: 
 			console.log(this.context.policy)
 			return <h2>Failed: {this.props.name}</h2>;

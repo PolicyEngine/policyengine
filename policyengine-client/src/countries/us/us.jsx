@@ -381,6 +381,109 @@ export class US extends Country {
                     },
                 },
             },
+            "New York": {
+                "State income tax": {
+                    "Adjusted gross income": [
+                        "ny_pension_exclusion_cap",
+                        "ny_pension_exclusion_min_age",
+                    ],
+                    "Rates": {
+                        "Main": [
+                            "ny_income_tax_rate_single",
+                            "ny_income_tax_rate_joint",
+                            "ny_income_tax_rate_hoh",
+                            "ny_income_tax_rate_separate",
+                            "ny_income_tax_rate_widow",
+                        ],
+                        "Supplemental": {
+                            "High-income AGI limit": [
+                                "ny_sup_agi_limit_max",
+                                "ny_sup_agi_limit_tax_rate",
+                            ],
+                            "General": [
+                                "ny_sup_min_agi",
+                                "ny_sup_phase_in_length",
+                            ],
+                            "Recapture base": [
+                                "ny_sup_recap_base_single",
+                                "ny_sup_recap_base_joint",
+                                "ny_sup_recap_base_hoh",
+                                "ny_sup_recap_base_separate",
+                                "ny_sup_recap_base_widow",
+                            ],
+                        },
+                    },
+                    "Exemptions": [
+                        "ny_dependent_exemption_amount",
+                    ],
+                    "Deductions": {
+                        "Standard": [
+                            "ny_standard_deduction_amount",
+                            "ny_standard_deduction_dependent_elsewhere",
+                        ],
+                        "Itemized": [
+                            "ny_college_tuition_deduction_max",
+                        ],
+                    },
+                    "Credits": {
+                        "Empire State Child Credit": [
+                            "ny_escc_minimum_age",
+                            "ny_escc_federal_share",
+                            "ny_escc_amount_minimum",
+                        ],
+                        "NY EITC": [
+                            "ny_eitc_match",
+                            "ny_supplemental_eitc_match",
+                        ],
+                        "NY CDCC": {
+                            "General": [
+                                "ny_cdcc_max_amount",
+                                "ny_cdcc_multiplier",
+                            ],
+                            "Main fraction": [
+                                "ny_cdcc_main_multiplier",
+                                "ny_cdcc_main_base",
+                                "ny_cdcc_main_frac_denom",
+                                "ny_cdcc_main_frac_num_min",
+                                "ny_cdcc_main_frac_num_top",
+                            ],
+                            "Alternate fraction": [
+                                "ny_cdcc_alt_max_agi",
+                                "ny_cdcc_alt_multiplier",
+                                "ny_cdcc_alt_base",
+                                "ny_cdcc_alt_frac_denom",
+                                "ny_cdcc_alt_frac_num_min",
+                                "ny_cdcc_alt_frac_num_top",
+                            ],
+                        },
+                        "NY household credit": [
+                            "ny_household_credit_single",
+                            "ny_household_credit_non_single_base",
+                            "ny_household_credit_non_single_additional",
+                        ],
+                        "NY college tuition credit": [
+                            "ny_college_tuition_credit_rate",
+                        ],
+                        "NY real property tax credit": {
+                            "Excess RPT": [
+                                "ny_rent_tax_equivalent",
+                                "ny_rptc_excess_rpt",
+                            ],
+                            "Eligibility": [
+                                "ny_max_rent",
+                                "ny_rptc_max_property_value",
+                                "ny_rptc_max_agi",
+                            ],
+                            "Maximum credit": [
+                                "ny_rptc_rate",
+                                "ny_rptc_elderly_age",
+                                "ny_rptc_excess_rpt_non_elderly",
+                                "ny_rptc_excess_rpt_elderly",
+                            ],
+                        },
+                    },
+                }
+            },
             "Washington": {
                 "Capital gains tax": {
                     "Rate": [
@@ -721,6 +824,18 @@ export class US extends Country {
         "md_non_single_childless_refundable_eitc",
         "md_single_childless_eitc",
         "md_ctc",
+        // New York.
+        "ny_income_tax",
+        "ny_income_tax_before_credits",
+        "ny_main_income_tax",
+        "ny_non_refundable_credits",
+        "ny_supplemental_tax",
+        "ny_ctc",
+        "ny_cdcc",
+        "ny_eitc",
+        "ny_household_credit",
+        "ny_college_tuition_credit",
+        "ny_real_property_tax_credit",
         // Washington.
         "wa_income_tax",
         "wa_working_families_tax_credit",
@@ -855,6 +970,7 @@ export class US extends Country {
                 "income_tax",
                 "ma_income_tax",
                 "md_income_tax",
+                "ny_income_tax",
                 "wa_income_tax",
             ],
             "subtract": []
@@ -919,6 +1035,26 @@ export class US extends Country {
                 "wa_working_families_tax_credit"
             ]
         },
+        "ny_income_tax": {
+            "add": [
+                "ny_income_tax_before_credits"
+            ],
+            "subtract": [
+                "ny_non_refundable_credits",
+                "ny_ctc",
+                "ny_cdcc",
+                "ny_eitc",
+                "ny_household_credit",
+                "ny_college_tuition_credit",
+                "ny_real_property_tax_credit",
+            ],
+        },
+        "ny_income_tax_before_credits": {
+            "add": [
+                "ny_main_income_tax",
+                "ny_supplemental_tax",
+            ],
+        }
     }
 
     householdMaritalOptions = ["Single", "Married"]

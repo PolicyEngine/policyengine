@@ -55,7 +55,7 @@ export function getTranslators(parameter) {
 				result = {
 					formatter: (value, noPeriod) => `${value < 0 ? "- " : ""}${CURRENCY_SYMBOLS[currency]}${round(value).toLocaleString(undefined, { maximumFractionDigits: parameter.precision })}${period && !noPeriod ? ("/" + period) : ""}`,
 				}
-				minMax = { year: 100_000, month: 1000, week: 100, null: 100 }[period];
+				minMax = { year: 100_000, month: 1000, week: 100, null: 100 }[period || "year"];
 			}
 		}
 	} else if (parameter.valueType === "date") {
