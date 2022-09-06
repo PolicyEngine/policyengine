@@ -1235,3 +1235,8 @@
     fixed:
     - A bug causing history-dependent parameters (NY CTC, pre-TCJA) to fail.
   date: 2022-09-06 14:03:45
+- bump: minor
+  changes:
+    added:
+    - NY region for population impacts.
+  date: 2022-09-06 16:03:53
