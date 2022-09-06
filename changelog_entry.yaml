@@ -1,4 +1,0 @@
-- bump: patch
-  changes:
-    fixed:
-    - A bug causing history-dependent parameters (NY CTC, pre-TCJA) to fail.

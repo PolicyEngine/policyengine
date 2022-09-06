@@ -1230,3 +1230,8 @@
     added:
     - NY logo.
   date: 2022-09-06 13:35:42
+- bump: patch
+  changes:
+    fixed:
+    - A bug causing history-dependent parameters (NY CTC, pre-TCJA) to fail.
+  date: 2022-09-06 14:03:45
