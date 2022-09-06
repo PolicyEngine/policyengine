@@ -1220,3 +1220,8 @@
     fixed:
     - Issue causing failures on basic income policies.
   date: 2022-09-05 18:32:19
+- bump: minor
+  changes:
+    added:
+    - NY parameters to PolicyEngine US.
+  date: 2022-09-06 12:33:28
