@@ -102,7 +102,7 @@ def parametric(
                         )
             except:
                 raise ValueError(
-                    f"Could not find the parameter (failed at {name})."
+                    f"Could not find the parameter (failed at {name}). The full parameter is {parameter}."
                 )
         node.update(period=period, value=value)
         return parameters

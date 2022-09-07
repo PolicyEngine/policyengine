@@ -1,0 +1,6 @@
+- bump: minor
+  changes:
+    changed:
+    - Organized UK parameters by department.
+    added:
+    - Ofgem (UK) energy price cap parameters.
