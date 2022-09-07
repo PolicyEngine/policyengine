@@ -396,23 +396,10 @@ export class US extends Country {
                             "ny_income_tax_rate_separate",
                             "ny_income_tax_rate_widow",
                         ],
-                        "Supplemental": {
-                            "High-income AGI limit": [
-                                "ny_sup_agi_limit_max",
-                                "ny_sup_agi_limit_tax_rate",
-                            ],
-                            "General": [
-                                "ny_sup_min_agi",
-                                "ny_sup_phase_in_length",
-                            ],
-                            "Recapture base": [
-                                "ny_sup_recap_base_single",
-                                "ny_sup_recap_base_joint",
-                                "ny_sup_recap_base_hoh",
-                                "ny_sup_recap_base_separate",
-                                "ny_sup_recap_base_widow",
-                            ],
-                        },
+                        "Supplemental": [
+                            "ny_sup_min_agi",
+                            "ny_sup_phase_in_length",
+                        ],
                     },
                     "Exemptions": [
                         "ny_dependent_exemption_amount",
