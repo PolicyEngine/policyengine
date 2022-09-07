@@ -1255,3 +1255,10 @@
     fixed:
     - Bug in threshold time projection.
   date: 2022-09-07 10:27:00
+- bump: minor
+  changes:
+    added:
+    - Ofgem (UK) energy price cap parameters.
+    changed:
+    - Organized UK parameters by department.
+  date: 2022-09-07 12:31:42
