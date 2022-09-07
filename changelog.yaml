@@ -1245,3 +1245,8 @@
     added:
     - NY to population drop-down.
   date: 2022-09-06 16:20:28
+- bump: patch
+  changes:
+    fixed:
+    - Bug causing NY CTC to be 2x expected.
+  date: 2022-09-07 09:15:32

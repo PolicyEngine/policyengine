@@ -1,4 +1,0 @@
-- bump: patch
-  changes:
-    fixed:
-    - Bug causing NY CTC to be 2x expected.
