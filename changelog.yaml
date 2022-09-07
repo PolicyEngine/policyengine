@@ -1250,3 +1250,8 @@
     fixed:
     - Bug causing NY CTC to be 2x expected.
   date: 2022-09-07 09:15:32
+- bump: patch
+  changes:
+    fixed:
+    - Bug in threshold time projection.
+  date: 2022-09-07 10:27:00
