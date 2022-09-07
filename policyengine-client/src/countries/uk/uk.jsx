@@ -99,7 +99,19 @@ export class UK extends Country {
     },
     tv_licence_fee: {
       max: 250,
-    }
+    },
+    ofgem_price_cap_2022_q4: {
+      max: 10_000,
+    },
+    ofgem_price_cap_2023_q1: {
+      max: 10_000,
+    },
+    ofgem_price_cap_2023_q2: {
+      max: 10_000,
+    },
+    ofgem_price_cap_2023_q3: {
+      max: 10_000,
+    },
   };
   parameterHierarchy = {
     Simulation: {
@@ -107,7 +119,7 @@ export class UK extends Country {
       Geography: ["countrySpecific"],
     },
     "UK government": {
-      Tax: {
+      HMRC: {
         "Income Tax": {
           "Labour income": [
             "basic_rate",
@@ -167,7 +179,16 @@ export class UK extends Country {
           "abolish_lbtt",
           "abolish_business_rates",
         ],
+        "Child Benefit": [
+          "abolish_CB",
+          "CB_eldest",
+          "CB_additional",
+          "CB_HITC_reduction_threshold",
+          "CB_HITC_reduction_rate",
+        ],
         "Fuel duties": ["fuel_duty_rate"],
+      },
+      DCMS: {
         "TV licence": {
           "Fee": ["tv_licence_fee"],
           "Discounts": [
@@ -178,14 +199,7 @@ export class UK extends Country {
           "Evasion": ["tv_licence_evasion_rate"],
         }
       },
-      Benefit: {
-        "Child Benefit": [
-          "abolish_CB",
-          "CB_eldest",
-          "CB_additional",
-          "CB_HITC_reduction_threshold",
-          "CB_HITC_reduction_rate",
-        ],
+      DWP: {
         "Legacy benefits": [
           "abolish_CTC",
           "abolish_WTC",
@@ -224,12 +238,20 @@ export class UK extends Country {
             "UC_reduction_rate",
           ],
         },
+      },
+      Treasury: {
         "Energy bills support": ["ebr_ct_rebate", "ebr_energy_bills_credit"],
         "Cost-of-living support payment": [
           "col_benefit_payment_amount",
           "col_pensioner_payment_amount",
           "col_disability_payment_amount",
         ],
+        "Energy price cap subsidy": [
+          "ofgem_price_cap_2022_q4",
+          "ofgem_price_cap_2023_q1",
+          "ofgem_price_cap_2023_q2",
+          "ofgem_price_cap_2023_q3",
+        ]
       },
     },
     "Third party": {
@@ -272,7 +294,7 @@ export class UK extends Country {
     },
   };
   defaultOpenParameterGroups = [];
-  defaultSelectedParameterGroup = "/UK government/Tax/Income Tax/Labour income";
+  defaultSelectedParameterGroup = "/UK government/HMRC/Income Tax/Labour income";
   organisations = {
     "UBI Center": {
       logo: UBICenterLogo,
