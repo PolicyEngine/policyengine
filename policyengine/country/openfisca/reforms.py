@@ -297,18 +297,18 @@ def use_current_parameters(date: str = None) -> Reform:
         for child in parameters.get_descendants():
             if isinstance(child, Parameter):
                 current_value = child(date)
-                child.update(period=f"year:{year-10}:20", value=current_value)
+                child.update(period=f"year:{year-1}:1", value=current_value)
             elif isinstance(child, ParameterScale):
                 for bracket in child.brackets:
                     if "rate" in bracket.children:
                         current_rate = bracket.rate(date)
                         bracket.rate.update(
-                            period=f"year:{year-10}:20", value=current_rate
+                            period=f"year:{year-0}:1", value=current_rate
                         )
                     if "threshold" in bracket.children:
                         current_threshold = bracket.threshold(date)
                         bracket.threshold.update(
-                            period=f"year:{year-10}:20",
+                            period=f"year:{year-1}:1",
                             value=current_threshold,
                         )
         try:
