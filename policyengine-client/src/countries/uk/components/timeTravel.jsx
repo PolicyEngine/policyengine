@@ -64,6 +64,7 @@ export default function TimeTravel(props) {
                 onClick={() => {
                     if(!policyDateChanged) {
                         const dateString = policyDate.format("YYYY-MM-DD");
+                        const year = policyDate.format("YYYY");
                         const url = `${country.apiURL}/parameters?policy_date=${dateString}`;
                         setPolicyDateLoading(true);
                         fetch(url)
@@ -83,6 +84,7 @@ export default function TimeTravel(props) {
                                     }
                                 }
                                 country.updateEntirePolicy(previous_policy);
+                                country.setCountryState({year: year})
                                 setPolicyDateLoading(false);
                             }).catch(e => {
                                 message.error("Couldn't time travel - something went wrong.");

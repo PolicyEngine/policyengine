@@ -81,4 +81,10 @@ class US(PolicyEngineCountry):
                     np.where(subgroup_in_state, weight, 0),
                 )
 
+        policy_date = parameters.get("policy_date")
+        if policy_date is not None:
+            year = int(str(policy_date)[:4])
+            baseline.year = year
+            reformed.year = year
+
         return baseline, reformed

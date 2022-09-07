@@ -181,6 +181,12 @@ class PolicyEngineCountry:
             reformed.build()
         else:
             reformed = None
+
+        policy_date = parameters.get("policy_date")
+        if policy_date is not None:
+            year = int(str(policy_date)[:4])
+            baseline.year = year
+            reformed.year = year
         return baseline, reformed
 
     def create_openfisca_simulation(self, parameters: dict) -> Simulation:

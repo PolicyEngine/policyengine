@@ -9,6 +9,7 @@ export default class Country {
     populationImpactBreakdownResults = null
     ageChartResult = null;
     editingReform = true;
+    year = 2022
 
     updatePolicy(name, value) {
         // Update a parameter - validate, then update the state
@@ -73,7 +74,7 @@ export default class Country {
             entity = this.entities[metadata.entity];
             for (let entityInstance of Object.keys(situation[entity.plural])) {
                 if (!Object.keys(situation[entity.plural][entityInstance]).includes(variable)) {
-                    situation[entity.plural][entityInstance][variable] = { "2022": value };
+                    situation[entity.plural][entityInstance][variable] = { this.year: value };
                 }
             }
         }
@@ -85,7 +86,7 @@ export default class Country {
             entity = this.entities[metadata.entity];
             for (let entityInstance of Object.keys(situation[entity.plural])) {
                 if (!Object.keys(situation[entity.plural][entityInstance]).includes(variable)) {
-                    situation[entity.plural][entityInstance][variable] = { "2022": null };
+                    situation[entity.plural][entityInstance][variable] = { this.policy_: null };
                 }
             }
         }
@@ -106,7 +107,7 @@ export default class Country {
 
     updateSituationValue(entityType, entityName, variable, value) {
         let situation = this.situation;
-        situation[this.entities[entityType].plural][entityName][variable] = { "2022": value };
+        situation[this.entities[entityType].plural][entityName][variable] = { this.year: value };
         this.setState({
             situation: situation,
             baselineSituationImpactIsOutdated: true,
@@ -115,7 +116,7 @@ export default class Country {
         });
     }
 
-    useLocalServer = false;
+    useLocalServer = true;
     usePolicyEngineOrgServer = false;
 
     waitingOnPopulationImpact = false;

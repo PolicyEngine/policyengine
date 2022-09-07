@@ -111,6 +111,9 @@ export default class PolicyEngine extends React.Component {
                 }
               }
             }
+            filteredData.policy_date = {
+              name: "policy_date",
+            }
             data = filteredData;
           }
           this.setCountryState({ [name]: data }, checkAllFetchesComplete);
