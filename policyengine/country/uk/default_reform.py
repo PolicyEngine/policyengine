@@ -309,13 +309,17 @@ def create_default_reform() -> ReformType:
             if parameters(period).reforms.misc.exempt_seniors_from_PA_changes:
                 return where(is_sp_age, baseline_pa, default_pa)
             return default_pa
-    
-    class energy_price_cap_subsidy(baseline_variables["energy_price_cap_subsidy"]):
+
+    class energy_price_cap_subsidy(
+        baseline_variables["energy_price_cap_subsidy"]
+    ):
         def formula(household, period, parameters):
             # PolicyEngine simulates each month, rather than each quarter in OpenFisca UK. This
             # is because PolicyEngine simulations are of "the year from now", rather than a specific
             # year.
-            energy_consumption = household("domestic_energy_consumption", period)
+            energy_consumption = household(
+                "domestic_energy_consumption", period
+            )
             # For each of the four quarters in the next year, calculate the
             # relative change to the price cap against the baseline price cap,
             # and multiply by quarterly energy consumption.
@@ -331,18 +335,23 @@ def create_default_reform() -> ReformType:
                 year = now.year + into_next_year * 1
                 quarter = month // 3 + 1
                 current_quarter = f"{year}_q{quarter}"
-                price_cap = parameters(period).gov.ofgem.price_cap._children[current_quarter]
+                price_cap = parameters(period).gov.ofgem.price_cap._children[
+                    current_quarter
+                ]
                 baseline_price_cap = parameters(
                     period
                 ).baseline.gov.ofgem.price_cap._children[current_quarter]
                 relative_change_in_cap = (
                     price_cap - baseline_price_cap
                 ) / baseline_price_cap
-                relative_change_in_energy_consumption = baseline_price_cap / m1_baseline_price_cap
+                relative_change_in_energy_consumption = (
+                    baseline_price_cap / m1_baseline_price_cap
+                )
                 total_subsidy += (
                     -relative_change_in_cap
                     * relative_change_in_energy_consumption
-                    * energy_consumption / 12
+                    * energy_consumption
+                    / 12
                 )
             return total_subsidy
 
