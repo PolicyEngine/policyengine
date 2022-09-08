@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.102.0] - 2022-09-08 20:55:14
+
+### Added
+
+- Time travel feature for US pages.
+
 ## [1.101.3] - 2022-09-08 09:42:25
 
 ### Fixed
@@ -1525,6 +1531,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.102.0]: https://github.com/PolicyEngine/policyengine/compare/1.101.3...1.102.0
 [1.101.3]: https://github.com/PolicyEngine/policyengine/compare/1.101.2...1.101.3
 [1.101.2]: https://github.com/PolicyEngine/policyengine/compare/1.101.1...1.101.2
 [1.101.1]: https://github.com/PolicyEngine/policyengine/compare/1.101.0...1.101.1
