@@ -1267,3 +1267,8 @@
     fixed:
     - NY supplemental tax.
   date: 2022-09-07 21:09:13
+- bump: patch
+  changes:
+    fixed:
+    - Fix bug in UK energy imputation (2 households have slightly negative consumption).
+  date: 2022-09-08 09:02:37
