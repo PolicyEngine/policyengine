@@ -320,6 +320,8 @@ def create_default_reform() -> ReformType:
             energy_consumption = household(
                 "domestic_energy_consumption", period
             )
+            country = household("country", period)
+            outside_ni = country != country.possible_values.NORTHERN_IRELAND
             energy_consumption = max_(0, energy_consumption)
             # For each of the four quarters in the next year, calculate the
             # relative change to the price cap against the baseline price cap,
@@ -354,7 +356,7 @@ def create_default_reform() -> ReformType:
                     * energy_consumption
                     / 12
                 )
-            return total_subsidy
+            return total_subsidy * outside_ni
 
     class default_reform(Reform):
         def apply(self):

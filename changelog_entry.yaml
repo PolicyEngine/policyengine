@@ -1,0 +1,4 @@
+- bump: patch
+  changes:
+    fixed:
+    - Exclude NI households from the energy price cap.
