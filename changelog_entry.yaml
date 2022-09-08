@@ -1,0 +1,4 @@
+- bump: patch
+  changes:
+    fixed:
+    - Fix bug in UK energy imputation (2 households have slightly negative consumption).
