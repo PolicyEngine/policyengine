@@ -320,6 +320,7 @@ def create_default_reform() -> ReformType:
             energy_consumption = household(
                 "domestic_energy_consumption", period
             )
+            energy_consumption = max_(0, energy_consumption)
             # For each of the four quarters in the next year, calculate the
             # relative change to the price cap against the baseline price cap,
             # and multiply by quarterly energy consumption.
