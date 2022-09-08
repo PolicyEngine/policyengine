@@ -1262,3 +1262,8 @@
     changed:
     - Organized UK parameters by department.
   date: 2022-09-07 12:31:42
+- bump: patch
+  changes:
+    fixed:
+    - NY supplemental tax.
+  date: 2022-09-07 21:09:13
