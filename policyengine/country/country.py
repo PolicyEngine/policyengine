@@ -172,6 +172,7 @@ class PolicyEngineCountry:
             situation (dict): The OpenFisca situation JSON.
         """
         policy_reform = self.create_reform(parameters)
+        policy_date = parameters.get("policy_date")
         baseline = self.individualsim_type(policy_reform.baseline)
         baseline.situation_data = situation
         baseline.build()
@@ -181,6 +182,11 @@ class PolicyEngineCountry:
             reformed.build()
         else:
             reformed = None
+        if policy_date is not None:
+            year = int(str(policy_date)[:4])
+            baseline.year = year
+            reformed.year = year
+
         return baseline, reformed
 
     def create_openfisca_simulation(self, parameters: dict) -> Simulation:
