@@ -57,7 +57,7 @@ class UK(PolicyEngineCountry):
             )
         else:
             baseline, reformed = super().create_microsimulations(parameters)
-        
+
         policy_date = parameters.get("policy_date")
         if policy_date is not None:
             year = int(str(policy_date)[:4])

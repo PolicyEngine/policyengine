@@ -375,6 +375,5 @@ def create_default_reform() -> ReformType:
                 Path(__file__).parent / "additional_parameters.yaml"
             ).apply(self)
             self.update_variable(energy_price_cap_subsidy)
-            
 
     return default_reform, use_current_parameters()

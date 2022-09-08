@@ -313,7 +313,13 @@ class Policy:
             if "policy_date" in self.parameters:
                 date = str(self.parameters.get("policy_date"))
                 date_str = f"{date[:4]}-{date[4:6]}-{date[6:]}"
-                system = apply_reform((self.default_reform[:-1], use_current_parameters(date_str)), system)
+                system = apply_reform(
+                    (
+                        self.default_reform[:-1],
+                        use_current_parameters(date_str),
+                    ),
+                    system,
+                )
                 print(system.parameters.gov.doe)
             else:
                 system = apply_reform(self.default_reform, system)
@@ -332,4 +338,3 @@ class Policy:
                         system.neutralize_variable(variable)
             else:
                 parametric(metadata["parameter"], value).apply(system)
-
