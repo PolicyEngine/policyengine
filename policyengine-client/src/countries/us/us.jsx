@@ -23,6 +23,8 @@ import NYLogo from "../../images/parameter-icons/us/state-governments/ny.webp";
 import MDLogo from "../../images/parameter-icons/us/state-governments/md.jpeg";
 import StateSpecific from "./components/stateSpecific";
 
+import translateTimePeriod from "../utils/timePeriod";
+
 const childNamer = {
     1: "Your first dependent",
     2: "Your second dependent",
@@ -68,6 +70,16 @@ export class US extends Country {
     // Vanity URLs
     namedPolicies = {}
     validatePolicy = validatePolicy;
+    year = 2022
+    showDatePicker = true;
+    
+    setYear(year) {
+        let situation = translateTimePeriod(this.situation, this.year, year);
+        this.setState({
+            year: year,
+            situation: situation,
+        }, () => console.log(this.situation));
+    }
 
     parameterComponentOverrides = {
         timeTravel: <TimeTravel />,
@@ -697,10 +709,10 @@ export class US extends Country {
         return {
             "people": {
                 "You": {
-                    "age": { year: 25 },
-                    "is_tax_unit_head": { year: true },
-                    "is_tax_unit_dependent": { year: false },
-                    "is_tax_unit_spouse": { year: false },
+                    "age": { [year]: 25 },
+                    "is_tax_unit_head": { [year]: true },
+                    "is_tax_unit_dependent": { [year]: false },
+                    "is_tax_unit_spouse": { [year]: false },
                 },
             },
             "tax_units": {
@@ -769,6 +781,8 @@ export class US extends Country {
         "purchased_qualifying_new_clean_vehicle",
         "purchased_qualifying_used_clean_vehicle",
         "used_clean_vehicle_sale_price",
+        "heat_pump_expenditures",
+        "high_efficiency_electric_home_rebate_percent_covered",
         // SPM unit.
         "housing_cost",
         "childcare_expenses",
@@ -861,6 +875,8 @@ export class US extends Country {
         "is_tax_unit_spouse",
         "income_tax",
         "adjusted_gross_income",
+        "high_efficiency_electric_home_rebate",
+        "residential_efficiency_electrification_rebate",
     ]
     inputVariableHierarchy = {
         "Household": {
@@ -889,6 +905,8 @@ export class US extends Country {
                     "new_clean_vehicle_battery_critical_minerals_extracted_in_trading_partner_country",
                     "purchased_qualifying_used_clean_vehicle",
                     "used_clean_vehicle_sale_price",
+                    "heat_pump_expenditures",
+                    "high_efficiency_electric_home_rebate_percent_covered",
                 ],
             },
             "Benefits": [
@@ -971,6 +989,8 @@ export class US extends Country {
                 "social_security",
                 "wic",
                 "basic_income",
+                "high_efficiency_electric_home_rebate",
+                "residential_efficiency_electrification_rebate",
             ],
             "subtract": []
         },

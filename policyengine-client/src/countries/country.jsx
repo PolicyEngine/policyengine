@@ -10,6 +10,7 @@ export default class Country {
     ageChartResult = null;
     editingReform = true;
     year = 2022
+    showDatePicker = false;
 
     updatePolicy(name, value) {
         // Update a parameter - validate, then update the state
@@ -74,7 +75,9 @@ export default class Country {
             entity = this.entities[metadata.entity];
             for (let entityInstance of Object.keys(situation[entity.plural])) {
                 if (!Object.keys(situation[entity.plural][entityInstance]).includes(variable)) {
-                    situation[entity.plural][entityInstance][variable] = { this.year: value };
+                    let entry = {};
+                    entry[this.year] = value;
+                    situation[entity.plural][entityInstance][variable] = entry;
                 }
             }
         }
@@ -86,7 +89,7 @@ export default class Country {
             entity = this.entities[metadata.entity];
             for (let entityInstance of Object.keys(situation[entity.plural])) {
                 if (!Object.keys(situation[entity.plural][entityInstance]).includes(variable)) {
-                    situation[entity.plural][entityInstance][variable] = { this.policy_: null };
+                    situation[entity.plural][entityInstance][variable] = {[this.year]: null};
                 }
             }
         }
@@ -107,7 +110,9 @@ export default class Country {
 
     updateSituationValue(entityType, entityName, variable, value) {
         let situation = this.situation;
-        situation[this.entities[entityType].plural][entityName][variable] = { this.year: value };
+        let entry = {};
+        entry[this.year] = value;
+        situation[this.entities[entityType].plural][entityName][variable] = entry;
         this.setState({
             situation: situation,
             baselineSituationImpactIsOutdated: true,
@@ -116,7 +121,7 @@ export default class Country {
         });
     }
 
-    useLocalServer = true;
+    useLocalServer = false;
     usePolicyEngineOrgServer = false;
 
     waitingOnPopulationImpact = false;

@@ -84,7 +84,7 @@ export default function TimeTravel(props) {
                                     }
                                 }
                                 country.updateEntirePolicy(previous_policy);
-                                country.setCountryState({year: year})
+                                country.setYear(year);
                                 setPolicyDateLoading(false);
                             }).catch(e => {
                                 message.error("Couldn't time travel - something went wrong.");
@@ -134,7 +134,7 @@ export default function TimeTravel(props) {
                     country.updateEntirePolicy(previous_policy);
                 }
             }>Reset reform to baseline</Button>
-            {policyDateControl}
+            {country.showDatePicker && policyDateControl}
         </>
   );
 }
