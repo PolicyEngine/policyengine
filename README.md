@@ -1,6 +1,8 @@
-# Getting Started with Create React App
+# `ira-calculator`
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) - default README content is below.
+
+This is a hackathon project for the DemocracyLab hackathon led by Max Ghenis and Nikhil Woodruff at PolicyEngine. The project is to develop a web app that uses the OpenFisca US open-source tax-benefit model to calculate the impact of the Inflation Reduction Act on custom households, using the PolicyEngine open API.
 
 ## Available Scripts
 
