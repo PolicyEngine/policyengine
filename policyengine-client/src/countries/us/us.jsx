@@ -1104,10 +1104,10 @@ export class US extends Country {
         const name = "Your spouse"
         const year = this.year;
         situation.people[name] = {
-            "age": { year: 25 },
-            "is_tax_unit_dependent": { year: false },
-            "is_tax_unit_spouse": { year: true },
-            "is_tax_unit_head": { year: false },
+            "age": { [year]: 25 },
+            "is_tax_unit_dependent": { [year]: false },
+            "is_tax_unit_spouse": { [year]: true },
+            "is_tax_unit_head": { [year]: false },
         };
         situation.families["Your family"].members.push(name);
         situation.marital_units["Your marital unit"].members.push(name);
@@ -1121,11 +1121,11 @@ export class US extends Country {
         const childName = childNamer[this.getNumChildren() + 1];
         const year = this.year
         situation.people[childName] = {
-            "age": { year: 10 },
-            "is_in_k12_school": { year: true },
-            "is_tax_unit_dependent": { year: true },
-            "is_tax_unit_spouse": { year: false },
-            "is_tax_unit_head": { year: false },
+            "age": { [year]: 10 },
+            "is_in_k12_school": { [year]: true },
+            "is_tax_unit_dependent": { [year]: true },
+            "is_tax_unit_spouse": { [year]: false },
+            "is_tax_unit_head": { [year]: false },
         };
         situation.families["Your family"].members.push(childName);
         situation.tax_units["Your tax unit"].members.push(childName);
@@ -1145,7 +1145,7 @@ export class US extends Country {
         let year = this.year
         if (name === "Your spouse") {
             if (!situation["families"]["Your family"]["is_married"]) {
-                situation["families"]["Your family"]["is_married"] = { year: false }
+                situation["families"]["Your family"]["is_married"] = { [year]: false }
             }
             situation["families"]["Your family"]["is_married"][this.year] = false;
             situation.marital_units["Your marital unit"].members.pop()
