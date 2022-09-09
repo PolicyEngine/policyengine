@@ -1,4 +1,0 @@
-- bump: minor
-  changes:
-    fixed:
-    - Bug in policy-dated scenarios after adding people.

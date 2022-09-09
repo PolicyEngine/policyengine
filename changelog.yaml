@@ -1287,3 +1287,8 @@
     added:
     - Axis handling for /calculate endpoints.
   date: 2022-09-09 09:52:39
+- bump: minor
+  changes:
+    fixed:
+    - Bug in policy-dated scenarios after adding people.
+  date: 2022-09-09 20:50:49
