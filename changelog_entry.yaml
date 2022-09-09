@@ -1,0 +1,4 @@
+- bump: minor
+  changes:
+    added:
+    - Axis handling for /calculate endpoints.
