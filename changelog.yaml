@@ -1297,3 +1297,10 @@
     changed:
     - Add a 404 redirect to policyengine homepage when the url does not exist.
   date: 2022-09-10 05:05:50
+- bump: minor
+  changes:
+    added:
+    - Household rebates and tax credits introduced by the Inflation Reduction Act.
+    removed:
+    - CDCC qualified dependent input.
+  date: 2022-09-10 06:07:16

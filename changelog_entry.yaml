@@ -1,6 +1,0 @@
-- bump: minor
-  changes:
-    added:
-      - Household rebates and tax credits introduced by the Inflation Reduction Act.
-    removed:
-      - CDCC qualified dependent input.
