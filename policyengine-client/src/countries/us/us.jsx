@@ -222,7 +222,7 @@ export class US extends Country {
                                 "energy_efficient_home_improvement_credit_furnace_boiler_cap",
                                 "energy_efficient_home_improvement_credit_annual_cap_roofs",
                                 "energy_efficient_home_improvement_credit_annual_cap_windows",
-                                "energy_efficient_home_improvement_credit_annual_cap",
+                                "energy_efficient_home_improvement_credit_annual_cap_total",
                             ],
                             "Lifetime": [
                                 "energy_efficient_home_improvement_credit_lifetime_cap",
