@@ -5,6 +5,43 @@ import Spinner from '../../../policyengine/general/spinner';
 import { useContext } from 'react';
 import { CountryContext } from '../../country';
 
+export function setPolicyDateState(country, policyDate) {
+    const dateString = policyDate.format("YYYY-MM-DD");
+    const year = policyDate.format("YYYY");
+    const url = `${country.apiURL}/parameters?policy_date=${dateString}`;
+    fetch(url)
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                throw res;
+            }
+        }).then((policy) => {
+            let previous_policy = country.policy;
+            for(let key of Object.keys(policy)) {
+                if(Object.keys(previous_policy).includes(key)) {
+                    previous_policy[key].defaultValue = policy[key].value;
+                    previous_policy[key].baselineValue = policy[key].value;
+                    previous_policy[key].value = policy[key].value;
+                }
+            }
+            country.updateEntirePolicy(previous_policy);
+            country.setYear(year);
+        }).catch(e => {
+            message.error("Couldn't time travel - something went wrong.");
+        });
+    let policy = country.policy;
+    policy.policy_date = {
+        name: "policy_date",
+        label: "PolicyEngine simulation date",
+        defaultValue: moment().format("YYYYMMDD"),
+        value: policyDate.format("YYYYMMDD"),
+        baselineValue: policyDate.format("YYYYMMDD"),
+        valueType: "date",
+    };
+    country.updateEntirePolicy(policy);
+}
+
 export default function TimeTravel(props) {
     let [date, setDate] = React.useState(moment());
     const country = useContext(CountryContext);
@@ -63,44 +100,10 @@ export default function TimeTravel(props) {
             <Button 
                 onClick={() => {
                     if(!policyDateChanged) {
-                        const dateString = policyDate.format("YYYY-MM-DD");
-                        const year = policyDate.format("YYYY");
-                        const url = `${country.apiURL}/parameters?policy_date=${dateString}`;
                         setPolicyDateLoading(true);
-                        fetch(url)
-                            .then((res) => {
-                                if (res.ok) {
-                                    return res.json();
-                                } else {
-                                    throw res;
-                                }
-                            }).then((policy) => {
-                                let previous_policy = country.policy;
-                                for(let key of Object.keys(policy)) {
-                                    if(Object.keys(previous_policy).includes(key)) {
-                                        previous_policy[key].defaultValue = policy[key].value;
-                                        previous_policy[key].baselineValue = policy[key].value;
-                                        previous_policy[key].value = policy[key].value;
-                                    }
-                                }
-                                country.updateEntirePolicy(previous_policy);
-                                country.setYear(year);
-                                setPolicyDateLoading(false);
-                            }).catch(e => {
-                                message.error("Couldn't time travel - something went wrong.");
-                                setPolicyDateLoading(false);
-                            });
-                        let policy = country.policy;
-                        policy.policy_date = {
-                            name: "policy_date",
-                            label: "PolicyEngine simulation date",
-                            defaultValue: moment().format("YYYYMMDD"),
-                            value: policyDate.format("YYYYMMDD"),
-                            baselineValue: policyDate.format("YYYYMMDD"),
-                            valueType: "date",
-                        };
-                        country.updateEntirePolicy(policy);
+                        setPolicyDateState(country, policyDate)
                         setPolicyDateChanged(true);
+                        setPolicyDateLoading(false);
                     } else {
                         let policy = country.policy;
                         policy.policy_date = {

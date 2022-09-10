@@ -65,6 +65,7 @@ export class UK extends Country {
   showEarningsVariation = true;
   showWealth = true;
   showFAQ = true;
+  setYear = () => {};
   // Vanity URLs
   namedPolicies = {
     "/ubilabs/resilience-ubi":

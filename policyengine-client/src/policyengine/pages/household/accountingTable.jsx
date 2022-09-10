@@ -92,7 +92,9 @@ export default class AccountingTable extends React.Component {
         if (this.context.baselineSituationImpactIsOutdated && !this.context.waitingOnAccountingTableBaseline) {
             this.updateBaselineSituation();
         }
-        const reformExists = Object.keys(this.context.getPolicyJSONPayload()).length > 0;
+        const reformExists = (
+            Object.keys(this.context.getPolicyJSONPayload()).length > +(this.context.year != 2022)
+        );
         if (reformExists && this.context.reformSituationImpactIsOutdated && !this.context.waitingOnAccountingTableReform) {
             this.updateReformSituation();
         }
@@ -102,7 +104,9 @@ export default class AccountingTable extends React.Component {
         // Update situations where necessary (re-using where not)
         // If the policy changes, we need to update only the reform 
         // situation. If the situation changes, we need to update both.
-        const reformExists = Object.keys(this.context.getPolicyJSONPayload()).length > 0;
+        const reformExists = (
+            Object.keys(this.context.getPolicyJSONPayload()).length > +(this.context.year != 2022)
+        );
         if (
             this.context.computedBaselineSituation === null
             || (reformExists && (this.context.computedReformSituation === null))
@@ -127,7 +131,7 @@ export default class AccountingTable extends React.Component {
 }
 
 function getValues(variable, country) {
-    const reformExists = Object.keys(country.getPolicyJSONPayload()).length > 0;
+    const reformExists = Object.keys(country.getPolicyJSONPayload()).length > +(country.year != 2022);
     const baseline = country.computedBaselineSituation;
     const reform = reformExists ? country.computedReformSituation : baseline;
     const entity = country.entities[country.variables[variable].entity];
@@ -149,7 +153,9 @@ function shouldShow(variable, country) {
 function VariableTable(props) {
     // Given a variable name, return a table.
     const country = useContext(CountryContext);
-    const reformExists = Object.keys(country.getPolicyJSONPayload()).length > 0;
+    const reformExists = (
+        Object.keys(country.getPolicyJSONPayload()).length > +(country.year != 2022)
+    );
     let columns;
     if (reformExists) {
         columns = [{

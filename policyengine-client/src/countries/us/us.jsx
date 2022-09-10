@@ -79,7 +79,7 @@ export class US extends Country {
         this.setState({
             year: year,
             situation: situation,
-        }, () => console.log(this.situation));
+        });
     }
 
     parameterComponentOverrides = {

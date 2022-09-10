@@ -5,8 +5,10 @@ export default function translateTimePeriod(oldSituation, fromYear, toYear) {
     for (let entity of Object.keys(situation)) {
         for (let entityInstance of Object.keys(situation[entity])) {
             for (let variable of Object.keys(situation[entity][entityInstance])) {
-                situation[entity][entityInstance][variable][toYear] = situation[entity][entityInstance][variable][fromYear];
-                delete situation[entity][entityInstance][variable][fromYear];
+                if (variable !== "members") {
+                    situation[entity][entityInstance][variable][toYear] = situation[entity][entityInstance][variable][fromYear];
+                    delete situation[entity][entityInstance][variable][fromYear];
+                }
             }
         }
     }
