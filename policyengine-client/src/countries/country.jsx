@@ -89,7 +89,7 @@ export default class Country {
             entity = this.entities[metadata.entity];
             for (let entityInstance of Object.keys(situation[entity.plural])) {
                 if (!Object.keys(situation[entity.plural][entityInstance]).includes(variable)) {
-                    situation[entity.plural][entityInstance][variable] = {[this.year]: null};
+                    situation[entity.plural][entityInstance][variable] = { [this.year]: null };
                 }
             }
         }
@@ -121,7 +121,7 @@ export default class Country {
         });
     }
 
-    useLocalServer = true;
+    useLocalServer = false;
     usePolicyEngineOrgServer = false;
 
     waitingOnPopulationImpact = false;
