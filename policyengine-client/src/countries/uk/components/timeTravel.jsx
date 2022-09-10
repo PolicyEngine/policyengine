@@ -5,7 +5,7 @@ import Spinner from '../../../policyengine/general/spinner';
 import { useContext } from 'react';
 import { CountryContext } from '../../country';
 
-export function setPolicyDateState(country, policyDate) {
+export function setPolicyDateState(country, policyDate, callback) {
     const dateString = policyDate.format("YYYY-MM-DD");
     const year = policyDate.format("YYYY");
     const url = `${country.apiURL}/parameters?policy_date=${dateString}`;
@@ -27,8 +27,10 @@ export function setPolicyDateState(country, policyDate) {
             }
             country.updateEntirePolicy(previous_policy);
             country.setYear(year);
+            callback();
         }).catch(e => {
             message.error("Couldn't time travel - something went wrong.");
+            callback();
         });
     let policy = country.policy;
     policy.policy_date = {
@@ -101,9 +103,10 @@ export default function TimeTravel(props) {
                 onClick={() => {
                     if(!policyDateChanged) {
                         setPolicyDateLoading(true);
-                        setPolicyDateState(country, policyDate)
-                        setPolicyDateChanged(true);
-                        setPolicyDateLoading(false);
+                        setPolicyDateState(country, policyDate, () => {
+                            setPolicyDateChanged(true);
+                            setPolicyDateLoading(false);
+                        })
                     } else {
                         let policy = country.policy;
                         policy.policy_date = {

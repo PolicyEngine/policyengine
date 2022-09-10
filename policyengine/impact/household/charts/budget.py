@@ -25,6 +25,10 @@ DEBUG_MODE = False
 
 DEBUG_VARIABLES = [
     "ssi",
+    "income_tax",
+    "spm_unit_taxes",
+    "spm_unit_benefits",
+    "premium_tax_credit",
 ]
 
 

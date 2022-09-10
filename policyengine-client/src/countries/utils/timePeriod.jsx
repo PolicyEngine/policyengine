@@ -1,6 +1,9 @@
 export default function translateTimePeriod(oldSituation, fromYear, toYear) {
     // Find every occurrence of {fromYear: ...} in the situation and replace it with
     // {toYear: ...}, removing the original entry.
+    if(fromYear === toYear) {
+        return oldSituation;
+    }
     let situation = JSON.parse(JSON.stringify(oldSituation));
     for (let entity of Object.keys(situation)) {
         for (let entityInstance of Object.keys(situation[entity])) {
