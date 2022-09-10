@@ -11,6 +11,57 @@ from openfisca_core.tracers.tracing_parameter_node_at_instant import (
 )
 
 
+def use_current_parameters(date: str = None) -> Reform:
+    """Backdates parameters at a given instant to the start of the year.
+
+    Args:
+        date (str, optional): The given instant. Defaults to now.
+
+    Returns:
+        Reform: The reform backdating parameters.
+    """
+    if date is None:
+        date = datetime.now()
+    else:
+        date = datetime.strptime(date, "%Y-%m-%d")
+
+    year = date.year
+    date = datetime.strftime(date, "%Y-%m-%d")
+
+    def modify_parameters(parameters: ParameterNode):
+        for child in parameters.get_descendants():
+            if isinstance(child, Parameter):
+                current_value = child(date)
+                child.update(period=f"year:{year}:1", value=current_value)
+            elif isinstance(child, ParameterScale):
+                for bracket in child.brackets:
+                    if "rate" in bracket.children:
+                        current_rate = bracket.rate(date)
+                        bracket.rate.update(
+                            period=f"year:{year}:1", value=current_rate
+                        )
+                    if "threshold" in bracket.children:
+                        current_threshold = bracket.threshold(date)
+                        bracket.threshold.update(
+                            period=f"year:{year}:1",
+                            value=current_threshold,
+                        )
+        try:
+            parameters.reforms.policy_date.update(
+                value=int(datetime.now().strftime("%Y%m%d")),
+                period=f"year:{year}:1",
+            )
+        except:
+            pass
+        return parameters
+
+    class reform(Reform):
+        def apply(self):
+            self.modify_parameters(modify_parameters)
+
+    return reform
+
+
 def add_parameter_file(path: str) -> Reform:
     """Generates a reform adding a parameter file to the tree.
 
@@ -102,7 +153,7 @@ def parametric(
                         )
             except:
                 raise ValueError(
-                    f"Could not find the parameter (failed at {name})."
+                    f"Could not find the parameter (failed at {name}). The full parameter is {parameter}."
                 )
         node.update(period=period, value=value)
         return parameters
@@ -144,7 +195,6 @@ IGNORED_POLICY_PARAMETERS = [
     "country_specific",
     "baseline_state_specific",
     "state_specific",
-    "policy_date",
 ]
 
 
@@ -260,8 +310,22 @@ class Policy:
             system (TaxBenefitSystem): The system to apply it to.
         """
         if self.default_reform is not None:
-            system = apply_reform(self.default_reform, system)
+            if "policy_date" in self.parameters:
+                date = str(self.parameters.get("policy_date"))
+                date_str = f"{date[:4]}-{date[4:6]}-{date[6:]}"
+                system = apply_reform(
+                    (
+                        self.default_reform[:-1],
+                        use_current_parameters(date_str),
+                    ),
+                    system,
+                )
+                print(system.parameters.gov.doe)
+            else:
+                system = apply_reform(self.default_reform, system)
         for key, value in self.parameters.items():
+            if key == "policy_date":
+                continue
             metadata = self.policyengine_parameters[key]
             if metadata["unit"] == "abolition":
                 variables_to_neutralise = metadata["variable"]
@@ -274,54 +338,3 @@ class Policy:
                         system.neutralize_variable(variable)
             else:
                 parametric(metadata["parameter"], value).apply(system)
-
-
-def use_current_parameters(date: str = None) -> Reform:
-    """Backdates parameters at a given instant to the start of the year.
-
-    Args:
-        date (str, optional): The given instant. Defaults to now.
-
-    Returns:
-        Reform: The reform backdating parameters.
-    """
-    if date is None:
-        date = datetime.now()
-    else:
-        date = datetime.strptime(date, "%Y-%m-%d")
-
-    year = date.year
-    date = datetime.strftime(date, "%Y-%m-%d")
-
-    def modify_parameters(parameters: ParameterNode):
-        for child in parameters.get_descendants():
-            if isinstance(child, Parameter):
-                current_value = child(date)
-                child.update(period=f"year:{year-10}:20", value=current_value)
-            elif isinstance(child, ParameterScale):
-                for bracket in child.brackets:
-                    if "rate" in bracket.children:
-                        current_rate = bracket.rate(date)
-                        bracket.rate.update(
-                            period=f"year:{year-10}:20", value=current_rate
-                        )
-                    if "threshold" in bracket.children:
-                        current_threshold = bracket.threshold(date)
-                        bracket.threshold.update(
-                            period=f"year:{year-10}:20",
-                            value=current_threshold,
-                        )
-        try:
-            parameters.reforms.policy_date.update(
-                value=int(datetime.now().strftime("%Y%m%d")),
-                period=f"year:{year-10}:20",
-            )
-        except:
-            pass
-        return parameters
-
-    class reform(Reform):
-        def apply(self):
-            self.modify_parameters(modify_parameters)
-
-    return reform
