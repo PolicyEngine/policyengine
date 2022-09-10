@@ -6,6 +6,7 @@ import Country from "../country"
 import TimeTravel from "../uk/components/timeTravel";
 /* Icons/logos */
 import USGovernmentLogo from "../../images/parameter-icons/us/us.webp"
+import DOELogo from "../../images/parameter-icons/us/us-government/doe.png"
 import FCCLogo from "../../images/parameter-icons/us/us-government/fcc.png"
 import IRSLogo from "../../images/parameter-icons/us/us-government/irs.png"
 import HHSLogo from "../../images/parameter-icons/us/us-government/hhs.webp"
@@ -72,7 +73,7 @@ export class US extends Country {
     validatePolicy = validatePolicy;
     year = 2022
     showDatePicker = true;
-    
+
     setYear(year) {
         let situation = translateTimePeriod(this.situation, this.year, year);
         this.setState({
@@ -147,7 +148,40 @@ export class US extends Country {
                             "cdcc_min_rate",
                         ],
                     },
-                    "EITC": {
+                    "Clean vehicle": {
+                        "New": {
+                            "Battery components": [
+                                "new_clean_vehicle_credit_battery_components_amount",
+                                "new_clean_vehicle_credit_battery_components_threshold",
+                            ],
+                            "Critical minerals": [
+                                "new_clean_vehicle_credit_critical_minerals_amount",
+                                "new_clean_vehicle_credit_critical_minerals_threshold",
+                            ],
+                            "Eligibility": [
+                                "new_clean_vehicle_credit_income_limit",
+                                "new_clean_vehicle_credit_msrp_limit",
+                                "new_clean_vehicle_credit_min_kwh",
+                            ],
+                            "kWh-based amount": [
+                                "new_clean_vehicle_credit_base_amount",
+                                "new_clean_vehicle_credit_amount_per_kwh",
+                                "new_clean_vehicle_credit_kwh_threshold",
+                                "new_clean_vehicle_credit_max_amount_for_capacity_bonus",
+                            ]
+                        },
+                        "Used": {
+                            "Amount": [
+                                "used_clean_vehicle_credit_max_amount",
+                                "used_clean_vehicle_credit_sale_price_percent",
+                            ],
+                            "Eligibility": [
+                                "used_clean_vehicle_credit_income_limit",
+                                "used_clean_vehicle_credit_sale_price_limit",
+                            ]
+                        }
+                    },
+                    "Earned Income Tax Credit": {
                         "General": [
                             "abolish_eitc",
                         ],
@@ -175,12 +209,35 @@ export class US extends Country {
                             "aoc_refundable_percentage",
                         ],
                     },
-                    "Electric vehicle": [
-                        "new_ev_credit_base_amount",
-                        "new_ev_credit_amount_per_kwh",
-                        "new_ev_credit_kwh_threshold",
-                        "new_ev_credit_max_amount_for_capacity_bonus",
-                        "new_ev_credit_min_kwh",
+                    "Energy efficient home improvement": {
+                        "Cap": {
+                            "Annual": [
+                                "energy_efficient_home_improvement_credit_advanced_main_air_circulating_fan_cap",
+                                "energy_efficient_home_improvement_credit_annual_cap_doors",
+                                "energy_efficient_home_improvement_credit_energy_efficient_building_property_cap",
+                                "energy_efficient_home_improvement_credit_energy_efficient_central_air_conditioner_cap",
+                                "energy_efficient_home_improvement_credit_annual_cap_heat_pumps_heat_pump_water_heaters_biomass_stoves_boilers",
+                                "energy_efficient_home_improvement_credit_home_energy_audit_cap",
+                                "energy_efficient_home_improvement_credit_energy_efficient_insulation_material_cap",
+                                "energy_efficient_home_improvement_credit_furnace_boiler_cap",
+                                "energy_efficient_home_improvement_credit_annual_cap_roofs",
+                                "energy_efficient_home_improvement_credit_annual_cap_windows",
+                                "energy_efficient_home_improvement_credit_annual_cap_total",
+                            ],
+                            "Lifetime": [
+                                "energy_efficient_home_improvement_credit_lifetime_cap",
+                                "energy_efficient_home_improvement_credit_lifetime_window_cap",
+                            ]
+                        },
+                        "Rate": [
+                            "energy_efficient_home_improvement_credit_audit_rate",
+                            "energy_efficient_home_improvement_credit_improvements_rate",
+                            "energy_efficient_home_improvement_credit_property_rate",
+                        ]
+                    },
+                    "Residential clean energy": [
+                        "residential_clean_energy_credit_applicable_percentage",
+                        "residential_clean_energy_credit_fuel_cell_cap_per_kw",
                     ]
                 },
                 "Social Security": [
@@ -194,6 +251,38 @@ export class US extends Country {
                     "self_employment_medicare_rate",
                     "additional_medicare_rate",
                 ]
+            },
+            "DOE": {
+                "High efficiency electric home rebate": {
+                    "Percent covered": [
+                        "high_efficiency_electric_home_rebate_percent_covered",
+                    ],
+                    "Cap": [
+                        "high_efficiency_electric_home_rebate_annual_cap_electric_heat_pump_clothes_dryer",
+                        "high_efficiency_electric_home_rebate_annual_cap_electric_load_service_center_upgrade",
+                        "high_efficiency_electric_home_rebate_annual_cap_electric_stove_cooktop_range_or_oven",
+                        "high_efficiency_electric_home_rebate_annual_cap_electric_wiring",
+                        "high_efficiency_electric_home_rebate_annual_cap_heat_pump",
+                        "high_efficiency_electric_home_rebate_annual_cap_heat_pump_water_heater",
+                        "high_efficiency_electric_home_rebate_annual_cap_insulation_air_sealing_ventilation",
+                        "high_efficiency_electric_home_rebate_annual_cap_total",
+                    ]
+                },
+                "Residential efficiency and electrification rebate": {
+                    "Cap": [
+                        "residential_efficiency_electrification_rebate_cap_low_amount",
+                        "residential_efficiency_electrification_rebate_cap_medium",
+                        "residential_efficiency_electrification_rebate_cap_high",
+                    ],
+                    "Percent": [
+                        "residential_efficiency_electrification_rebate_percent",
+                    ],
+                    "Threshold": [
+                        "residential_efficiency_electrification_rebate_threshold_low",
+                        "residential_efficiency_electrification_rebate_threshold_medium",
+                        "residential_efficiency_electrification_rebate_threshold_high",
+                    ]
+                },
             },
             "FCC": {
                 "Lifeline": {
@@ -509,41 +598,6 @@ export class US extends Country {
         },
         "Third party": {
             "Congress": {
-                "Senate": {
-                    "Democrats": {
-                        "Inflation Reduction Act": {
-                            "General": [
-                                "inflation_reduction_act_in_effect"
-                            ],
-                            "Electric vehicle credit": {
-                                "New": {
-                                    "Battery components": [
-                                        "inflation_reduction_act_ev_battery_components_amount",
-                                        "inflation_reduction_act_ev_battery_components_threshold",
-                                    ],
-                                    "Critical minerals": [
-                                        "inflation_reduction_act_ev_critical_minerals_amount",
-                                        "inflation_reduction_act_ev_critical_minerals_threshold",
-                                    ],
-                                    "Eligibility": [
-                                        "inflation_reduction_act_ev_new_income_limit",
-                                        "inflation_reduction_act_ev_new_msrp_limit",
-                                    ]
-                                },
-                                "Used": {
-                                    "Amount": [
-                                        "inflation_reduction_act_ev_used_max_amount",
-                                        "inflation_reduction_act_ev_used_sale_price_percent",
-                                    ],
-                                    "Eligibility": [
-                                        "inflation_reduction_act_ev_used_income_limit",
-                                        "inflation_reduction_act_ev_used_sale_price_limit",
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                },
                 "House": {
                     "Rep Tlaib": {
                         "End Child Poverty Act": {
@@ -602,6 +656,9 @@ export class US extends Country {
         },
         "US government": {
             logo: USGovernmentLogo,
+        },
+        "DOE": {
+            logo: DOELogo,
         },
         "FCC": {
             logo: FCCLogo,
@@ -676,8 +733,8 @@ export class US extends Country {
         wa_wftc_max_amount: { max: 10_000 },
         wa_wftc_min_amount: { max: 1_000 },
         // Inflation Reduction Act.
-        inflation_reduction_act_ev_battery_components_amount: { max: 10_000 },
-        inflation_reduction_act_ev_critical_minerals_amount: { max: 10_000 },
+        clean_vehicle_battery_components_amount: { max: 10_000 },
+        clean_vehicle_critical_minerals_amount: { max: 10_000 },
         // Each parameter breakdown requires separate treatment.
         contrib_tlaib_end_child_poverty_act_filer_credit_amount_SINGLE: { max: 10_000 },
         contrib_tlaib_end_child_poverty_act_filer_credit_amount_JOINT: { max: 10_000 },
@@ -730,7 +787,7 @@ export class US extends Country {
         };
     }
 
-    
+
     inputVariables = [
         // Person.
         "age",
@@ -768,8 +825,32 @@ export class US extends Country {
         "purchased_qualifying_new_clean_vehicle",
         "purchased_qualifying_used_clean_vehicle",
         "used_clean_vehicle_sale_price",
+        "residential_efficiency_electrification_retrofit_expenditures",
+        "residential_efficiency_electrification_retrofit_energy_savings",
+        "home_energy_audit_expenditures",
+        "energy_efficient_door_expenditures",
+        "energy_efficient_insulation_expenditures",
+        "energy_efficient_roof_expenditures",
+        "energy_efficient_window_expenditures",
+        "advanced_main_air_circulating_fan_expenditures",
+        "air_sealing_ventilation_expenditures",
+        "biomass_stove_boiler_expenditures",
+        "electric_heat_pump_clothes_dryer_expenditures",
+        "electric_load_service_center_upgrade_expenditures",
+        "electric_stove_cooktop_range_or_oven_expenditures",
+        "electric_wiring_expenditures",
+        "energy_efficient_central_air_conditioner_expenditures",
         "heat_pump_expenditures",
-        "high_efficiency_electric_home_rebate_percent_covered",
+        "heat_pump_water_heater_expenditures",
+        "qualified_furnace_or_hot_water_boiler_expenditures",
+        "fuel_cell_property_capacity",
+        "fuel_cell_property_expenditures",
+        "geothermal_heat_pump_property_expenditures",
+        "qualified_battery_storage_technology_expenditures",
+        "small_wind_energy_property_expenditures",
+        "solar_electric_property_expenditures",
+        "solar_water_heating_property_expenditures",
+        "tax_unit_income_ami_ratio",
         // SPM unit.
         "housing_cost",
         "childcare_expenses",
@@ -781,7 +862,8 @@ export class US extends Country {
         "is_on_tribal_land",
         "is_rural",
         "is_homeless",
-        "cdcc_qualified_dependent",
+        "current_home_energy_use",
+        "average_home_energy_use_in_state",
     ]
     outputVariables = [
         // Top level.
@@ -805,6 +887,8 @@ export class US extends Country {
         "acp",
         "ca_cvrp",
         "wic",
+        "high_efficiency_electric_home_rebate",
+        "residential_efficiency_electrification_rebate",
         // Third level - spm_unit_taxes.
         "spm_unit_payroll_tax",
         "spm_unit_self_employment_tax",
@@ -874,7 +958,14 @@ export class US extends Country {
                 "state_code",
                 "is_on_tribal_land",
                 "is_rural",
+                "average_home_energy_use_in_state",
+            ],
+            "AMI": [
+                "tax_unit_income_ami_ratio",
+            ],
+            "Home": [
                 "is_homeless",
+                "current_home_energy_use",
             ],
             "Expenses": {
                 "Household": [
@@ -883,18 +974,53 @@ export class US extends Country {
                     "phone_cost",
                     "broadband_cost",
                 ],
-                "Vehicle": [
-                    "purchased_qualifying_new_clean_vehicle",
-                    "new_clean_vehicle_classification",
-                    "new_clean_vehicle_msrp",
-                    "new_clean_vehicle_battery_capacity",
-                    "new_clean_vehicle_battery_components_made_in_north_america",
-                    "new_clean_vehicle_battery_critical_minerals_extracted_in_trading_partner_country",
-                    "purchased_qualifying_used_clean_vehicle",
-                    "used_clean_vehicle_sale_price",
-                    "heat_pump_expenditures",
-                    "high_efficiency_electric_home_rebate_percent_covered",
+                "Retrofits": [
+                    "home_energy_audit_expenditures",
+                    "residential_efficiency_electrification_retrofit_expenditures",
+                    "residential_efficiency_electrification_retrofit_energy_savings",
                 ],
+                "Energy efficiency improvements": [
+                    "energy_efficient_door_expenditures",
+                    "energy_efficient_insulation_expenditures",
+                    "energy_efficient_roof_expenditures",
+                    "energy_efficient_window_expenditures",
+                ],
+                "Energy efficient property": [
+                    "fuel_cell_property_capacity",
+                    "fuel_cell_property_expenditures",
+                    "geothermal_heat_pump_property_expenditures",
+                    "qualified_battery_storage_technology_expenditures",
+                    "small_wind_energy_property_expenditures",
+                    "solar_electric_property_expenditures",
+                    "solar_water_heating_property_expenditures",
+                ],
+                "Energy property": [
+                    "advanced_main_air_circulating_fan_expenditures",
+                    "air_sealing_ventilation_expenditures",
+                    "biomass_stove_boiler_expenditures",
+                    "electric_heat_pump_clothes_dryer_expenditures",
+                    "electric_load_service_center_upgrade_expenditures",
+                    "electric_stove_cooktop_range_or_oven_expenditures",
+                    "electric_wiring_expenditures",
+                    "energy_efficient_central_air_conditioner_expenditures",
+                    "heat_pump_expenditures",
+                    "heat_pump_water_heater_expenditures",
+                    "qualified_furnace_or_hot_water_boiler_expenditures",
+                ],
+                "Clean vehicle": {
+                    "New": [
+                        "purchased_qualifying_new_clean_vehicle",
+                        "new_clean_vehicle_classification",
+                        "new_clean_vehicle_msrp",
+                        "new_clean_vehicle_battery_capacity",
+                        "new_clean_vehicle_battery_components_made_in_north_america",
+                        "new_clean_vehicle_battery_critical_minerals_extracted_in_trading_partner_country",
+                    ],
+                    "Used": [
+                        "purchased_qualifying_used_clean_vehicle",
+                        "used_clean_vehicle_sale_price",
+                    ],
+                },
             },
             "Benefits": [
                 "fdpir",
@@ -930,7 +1056,6 @@ export class US extends Country {
                 "is_pregnant",
                 "is_breastfeeding",
                 "is_wic_at_nutritional_risk",
-                "cdcc_qualified_dependent",
             ],
             "Expenses": [
                 "medical_out_of_pocket_expenses",
@@ -975,6 +1100,9 @@ export class US extends Country {
                 "ssi",
                 "social_security",
                 "wic",
+                "high_efficiency_electric_home_rebate",
+                "residential_efficiency_electrification_rebate",
+                // Contributed.
                 "basic_income",
                 "high_efficiency_electric_home_rebate",
                 "residential_efficiency_electrification_rebate",
