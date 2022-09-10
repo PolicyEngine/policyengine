@@ -1309,3 +1309,8 @@
     fixed:
     - URL and household variation charts with policy dates.
   date: 2022-09-10 12:10:51
+- bump: patch
+  changes:
+    fixed:
+    - Removed duplicate entries for clean energy rebates.
+  date: 2022-09-10 16:16:31

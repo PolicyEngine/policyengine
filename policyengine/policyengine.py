@@ -18,7 +18,7 @@ from .country import PolicyEngineCountry, UK, US
 class PolicyEngine:
     """Class initialising and running the PolicyEngine API."""
 
-    version: str = "1.105.1"
+    version: str = "1.105.2"
     """The version of the PolicyEngine API, used to identify the API version in the cache.
     """
 
