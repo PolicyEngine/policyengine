@@ -386,12 +386,19 @@ title="Print to PDF"
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">policyengine</span> <span class="kn">import</span> <span class="n">PolicyEngineUS</span>
 <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Markdown</span>
 
-<span class="n">baseline</span><span class="p">,</span> <span class="n">reformed</span> <span class="o">=</span> <span class="n">PolicyEngineUS</span><span class="p">()</span><span class="o">.</span><span class="n">create_microsimulations</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
-    <span class="n">gov_irs_income_bracket_rates_1</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="c1"># Set the first tax rate to 5% (currently 10%)</span>
-<span class="p">))</span>
+<span class="n">baseline</span><span class="p">,</span> <span class="n">reformed</span> <span class="o">=</span> <span class="n">PolicyEngineUS</span><span class="p">()</span><span class="o">.</span><span class="n">create_microsimulations</span><span class="p">(</span>
+    <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">gov_irs_income_bracket_rates_1</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>  <span class="c1"># Set the first tax rate to 5% (currently 10%)</span>
+    <span class="p">)</span>
+<span class="p">)</span>
 
-<span class="n">gain</span> <span class="o">=</span> <span class="n">reformed</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;spm_unit_net_income&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="n">baseline</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;spm_unit_net_income&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;From this code snippet above, PolicyEngine estimates that revenue loss from lowering the US first tax rate from 10\% to 5\% is **$</span><span class="si">{</span><span class="n">gain</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="mf">1e9</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">bn**.&quot;</span><span class="p">)</span>
+<span class="n">gain</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">reformed</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;spm_unit_net_income&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="o">-</span> <span class="n">baseline</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;spm_unit_net_income&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="p">)</span>
+<span class="n">Markdown</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;From this code snippet above, PolicyEngine estimates that revenue loss from lowering the US first tax rate from 10\% to 5\% is **$</span><span class="si">{</span><span class="n">gain</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="mf">1e9</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">bn**.&quot;</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -399,28 +406,28 @@ title="Print to PDF"
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0.00/44.6M [00:00&lt;?, ?iB/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 13%|█▎        | 5.74M/44.6M [00:00&lt;00:00, 57.4MiB/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 13%|█▎        | 5.74M/44.6M [00:00&lt;00:00, 57.3MiB/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 27%|██▋       | 12.1M/44.6M [00:00&lt;00:00, 61.0MiB/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 26%|██▋       | 11.8M/44.6M [00:00&lt;00:00, 59.2MiB/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 41%|████▏     | 18.5M/44.6M [00:00&lt;00:00, 62.2MiB/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 40%|████      | 17.9M/44.6M [00:00&lt;00:00, 59.9MiB/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 56%|█████▌    | 24.8M/44.6M [00:00&lt;00:00, 62.7MiB/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 54%|█████▎    | 23.9M/44.6M [00:00&lt;00:00, 60.1MiB/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 70%|██████▉   | 31.2M/44.6M [00:00&lt;00:00, 63.1MiB/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 67%|██████▋   | 29.9M/44.6M [00:00&lt;00:00, 60.2MiB/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 84%|████████▍ | 37.5M/44.6M [00:00&lt;00:00, 63.3MiB/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 81%|████████  | 36.0M/44.6M [00:00&lt;00:00, 60.1MiB/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 99%|█████████▉| 44.1M/44.6M [00:00&lt;00:00, 64.1MiB/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 95%|█████████▍| 42.1M/44.6M [00:00&lt;00:00, 60.6MiB/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 44.6M/44.6M [00:00&lt;00:00, 62.9MiB/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 44.6M/44.6M [00:00&lt;00:00, 60.2MiB/s]
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
