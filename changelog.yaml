@@ -1292,3 +1292,8 @@
     fixed:
     - Bug in policy-dated scenarios after adding people.
   date: 2022-09-09 20:50:49
+- bump: patch
+  changes:
+    changed:
+    - Add a 404 redirect to policyengine homepage when the url does not exist.
+  date: 2022-09-10 05:05:50

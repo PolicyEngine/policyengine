@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.104.1] - 2022-09-10 05:05:50
+
+### Changed
+
+- Add a 404 redirect to policyengine homepage when the url does not exist.
+
 ## [1.104.0] - 2022-09-09 20:50:49
 
 ### Fixed
@@ -1543,6 +1549,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.104.1]: https://github.com/PolicyEngine/policyengine/compare/1.104.0...1.104.1
 [1.104.0]: https://github.com/PolicyEngine/policyengine/compare/1.103.0...1.104.0
 [1.103.0]: https://github.com/PolicyEngine/policyengine/compare/1.102.0...1.103.0
 [1.102.0]: https://github.com/PolicyEngine/policyengine/compare/1.101.3...1.102.0

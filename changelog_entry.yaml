@@ -1,4 +1,0 @@
-- bump: patch
-  changes:
-    changed:
-      - Add a 404 redirect to policyengine homepage when the url does not exist.
