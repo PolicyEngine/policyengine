@@ -76,6 +76,7 @@ class PolicyEngineCountry:
             leaf_nodes=self.leaf_nodes,
             age_chart=self.age_chart,
             population_breakdown=self.population_breakdown,
+            auto_ubi=self.auto_ubi,
         )
         if self.name is None:
             self.name = self.__class__.__name__.lower()
@@ -123,18 +124,23 @@ class PolicyEngineCountry:
         )
 
     def create_microsimulations(
-        self, parameters: dict, force_refresh_baseline: bool = False
+        self,
+        parameters: dict,
+        force_refresh_baseline: bool = False,
+        do_not_cache: bool = False,
     ):
         """Generate a microsimulations from PolicyEngine parameters.
 
         Args:
             parameters (dict): The PolicyEngine parameters.
             force_refresh_baseline (bool): If True, force a refresh of the baseline microsimulation.
+            do_not_cache (bool): If True, do not cache the microsimulation.
         """
         policy_reform = self.create_reform(parameters)
         if (
             not policy_reform.edits_baseline
             and self.baseline_microsimulation is None
+            and not do_not_cache
         ):
             try:
                 baseline = (
@@ -166,6 +172,7 @@ class PolicyEngineCountry:
             situation (dict): The OpenFisca situation JSON.
         """
         policy_reform = self.create_reform(parameters)
+        policy_date = parameters.get("policy_date")
         baseline = self.individualsim_type(policy_reform.baseline)
         baseline.situation_data = situation
         baseline.build()
@@ -175,6 +182,11 @@ class PolicyEngineCountry:
             reformed.build()
         else:
             reformed = None
+        if policy_date is not None:
+            year = int(str(policy_date)[:4])
+            baseline.year = year
+            reformed.year = year
+
         return baseline, reformed
 
     def create_openfisca_simulation(self, parameters: dict) -> Simulation:
@@ -259,21 +271,28 @@ class PolicyEngineCountry:
             variable = system.get_variable(variable_name)
             result = simulation.calculate(variable_name, period)
             population = simulation.get_population(entity_plural)
-            entity_index = population.get_index(entity_id)
+            try:
+                entity_index = population.get_index(entity_id)
 
-            if variable.value_type == Enum:
-                entity_result = result.decode()[entity_index].name
-            elif variable.value_type == float:
-                entity_result = float(str(result[entity_index]))
-            elif variable.value_type == str:
-                entity_result = str(result[entity_index])
-            else:
-                entity_result = result.tolist()[entity_index]
+                if variable.value_type == Enum:
+                    entity_result = result.decode()[entity_index].name
+                elif variable.value_type == float:
+                    entity_result = float(str(result[entity_index]))
+                elif variable.value_type == str:
+                    entity_result = str(result[entity_index])
+                else:
+                    entity_result = result.tolist()[entity_index]
 
-            # Bug fix, unclear of the root cause
+                # Bug fix, unclear of the root cause
 
-            if isinstance(entity_result, list) and len(entity_result) > 2_000:
-                entity_result = {period: entity_result[-1]}
+                if (
+                    isinstance(entity_result, list)
+                    and len(entity_result) > 2_000
+                ):
+                    entity_result = {period: entity_result[-1]}
+            except:
+                # In cases of axes, the entity ID won't resolve (e.g. you requested a value for person, but instead there's on person1, person2, ...)
+                entity_result = list(result.astype(float))
 
             dpath.util.new(computation_results, path, entity_result)
 

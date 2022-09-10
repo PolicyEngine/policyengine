@@ -34,7 +34,7 @@ class US(PolicyEngineCountry):
                 )
         else:
             baseline, reformed = super().create_microsimulations(
-                parameters, force_refresh_baseline=True
+                parameters, force_refresh_baseline=True, do_not_cache=True
             )
             # Specific State selected: filter out other States.
             household_weights = baseline.calc("household_weight")
@@ -80,5 +80,11 @@ class US(PolicyEngineCountry):
                     baseline.year,
                     np.where(subgroup_in_state, weight, 0),
                 )
+
+        policy_date = parameters.get("policy_date")
+        if policy_date is not None:
+            year = int(str(policy_date)[:4])
+            baseline.year = year
+            reformed.year = year
 
         return baseline, reformed

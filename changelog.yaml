@@ -1132,3 +1132,163 @@
     fixed:
     - Update Facebook page link.
   date: 2022-08-20 14:27:33
+- bump: minor
+  changes:
+    removed:
+    - Bullet graphic in policy cart.
+  date: 2022-08-23 05:08:10
+- bump: minor
+  changes:
+    added:
+    - Removed the About Your Household header.
+  date: 2022-08-23 18:49:45
+- bump: minor
+  changes:
+    added:
+    - Adjusted spacing in state code drop-down.
+  date: 2022-08-23 21:56:21
+- bump: minor
+  changes:
+    added:
+    - Added bottom padding to the Policy and Your Household menu.
+  date: 2022-08-24 21:32:36
+- bump: patch
+  changes:
+    changed:
+    - Bump OpenFisca UK for personal allowance fix.
+  date: 2022-08-25 17:57:00
+- bump: minor
+  changes:
+    added:
+    - Centering pagination in policy cart.
+  date: 2022-08-26 03:48:57
+- bump: patch
+  changes:
+    fixed:
+    - Bug where abolishing the UK marriage allowance income condition crashed the
+      app.
+  date: 2022-08-26 06:43:45
+- bump: patch
+  changes:
+    fixed:
+    - Scottish rates menu broke.
+  date: 2022-08-26 22:20:58
+- bump: minor
+  changes:
+    added:
+    - __init__ Python files.
+    - GH pages/JB documentation starter.
+    - Logic to handle custom-named parameters in scales.
+  date: 2022-08-28 16:13:08
+- bump: minor
+  changes:
+    added:
+    - Recent blog posts to the home page.
+    fixed:
+    - AutoUBI in the UK.
+  date: 2022-08-30 09:32:44
+- bump: patch
+  changes:
+    fixed:
+    - Bug causing scale parameters to fail.
+  date: 2022-08-30 10:39:22
+- bump: minor
+  changes:
+    fixed:
+    - A bug causing region-specific simulations to be erroneously cached as the general
+      baseline.
+  date: 2022-08-31 13:46:35
+- bump: minor
+  changes:
+    added:
+    - Basic income parameters for AGI limit and dollar-defined phase-out range.
+  date: 2022-09-01 02:41:30
+- bump: patch
+  changes:
+    fixed:
+    - Baseline policy changes now force recomputation of household situations.
+  date: 2022-09-01 11:45:43
+- bump: patch
+  changes:
+    fixed:
+    - Handling of boolean switches in household earnings charts.
+  date: 2022-09-01 15:43:52
+- bump: patch
+  changes:
+    added:
+    - Time travel feature to PolicyEngine US.
+    fixed:
+    - Issue causing failures on basic income policies.
+  date: 2022-09-05 18:32:19
+- bump: minor
+  changes:
+    added:
+    - NY parameters to PolicyEngine US.
+  date: 2022-09-06 12:33:28
+- bump: patch
+  changes:
+    added:
+    - NY logo.
+  date: 2022-09-06 13:35:42
+- bump: patch
+  changes:
+    fixed:
+    - A bug causing history-dependent parameters (NY CTC, pre-TCJA) to fail.
+  date: 2022-09-06 14:03:45
+- bump: minor
+  changes:
+    added:
+    - NY region for population impacts.
+  date: 2022-09-06 16:03:53
+- bump: patch
+  changes:
+    added:
+    - NY to population drop-down.
+  date: 2022-09-06 16:20:28
+- bump: patch
+  changes:
+    fixed:
+    - Bug causing NY CTC to be 2x expected.
+  date: 2022-09-07 09:15:32
+- bump: patch
+  changes:
+    fixed:
+    - Bug in threshold time projection.
+  date: 2022-09-07 10:27:00
+- bump: minor
+  changes:
+    added:
+    - Ofgem (UK) energy price cap parameters.
+    changed:
+    - Organized UK parameters by department.
+  date: 2022-09-07 12:31:42
+- bump: patch
+  changes:
+    fixed:
+    - NY supplemental tax.
+  date: 2022-09-07 21:09:13
+- bump: patch
+  changes:
+    fixed:
+    - Fix bug in UK energy imputation (2 households have slightly negative consumption).
+  date: 2022-09-08 09:02:37
+- bump: patch
+  changes:
+    fixed:
+    - Exclude NI households from the energy price cap.
+  date: 2022-09-08 09:42:25
+- bump: minor
+  changes:
+    added:
+    - Time travel feature for US pages.
+  date: 2022-09-08 20:55:14
+- bump: minor
+  changes:
+    added:
+    - Axis handling for /calculate endpoints.
+  date: 2022-09-09 09:52:39
+- bump: minor
+  changes:
+    fixed:
+    - Bug in policy-dated scenarios after adding people.
+  date: 2022-09-09 20:50:49

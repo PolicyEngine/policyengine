@@ -22,7 +22,9 @@ class UK(PolicyEngineCountry):
         filtered_country = parameters.get("baseline_country_specific")
         if filtered_country is not None:
             baseline, reformed = super().create_microsimulations(
-                parameters, force_refresh_baseline=True
+                parameters,
+                force_refresh_baseline=True,
+                do_not_cache=True,
             )
             # Specific country selected: filter out other countries.
             household_weights = baseline.calc("household_weight")
@@ -55,4 +57,11 @@ class UK(PolicyEngineCountry):
             )
         else:
             baseline, reformed = super().create_microsimulations(parameters)
+
+        policy_date = parameters.get("policy_date")
+        if policy_date is not None:
+            year = int(str(policy_date)[:4])
+            baseline.year = year
+            reformed.year = year
+
         return baseline, reformed

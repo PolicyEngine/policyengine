@@ -12,6 +12,5 @@ def create_default_reform():
             add_parameter_file(
                 Path(__file__).parent / "additional_parameters.yaml"
             ).apply(self)
-            use_current_parameters().apply(self)
 
-    return us_default_reform
+    return us_default_reform, use_current_parameters()

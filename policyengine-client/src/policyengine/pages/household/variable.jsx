@@ -29,12 +29,13 @@ function BooleanParameterControl(props) {
 
 function CategoricalParameterControl(props) {
 	return <Select 
-		style={{minWidth: 200, marginLeft: 0, paddingLeft: 0}} 
+		style={{minWidth: 200, marginLeft: 0, paddingLeft: 10, border: "1px solid black", borderRadius: 20}} 
 		showSearch 
 		placeholder={props.metadata.defaultValue.value} 
 		value={props.metadata.value}
 		disabled={props.metadata.disabled}
 		bordered={false}
+		dropdownStyle={{borderRadius:20}}
 		onSelect={props.onChange}>
 		{props.metadata.possibleValues.map(value => (
 			<Option 
@@ -131,8 +132,9 @@ export default class Variable extends React.Component {
 		let metadata;
 		try {
 			metadata = this.context.variables[this.props.name];
-			metadata.value = this.context.situation[this.context.entities[metadata.entity].plural][this.props.entityName][metadata.name]["2022"];
+			metadata.value = this.context.situation[this.context.entities[metadata.entity].plural][this.props.entityName][metadata.name][this.context.year];
 		} catch {
+			console.log("Variable not found: " + this.props.name);
 			return null;
 		}
 		if (!metadata) {
