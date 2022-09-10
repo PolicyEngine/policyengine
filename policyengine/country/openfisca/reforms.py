@@ -320,7 +320,6 @@ class Policy:
                     ),
                     system,
                 )
-                print(system.parameters.gov.doe)
             else:
                 system = apply_reform(self.default_reform, system)
         for key, value in self.parameters.items():

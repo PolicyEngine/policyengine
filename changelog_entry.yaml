@@ -1,0 +1,4 @@
+- bump: patch
+  changes:
+    fixed:
+    - URL and household variation charts with policy dates.
