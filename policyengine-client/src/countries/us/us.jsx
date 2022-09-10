@@ -1104,8 +1104,6 @@ export class US extends Country {
                 "residential_efficiency_electrification_rebate",
                 // Contributed.
                 "basic_income",
-                "high_efficiency_electric_home_rebate",
-                "residential_efficiency_electrification_rebate",
             ],
             "subtract": []
         },
