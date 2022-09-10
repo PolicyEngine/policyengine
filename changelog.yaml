@@ -1304,3 +1304,8 @@
     removed:
     - CDCC qualified dependent input.
   date: 2022-09-10 06:07:16
+- bump: patch
+  changes:
+    fixed:
+    - URL and household variation charts with policy dates.
+  date: 2022-09-10 12:10:51
