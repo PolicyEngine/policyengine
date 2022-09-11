@@ -1,0 +1,5 @@
+- bump: minor
+  changes:
+    changed:
+    - OpenFisca UK bumped.
+    - Mid-year uprating applies to variables as well as parameters.

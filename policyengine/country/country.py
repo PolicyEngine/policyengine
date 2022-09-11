@@ -162,6 +162,20 @@ class PolicyEngineCountry:
         else:
             baseline = self.baseline_microsimulation
         reformed = self.microsimulation_type(policy_reform.reform)
+
+        # Apply multipliers
+
+        for simulation in (baseline, reformed):
+            for variable in simulation.simulation.tax_benefit_system.variables:
+                if (
+                    hasattr(variable, "metadata")
+                    and variable.metadata.get("multiplier") is not None
+                ):
+                    multiplier = variable.metadata.get("multiplier")
+                    values = simulation.calc(variable.name)
+                    new_values = values * multiplier
+                    simulation.set_input(variable.name, new_values)
+
         return baseline, reformed
 
     def create_individualsims(self, parameters: dict, situation: dict):
