@@ -239,6 +239,9 @@ export class UK extends Country {
             "UC_reduction_rate",
           ],
         },
+        "HBAI": [
+          "abs_poverty_threshold_bhc",
+        ],
       },
       Treasury: {
         "Energy bills support": ["ebr_ct_rebate", "ebr_energy_bills_credit"],

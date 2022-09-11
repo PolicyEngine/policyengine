@@ -9,57 +9,7 @@ from openfisca_core.variables import Variable
 from openfisca_core.tracers.tracing_parameter_node_at_instant import (
     ParameterNode,
 )
-
-
-def use_current_parameters(date: str = None) -> Reform:
-    """Backdates parameters at a given instant to the start of the year.
-
-    Args:
-        date (str, optional): The given instant. Defaults to now.
-
-    Returns:
-        Reform: The reform backdating parameters.
-    """
-    if date is None:
-        date = datetime.now()
-    else:
-        date = datetime.strptime(date, "%Y-%m-%d")
-
-    year = date.year
-    date = datetime.strftime(date, "%Y-%m-%d")
-
-    def modify_parameters(parameters: ParameterNode):
-        for child in parameters.get_descendants():
-            if isinstance(child, Parameter):
-                current_value = child(date)
-                child.update(period=f"year:{year}:1", value=current_value)
-            elif isinstance(child, ParameterScale):
-                for bracket in child.brackets:
-                    if "rate" in bracket.children:
-                        current_rate = bracket.rate(date)
-                        bracket.rate.update(
-                            period=f"year:{year}:1", value=current_rate
-                        )
-                    if "threshold" in bracket.children:
-                        current_threshold = bracket.threshold(date)
-                        bracket.threshold.update(
-                            period=f"year:{year}:1",
-                            value=current_threshold,
-                        )
-        try:
-            parameters.reforms.policy_date.update(
-                value=int(datetime.now().strftime("%Y%m%d")),
-                period=f"year:{year}:1",
-            )
-        except:
-            pass
-        return parameters
-
-    class reform(Reform):
-        def apply(self):
-            self.modify_parameters(modify_parameters)
-
-    return reform
+from openfisca_tools.model_api import use_current_parameters
 
 
 def add_parameter_file(path: str) -> Reform:
