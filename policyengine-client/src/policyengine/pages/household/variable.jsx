@@ -132,8 +132,9 @@ export default class Variable extends React.Component {
 		let metadata;
 		try {
 			metadata = this.context.variables[this.props.name];
-			metadata.value = this.context.situation[this.context.entities[metadata.entity].plural][this.props.entityName][metadata.name]["2022"];
+			metadata.value = this.context.situation[this.context.entities[metadata.entity].plural][this.props.entityName][metadata.name][this.context.year];
 		} catch {
+			console.log("Variable not found: " + this.props.name);
 			return null;
 		}
 		if (!metadata) {

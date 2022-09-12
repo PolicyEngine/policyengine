@@ -2,6 +2,9 @@
  * Helper functions for translating between URLs and policies
 */
 
+import { useContext } from "react";
+import { CountryContext } from "../../countries";
+
 export function policyToURL(targetPage, policy) {
 	let searchParams = new URLSearchParams(window.location.search);
 	for (const editingReform of [true, false]) {

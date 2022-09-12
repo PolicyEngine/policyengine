@@ -68,7 +68,7 @@ export default class AccountingTable extends React.Component {
         // Update situations where necessary (re-using where not)
         // If the policy changes, we need to update only the reform 
         // situation. If the situation changes, we need to update both.
-        const reformExists = Object.keys(this.context.getPolicyJSONPayload()).length > 0;
+        const reformExists = Object.keys(this.context.getPolicyJSONPayload()).length > +(this.context.year != 2022);
 		const eta = this.context["endpoint-runtimes"][reformExists ? "household_variation_reform_and_baseline" : "household_variation_baseline_only"];
         if (!this.context.computedSituationVariationCharts || this.context.waitingOnEarningsCharts) {
             const message = <><p>{`Calculating tax-benefit responses to your income...`}</p><p>{`(this usually takes around ${Math.round(eta / 15) * 15} seconds)`}</p></>;

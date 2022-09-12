@@ -7,6 +7,95 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.106.0] - 2022-09-11 15:58:13
+
+### Changed
+
+- OpenFisca UK bumped.
+- Mid-year uprating applies to variables as well as parameters.
+
+## [1.105.2] - 2022-09-10 16:16:31
+
+### Fixed
+
+- Removed duplicate entries for clean energy rebates.
+
+## [1.105.1] - 2022-09-10 12:10:51
+
+### Fixed
+
+- URL and household variation charts with policy dates.
+
+## [1.105.0] - 2022-09-10 06:07:16
+
+### Added
+
+- Household rebates and tax credits introduced by the Inflation Reduction Act.
+
+## [1.104.1] - 2022-09-10 05:05:50
+
+### Changed
+
+- Add a 404 redirect to policyengine homepage when the url does not exist.
+
+## [1.104.0] - 2022-09-09 20:50:49
+
+### Fixed
+
+- Bug in policy-dated scenarios after adding people.
+
+## [1.103.0] - 2022-09-09 09:52:39
+
+### Added
+
+- Axis handling for /calculate endpoints.
+
+## [1.102.0] - 2022-09-08 20:55:14
+
+### Added
+
+- Time travel feature for US pages.
+
+## [1.101.3] - 2022-09-08 09:42:25
+
+### Fixed
+
+- Exclude NI households from the energy price cap.
+
+## [1.101.2] - 2022-09-08 09:02:37
+
+### Fixed
+
+- Fix bug in UK energy imputation (2 households have slightly negative consumption).
+
+## [1.101.1] - 2022-09-07 21:09:13
+
+### Fixed
+
+- NY supplemental tax.
+
+## [1.101.0] - 2022-09-07 12:31:42
+
+### Added
+
+- Ofgem (UK) energy price cap parameters.
+
+### Changed
+
+- Organized UK parameters by department.
+
+## [1.100.3] - 2022-09-07 10:27:00
+
+### Fixed
+
+- Bug in threshold time projection.
+
+## [1.100.2] - 2022-09-07 09:15:32
+
+### Fixed
+
+- Bug causing NY CTC to be 2x expected.
+
 ## [1.100.1] - 2022-09-06 16:20:28
 
 ### Added
@@ -1485,6 +1574,20 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.106.0]: https://github.com/PolicyEngine/policyengine/compare/1.105.2...1.106.0
+[1.105.2]: https://github.com/PolicyEngine/policyengine/compare/1.105.1...1.105.2
+[1.105.1]: https://github.com/PolicyEngine/policyengine/compare/1.105.0...1.105.1
+[1.105.0]: https://github.com/PolicyEngine/policyengine/compare/1.104.1...1.105.0
+[1.104.1]: https://github.com/PolicyEngine/policyengine/compare/1.104.0...1.104.1
+[1.104.0]: https://github.com/PolicyEngine/policyengine/compare/1.103.0...1.104.0
+[1.103.0]: https://github.com/PolicyEngine/policyengine/compare/1.102.0...1.103.0
+[1.102.0]: https://github.com/PolicyEngine/policyengine/compare/1.101.3...1.102.0
+[1.101.3]: https://github.com/PolicyEngine/policyengine/compare/1.101.2...1.101.3
+[1.101.2]: https://github.com/PolicyEngine/policyengine/compare/1.101.1...1.101.2
+[1.101.1]: https://github.com/PolicyEngine/policyengine/compare/1.101.0...1.101.1
+[1.101.0]: https://github.com/PolicyEngine/policyengine/compare/1.100.3...1.101.0
+[1.100.3]: https://github.com/PolicyEngine/policyengine/compare/1.100.2...1.100.3
+[1.100.2]: https://github.com/PolicyEngine/policyengine/compare/1.100.1...1.100.2
 [1.100.1]: https://github.com/PolicyEngine/policyengine/compare/1.100.0...1.100.1
 [1.100.0]: https://github.com/PolicyEngine/policyengine/compare/1.99.2...1.100.0
 [1.99.2]: https://github.com/PolicyEngine/policyengine/compare/1.99.1...1.99.2

@@ -65,6 +65,7 @@ export class UK extends Country {
   showEarningsVariation = true;
   showWealth = true;
   showFAQ = true;
+  setYear = () => {};
   // Vanity URLs
   namedPolicies = {
     "/ubilabs/resilience-ubi":
@@ -99,7 +100,19 @@ export class UK extends Country {
     },
     tv_licence_fee: {
       max: 250,
-    }
+    },
+    ofgem_price_cap_2022_q4: {
+      max: 10_000,
+    },
+    ofgem_price_cap_2023_q1: {
+      max: 10_000,
+    },
+    ofgem_price_cap_2023_q2: {
+      max: 10_000,
+    },
+    ofgem_price_cap_2023_q3: {
+      max: 10_000,
+    },
   };
   parameterHierarchy = {
     Simulation: {
@@ -107,7 +120,7 @@ export class UK extends Country {
       Geography: ["countrySpecific"],
     },
     "UK government": {
-      Tax: {
+      HMRC: {
         "Income Tax": {
           "Labour income": [
             "basic_rate",
@@ -167,7 +180,16 @@ export class UK extends Country {
           "abolish_lbtt",
           "abolish_business_rates",
         ],
+        "Child Benefit": [
+          "abolish_CB",
+          "CB_eldest",
+          "CB_additional",
+          "CB_HITC_reduction_threshold",
+          "CB_HITC_reduction_rate",
+        ],
         "Fuel duties": ["fuel_duty_rate"],
+      },
+      DCMS: {
         "TV licence": {
           "Fee": ["tv_licence_fee"],
           "Discounts": [
@@ -178,14 +200,7 @@ export class UK extends Country {
           "Evasion": ["tv_licence_evasion_rate"],
         }
       },
-      Benefit: {
-        "Child Benefit": [
-          "abolish_CB",
-          "CB_eldest",
-          "CB_additional",
-          "CB_HITC_reduction_threshold",
-          "CB_HITC_reduction_rate",
-        ],
+      DWP: {
         "Legacy benefits": [
           "abolish_CTC",
           "abolish_WTC",
@@ -224,12 +239,23 @@ export class UK extends Country {
             "UC_reduction_rate",
           ],
         },
+        "HBAI": [
+          "abs_poverty_threshold_bhc",
+        ],
+      },
+      Treasury: {
         "Energy bills support": ["ebr_ct_rebate", "ebr_energy_bills_credit"],
         "Cost-of-living support payment": [
           "col_benefit_payment_amount",
           "col_pensioner_payment_amount",
           "col_disability_payment_amount",
         ],
+        "Energy price cap subsidy": [
+          "ofgem_price_cap_2022_q4",
+          "ofgem_price_cap_2023_q1",
+          "ofgem_price_cap_2023_q2",
+          "ofgem_price_cap_2023_q3",
+        ]
       },
     },
     "Third party": {
@@ -272,7 +298,7 @@ export class UK extends Country {
     },
   };
   defaultOpenParameterGroups = [];
-  defaultSelectedParameterGroup = "/UK government/Tax/Income Tax/Labour income";
+  defaultSelectedParameterGroup = "/UK government/HMRC/Income Tax/Labour income";
   organisations = {
     "UBI Center": {
       logo: UBICenterLogo,
@@ -329,21 +355,21 @@ export class UK extends Country {
   situation = {
     people: {
       You: {
-        age: { 2022: 25 },
+        age: { [this.year]: 25 },
       },
     },
     benunits: {
       "Your family": {
         adults: ["You"],
         children: [],
-        claims_all_entitled_benefits: { 2022: true },
+        claims_all_entitled_benefits: { [this.year]: true },
       },
     },
     households: {
       "Your household": {
         adults: ["You"],
         children: [],
-        household_owns_tv: { 2022: true },
+        household_owns_tv: { [this.year]: true },
       },
     },
     states: {
@@ -536,10 +562,10 @@ export class UK extends Country {
 
   addPartner(situation) {
     situation.people["Your spouse"] = {
-      age: { 2022: 25 },
+      age: { [this.year]: 25 },
     };
     situation.benunits["Your family"].adults.push("Your spouse");
-    situation.benunits["Your family"]["is_married"]["2022"] = true;
+    situation.benunits["Your family"]["is_married"][this.year] = true;
     situation.households["Your household"].adults.push("Your spouse");
     return this.validateSituation(situation).situation;
   }
@@ -548,7 +574,7 @@ export class UK extends Country {
     const childName =
       childNamer[situation.benunits["Your family"].children.length + 1];
     situation.people[childName] = {
-      age: { 2022: 10 },
+      age: { [this.year]: 10 },
     };
     situation.benunits["Your family"].children.push(childName);
     situation.households["Your household"].children.push(childName);
@@ -571,7 +597,7 @@ export class UK extends Country {
       situation.households["Your household"].children.pop(name);
     }
     if (name === "Your spouse") {
-      situation.benunits["Your family"]["is_married"]["2022"] = false;
+      situation.benunits["Your family"]["is_married"][this.year] = false;
     }
     delete situation.people[name];
     return this.validateSituation(situation).situation;

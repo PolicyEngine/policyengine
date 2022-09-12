@@ -16,6 +16,9 @@ import { Household } from "./pages/household";
 import Centered from "./general/centered";
 import Spinner from "./general/spinner";
 import APIExplorer from "./pages/apiExplorer";
+import { setPolicyDateState } from "../countries/uk/components/timeTravel";
+import moment from "moment";
+import { message } from "antd";
 
 export default class PolicyEngine extends React.Component {
   constructor(props) {
@@ -81,6 +84,15 @@ export default class PolicyEngine extends React.Component {
       parameters: parameters,
       policy: JSON.parse(JSON.stringify(policy)),
       fullyLoaded: true,
+    }, () => {
+      if (parameters.policy_date.baselineValue) {
+        const stringDate = parameters.policy_date.baselineValue.toString()
+        const year = +stringDate.substring(0, 4);
+        const month = +stringDate.substring(4, 6);
+        const day = +stringDate.substring(6, 8);
+        const date = moment(new Date(year, month - 1, day));
+        setPolicyDateState(this.state.country, date);
+      }
     });
   }
 
@@ -110,6 +122,9 @@ export default class PolicyEngine extends React.Component {
                   filteredData[fetchedParameter] = data[fetchedParameter];
                 }
               }
+            }
+            filteredData.policy_date = {
+              name: "policy_date",
             }
             data = filteredData;
           }

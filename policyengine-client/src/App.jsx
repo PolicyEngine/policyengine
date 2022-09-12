@@ -15,6 +15,7 @@ import createRedirects from "./policyengine/tools/namedPolicies";
 import { UK, US } from "./countries";
 import MarkdownPage from "./policyengine/pages/markdown";
 import LandingPage from "./landing";
+import FOF from "./fof";
 
 // Markdown files
 
@@ -80,6 +81,10 @@ export default function App(props) {
               <PolicyEngine country="us" analytics={props.analytics} />
             </>
           }
+        />
+        <Route
+          path="/*"
+          element={<FOF />}
         />
       </Routes>
     </Router>

@@ -1245,3 +1245,78 @@
     added:
     - NY to population drop-down.
   date: 2022-09-06 16:20:28
+- bump: patch
+  changes:
+    fixed:
+    - Bug causing NY CTC to be 2x expected.
+  date: 2022-09-07 09:15:32
+- bump: patch
+  changes:
+    fixed:
+    - Bug in threshold time projection.
+  date: 2022-09-07 10:27:00
+- bump: minor
+  changes:
+    added:
+    - Ofgem (UK) energy price cap parameters.
+    changed:
+    - Organized UK parameters by department.
+  date: 2022-09-07 12:31:42
+- bump: patch
+  changes:
+    fixed:
+    - NY supplemental tax.
+  date: 2022-09-07 21:09:13
+- bump: patch
+  changes:
+    fixed:
+    - Fix bug in UK energy imputation (2 households have slightly negative consumption).
+  date: 2022-09-08 09:02:37
+- bump: patch
+  changes:
+    fixed:
+    - Exclude NI households from the energy price cap.
+  date: 2022-09-08 09:42:25
+- bump: minor
+  changes:
+    added:
+    - Time travel feature for US pages.
+  date: 2022-09-08 20:55:14
+- bump: minor
+  changes:
+    added:
+    - Axis handling for /calculate endpoints.
+  date: 2022-09-09 09:52:39
+- bump: minor
+  changes:
+    fixed:
+    - Bug in policy-dated scenarios after adding people.
+  date: 2022-09-09 20:50:49
+- bump: patch
+  changes:
+    changed:
+    - Add a 404 redirect to policyengine homepage when the url does not exist.
+  date: 2022-09-10 05:05:50
+- bump: minor
+  changes:
+    added:
+    - Household rebates and tax credits introduced by the Inflation Reduction Act.
+    removed:
+    - CDCC qualified dependent input.
+  date: 2022-09-10 06:07:16
+- bump: patch
+  changes:
+    fixed:
+    - URL and household variation charts with policy dates.
+  date: 2022-09-10 12:10:51
+- bump: patch
+  changes:
+    fixed:
+    - Removed duplicate entries for clean energy rebates.
+  date: 2022-09-10 16:16:31
+- bump: minor
+  changes:
+    changed:
+    - OpenFisca UK bumped.
+    - Mid-year uprating applies to variables as well as parameters.
+  date: 2022-09-11 15:58:13
