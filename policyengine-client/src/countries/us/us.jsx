@@ -948,6 +948,7 @@ export class US extends Country {
         "adjusted_gross_income",
         "high_efficiency_electric_home_rebate",
         "residential_efficiency_electrification_rebate",
+        "tanf",
     ]
     inputVariableHierarchy = {
         "Household": {
@@ -1100,6 +1101,7 @@ export class US extends Country {
                 "ssi",
                 "social_security",
                 "wic",
+                "tanf",
                 "high_efficiency_electric_home_rebate",
                 "residential_efficiency_electrification_rebate",
                 // Contributed.
