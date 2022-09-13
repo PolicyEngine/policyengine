@@ -1314,3 +1314,9 @@
     fixed:
     - Removed duplicate entries for clean energy rebates.
   date: 2022-09-10 16:16:31
+- bump: minor
+  changes:
+    changed:
+    - OpenFisca UK bumped.
+    - Mid-year uprating applies to variables as well as parameters.
+  date: 2022-09-11 15:58:13
