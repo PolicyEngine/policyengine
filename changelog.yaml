@@ -1320,3 +1320,8 @@
     - OpenFisca UK bumped.
     - Mid-year uprating applies to variables as well as parameters.
   date: 2022-09-11 15:58:13
+- bump: patch
+  changes:
+    added:
+    - TANF output to US benefits.
+  date: 2022-09-13 14:21:03
