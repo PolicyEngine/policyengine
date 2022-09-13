@@ -151,10 +151,14 @@ def budget_chart(
                 explaining_variable
             ).sum(axis=0)
         else:
-            variable_values[explaining_variable + "_baseline"] = [
-                baseline.calc(explaining_variable).sum(axis=0)[i]
-            ] * len(total_income)
-
+            variable_values[explaining_variable + "_baseline"] = baseline.calc(
+                explaining_variable
+            ).sum(axis=0)
+            print(
+                explaining_variable,
+                "baseline",
+                baseline.calc(explaining_variable).sum(axis=0),
+            )
     explainer_names = []
     if DEBUG_MODE:
         for variable in DEBUG_VARIABLES:
@@ -203,12 +207,18 @@ def budget_chart(
             x.Reform,
             x["Total income"] if has_reform else original_total_income,
             x["Total income"],
-            x[config.tax_variable + "_baseline"],
-            x[config.tax_variable + "_reform"] if has_reform else original_tax,
-            x[config.benefit_variable + "_baseline"],
-            x[config.benefit_variable + "_reform"]
+            x[config.tax_variable + "_baseline"]
+            if has_reform
+            else original_tax,
+            x[config.tax_variable + "_reform"]
+            if has_reform
+            else x[config.tax_variable + "_baseline"],
+            x[config.benefit_variable + "_baseline"]
             if has_reform
             else original_benefits,
+            x[config.benefit_variable + "_reform"]
+            if has_reform
+            else x[config.benefit_variable + "_baseline"],
             config,
         ),
         axis=1,
