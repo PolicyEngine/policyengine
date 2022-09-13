@@ -1,0 +1,4 @@
+- bump: patch
+  changes:
+    fixed:
+    - Baseline-only earnings charts show the correct hovercard.
