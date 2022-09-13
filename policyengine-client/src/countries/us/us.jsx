@@ -638,6 +638,7 @@ export class US extends Country {
                         "bi_phase_out_by_rate",
                         "bi_phase_out_rate",
                         "bi_phase_out_end",
+                        "bi_taxability",
                     ],
                     "Eligibility": [
                         "bi_agi_limit_in_effect",
