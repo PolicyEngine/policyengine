@@ -1325,3 +1325,8 @@
     added:
     - TANF output to US benefits.
   date: 2022-09-13 14:21:03
+- bump: patch
+  changes:
+    fixed:
+    - Baseline-only earnings charts show the correct hovercard.
+  date: 2022-09-13 15:08:48
