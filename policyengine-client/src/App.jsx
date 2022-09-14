@@ -11,7 +11,6 @@ import {
   Navigate,
 } from "react-router-dom";
 import PolicyEngine from "./policyengine/policyengine";
-import createRedirects from "./policyengine/tools/namedPolicies";
 import { UK, US } from "./countries";
 import MarkdownPage from "./policyengine/pages/markdown";
 import LandingPage from "./landing";
@@ -44,6 +43,18 @@ export default function App(props) {
   const uk = new UK();
   const us = new US();
 
+  const pages = ["policy", "population-impact", "household"];
+  for (let page of pages) {
+    for (let country of [uk, us]) {
+      for (let url of Object.keys(country.namedPolicies)) {
+        if(window.location.href.includes(`/${country.name}/${page}${url}`)) {
+          window.history.pushState({}, "", `/${country.name}/${page}?${country.namedPolicies[url]}`);
+          return <Router><Route path="/"><Navigate to={`/${country.name}/${page}?${country.namedPolicies[url]}`} /></Route></Router>
+        }
+      }
+    }
+  }
+
   return (
     <Router>
       <Routes>
@@ -68,7 +79,6 @@ export default function App(props) {
           path="/uk/*"
           element={
             <>
-              <Routes>{createRedirects(uk.namedPolicies, "uk")}</Routes>
               <PolicyEngine country="uk" analytics={props.analytics} />
             </>
           }
@@ -77,13 +87,12 @@ export default function App(props) {
           path="/us/*"
           element={
             <>
-              <Routes>{createRedirects(us.namedPolicies, "us")}</Routes>
               <PolicyEngine country="us" analytics={props.analytics} />
             </>
           }
         />
         <Route
-          path="/*"
+          path="/"
           element={<FOF />}
         />
       </Routes>

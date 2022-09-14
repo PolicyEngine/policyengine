@@ -76,6 +76,12 @@ export class UK extends Country {
       "policy_date=20211030&UC_reduction_rate=55&UC_work_allowance_without_housing=557&UC_work_allowance_with_housing=335",
     "/green-party/manifesto-2019":
       "higher_threshold=50270&household_lvt=1_2&UC_reduction_rate=40&WA_adult_UBI_age=16&abolish_CB=1&abolish_CT=1&abolish_CTC=1&abolish_ESA_income=1&abolish_JSA_income=1&abolish_NI=1&abolish_PC=1&abolish_SP=1&abolish_WTC=1&abolish_lbtt=1&abolish_ltt=1&abolish_sdlt=1&add_rate=47&adult_UBI=94&basic_rate=32&carbon_tax=135&child_UBI=75&higher_rate=42&personal_allowance=0&scottish_basic_rate=32&scottish_higher_rate=42&scottish_intermediate_rate=32&scottish_starter_rate=32&senior_UBI=185&SPS_amount=25&SPS_reduction_rate=10&abolish_IS=1&abolish_UC_child=1&corporate_lvt=1_9&abolish_business_rates=1&abolish_UC_standard=1&UC_disabled_element=400&UC_lcwra_element=500&UC_severely_disabled_element=600",
+    "?ofgem_price_cap_2022_q4=2500&ofgem_price_cap_2023_q1=2500&ofgem_price_cap_2023_q2=2500&ofgem_price_cap_2023_q3=2500": // Energy Price Guarantee reform view
+    "baseline_ofgem_price_cap_2022_q4=3549&baseline_ofgem_price_cap_2023_q1=4650&baseline_ofgem_price_cap_2023_q2=5341&baseline_ofgem_price_cap_2023_q3=4768&ofgem_price_cap_2022_q4=2500&ofgem_price_cap_2023_q1=2500&ofgem_price_cap_2023_q2=2500&ofgem_price_cap_2023_q3=2500",
+    "/treasury/energy-price-guarantee":
+      "baseline_ofgem_price_cap_2022_q4=3549&baseline_ofgem_price_cap_2023_q1=4650&baseline_ofgem_price_cap_2023_q2=5341&baseline_ofgem_price_cap_2023_q3=4768&ofgem_price_cap_2022_q4=2500&ofgem_price_cap_2023_q1=2500&ofgem_price_cap_2023_q2=2500&ofgem_price_cap_2023_q3=2500",
+    "?ofgem_price_cap_2022_q4=3549&ofgem_price_cap_2023_q1=4650&ofgem_price_cap_2023_q2=5341&ofgem_price_cap_2023_q3=4768&child_bi=14_7&adult_bi=14_7&senior_bi=14_7&baseline_ofgem_price_cap_2022_q4=2500&baseline_ofgem_price_cap_2023_q1=2500&baseline_ofgem_price_cap_2023_q2=2500&baseline_ofgem_price_cap_2023_q3=2500": // EPG vs. UBI reform view
+      "ofgem_price_cap_2022_q4=3549&ofgem_price_cap_2023_q1=4650&ofgem_price_cap_2023_q2=5341&ofgem_price_cap_2023_q3=4768&child_bi=14_7&adult_bi=14_7&senior_bi=14_7",
   };
 
   parameterRenames = {
