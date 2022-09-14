@@ -1345,3 +1345,8 @@
     fixed:
     - Bug causing taxable BI on the US impact to fail.
   date: 2022-09-14 15:20:11
+- bump: minor
+  changes:
+    changed:
+    - EPG now baseline policy (UK).
+  date: 2022-09-14 20:03:52
