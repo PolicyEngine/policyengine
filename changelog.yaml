@@ -1340,3 +1340,8 @@
     added:
     - UX changes to api-explorer.
   date: 2022-09-14 12:50:20
+- bump: patch
+  changes:
+    fixed:
+    - Bug causing taxable BI on the US impact to fail.
+  date: 2022-09-14 15:20:11
