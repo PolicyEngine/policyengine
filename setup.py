@@ -20,7 +20,7 @@ setup(
         "numpy",
         "OpenFisca-Core",
         "OpenFisca-Tools>=0.13.8",
-        "OpenFisca-UK==0.30.1",
+        "OpenFisca-UK==0.31.0",
         "OpenFisca-US==0.155.1",
         "pandas",
         "plotly",
