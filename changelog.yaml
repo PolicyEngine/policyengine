@@ -1335,3 +1335,8 @@
     added:
     - US basic income taxability switch.
   date: 2022-09-13 22:47:26
+- bump: minor
+  changes:
+    added:
+    - UX changes to api-explorer.
+  date: 2022-09-14 12:50:20
