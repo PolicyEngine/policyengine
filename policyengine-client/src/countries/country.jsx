@@ -121,7 +121,7 @@ export default class Country {
         });
     }
 
-    useLocalServer = true;
+    useLocalServer = false;
     usePolicyEngineOrgServer = false;
 
     waitingOnPopulationImpact = false;
