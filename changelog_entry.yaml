@@ -1,0 +1,4 @@
+- bump: patch
+  changes:
+    fixed:
+    - Bug causing taxable BI on the US impact to fail.
