@@ -43,12 +43,18 @@ export default function APIExplorer(props) {
     ? items
     : getSearchResults(items, defaultSearch);
   const [searchResults, setSearchResults] = useState(defaultList);
-  const onSearch = (term) =>
-    !term
-      ? setSearchResults(defaultList)
-      : setSearchResults(getSearchResults(items, term));
-  const [selected, setSelected] = useState(defaultSelected);
   const navigate = useNavigate();
+  const onSearch = (term) => {
+    if (!term) {
+      navigate(`/${country.name}/api-explorer/`);
+      setSearchResults(defaultList)
+    } else {
+      navigate(`/${country.name}/api-explorer/${term}`);
+      setSearchResults(getSearchResults(items, term));
+    }
+  }
+
+  const [selected, setSelected] = useState(defaultSelected);
   const searchResultItems = searchResults.map((res) => {
     return (
       <Parameter
@@ -79,6 +85,7 @@ export default function APIExplorer(props) {
         <Col md={6}>
           <Input
             defaultValue={defaultSearch}
+            placeholder="Search..."
             onChange={(e) => onSearch(e.target.value)}
             style={{ marginTop: 30, marginBottom: 30, width: "100%" }}
           />
@@ -87,7 +94,7 @@ export default function APIExplorer(props) {
       </Row>
       <Row>
         <Col md={1}></Col>
-        <Col md={6}>
+        <Col md={6} style={{overflowY: "scroll", height: "calc(82vh - 58.8px)", paddingBottom: "58.8px"}}>
           {searchResultItems.slice(
             page * itemsPerPage,
             (page + 1) * itemsPerPage
@@ -125,6 +132,7 @@ function Parameter(props) {
     <div
       onClick={props.select}
       style={{
+        wordBreak: "break-all",
         cursor: "pointer",
         margin: 5,
         padding: 5,
@@ -214,8 +222,8 @@ function SelectedParameter(props) {
     );
   }
   return (
-    <div style={{ margin: 20 }}>
-      <h4>{props.name}</h4>
+    <div style={{ margin: 20, paddingBottom: 50 }}>
+      <h4 style={{wordBreak: "break-all"}}>{props.name}</h4>
       <h3>{props.label}</h3>
       {description}
     </div>
