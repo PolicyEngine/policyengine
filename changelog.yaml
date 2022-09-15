@@ -1355,3 +1355,8 @@
     fixed:
     - Debugging mode off.
   date: 2022-09-14 20:30:11
+- bump: minor
+  changes:
+    fixed:
+    - Handling of baseline reforms with baseline parameter tree copies.
+  date: 2022-09-15 11:10:04

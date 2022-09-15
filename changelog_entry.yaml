@@ -1,4 +1,0 @@
-- bump: minor
-  changes:
-    fixed:
-    - Handling of baseline reforms with baseline parameter tree copies.
