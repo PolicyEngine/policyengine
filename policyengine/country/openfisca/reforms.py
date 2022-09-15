@@ -1,4 +1,5 @@
 from datetime import datetime
+import logging
 from pathlib import Path
 from typing import Type
 from openfisca_core.parameters.helpers import load_parameter_file
@@ -207,7 +208,7 @@ class PolicyReform:
                 self.policyengine_parameters,
                 default_reform=self.default_reform,
             )
-        relevant_parameters = {
+        self.baseline_parameters = relevant_parameters = {
             key.replace("baseline_", ""): value
             for key, value in self.parameters.items()
             if "baseline_" in key
@@ -216,6 +217,7 @@ class PolicyReform:
             relevant_parameters,
             self.policyengine_parameters,
             default_reform=self.default_reform,
+            baseline_parameters=relevant_parameters,
         )
 
     @property
@@ -233,6 +235,7 @@ class PolicyReform:
             relevant_parameters,
             self.policyengine_parameters,
             default_reform=self.default_reform,
+            baseline_parameters=self.baseline.parameters,
         )
 
 
@@ -242,10 +245,12 @@ class Policy:
         parameters: dict,
         policyengine_parameters: dict,
         default_reform: Reform = None,
+        baseline_parameters: dict = None,
     ):
         self.parameters = parameters
         self.policyengine_parameters = policyengine_parameters
         self.default_reform = default_reform
+        self.baseline_parameters = baseline_parameters or {}
 
     def __repr__(self):
         items = list(self.parameters.items())
@@ -286,4 +291,14 @@ class Policy:
                     else:
                         system.neutralize_variable(variable)
             else:
-                parametric(metadata["parameter"], value).apply(system)
+                try:
+                    parametric(metadata["parameter"], value).apply(system)
+                except:
+                    logging.warn(f"Could not apply {key}={value}")
+
+        for key, value in self.baseline_parameters.items():
+            metadata = self.policyengine_parameters.get(key)
+            if metadata is None:
+                continue
+            parameter_name = "baseline." + metadata.get("parameter")
+            parametric(parameter_name, value).apply(system)
