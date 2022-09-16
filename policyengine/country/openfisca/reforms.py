@@ -301,4 +301,7 @@ class Policy:
             if metadata is None:
                 continue
             parameter_name = "baseline." + metadata.get("parameter")
-            parametric(parameter_name, value).apply(system)
+            try:
+                parametric(parameter_name, value).apply(system)
+            except:
+                logging.warn(f"Could not apply {key}={value}")
