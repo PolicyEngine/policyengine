@@ -154,11 +154,6 @@ def budget_chart(
             variable_values[explaining_variable + "_baseline"] = baseline.calc(
                 explaining_variable
             ).sum(axis=0)
-            print(
-                explaining_variable,
-                "baseline",
-                baseline.calc(explaining_variable).sum(axis=0),
-            )
     explainer_names = []
     if DEBUG_MODE:
         for variable in DEBUG_VARIABLES:
