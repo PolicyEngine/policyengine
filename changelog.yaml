@@ -1360,3 +1360,8 @@
     fixed:
     - Handling of baseline reforms with baseline parameter tree copies.
   date: 2022-09-15 11:10:04
+- bump: patch
+  changes:
+    fixed:
+    - Baseline reform simulation across UK and US pages.
+  date: 2022-09-16 08:27:05
