@@ -315,6 +315,9 @@ export class US extends Country {
                 ],
             },
             "SSA": {
+                "Social Security": [
+                    "abolish_social_security",
+                ],
                 "SSI": {
                     "General": [
                         "abolish_ssi",

@@ -2,5 +2,6 @@
   changes:
     added:
       - US inputs for unemployment compensation, cash donations, and non-cash donations.
+      - Switch to abolish Social Security.
     fixed:
       - Time estimate on mobile.

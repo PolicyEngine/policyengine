@@ -100,6 +100,16 @@ reforms:
         variable: spm_unit_capped_housing_subsidy
         tests:
           - increases_net_income: false
+    abolish_social_security:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish Social Security
+        name: abolish_social_security
+        unit: abolition
+        variable: social_security
+        tests:
+          - increases_net_income: false
     abolish_ssi:
       values:
         2010-01-01: false
