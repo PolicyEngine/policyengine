@@ -315,6 +315,9 @@ export class US extends Country {
                 ],
             },
             "SSA": {
+                "Social Security": [
+                    "abolish_social_security",
+                ],
                 "SSI": {
                     "General": [
                         "abolish_ssi",
@@ -796,6 +799,7 @@ export class US extends Country {
         "dividend_income",
         "interest_income",
         "gi_cash_assistance",
+        "unemployment_compensation",
         "medical_out_of_pocket_expenses",
         "social_security_dependents",
         "social_security_disability",
@@ -815,6 +819,8 @@ export class US extends Country {
         "is_wic_at_nutritional_risk",
         "ca_cvrp_vehicle_rebate_amount",
         "qualified_tuition_expenses",
+        "charitable_cash_donations",
+        "charitable_non_cash_donations",
         "is_eligible_for_american_opportunity_credit",
         // Tax unit.
         "premium_tax_credit",
@@ -1037,6 +1043,7 @@ export class US extends Country {
                 "dividend_income",
                 "interest_income",
                 "gi_cash_assistance",
+                "unemployment_compensation",
             ],
             "Benefits": [
                 "social_security_retirement",
@@ -1062,6 +1069,8 @@ export class US extends Country {
             "Expenses": [
                 "medical_out_of_pocket_expenses",
                 "qualified_tuition_expenses",
+                "charitable_cash_donations",
+                "charitable_non_cash_donations",
                 "ca_cvrp_vehicle_rebate_amount",
             ],
         }
