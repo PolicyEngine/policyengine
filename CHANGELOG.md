@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.111.0] - 2022-09-17 03:32:26
+
+### Added
+
+- US inputs for unemployment compensation, cash donations, and non-cash donations.
+- Switch to abolish Social Security.
+
+### Fixed
+
+- Time estimate on mobile.
+
 ## [1.110.1] - 2022-09-16 08:27:05
 
 ### Fixed
@@ -1628,6 +1639,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.111.0]: https://github.com/PolicyEngine/policyengine/compare/1.110.1...1.111.0
 [1.110.1]: https://github.com/PolicyEngine/policyengine/compare/1.110.0...1.110.1
 [1.110.0]: https://github.com/PolicyEngine/policyengine/compare/1.109.1...1.110.0
 [1.109.1]: https://github.com/PolicyEngine/policyengine/compare/1.109.0...1.109.1
