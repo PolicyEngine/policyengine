@@ -816,6 +816,8 @@ export class US extends Country {
         "is_wic_at_nutritional_risk",
         "ca_cvrp_vehicle_rebate_amount",
         "qualified_tuition_expenses",
+        "charitable_cash_donations",
+        "charitable_non_cash_donations",
         "is_eligible_for_american_opportunity_credit",
         // Tax unit.
         "premium_tax_credit",
@@ -1064,6 +1066,8 @@ export class US extends Country {
             "Expenses": [
                 "medical_out_of_pocket_expenses",
                 "qualified_tuition_expenses",
+                "charitable_cash_donations",
+                "charitable_non_cash_donations",
                 "ca_cvrp_vehicle_rebate_amount",
             ],
         }

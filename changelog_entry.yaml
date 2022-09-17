@@ -1,4 +1,4 @@
 - bump: minor
   changes:
     added:
-      - Unemployment compensation as US input.
+      - US inputs for unemployment compensation, cash donations, and non-cash donations.
