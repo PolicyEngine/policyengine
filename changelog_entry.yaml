@@ -2,3 +2,5 @@
   changes:
     added:
       - US inputs for unemployment compensation, cash donations, and non-cash donations.
+    fixed:
+      - Time estimate on mobile.
