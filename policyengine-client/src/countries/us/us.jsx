@@ -18,10 +18,12 @@ import ThirdPartyLogo from "../../images/parameter-icons/third-party.png";
 import UBICenterLogo from "../../images/parameter-icons/ubi-center.png"
 import CongressLogo from "../../images/parameter-icons/us/third-party/congress.svg.png"
 import SimulationLogo from "../../images/parameter-icons/simulation.webp";
+// State flags.
 import MALogo from "../../images/parameter-icons/us/state-governments/ma.png";
-import WALogo from "../../images/parameter-icons/us/state-governments/wa.png";
-import NYLogo from "../../images/parameter-icons/us/state-governments/ny.webp";
+import MOLogo from "../../images/parameter-icons/us/state-governments/mo.png";
 import MDLogo from "../../images/parameter-icons/us/state-governments/md.jpeg";
+import NYLogo from "../../images/parameter-icons/us/state-governments/ny.webp";
+import WALogo from "../../images/parameter-icons/us/state-governments/wa.png";
 import StateSpecific from "./components/stateSpecific";
 
 import translateTimePeriod from "../utils/timePeriod";
@@ -484,6 +486,20 @@ export class US extends Country {
                     },
                 },
             },
+            "Missouri": {
+                "State income tax": {
+                    "Rates": [
+                        "mo_resident_individual_tax_rates",
+                    ],
+                    "Deductions": {
+                        "Federal income tax": [
+                            "mo_federal_income_tax_deduction_rates",
+                            "mo_federal_income_tax_deduction_caps",
+                        ]
+                    },
+                    // Add property tax credit once complete.
+                },
+            },
             "New York": {
                 "State income tax": {
                     "Adjusted gross income": [
@@ -688,6 +704,9 @@ export class US extends Country {
         "Massachusetts": {
             logo: MALogo,
         },
+        "Missouri": {
+            logo: MOLogo,
+        },
         "New York": {
             logo: NYLogo,
         },
@@ -730,6 +749,7 @@ export class US extends Country {
         md_income_tax_aged_dependent_exemption: { max: 10_000 },
         md_income_tax_blind_exemption: { max: 10_000 },
         md_eitc_childless_max: { max: 1_000 },
+        // Missouri.
         // Washington.
         wa_wftc_max_amount: { max: 10_000 },
         wa_wftc_min_amount: { max: 1_000 },
@@ -921,6 +941,8 @@ export class US extends Country {
         "md_non_single_childless_refundable_eitc",
         "md_single_childless_eitc",
         "md_ctc",
+        // Missouri.
+        "mo_income_tax",
         // New York.
         "ny_income_tax",
         "ny_income_tax_before_credits",
@@ -1117,6 +1139,7 @@ export class US extends Country {
                 "income_tax",
                 "ma_income_tax",
                 "md_income_tax",
+                "mo_income_tax",
                 "ny_income_tax",
                 "wa_income_tax",
             ],
