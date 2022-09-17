@@ -796,6 +796,7 @@ export class US extends Country {
         "dividend_income",
         "interest_income",
         "gi_cash_assistance",
+        "unemployment_compensation",
         "medical_out_of_pocket_expenses",
         "social_security_dependents",
         "social_security_disability",
@@ -1037,6 +1038,7 @@ export class US extends Country {
                 "dividend_income",
                 "interest_income",
                 "gi_cash_assistance",
+                "unemployment_compensation",
             ],
             "Benefits": [
                 "social_security_retirement",
