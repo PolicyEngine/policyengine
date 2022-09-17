@@ -100,6 +100,16 @@ reforms:
         variable: spm_unit_capped_housing_subsidy
         tests:
           - increases_net_income: false
+    abolish_school_meals:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Abolish school meal subsidies
+        name: abolish_school_meals
+        unit: abolition
+        variable: school_meal_net_subsidy
+        tests:
+          - increases_net_income: false
     abolish_social_security:
       values:
         2010-01-01: false

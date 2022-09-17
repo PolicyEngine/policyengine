@@ -358,6 +358,9 @@ export class US extends Country {
                     ],
                 },
                 "School meals": {
+                    "General": [
+                        "abolish_school_meals",
+                    ],
                     "Eligibility": [
                         "school_meal_free_fpg_limit",
                         "school_meal_reduced_fpg_limit",
