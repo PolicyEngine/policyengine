@@ -635,6 +635,7 @@ export class US extends Country {
                         "older_adult_bi",
                         "senior_bi_age",
                         "senior_bi",
+                        "bi_fpg_percent",
                     ],
                     "Phase-out": [
                         "bi_phase_out_threshold",
