@@ -1377,3 +1377,8 @@
   changes:
     added: FPG-based basic income element.
   date: 2022-09-18 16:55:04
+- bump: minor
+  changes:
+    added:
+    - Custom reforms.
+  date: 2022-09-19 13:55:12
