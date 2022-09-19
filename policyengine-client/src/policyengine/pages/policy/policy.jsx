@@ -117,37 +117,21 @@ export default class Policy extends React.Component {
                 : overview}
           </Col>
         </Row>
-        <Row style={{ height: "20vh" }}>
-          <Col>
-            <Divider>Your policy</Divider>
+        <Divider></Divider>
+        <Row style={{ backgroundColor: "#fafafa", paddingBottom: 50 }}>
+          <Col style={{marginBottom: 15}}>
             <PolicyOverview page="policy" pageSize={1} />
           </Col>
+          <NavigationButton 
+            text={`Compute population impact`}
+            target="population-impact"
+            primary
+          />
+          <NavigationButton
+            text={`Compute household impact`}
+            target="household"
+          />
         </Row>
-        <div
-          style={{
-            position: "fixed",
-            top: "calc(60vh + 120px)",
-            left: 0,
-            width: "100%",
-            padding: 10,
-          }}
-        >
-          <Row>
-            <Col>
-              <NavigationButton
-                text={`Compute population impact`}
-                target="population-impact"
-                primary
-              />
-            </Col>
-            <Col>
-              <NavigationButton
-                text={`Compute household impact`}
-                target="household"
-              />
-            </Col>
-          </Row>
-        </div>
       </div>
     );
     return (
