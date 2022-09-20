@@ -119,7 +119,7 @@ export default class Policy extends React.Component {
         </Row>
         <Divider></Divider>
         <Row style={{ backgroundColor: "#fafafa", paddingBottom: 50 }}>
-          <Col style={{marginBottom: 15}}>
+          <Col style={{marginBottom: 15, textAlign: "center"}}>
             <PolicyOverview page="policy" pageSize={1} />
           </Col>
           <NavigationButton 
