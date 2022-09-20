@@ -22,6 +22,7 @@ import MALogo from "../../images/parameter-icons/us/state-governments/ma.png";
 import WALogo from "../../images/parameter-icons/us/state-governments/wa.png";
 import NYLogo from "../../images/parameter-icons/us/state-governments/ny.webp";
 import MDLogo from "../../images/parameter-icons/us/state-governments/md.jpeg";
+import PALogo from "../../images/parameter-icons/us/state-governments/pa.webp";
 import StateSpecific from "./components/stateSpecific";
 
 import translateTimePeriod from "../utils/timePeriod";
@@ -577,6 +578,41 @@ export class US extends Country {
                     },
                 }
             },
+            "Pennsylvania": {
+                "State income tax": {
+                    "Rate": [
+                        "pa_income_tax_rate",
+                    ],
+                    "Forgiveness": [
+                        "pa_tax_forgiveness_base_rate",
+                        "pa_tax_forgiveness_dependent_rate",
+                        "pa_tax_forgiveness_rate_increment",
+                        "pa_tax_forgiveness_rate_percentage",
+                    ],
+                    "Use tax": {
+                        "Main": [
+                            "pa_phildelphia_use_tax_amount",
+                            "pa_allegheny_use_tax_amount",
+                            "rest_of_pa_use_tax_amount"
+                        ],
+                        "Higher": {
+                            "Threshold": [
+                                "pa_use_tax_higher_threshold",
+                            ],
+                            "Rate": [
+                                "pa_philadelphia_use_tax_rate",
+                                "pa_allegheny_county_use_tax_rate",
+                                "rest_of_pa_use_tax_rate",
+                            ],
+                            "Cap": [
+                                "pa_philadelphia_use_tax_cap",
+                                "pa_allegheny_county_use_tax_cap",
+                                "rest_of_pa_use_tax_cap",
+                            ]
+                        }
+                    }
+                },
+            },
             "Washington": {
                 "Capital gains tax": {
                     "Rate": [
@@ -693,6 +729,9 @@ export class US extends Country {
         },
         "New York": {
             logo: NYLogo,
+        },
+        "Pennsylvania": {
+            logo: PALogo,
         },
         "Washington": {
             logo: WALogo,
@@ -939,6 +978,10 @@ export class US extends Country {
         "ny_household_credit",
         "ny_college_tuition_credit",
         "ny_real_property_tax_credit",
+        // Pennsylvania.
+        "pa_income_tax",
+        "pa_income_tax_after_forgiveness",
+        "pa_use_tax",
         // Washington.
         "wa_income_tax",
         "wa_working_families_tax_credit",
@@ -1127,6 +1170,7 @@ export class US extends Country {
                 "ma_income_tax",
                 "md_income_tax",
                 "ny_income_tax",
+                "pa_income_tax",
                 "wa_income_tax",
             ],
             "subtract": []
@@ -1183,6 +1227,13 @@ export class US extends Country {
             "md_single_childless_eitc",
             "md_ctc",
         ],
+        "pa_income_tax": {
+            "add": [
+                "pa_income_tax_after_forgiveness",
+                "pa_use_tax",
+            ],
+            "subtract": []
+        },
         "wa_income_tax": {
             "add": [
                 "wa_capital_gains_tax"
