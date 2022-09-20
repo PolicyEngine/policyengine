@@ -1382,3 +1382,8 @@
     added:
     - Custom reforms.
   date: 2022-09-19 13:55:12
+- bump: minor
+  changes:
+    added:
+    - Pennsylvania income tax.
+  date: 2022-09-20 06:26:35
