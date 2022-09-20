@@ -192,6 +192,8 @@ reforms:
           value: Nevada
         - key: NY
           value: New York
+        - key: PA
+          value: Pennsylvania
         - key: SD
           value: South Dakota
         - key: TN
@@ -201,4 +203,3 @@ reforms:
         - key: WA
           value: Washington
       value_type: Enum
-
