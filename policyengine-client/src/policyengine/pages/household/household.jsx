@@ -142,29 +142,21 @@ export class Household extends React.Component {
                     }
                 </Col>
             </Row>
-            <Row style={{ height: "20vh" }}>
-                <Col>
-                    <Divider>Your policy</Divider>
+            <Divider></Divider>
+            <Row style={{ backgroundColor: "#fafafa", paddingBottom: 50 }}>
+                <Col style={{marginBottom: 15, textAlign: "center"}}>
                     <PolicyOverview page="policy" pageSize={1} />
                 </Col>
+                <NavigationButton
+                    text="Compute your net income"
+                    onClick={() => this.setState({ selected: "Your net income", selectedMobilePage: "Edit" })}
+                    primary
+                />
+                <NavigationButton
+                    text="Compute how earnings affect you"
+                    onClick={() => this.setState({ selected: "How earnings affect you", selectedMobilePage: "Edit" })}
+                />
             </Row>
-            <div style={{ position: "fixed", top: "calc(60vh + 120px)", left: 0, width: "100%", padding: 10 }}>
-                <Row>
-                    <Col>
-                        <NavigationButton
-                            text="Compute your net income"
-                            onClick={() => this.setState({ selected: "Your net income", selectedMobilePage: "Edit" })}
-                            primary
-                        />
-                    </Col>
-                    <Col>
-                        <NavigationButton
-                            text="Compute how earnings affect you"
-                            onClick={() => this.setState({ selected: "How earnings affect you", selectedMobilePage: "Edit" })}
-                        />
-                    </Col>
-                </Row>
-            </div>
         </div>
         return <>
             <div className="d-none d-lg-block">

@@ -1373,3 +1373,27 @@
     fixed:
     - Time estimate on mobile.
   date: 2022-09-17 03:32:26
+- bump: minor
+  changes:
+    added: FPG-based basic income element.
+  date: 2022-09-18 16:55:04
+- bump: minor
+  changes:
+    added:
+    - Custom reforms.
+  date: 2022-09-19 13:55:12
+- bump: minor
+  changes:
+    added:
+    - Pennsylvania income tax.
+  date: 2022-09-20 06:26:35
+- bump: minor
+  changes:
+    added:
+    - Gray Background, policy cart, and other UI fixes to Mobile.
+  date: 2022-09-20 22:11:22
+- bump: minor
+  changes:
+    added:
+    - Stamp duties to UK parameters.
+  date: 2022-09-21 11:22:54

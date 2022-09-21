@@ -280,6 +280,9 @@ class Policy:
         for key, value in self.parameters.items():
             if key == "policy_date":
                 continue
+            if key == "reform":
+                system = apply_reform(value, system)
+                continue
             metadata = self.policyengine_parameters[key]
             if metadata["unit"] == "abolition":
                 variables_to_neutralise = metadata["variable"]
@@ -304,4 +307,5 @@ class Policy:
             try:
                 parametric(parameter_name, value).apply(system)
             except:
-                logging.warn(f"Could not apply {key}={value}")
+                pass
+                # logging.warn(f"Could not apply {parameter_name}={value}")
