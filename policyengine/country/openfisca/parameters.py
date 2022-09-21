@@ -192,10 +192,9 @@ class PolicyEngineScaleComponentParameter(PolicyEngineParameter):
 
     @property
     def period(self):
-        default_period = "year" if self.is_threshold else None
         return self.openfisca_parameter.metadata.get(
             "period",
-            self.parent.metadata.get(f"{self.type}_period", default_period),
+            self.parent.metadata.get(f"{self.type}_period", None),
         )
 
 
@@ -269,6 +268,27 @@ def flow_breakdown_parameter_metadata_down(
     return parameters
 
 
+def remove_null_scale_brackets(parameter: ParameterNode, date: str):
+    for p in parameter.get_descendants():
+        if isinstance(p, ParameterScale):
+            new_brackets = []
+            for bracket in p.brackets:
+                is_null = False
+                attributes = ("threshold", "amount", "rate")
+                for attribute in attributes:
+                    try:
+                        if hasattr(bracket, attribute) and (getattr(bracket(date), attribute) is None):
+                            is_null = True
+                            break
+                    except Exception as e:
+                        is_null = True
+                        break
+                if not is_null:
+                    new_brackets.append(bracket)
+            p.brackets = new_brackets
+    return parameter
+
+
 def build_parameters(
     system: TaxBenefitSystem, date: str = None
 ) -> Dict[str, dict]:
@@ -289,6 +309,7 @@ def build_parameters(
     system.parameters = flow_breakdown_parameter_metadata_down(
         system.parameters, system.variables
     )
+    system.parameters = remove_null_scale_brackets(system.parameters, date)
     for parameter in system.parameters.get_descendants():
         if isinstance(parameter, Parameter):
             parameters.append(PolicyEngineParameter(parameter, date=date))

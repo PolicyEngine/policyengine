@@ -179,13 +179,32 @@ export class UK extends Country {
           ],
           Structural: ["abolish_NI"],
         },
-        "Property taxes": [
-          "abolish_CT",
-          "abolish_sdlt",
-          "abolish_ltt",
-          "abolish_lbtt",
+        "Business rates": [
           "abolish_business_rates",
         ],
+        "Stamp Duty": {
+          "General": [
+            "abolish_sdlt",
+          ],
+          "Non-first homes": [
+            "sdlt_on_non_first_home",
+          ],
+          "First-time buyers": [
+            "sdlt_first_time_buyer_value_limit",
+            "sdlt_on_first_time_buyer_homes",
+          ],
+          "Second homes": [
+            "sdlt_secondary_residence_min_value",
+            "sdlt_on_secondary_residences",
+          ],
+          "Rent": [
+            "sdlt_on_rent",
+          ],
+          "Non-residential property": [
+            "sdlt_on_non_residential_property",
+            "sdlt_on_non_residential_cumulative_rent",
+          ],
+        },
         "Child Benefit": [
           "abolish_CB",
           "CB_eldest",
@@ -263,6 +282,50 @@ export class UK extends Country {
           "ofgem_price_cap_2023_q3",
         ]
       },
+      "Local government": {
+        "Council tax": [
+          "abolish_CT",
+        ]
+      },
+      "WRA": {
+        "Land Transaction Tax": {
+          "General": [
+            "abolish_ltt",
+          ],
+          "Primary residences": [
+            "ltt_on_primary_residences",
+          ],
+          "Second homes": [
+            "ltt_on_secondary_residences",
+          ],
+          "Non-residential property": [
+            "ltt_on_non_residential_property",
+          ],
+          "Rent": [
+            "ltt_on_cumulative_rent",
+          ]
+        }
+      },
+      "Revenue Scotland": {
+        "General": [
+          "abolish_lbtt",
+        ],
+        "Non-first homes": [
+          "lbtt_on_residential_property",
+        ],
+        "First-time buyers": [
+          "lbtt_first_time_buyers",
+        ],
+        "Second homes": [
+          "lbtt_rate_increase_for_secondary_residences",
+        ],
+        "Non-residential property": [
+          "lbtt_on_non_residential_property",
+        ],
+        "Rent": [
+          "lbtt_on_cumulative_rent",
+        ]
+      }
     },
     "Third party": {
       "UBI Center": {
