@@ -197,12 +197,8 @@ export class UK extends Country {
             "sdlt_secondary_residence_min_value",
             "sdlt_on_secondary_residences",
           ],
-          "Rent": [
-            "sdlt_on_rent",
-          ],
           "Non-residential property": [
             "sdlt_on_non_residential_property",
-            "sdlt_on_non_residential_cumulative_rent",
           ],
         },
         "Child Benefit": [
@@ -301,9 +297,6 @@ export class UK extends Country {
           "Non-residential property": [
             "ltt_on_non_residential_property",
           ],
-          "Rent": [
-            "ltt_on_cumulative_rent",
-          ]
         }
       },
       "Revenue Scotland": {
@@ -322,9 +315,6 @@ export class UK extends Country {
         "Non-residential property": [
           "lbtt_on_non_residential_property",
         ],
-        "Rent": [
-          "lbtt_on_cumulative_rent",
-        ]
       }
     },
     "Third party": {
