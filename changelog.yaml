@@ -1392,3 +1392,8 @@
     added:
     - Gray Background, policy cart, and other UI fixes to Mobile.
   date: 2022-09-20 22:11:22
+- bump: minor
+  changes:
+    added:
+    - Stamp duties to UK parameters.
+  date: 2022-09-21 11:22:54

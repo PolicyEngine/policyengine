@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.116.0] - 2022-09-21 11:22:54
+
+### Added
+
+- Stamp duties to UK parameters.
+
 ## [1.115.0] - 2022-09-20 22:11:22
 
 ### Added
@@ -1693,6 +1699,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.116.0]: https://github.com/PolicyEngine/policyengine/compare/1.115.0...1.116.0
 [1.115.0]: https://github.com/PolicyEngine/policyengine/compare/1.114.0...1.115.0
 [1.114.0]: https://github.com/PolicyEngine/policyengine/compare/1.113.0...1.114.0
 [1.113.0]: https://github.com/PolicyEngine/policyengine/compare/1.112.0...1.113.0
