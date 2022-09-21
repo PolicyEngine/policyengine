@@ -11,11 +11,11 @@ class US(PolicyEngineCountry):
     default_reform = create_default_reform()
     results_config = USResultsConfig
     dataset = CPS
-    dataset_year = 2020
+    dataset_year = 2021
 
     def __init__(self, *args, **kwargs):
-        if 2020 not in CPS.years:
-            CPS.download(2020)
+        if self.dataset_year not in self.dataset.years:
+            self.dataset.download(self.dataset_year)
         super().__init__(*args, **kwargs)
 
     def create_microsimulations(self, parameters):
