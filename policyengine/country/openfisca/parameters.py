@@ -277,7 +277,9 @@ def remove_null_scale_brackets(parameter: ParameterNode, date: str):
                 attributes = ("threshold", "amount", "rate")
                 for attribute in attributes:
                     try:
-                        if hasattr(bracket, attribute) and (getattr(bracket(date), attribute) is None):
+                        if hasattr(bracket, attribute) and (
+                            getattr(bracket(date), attribute) is None
+                        ):
                             is_null = True
                             break
                     except Exception as e:
