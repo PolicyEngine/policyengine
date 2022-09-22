@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.119.0] - 2022-09-22 09:26:44
+
+### Fixed
+
+- Improved AutoUBI implementation and stability.
+- Parameter renames happen faster and function correctly.
+
 ## [1.118.0] - 2022-09-22 03:31:07
 
 ### Added
@@ -1711,6 +1718,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.119.0]: https://github.com/PolicyEngine/policyengine/compare/1.118.0...1.119.0
 [1.118.0]: https://github.com/PolicyEngine/policyengine/compare/1.117.0...1.118.0
 [1.117.0]: https://github.com/PolicyEngine/policyengine/compare/1.116.0...1.117.0
 [1.116.0]: https://github.com/PolicyEngine/policyengine/compare/1.115.0...1.116.0

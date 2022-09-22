@@ -1,5 +1,0 @@
-- bump: minor
-  changes:
-    fixed:
-    - Improved AutoUBI implementation and stability.
-    - Parameter renames happen faster and function correctly.

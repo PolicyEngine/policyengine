@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="PolicyEngine",
-    version="1.118.0",
+    version="1.119.0",
     author="PolicyEngine",
     license="http://www.fsf.org/licensing/licenses/agpl-3.0.html",
     url="https://github.com/policyengine/policyengine",

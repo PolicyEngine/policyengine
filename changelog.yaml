@@ -1407,3 +1407,9 @@
     added:
     - Word wrap to menu items.
   date: 2022-09-22 03:31:07
+- bump: minor
+  changes:
+    fixed:
+    - Improved AutoUBI implementation and stability.
+    - Parameter renames happen faster and function correctly.
+  date: 2022-09-22 09:26:44
