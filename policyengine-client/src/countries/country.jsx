@@ -11,6 +11,7 @@ export default class Country {
     editingReform = true;
     year = 2022
     showDatePicker = false;
+    parameterRenames = {};
 
     updatePolicy(name, value) {
         // Update a parameter - validate, then update the state
