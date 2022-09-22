@@ -108,6 +108,19 @@ export default class PolicyEngine extends React.Component {
         this.prepareData();
       }
     };
+    // Apply renames to parameters
+    let parameterRenames = this.state.country.parameterRenames;
+    // For each renamed parameter, update the URL query parameter.
+    for (let oldName of Object.keys(parameterRenames)) {
+      let newName = parameterRenames[oldName];
+      let url = new URL(window.location.href);
+      let value = url.searchParams.get(oldName);
+      if (value !== null) {
+        url.searchParams.delete(oldName);
+        url.searchParams.set(newName, value);
+        window.history.replaceState({}, "", url);
+      }
+    }
     const parameterList = this.state.country.getParameterList();
     const fetchEndpoint = (name) => {
       let url = this.state.country.apiURL + "/" + name;
