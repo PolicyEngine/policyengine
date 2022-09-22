@@ -1413,3 +1413,8 @@
     - Improved AutoUBI implementation and stability.
     - Parameter renames happen faster and function correctly.
   date: 2022-09-22 09:26:44
+- bump: patch
+  changes:
+    fixed:
+    - US pages.
+  date: 2022-09-22 10:10:02
