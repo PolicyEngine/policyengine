@@ -33,7 +33,11 @@ export default function Menu(props) {
       if (Array.isArray(parameter[child])) {
         children.push(
           <AntMenu.Item icon={logo} key={name}>
-            {logo ? <div style={{ paddingLeft: 10 }}>{child}</div> : child}
+            {
+              logo 
+              ? <div style={{ paddingLeft: 10 }}>{child}</div> 
+              : <div style={{lineHeight: "20px", whiteSpace: "normal", height: "auto"}}>{child}</div>
+            }
           </AntMenu.Item>
         );
       } else {
@@ -42,7 +46,9 @@ export default function Menu(props) {
             icon={logo}
             key={name}
             title={
-              logo ? <div style={{ paddingLeft: 10 }}>{child}</div> : child
+              logo 
+              ? <div style={{ paddingLeft: 10 }}>{child}</div> 
+              : <div style={{lineHeight: "20px", whiteSpace: "normal", height: "auto"}}>{child}</div>
             }
           >
             {addMenuEntry(parameter[child], name)}
