@@ -1402,3 +1402,8 @@
     changed:
     - Update US model to 2021 CPS.
   date: 2022-09-21 20:56:02
+- bump: minor
+  changes:
+    added:
+    - Word wrap to menu items.
+  date: 2022-09-22 03:31:07
