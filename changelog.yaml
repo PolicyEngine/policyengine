@@ -1418,3 +1418,8 @@
     fixed:
     - US pages.
   date: 2022-09-22 10:10:02
+- bump: minor
+  changes:
+    added:
+    - PolicyEngine logo adjustment
+  date: 2022-09-23 02:58:41
