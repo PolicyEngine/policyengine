@@ -1423,3 +1423,8 @@
     added:
     - PolicyEngine logo adjustment
   date: 2022-09-23 02:58:41
+- bump: minor
+  changes:
+    added:
+    - Center policy cart items on Desktop.
+  date: 2022-09-26 17:08:59
