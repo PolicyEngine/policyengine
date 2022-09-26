@@ -55,7 +55,7 @@ export function OverviewHolder(props) {
 			<div className="d-block d-lg-none" style={{backgroundColor: "#fafafa"}}>
 				{props.children}
 			</div>
-			<div className="d-none d-lg-block" style={{backgroundColor: "#fafafa", height: "100%"}}>
+			<div className="d-none d-lg-block" style={{backgroundColor: "#fafafa", height: "100%", textAlign: "center"}}>
 				{props.children}
 			</div>
 		</>
