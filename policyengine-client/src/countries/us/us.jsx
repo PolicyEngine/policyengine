@@ -662,15 +662,16 @@ export class US extends Country {
             "UBI Center": {
                 "Basic income": {
                     "Amounts": [
-                        "young_child_bi",
+                        "bi_amount",
+                        "young_child_bi_amount",
                         "older_child_bi_age",
-                        "older_child_bi",
+                        "older_child_bi_amount",
                         "young_adult_bi_age",
-                        "young_adult_bi",
+                        "young_adult_bi_amount",
                         "older_adult_bi_age",
-                        "older_adult_bi",
+                        "older_adult_bi_amount",
                         "senior_bi_age",
-                        "senior_bi",
+                        "senior_bi_amount",
                         "bi_fpg_percent",
                     ],
                     "Phase-out": [
