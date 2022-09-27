@@ -1433,3 +1433,8 @@
     added:
     - Flat per-person UBI amount in US.
   date: 2022-09-27 03:32:44
+- bump: patch
+  changes:
+    added:
+    - Bumped OpenFisca US to incorporate 20% speed improvements.
+  date: 2022-09-27 22:36:28
