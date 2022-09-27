@@ -102,12 +102,12 @@ class PolicyEngineCountry:
         self.baseline_microsimulation = None
 
         self.endpoint_runtimes = dict(
-            population_impact_reform_only=[10],
-            population_impact_reform_and_baseline=[20],
+            population_impact_reform_only=[60],
+            population_impact_reform_and_baseline=[90],
             household_variation_baseline_only=[10],
             household_variation_reform_and_baseline=[20],
-            auto_ubi=[10],
-            age_chart=[10],
+            auto_ubi=[30],
+            age_chart=[60],
         )
 
     def create_reform(self, parameters: dict) -> PolicyReform:

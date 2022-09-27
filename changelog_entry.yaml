@@ -1,0 +1,4 @@
+- bump: patch
+  changes:
+    fixed:
+    - Default population impact runtime changed to 1 minute.
