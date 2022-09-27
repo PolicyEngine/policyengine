@@ -1428,3 +1428,8 @@
     added:
     - Center policy cart items on Desktop.
   date: 2022-09-26 17:08:59
+- bump: minor
+  changes:
+    added:
+    - Flat per-person UBI amount in US.
+  date: 2022-09-27 03:32:44
