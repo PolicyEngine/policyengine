@@ -1438,3 +1438,10 @@
     added:
     - Bumped OpenFisca US to incorporate 20% speed improvements.
   date: 2022-09-27 22:36:28
+- bump: minor
+  changes:
+    added:
+    - Maryland Child Alliance EITC reforms.
+    changed:
+    - Bumped UK/US packages.
+  date: 2022-10-04 12:09:56
