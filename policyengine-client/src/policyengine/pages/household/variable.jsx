@@ -24,6 +24,8 @@ function BooleanParameterControl(props) {
 	return <Switch
 		onChange={props.onChange}
 		checked={props.metadata.value}
+		checkedChildren="True"
+		unCheckedChildren="False"
 	/>
 }
 
