@@ -192,6 +192,8 @@ reforms:
           value: Nevada
         - key: NY
           value: New York
+        - key: OR
+          value: Oregon
         - key: PA
           value: Pennsylvania
         - key: SD
