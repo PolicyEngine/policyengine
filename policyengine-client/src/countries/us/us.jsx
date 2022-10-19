@@ -18,10 +18,12 @@ import ThirdPartyLogo from "../../images/parameter-icons/third-party.png";
 import UBICenterLogo from "../../images/parameter-icons/ubi-center.png"
 import CongressLogo from "../../images/parameter-icons/us/third-party/congress.svg.png"
 import SimulationLogo from "../../images/parameter-icons/simulation.webp";
+/* Seals for each state */
 import MALogo from "../../images/parameter-icons/us/state-governments/ma.png";
 import WALogo from "../../images/parameter-icons/us/state-governments/wa.png";
 import NYLogo from "../../images/parameter-icons/us/state-governments/ny.webp";
 import MDLogo from "../../images/parameter-icons/us/state-governments/md.jpeg";
+import ORLogo from "../../images/parameter-icons/us/state-governments/or.png";
 import PALogo from "../../images/parameter-icons/us/state-governments/pa.webp";
 import StateSpecific from "./components/stateSpecific";
 
@@ -578,6 +580,37 @@ export class US extends Country {
                     },
                 }
             },
+            "Oregon": {
+                "State income tax": {
+                    "Rates": [
+                        "or_income_tax_rate_single",
+                        "or_income_tax_rate_joint",
+                        "or_income_tax_rate_head",
+                        "or_income_tax_rate_separate",
+                        "or_income_tax_rate_widow",
+                    ],
+                    "Subtractions": {
+                        "Federal tax liability cap": [
+                            "or_federal_tax_liability_subtraction_cap_single",
+                            "or_federal_tax_liability_subtraction_cap_joint",
+                            "or_federal_tax_liability_subtraction_cap_head",
+                            "or_federal_tax_liability_subtraction_cap_separate",
+                            "or_federal_tax_liability_subtraction_cap_widow",
+                        ]
+                    },
+                    "Credits": {
+                        "Earned income tax credit": [
+                            "or_eitc_percent_no_young_child",
+                            "or_eitc_percent_young_child",
+                            "or_eitc_percent_young_child_age",
+                        ],
+                        "Exemption credit": [
+                            "or_exemption_credit_amount",
+                            "or_exemption_credit_income_limit_regular",
+                        ]
+                    }
+                }
+            },
             "Pennsylvania": {
                 "State income tax": {
                     "Rate": [
@@ -731,6 +764,9 @@ export class US extends Country {
         },
         "New York": {
             logo: NYLogo,
+        },
+        "Oregon": {
+            logo: ORLogo,
         },
         "Pennsylvania": {
             logo: PALogo,
@@ -980,6 +1016,12 @@ export class US extends Country {
         "ny_household_credit",
         "ny_college_tuition_credit",
         "ny_real_property_tax_credit",
+        // Oregon.
+        "or_income_tax_after_refundable_credits",
+        "or_income_tax_after_non_refundable_credits",
+        "or_refundable_credits",
+        "or_eitc",
+        "or_kicker",
         // Pennsylvania.
         "pa_income_tax",
         "pa_income_tax_after_forgiveness",
@@ -1171,6 +1213,7 @@ export class US extends Country {
                 "income_tax",
                 "ma_income_tax",
                 "md_income_tax",
+                "or_income_tax_after_refundable_credits",
                 "ny_income_tax",
                 "pa_income_tax",
                 "wa_income_tax",
@@ -1263,6 +1306,20 @@ export class US extends Country {
                 "ny_main_income_tax",
                 "ny_supplemental_tax",
             ],
+        },
+        "or_income_tax_after_refundable_credits": {
+            "add": [
+                "or_income_tax_after_non_refundable_credits",
+            ],
+            "subtract": [
+                "or_refundable_credits",
+            ],
+        },
+        "or_refundable_credits": {
+            "add": [
+                "or_eitc",
+                "or_kicker",
+            ]
         }
     }
 
