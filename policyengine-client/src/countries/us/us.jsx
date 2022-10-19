@@ -598,13 +598,6 @@ export class US extends Country {
                             "or_federal_tax_liability_subtraction_cap_widow",
                         ]
                     },
-                    "Deductions": {
-                        "Standard": [
-                            "or_standard_deduction",
-                            "or_standard_deduction_addition_age",
-                            "or_aged_or_blind"
-                        ]
-                    },
                     "Credits": {
                         "Earned income tax credit": [
                             "or_eitc_percent_no_young_child",
