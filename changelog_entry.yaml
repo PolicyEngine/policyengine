@@ -1,0 +1,4 @@
+- bump: patch
+  changes:
+    fixed:
+    - Non-abolitions function correctly.
