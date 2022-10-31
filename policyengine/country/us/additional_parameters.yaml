@@ -170,6 +170,13 @@ reforms:
         variable: wa_working_families_tax_credit
         tests:
           - increases_net_income: false
+    exempt_ptc_from_flat_tax:
+      values:
+        2010-01-01: false
+      metadata:
+        label: Pay the Premium Tax Credit as a benefit
+        name: ptc_exemption
+        unit: boolean
   state_specific:
     description: Simulate reforms on a specific state of the US.
     values:
