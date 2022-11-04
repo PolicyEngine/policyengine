@@ -12,6 +12,7 @@ import { useContext } from "react";
 import NavigationButton from "../../general/navigationButton";
 import { OverviewHolder, PolicyOverview, SharePolicyLinks } from "../policy/overview";
 import AgeChart from "./ageChart";
+import CliffChart from "./cliffChart";
 function PopulationResultsCaveats() {
 	return <p style={{ color: "grey" }}><ExclamationCircleOutlined />  &nbsp; &nbsp;PolicyEngine results assume no behavioural or macroeconomic effects</p>;
 }
@@ -139,6 +140,9 @@ export function PopulationResultsPane(props) {
 			</Row>
 			<Row>
 				<AgeChart policy={country.policy} api_url={country.apiURL} />
+			</Row>
+			<Row>
+				<CliffChart policy={country.policy} api_url={country.apiURL} />
 			</Row>
 			<Divider />
 			<PopulationResultsCaveats />
