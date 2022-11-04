@@ -18,10 +18,17 @@ class US(PolicyEngineCountry):
             self.dataset.download(self.dataset_year)
         super().__init__(*args, **kwargs)
 
-    def create_microsimulations(self, parameters):
+    def create_microsimulations(
+        self,
+        parameters,
+        force_refresh_baseline: bool = False,
+        do_not_cache: bool = False,
+    ):
         filtered_state = parameters.get("baseline_state_specific")
         if filtered_state is None:
-            baseline, reformed = super().create_microsimulations(parameters)
+            baseline, reformed = super().create_microsimulations(
+                parameters, force_refresh_baseline, do_not_cache
+            )
             # US-wide analyses hold State tax policy fixed.
             for sim in baseline, reformed:
                 reported_state_tax = sim.calc(

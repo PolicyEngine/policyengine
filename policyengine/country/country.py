@@ -30,6 +30,7 @@ from policyengine.impact.population.charts import (
 from policyengine.impact.population.by_provision import (
     get_breakdown_and_chart_per_provision,
 )
+from policyengine.impact.population.cliffs import get_cliff_impact
 from policyengine.impact.population.metrics import headline_metrics
 from openfisca_tools.data import Dataset
 
@@ -77,6 +78,7 @@ class PolicyEngineCountry:
             age_chart=self.age_chart,
             population_breakdown=self.population_breakdown,
             auto_ubi=self.auto_ubi,
+            cliff_impact=self.cliff_impact,
         )
         if self.name is None:
             self.name = self.__class__.__name__.lower()
@@ -108,6 +110,7 @@ class PolicyEngineCountry:
             household_variation_reform_and_baseline=[20],
             auto_ubi=[10],
             age_chart=[10],
+            cliff_impact=[20],
         )
 
     def create_reform(self, parameters: dict) -> PolicyReform:
@@ -486,5 +489,24 @@ class PolicyEngineCountry:
             params,
             baseline,
             reformed,
+            self.results_config,
+        )
+
+    @cached_endpoint
+    def cliff_impact(self, params=None, logger=None):
+        """Compute a policy reform's impact on tax-benefit cliffs."""
+
+        print(params)
+
+        baseline, reformed = self.create_microsimulations(params)
+        baseline_copy, reformed_copy = self.create_microsimulations(
+            params, force_refresh_baseline=True, do_not_cache=True
+        )
+
+        return get_cliff_impact(
+            baseline,
+            baseline_copy,
+            reformed,
+            reformed_copy,
             self.results_config,
         )
