@@ -1,4 +1,4 @@
 - bump: minor
   changes:
     added:
-      - Adjusted drop-down menus to text-width maximum.
+      - Right-align numbers in net income table.
