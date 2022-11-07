@@ -168,19 +168,22 @@ function VariableTable(props) {
             dataIndex: "baseline",
             key: "baseline",
             width: 10,
-            align: "center",
+            align: "right",
+            
         }, {
             title: "Reform",
             dataIndex: "reform",
             key: "reform",
             width: 10,
-            align: "center",
+            align: "right",
         }, {
             title: "Change",
             dataIndex: "change",
             key: "change",
             width: 10,
-            align: "center",
+            align: "right",
+        }, {
+            width: 17,
         }];
     } else {
         columns = [{
@@ -192,8 +195,10 @@ function VariableTable(props) {
             title: "Value",
             dataIndex: "baseline",
             key: "baseline",
-            align: "center",
+            align: "right",
             width: 80,
+        }, {
+            width: 8,
         }]
     }
     const data = generateTableData(props.variable, country, 0, true);
