@@ -1,6 +1,6 @@
 from typing import Callable, Dict, List, Tuple
-from openfisca_core.taxbenefitsystems import TaxBenefitSystem
-from openfisca_core.model_api import Enum, Variable
+from policyengine_core.taxbenefitsystems import TaxBenefitSystem
+from policyengine_core.model_api import Enum, Variable
 from openfisca_tools.model_api import FLOW
 from openfisca_tools import IndividualSim
 from collections import Sequence

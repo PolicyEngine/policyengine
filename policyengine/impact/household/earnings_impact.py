@@ -1,4 +1,4 @@
-from openfisca_tools import IndividualSim
+from policyengine_core.simulations import IndividualSim
 from policyengine.country.results_config import PolicyEngineResultsConfig
 from policyengine.impact.household.charts.budget import budget_chart
 from policyengine.impact.household.charts.marginal_tax_rate import mtr_chart

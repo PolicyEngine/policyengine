@@ -2,12 +2,16 @@ from datetime import datetime
 import logging
 from pathlib import Path
 from typing import Type
-from openfisca_core.parameters.helpers import load_parameter_file
-from openfisca_core.parameters import ParameterNode, Parameter, ParameterScale
-from openfisca_core.reforms.reform import Reform
-from openfisca_core.taxbenefitsystems import TaxBenefitSystem
-from openfisca_core.variables import Variable
-from openfisca_core.tracers.tracing_parameter_node_at_instant import (
+from policyengine_core.parameters.helpers import load_parameter_file
+from policyengine_core.parameters import (
+    ParameterNode,
+    Parameter,
+    ParameterScale,
+)
+from policyengine_core.reforms.reform import Reform
+from policyengine_core.taxbenefitsystems import TaxBenefitSystem
+from policyengine_core.variables import Variable
+from policyengine_core.tracers.tracing_parameter_node_at_instant import (
     ParameterNode,
 )
 from openfisca_tools.model_api import use_current_parameters
@@ -26,7 +30,8 @@ def add_parameter_file(path: str) -> Reform:
     def modify_parameters(parameters: ParameterNode):
         file_path = Path(path)
         reform_parameters_subtree = load_parameter_file(file_path)
-        parameters.add_child("reforms", reform_parameters_subtree.reforms)
+        if "reforms" not in parameters.children:
+            parameters.add_child("reforms", reform_parameters_subtree.reforms)
         return parameters
 
     class reform(Reform):

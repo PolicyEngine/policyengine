@@ -118,37 +118,49 @@ export class US extends Country {
                         ],
                         "Eligibility": [
                             "ctc_child_age",
+                            "ctc_child_young_age",
                         ],
                         "Amount": [
                             "ctc_child",
                             "ctc_adult_dependent",
+                            "ctc_child_young_bonus",
                         ],
-                        "Phase-out": [
-                            "ctc_phase_out_rate",
-                            "ctc_phase_out_threshold",
-                        ],
+                        "Phase-out": {
+                            "Main": [
+                                "ctc_phase_out_threshold",
+                                "ctc_phase_out_rate",
+                            ],
+                            "Additional": [
+                                "ctc_arpa_phase_out_in_effect",
+                               //"ctc_arpa_phase_out_threshold",
+                                "ctc_arpa_phase_out_rate",
+                            ]
+                        },
                         "Refundability": [
                             "ctc_refundable_child_max",
                             "ctc_refundable_phase_in_rate",
                             "ctc_refundable_phase_in_threshold",
+                            "ctc_fully_refundable",
                         ],
                     },
                     "Child and dependent care": {
                         "General": [
                             "abolish_cdcc",
                         ],
-                        "Maximum rate": [
-                            "cdcc_max_expense",
-                            "cdcc_max_rate",
-                            "cdcc_refundable",
-                        ],
                         "Eligibility": [
                             "cdcc_dependent_child_age",
+                            "cdcc_max_dependents",
+                        ],
+                        "Amount": [
+                            "cdcc_max_expense",
+                            "cdcc_max_rate",
                         ],
                         "Phase-out": [
-                            "cdcc_phase_out_rate",
                             "cdcc_phase_out_start",
+                            "cdcc_phase_out_rate",
+                            "cdcc_phase_out_increment",
                             "cdcc_min_rate",
+                            "cdcc_phase_out_second_start",
                         ],
                     },
                     "Clean vehicle": {
@@ -191,10 +203,25 @@ export class US extends Country {
                         "Eligibility": [
                             "eitc_min_age_childless",
                             "eitc_max_age_childless",
+                            "eitc_max_inv_income",
+                            "eitc_separate_eligible",
+                        ],
+                        "Qualifying children": [
                             "eitc_qualifying_child_max_age_student",
                             "eitc_qualifying_child_max_age_non_student",
-                            "eitc_max_inv_income",
                         ],
+                        "Amount": [
+                            "eitc_max",
+                        ],
+                        "Phase-in": [
+                            "eitc_phase_in_rate"
+                        ],
+                        "Phase-out": [
+                            "eitc_phase_out_start",
+                            "eitc_phase_out_start_joint_bonus_childless",
+                            "eitc_phase_out_start_joint_bonus_children",
+                            "eitc_phase_out_rate",
+                        ]
                     },
                     "Education": {
                         "Phase-out": [

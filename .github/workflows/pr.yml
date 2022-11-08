@@ -71,5 +71,3 @@ jobs:
         run: make build
       - name: Run the main tests
         run: make test
-      - name: Test documentation builds
-        run: make documentation

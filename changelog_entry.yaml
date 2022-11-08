@@ -1,4 +1,6 @@
 - bump: minor
   changes:
     added:
-      - Right-align numbers in net income table.
+      - Policy levers for CTC refundability and EITC.
+    fixed:
+      - Broken CDCC parameter.

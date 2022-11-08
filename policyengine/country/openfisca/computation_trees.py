@@ -1,4 +1,4 @@
-from openfisca_core.tracers import FullTracer
+from policyengine_core.tracers import FullTracer
 import dpath
 
 
