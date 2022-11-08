@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This repo consists of two packages - the React client and the Python server. A change to either repo should trigger an update in the versions for both to ensure a consistent changelog in this repo.
 
+## [1.126.0] - 2022-11-08 18:17:40
+
+### Added
+
+- Policy levers for CTC refundability and EITC.
+
+### Fixed
+
+- Broken CDCC parameter.
+
 ## [1.125.0] - 2022-10-31 12:44:19
 
 ### Added
@@ -1776,6 +1786,7 @@ This repo consists of two packages - the React client and the Python server. A c
 
 
 
+[1.126.0]: https://github.com/PolicyEngine/policyengine/compare/1.125.0...1.126.0
 [1.125.0]: https://github.com/PolicyEngine/policyengine/compare/1.124.1...1.125.0
 [1.124.1]: https://github.com/PolicyEngine/policyengine/compare/1.124.0...1.124.1
 [1.124.0]: https://github.com/PolicyEngine/policyengine/compare/1.123.0...1.124.0

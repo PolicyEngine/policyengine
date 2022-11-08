@@ -1460,3 +1460,10 @@
     added:
     - PTC exemption from income tax reforms.
   date: 2022-10-31 12:44:19
+- bump: minor
+  changes:
+    added:
+    - Policy levers for CTC refundability and EITC.
+    fixed:
+    - Broken CDCC parameter.
+  date: 2022-11-08 18:17:40
