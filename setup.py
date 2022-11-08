@@ -29,7 +29,6 @@ setup(
         "tables",
         "wheel",
         "yaml-changelog>=0.2.0",
-        "jupyterbook",
     ],
     packages=find_packages(),
 )
