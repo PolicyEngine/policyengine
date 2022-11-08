@@ -31,26 +31,26 @@ class UK(PolicyEngineCountry):
             country = baseline.calc("country")
             baseline.set_input(
                 "household_weight",
-                baseline.year,
+                baseline.default_calculation_period,
                 np.where(country == filtered_country, household_weights, 0),
             )
             reformed.set_input(
                 "household_weight",
-                reformed.year,
+                reformed.default_calculation_period,
                 np.where(country == filtered_country, household_weights, 0),
             )
             person_weights = baseline.calc("person_weight")
             person_country = baseline.calc("country", map_to="person")
             baseline.set_input(
                 "person_weight",
-                baseline.year,
+                baseline.default_calculation_period,
                 np.where(
                     person_country == filtered_country, person_weights, 0
                 ),
             )
             reformed.set_input(
                 "person_weight",
-                reformed.year,
+                reformed.default_calculation_period,
                 np.where(
                     person_country == filtered_country, person_weights, 0
                 ),
@@ -61,7 +61,7 @@ class UK(PolicyEngineCountry):
         policy_date = parameters.get("policy_date")
         if policy_date is not None:
             year = int(str(policy_date)[:4])
-            baseline.year = year
-            reformed.year = year
+            baseline.default_calculation_period = year
+            reformed.default_calculation_period = year
 
         return baseline, reformed

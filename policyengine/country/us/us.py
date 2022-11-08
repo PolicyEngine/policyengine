@@ -41,50 +41,50 @@ class US(PolicyEngineCountry):
             state = baseline.calc("state_code")
             baseline.set_input(
                 "household_weight",
-                baseline.year,
+                baseline.default_calculation_period,
                 np.where(state == filtered_state, household_weights, 0),
             )
             reformed.set_input(
                 "household_weight",
-                reformed.year,
+                reformed.default_calculation_period,
                 np.where(state == filtered_state, household_weights, 0),
             )
             person_weights = baseline.calc("person_weight")
             person_state = baseline.calc("state_code", map_to="person")
             baseline.set_input(
                 "person_weight",
-                baseline.year,
+                baseline.default_calculation_period,
                 np.where(person_state == filtered_state, person_weights, 0),
             )
             reformed.set_input(
                 "person_weight",
-                reformed.year,
+                reformed.default_calculation_period,
                 np.where(person_state == filtered_state, person_weights, 0),
             )
 
             for subgroup in ("tax_unit", "family", "spm_unit"):
                 subgroup_in_state = (
                     baseline.populations[subgroup].household(
-                        "state_code_str", baseline.year
+                        "state_code_str", baseline.default_calculation_period
                     )
                     == filtered_state
                 )
                 weight = baseline.calc(f"{subgroup}_weight")
                 baseline.set_input(
                     f"{subgroup}_weight",
-                    baseline.year,
+                    baseline.default_calculation_period,
                     np.where(subgroup_in_state, weight, 0),
                 )
                 reformed.set_input(
                     f"{subgroup}_weight",
-                    baseline.year,
+                    baseline.default_calculation_period,
                     np.where(subgroup_in_state, weight, 0),
                 )
 
         policy_date = parameters.get("policy_date")
         if policy_date is not None:
             year = int(str(policy_date)[:4])
-            baseline.year = year
-            reformed.year = year
+            baseline.default_calculation_period = year
+            reformed.default_calculation_period = year
 
         return baseline, reformed

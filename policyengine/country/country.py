@@ -190,21 +190,19 @@ class PolicyEngineCountry:
         baseline = self.individualsim_type(reform=policy_reform.baseline)
         baseline.situation_data = situation
         baseline.build()
-        print(f"Baseline income tax: {baseline.calc('income_tax')}")
         if len(parameters) > (
             2 if "baseline_policy_date" in parameters else 1
         ):
             reformed = self.individualsim_type(reform=policy_reform.reform)
             reformed.situation_data = situation
             reformed.build()
-            print(f"Reformed income tax: {reformed.calc('income_tax')}")
         else:
             reformed = None
         if policy_date is not None:
             year = int(str(policy_date)[:4])
-            baseline.year = year
+            baseline.default_calculation_period = year
             if reformed is not None:
-                reformed.year = year
+                reformed.default_calculation_period = year
 
         return baseline, reformed
 
