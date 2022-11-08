@@ -132,7 +132,7 @@ export class US extends Country {
                             ],
                             "Additional": [
                                 "ctc_arpa_phase_out_in_effect",
-                                "ctc_arpa_phase_out_threshold",
+                               //"ctc_arpa_phase_out_threshold",
                                 "ctc_arpa_phase_out_rate",
                             ]
                         },

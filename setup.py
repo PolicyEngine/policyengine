@@ -19,7 +19,7 @@ setup(
         "microdf_python",
         "numpy",
         "PolicyEngine-Core>=1.9.0",
-        "PolicyEngine-UK==0.34.1",
+        "PolicyEngine-UK==0.35.0",
         "PolicyEngine-US==0.177.0",
         "pandas",
         "plotly",
