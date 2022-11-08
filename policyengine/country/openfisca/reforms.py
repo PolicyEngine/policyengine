@@ -284,7 +284,7 @@ class Policy:
                 system = apply_reform(value, system)
                 continue
             metadata = self.policyengine_parameters[key]
-            if metadata["unit"] == "abolition":
+            if (metadata["unit"] == "abolition") and value:
                 variables_to_neutralise = metadata["variable"]
                 if not isinstance(variables_to_neutralise, list):
                     variables_to_neutralise = [variables_to_neutralise]

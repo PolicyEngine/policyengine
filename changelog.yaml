@@ -1450,3 +1450,13 @@
     added:
     - Oregon income tax parameters and functionality.
   date: 2022-10-19 16:03:28
+- bump: patch
+  changes:
+    fixed:
+    - Non-abolitions function correctly.
+  date: 2022-10-24 17:41:16
+- bump: minor
+  changes:
+    added:
+    - PTC exemption from income tax reforms.
+  date: 2022-10-31 12:44:19

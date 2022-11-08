@@ -748,6 +748,7 @@ export class US extends Country {
                 },
                 "Flat tax": [
                     "flat_tax",
+                    "ptc_exemption",
                 ],
             },
         }
