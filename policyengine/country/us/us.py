@@ -38,7 +38,7 @@ class US(PolicyEngineCountry):
             )
             # Specific State selected: filter out other States.
             household_weights = baseline.calc("household_weight")
-            state = baseline.calc("state_code")
+            state = baseline.calc("state_code_str")
             baseline.set_input(
                 "household_weight",
                 baseline.default_calculation_period,
@@ -50,7 +50,7 @@ class US(PolicyEngineCountry):
                 np.where(state == filtered_state, household_weights, 0),
             )
             person_weights = baseline.calc("person_weight")
-            person_state = baseline.calc("state_code", map_to="person")
+            person_state = baseline.calc("state_code_str", map_to="person")
             baseline.set_input(
                 "person_weight",
                 baseline.default_calculation_period,

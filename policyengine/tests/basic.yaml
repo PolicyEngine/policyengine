@@ -36,7 +36,7 @@
   input:
     basic_rate: 0.22
   output:
-    budgetary_impact: -10e9 < x < -8e9
+    budgetary_impact: -12e9 < x < -8e9
 
 - label: Basic US tax reform (CTC abolition)
   endpoint: /us/api/population-reform
