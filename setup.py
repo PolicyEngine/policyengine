@@ -21,7 +21,7 @@ setup(
         "OpenFisca-Core",
         "OpenFisca-Tools>=0.13.8",
         "OpenFisca-UK==0.34.1",
-        "OpenFisca-US==0.173.3",
+        "OpenFisca-US==0.177.0",
         "pandas",
         "plotly",
         "pytest",

@@ -191,10 +191,25 @@ export class US extends Country {
                         "Eligibility": [
                             "eitc_min_age_childless",
                             "eitc_max_age_childless",
+                            "eitc_max_inv_income",
+                            "eitc_separate_eligible",
+                        ],
+                        "Qualifying children": [
                             "eitc_qualifying_child_max_age_student",
                             "eitc_qualifying_child_max_age_non_student",
-                            "eitc_max_inv_income",
                         ],
+                        "Amount": [
+                            "eitc_max_amount",
+                        ],
+                        "Phase-in": [
+                            "eitc_phase_in_rate"
+                        ],
+                        "Phase-out": [
+                            "eitc_phase_out_start",
+                            "eitc_phase_out_start_joint_bonus_childless",
+                            "eitc_phase_out_start_joint_bonus_children",
+                            "eitc_phase_out_rate",
+                        ]
                     },
                     "Education": {
                         "Phase-out": [
