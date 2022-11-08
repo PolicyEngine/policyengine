@@ -45,5 +45,4 @@ changelog:
 	rm changelog_entry.yaml || true
 	touch changelog_entry.yaml
 documentation:
-	jb clean docs
-	jb build docs -W
+
