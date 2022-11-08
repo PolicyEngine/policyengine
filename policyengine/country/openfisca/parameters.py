@@ -2,10 +2,14 @@ from datetime import datetime
 from collections import Sequence, OrderedDict
 from typing import Dict, List, Type
 import numpy as np
-from openfisca_core.parameters import ParameterNode, Parameter, ParameterScale
-from openfisca_core.variables import Variable
-from openfisca_core.model_api import Enum
-from openfisca_core.taxbenefitsystems import TaxBenefitSystem
+from policyengine_core.parameters import (
+    ParameterNode,
+    Parameter,
+    ParameterScale,
+)
+from policyengine_core.variables import Variable
+from policyengine_core.model_api import Enum
+from policyengine_core.taxbenefitsystems import TaxBenefitSystem
 
 NOW = datetime.now().strftime("%Y-%m-%d")
 

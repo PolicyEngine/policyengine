@@ -3,10 +3,10 @@ from time import time
 from types import ModuleType
 from typing import Callable, Dict, Type
 import numpy as np
-from openfisca_core.taxbenefitsystems import TaxBenefitSystem
-from openfisca_core.simulation_builder import SimulationBuilder, Simulation
-from openfisca_core.model_api import Enum
-from openfisca_core.reforms import Reform
+from policyengine_core.taxbenefitsystems import TaxBenefitSystem
+from policyengine_core.simulations import SimulationBuilder, Simulation
+from policyengine_core.model_api import Enum
+from policyengine_core.reforms import Reform
 from policyengine.country.openfisca.computation_trees import (
     get_computation_trees_json,
 )
@@ -31,7 +31,7 @@ from policyengine.impact.population.by_provision import (
     get_breakdown_and_chart_per_provision,
 )
 from policyengine.impact.population.metrics import headline_metrics
-from openfisca_tools.data import Dataset
+from policyengine_core.data import Dataset
 
 
 class PolicyEngineCountry:
@@ -146,7 +146,7 @@ class PolicyEngineCountry:
                 baseline = (
                     self.baseline_microsimulation
                 ) = self.microsimulation_type(
-                    self.default_reform, dataset=self.dataset
+                    reform=self.default_reform, dataset=self.dataset
                 )
             except OSError:
                 logging.warning("Dataset corrupted, re-downloading.")
@@ -154,19 +154,19 @@ class PolicyEngineCountry:
                 baseline = (
                     self.baseline_microsimulation
                 ) = self.microsimulation_type(
-                    self.default_reform, dataset=self.dataset
+                    reform=self.default_reform, dataset=self.dataset
                 )
 
         elif policy_reform.edits_baseline or force_refresh_baseline:
-            baseline = self.microsimulation_type(policy_reform.baseline)
+            baseline = self.microsimulation_type(reform=policy_reform.baseline)
         else:
             baseline = self.baseline_microsimulation
-        reformed = self.microsimulation_type(policy_reform.reform)
+        reformed = self.microsimulation_type(reform=policy_reform.reform)
 
         # Apply multipliers
 
         for simulation in (baseline, reformed):
-            for variable in simulation.simulation.tax_benefit_system.variables:
+            for variable in simulation.tax_benefit_system.variables:
                 if (
                     hasattr(variable, "metadata")
                     and variable.metadata.get("multiplier") is not None
@@ -187,15 +187,17 @@ class PolicyEngineCountry:
         """
         policy_reform = self.create_reform(parameters)
         policy_date = parameters.get("baseline_policy_date")
-        baseline = self.individualsim_type(policy_reform.baseline)
+        baseline = self.individualsim_type(reform=policy_reform.baseline)
         baseline.situation_data = situation
         baseline.build()
+        print(f"Baseline income tax: {baseline.calc('income_tax')}")
         if len(parameters) > (
             2 if "baseline_policy_date" in parameters else 1
         ):
-            reformed = self.individualsim_type(policy_reform.reform)
+            reformed = self.individualsim_type(reform=policy_reform.reform)
             reformed.situation_data = situation
             reformed.build()
+            print(f"Reformed income tax: {reformed.calc('income_tax')}")
         else:
             reformed = None
         if policy_date is not None:
@@ -223,8 +225,9 @@ class PolicyEngineCountry:
             system = apply_reform(
                 reform.reform, self.tax_benefit_system_type()
             )
-        return SimulationBuilder().build_from_entities(
-            system, parameters["household"]
+        return Simulation(
+            tax_benefit_system=system,
+            situation=parameters["household"],
         )
 
     def entities(self, params: dict, logger: PolicyEngineLogger) -> dict:

@@ -2,12 +2,12 @@ import numpy as np
 from policyengine.country.us.default_reform import create_default_reform
 from policyengine.country.us.results_config import USResultsConfig
 from .. import PolicyEngineCountry
-import openfisca_us
-from openfisca_us.data import CPS
+import policyengine_us
+from policyengine_us.data import CPS
 
 
 class US(PolicyEngineCountry):
-    openfisca_country_model = openfisca_us
+    openfisca_country_model = policyengine_us
     default_reform = create_default_reform()
     results_config = USResultsConfig
     dataset = CPS
@@ -64,7 +64,7 @@ class US(PolicyEngineCountry):
 
             for subgroup in ("tax_unit", "family", "spm_unit"):
                 subgroup_in_state = (
-                    baseline.simulation.populations[subgroup].household(
+                    baseline.populations[subgroup].household(
                         "state_code_str", baseline.year
                     )
                     == filtered_state

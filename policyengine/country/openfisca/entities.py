@@ -1,6 +1,6 @@
-from openfisca_core.entities.role import Role
-from openfisca_core.taxbenefitsystems import TaxBenefitSystem
-from openfisca_core.entities import Entity
+from policyengine_core.entities.role import Role
+from policyengine_core.taxbenefitsystems import TaxBenefitSystem
+from policyengine_core.entities import Entity
 
 
 def build_entities(tax_benefit_system: TaxBenefitSystem) -> dict:
